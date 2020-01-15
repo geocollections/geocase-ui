@@ -1,5 +1,12 @@
 <template>
   <v-container fluid>
+    <v-snackbar v-model="snackbar" :timeout="2000" color="error">
+      {{ error }}
+      <v-btn color="blue" text @click="snackbar = false">
+        Close
+      </v-btn>
+    </v-snackbar>
+
     <ScrollToTop />
 
     <DetailSearch v-on:detailSearch:changed="detailSearch" />
@@ -27,6 +34,7 @@
 
               <v-col cols="11" sm="8" md="9" lg="10" class="pa-1">
                 <v-pagination
+                  v-if="response.numFound > 10"
                   v-model="searchParameters.page"
                   :class="{ 'justify-end': $vuetify.breakpoint.smAndUp }"
                   circle
@@ -87,6 +95,8 @@ export default {
       numFound: 0,
       docs: []
     },
+    error: "",
+    snackbar: false,
     tab: null,
     tabItems: ["table", "images", "map"],
     searchParameters: {
@@ -120,9 +130,9 @@ export default {
     }
   },
 
-  created() {
-    if (this.tab === 1) this.fastSearch({ fastSearch: "url:*" });
-    else this.fastSearch({ fastSearch: "*" });
+  async created() {
+    if (this.tab === 1) await this.fastSearch({ fastSearch: "url:*" });
+    else await this.fastSearch({ fastSearch: "*" });
   },
 
   methods: {
@@ -132,8 +142,12 @@ export default {
       searchParams.sortyBy = this.searchParameters.sortyBy;
       searchParams.sortDesc = this.searchParameters.sortDesc;
 
-      const response = await SearchService.getDetailSearch(searchParams);
-      if (response) this.response = response.response;
+      try {
+        const response = await SearchService.getDetailSearch(searchParams);
+        if (response) this.response = response.response;
+      } catch (err) {
+        this.error = err.message;
+      }
     }, 500),
 
     fastSearch: debounce(async function(searchParams) {
@@ -144,13 +158,21 @@ export default {
 
       if (this.tab === 1) searchParams.fastSearch += "AND url:*";
 
-      const response = await SearchService.getFastSearch(searchParams);
-      if (response) this.response = response.response;
+      try {
+        const response = await SearchService.getFastSearch(searchParams);
+        if (response) this.response = response.response;
+      } catch (err) {
+        this.error = err.message;
+      }
     }, 500),
 
     updateSearchQuery: debounce(async function(searchParams) {
-      const response = await SearchService.updateSearchQuery(searchParams);
-      if (response) this.response = response.response;
+      try {
+        const response = await SearchService.updateSearchQuery(searchParams);
+        if (response) this.response = response.response;
+      } catch (err) {
+        this.error = err.message;
+      }
     }, 500)
   }
 };
