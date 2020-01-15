@@ -4,8 +4,8 @@
   "description": "Geocase",
   "main": "index.js",
   "scripts": {
-    "start": "node -r dotenv/config server/index.js",
-    "dev": "nodemon -r dotenv/config server/index.js"
+    "start": "export NODE_ENV=production && node -r dotenv/config server/index.js",
+    "dev": "export NODE_ENV=development && nodemon -r dotenv/config server/index.js"
   },
   "repository": {
     "type": "git",
