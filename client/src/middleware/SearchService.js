@@ -29,6 +29,8 @@ class SearchService {
       try {
         let start = (searchParams.page - 1) * searchParams.paginateBy;
         let sort = buildSort(searchParams.sortBy, searchParams.sortDesc);
+        // eslint-disable-next-line no-console
+        console.log(query)
         if (searchParams.fastSearch.trim().length === 0) query = "*";
         else query = searchParams.fastSearch;
 
@@ -70,10 +72,10 @@ function buildSort(sortBy, sortDesc) {
     });
 
     if (sort.length > 0) sort = sort.substring(0, sort.length - 1);
-    else sort = "id desc";
+    else sort = "fullscientificname asc";
 
     return sort;
-  } else return "id desc";
+  } else return "fullscientificname asc";
 }
 
 export default SearchService;

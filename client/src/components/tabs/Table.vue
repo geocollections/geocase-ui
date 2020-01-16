@@ -24,24 +24,24 @@
       :sort-desc.sync="searchParameters.sortDesc"
       :server-items-length="response.numFound"
     >
-      <template v-slot:item.url="{ item }">
-        <v-img
-          v-if="item.url"
-          class="image-link"
-          :src="item.url"
-          :lazy-src="item.url"
-          :title="item.url"
-          @click="openUrl(item.url)"
-          aspect-ratio="1.7778"
-          width="100"
-        >
-          <template v-slot:placeholder>
-            <v-row class="fill-height ma-0" align="center" justify="center">
-              <v-progress-circular indeterminate color="amber lighten-5" />
-            </v-row>
-          </template>
-        </v-img>
-      </template>
+<!--      <template v-slot:item.url="{ item }">-->
+<!--        <v-img-->
+<!--          v-if="item.url"-->
+<!--          class="image-link"-->
+<!--          :src="item.url"-->
+<!--          :lazy-src="item.url"-->
+<!--          :title="item.url"-->
+<!--          @click="openUrl(item.url)"-->
+<!--          aspect-ratio="1.7778"-->
+<!--          width="100"-->
+<!--        >-->
+<!--          <template v-slot:placeholder>-->
+<!--            <v-row class="fill-height ma-0" align="center" justify="center">-->
+<!--              <v-progress-circular indeterminate color="amber lighten-5" />-->
+<!--            </v-row>-->
+<!--          </template>-->
+<!--        </v-img>-->
+<!--      </template>-->
 
       <template v-slot:item.recordURI="{ item }">
         <v-btn
@@ -84,26 +84,27 @@ export default {
 
   data: () => ({
     headers: [
-      { text: "ID", value: "id" },
-      { text: "Multimedia", value: "url" },
+      // { text: "ID", value: "id" },
+      // { text: "Multimedia", value: "url" },
       { text: "Collection", value: "collectioncode" },
       { text: "Object ID", value: "unitid" },
-      { text: "Gathering Date", value: "" },
-      { text: "Collector Number", value: "" },
-      { text: "Domain", value: "" },
+      // { text: "Gathering Date", value: "" },
+      // { text: "Collector Number", value: "" },
+      // { text: "Domain", value: "" },
       { text: "Full Scientific Name", value: "fullscientificname" },
-      { text: "Genus or Monomial", value: "" },
-      { text: "Taxon Rank", value: "" },
-      { text: "Higher Taxon", value: "" },
-      { text: "Infrageneric Epithet", value: "" },
-      { text: "Infraspecific Epithet", value: "" },
-      { text: "Gathering Country (ISO Code)", value: "country" },
-      { text: "Kind of Unit", value: "" },
+      // { text: "Genus or Monomial", value: "" },
+      // { text: "Taxon Rank", value: "" },
+      // { text: "Higher Taxon", value: "" },
+      // { text: "Infrageneric Epithet", value: "" },
+      // { text: "Infraspecific Epithet", value: "" },
+      // { text: "Gathering Country (ISO Code)", value: "country" },
+      { text: "Country", value: "country" },
+      // { text: "Kind of Unit", value: "" },
       { text: "Locality", value: "locality" },
-      { text: "Preparation Type", value: "" },
+      // { text: "Preparation Type", value: "" },
       { text: "Stratigraphy", value: "stratigraphy" },
-      { text: "Stratigraphy Type", value: "" },
-      { text: "Term", value: "" },
+      // { text: "Stratigraphy Type", value: "" },
+      // { text: "Term", value: "" },
       { text: "Record URI", value: "recordURI" }
     ]
   }),

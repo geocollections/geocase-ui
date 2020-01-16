@@ -53,7 +53,7 @@
             />
 
             <Images
-              v-show="item === 'images'"
+              v-if="item === 'images'"
               :response="response"
               :search-parameters="searchParameters"
             />
@@ -102,8 +102,8 @@ export default {
     searchParameters: {
       page: 1,
       paginateBy: 50,
-      sortBy: ["id"],
-      sortDesc: [true]
+      sortBy: ["fullscientificname"],
+      sortDesc: [false]
     },
     paginateByItems: [
       { text: "Paginate by 10", value: 10 },
@@ -125,15 +125,15 @@ export default {
     },
 
     tab(newVal) {
-      if (newVal === 1) this.fastSearch({ fastSearch: "url:*" });
+      if (newVal === 1) this.fastSearch({ fastSearch: "url:*", appendSearch: true });
       else this.fastSearch({ fastSearch: "*" });
     }
   },
 
-  async created() {
-    if (this.tab === 1) await this.fastSearch({ fastSearch: "url:*" });
-    else await this.fastSearch({ fastSearch: "*" });
-  },
+  // async created() {
+  //   if (this.tab === 1) await this.fastSearch({ fastSearch: "url:*" });
+  //   else await this.fastSearch({ fastSearch: "*" });
+  // },
 
   methods: {
     detailSearch: debounce(async function(searchParams) {

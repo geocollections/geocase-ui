@@ -1,15 +1,14 @@
 FROM node:10
 WORKDIR /app
-COPY package*.json ./
+COPY . .
 RUN npm install
 
 WORKDIR /app/client
-COPY package*.json ./client/
+COPY package*.json ./
 RUN npm install
 RUN npm run build
 
 WORKDIR /app
-COPY . .
 EXPOSE 80
 RUN npm run start
 #CMD ["export", "NODE_ENV=production"]

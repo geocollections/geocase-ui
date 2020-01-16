@@ -73,7 +73,7 @@
               <br />
             </span>
             <span v-if="image.country">
-              <b>Gathering Country (ISO Code):</b>
+              <b>Country:</b>
               {{ image.country }}
               <br />
             </span>
