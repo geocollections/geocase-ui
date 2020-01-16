@@ -4,7 +4,7 @@ COPY package*.json ./
 RUN npm install
 
 WORKDIR /app/client
-COPY package*.json ./
+COPY package*.json ./client
 RUN npm install
 RUN npm run build
 
