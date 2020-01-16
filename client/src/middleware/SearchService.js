@@ -29,8 +29,6 @@ class SearchService {
       try {
         let start = (searchParams.page - 1) * searchParams.paginateBy;
         let sort = buildSort(searchParams.sortBy, searchParams.sortDesc);
-        // eslint-disable-next-line no-console
-        console.log(query)
         if (searchParams.fastSearch.trim().length === 0) query = "*";
         else query = searchParams.fastSearch;
 

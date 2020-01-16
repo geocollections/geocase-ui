@@ -6,9 +6,6 @@
       <span class="mr-1">{{
         `image${response.numFound === 1 ? "" : "s"}`
       }}</span>
-      <span class="hidden-sm-and-up">{{
-        `(page: ${searchParameters.page})`
-      }}</span>
     </v-card-title>
 
     <v-row class="mx-0 px-2 pb-2">
@@ -102,19 +99,6 @@ export default {
     response: {
       type: Object,
       required: true
-    },
-
-    searchParameters: {
-      type: Object,
-      required: true,
-      default: function() {
-        return {
-          page: 1,
-          paginateBy: 25,
-          sortBy: ["id"],
-          sortDesc: [true]
-        };
-      }
     }
   },
 

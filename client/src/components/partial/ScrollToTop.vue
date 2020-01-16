@@ -10,6 +10,7 @@
       color="amber"
       dark
       @click="toTop"
+      style="z-index: 1500"
     >
       <v-icon>mdi-chevron-up</v-icon>
     </v-btn>

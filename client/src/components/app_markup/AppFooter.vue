@@ -1,7 +1,7 @@
 <template>
   <v-footer absolute app color="primary" dark padless>
     <v-card flat tile width="100%" class="transparent">
-      <v-card-text class="pa-0 text-center white--text">
+      <v-card-text class="pt-1 px-1 pb-0 text-center white--text">
         GeoCASe user interface prototype developed at the Department of Geology,
         TalTech. Code available in Github
         <v-btn
@@ -14,7 +14,7 @@
         </v-btn>
       </v-card-text>
 
-      <v-card-text class="pa-0 text-center white--text">
+      <v-card-text class="pt-1 px-1 pb-0 text-center white--text">
         GeoGASe portal software developed at Museum für Naturkunde Berlin. Code
         available in Github
         <v-btn

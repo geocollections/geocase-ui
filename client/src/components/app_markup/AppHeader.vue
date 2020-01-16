@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar dark app height="64" color="primary">
+  <v-app-bar dark app height="64" color="primary" style="z-index: 2000">
     <div class="d-flex align-center">
       <v-img
         alt="GeoCASe Logo"

@@ -47,7 +47,7 @@
             </v-row>
 
             <Table
-              v-show="item === 'table'"
+              v-if="item === 'table'"
               :response="response"
               :search-parameters="searchParameters"
             />
@@ -58,7 +58,7 @@
               :search-parameters="searchParameters"
             />
 
-            <Map v-show="item === 'map'" :response="response" />
+            <Map v-if="item === 'map'" :response="response" />
           </v-card>
         </v-tab-item>
       </v-tabs-items>
@@ -125,7 +125,8 @@ export default {
     },
 
     tab(newVal) {
-      if (newVal === 1) this.fastSearch({ fastSearch: "url:*", appendSearch: true });
+      if (newVal === 2) this.fastSearch({ fastSearch: "locality:*" });
+      else if (newVal === 1) this.fastSearch({ fastSearch: "url:*" });
       else this.fastSearch({ fastSearch: "*" });
     }
   },
