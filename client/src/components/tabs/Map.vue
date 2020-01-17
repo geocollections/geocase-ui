@@ -1,14 +1,6 @@
 <template>
   <v-card flat v-if="response !== null">
-    <v-card-title class="py-2">
-      <v-icon left color="primary" large>mdi-map-legend</v-icon>
-      <span class="mr-1">{{ response.numFound }}</span>
-      <span class="mr-1">{{
-        `location${response.numFound === 1 ? "" : "s"}`
-      }}</span>
-    </v-card-title>
-
-    <div class="map">
+    <div class="map mt-3">
       <div id="map" style="height: 65vh"></div>
     </div>
   </v-card>
@@ -29,8 +21,11 @@ export default {
 
   data: () => ({
     map: null,
+    markers: [],
+    markerLayer: null,
     markerIcon: new L.divIcon({
-      html: "<i class='v-icon notranslate mdi mdi-circle theme--light primary--text map-marker-icon' style='font-size: 12px; opacity: 0.5;'/>",
+      html:
+        "<i class='v-icon notranslate mdi mdi-circle theme--light primary--text map-marker-icon' style='font-size: 12px; opacity: 0.5;'/>",
       className: "map-marker"
     }),
     baseMaps: [
@@ -174,7 +169,9 @@ export default {
 
     setMarkers(data) {
       if (data && data.numFound > 0) {
-        let markers = [];
+        // Resetting markers before adding new ones
+        if (this.markerLayer !== null) this.map.removeLayer(this.markerLayer);
+        this.markers = [];
 
         data.docs.forEach(item => {
           if (item.latitude && item.longitude) {
@@ -184,7 +181,7 @@ export default {
                 lng: parseFloat(item.longitude)
               },
               { icon: this.markerIcon }
-            ).addTo(this.map);
+            );
 
             if (item.recordURI) {
               marker.on("click", () =>
@@ -195,11 +192,21 @@ export default {
               permanent: false,
               direction: "right"
             });
-            markers.push(marker);
-            let bounds = new L.featureGroup(markers).getBounds();
+
+            this.markers.push(marker);
+
+            let bounds = new L.featureGroup(this.markers).getBounds();
             this.map.fitBounds(bounds);
           }
         });
+
+        // Adding marker layer to map
+        this.markerLayer = L.layerGroup(this.markers);
+        this.map.addLayer(this.markerLayer);
+      } else {
+        // If response is empty then remove markers
+        if (this.markerLayer !== null) this.map.removeLayer(this.markerLayer);
+        this.markers = [];
       }
     }
   }

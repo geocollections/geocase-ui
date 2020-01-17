@@ -1,18 +1,58 @@
 <template>
   <v-container fluid>
-    <v-snackbar v-model="snackbar" :timeout="2000" color="error">
-      {{ error }}
-      <v-btn color="blue" text @click="snackbar = false">
-        Close
+    <v-snackbar v-model="snackbar" color="error" style="z-index: 2500;">
+      <div v-html="error"></div>
+      <v-btn color="black" icon @click="snackbar = false">
+        <v-icon>mdi-close-circle-outline</v-icon>
       </v-btn>
     </v-snackbar>
 
     <ScrollToTop />
 
-    <DetailSearch v-on:detailSearch:changed="detailSearch" />
+    <!-- Todo: Not needed for prototype -->
+    <DetailSearch v-on:detailSearch:changed="detailSearch" v-if="false" />
 
-    <v-card class="mt-3">
+    <v-card>
       <FastSearch v-on:fastSearch:changed="fastSearch" />
+
+      <v-row no-gutters class="pa-1" justify="center">
+        <v-col cols="9" sm="4" md="3" lg="2" class="pa-1" align-self="center">
+          <SelectWrapper
+            v-model="searchParameters.paginateBy"
+            :items="paginateByItems"
+            @change="searchParameters.page = 1"
+          />
+        </v-col>
+
+        <v-col cols="11" sm="8" md="9" lg="10" class="pa-1">
+          <v-pagination
+            v-if="response.numFound > 10"
+            v-model="searchParameters.page"
+            :class="{ 'justify-end': $vuetify.breakpoint.smAndUp }"
+            circle
+            :length="Math.ceil(response.numFound / searchParameters.paginateBy)"
+            :total-visible="$vuetify.breakpoint.smAndDown ? 5 : 7"
+          />
+        </v-col>
+      </v-row>
+
+      <v-card-title class="py-1">
+        <v-icon left color="primary" large v-if="tab === 0"
+          >mdi-table-large</v-icon
+        >
+        <v-icon left color="primary" large v-else-if="tab === 1"
+          >mdi-file-image-outline</v-icon
+        >
+        <v-icon left color="primary" large v-else>mdi-map-legend</v-icon>
+
+        <span class="mr-1">{{ response.numFound }}</span>
+        <span class="mr-1">{{
+          `item${response.numFound === 1 ? "" : "s"}`
+        }}</span>
+        <span class="hidden-sm-and-up">{{
+          `(page: ${searchParameters.page})`
+        }}</span>
+      </v-card-title>
 
       <v-tabs v-model="tab" grow show-arrows>
         <v-tab v-for="item in tabItems" :key="item">
@@ -23,40 +63,13 @@
       <v-tabs-items v-model="tab">
         <v-tab-item v-for="item in tabItems" :key="item">
           <v-card flat>
-            <v-row no-gutters class="pa-1" justify="center">
-              <v-col cols="9" sm="4" md="3" lg="2" class="pa-1">
-                <SelectWrapper
-                  v-model="searchParameters.paginateBy"
-                  :items="paginateByItems"
-                  @change="searchParameters.page = 1"
-                />
-              </v-col>
-
-              <v-col cols="11" sm="8" md="9" lg="10" class="pa-1">
-                <v-pagination
-                  v-if="response.numFound > 10"
-                  v-model="searchParameters.page"
-                  :class="{ 'justify-end': $vuetify.breakpoint.smAndUp }"
-                  circle
-                  :length="
-                    Math.ceil(response.numFound / searchParameters.paginateBy)
-                  "
-                  :total-visible="$vuetify.breakpoint.smAndDown ? 5 : 7"
-                />
-              </v-col>
-            </v-row>
-
             <Table
               v-if="item === 'table'"
               :response="response"
               :search-parameters="searchParameters"
             />
 
-            <Images
-              v-if="item === 'images'"
-              :response="response"
-              :search-parameters="searchParameters"
-            />
+            <Images v-if="item === 'images'" :response="response" />
 
             <Map v-if="item === 'map'" :response="response" />
           </v-card>
@@ -122,19 +135,12 @@ export default {
         this.updateSearchQuery(newVal);
       },
       deep: true
-    },
-
-    tab(newVal) {
-      if (newVal === 2) this.fastSearch({ fastSearch: "locality:*" });
-      else if (newVal === 1) this.fastSearch({ fastSearch: "url:*" });
-      else this.fastSearch({ fastSearch: "*" });
     }
   },
 
-  // async created() {
-  //   if (this.tab === 1) await this.fastSearch({ fastSearch: "url:*" });
-  //   else await this.fastSearch({ fastSearch: "*" });
-  // },
+  async created() {
+    await this.fastSearch({ fastSearch: "*" });
+  },
 
   methods: {
     detailSearch: debounce(async function(searchParams) {
@@ -147,7 +153,8 @@ export default {
         const response = await SearchService.getDetailSearch(searchParams);
         if (response) this.response = response.response;
       } catch (err) {
-        this.error = err.message;
+        this.error = `<b>Status:</b> ${err.request.status}<br /><b>Status text:</b> ${err.request.statusText}`;
+        this.snackbar = true;
       }
     }, 500),
 
@@ -157,13 +164,12 @@ export default {
       searchParams.sortyBy = this.searchParameters.sortyBy;
       searchParams.sortDesc = this.searchParameters.sortDesc;
 
-      if (this.tab === 1) searchParams.fastSearch += "AND url:*";
-
       try {
         const response = await SearchService.getFastSearch(searchParams);
         if (response) this.response = response.response;
       } catch (err) {
-        this.error = err.message;
+        this.error = `<b>Status:</b> ${err.request.status}<br /><b>Status text:</b> ${err.request.statusText}`;
+        this.snackbar = true;
       }
     }, 500),
 
@@ -172,9 +178,10 @@ export default {
         const response = await SearchService.updateSearchQuery(searchParams);
         if (response) this.response = response.response;
       } catch (err) {
-        this.error = err.message;
+        this.error = `<b>Status:</b> ${err.request.status}<br /><b>Status text:</b> ${err.request.statusText}`;
+        this.snackbar = true;
       }
-    }, 500)
+    }, 200)
   }
 };
 </script>

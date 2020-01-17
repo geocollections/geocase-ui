@@ -1,18 +1,7 @@
 <template>
   <v-card flat v-if="response !== null">
-    <v-card-title class="py-2">
-      <v-icon left color="primary" large>mdi-table-large</v-icon>
-      <span class="mr-1">{{ response.numFound }}</span>
-      <span class="mr-1">{{
-        `item${response.numFound === 1 ? "" : "s"}`
-      }}</span>
-      <span class="hidden-sm-and-up">{{
-        `(page: ${searchParameters.page})`
-      }}</span>
-    </v-card-title>
-
     <v-data-table
-      class="table"
+      class="table mt-3"
       dense
       hide-default-footer
       :headers="headers"
@@ -75,8 +64,8 @@ export default {
         return {
           page: 1,
           paginateBy: 25,
-          sortBy: ["id"],
-          sortDesc: [true]
+          sortBy: ["fullscientificname"],
+          sortDesc: [false]
         };
       }
     }

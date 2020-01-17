@@ -1,16 +1,8 @@
 <template>
   <v-card flat v-if="response !== null">
-    <v-card-title class="py-2">
-      <v-icon left color="primary" large>mdi-file-image-outline</v-icon>
-      <span class="mr-1">{{ response.numFound }}</span>
-      <span class="mr-1">{{
-        `image${response.numFound === 1 ? "" : "s"}`
-      }}</span>
-    </v-card-title>
-
-    <v-row class="mx-0 px-2 pb-2">
+    <v-row class="mx-0" v-if="images.length > 0">
       <v-col
-        v-for="(image, index) in response.docs"
+        v-for="(image, index) in images"
         :key="index"
         class="d-flex child-flex"
         cols="6"
@@ -45,7 +37,7 @@
                 <v-col class="text-center">
                   <div class="py-3">
                     <v-icon style="font-size: 6rem" class="grey--text"
-                      >mdi-file</v-icon
+                      >mdi-image-off</v-icon
                     >
                   </div>
                 </v-col>
@@ -88,6 +80,14 @@
         </v-tooltip>
       </v-col>
     </v-row>
+
+    <v-row class="mx-0" justify="center" v-else>
+      <v-col cols="12" style="max-width: 500px;">
+        <v-alert class="mb-0" text border="left" icon="mdi-image-search-outline" color="secondary">
+          Couldn't find any images with these search parameters.
+        </v-alert>
+      </v-col>
+    </v-row>
   </v-card>
 </template>
 
@@ -99,6 +99,14 @@ export default {
     response: {
       type: Object,
       required: true
+    }
+  },
+
+  computed: {
+    images() {
+      if (this.response !== null && this.response.numFound > 0) {
+        return this.response.docs.filter(image => !!image.url);
+      } else return [];
     }
   },
 

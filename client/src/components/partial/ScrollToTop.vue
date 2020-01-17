@@ -12,7 +12,7 @@
       @click="toTop"
       style="z-index: 1500"
     >
-      <v-icon>mdi-chevron-up</v-icon>
+      <v-icon large>mdi-chevron-up</v-icon>
     </v-btn>
   </v-fab-transition>
 </template>
