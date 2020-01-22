@@ -43,11 +43,12 @@ class SearchService {
     });
   }
 
-  static updateSearchQuery(searchParams) {
+  static updateSearchQuery(searchParams, reset = false) {
     return new Promise(async (resolve, reject) => {
       try {
         let start = (searchParams.page - 1) * searchParams.paginateBy;
         let sort = buildSort(searchParams.sortBy, searchParams.sortDesc);
+        if (reset) query = "*";
 
         let url = `${API_URL}?q=${query}&start=${start}&rows=${searchParams.paginateBy}&sort=${sort}&format=json`;
 

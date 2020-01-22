@@ -3,40 +3,47 @@
     <div class="d-flex align-center">
       <v-img
         alt="GeoCASe Logo"
-        class="shrink mr-4"
+        class="shrink mr-4 link"
         contain
         :src="require('../../assets/geocase_logo.png')"
         transition="scale-transition"
         width="55"
+        @click="goToGeocasePage"
+        title="Go to GeoCASe page"
       />
 
       <v-toolbar-title
-        class="align-center font-weight-bold"
+        class="align-center font-weight-bold link"
         style="letter-spacing: 1px"
+        @click="goToFrontPage"
+        title="Go to front page"
       >
         <span>GeoCASe</span>
         <span class="hidden-xs-only">-prototype</span>
       </v-toolbar-title>
     </div>
-
-    <v-spacer></v-spacer>
-
-    <v-btn
-      href="http://www.geocase.eu/"
-      target="GeocaseWindow"
-      text
-      title="Go to current GeoCASe application"
-    >
-      <span class="mr-2 hidden-xs-only">Current application</span>
-      <v-icon>mdi-open-in-new</v-icon>
-    </v-btn>
   </v-app-bar>
 </template>
 
 <script>
 export default {
-  name: "AppHeader"
+  name: "AppHeader",
+
+  methods: {
+    goToGeocasePage() {
+      window.open("http://www.geocase.eu/", "GeocaseWindow");
+    },
+
+    goToFrontPage() {
+      window.location.assign(window.location.href);
+    }
+  }
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.link:hover {
+  cursor: pointer;
+  opacity: 0.9;
+}
+</style>

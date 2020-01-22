@@ -15,6 +15,7 @@
     <v-card>
       <FastSearch v-on:fastSearch:changed="fastSearch" />
 
+      <!-- PAGINATION -->
       <v-row no-gutters class="pa-1" justify="center">
         <v-col cols="9" sm="4" md="3" lg="2" class="pa-1" align-self="center">
           <SelectWrapper
@@ -36,6 +37,7 @@
         </v-col>
       </v-row>
 
+      <!-- NUM OF ITEMS -->
       <v-card-title class="py-1">
         <v-icon left color="primary" large v-if="tab === 0"
           >mdi-table-large</v-icon
@@ -181,7 +183,19 @@ export default {
         this.error = `<b>Status:</b> ${err.request.status}<br /><b>Status text:</b> ${err.request.statusText}`;
         this.snackbar = true;
       }
-    }, 200)
+    }, 200),
+
+    resetSearch() {
+      this.updateSearchQuery(
+        {
+          page: 1,
+          paginateBy: 50,
+          sortBy: ["fullscientificname"],
+          sortDesc: [false]
+        },
+        true
+      );
+    }
   }
 };
 </script>
