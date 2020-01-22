@@ -13,24 +13,40 @@
       :sort-desc.sync="searchParameters.sortDesc"
       :server-items-length="response.numFound"
     >
-<!--      <template v-slot:item.url="{ item }">-->
-<!--        <v-img-->
-<!--          v-if="item.url"-->
-<!--          class="image-link"-->
-<!--          :src="item.url"-->
-<!--          :lazy-src="item.url"-->
-<!--          :title="item.url"-->
-<!--          @click="openUrl(item.url)"-->
-<!--          aspect-ratio="1.7778"-->
-<!--          width="100"-->
-<!--        >-->
-<!--          <template v-slot:placeholder>-->
-<!--            <v-row class="fill-height ma-0" align="center" justify="center">-->
-<!--              <v-progress-circular indeterminate color="amber lighten-5" />-->
-<!--            </v-row>-->
-<!--          </template>-->
-<!--        </v-img>-->
-<!--      </template>-->
+      <!--      <template v-slot:item.url="{ item }">-->
+      <!--        <v-img-->
+      <!--          v-if="item.url"-->
+      <!--          class="image-link"-->
+      <!--          :src="item.url"-->
+      <!--          :lazy-src="item.url"-->
+      <!--          :title="item.url"-->
+      <!--          @click="openUrl(item.url)"-->
+      <!--          aspect-ratio="1.7778"-->
+      <!--          width="100"-->
+      <!--        >-->
+      <!--          <template v-slot:placeholder>-->
+      <!--            <v-row class="fill-height ma-0" align="center" justify="center">-->
+      <!--              <v-progress-circular indeterminate color="amber lighten-5" />-->
+      <!--            </v-row>-->
+      <!--          </template>-->
+      <!--        </v-img>-->
+      <!--      </template>-->
+
+      <template v-slot:no-data>
+        <v-row class="mx-0" justify="center">
+          <v-col cols="12" style="max-width: 500px;">
+            <v-alert
+              class="mb-0"
+              text
+              border="left"
+              icon="mdi-table-search"
+              color="secondary"
+            >
+              Couldn't find any records with these search parameters.
+            </v-alert>
+          </v-col>
+        </v-row>
+      </template>
 
       <template v-slot:item.recordURI="{ item }">
         <v-btn

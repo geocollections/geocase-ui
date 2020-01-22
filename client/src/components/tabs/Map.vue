@@ -1,8 +1,22 @@
 <template>
   <v-card flat v-if="response !== null">
-    <div class="map mt-3">
+    <div class="map mt-3" v-show="localities.length > 0">
       <div id="map" style="height: 65vh"></div>
     </div>
+
+    <v-row class="mx-0" justify="center" v-if="localities.length === 0">
+      <v-col cols="12" style="max-width: 500px;">
+        <v-alert
+          class="mb-0"
+          text
+          border="left"
+          icon="mdi-map-search-outline"
+          color="secondary"
+        >
+          Couldn't find any localities with these search parameters.
+        </v-alert>
+      </v-col>
+    </v-row>
   </v-card>
 </template>
 
@@ -114,15 +128,23 @@ export default {
 
   mounted() {
     this.initMap();
-    this.setMarkers(this.response);
+    this.setMarkers(this.localities);
   },
 
   beforeDestroy() {
     this.map.off("baselayerchange", this.handleLayerChange);
   },
 
+  computed: {
+    localities() {
+      if (this.response !== null && this.response.numFound > 0) {
+        return this.response.docs.filter(locality => !!locality.locality);
+      } else return [];
+    }
+  },
+
   watch: {
-    response: {
+    localities: {
       handler(newVal) {
         this.setMarkers(newVal);
       },
@@ -167,13 +189,13 @@ export default {
       }
     },
 
-    setMarkers(data) {
-      if (data && data.numFound > 0) {
+    setMarkers(localities) {
+      if (localities && localities.length > 0) {
         // Resetting markers before adding new ones
         if (this.markerLayer !== null) this.map.removeLayer(this.markerLayer);
         this.markers = [];
 
-        data.docs.forEach(item => {
+        localities.forEach(item => {
           if (item.latitude && item.longitude) {
             let marker = L.marker(
               {

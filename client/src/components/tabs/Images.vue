@@ -83,7 +83,13 @@
 
     <v-row class="mx-0" justify="center" v-else>
       <v-col cols="12" style="max-width: 500px;">
-        <v-alert class="mb-0" text border="left" icon="mdi-image-search-outline" color="secondary">
+        <v-alert
+          class="mb-0"
+          text
+          border="left"
+          icon="mdi-image-search-outline"
+          color="secondary"
+        >
           Couldn't find any images with these search parameters.
         </v-alert>
       </v-col>
