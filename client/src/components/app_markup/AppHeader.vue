@@ -34,6 +34,7 @@ export default {
       window.open("http://www.geocase.eu/", "GeocaseWindow");
     },
 
+    // Todo: Update after vue-router is implemented
     goToFrontPage() {
       window.location.assign(window.location.href);
     }
