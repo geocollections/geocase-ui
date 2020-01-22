@@ -60,7 +60,7 @@
         </v-tab>
       </v-tabs>
 
-      <v-tabs-items v-model="tab">
+      <v-tabs-items v-model="tab" touchless>
         <v-tab-item v-for="item in tabItems" :key="item">
           <v-card flat>
             <Table
