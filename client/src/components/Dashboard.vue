@@ -146,7 +146,7 @@ export default {
 
   methods: {
     detailSearch: debounce(async function(searchParams) {
-      searchParams.page = this.searchParameters.page;
+      searchParams.page = 1;
       searchParams.paginateBy = this.searchParameters.paginateBy;
       searchParams.sortyBy = this.searchParameters.sortyBy;
       searchParams.sortDesc = this.searchParameters.sortDesc;
@@ -161,7 +161,7 @@ export default {
     }, 500),
 
     fastSearch: debounce(async function(searchParams) {
-      searchParams.page = this.searchParameters.page;
+      searchParams.page = 1;
       searchParams.paginateBy = this.searchParameters.paginateBy;
       searchParams.sortyBy = this.searchParameters.sortyBy;
       searchParams.sortDesc = this.searchParameters.sortDesc;
