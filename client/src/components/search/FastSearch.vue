@@ -23,7 +23,7 @@ export default {
 
   watch: {
     fastSearch(newVal) {
-      this.$emit("fastSearch:changed", { fastSearch: newVal });
+      this.$emit("fastSearch:changed", newVal);
     }
   }
 };

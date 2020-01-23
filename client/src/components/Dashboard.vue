@@ -46,11 +46,13 @@
       </v-card>
     </v-dialog>
 
-    <!-- Todo: Not needed for prototype -->
-    <DetailSearch v-on:detailSearch:changed="detailSearch" v-if="false" />
+    <DetailSearch
+      v-on:detailSearch:changed="detailSearch = $event"
+      v-if="false"
+    />
 
     <v-card>
-      <FastSearch v-on:fastSearch:changed="fastSearch" />
+      <FastSearch v-on:fastSearch:changed="fastSearch = $event" />
 
       <!-- PAGINATION -->
       <v-row no-gutters class="pa-1" justify="center">
@@ -58,7 +60,7 @@
           <SelectWrapper
             v-model="searchParameters.paginateBy"
             :items="paginateByItems"
-            @change="searchParameters.page = 1"
+            @change="paginateByChanged"
           />
         </v-col>
 
@@ -70,6 +72,7 @@
             circle
             :length="Math.ceil(response.numFound / searchParameters.paginateBy)"
             :total-visible="$vuetify.breakpoint.smAndDown ? 5 : 7"
+            @input="pageChanged"
           />
         </v-col>
       </v-row>
@@ -159,6 +162,57 @@ export default {
       sortBy: ["fullscientificname"],
       sortDesc: [false]
     },
+    detailSearch: {
+      textFields: {
+        scientific_name: {
+          type: "Contains",
+          value: "",
+          label: "Scientific name",
+          color: "red lighten-5"
+        },
+        higher_taxon: {
+          type: "Contains",
+          value: "",
+          label: "Higher taxon",
+          color: "deep-purple lighten-5"
+        },
+        stratigraphy: {
+          type: "Contains",
+          value: "",
+          label: "Stratigraphy",
+          color: "teal lighten-5"
+        },
+        locality: {
+          type: "Contains",
+          value: "",
+          label: "Locality",
+          color: "orange lighten-5"
+        },
+        institution: {
+          type: "Contains",
+          value: "",
+          label: "Institution",
+          color: "blue-grey lighten-5"
+        },
+        object_id: {
+          type: "Contains",
+          value: "",
+          label: "Object ID",
+          color: "green lighten-5"
+        }
+      },
+      extraFields: {
+        object: {
+          value: "- Any -",
+          label: "Object"
+        },
+        multimedia: {
+          value: "- Any -",
+          label: "Multimedia"
+        }
+      }
+    },
+    fastSearch: "",
     paginateByItems: [
       { text: "Paginate by 10", value: 10 },
       { text: "Paginate by 25", value: 25 },
@@ -172,11 +226,43 @@ export default {
   }),
 
   watch: {
-    searchParameters: {
+    fastSearch(newVal) {
+      this.searchParameters.page = 1;
+
+      this.doFastSearch({
+        fastSearch: newVal,
+        page: this.searchParameters.page,
+        paginateBy: this.searchParameters.paginateBy,
+        sortBy: this.searchParameters.sortBy,
+        sortDesc: this.searchParameters.sortDesc
+      });
+    },
+
+    detailSearch: {
       handler(newVal) {
-        this.updateSearchQuery(newVal);
+        this.searchParameters.page = 1;
+
+        this.doDetailSearch({
+          detailSearch: newVal,
+          page: this.searchParameters.page,
+          paginateBy: this.searchParameters.paginateBy,
+          sortBy: this.searchParameters.sortBy,
+          sortDesc: this.searchParameters.sortDesc
+        });
       },
       deep: true
+    },
+
+    "searchParameters.sortBy": {
+      handler(newVal) {
+        this.updateSearchQuery(newVal);
+      }
+    },
+
+    "searchParameters.sortDesc": {
+      handler(newVal) {
+        this.updateSearchQuery(newVal);
+      }
     },
 
     response(newVal) {
@@ -185,43 +271,35 @@ export default {
   },
 
   async created() {
-    await this.fastSearch({ fastSearch: "*" });
+    await this.doFastSearch({
+      fastSearch: "*",
+      page: this.searchParameters.paginateBy,
+      paginateBy: this.searchParameters.paginateBy,
+      sortBy: this.searchParameters.sortBy,
+      sortDesc: this.searchParameters.sortDesc
+    });
   },
 
   methods: {
-    detailSearch: debounce(async function(searchParams) {
-      this.searchParameters.page = 1;
-      searchParams.page = 1;
-      searchParams.paginateBy = this.searchParameters.paginateBy;
-      searchParams.sortyBy = this.searchParameters.sortyBy;
-      searchParams.sortDesc = this.searchParameters.sortDesc;
-
+    doDetailSearch: debounce(async function(searchParams) {
       try {
         const response = await SearchService.getDetailSearch(searchParams);
         if (response) this.response = response.response;
 
         this.snackbar = false;
       } catch (err) {
-        this.error = `<b>Status:</b> ${err.request.status}<br /><b>Status text:</b> ${err.request.statusText}`;
-        this.snackbar = true;
+        this.handleError(err);
       }
     }, 500),
 
-    fastSearch: debounce(async function(searchParams) {
-      this.searchParameters.page = 1;
-      searchParams.page = 1;
-      searchParams.paginateBy = this.searchParameters.paginateBy;
-      searchParams.sortyBy = this.searchParameters.sortyBy;
-      searchParams.sortDesc = this.searchParameters.sortDesc;
-
+    doFastSearch: debounce(async function(searchParams) {
       try {
         const response = await SearchService.getFastSearch(searchParams);
         if (response) this.response = response.response;
 
         this.snackbar = false;
       } catch (err) {
-        this.error = `<b>Status:</b> ${err.request.status}<br /><b>Status text:</b> ${err.request.statusText}`;
-        this.snackbar = true;
+        this.handleError(err);
       }
     }, 500),
 
@@ -232,21 +310,26 @@ export default {
 
         this.snackbar = false;
       } catch (err) {
-        this.error = `<b>Status:</b> ${err.request.status}<br /><b>Status text:</b> ${err.request.statusText}`;
-        this.snackbar = true;
+        this.handleError(err);
       }
     }, 200),
 
-    resetSearch() {
-      this.updateSearchQuery(
-        {
-          page: 1,
-          paginateBy: 50,
-          sortBy: ["fullscientificname"],
-          sortDesc: [false]
-        },
-        true
-      );
+    pageChanged(newPage) {
+      this.searchParameters.page = newPage;
+      this.updateSearchQuery(this.searchParameters);
+    },
+
+    paginateByChanged(newPaginateBy) {
+      this.searchParameters.page = 1;
+      this.searchParameters.paginateBy = newPaginateBy;
+      this.updateSearchQuery(this.searchParameters);
+    },
+
+    handleError(err) {
+      // eslint-disable-next-line no-console
+      console.log(err);
+      this.error = `<b>Status:</b> ${err.request.status}<br /><b>Status text:</b> ${err.request.statusText}`;
+      this.snackbar = true;
     }
   }
 };
