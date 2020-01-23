@@ -47,6 +47,7 @@
     </v-dialog>
 
     <DetailSearch
+      class="mb-3"
       v-on:detailSearch:changed="detailSearch = $event"
       v-if="false"
     />
@@ -162,56 +163,7 @@ export default {
       sortBy: ["fullscientificname"],
       sortDesc: [false]
     },
-    detailSearch: {
-      textFields: {
-        scientific_name: {
-          type: "Contains",
-          value: "",
-          label: "Scientific name",
-          color: "red lighten-5"
-        },
-        higher_taxon: {
-          type: "Contains",
-          value: "",
-          label: "Higher taxon",
-          color: "deep-purple lighten-5"
-        },
-        stratigraphy: {
-          type: "Contains",
-          value: "",
-          label: "Stratigraphy",
-          color: "teal lighten-5"
-        },
-        locality: {
-          type: "Contains",
-          value: "",
-          label: "Locality",
-          color: "orange lighten-5"
-        },
-        institution: {
-          type: "Contains",
-          value: "",
-          label: "Institution",
-          color: "blue-grey lighten-5"
-        },
-        object_id: {
-          type: "Contains",
-          value: "",
-          label: "Object ID",
-          color: "green lighten-5"
-        }
-      },
-      extraFields: {
-        object: {
-          value: "- Any -",
-          label: "Object"
-        },
-        multimedia: {
-          value: "- Any -",
-          label: "Multimedia"
-        }
-      }
-    },
+    detailSearch: null,
     fastSearch: "",
     paginateByItems: [
       { text: "Paginate by 10", value: 10 },

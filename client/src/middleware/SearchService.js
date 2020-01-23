@@ -10,7 +10,7 @@ class SearchService {
       try {
         let start = (searchParams.page - 1) * searchParams.paginateBy;
         let sort = buildSort(searchParams.sortBy, searchParams.sortDesc);
-        // Todo: Build search query
+        // Todo: Build search query #7
         query = "*";
 
         let url = `${API_URL}?q=${query}&start=${start}&rows=${searchParams.paginateBy}&sort=${sort}`;
@@ -27,15 +27,12 @@ class SearchService {
   static getFastSearch(searchParams) {
     return new Promise(async (resolve, reject) => {
       try {
-        // eslint-disable-next-line no-console
-        console.log(searchParams);
-
         let start = (searchParams.page - 1) * searchParams.paginateBy;
         let sort = buildSort(searchParams.sortBy, searchParams.sortDesc);
         if (searchParams.fastSearch.trim().length === 0) query = "*";
-        else query = searchParams.fastSearch;
+        else query = encodeURIComponent(searchParams.fastSearch);
 
-        let url = `${API_URL}?q=${query}&start=${start}&rows=${searchParams.paginateBy}&sort=${sort}`;
+        let url = `${API_URL}?q=${query}&start=${start}&rows=${searchParams.paginateBy}&sort=${sort}&defType=edismax`;
 
         const res = await axios.get(url);
         const data = res.data;
@@ -46,12 +43,11 @@ class SearchService {
     });
   }
 
-  static updateSearchQuery(searchParams, reset = false) {
+  static updateSearchQuery(searchParams) {
     return new Promise(async (resolve, reject) => {
       try {
         let start = (searchParams.page - 1) * searchParams.paginateBy;
         let sort = buildSort(searchParams.sortBy, searchParams.sortDesc);
-        if (reset) query = "*";
 
         let url = `${API_URL}?q=${query}&start=${start}&rows=${searchParams.paginateBy}&sort=${sort}`;
 
