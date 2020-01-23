@@ -9,6 +9,43 @@
 
     <ScrollToTop />
 
+    <!-- DETAIL VIEW DIALOG -->
+    <v-dialog
+      fullscreen
+      hide-overlay
+      v-model="detailViewDialog"
+      style="position: fixed; z-index: 10000;"
+    >
+      <v-card>
+        <v-toolbar dark color="primary">
+          <v-btn
+            icon
+            dark
+            @click="detailViewDialog = false"
+            title="Close dialog"
+          >
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+          <v-toolbar-title>Detail view (dialog)</v-toolbar-title>
+          <v-spacer />
+          <v-btn
+            text
+            dark
+            @click="detailViewDialog = false"
+            title="Close dialog"
+          >
+            Close
+          </v-btn>
+        </v-toolbar>
+
+        <DetailView
+          v-if="response !== null && response.numFound === 1"
+          :id="response.docs[0].id"
+          :data-from-search="response"
+        />
+      </v-card>
+    </v-dialog>
+
     <!-- Todo: Not needed for prototype -->
     <DetailSearch v-on:detailSearch:changed="detailSearch" v-if="false" />
 
@@ -91,11 +128,13 @@ import Map from "./tabs/Map";
 import FastSearch from "./search/FastSearch";
 import ScrollToTop from "./partial/ScrollToTop";
 import SelectWrapper from "./input_wrappers/SelectWrapper";
+import DetailView from "./DetailView";
 
 export default {
   name: "Dashboard",
 
   components: {
+    DetailView,
     SelectWrapper,
     ScrollToTop,
     FastSearch,
@@ -128,7 +167,8 @@ export default {
       { text: "Paginate by 250", value: 250 },
       { text: "Paginate by 500", value: 500 },
       { text: "Paginate by 1000", value: 1000 }
-    ]
+    ],
+    detailViewDialog: false
   }),
 
   watch: {
@@ -137,6 +177,10 @@ export default {
         this.updateSearchQuery(newVal);
       },
       deep: true
+    },
+
+    response(newVal) {
+      this.detailViewDialog = newVal.numFound === 1;
     }
   },
 
@@ -146,6 +190,7 @@ export default {
 
   methods: {
     detailSearch: debounce(async function(searchParams) {
+      this.searchParameters.page = 1;
       searchParams.page = 1;
       searchParams.paginateBy = this.searchParameters.paginateBy;
       searchParams.sortyBy = this.searchParameters.sortyBy;
@@ -154,6 +199,8 @@ export default {
       try {
         const response = await SearchService.getDetailSearch(searchParams);
         if (response) this.response = response.response;
+
+        this.snackbar = false;
       } catch (err) {
         this.error = `<b>Status:</b> ${err.request.status}<br /><b>Status text:</b> ${err.request.statusText}`;
         this.snackbar = true;
@@ -161,6 +208,7 @@ export default {
     }, 500),
 
     fastSearch: debounce(async function(searchParams) {
+      this.searchParameters.page = 1;
       searchParams.page = 1;
       searchParams.paginateBy = this.searchParameters.paginateBy;
       searchParams.sortyBy = this.searchParameters.sortyBy;
@@ -169,6 +217,8 @@ export default {
       try {
         const response = await SearchService.getFastSearch(searchParams);
         if (response) this.response = response.response;
+
+        this.snackbar = false;
       } catch (err) {
         this.error = `<b>Status:</b> ${err.request.status}<br /><b>Status text:</b> ${err.request.statusText}`;
         this.snackbar = true;
@@ -179,6 +229,8 @@ export default {
       try {
         const response = await SearchService.updateSearchQuery(searchParams);
         if (response) this.response = response.response;
+
+        this.snackbar = false;
       } catch (err) {
         this.error = `<b>Status:</b> ${err.request.status}<br /><b>Status text:</b> ${err.request.statusText}`;
         this.snackbar = true;

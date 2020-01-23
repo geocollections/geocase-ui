@@ -48,6 +48,16 @@
         </v-row>
       </template>
 
+      <template v-slot:item.unitid="{ item }">
+        <router-link
+          style="text-decoration: unset;"
+          :to="{ path: `detail/${item.id}` }"
+          title="Go to detail view"
+        >
+          {{ item.unitid }}
+        </router-link>
+      </template>
+
       <template v-slot:item.recordURI="{ item }">
         <v-btn
           v-if="item.recordURI"

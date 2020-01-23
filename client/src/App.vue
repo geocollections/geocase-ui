@@ -3,7 +3,7 @@
     <AppHeader />
 
     <v-content>
-      <Dashboard />
+      <router-view />
     </v-content>
 
     <AppFooter />
@@ -11,7 +11,6 @@
 </template>
 
 <script>
-import Dashboard from "./components/Dashboard";
 import AppHeader from "./components/app_markup/AppHeader";
 import AppFooter from "./components/app_markup/AppFooter";
 
@@ -20,8 +19,13 @@ export default {
 
   components: {
     AppFooter,
-    AppHeader,
-    Dashboard
+    AppHeader
   }
 };
 </script>
+
+<style>
+html {
+  overflow-y: auto !important;
+}
+</style>

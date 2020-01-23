@@ -138,7 +138,10 @@ export default {
   computed: {
     localities() {
       if (this.response !== null && this.response.numFound > 0) {
-        return this.response.docs.filter(locality => !!locality.locality);
+        return this.response.docs.filter(
+          locality =>
+            !!locality.locality && !!locality.latitude && !!locality.longitude
+        );
       } else return [];
     }
   },
@@ -206,9 +209,11 @@ export default {
             );
 
             if (item.recordURI) {
-              marker.on("click", () =>
-                window.open(item.recordURI, "ItemWindow")
-              );
+              marker.on("click", () => {
+                if (window.location.pathname.includes("detail")) {
+                  window.open(item.recordURI, "RecordUriWindow");
+                } else this.$router.push({ path: `detail/${item.id}` });
+              });
             }
             marker.bindTooltip(item.locality, {
               permanent: false,
@@ -217,8 +222,10 @@ export default {
 
             this.markers.push(marker);
 
-            let bounds = new L.featureGroup(this.markers).getBounds();
-            this.map.fitBounds(bounds);
+            if (this.markers.length > 1) {
+              let bounds = new L.featureGroup(this.markers).getBounds();
+              this.map.fitBounds(bounds);
+            } else this.map.setView(marker.getLatLng(), 13);
           }
         });
 
@@ -235,4 +242,4 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped />

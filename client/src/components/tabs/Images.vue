@@ -12,7 +12,13 @@
       >
         <v-tooltip bottom color="secondary" z-index="51000">
           <template v-slot:activator="{ on }">
-            <v-card flat class="d-flex image-hover" v-on="on" hover>
+            <v-card
+              flat
+              class="d-flex image-hover"
+              v-on="on"
+              hover
+              :to="{ path: `detail/${image.id}` }"
+            >
               <v-img
                 v-if="image.url"
                 max-height="400"
@@ -20,7 +26,6 @@
                 :src="image.url"
                 :lazy-src="image.url"
                 class="amber lighten-5"
-                @click="openUrl(image.url)"
               >
                 <template v-slot:placeholder>
                   <v-row
@@ -113,12 +118,6 @@ export default {
       if (this.response !== null && this.response.numFound > 0) {
         return this.response.docs.filter(image => !!image.url);
       } else return [];
-    }
-  },
-
-  methods: {
-    openUrl(url) {
-      window.open(url, "UrlWindow");
     }
   }
 };

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "api";
+const API_URL = "/api";
 
 let query = "*";
 
@@ -13,7 +13,7 @@ class SearchService {
         // Todo: Build search query
         query = "*";
 
-        let url = `${API_URL}?q=${query}&start=${start}&rows=${searchParams.paginateBy}&sort=${sort}&format=json`;
+        let url = `${API_URL}?q=${query}&start=${start}&rows=${searchParams.paginateBy}&sort=${sort}`;
 
         const res = await axios.get(url);
         const data = res.data;
@@ -32,7 +32,7 @@ class SearchService {
         if (searchParams.fastSearch.trim().length === 0) query = "*";
         else query = searchParams.fastSearch;
 
-        let url = `${API_URL}?q=${query}&start=${start}&rows=${searchParams.paginateBy}&sort=${sort}&format=json`;
+        let url = `${API_URL}?q=${query}&start=${start}&rows=${searchParams.paginateBy}&sort=${sort}`;
 
         const res = await axios.get(url);
         const data = res.data;
@@ -50,7 +50,21 @@ class SearchService {
         let sort = buildSort(searchParams.sortBy, searchParams.sortDesc);
         if (reset) query = "*";
 
-        let url = `${API_URL}?q=${query}&start=${start}&rows=${searchParams.paginateBy}&sort=${sort}&format=json`;
+        let url = `${API_URL}?q=${query}&start=${start}&rows=${searchParams.paginateBy}&sort=${sort}`;
+
+        const res = await axios.get(url);
+        const data = res.data;
+        resolve(data);
+      } catch (err) {
+        reject(err);
+      }
+    });
+  }
+
+  static getDetailView(id) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        let url = `${API_URL}?q=id:${id}`;
 
         const res = await axios.get(url);
         const data = res.data;
