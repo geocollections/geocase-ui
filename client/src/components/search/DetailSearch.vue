@@ -1,6 +1,6 @@
 <template>
   <v-card class="detail-search">
-    <v-card-title class="pa-2">
+    <v-card-title>
       <span style="cursor: pointer;" @click="showSearch = !showSearch"
         >Detail search</span
       >

@@ -50,7 +50,6 @@
     <DetailSearch
       class="mb-3"
       v-on:detailSearch:changed="detailSearch = $event"
-      v-if="false"
     />
 
     <v-card>
