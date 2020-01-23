@@ -207,14 +207,14 @@ export default {
     },
 
     "searchParameters.sortBy": {
-      handler(newVal) {
-        this.updateSearchQuery(newVal);
+      handler() {
+        this.updateSearchQuery(this.searchParameters);
       }
     },
 
     "searchParameters.sortDesc": {
-      handler(newVal) {
-        this.updateSearchQuery(newVal);
+      handler() {
+        this.updateSearchQuery(this.searchParameters);
       }
     },
 

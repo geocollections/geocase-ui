@@ -1,10 +1,11 @@
 <template>
   <v-row no-gutters justify="center" class="py-6">
-    <v-col cols="9" sm="4" md="3" lg="2" class="px-2">
+    <v-col cols="10" sm="5" md="4" lg="3" class="px-2">
       <SearchField
         v-model="fastSearch"
         label="Fast search"
         background-color="amber lighten-5"
+        fast
       />
     </v-col>
   </v-row>
