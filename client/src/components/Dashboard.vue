@@ -42,6 +42,7 @@
           v-if="response !== null && response.numFound === 1"
           :id="response.docs[0].id"
           :data-from-search="response"
+          is-dialog
         />
       </v-card>
     </v-dialog>

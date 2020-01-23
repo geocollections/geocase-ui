@@ -1,5 +1,7 @@
 <template>
   <v-container>
+    <BackButton v-if="!isDialog" />
+
     <v-row class="mx-0" justify="center" v-if="!itemExists && showError">
       <v-col cols="12" style="max-width: 500px;">
         <v-alert
@@ -90,11 +92,12 @@
 <script>
 import SearchService from "../middleware/SearchService";
 import Map from "./tabs/Map";
+import BackButton from "./partial/BackButton";
 
 export default {
   name: "DetailView",
 
-  components: { Map },
+  components: { BackButton, Map },
 
   props: {
     id: {
@@ -104,7 +107,8 @@ export default {
     dataFromSearch: {
       type: Object,
       required: false
-    }
+    },
+    isDialog: Boolean
   },
 
   data: () => ({
@@ -175,6 +179,7 @@ export default {
     id: {
       handler() {
         if (
+          this.isDialog &&
           typeof this.id !== "undefined" &&
           this.id !== null &&
           typeof this.dataFromSearch !== "undefined" &&
