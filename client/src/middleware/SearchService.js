@@ -10,6 +10,19 @@ class SearchService {
       try {
         let start = (searchParams.page - 1) * searchParams.paginateBy;
         let sort = buildSort(searchParams.sortBy, searchParams.sortDesc);
+
+        let textFields = buildTextFieldsQuery(
+          searchParams.detailSearch.textFields
+        );
+        let extraFields = buildExtraFieldsQuery(
+          searchParams.detailSearch.extraFields
+        );
+
+        // eslint-disable-next-line no-console
+        console.log(textFields);
+        // eslint-disable-next-line no-console
+        console.log(extraFields);
+
         // Todo: Build search query #7
         query = "*";
 
@@ -88,6 +101,29 @@ function buildSort(sortBy, sortDesc) {
 
     return sort;
   } else return "fullscientificname asc";
+}
+
+function buildTextFieldsQuery(textFields) {
+  return textFields;
+}
+
+function buildExtraFieldsQuery(extraFields) {
+  let query = "";
+
+  Object.keys(extraFields).forEach(key => {
+    // Todo: Skipping 'object' because there is no field to differentiate fossils from minerals
+    if (key === "url") {
+      if (extraFields[key].value !== "- Any -") {
+        if (extraFields[key].value !== "Yes") {
+          query += "url:*";
+        } else if (extraFields[key].value !== "No") {
+          query += '-url:["" TO *]';
+        }
+      }
+    }
+  });
+
+  return query;
 }
 
 export default SearchService;

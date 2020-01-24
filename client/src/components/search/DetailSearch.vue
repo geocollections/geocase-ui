@@ -70,13 +70,13 @@
           <v-row no-gutters>
             <v-col cols="12" class="px-2">
               <span class="subtitle-2">
-                {{ searchParameters.extraFields.multimedia.label }}
+                {{ searchParameters.extraFields.url.label }}
               </span>
             </v-col>
             <v-col cols="12" class="px-1 pb-1">
               <SearchLookUpType
-                v-model="searchParameters.extraFields.multimedia.value"
-                :items="multimedia"
+                v-model="searchParameters.extraFields.url.value"
+                :items="url"
               />
             </v-col>
           </v-row>
@@ -96,13 +96,13 @@ export default {
     showSearch: false,
     searchParameters: {
       textFields: {
-        scientific_name: {
+        fullscientificname: {
           type: "Contains",
           value: "",
           label: "Scientific name",
           color: "red lighten-5"
         },
-        higher_taxon: {
+        highertaxon: {
           type: "Contains",
           value: "",
           label: "Higher taxon",
@@ -120,13 +120,13 @@ export default {
           label: "Locality",
           color: "orange lighten-5"
         },
-        institution: {
+        collectioncode: {
           type: "Contains",
           value: "",
           label: "Institution",
           color: "blue-grey lighten-5"
         },
-        object_id: {
+        unitid: {
           type: "Contains",
           value: "",
           label: "Object ID",
@@ -138,7 +138,7 @@ export default {
           value: "- Any -",
           label: "Object"
         },
-        multimedia: {
+        url: {
           value: "- Any -",
           label: "Multimedia"
         }
@@ -160,7 +160,7 @@ export default {
       "Reqular expression"
     ],
     objects: ["- Any -", "Minerals only", "Fossils only"],
-    multimedia: ["- Any -", "Yes", "No"]
+    url: ["- Any -", "Yes", "No"]
   }),
 
   watch: {
