@@ -64,8 +64,6 @@
       </v-data-table>
     </v-card>
 
-    {{ imageWidth }}
-
     <!-- IMAGES -->
     <v-card class="mt-3" v-if="imageExists">
       <v-card-title>Image</v-card-title>
