@@ -22,6 +22,14 @@
         <span class="hidden-xs-only">-prototype</span>
       </v-toolbar-title>
     </div>
+
+    <v-spacer />
+
+    <div v-if="$route.name === 'Detail'">
+      <v-btn icon @click="$router.go(-1)" title="Go back">
+        <v-icon large>mdi-arrow-left</v-icon>
+      </v-btn>
+    </div>
   </v-app-bar>
 </template>
 

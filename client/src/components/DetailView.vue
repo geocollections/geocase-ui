@@ -1,7 +1,5 @@
 <template>
   <v-container>
-    <BackButton v-if="!isDialog" />
-
     <v-row class="mx-0" justify="center" v-if="!itemExists && showError">
       <v-col cols="12" style="max-width: 500px;">
         <v-alert
@@ -16,6 +14,7 @@
       </v-col>
     </v-row>
 
+    <!-- TABLE -->
     <v-card v-if="itemExists" class="item-card">
       <v-card-title class="primary--text display-1">
         <span v-if="item.fullscientificname">
@@ -65,13 +64,18 @@
       </v-data-table>
     </v-card>
 
-    <!-- TABLE -->
+    {{ imageWidth }}
 
     <!-- IMAGES -->
     <v-card class="mt-3" v-if="imageExists">
       <v-card-title>Image</v-card-title>
 
-      <v-img :src="item.url" :lazy-src="item.url" class="amber lighten-5">
+      <v-img
+        class="mx-auto my-0"
+        :src="item.url"
+        :lazy-src="item.url"
+        :max-width="imageWidth"
+      >
         <template v-slot:placeholder>
           <v-row class="fill-height ma-0" align="center" justify="center">
             <v-progress-circular indeterminate color="grey lighten-5" />
@@ -92,12 +96,11 @@
 <script>
 import SearchService from "../middleware/SearchService";
 import Map from "./tabs/Map";
-import BackButton from "./partial/BackButton";
 
 export default {
   name: "DetailView",
 
-  components: { BackButton, Map },
+  components: { Map },
 
   props: {
     id: {
@@ -127,7 +130,8 @@ export default {
       { text: "Record URI", value: "recordURI" },
       { text: "Url", value: "url" },
       { text: "Related resource", value: "relatedResource" }
-    ]
+    ],
+    imageWidth: 400
   }),
 
   computed: {
@@ -189,6 +193,9 @@ export default {
         }
       },
       immediate: true
+    },
+    item(newVal) {
+      if (newVal && newVal.url) this.getImageWidth(newVal.url);
     }
   },
 
@@ -206,6 +213,20 @@ export default {
         this.error = `<b>Status:</b> ${err.request.status}<br /><b>Status text:</b> ${err.request.statusText}`;
         this.showError = true;
       }
+    },
+
+    getMeta(url) {
+      return new Promise((resolve, reject) => {
+        let img = new Image();
+        img.onload = () => resolve(img);
+        img.onerror = reject;
+        img.src = url;
+      });
+    },
+
+    async getImageWidth(url) {
+      let img = await this.getMeta(url);
+      if (img.width) this.imageWidth = img.width;
     }
   }
 };

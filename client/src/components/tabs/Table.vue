@@ -9,29 +9,12 @@
       :items-per-page="searchParameters.paginateBy"
       multi-sort
       :page="searchParameters.page"
-      :sort-by.sync="searchParameters.sortBy"
-      :sort-desc.sync="searchParameters.sortDesc"
+      :sort-by="searchParameters.sortBy"
+      :sort-desc="searchParameters.sortDesc"
+      @update:sort-by="$emit('sortBy:changed', $event)"
+      @update:sort-desc="$emit('sortDesc:changed', $event)"
       :server-items-length="response.numFound"
     >
-      <!--      <template v-slot:item.url="{ item }">-->
-      <!--        <v-img-->
-      <!--          v-if="item.url"-->
-      <!--          class="image-link"-->
-      <!--          :src="item.url"-->
-      <!--          :lazy-src="item.url"-->
-      <!--          :title="item.url"-->
-      <!--          @click="openUrl(item.url)"-->
-      <!--          aspect-ratio="1.7778"-->
-      <!--          width="100"-->
-      <!--        >-->
-      <!--          <template v-slot:placeholder>-->
-      <!--            <v-row class="fill-height ma-0" align="center" justify="center">-->
-      <!--              <v-progress-circular indeterminate color="amber lighten-5" />-->
-      <!--            </v-row>-->
-      <!--          </template>-->
-      <!--        </v-img>-->
-      <!--      </template>-->
-
       <template v-slot:no-data>
         <v-row class="mx-0" justify="center">
           <v-col cols="12" style="max-width: 500px;">

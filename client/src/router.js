@@ -19,6 +19,7 @@ const router = new Router({
     },
     {
       path: "/detail/:id(\\d+)",
+      name: "Detail",
       component: () => import("./components/DetailView")
     }
   ]

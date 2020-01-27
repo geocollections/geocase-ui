@@ -50,6 +50,7 @@
     <DetailSearch
       class="mb-3"
       v-on:detailSearch:changed="detailSearch = $event"
+      v-if="false"
     />
 
     <v-card>
@@ -110,6 +111,8 @@
               v-if="item === 'table'"
               :response="response"
               :search-parameters="searchParameters"
+              v-on:sortBy:changed="sortByChanged"
+              v-on:sortDesc:changed="sortDescChanged"
             />
 
             <Images v-if="item === 'images'" :response="response" />
@@ -180,6 +183,18 @@ export default {
   watch: {
     fastSearch(newVal) {
       this.searchParameters.page = 1;
+      if (
+        this.searchParameters.sortBy.length === 1 &&
+        this.searchParameters.sortBy[0] === "fullscientificname"
+      ) {
+        this.searchParameters.sortBy = [];
+      }
+      if (
+        this.searchParameters.sortDesc.length === 1 &&
+        this.searchParameters.sortDesc[0] === false
+      ) {
+        this.searchParameters.sortDesc = [];
+      }
 
       this.doFastSearch({
         fastSearch: newVal,
@@ -193,6 +208,18 @@ export default {
     detailSearch: {
       handler(newVal) {
         this.searchParameters.page = 1;
+        if (
+          this.searchParameters.sortBy.length === 1 &&
+          this.searchParameters.sortBy[0] === "fullscientificname"
+        ) {
+          this.searchParameters.sortBy = [];
+        }
+        if (
+          this.searchParameters.sortDesc.length === 1 &&
+          this.searchParameters.sortDesc[0] === false
+        ) {
+          this.searchParameters.sortDesc = [];
+        }
 
         this.doDetailSearch({
           detailSearch: newVal,
@@ -205,18 +232,6 @@ export default {
       deep: true
     },
 
-    "searchParameters.sortBy": {
-      handler() {
-        this.updateSearchQuery(this.searchParameters);
-      }
-    },
-
-    "searchParameters.sortDesc": {
-      handler() {
-        this.updateSearchQuery(this.searchParameters);
-      }
-    },
-
     response(newVal) {
       this.detailViewDialog = newVal.numFound === 1;
     }
@@ -225,7 +240,7 @@ export default {
   async created() {
     await this.doFastSearch({
       fastSearch: "*",
-      page: this.searchParameters.paginateBy,
+      page: this.searchParameters.page,
       paginateBy: this.searchParameters.paginateBy,
       sortBy: this.searchParameters.sortBy,
       sortDesc: this.searchParameters.sortDesc
@@ -242,7 +257,7 @@ export default {
       } catch (err) {
         this.handleError(err);
       }
-    }, 500),
+    }, 10),
 
     doFastSearch: debounce(async function(searchParams) {
       try {
@@ -253,7 +268,7 @@ export default {
       } catch (err) {
         this.handleError(err);
       }
-    }, 500),
+    }, 0),
 
     updateSearchQuery: debounce(async function(searchParams) {
       try {
@@ -264,7 +279,7 @@ export default {
       } catch (err) {
         this.handleError(err);
       }
-    }, 200),
+    }, 10),
 
     pageChanged(newPage) {
       this.searchParameters.page = newPage;
@@ -274,6 +289,16 @@ export default {
     paginateByChanged(newPaginateBy) {
       this.searchParameters.page = 1;
       this.searchParameters.paginateBy = newPaginateBy;
+      this.updateSearchQuery(this.searchParameters);
+    },
+
+    sortByChanged(newSortBy) {
+      this.searchParameters.sortBy = newSortBy;
+      this.updateSearchQuery(this.searchParameters);
+    },
+
+    sortDescChanged(newSortDesc) {
+      this.searchParameters.sortDesc = newSortDesc;
       this.updateSearchQuery(this.searchParameters);
     },
 

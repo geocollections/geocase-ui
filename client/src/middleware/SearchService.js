@@ -45,7 +45,13 @@ class SearchService {
         if (searchParams.fastSearch.trim().length === 0) query = "*";
         else query = encodeURIComponent(searchParams.fastSearch);
 
-        let url = `${API_URL}?q=${query}&start=${start}&rows=${searchParams.paginateBy}&sort=${sort}&defType=edismax`;
+        let url = "";
+
+        if (query === "*") {
+          url = `${API_URL}?q=${query}&start=${start}&rows=${searchParams.paginateBy}&sort=${sort}&defType=edismax`;
+        } else {
+          url = `${API_URL}?q=${query}&start=${start}&rows=${searchParams.paginateBy}&defType=edismax`;
+        }
 
         const res = await axios.get(url);
         const data = res.data;
@@ -89,18 +95,15 @@ class SearchService {
 }
 
 function buildSort(sortBy, sortDesc) {
+  let sort = "";
   if (sortBy && sortDesc && sortBy.length > 0 && sortDesc.length > 0) {
-    let sort = "";
-
     sortBy.forEach((field, index) => {
       sort += field + (sortDesc[index] ? " desc" : " asc") + ",";
     });
 
     if (sort.length > 0) sort = sort.substring(0, sort.length - 1);
-    else sort = "fullscientificname asc";
-
-    return sort;
-  } else return "fullscientificname asc";
+  }
+  return sort;
 }
 
 function buildTextFieldsQuery(textFields) {
