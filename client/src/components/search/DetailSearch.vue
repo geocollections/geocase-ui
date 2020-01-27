@@ -33,7 +33,7 @@
               <SearchLookUpType
                 v-model="item.type"
                 :background-color="item.color"
-                :items="lookUpTypes"
+                :items="lookUpTypes.common"
               />
             </v-col>
 
@@ -60,7 +60,7 @@
             <v-col cols="12" class="px-1 pb-1">
               <SearchLookUpType
                 v-model="searchParameters.extraFields.object.value"
-                :items="objects"
+                :items="lookUpTypes.objects"
               />
             </v-col>
           </v-row>
@@ -76,7 +76,7 @@
             <v-col cols="12" class="px-1 pb-1">
               <SearchLookUpType
                 v-model="searchParameters.extraFields.url.value"
-                :items="url"
+                :items="lookUpTypes.url"
               />
             </v-col>
           </v-row>
@@ -89,89 +89,38 @@
 <script>
 import SearchLookUpType from "../input_wrappers/SelectWrapper";
 import SearchField from "../input_wrappers/TextFieldWrapper";
+import {mapActions, mapState} from "vuex";
+import cloneDeep from "lodash/cloneDeep";
+
 export default {
   name: "Search",
   components: { SearchField, SearchLookUpType },
   data: () => ({
     showSearch: false,
-    searchParameters: {
-      textFields: {
-        fullscientificname: {
-          type: "Contains",
-          value: "",
-          label: "Scientific name",
-          color: "red lighten-5"
-        },
-        highertaxon: {
-          type: "Contains",
-          value: "",
-          label: "Higher taxon",
-          color: "deep-purple lighten-5"
-        },
-        stratigraphy: {
-          type: "Contains",
-          value: "",
-          label: "Stratigraphy",
-          color: "teal lighten-5"
-        },
-        locality: {
-          type: "Contains",
-          value: "",
-          label: "Locality",
-          color: "orange lighten-5"
-        },
-        collectioncode: {
-          type: "Contains",
-          value: "",
-          label: "Institution",
-          color: "blue-grey lighten-5"
-        },
-        unitid: {
-          type: "Contains",
-          value: "",
-          label: "Object ID",
-          color: "green lighten-5"
-        }
-      },
-      extraFields: {
-        object: {
-          value: "- Any -",
-          label: "Object"
-        },
-        url: {
-          value: "- Any -",
-          label: "Multimedia"
-        }
-      }
-    },
-    lookUpTypes: [
-      "Is equal to",
-      "Is not equal to",
-      "Contains",
-      "Contains any word",
-      "Contains all words",
-      "Starts with",
-      "Does not start with",
-      "Ends with",
-      "Does not end with",
-      "Does not contains",
-      "Length is shorter than",
-      "Length is longer than",
-      "Reqular expression"
-    ],
-    objects: ["- Any -", "Minerals only", "Fossils only"],
-    url: ["- Any -", "Yes", "No"]
+    searchParameters: null
   }),
+
+  computed: {
+    ...mapState("search", ["lookUpTypes", "detailSearch"])
+  },
+
+  created() {
+    this.searchParameters = cloneDeep(this.detailSearch);
+  },
 
   watch: {
     searchParameters: {
-      handler(newVal) {
-        this.$emit("detailSearch:changed", newVal);
+      handler(newVal, oldVal) {
+        if (oldVal !== null) this.updateDetailSearch(newVal);
       },
       deep: true
     }
+  },
+
+  methods: {
+    ...mapActions("search", ["updateDetailSearch"])
   }
 };
 </script>
 
-<style scoped></style>
+<style scoped />

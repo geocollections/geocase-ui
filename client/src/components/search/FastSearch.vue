@@ -57,23 +57,30 @@
 
 <script>
 import SearchField from "../input_wrappers/TextFieldWrapper";
+import { mapActions } from "vuex";
 export default {
   name: "FastSearch",
 
   components: { SearchField },
 
   data: () => ({
-    fastSearch: "",
     showHelp: false
   }),
 
-  watch: {
-    fastSearch(newVal) {
-      this.$emit("fastSearch:changed", newVal);
+  computed: {
+    fastSearch: {
+      get() {
+        return this.$store.state.search.fastSearch;
+      },
+      set(value) {
+        this.updateFastSearch(value);
+      }
     }
   },
 
   methods: {
+    ...mapActions("search", ["updateFastSearch"]),
+
     handleHelpButtonClick() {
       this.showHelp = !this.showHelp;
     }
