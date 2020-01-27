@@ -139,4 +139,8 @@ export default {
   cursor: pointer;
   background-color: #fff8e1 !important;
 }
+
+.table >>> tbody tr:nth-child(even) {
+  background-color: #eceff1;
+}
 </style>
