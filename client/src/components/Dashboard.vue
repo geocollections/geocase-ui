@@ -3,6 +3,7 @@
     <ScrollToTop />
 
     <DetailViewDialog
+      v-if="false"
       v-model="detailViewDialog"
       v-on:update:dialogState="detailViewDialog = $event"
     />
@@ -13,7 +14,12 @@
       <FastSearch />
 
       <!-- PAGINATION -->
-      <v-row no-gutters class="pa-1" justify="center">
+      <v-row
+        no-gutters
+        class="pa-1"
+        justify="center"
+        v-if="response.numFound > 10"
+      >
         <v-col cols="9" sm="4" md="3" lg="2" class="pa-1" align-self="center">
           <SelectWrapper
             :value="searchParameters.paginateBy"
@@ -24,7 +30,6 @@
 
         <v-col cols="11" sm="8" md="9" lg="10" class="pa-1">
           <v-pagination
-            v-if="response.numFound > 10"
             :value="searchParameters.page"
             :class="{ 'justify-end': $vuetify.breakpoint.smAndUp }"
             circle
@@ -131,7 +136,11 @@ export default {
         this.searchParameters.sortBy[0] === "fullscientificname" &&
         this.searchParameters.sortDesc[0] === false
       ) {
-        this.updateSearchParameters({ ...this.searchParameters, sortBy: [], sortDesc: [] });
+        this.updateSearchParameters({
+          ...this.searchParameters,
+          sortBy: [],
+          sortDesc: []
+        });
       }
 
       this.doFastSearch({
@@ -151,7 +160,11 @@ export default {
           this.searchParameters.sortBy[0] === "fullscientificname" &&
           this.searchParameters.sortDesc[0] === false
         ) {
-          this.updateSearchParameters({ ...this.searchParameters, sortBy: [], sortDesc: [] });
+          this.updateSearchParameters({
+            ...this.searchParameters,
+            sortBy: [],
+            sortDesc: []
+          });
         }
 
         this.doDetailSearch({

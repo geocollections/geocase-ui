@@ -1,9 +1,5 @@
 <template>
-  <v-card flat v-if="response !== null">
-    <div class="map mt-3" v-show="localities.length > 0">
-      <div id="map" style="height: 65vh"></div>
-    </div>
-
+  <v-card flat>
     <v-row class="mx-0" justify="center" v-if="localities.length === 0">
       <v-col cols="12" style="max-width: 500px;">
         <v-alert
@@ -17,6 +13,10 @@
         </v-alert>
       </v-col>
     </v-row>
+
+    <div class="map mt-3">
+      <div id="map" style="height: 65vh"></div>
+    </div>
   </v-card>
 </template>
 
