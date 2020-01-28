@@ -1,5 +1,7 @@
 <template>
   <v-container fluid>
+    <PrototypeAlert />
+
     <ScrollToTop />
 
     <DetailViewDialog
@@ -97,11 +99,13 @@ import ScrollToTop from "./partial/ScrollToTop";
 import SelectWrapper from "./input_wrappers/SelectWrapper";
 import { mapActions, mapState } from "vuex";
 import DetailViewDialog from "./partial/DetailViewDialog";
+import PrototypeAlert from "./partial/PrototypeAlert";
 
 export default {
   name: "Dashboard",
 
   components: {
+    PrototypeAlert,
     DetailViewDialog,
     SelectWrapper,
     ScrollToTop,
