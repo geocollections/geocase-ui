@@ -92,8 +92,8 @@
 </template>
 
 <script>
-import SearchService from "../middleware/SearchService";
 import Map from "./tabs/Map";
+import { mapActions, mapGetters, mapState } from "vuex";
 
 export default {
   name: "DetailView",
@@ -112,60 +112,22 @@ export default {
     isDialog: Boolean
   },
 
-  data: () => ({
-    response: null,
-    error: "",
-    showError: false,
-    itemHeaders: [
-      { text: "ID", value: "id" },
-      { text: "Collection", value: "collectioncode" },
-      { text: "Object ID", value: "unitid" },
-      { text: "Country", value: "country" },
-      { text: "Locality", value: "locality" },
-      { text: "Latitude", value: "latitude" },
-      { text: "Longitude", value: "longitude" },
-      { text: "Stratigraphy", value: "stratigraphy" },
-      { text: "Record URI", value: "recordURI" },
-      { text: "Url", value: "url" },
-      { text: "Related resource", value: "relatedResource" }
-    ],
-    imageWidth: 400
-  }),
-
   computed: {
-    itemExists() {
-      return this.response !== null && this.response.numFound > 0;
-    },
+    ...mapState("detail", [
+      "response",
+      "error",
+      "showError",
+      "itemHeaders",
+      "imageWidth"
+    ]),
 
-    imageExists() {
-      return (
-        this.itemExists &&
-        typeof this.item.url !== "undefined" &&
-        this.item.url !== null
-      );
-    },
-
-    localityExists() {
-      return (
-        this.itemExists &&
-        typeof this.item.locality !== "undefined" &&
-        this.item.locality !== null &&
-        this.item.latitude !== null &&
-        this.item.longitude !== null
-      );
-    },
-
-    item() {
-      return this.itemExists ? this.response.docs[0] : [];
-    },
-
-    filteredItemHeaders() {
-      return this.itemHeaders.filter(header => {
-        if (this.item[header.value]) {
-          return header;
-        }
-      });
-    }
+    ...mapGetters("detail", [
+      "itemExists",
+      "imageExists",
+      "localityExists",
+      "item",
+      "filteredItemHeaders"
+    ])
   },
 
   watch: {
@@ -187,7 +149,7 @@ export default {
           typeof this.dataFromSearch !== "undefined" &&
           this.dataFromSearch !== null
         ) {
-          this.response = this.dataFromSearch;
+          this.updateResponseFromSearch(this.dataFromSearch);
         }
       },
       immediate: true
@@ -198,19 +160,14 @@ export default {
   },
 
   methods: {
-    async getDetailViewData(id) {
-      try {
-        const response = await SearchService.getDetailView(id);
-        if (response) this.response = response.response;
+    ...mapActions("detail", [
+      "getDetailView",
+      "updateImageWidth",
+      "updateResponseFromSearch"
+    ]),
 
-        if (this.response !== null && this.response.numFound === 0) {
-          this.error = `Item with an ID: <b>${id}</b> was not found!`;
-          this.showError = true;
-        }
-      } catch (err) {
-        this.error = `<b>Status:</b> ${err.request.status}<br /><b>Status text:</b> ${err.request.statusText}`;
-        this.showError = true;
-      }
+    async getDetailViewData(id) {
+      this.getDetailView(id);
     },
 
     getMeta(url) {
@@ -224,7 +181,7 @@ export default {
 
     async getImageWidth(url) {
       let img = await this.getMeta(url);
-      if (img.width) this.imageWidth = img.width;
+      if (img.width) this.updateImageWidth(img.width);
     }
   }
 };

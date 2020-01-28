@@ -157,25 +157,28 @@ export default {
 
   methods: {
     initMap() {
-      this.map = L.map("map", {
-        layers: [this.baseMaps[0].leafletObject],
-        scrollWheelZoom: true
-      }).setView(L.latLng(58.5, 25.5), 6);
-      let baseMaps = {};
+      if (this.map === null) {
+        this.map = L.map("map", {
+          layers: [this.baseMaps[0].leafletObject],
+          scrollWheelZoom: true
+        }).setView(L.latLng(58.5, 25.5), 6);
 
-      this.baseMaps.forEach(
-        provider => (baseMaps[provider.name] = provider.leafletObject)
-      );
-      let overlayMaps = {};
-      this.overlayMaps.forEach(
-        provider => (overlayMaps[provider.name] = provider.leafletObject)
-      );
-      L.control.layers(baseMaps, overlayMaps).addTo(this.map);
+        let baseMaps = {};
 
-      L.control.scale({ imperial: false }).addTo(this.map);
+        this.baseMaps.forEach(
+          provider => (baseMaps[provider.name] = provider.leafletObject)
+        );
+        let overlayMaps = {};
+        this.overlayMaps.forEach(
+          provider => (overlayMaps[provider.name] = provider.leafletObject)
+        );
+        L.control.layers(baseMaps, overlayMaps).addTo(this.map);
 
-      //LAYERS CHANGED
-      this.map.on("baselayerchange", this.handleLayerChange);
+        L.control.scale({ imperial: false }).addTo(this.map);
+
+        //LAYERS CHANGED
+        this.map.on("baselayerchange", this.handleLayerChange);
+      }
     },
 
     handleLayerChange(event) {

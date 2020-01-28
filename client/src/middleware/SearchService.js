@@ -18,11 +18,6 @@ class SearchService {
           searchParams.detailSearch.extraFields
         );
 
-        // eslint-disable-next-line no-console
-        console.log(textFields);
-        // eslint-disable-next-line no-console
-        console.log(extraFields);
-
         // Todo: Build search query #7
         query = "*";
 
@@ -42,7 +37,12 @@ class SearchService {
       try {
         let start = (searchParams.page - 1) * searchParams.paginateBy;
         let sort = buildSort(searchParams.sortBy, searchParams.sortDesc);
-        if (searchParams.fastSearch.trim().length === 0) query = "*";
+        if (
+          typeof searchParams.fastSearch === "undefined" ||
+          searchParams.fastSearch === null ||
+          searchParams.fastSearch.trim().length === 0
+        )
+          query = "*";
         else query = encodeURIComponent(searchParams.fastSearch);
 
         let url = "";

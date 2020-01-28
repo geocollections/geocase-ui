@@ -1,5 +1,6 @@
 import actions from "./actions";
 import mutations from "./mutations";
+import getters from "./getters";
 
 const state = {
   searchParameters: {
@@ -99,5 +100,6 @@ export default {
   namespaced: true,
   state,
   actions,
-  mutations
+  mutations,
+  getters
 };

@@ -1,13 +1,14 @@
 <template>
   <v-row no-gutters justify="center" class="py-6">
     <v-col cols="10" sm="6" md="5" lg="4" class="px-2">
-      <SearchField
+      <TextFieldWrapper
         v-model="fastSearch"
         label="Fast search"
         background-color="amber lighten-5"
         append-outer-icon="mdi-help-circle-outline"
         fast
         @click:append-outer="handleHelpButtonClick"
+        clearable
       />
     </v-col>
 
@@ -56,12 +57,12 @@
 </template>
 
 <script>
-import SearchField from "../input_wrappers/TextFieldWrapper";
+import TextFieldWrapper from "../input_wrappers/TextFieldWrapper";
 import { mapActions } from "vuex";
 export default {
   name: "FastSearch",
 
-  components: { SearchField },
+  components: { TextFieldWrapper },
 
   data: () => ({
     showHelp: false
@@ -88,4 +89,4 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped />

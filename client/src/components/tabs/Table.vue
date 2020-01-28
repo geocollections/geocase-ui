@@ -14,7 +14,6 @@
       @update:sort-by="$emit('sortBy:changed', $event)"
       @update:sort-desc="$emit('sortDesc:changed', $event)"
       :server-items-length="response.numFound"
-      @click:row="tableRowClick"
     >
       <template v-slot:no-data>
         <v-row class="mx-0" justify="center">
@@ -90,10 +89,10 @@ export default {
       // { text: "Gathering Date", value: "" },
       // { text: "Collector Number", value: "" },
       // { text: "Domain", value: "" },
+      { text: "Higher Taxon", value: "highertaxon" },
       { text: "Full Scientific Name", value: "fullscientificname" },
       // { text: "Genus or Monomial", value: "" },
       // { text: "Taxon Rank", value: "" },
-      // { text: "Higher Taxon", value: "" },
       // { text: "Infrageneric Epithet", value: "" },
       // { text: "Infraspecific Epithet", value: "" },
       // { text: "Gathering Country (ISO Code)", value: "country" },
@@ -111,16 +110,6 @@ export default {
   methods: {
     openUrl(url) {
       window.open(url, "UrlWindow");
-    },
-
-    tableRowClick(rowData) {
-      if (
-        typeof rowData !== "undefined" &&
-        rowData !== null &&
-        rowData.id !== null
-      ) {
-        this.$router.push({ path: `/detail/${rowData.id}` });
-      }
     }
   }
 };
@@ -133,11 +122,6 @@ export default {
 .image-link:hover {
   cursor: pointer;
   opacity: 0.8;
-}
-
-.table >>> tbody tr:hover {
-  cursor: pointer;
-  background-color: #fff8e1 !important;
 }
 
 .table >>> tbody tr:nth-child(even) {

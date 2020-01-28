@@ -1,51 +1,11 @@
 <template>
   <v-container fluid>
-    <v-snackbar v-model="snackbar" color="error" style="z-index: 2500;">
-      <div v-html="error"></div>
-      <v-btn color="black" icon @click="snackbar = false">
-        <v-icon>mdi-close-circle-outline</v-icon>
-      </v-btn>
-    </v-snackbar>
-
     <ScrollToTop />
 
-    <!-- DETAIL VIEW DIALOG -->
-    <v-dialog
-      fullscreen
-      hide-overlay
+    <DetailViewDialog
       v-model="detailViewDialog"
-      style="position: fixed; z-index: 10000;"
-    >
-      <v-card>
-        <v-toolbar dark color="primary">
-          <v-btn
-            icon
-            dark
-            @click="detailViewDialog = false"
-            title="Close dialog"
-          >
-            <v-icon>mdi-close</v-icon>
-          </v-btn>
-          <v-toolbar-title>Detail view (dialog)</v-toolbar-title>
-          <v-spacer />
-          <v-btn
-            text
-            dark
-            @click="detailViewDialog = false"
-            title="Close dialog"
-          >
-            Close
-          </v-btn>
-        </v-toolbar>
-
-        <DetailView
-          v-if="response !== null && response.numFound === 1"
-          :id="response.docs[0].id"
-          :data-from-search="response"
-          is-dialog
-        />
-      </v-card>
-    </v-dialog>
+      v-on:update:dialogState="detailViewDialog = $event"
+    />
 
     <DetailSearch class="mb-3" v-if="false" />
 
@@ -130,14 +90,14 @@ import Map from "./tabs/Map";
 import FastSearch from "./search/FastSearch";
 import ScrollToTop from "./partial/ScrollToTop";
 import SelectWrapper from "./input_wrappers/SelectWrapper";
-import DetailView from "./DetailView";
 import { mapActions, mapState } from "vuex";
+import DetailViewDialog from "./partial/DetailViewDialog";
 
 export default {
   name: "Dashboard",
 
   components: {
-    DetailView,
+    DetailViewDialog,
     SelectWrapper,
     ScrollToTop,
     FastSearch,
@@ -159,8 +119,6 @@ export default {
       "fastSearch",
       "searchParameters",
       "paginateByItems",
-      "error",
-      "snackbar",
       "response"
     ])
   },
@@ -170,15 +128,10 @@ export default {
       this.updateSearchParameters({ ...this.searchParameters, page: 1 });
       if (
         this.searchParameters.sortBy.length === 1 &&
-        this.searchParameters.sortBy[0] === "fullscientificname"
-      ) {
-        this.updateSearchParameters({ ...this.searchParameters, sortBy: [] });
-      }
-      if (
-        this.searchParameters.sortDesc.length === 1 &&
+        this.searchParameters.sortBy[0] === "fullscientificname" &&
         this.searchParameters.sortDesc[0] === false
       ) {
-        this.updateSearchParameters({ ...this.searchParameters, sortDesc: [] });
+        this.updateSearchParameters({ ...this.searchParameters, sortBy: [], sortDesc: [] });
       }
 
       this.doFastSearch({
@@ -195,18 +148,10 @@ export default {
         this.updateSearchParameters({ ...this.searchParameters, page: 1 });
         if (
           this.searchParameters.sortBy.length === 1 &&
-          this.searchParameters.sortBy[0] === "fullscientificname"
-        ) {
-          this.updateSearchParameters({ ...this.searchParameters, sortBy: [] });
-        }
-        if (
-          this.searchParameters.sortDesc.length === 1 &&
+          this.searchParameters.sortBy[0] === "fullscientificname" &&
           this.searchParameters.sortDesc[0] === false
         ) {
-          this.updateSearchParameters({
-            ...this.searchParameters,
-            sortDesc: []
-          });
+          this.updateSearchParameters({ ...this.searchParameters, sortBy: [], sortDesc: [] });
         }
 
         this.doDetailSearch({

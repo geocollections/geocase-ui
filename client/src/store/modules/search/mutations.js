@@ -10,7 +10,7 @@ const mutations = {
   },
 
   UPDATE_SEARCH_PARAMETERS(state, payload) {
-    state.searchParameters = cloneDeep(payload);
+    state.searchParameters = payload;
   },
 
   UPDATE_RESPONSE(state, payload) {

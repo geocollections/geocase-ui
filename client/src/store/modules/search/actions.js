@@ -13,14 +13,9 @@ const actions = {
     commit("UPDATE_SEARCH_PARAMETERS", searchParams);
   },
 
-  async updateSearch({ commit }, payload) {
+  async updateSearch({ dispatch, commit, state }, payload) {
     try {
       let response;
-
-      // eslint-disable-next-line no-console
-      console.log(payload.params);
-      // eslint-disable-next-line no-console
-      console.log(payload.type);
 
       if (payload.type === "detail") {
         response = await SearchService.getDetailSearch(payload.params);
@@ -30,15 +25,17 @@ const actions = {
         response = await SearchService.updateSearchQuery(payload.params);
       }
       if (response) commit("UPDATE_RESPONSE", response.response);
-
-      commit("UPDATE_SNACKBAR", false);
     } catch (err) {
       commit(
         "UPDATE_ERROR_MESSAGE",
         `<b>Status:</b> ${err.request.status}<br /><b>Status text:</b> ${err.request.statusText}`
       );
-      commit("UPDATE_SNACKBAR", true);
+      if (!state.snackbar) dispatch("updateSnackbar", true);
     }
+  },
+
+  updateSnackbar({ commit }, snackbarState) {
+    commit("UPDATE_SNACKBAR", snackbarState);
   }
 };
 
