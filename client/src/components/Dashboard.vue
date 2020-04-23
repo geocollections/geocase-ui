@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid>
+  <v-container>
     <PrototypeAlert />
 
     <ScrollToTop />
@@ -13,7 +13,7 @@
     <DetailSearch class="mb-3" v-if="false" />
 
     <v-card>
-      <FastSearch />
+      <FastSearch v-if="false" />
 
       <!-- PAGINATION -->
       <v-row
@@ -247,4 +247,4 @@ export default {
 };
 </script>
 
-<style scoped />
+<style scoped></style>

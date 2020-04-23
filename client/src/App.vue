@@ -4,7 +4,7 @@
 
     <Snackbar />
 
-    <v-content>
+    <v-content class="pt-0">
       <router-view />
     </v-content>
 
@@ -29,7 +29,14 @@ export default {
 </script>
 
 <style>
+@import url("https://fonts.googleapis.com/css?family=Nunito:200,300,400,600,700,800,900&display=swap");
+
 html {
   overflow-y: auto !important;
+}
+
+.v-application {
+  font-family: "Nunito", sans-serif !important;
+  -webkit-font-smoothing: antialiased;
 }
 </style>

@@ -74,8 +74,19 @@ export default {
         return this.$store.state.search.fastSearch;
       },
       set(value) {
-        this.updateFastSearch(value);
+        this.$router.push({ path: "/", query: { search: value || undefined } });
       }
+    }
+  },
+
+  watch: {
+    "$route.query": {
+      handler: function(newVal) {
+        if (newVal && newVal.search) {
+          this.updateFastSearch(newVal.search);
+        }
+      },
+      immediate: true
     }
   },
 
