@@ -6,6 +6,7 @@ let query = "*";
 
 class SearchService {
   static getDetailSearch(searchParams) {
+    console.log(searchParams);
     return new Promise(async (resolve, reject) => {
       try {
         let start = (searchParams.page - 1) * searchParams.paginateBy;
@@ -14,6 +15,8 @@ class SearchService {
         let textFields = buildTextFieldsQuery(
           searchParams.detailSearch.textFields
         );
+        if (textFields.length > 0) textFields = "&fq=" + textFields;
+
         let extraFields = buildExtraFieldsQuery(
           searchParams.detailSearch.extraFields
         );
@@ -21,7 +24,7 @@ class SearchService {
         // Todo: Build search query #7
         query = "*";
 
-        let url = `${API_URL}?q=${query}&start=${start}&rows=${searchParams.paginateBy}&sort=${sort}`;
+        let url = `${API_URL}?q=${query}&start=${start}&rows=${searchParams.paginateBy}${textFields}&sort=${sort}`;
 
         const res = await axios.get(url);
         const data = res.data;
@@ -107,7 +110,18 @@ function buildSort(sortBy, sortDesc) {
 }
 
 function buildTextFieldsQuery(textFields) {
-  return textFields;
+  let encodedData = [];
+
+  Object.keys(textFields).forEach(field => {
+    if (textFields[field].value && textFields[field].value.trim().length > 0) {
+      let encodedObject = `${field}:*${encodeURIComponent(
+        textFields[field].value
+      )}*`;
+      encodedData.push(encodedObject);
+    }
+  });
+
+  return encodedData.join("&fq=");
 }
 
 function buildExtraFieldsQuery(extraFields) {

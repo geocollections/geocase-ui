@@ -49,7 +49,7 @@
       </v-row>
 
       <!-- EXTRA FIELDS -->
-      <v-row no-gutters class="pa-1">
+      <v-row no-gutters class="pa-1" v-if="false">
         <v-col cols="12" sm="4" md="2">
           <v-row no-gutters>
             <v-col cols="12" class="px-2">
@@ -89,14 +89,14 @@
 <script>
 import SearchLookUpType from "../input_wrappers/SelectWrapper";
 import SearchField from "../input_wrappers/TextFieldWrapper";
-import {mapActions, mapState} from "vuex";
+import { mapActions, mapState } from "vuex";
 import cloneDeep from "lodash/cloneDeep";
 
 export default {
   name: "Search",
   components: { SearchField, SearchLookUpType },
   data: () => ({
-    showSearch: false,
+    showSearch: true,
     searchParameters: null
   }),
 
