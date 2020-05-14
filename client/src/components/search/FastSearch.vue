@@ -13,7 +13,7 @@
       />
     </v-col>
 
-    <v-dialog v-model="showHelp" scrollable>
+    <v-dialog v-model="showHelp" scrollable style="z-index: 2000;">
       <v-card>
         <v-card-title class="headline">Search help</v-card-title>
         <v-divider></v-divider>
@@ -116,6 +116,8 @@ export default {
       handler: function(newVal) {
         if (newVal && newVal.search) {
           this.updateFastSearch(newVal.search);
+        } else {
+          this.updateFastSearch("");
         }
       },
       immediate: true

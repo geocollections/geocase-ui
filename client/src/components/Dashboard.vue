@@ -188,9 +188,17 @@ export default {
   },
 
   async created() {
-    if (this.fastSearch === "" || this.response.numFound === 0) {
+    if (this.fastSearch === "" && this.response.numFound === 0) {
       await this.doFastSearch({
         fastSearch: "*",
+        page: this.searchParameters.page,
+        paginateBy: this.searchParameters.paginateBy,
+        sortBy: this.searchParameters.sortBy,
+        sortDesc: this.searchParameters.sortDesc
+      });
+    } else {
+      await this.doFastSearch({
+        fastSearch: this.fastSearch,
         page: this.searchParameters.page,
         paginateBy: this.searchParameters.paginateBy,
         sortBy: this.searchParameters.sortBy,

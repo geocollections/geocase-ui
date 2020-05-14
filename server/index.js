@@ -18,7 +18,8 @@ const apiProxy = proxy({
   target: process.env.API_URL,
   pathRewrite: { '^/api': '' },
   auth: `${process.env.API_USER}:${process.env.API_PASS}`,
-  changeOrigin: true
+  changeOrigin: true,
+  proxyTimeout: 100
 });
 
 app.use('/api', apiProxy);
