@@ -20,7 +20,7 @@ class SearchService {
           searchParams.detailSearch.extraFields
         );
 
-        let url = `${API_URL}?q=${query}&start=${start}&rows=${searchParams.paginateBy}&sort=${sort}${textFields}&defType=edismax`;
+        let url = `${API_URL}?q=*&start=${start}&rows=${searchParams.paginateBy}&sort=${sort}${textFields}&defType=edismax`;
 
         const res = await axios.get(url);
         const data = res.data;
@@ -74,7 +74,7 @@ class SearchService {
         let url = "";
 
         if (textFields && textFields.trim().length > 0) {
-          url = `${API_URL}?q=${query}&start=${start}&rows=${searchParams.paginateBy}&sort=${sort}${textFields}&defType=edismax`;
+          url = `${API_URL}?q=*&start=${start}&rows=${searchParams.paginateBy}&sort=${sort}${textFields}&defType=edismax`;
         } else {
           url = `${API_URL}?q=${query}&start=${start}&rows=${searchParams.paginateBy}&sort=${sort}&defType=edismax`;
         }
