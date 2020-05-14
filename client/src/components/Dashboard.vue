@@ -219,6 +219,8 @@ export default {
     }, 0),
 
     updateSearchQuery: debounce(async function(searchParams) {
+      searchParams.fastSearch = this.fastSearch;
+      searchParams.detailSearch = this.detailSearch;
       this.updateSearch({ params: searchParams, type: "update" });
     }, 10),
 

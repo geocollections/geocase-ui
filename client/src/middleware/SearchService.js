@@ -6,7 +6,6 @@ let query = "*";
 
 class SearchService {
   static getDetailSearch(searchParams) {
-    console.log(searchParams);
     return new Promise(async (resolve, reject) => {
       try {
         let start = (searchParams.page - 1) * searchParams.paginateBy;
@@ -21,10 +20,7 @@ class SearchService {
           searchParams.detailSearch.extraFields
         );
 
-        // Todo: Build search query #7
-        query = "*";
-
-        let url = `${API_URL}?q=${query}&start=${start}&rows=${searchParams.paginateBy}${textFields}&sort=${sort}`;
+        let url = `${API_URL}?start=${start}&rows=${searchParams.paginateBy}&sort=${sort}${textFields}&defType=edismax`;
 
         const res = await axios.get(url);
         const data = res.data;
@@ -48,13 +44,7 @@ class SearchService {
           query = "*";
         else query = encodeURIComponent(searchParams.fastSearch);
 
-        let url = "";
-
-        if (query === "*") {
-          url = `${API_URL}?q=${query}&start=${start}&rows=${searchParams.paginateBy}&sort=${sort}&defType=edismax`;
-        } else {
-          url = `${API_URL}?q=${query}&start=${start}&rows=${searchParams.paginateBy}&defType=edismax`;
-        }
+        let url = `${API_URL}?q=${query}&start=${start}&rows=${searchParams.paginateBy}&sort=${sort}&defType=edismax`;
 
         const res = await axios.get(url);
         const data = res.data;
@@ -71,7 +61,23 @@ class SearchService {
         let start = (searchParams.page - 1) * searchParams.paginateBy;
         let sort = buildSort(searchParams.sortBy, searchParams.sortDesc);
 
-        let url = `${API_URL}?q=${query}&start=${start}&rows=${searchParams.paginateBy}&sort=${sort}`;
+        // Detail search
+        let textFields = buildTextFieldsQuery(
+          searchParams.detailSearch.textFields
+        );
+        if (textFields.length > 0) textFields = "&fq=" + textFields;
+
+        let extraFields = buildExtraFieldsQuery(
+          searchParams.detailSearch.extraFields
+        );
+
+        let url = "";
+
+        if (textFields && textFields.trim().length > 0) {
+          url = `${API_URL}?start=${start}&rows=${searchParams.paginateBy}&sort=${sort}${textFields}&defType=edismax`;
+        } else {
+          url = `${API_URL}?q=${query}&start=${start}&rows=${searchParams.paginateBy}&sort=${sort}&defType=edismax`;
+        }
 
         const res = await axios.get(url);
         const data = res.data;
