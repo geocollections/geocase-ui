@@ -37,14 +37,12 @@
       >
         <template v-slot:item.mindat_url="{ item }">
           <a
-            :href="item.mindat_url"
-            target="MindatWindow"
             style="text-decoration: unset;"
             title="Link to Mindat.org"
+            @click="openMindatInNewWindow(item.mindat_url)"
             >{{ item.mindat_url }}
             <v-icon color="primary">mdi-diamond-stone</v-icon>
-          </a
-          >
+          </a>
         </template>
 
         <template v-slot:item.recordURI="{ item }">
@@ -194,6 +192,10 @@ export default {
     async getImageWidth(url) {
       let img = await this.getMeta(url);
       if (img.width) this.updateImageWidth(img.width);
+    },
+
+    openMindatInNewWindow(url) {
+      window.open(url, "MindatWindow", "width=800,height=750");
     }
   }
 };

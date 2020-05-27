@@ -45,9 +45,9 @@
         <div v-if="item.mindat_id">
           <a
             style="text-decoration: unset; white-space: nowrap;"
-            :href="item.mindat_url"
             target="MindatWindow"
             title="Link to Mindat.org"
+            @click="openMindatInNewWindow(item.mindat_url)"
             >{{ item.fullscientificname }}
             <v-icon color="primary">mdi-diamond-stone</v-icon>
           </a>
@@ -124,6 +124,10 @@ export default {
   methods: {
     openUrl(url) {
       window.open(url, "UrlWindow");
+    },
+
+    openMindatInNewWindow(url) {
+      window.open(url, "MindatWindow", "width=800,height=750");
     }
   }
 };

@@ -38,7 +38,6 @@
       v-if="$route.name === 'GeoCASe-prototype'"
       class="landing-image"
       :src="require('@/assets/geocase_landing.jpg')"
-      style="height: 30vh;"
     >
       <v-row align="center" justify="center">
         <v-col class="text-center" cols="12">
@@ -47,6 +46,10 @@
           </h1>
 
           <FastSearch />
+
+          <v-container>
+            <DetailSearch :show-title="false" />
+          </v-container>
         </v-col>
       </v-row>
     </v-parallax>
@@ -55,9 +58,10 @@
 
 <script>
 import FastSearch from "../search/FastSearch";
+import DetailSearch from "../search/DetailSearch";
 export default {
   name: "AppHeader",
-  components: { FastSearch },
+  components: { FastSearch, DetailSearch },
   methods: {
     goToGeocasePage() {
       window.open("http://www.geocase.eu/", "GeocaseWindow");

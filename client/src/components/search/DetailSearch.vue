@@ -1,6 +1,6 @@
 <template>
   <v-card class="detail-search">
-    <v-card-title>
+    <v-card-title v-if="showTitle">
       <span style="cursor: pointer;" @click="showSearch = !showSearch"
         >Detail search</span
       >
@@ -89,7 +89,16 @@ import cloneDeep from "lodash/cloneDeep";
 
 export default {
   name: "Search",
+
   components: { SearchField, SearchLookUpType },
+
+  props: {
+    showTitle: {
+      type: Boolean,
+      default: true
+    }
+  },
+
   data: () => ({
     showSearch: true,
     searchParameters: null

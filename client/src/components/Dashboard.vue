@@ -10,7 +10,7 @@
       v-on:update:dialogState="detailViewDialog = $event"
     />
 
-    <DetailSearch class="mb-3" v-if="false" />
+    <DetailSearch class="mb-3" />
 
     <v-card>
       <FastSearch v-if="false" />
