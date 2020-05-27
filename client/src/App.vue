@@ -4,7 +4,7 @@
 
     <Snackbar />
 
-    <v-content class="pt-0">
+    <v-content :class="$route.name === 'GeoCASe-prototype' ? 'pt-0' : ''">
       <router-view />
     </v-content>
 

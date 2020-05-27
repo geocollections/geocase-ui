@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <PrototypeAlert />
+    <PrototypeAlert v-if="false" />
 
     <ScrollToTop />
 
@@ -10,7 +10,7 @@
       v-on:update:dialogState="detailViewDialog = $event"
     />
 
-    <DetailSearch class="mb-3" />
+    <DetailSearch class="mb-3" v-if="false" />
 
     <v-card>
       <FastSearch v-if="false" />

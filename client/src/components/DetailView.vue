@@ -35,6 +35,18 @@
         :headers="filteredItemHeaders"
         :items="[item]"
       >
+        <template v-slot:item.mindat_url="{ item }">
+          <a
+            :href="item.mindat_url"
+            target="MindatWindow"
+            style="text-decoration: unset;"
+            title="Link to Mindat.org"
+            >{{ item.mindat_url }}
+            <v-icon color="primary">mdi-diamond-stone</v-icon>
+          </a
+          >
+        </template>
+
         <template v-slot:item.recordURI="{ item }">
           <a
             :href="item.recordURI"

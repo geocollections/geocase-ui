@@ -16,6 +16,7 @@ const state = {
     { text: "Latitude", value: "latitude" },
     { text: "Longitude", value: "longitude" },
     { text: "Stratigraphy", value: "stratigraphy" },
+    { text: "Mindat", value: "mindat_url" },
     { text: "Record URI", value: "recordURI" },
     { text: "Url", value: "url" },
     { text: "Related resource", value: "relatedResource" }

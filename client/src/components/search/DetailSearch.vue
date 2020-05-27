@@ -32,17 +32,12 @@
             <v-col cols="12" class="px-1 pb-1">
               <SearchLookUpType
                 v-model="item.type"
-                :background-color="item.color"
                 :items="lookUpTypes.common"
               />
             </v-col>
 
             <v-col cols="12" class="pa-1">
-              <SearchField
-                v-model="item.value"
-                dense
-                :background-color="item.color"
-              />
+              <SearchField v-model="item.value" dense />
             </v-col>
           </v-row>
         </v-col>

@@ -41,6 +41,20 @@
         </router-link>
       </template>
 
+      <template v-slot:item.fullscientificname="{ item }">
+        <div v-if="item.mindat_id">
+          <a
+            style="text-decoration: unset; white-space: nowrap;"
+            :href="item.mindat_url"
+            target="MindatWindow"
+            title="Link to Mindat.org"
+            >{{ item.fullscientificname }}
+            <v-icon color="primary">mdi-diamond-stone</v-icon>
+          </a>
+        </div>
+        <div v-else>{{ item.fullscientificname }}</div>
+      </template>
+
       <template v-slot:item.recordURI="{ item }">
         <v-btn
           v-if="item.recordURI"
