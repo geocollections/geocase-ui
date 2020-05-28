@@ -67,6 +67,31 @@
           <v-icon>mdi-open-in-new</v-icon>
         </v-btn>
       </template>
+
+      <template v-slot:item.url="{ item }">
+        <v-card
+          v-if="item.url"
+          flat
+          class="my-3 image-hover"
+          hover
+          :to="{ path: `detail/${item.id}` }"
+          title="Go to detail view"
+        >
+          <v-img
+            max-height="200"
+            max-width="200"
+            :src="item.url"
+            :lazy-src="item.url"
+            class="amber lighten-5"
+          >
+            <template v-slot:placeholder>
+              <v-row class="fill-height ma-0" align="center" justify="center">
+                <v-progress-circular indeterminate color="grey lighten-5" />
+              </v-row>
+            </template>
+          </v-img>
+        </v-card>
+      </template>
     </v-data-table>
   </v-card>
 </template>
@@ -117,7 +142,8 @@ export default {
       { text: "Stratigraphy", value: "stratigraphy" },
       // { text: "Stratigraphy Type", value: "" },
       // { text: "Term", value: "" },
-      { text: "Record URI", value: "recordURI" }
+      { text: "Record URI", value: "recordURI" },
+      { text: "Image", value: "url" }
     ]
   }),
 

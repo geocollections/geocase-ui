@@ -1,6 +1,6 @@
 <template>
   <v-card class="detail-search">
-    <v-card-title v-if="showTitle">
+    <v-card-title class="px-3 py-2">
       <span style="cursor: pointer;" @click="showSearch = !showSearch"
         >Detail search</span
       >
@@ -91,13 +91,6 @@ export default {
   name: "Search",
 
   components: { SearchField, SearchLookUpType },
-
-  props: {
-    showTitle: {
-      type: Boolean,
-      default: true
-    }
-  },
 
   data: () => ({
     showSearch: true,

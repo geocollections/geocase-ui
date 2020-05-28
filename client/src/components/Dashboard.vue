@@ -15,6 +15,25 @@
     <v-card>
       <FastSearch v-if="false" />
 
+      <!-- NUM OF ITEMS -->
+      <v-card-title class="py-2 font-weight-bold" style="font-size: 24px">
+        <v-icon left color="primary" large v-if="tab === 0"
+          >mdi-table-large</v-icon
+        >
+        <v-icon left color="primary" large v-else-if="tab === 1"
+          >mdi-file-image-outline</v-icon
+        >
+        <v-icon left color="primary" large v-else>mdi-map-legend</v-icon>
+
+        <span class="mr-1">{{ response.numFound }}</span>
+        <span class="mr-1">{{
+          `record${response.numFound === 1 ? "" : "s"} found`
+        }}</span>
+        <span class="hidden-sm-and-up">{{
+          `(page: ${searchParameters.page})`
+        }}</span>
+      </v-card-title>
+
       <!-- PAGINATION -->
       <v-row
         no-gutters
@@ -42,27 +61,20 @@
         </v-col>
       </v-row>
 
-      <!-- NUM OF ITEMS -->
-      <v-card-title class="py-1">
-        <v-icon left color="primary" large v-if="tab === 0"
-          >mdi-table-large</v-icon
+      <v-tabs
+        v-model="tab"
+        grow
+        show-arrows
+        slider-size="4"
+        color="primary"
+        active-class="amber lighten-5"
+      >
+        <v-tab
+          class="font-weight-bold"
+          style="color: #FFA000;"
+          v-for="item in tabItems"
+          :key="item"
         >
-        <v-icon left color="primary" large v-else-if="tab === 1"
-          >mdi-file-image-outline</v-icon
-        >
-        <v-icon left color="primary" large v-else>mdi-map-legend</v-icon>
-
-        <span class="mr-1">{{ response.numFound }}</span>
-        <span class="mr-1">{{
-          `item${response.numFound === 1 ? "" : "s"}`
-        }}</span>
-        <span class="hidden-sm-and-up">{{
-          `(page: ${searchParameters.page})`
-        }}</span>
-      </v-card-title>
-
-      <v-tabs v-model="tab" grow show-arrows>
-        <v-tab v-for="item in tabItems" :key="item">
           {{ item }}
         </v-tab>
       </v-tabs>

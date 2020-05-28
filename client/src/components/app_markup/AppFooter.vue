@@ -1,5 +1,5 @@
 <template>
-  <v-footer absolute app color="primary" dark padless>
+  <v-footer class="footer" absolute app color="primary" dark padless>
     <v-card flat tile width="100%" class="transparent">
       <v-card-text class="pt-1 px-1 pb-0 text-center white--text">
         GeoCASe user interface prototype developed at the Department of Geology,
@@ -40,4 +40,11 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.footer {
+  -webkit-box-shadow: 0 -2px 4px -1px rgba(0, 0, 0, 0.2),
+    0 -4px 5px 0 rgba(0, 0, 0, 0.14), 0 -1px 10px 0 rgba(0, 0, 0, 0.12);
+  box-shadow: 0 -2px 4px -1px rgba(0, 0, 0, 0.2),
+    0 -4px 5px 0 rgba(0, 0, 0, 0.14), 0 -1px 10px 0 rgba(0, 0, 0, 0.12);
+}
+</style>

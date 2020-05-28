@@ -20,7 +20,7 @@
           title="Go to front page"
         >
           <span>GeoCASe</span>
-          <span class="hidden-xs-only">-prototype</span>
+          <span class="hidden-xs-only">-experimental</span>
         </v-toolbar-title>
       </div>
 
@@ -38,6 +38,7 @@
       v-if="$route.name === 'GeoCASe-prototype'"
       class="landing-image"
       :src="require('@/assets/geocase_landing.jpg')"
+      style="height: 30vh;"
     >
       <v-row align="center" justify="center">
         <v-col class="text-center" cols="12">
@@ -46,10 +47,6 @@
           </h1>
 
           <FastSearch />
-
-          <v-container>
-            <DetailSearch :show-title="false" />
-          </v-container>
         </v-col>
       </v-row>
     </v-parallax>
@@ -58,10 +55,9 @@
 
 <script>
 import FastSearch from "../search/FastSearch";
-import DetailSearch from "../search/DetailSearch";
 export default {
   name: "AppHeader",
-  components: { FastSearch, DetailSearch },
+  components: { FastSearch },
   methods: {
     goToGeocasePage() {
       window.open("http://www.geocase.eu/", "GeocaseWindow");
@@ -85,6 +81,10 @@ export default {
 .landing-image {
   margin-top: 64px;
   min-height: 160px;
+  -webkit-box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2),
+    0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+  box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14),
+    0 1px 5px 0 rgba(0, 0, 0, 0.12);
 }
 
 .page-header {
