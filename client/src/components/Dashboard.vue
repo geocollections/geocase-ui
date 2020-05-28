@@ -68,6 +68,7 @@
         slider-size="4"
         color="primary"
         active-class="amber lighten-5"
+        background-color="grey lighten-5"
       >
         <v-tab
           class="font-weight-bold"

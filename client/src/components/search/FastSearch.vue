@@ -40,7 +40,7 @@
                   instance:
                   <a
                     class="help-link"
-                    href="http://geocase.geocollections.info?search=+acrochordiceras +turkey -balarama"
+                    href="http://geocase.geocollections.info?search=%2Bacrochordiceras %2Bturkey -balarama"
                     >+acrochordiceras +turkey -balarama</a
                   >.
                 </li>
