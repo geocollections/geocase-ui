@@ -8,20 +8,15 @@ const getters = {
   },
 
   imageExists: (state, getters) => {
-    return (
-      getters.itemExists &&
-      typeof getters.item.url !== "undefined" &&
-      getters.item.url !== null
-    );
+    return getters.itemExists && getters.item.url;
   },
 
   localityExists: (state, getters) => {
     return (
       getters.itemExists &&
-      typeof getters.item.locality !== "undefined" &&
-      getters.item.locality !== null &&
-      getters.item.latitude !== null &&
-      getters.item.longitude !== null
+      getters.item.locality &&
+      getters.item.latitude &&
+      getters.item.longitude
     );
   },
 
