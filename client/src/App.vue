@@ -4,7 +4,13 @@
 
     <Snackbar />
 
-    <v-content :class="$route.name === 'GeoCASe-prototype' ? 'pt-0' : ''">
+    <!-- Overriding vuetify padding which is set on page load -->
+    <v-content
+      :class="{
+        'pt-2': $route.name === 'GeoCASe-prototype',
+        'custom-pb': $vuetify.breakpoint.smAndDown
+      }"
+    >
       <router-view />
     </v-content>
 
@@ -38,5 +44,9 @@ html {
 .v-application {
   font-family: "Nunito", sans-serif !important;
   -webkit-font-smoothing: antialiased;
+}
+
+.custom-pb {
+  padding-bottom: 200px !important;
 }
 </style>

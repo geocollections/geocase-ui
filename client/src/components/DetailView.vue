@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-row class="mx-0" justify="center" v-if="!itemExists && showError">
+    <v-row class="mx-0" justify="center" v-if="!itemExists">
       <v-col cols="12" style="max-width: 500px;">
         <v-alert
           class="mb-0"
@@ -9,95 +9,119 @@
           icon="mdi-file-document-box-search-outline"
           color="error"
         >
-          <span v-html="error" />
+          <span v-if="showError" v-html="error" />
+          <span v-else
+            >Couldn't find any results with an <b>ID</b> of
+            <b>{{ $route.params.id }}</b></span
+          >
         </v-alert>
       </v-col>
     </v-row>
 
-    <!-- TABLE -->
-    <v-card v-if="itemExists" class="item-card">
-      <v-card-title class="primary--text display-1">
-        <span v-if="item.fullscientificname">
-          {{ item.fullscientificname }}
-        </span>
-        <span v-else>Detail view (ID): {{ item.id }}</span>
-      </v-card-title>
+    <v-row>
+      <v-col cols="12" :sm="imageExists || localityExists ? 6 : 12">
+        <!-- TABLE -->
+        <v-card v-if="itemExists" class="item-card">
+          <v-card-title class="primary--text display-1">
+            <span v-if="item.fullscientificname">
+              {{ item.fullscientificname }}
+            </span>
+            <span v-else>Detail view (ID): {{ item.id }}</span>
+          </v-card-title>
 
-      <v-divider />
+          <v-divider />
 
-      <v-data-table
-        :mobile-breakpoint="9000"
-        disable-sort
-        disable-filtering
-        disable-pagination
-        hide-default-header
-        hide-default-footer
-        :headers="filteredItemHeaders"
-        :items="[item]"
-      >
-        <template v-slot:item.mindat_url="{ item }">
-          <a
-            style="text-decoration: unset;"
-            title="Link to Mindat.org"
-            @click="openMindatInNewWindow(item.mindat_url)"
-            >{{ item.mindat_url }}
-            <v-icon color="primary">mdi-diamond-stone</v-icon>
-          </a>
-        </template>
-
-        <template v-slot:item.recordURI="{ item }">
-          <a
-            :href="item.recordURI"
-            target="RecordUriWindow"
-            style="text-decoration: unset;"
-            >{{ item.recordURI }}</a
+          <v-data-table
+            :mobile-breakpoint="9000"
+            disable-sort
+            disable-filtering
+            disable-pagination
+            hide-default-header
+            hide-default-footer
+            :headers="filteredItemHeaders"
+            :items="[item]"
           >
-        </template>
+            <template v-slot:item.mindat_url="{ item }">
+              <a
+                style="text-decoration: unset;"
+                title="Link to Mindat.org"
+                @click="openMindatInNewWindow(item.mindat_url)"
+                >{{ item.mindat_url }}
+                <v-icon color="primary">mdi-diamond-stone</v-icon>
+              </a>
+            </template>
 
-        <template v-slot:item.url="{ item }">
-          <a
-            :href="item.url"
-            target="UrlWindow"
-            style="text-decoration: unset;"
-            >{{ item.url }}</a
-          >
-        </template>
+            <template v-slot:item.recordURI="{ item }">
+              <a
+                :href="item.recordURI"
+                target="RecordUriWindow"
+                style="text-decoration: unset;"
+                >{{ item.recordURI }}</a
+              >
+            </template>
 
-        <template v-slot:item.relatedResource="{ item }">
-          <a
-            :href="item.relatedResource"
-            target="RelatedResourceWindow"
-            style="text-decoration: unset;"
-            >{{ item.relatedResource }}</a
-          >
-        </template>
-      </v-data-table>
-    </v-card>
+            <template v-slot:item.url="{ item }">
+              <a
+                :href="item.url"
+                target="UrlWindow"
+                style="text-decoration: unset;"
+                >{{ item.url }}</a
+              >
+            </template>
 
-    <!-- IMAGES -->
-    <v-card class="mt-3" v-if="imageExists">
-      <v-card-title>Image</v-card-title>
+            <template v-slot:item.relatedResource="{ item }">
+              <a
+                :href="item.relatedResource"
+                target="RelatedResourceWindow"
+                style="text-decoration: unset;"
+                >{{ item.relatedResource }}</a
+              >
+            </template>
+          </v-data-table>
+        </v-card>
+      </v-col>
 
-      <v-img
-        class="mx-auto my-0"
-        :src="item.url"
-        :lazy-src="item.url"
-        :max-width="imageWidth"
-      >
-        <template v-slot:placeholder>
-          <v-row class="fill-height ma-0" align="center" justify="center">
-            <v-progress-circular indeterminate color="grey lighten-5" />
-          </v-row>
-        </template>
-      </v-img>
-    </v-card>
+      <v-col cols="12" sm="6">
+        <v-row no-gutters>
+          <v-col cols="12">
+            <!-- IMAGES -->
+            <v-card class="mb-6" v-if="imageExists">
+              <v-card-title>Image</v-card-title>
 
-    <!-- MAP -->
-    <v-card class="mt-3" v-if="localityExists">
-      <v-card-title>Map</v-card-title>
+              <v-img
+                class="mx-auto my-0"
+                :src="item.url"
+                :lazy-src="item.url"
+                :max-width="imageWidth"
+              >
+                <template v-slot:placeholder>
+                  <v-row
+                    class="fill-height ma-0"
+                    align="center"
+                    justify="center"
+                  >
+                    <v-progress-circular indeterminate color="grey lighten-5" />
+                  </v-row>
+                </template>
+              </v-img>
+            </v-card>
+          </v-col>
 
-      <Map style="margin-top: -12px" :response="response" />
-    </v-card>
+          <v-col cols="12">
+            <!-- MAP -->
+            <v-card v-if="localityExists">
+              <v-card-title>Map</v-card-title>
+
+              <Map
+                style="margin-top: -12px"
+                :response="response"
+                :is-detail-view="true"
+              />
+            </v-card>
+          </v-col>
+        </v-row>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 

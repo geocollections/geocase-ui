@@ -15,7 +15,7 @@
     </v-row>
 
     <div class="map mt-3">
-      <div id="map" style="height: 65vh"></div>
+      <div id="map" :style="{ height: isDetailView ? '50vh' : '65vh' }"></div>
     </div>
   </v-card>
 </template>
@@ -30,6 +30,11 @@ export default {
     response: {
       type: Object,
       required: true
+    },
+
+    isDetailView: {
+      type: Boolean,
+      default: false
     }
   },
 
@@ -228,7 +233,7 @@ export default {
             if (this.markers.length > 1) {
               let bounds = new L.featureGroup(this.markers).getBounds();
               this.map.fitBounds(bounds);
-            } else this.map.setView(marker.getLatLng(), 13);
+            } else this.map.setView(marker.getLatLng(), 6);
           }
         });
 
