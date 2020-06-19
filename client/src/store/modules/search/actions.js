@@ -13,7 +13,7 @@ const actions = {
     commit("UPDATE_SEARCH_PARAMETERS", searchParams);
   },
 
-  async updateSearch({ dispatch, commit, state }, payload) {
+  async updateSearch({ dispatch, commit, rootState }, payload) {
     try {
       let response;
 
@@ -26,16 +26,14 @@ const actions = {
       }
       if (response) commit("UPDATE_RESPONSE", response.response);
     } catch (err) {
-      commit(
-        "UPDATE_ERROR_MESSAGE",
-        `<b>Status:</b> ${err.request.status}<br /><b>Status text:</b> ${err.request.statusText}`
+      dispatch(
+        "settings/updateErrorMessage",
+        `<b>Name:</b> ${err.name}<br /><b>Message:</b> ${err.message}`,
+        { root: true }
       );
-      if (!state.snackbar) dispatch("updateSnackbar", true);
+      if (!rootState.settings.error)
+        dispatch("settings/updateErrorState", true, { root: true });
     }
-  },
-
-  updateSnackbar({ commit }, snackbarState) {
-    commit("UPDATE_SNACKBAR", snackbarState);
   }
 };
 

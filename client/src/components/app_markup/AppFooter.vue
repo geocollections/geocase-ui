@@ -9,7 +9,7 @@
           href="https://github.com/geocollections/geocase-ui"
           target="GithubWindow"
         >
-          <v-icon>mdi-github-circle</v-icon>
+          <v-icon>fab fa-github</v-icon>
         </v-btn>
       </v-card-text>
 
@@ -21,7 +21,7 @@
           href="https://github.com/MfN-Berlin/geocase-infrastructure"
           target="GithubWindow"
         >
-          <v-icon>mdi-github-circle</v-icon>
+          <v-icon>fab fa-github</v-icon>
         </v-btn>
       </v-card-text>
 

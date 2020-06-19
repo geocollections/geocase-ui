@@ -1,6 +1,6 @@
 import Vue from "vue";
 import Router from "vue-router";
-import Dashboard from "./components/Dashboard";
+import Dashboard from "@/views/Dashboard";
 
 Vue.use(Router);
 
@@ -20,7 +20,7 @@ const router = new Router({
     {
       path: "/detail/:id(\\d+)",
       name: "Detail",
-      component: () => import("./components/DetailView")
+      component: () => import("@/views/DetailView")
     }
   ]
 });

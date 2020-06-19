@@ -1,29 +1,19 @@
 <template>
   <v-container>
-    <PrototypeAlert v-if="false" />
-
     <ScrollToTop />
-
-    <DetailViewDialog
-      v-if="false"
-      v-model="detailViewDialog"
-      v-on:update:dialogState="detailViewDialog = $event"
-    />
 
     <DetailSearch class="mb-3" />
 
-    <v-card>
-      <FastSearch v-if="false" />
-
+    <v-card v-if="response && response.numFound">
       <!-- NUM OF ITEMS -->
       <v-card-title class="py-2 font-weight-bold" style="font-size: 24px">
         <v-icon left color="primary" large v-if="tab === 0"
-          >mdi-table-large</v-icon
+          >fas fa-table fa-2x</v-icon
         >
         <v-icon left color="primary" large v-else-if="tab === 1"
-          >mdi-file-image-outline</v-icon
+          >far fa-image</v-icon
         >
-        <v-icon left color="primary" large v-else>mdi-map-legend</v-icon>
+        <v-icon left color="primary" large v-else>far fa-map</v-icon>
 
         <span class="mr-1">{{ response.numFound }}</span>
         <span class="mr-1">{{
@@ -35,31 +25,15 @@
       </v-card-title>
 
       <!-- PAGINATION -->
-      <v-row
-        no-gutters
-        class="pa-1"
-        justify="center"
-        v-if="response.numFound > 10"
-      >
-        <v-col cols="9" sm="4" md="3" lg="2" class="pa-1" align-self="center">
-          <SelectWrapper
-            :value="searchParameters.paginateBy"
-            :items="paginateByItems"
-            @change="paginateByChanged"
-          />
-        </v-col>
-
-        <v-col cols="11" sm="8" md="9" lg="10" class="pa-1">
-          <v-pagination
-            :value="searchParameters.page"
-            :class="{ 'justify-end': $vuetify.breakpoint.smAndUp }"
-            circle
-            :length="Math.ceil(response.numFound / searchParameters.paginateBy)"
-            :total-visible="$vuetify.breakpoint.smAndDown ? 5 : 7"
-            @input="pageChanged"
-          />
-        </v-col>
-      </v-row>
+      <Pagination
+        :paginate-by="searchParameters.paginateBy"
+        :paginate-by-items="paginateByItems"
+        @update:paginateBy="paginateByChanged"
+        :results="response.docs"
+        :page="searchParameters.page"
+        :number-of-results="response.numFound"
+        @update:page="pageChanged"
+      />
 
       <v-tabs
         v-model="tab"
@@ -102,27 +76,21 @@
 </template>
 
 <script>
-import DetailSearch from "./search/DetailSearch";
+import DetailSearch from "@/components/search/DetailSearch";
 import debounce from "lodash/debounce";
-import Table from "./tabs/Table";
-import Images from "./tabs/Images";
-import Map from "./tabs/Map";
-import FastSearch from "./search/FastSearch";
-import ScrollToTop from "./partial/ScrollToTop";
-import SelectWrapper from "./input_wrappers/SelectWrapper";
+import Table from "@/components/tabs/Table";
+import Images from "@/components/tabs/Images";
+import Map from "@/components/tabs/Map";
+import ScrollToTop from "@/components/partial/ScrollToTop";
 import { mapActions, mapState } from "vuex";
-import DetailViewDialog from "./partial/DetailViewDialog";
-import PrototypeAlert from "./partial/PrototypeAlert";
+import Pagination from "../components/search/Pagination";
 
 export default {
   name: "Dashboard",
 
   components: {
-    PrototypeAlert,
-    DetailViewDialog,
-    SelectWrapper,
+    Pagination,
     ScrollToTop,
-    FastSearch,
     Map,
     Images,
     Table,
@@ -196,12 +164,19 @@ export default {
     },
 
     response(newVal) {
-      this.detailViewDialog = newVal.numFound === 1;
+      if (newVal && newVal.numFound) {
+        this.detailViewDialog = newVal.numFound === 1;
+      }
     }
   },
 
   async created() {
-    if (this.fastSearch === "" && this.response.numFound === 0) {
+    if (
+      this.fastSearch === "" &&
+      this.response &&
+      this.response.numFound &&
+      this.response.numFound === 0
+    ) {
       await this.doFastSearch({
         fastSearch: "*",
         page: this.searchParameters.page,

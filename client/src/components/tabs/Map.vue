@@ -6,7 +6,7 @@
           class="mb-0"
           text
           border="left"
-          icon="mdi-map-search-outline"
+          icon="fas fa-search"
           color="secondary"
         >
           Couldn't find any localities with these search parameters.
@@ -44,7 +44,7 @@ export default {
     markerLayer: null,
     markerIcon: new L.divIcon({
       html:
-        "<i class='v-icon notranslate mdi mdi-circle theme--light primary--text map-marker-icon' style='font-size: 12px; opacity: 0.5;'/>",
+        "<i class='v-icon notranslate fas fa-circle theme--light primary--text map-marker-icon' style='font-size: 12px; opacity: 0.5;'/>",
       className: "map-marker"
     }),
     baseMaps: [

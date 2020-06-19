@@ -1,35 +1,35 @@
 import SearchService from "../../../middleware/SearchService";
 
 const actions = {
-  async getDetailView({ dispatch, commit, state }, id) {
+  async getDetailView({ dispatch, commit, rootState }, id) {
     try {
       const response = await SearchService.getDetailView(id);
-      if (typeof response !== "undefined" && response !== null) {
+      if (response) {
         commit("UPDATE_RESPONSE", response.response);
 
         if (response.numFound === 0) {
-          commit(
-            "UPDATE_ERROR_MESSAGE",
-            `Item with an ID: <b>${id}</b> was not found!`
+          dispatch(
+            "settings/updateErrorMessage",
+            `Item with an ID: <b>${id}</b> was not found!`,
+            { root: true }
           );
-          if (!state.showError) dispatch("updateShowError", true);
+          if (!rootState.settings.error)
+            dispatch("settings/updateErrorState", true, { root: true });
         }
       }
     } catch (err) {
-      commit(
-        "UPDATE_ERROR_MESSAGE",
-        `<b>Status:</b> ${err.request.status}<br /><b>Status text:</b> ${err.request.statusText}`
+      dispatch(
+        "settings/updateErrorMessage",
+        `<b>Name:</b> ${err.name}<br /><b>Message:</b> ${err.message}`,
+        { root: true }
       );
-      if (!state.showError) dispatch("updateShowError", true);
+      if (!rootState.settings.error)
+        dispatch("settings/updateErrorState", true, { root: true });
     }
   },
 
   updateResponseFromSearch({ commit }, response) {
     commit("UPDATE_RESPONSE", response);
-  },
-
-  updateShowError({ commit }, errorState) {
-    commit("UPDATE_SHOW_ERROR", errorState);
   },
 
   updateImageWidth({ commit }, width) {

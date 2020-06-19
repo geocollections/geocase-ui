@@ -42,7 +42,7 @@
                 <v-col class="text-center">
                   <div class="py-3">
                     <v-icon style="font-size: 6rem" class="grey--text"
-                      >mdi-image-off</v-icon
+                      >far fa-image</v-icon
                     >
                   </div>
                 </v-col>
@@ -92,7 +92,7 @@
           class="mb-0"
           text
           border="left"
-          icon="mdi-image-search-outline"
+          icon="fas fa-search"
           color="secondary"
         >
           Couldn't find any images with these search parameters.

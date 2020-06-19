@@ -15,14 +15,6 @@ const mutations = {
 
   UPDATE_RESPONSE(state, payload) {
     state.response = cloneDeep(payload);
-  },
-
-  UPDATE_ERROR_MESSAGE(state, payload) {
-    state.error = payload;
-  },
-
-  UPDATE_SNACKBAR(state, payload) {
-    state.snackbar = payload;
   }
 };
 

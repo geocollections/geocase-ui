@@ -7,8 +7,8 @@
       <v-spacer />
       <span>
         <v-btn icon @click="showSearch = !showSearch">
-          <v-icon v-if="showSearch" x-large>mdi-chevron-up</v-icon>
-          <v-icon v-else x-large>mdi-chevron-down</v-icon>
+          <v-icon v-if="showSearch" x-large>fas fa-angle-up</v-icon>
+          <v-icon v-else x-large>fas fa-angle-down</v-icon>
         </v-btn>
       </span>
     </v-card-title>

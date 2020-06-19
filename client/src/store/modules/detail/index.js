@@ -4,8 +4,6 @@ import getters from "./getters";
 
 const state = {
   response: null,
-  error: "",
-  showError: false,
   itemHeaders: [
     { text: "ID", value: "id" },
     { text: "Collection", value: "collectioncode" },

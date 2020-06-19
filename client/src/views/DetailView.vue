@@ -6,7 +6,7 @@
           class="mb-0"
           text
           border="left"
-          icon="mdi-file-document-box-search-outline"
+          icon="fas fa-search"
           color="error"
         >
           <span v-if="showError" v-html="error" />
@@ -47,7 +47,7 @@
                 title="Link to Mindat.org"
                 @click="openMindatInNewWindow(item.mindat_url)"
                 >{{ item.mindat_url }}
-                <v-icon color="primary">mdi-diamond-stone</v-icon>
+                <v-icon color="primary">far fa-gem</v-icon>
               </a>
             </template>
 
@@ -126,7 +126,7 @@
 </template>
 
 <script>
-import Map from "./tabs/Map";
+import Map from "@/components/tabs/Map";
 import { mapActions, mapGetters, mapState } from "vuex";
 
 export default {

@@ -91,9 +91,7 @@ const state = {
     { text: "Paginate by 250", value: 250 },
     { text: "Paginate by 500", value: 500 },
     { text: "Paginate by 1000", value: 1000 }
-  ],
-  snackbar: false,
-  error: ""
+  ]
 };
 
 export default {

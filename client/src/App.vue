@@ -2,9 +2,6 @@
   <v-app>
     <AppHeader />
 
-    <Snackbar />
-
-    <!-- Overriding vuetify padding which is set on page load -->
     <v-content
       :class="{
         'pt-2': $route.name === 'GeoCASe-prototype',
@@ -21,16 +18,17 @@
 <script>
 import AppHeader from "./components/app_markup/AppHeader";
 import AppFooter from "./components/app_markup/AppFooter";
-import Snackbar from "./components/partial/Snackbar";
+import toastMixin from "./mixins/toastMixin";
 
 export default {
   name: "App",
 
   components: {
-    Snackbar,
     AppFooter,
     AppHeader
-  }
+  },
+
+  mixins: [toastMixin]
 };
 </script>
 

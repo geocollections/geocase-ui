@@ -4,7 +4,7 @@
     elevation="2"
     colored-border
     color="info"
-    icon="mdi-application"
+    icon="fas fa-window-maximize"
   >
     This website is a <b>prototype</b> of a new GeoCASe application (<a
       href="http://www.geocase.eu/"

@@ -13,7 +13,7 @@
           @click="$emit('update:dialogState', false)"
           title="Close dialog"
         >
-          <v-icon>mdi-close</v-icon>
+          <v-icon>fas fa-times</v-icon>
         </v-btn>
         <v-toolbar-title>Detail view (dialog)</v-toolbar-title>
         <v-spacer />
@@ -39,7 +39,7 @@
 
 <script>
 import { mapState } from "vuex";
-import DetailView from "../DetailView";
+import DetailView from "@/views/DetailView";
 
 export default {
   name: "DetailViewDialog",

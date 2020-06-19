@@ -6,10 +6,11 @@
         v-model="fastSearch"
         label="Fast search"
         background-color="amber lighten-5"
-        append-outer-icon="mdi-help-circle-outline"
+        append-outer-icon="far fa-question-circle"
         fast
         @click:append-outer="handleHelpButtonClick"
         clearable
+        clear-icon="fas fa-times"
       />
     </v-col>
 

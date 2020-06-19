@@ -22,7 +22,7 @@
               class="mb-0"
               text
               border="left"
-              icon="mdi-table-search"
+              icon="fas fa-search"
               color="secondary"
             >
               Couldn't find any records with these search parameters.
@@ -49,7 +49,7 @@
             title="Link to Mindat.org"
             @click="openMindatInNewWindow(item.mindat_url)"
             >{{ item.fullscientificname }}
-            <v-icon color="primary">mdi-diamond-stone</v-icon>
+            <v-icon color="primary">fas fa-gem</v-icon>
           </a>
         </div>
         <div v-else>{{ item.fullscientificname }}</div>
@@ -64,7 +64,7 @@
           target="RecordWindow"
           color="primary"
         >
-          <v-icon>mdi-open-in-new</v-icon>
+          <v-icon>fas fa-external-link-alt</v-icon>
         </v-btn>
       </template>
 
