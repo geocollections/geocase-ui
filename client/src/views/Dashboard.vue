@@ -1,77 +1,83 @@
 <template>
-  <v-container>
+  <v-container fluid>
     <ScrollToTop />
 
-    <DetailSearch class="mb-3" />
+    <div class="d-flex flex-column flex-md-row justify-space-between">
+      <div :class="{ 'main-search pr-3': $vuetify.breakpoint.mdAndUp }">
+        <DetailSearch class="mb-3" />
+      </div>
 
-    <v-card v-if="response && response.numFound">
-      <!-- NUM OF ITEMS -->
-      <v-card-title class="py-2 font-weight-bold" style="font-size: 24px">
-        <v-icon left color="primary" large v-if="tab === 0"
-          >fas fa-table fa-2x</v-icon
-        >
-        <v-icon left color="primary" large v-else-if="tab === 1"
-          >far fa-image</v-icon
-        >
-        <v-icon left color="primary" large v-else>far fa-map</v-icon>
+      <div :class="{ 'main-table': $vuetify.breakpoint.mdAndUp }">
+        <v-card v-if="response && response.numFound">
+          <!-- NUM OF ITEMS -->
+          <v-card-title class="py-2 font-weight-bold" style="font-size: 24px">
+            <v-icon left color="primary" large v-if="tab === 0"
+              >fas fa-table fa-2x</v-icon
+            >
+            <v-icon left color="primary" large v-else-if="tab === 1"
+              >far fa-image</v-icon
+            >
+            <v-icon left color="primary" large v-else>far fa-map</v-icon>
 
-        <span class="mr-1">{{ response.numFound }}</span>
-        <span class="mr-1">{{
-          `record${response.numFound === 1 ? "" : "s"} found`
-        }}</span>
-        <span class="hidden-sm-and-up">{{
-          `(page: ${searchParameters.page})`
-        }}</span>
-      </v-card-title>
+            <span class="mr-1">{{ response.numFound }}</span>
+            <span class="mr-1">{{
+              `record${response.numFound === 1 ? "" : "s"} found`
+            }}</span>
+            <span class="hidden-sm-and-up">{{
+              `(page: ${searchParameters.page})`
+            }}</span>
+          </v-card-title>
 
-      <!-- PAGINATION -->
-      <Pagination
-        :paginate-by="searchParameters.paginateBy"
-        :paginate-by-items="paginateByItems"
-        @update:paginateBy="paginateByChanged"
-        :results="response.docs"
-        :page="searchParameters.page"
-        :number-of-results="response.numFound"
-        @update:page="pageChanged"
-      />
+          <!-- PAGINATION -->
+          <Pagination
+            :paginate-by="searchParameters.paginateBy"
+            :paginate-by-items="paginateByItems"
+            @update:paginateBy="paginateByChanged"
+            :results="response.docs"
+            :page="searchParameters.page"
+            :number-of-results="response.numFound"
+            @update:page="pageChanged"
+          />
 
-      <v-tabs
-        v-model="tab"
-        grow
-        show-arrows
-        slider-size="4"
-        color="primary"
-        active-class="amber lighten-5"
-        background-color="grey lighten-5"
-      >
-        <v-tab
-          class="font-weight-bold"
-          style="color: #FFA000;"
-          v-for="item in tabItems"
-          :key="item"
-        >
-          {{ item }}
-        </v-tab>
-      </v-tabs>
+          <v-tabs
+            v-model="tab"
+            grow
+            show-arrows
+            slider-size="4"
+            color="primary"
+            active-class="amber lighten-5"
+            background-color="grey lighten-5"
+          >
+            <v-tab
+              class="font-weight-bold"
+              style="color: #FFA000;"
+              v-for="item in tabItems"
+              :key="item"
+            >
+              {{ item }}
+            </v-tab>
+          </v-tabs>
 
-      <v-tabs-items v-model="tab" touchless>
-        <v-tab-item v-for="item in tabItems" :key="item">
-          <v-card flat>
-            <Table
-              v-if="item === 'table'"
-              :response="response"
-              :search-parameters="searchParameters"
-              v-on:sortBy:changed="sortByChanged"
-              v-on:sortDesc:changed="sortDescChanged"
-            />
+          <v-tabs-items v-model="tab" touchless>
+            <v-tab-item v-for="item in tabItems" :key="item">
+              <v-card flat>
+                <Table
+                  v-if="item === 'table'"
+                  :response="response"
+                  :search-parameters="searchParameters"
+                  v-on:sortBy:changed="sortByChanged"
+                  v-on:sortDesc:changed="sortDescChanged"
+                />
 
-            <Images v-if="item === 'images'" :response="response" />
+                <Images v-if="item === 'images'" :response="response" />
 
-            <Map v-if="item === 'map'" :response="response" />
-          </v-card>
-        </v-tab-item>
-      </v-tabs-items>
-    </v-card>
+                <Map v-if="item === 'map'" :response="response" />
+              </v-card>
+            </v-tab-item>
+          </v-tabs-items>
+        </v-card>
+      </div>
+    </div>
   </v-container>
 </template>
 
@@ -245,4 +251,13 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.main-search {
+  min-width: 300px;
+}
+
+.main-table {
+  /* search width 300px + 3 x padding (12px) = 336px */
+  min-width: calc(100vw - 336px);
+}
+</style>

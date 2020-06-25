@@ -2,7 +2,6 @@ require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const proxy = require('http-proxy-middleware');
 
 const app = express();
 
@@ -11,26 +10,22 @@ app.use(bodyParser.json());
 app.use(cors());
 
 const gc = require('./routes/api/gc');
+const api = require('./routes/api');
+const apiMock = require('./routes/api/mock');
 
 app.use('/api/gc', gc);
 
-const apiProxy = proxy({
-  target: process.env.API_URL,
-  pathRewrite: { '^/api': '' },
-  auth: `${process.env.API_USER}:${process.env.API_PASS}`,
-  changeOrigin: true,
-  proxyTimeout: 100
-});
-
-app.use('/api', apiProxy);
-
 // Handle production
 if (process.env.NODE_ENV === 'production') {
+  app.use('/api', api);
+
   // Static folder
   app.use(express.static(__dirname + '/public/'));
 
   // Handle SPA
   app.get(/.*/, (req, res) => res.sendFile(__dirname + '/public/index.html'))
+} else {
+  app.use('/api', apiMock);
 }
 
 const PORT = process.env.PORT || 5000;

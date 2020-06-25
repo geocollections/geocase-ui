@@ -19,7 +19,7 @@
         <v-col
           cols="12"
           sm="4"
-          md="2"
+          md="12"
           v-for="(item, key) in searchParameters.textFields"
           :key="key"
         >
@@ -45,7 +45,7 @@
 
       <!-- EXTRA FIELDS -->
       <v-row no-gutters class="pa-1" v-if="false">
-        <v-col cols="12" sm="4" md="2">
+        <v-col cols="12" sm="4" md="12">
           <v-row no-gutters>
             <v-col cols="12" class="px-2">
               <span class="subtitle-2">

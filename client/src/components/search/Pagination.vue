@@ -1,0 +1,67 @@
+<template>
+  <div
+    class="pa-2 d-flex flex-column flex-lg-row flex-nowrap justify-space-between align-center"
+    v-if="numberOfResults >= 0"
+  >
+    <div>
+      <SelectWrapper
+        :value="paginateBy"
+        :items="paginateByItems"
+        @change="$emit('update:paginateBy', $event)"
+      />
+    </div>
+
+    <div class="mx-3 my-2 my-lg-0 flex-lg-grow-1">
+      <ExportButtons :table-data="results" />
+    </div>
+
+    <div>
+      <v-pagination
+        :value="page"
+        :class="{ 'justify-end': $vuetify.breakpoint.smAndUp }"
+        circle
+        prev-icon="fas fa-angle-left"
+        next-icon="fas fa-angle-right"
+        :length="Math.ceil(numberOfResults / paginateBy)"
+        :total-visible="$vuetify.breakpoint.smAndDown ? 5 : 7"
+        @input="$emit('update:page', $event)"
+      />
+    </div>
+  </div>
+</template>
+
+<script>
+import SelectWrapper from "../input_wrappers/SelectWrapper";
+import ExportButtons from "../partial/ExportButtons";
+export default {
+  name: "Pagination",
+  components: { ExportButtons, SelectWrapper },
+  props: {
+    paginateBy: {
+      type: Number,
+      required: true,
+      default: 50
+    },
+    paginateByItems: {
+      type: Array,
+      required: true
+    },
+    page: {
+      type: Number,
+      required: true,
+      default: 1
+    },
+    numberOfResults: {
+      type: Number,
+      required: true,
+      default: 0
+    },
+    results: {
+      type: Array,
+      required: true
+    }
+  }
+};
+</script>
+
+<style scoped></style>
