@@ -2,7 +2,7 @@
   <v-footer class="footer" absolute app color="primary" dark padless>
     <v-card flat tile width="100%" class="transparent">
       <v-card-text class="pt-1 px-1 pb-0 text-center white--text">
-        GeoCASe 2.0: The Earth Science Collections Portal user interface developed at the Department of Geology,
+        GeoCASe experimental user interface developed at the Department of Geology,
         TalTech. Code available in Github
         <v-btn
           icon

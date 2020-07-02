@@ -31,6 +31,20 @@
         </v-row>
       </template>
 
+      <template v-slot:item.icon="{ item }">
+        <router-link
+          class="icon-link"
+          style="text-decoration: unset;"
+          :to="{ path: `detail/${item.id}` }"
+          title="Go to detail view"
+        >
+          <v-icon small color="primary" v-if="item.is_mineral"
+            >far fa-gem</v-icon
+          >
+          <v-icon small color="primary" v-else>fas fa-fish</v-icon>
+        </router-link>
+      </template>
+
       <template v-slot:item.unitid="{ item }">
         <router-link
           style="text-decoration: unset;"
@@ -49,7 +63,9 @@
             title="Link to Mindat.org"
             @click="openMindatInNewWindow(item.mindat_url)"
             >{{ item.fullscientificname }}
-            <v-icon color="primary">fas fa-gem</v-icon>
+            <v-icon small color="primary"
+              >fas fa-external-link-square-alt</v-icon
+            >
           </a>
         </div>
         <div v-else>{{ item.fullscientificname }}</div>
@@ -123,13 +139,14 @@ export default {
     headers: [
       // { text: "ID", value: "id" },
       // { text: "Multimedia", value: "url" },
+      { text: "", value: "icon", sortable: false },
       { text: "Collection", value: "collectioncode" },
       { text: "Object ID", value: "unitid" },
       // { text: "Gathering Date", value: "" },
       // { text: "Collector Number", value: "" },
       // { text: "Domain", value: "" },
-      { text: "Higher Taxon", value: "highertaxon" },
-      { text: "Full Scientific Name", value: "fullscientificname" },
+      { text: "Group", value: "highertaxon" },
+      { text: "Name", value: "fullscientificname" },
       // { text: "Genus or Monomial", value: "" },
       // { text: "Taxon Rank", value: "" },
       // { text: "Infrageneric Epithet", value: "" },
@@ -168,7 +185,27 @@ export default {
   opacity: 0.8;
 }
 
+.icon-link:hover {
+  opacity: 0.7;
+}
+
 .table >>> tbody tr:nth-child(even) {
   background-color: #eceff1;
+}
+
+.table >>> th.sortable {
+  white-space: nowrap;
+}
+.table >>> th.sortable > span:after {
+  content: "\00a0";
+}
+
+.table >>> tbody > tr > td:first-child {
+  padding: 4px;
+}
+
+.table >>> tbody > tr > td:first-child,
+.table >>> thead > tr > th:first-child {
+  padding: 0 8px;
 }
 </style>

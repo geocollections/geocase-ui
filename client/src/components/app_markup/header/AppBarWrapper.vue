@@ -18,14 +18,15 @@
         @click="goToFrontPage"
         title="Go to front page"
       >
-        <span
-          class="hidden-xs-only"
-          :class="{ 'small-font': $vuetify.breakpoint.smOnly }"
-          >GeoCASe 2.0: The Earth Science Collections Portal</span
-        >
-        <span class="hidden-sm-and-up">
-          <v-icon large>fas fa-home</v-icon>
-        </span>
+        <!--        <span-->
+        <!--          class="hidden-xs-only"-->
+        <!--          :class="{ 'small-font': $vuetify.breakpoint.smOnly }"-->
+        <!--          >GeoCASe experimental</span-->
+        <!--        >-->
+        <span>GeoCASe experimental</span>
+        <!--        <span class="hidden-sm-and-up">-->
+        <!--          <v-icon large>fas fa-home</v-icon>-->
+        <!--        </span>-->
       </v-toolbar-title>
     </div>
 

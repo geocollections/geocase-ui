@@ -14,13 +14,13 @@ const state = {
       fullscientificname: {
         type: "Contains",
         value: "",
-        label: "Scientific name",
+        label: "Name",
         color: "red lighten-5"
       },
       highertaxon: {
         type: "Contains",
         value: "",
-        label: "Higher taxon",
+        label: "Group",
         color: "deep-purple lighten-5"
       },
       stratigraphy: {

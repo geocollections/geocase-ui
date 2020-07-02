@@ -23,10 +23,17 @@
         <!-- TABLE -->
         <v-card v-if="itemExists" class="item-card">
           <v-card-title class="primary--text display-1">
-            <span v-if="item.fullscientificname">
-              {{ item.fullscientificname }}
-            </span>
-            <span v-else>Detail view (ID): {{ item.id }}</span>
+            <div class="d-flex flex-row flex-nowrap">
+              <div class="mr-2">
+                <v-icon color="primary" v-if="isItemMineral">far fa-gem</v-icon>
+                <v-icon color="primary" v-else>fas fa-fish</v-icon>
+              </div>
+
+              <div v-if="item.fullscientificname">
+                {{ item.fullscientificname }}
+              </div>
+              <div v-else>Detail view (ID): {{ item.id }}</div>
+            </div>
           </v-card-title>
 
           <v-divider />
@@ -47,7 +54,9 @@
                 title="Link to Mindat.org"
                 @click="openMindatInNewWindow(item.mindat_url)"
                 >{{ item.mindat_url }}
-                <v-icon color="primary">far fa-gem</v-icon>
+                <v-icon small color="primary"
+                  >fas fa-external-link-square-alt</v-icon
+                >
               </a>
             </template>
 
@@ -160,7 +169,8 @@ export default {
       "imageExists",
       "localityExists",
       "item",
-      "filteredItemHeaders"
+      "filteredItemHeaders",
+      "isItemMineral"
     ])
   },
 
@@ -176,21 +186,26 @@ export default {
     // ID is used when showing detail view in a dialog.
     id: {
       handler() {
-        if (
-          this.isDialog &&
-          typeof this.id !== "undefined" &&
-          this.id !== null &&
-          typeof this.dataFromSearch !== "undefined" &&
-          this.dataFromSearch !== null
-        ) {
+        if (this.isDialog && this.id && this.dataFromSearch) {
           this.updateResponseFromSearch(this.dataFromSearch);
         }
       },
       immediate: true
     },
     item(newVal) {
-      if (newVal && newVal.url) this.getImageWidth(newVal.url);
+      if (newVal) {
+        if (this.isItemMineral)
+          this.$vuetify.theme.themes.light.primary = "#E91E63";
+        else this.$vuetify.theme.themes.light.primary = "#FFA000";
+
+        if (newVal.url) this.getImageWidth(newVal.url);
+      } else this.$vuetify.theme.themes.light.primary = "#FFA000";
     }
+  },
+
+  beforeRouteLeave(to, from, next) {
+    this.$vuetify.theme.themes.light.primary = "#FFA000";
+    next()
   },
 
   methods: {

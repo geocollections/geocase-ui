@@ -8,7 +8,7 @@ const state = {
     { text: "ID", value: "id" },
     { text: "Collection", value: "collectioncode" },
     { text: "Object ID", value: "unitid" },
-    { text: "Higher Taxon", value: "highertaxon" },
+    { text: "Group", value: "highertaxon" },
     { text: "Country", value: "country" },
     { text: "Locality", value: "locality" },
     { text: "Latitude", value: "latitude" },

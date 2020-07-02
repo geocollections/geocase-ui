@@ -8,7 +8,7 @@
     <v-row align="center" justify="center">
       <v-col class="text-center" cols="12">
         <h1 class="mb-1 font-weight-bold page-header">
-          GeoCASe
+          GeoCASe 2.0 <div class="mt-2 hidden-sm-and-down">The Earth Science Collections Portal</div>
         </h1>
 
         <FastSearch />

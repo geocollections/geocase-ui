@@ -8,12 +8,13 @@ const getters = {
   },
 
   imageExists: (state, getters) => {
-    return getters.itemExists && getters.item.url;
+    return getters.itemExists && getters.item && getters.item.url;
   },
 
   localityExists: (state, getters) => {
     return (
       getters.itemExists &&
+      getters.item &&
       getters.item.locality &&
       getters.item.latitude &&
       getters.item.longitude
@@ -26,6 +27,10 @@ const getters = {
         return header;
       }
     });
+  },
+
+  isItemMineral: (state, getters) => {
+    return getters.item && !!getters.item.is_mineral;
   }
 };
 

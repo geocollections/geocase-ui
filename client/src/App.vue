@@ -2,14 +2,14 @@
   <v-app>
     <AppHeader />
 
-    <v-content
+    <v-main
       :class="{
         'pt-2': $route.name === 'Dashboard',
         'custom-pb': $vuetify.breakpoint.smAndDown
       }"
     >
       <router-view />
-    </v-content>
+    </v-main>
 
     <AppFooter />
   </v-app>
