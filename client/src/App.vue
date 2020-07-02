@@ -4,7 +4,7 @@
 
     <v-content
       :class="{
-        'pt-2': $route.name === 'GeoCASe-prototype',
+        'pt-2': $route.name === 'Dashboard',
         'custom-pb': $vuetify.breakpoint.smAndDown
       }"
     >

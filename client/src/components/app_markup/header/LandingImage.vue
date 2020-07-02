@@ -1,6 +1,6 @@
 <template>
   <v-parallax
-    v-if="$route.name === 'GeoCASe-prototype'"
+    v-if="$route.name === 'Dashboard'"
     class="landing-image"
     :src="require('@/assets/geocase_landing.jpg')"
     style="height: 30vh;"
@@ -8,7 +8,7 @@
     <v-row align="center" justify="center">
       <v-col class="text-center" cols="12">
         <h1 class="mb-1 font-weight-bold page-header">
-          GeoCASe-prototype
+          GeoCASe
         </h1>
 
         <FastSearch />

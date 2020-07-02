@@ -14,7 +14,7 @@ const router = new Router({
     },
     {
       path: "/",
-      name: "GeoCASe-prototype",
+      name: "Dashboard",
       component: Dashboard
     },
     {
