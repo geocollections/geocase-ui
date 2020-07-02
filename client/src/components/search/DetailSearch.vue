@@ -24,13 +24,9 @@
           :key="key"
         >
           <v-row no-gutters>
-            <v-col cols="12" class="px-2">
-              <span class="subtitle-2">
-                {{ item.label }}
-              </span>
-            </v-col>
             <v-col cols="12" class="px-1 pb-1">
               <SearchLookUpType
+                :use-custom-prepend-inner="item.label"
                 v-model="item.type"
                 :items="lookUpTypes.common"
               />
