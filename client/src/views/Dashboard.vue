@@ -8,7 +8,7 @@
       </div>
 
       <div :class="{ 'main-table': $vuetify.breakpoint.mdAndUp }">
-        <v-card v-if="response && response.numFound">
+        <v-card>
           <!-- NUM OF ITEMS -->
           <v-card-title class="py-2 font-weight-bold" style="font-size: 24px">
             <v-icon left color="primary" large v-if="tab === 0"
@@ -30,6 +30,7 @@
 
           <!-- PAGINATION -->
           <Pagination
+            v-if="response && response.numFound"
             :paginate-by="searchParameters.paginateBy"
             :paginate-by-items="paginateByItems"
             @update:paginateBy="paginateByChanged"
