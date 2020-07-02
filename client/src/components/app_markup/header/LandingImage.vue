@@ -1,20 +1,23 @@
 <template>
-  <v-parallax
+  <v-img
     v-if="$route.name === 'Dashboard'"
     class="landing-image"
     :src="require('@/assets/geocase_landing.jpg')"
-    style="height: 30vh;"
+    style="height: 37vh;"
   >
-    <v-row align="center" justify="center">
+    <v-row class="fill-height" align="center" justify="center">
       <v-col class="text-center" cols="12">
         <h1 class="mb-1 font-weight-bold page-header">
-          GeoCASe 2.0 <div class="mt-2 hidden-sm-and-down">The Earth Science Collections Portal</div>
+          GeoCASe 2.0
+          <div class="mt-2 hidden-sm-and-down">
+            The Earth Science Collections Portal
+          </div>
         </h1>
 
         <FastSearch />
       </v-col>
     </v-row>
-  </v-parallax>
+  </v-img>
 </template>
 
 <script>
@@ -28,7 +31,8 @@ export default {
 
 <style scoped>
 .landing-image {
-  margin-top: 64px;
+  /*margin-top: 64px;*/
+  padding-top: 64px;
   min-height: 160px;
   -webkit-box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2),
     0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);

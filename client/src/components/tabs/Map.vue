@@ -49,9 +49,21 @@ export default {
     }),
     baseMaps: [
       {
+        name: "CartoDB",
+        leafletObject: L.tileLayer(
+          "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
+          {
+            attribution:
+              '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
+          }
+        ),
+        minZoom: 1,
+        maxZoom: 18
+      },
+      {
         name: "OpenStreetMap",
         leafletObject: L.tileLayer(
-          "https://api.tiles.mapbox.com/v4/mapbox.light/{z}/{x}/{y}.png?access_token=pk.eyJ1Ijoia3V1dG9iaW5lIiwiYSI6ImNpZWlxdXAzcjAwM2Nzd204enJvN2NieXYifQ.tp6-mmPsr95hfIWu3ASz2w",
+          "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
           {
             attribution:
               '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
@@ -73,12 +85,12 @@ export default {
         maxZoom: 18
       },
       {
-        name: "Maaameti fotokaart",
+        name: "Estonian satellite",
         leafletObject: L.tileLayer(
           "https://tiles.maaamet.ee/tm/tms/1.0.0/foto@GMC/{z}/{x}/{-y}.png&ASUTUS=TALTECH&KESKKOND=LIVE&IS=SARV",
           {
             attribution:
-              "Eesti kaardid: <a  href='http://www.maaamet.ee/'>Maa-amet</a>",
+              "Estonian maps: <a  href='http://www.maaamet.ee/'>Republic of Estonia Land Board</a>",
             tms: true,
             worldCopyJump: true,
             detectRetina: true,
@@ -91,12 +103,12 @@ export default {
         maxZoom: 18
       },
       {
-        name: "Maaameti kaart",
+        name: "Estonian map",
         leafletObject: L.tileLayer(
           "https://tiles.maaamet.ee/tm/tms/1.0.0/kaart@GMC/{z}/{x}/{-y}.png&ASUTUS=TALTECH&KESKKOND=LIVE&IS=SARV",
           {
             attribution:
-              "Eesti kaardid: <a  href='http://www.maaamet.ee/'>Maa-amet</a>",
+              "Estonian maps: <a  href='http://www.maaamet.ee/'>Republic of Estonia Land Board</a>",
             tms: true,
             worldCopyJump: true,
             detectRetina: true,
@@ -111,12 +123,12 @@ export default {
     ],
     overlayMaps: [
       {
-        name: "Maaameti hübriidkaart",
+        name: "Estonian hybrid",
         leafletObject: L.tileLayer(
           "https://tiles.maaamet.ee/tm/tms/1.0.0/hybriid@GMC/{z}/{x}/{-y}.png&ASUTUS=TALTECH&KESKKOND=LIVE&IS=SARV",
           {
             attribution:
-              "Eesti kaardid: <a  href='http://www.maaamet.ee/'>Maa-amet</a>",
+              "Estonian maps: <a  href='http://www.maaamet.ee/'>Republic of Estonia Land Board</a>",
             tms: true,
             worldCopyJump: true,
             detectRetina: true,
@@ -169,7 +181,6 @@ export default {
         }).setView(L.latLng(58.5, 25.5), 6);
 
         let baseMaps = {};
-
         this.baseMaps.forEach(
           provider => (baseMaps[provider.name] = provider.leafletObject)
         );
@@ -187,7 +198,7 @@ export default {
     },
 
     handleLayerChange(event) {
-      if (event.name && event.name === "Maaameti fotokaart") {
+      if (event.name && event.name === "Estonian satellite") {
         this.map.addLayer(this.overlayMaps[0].leafletObject);
         document.querySelector(
           "#map > div.leaflet-control-container > div.leaflet-top.leaflet-right > div > section > div.leaflet-control-layers-overlays > label > div > input"
@@ -223,23 +234,25 @@ export default {
                 } else this.$router.push({ path: `detail/${item.id}` });
               });
             }
-            marker.bindTooltip(item.locality, {
-              permanent: false,
-              direction: "right"
-            });
+            if (item.locality) {
+              marker.bindTooltip(item.locality, {
+                permanent: false,
+                direction: "right"
+              });
+            }
 
             this.markers.push(marker);
-
-            if (this.markers.length > 1) {
-              let bounds = new L.featureGroup(this.markers).getBounds();
-              this.map.fitBounds(bounds);
-            } else this.map.setView(marker.getLatLng(), 6);
           }
         });
-
         // Adding marker layer to map
         this.markerLayer = L.layerGroup(this.markers);
         this.map.addLayer(this.markerLayer);
+
+        if (this.markers.length > 1) {
+          let bounds = new L.featureGroup(this.markers).getBounds();
+          this.map.fitBounds(bounds);
+        } else if (this.markers.length === 1)
+          this.map.setView(this.markers[0].getLatLng(), 6);
       } else {
         // If response is empty then remove markers
         if (this.markerLayer !== null) this.map.removeLayer(this.markerLayer);
