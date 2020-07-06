@@ -7,7 +7,7 @@
   >
     <v-row class="fill-height" align="center" justify="center">
       <v-col class="text-center" cols="12">
-        <h1 class="mb-1 font-weight-bold page-header">
+        <h1 class="mb-2 font-weight-bold page-header">
           GeoCASe 2.0
           <div class="mt-2 hidden-sm-and-down">
             The Earth Science Collections Portal
@@ -43,7 +43,7 @@ export default {
 .page-header {
   font-size: 3rem;
   color: #ffffff;
-  text-shadow: 2px 2px 4px #000000;
+  text-shadow: 4px 4px 14px #000000;
   line-height: 90%;
 }
 </style>

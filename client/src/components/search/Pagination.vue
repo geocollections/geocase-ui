@@ -18,7 +18,11 @@
     <div>
       <v-pagination
         :value="page"
-        :class="{ 'justify-end': $vuetify.breakpoint.smAndUp }"
+        :class="{
+          'justify-end font-small': $vuetify.breakpoint.smAndUp,
+          'font-smaller': $vuetify.breakpoint.xsOnly
+        }"
+        style="font-size: 0.75rem"
         circle
         prev-icon="fas fa-angle-left"
         next-icon="fas fa-angle-right"
@@ -64,4 +68,12 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.font-small >>> .v-pagination__item {
+  font-size: 0.875rem;
+}
+
+.font-smaller >>> .v-pagination__item {
+  font-size: 0.75rem;
+}
+</style>

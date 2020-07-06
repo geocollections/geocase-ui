@@ -1,5 +1,5 @@
 <template>
-  <v-footer class="footer" absolute app color="primary" dark padless>
+  <v-footer class="footer" absolute app dark padless>
     <v-card flat tile width="100%" class="transparent">
       <v-card-text class="pt-1 px-1 pb-0 text-center white--text">
         GeoCASe experimental user interface developed at the Department of

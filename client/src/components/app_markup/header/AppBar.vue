@@ -6,7 +6,7 @@
       height="64"
       :color="$route.name !== 'Dashboard' ? 'primary' : ''"
       style="z-index: 2000"
-      :elevation="$route.name === 'Dashboard' && hover ? 12 : 4"
+      elevation="12"
       :class="{ 'app-bar-front': $route.name === 'Dashboard' }"
     >
       <v-app-bar-nav-icon
@@ -41,6 +41,12 @@
 
       <v-spacer />
 
+      <fast-search
+          style="max-width: 300px"
+        v-if="$route.name !== 'Dashboard' && $vuetify.breakpoint.mdAndUp"
+        in-app-header
+      />
+
       <div v-if="$route.name === 'Detail'">
         <v-tooltip bottom>
           <template v-slot:activator="{ on }">
@@ -56,8 +62,10 @@
 </template>
 
 <script>
+import FastSearch from "../../search/FastSearch";
 export default {
   name: "AppBar",
+  components: { FastSearch },
   methods: {
     goToGeocasePage() {
       window.open("http://www.geocase.eu/", "GeocaseWindow");
@@ -96,8 +104,8 @@ export default {
 
   background: linear-gradient(
     320deg,
-    rgba(0, 0, 0, 1) 0%,
-    rgba(255, 160, 0, 1) 100%
+    rgba(0, 0, 0, 0.8) 0%,
+    rgba(255, 160, 0, 0.8) 100%
   ) !important;
 }
 

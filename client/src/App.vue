@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <AppHeader />
+    <app-header />
 
     <v-main
       :class="{
@@ -11,7 +11,7 @@
       <router-view />
     </v-main>
 
-    <AppFooter />
+    <app-footer />
   </v-app>
 </template>
 

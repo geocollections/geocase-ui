@@ -44,7 +44,7 @@ export default {
     markerLayer: null,
     markerIcon: new L.divIcon({
       html:
-        "<i class='v-icon notranslate fas fa-circle theme--light primary--text map-marker-icon' style='font-size: 12px; opacity: 0.5;'/>",
+        "<i class='v-icon notranslate fas fa-circle theme--light primary--text map-marker-icon' style='font-size: 0.75rem; opacity: 0.5;'/>",
       className: "map-marker"
     }),
     baseMaps: [

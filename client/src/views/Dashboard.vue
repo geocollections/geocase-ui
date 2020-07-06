@@ -10,7 +10,7 @@
       <div :class="{ 'main-table': $vuetify.breakpoint.mdAndUp }">
         <v-card>
           <!-- NUM OF ITEMS -->
-          <v-card-title class="py-2 font-weight-bold" style="font-size: 24px">
+          <v-card-title class="py-2 font-weight-bold" style="font-size: 1.5rem">
             <v-icon left color="primary" large v-if="tab === 0"
               >fas fa-table fa-2x</v-icon
             >

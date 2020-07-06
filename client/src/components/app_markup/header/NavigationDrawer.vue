@@ -9,6 +9,27 @@
     color="primary"
   >
     <v-list dense>
+      <v-subheader
+        v-if="$route.name !== 'Dashboard' && $vuetify.breakpoint.smAndDown"
+        >SEARCH</v-subheader
+      >
+      <fast-search
+        in-app-header
+        v-if="$route.name !== 'Dashboard' && $vuetify.breakpoint.smAndDown"
+      />
+      <!--      <v-text-field-->
+      <!--        v-if="$route.name !== 'Dashboard' && $vuetify.breakpoint.smAndDown"-->
+      <!--        v-model.trim="fastSearch"-->
+      <!--        hide-details-->
+      <!--        clear-icon="fas fa-times"-->
+      <!--        clearable-->
+      <!--        color="cyan darken-2"-->
+      <!--        solo-->
+      <!--        light-->
+      <!--        label="DOI search..."-->
+      <!--        class="align-center mx-4 app-bar-text-field"-->
+      <!--        autocomplete="off"-->
+      <!--      />-->
       <v-subheader>EXTERNAL RESOURCES</v-subheader>
       <v-list-item
         v-for="item in externalResources"
@@ -32,8 +53,10 @@
 </template>
 
 <script>
+import FastSearch from "../../search/FastSearch";
 export default {
   name: "NavigationDrawer",
+  components: { FastSearch },
   props: {
     drawer: {
       type: Boolean,
@@ -72,5 +95,4 @@ export default {
 };
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

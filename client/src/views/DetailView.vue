@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container class="detail-view">
     <v-row class="mx-0" justify="center" v-if="!itemExists">
       <v-col cols="12" style="max-width: 500px;">
         <v-alert
@@ -39,6 +39,7 @@
           <v-divider />
 
           <v-data-table
+            class="detail-view-table"
             :mobile-breakpoint="9000"
             disable-sort
             disable-filtering
@@ -95,8 +96,6 @@
           <v-col cols="12">
             <!-- IMAGES -->
             <v-card class="mb-6" v-if="imageExists">
-              <v-card-title>Image</v-card-title>
-
               <v-img
                 class="mx-auto my-0"
                 :src="item.url"
@@ -119,8 +118,6 @@
           <v-col cols="12">
             <!-- MAP -->
             <v-card v-if="localityExists">
-              <v-card-title>Map</v-card-title>
-
               <Map
                 style="margin-top: -12px"
                 :response="response"
@@ -205,7 +202,7 @@ export default {
 
   beforeRouteLeave(to, from, next) {
     this.$vuetify.theme.themes.light.primary = "#FFA000";
-    next()
+    next();
   },
 
   methods: {
@@ -241,6 +238,9 @@ export default {
 </script>
 
 <style scoped>
+.detail-view-table >>> .v-data-table__mobile-row {
+  font-size: 1rem;
+}
 .item-card >>> tr:hover {
   background-color: unset !important;
 }
