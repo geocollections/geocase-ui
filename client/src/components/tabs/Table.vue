@@ -38,10 +38,24 @@
           :to="{ path: `detail/${item.id}` }"
           title="Go to detail view"
         >
-          <v-icon small color="primary" v-if="item.is_mineral"
+          <v-icon small color="primary" v-if="getItemType(item) === 'fossil'"
+            >fas fa-fish</v-icon
+          >
+          <v-icon
+            small
+            color="primary"
+            v-else-if="getItemType(item) === 'mineral'"
             >far fa-gem</v-icon
           >
-          <v-icon small color="primary" v-else>fas fa-fish</v-icon>
+          <v-icon small color="primary" v-else-if="getItemType(item) === 'rock'"
+            >fas fa-mountain</v-icon
+          >
+          <v-icon
+            small
+            color="primary"
+            v-else-if="getItemType(item) === 'meteorite'"
+            >fas fa-meteor</v-icon
+          >
         </router-link>
       </template>
 
@@ -171,6 +185,31 @@ export default {
 
     openMindatInNewWindow(url) {
       window.open(url, "MindatWindow", "width=800,height=750");
+    },
+
+    /* Todo: Currently unused types:
+     * OtherSpecimen
+     * Unspecified
+     * SedimentSample
+     * TechnologicalSample
+     * specimen
+     * RecentPreservedSpecimen
+     */
+    getItemType(item) {
+      let type = item.recordbasis;
+      if (
+        type === "FossileSpecimen" ||
+        type === "FossilSpecimen" ||
+        type === "fossil"
+      ) {
+        return "fossil";
+      } else if (type === "MineralSpecimen") {
+        return "mineral";
+      } else if (type === "RockSpecimen" || type === "SedimentSample") {
+        return "rock";
+      } else if (type === "MeteoriteSpecimen") {
+        return "meteorite";
+      } else "none";
     }
   }
 };

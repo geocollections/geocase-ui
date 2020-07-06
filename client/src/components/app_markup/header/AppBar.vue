@@ -42,7 +42,7 @@
       <v-spacer />
 
       <fast-search
-          style="max-width: 300px"
+        style="max-width: 300px"
         v-if="$route.name !== 'Dashboard' && $vuetify.breakpoint.mdAndUp"
         in-app-header
       />
@@ -67,10 +67,6 @@ export default {
   name: "AppBar",
   components: { FastSearch },
   methods: {
-    goToGeocasePage() {
-      window.open("http://www.geocase.eu/", "GeocaseWindow");
-    },
-
     goToFrontPage() {
       if (window.location.pathname === "/") {
         window.location.assign(window.location.href);

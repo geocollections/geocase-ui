@@ -29,8 +29,48 @@ const getters = {
     });
   },
 
+  /* Todo: Currently unused types:
+   * OtherSpecimen
+   * Unspecified
+   * SedimentSample
+   * TechnologicalSample
+   * specimen
+   * RecentPreservedSpecimen
+   */
+  isItemFossil: (state, getters) => {
+    if (getters.item) {
+      let type = getters.item.recordbasis;
+      // Todo: Maybe add more?
+      return (
+        type === "FossileSpecimen" ||
+        type === "FossilSpecimen" ||
+        type === "fossil"
+      );
+    } else return false;
+  },
+
   isItemMineral: (state, getters) => {
-    return getters.item && !!getters.item.is_mineral;
+    if (getters.item) {
+      let type = getters.item.recordbasis;
+      // Todo: Maybe add more?
+      return type === "MineralSpecimen";
+    } else return false;
+  },
+
+  isItemRock: (state, getters) => {
+    if (getters.item) {
+      let type = getters.item.recordbasis;
+      // Todo: Maybe add more?
+      return type === "RockSpecimen" || type === "SedimentSample";
+    } else return false;
+  },
+
+  isItemMeteorite: (state, getters) => {
+    if (getters.item) {
+      let type = getters.item.recordbasis;
+      // Todo: Maybe add more?
+      return type === "MeteoriteSpecimen";
+    } else return false;
   }
 };
 

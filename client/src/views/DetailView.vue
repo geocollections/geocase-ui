@@ -25,8 +25,16 @@
           <v-card-title class="primary--text display-1">
             <div class="d-flex flex-row flex-nowrap">
               <div class="mr-2">
-                <v-icon color="primary" v-if="isItemMineral">far fa-gem</v-icon>
-                <v-icon color="primary" v-else>fas fa-fish</v-icon>
+                <v-icon color="primary" v-if="isItemFossil">fas fa-fish</v-icon>
+                <v-icon color="primary" v-else-if="isItemMineral"
+                  >far fa-gem</v-icon
+                >
+                <v-icon color="primary" v-else-if="isItemRock"
+                  >fas fa-mountain</v-icon
+                >
+                <v-icon color="primary" v-else-if="isItemMeteorite"
+                  >fas fa-meteor</v-icon
+                >
               </div>
 
               <div v-if="item.fullscientificname">
@@ -167,7 +175,10 @@ export default {
       "localityExists",
       "item",
       "filteredItemHeaders",
-      "isItemMineral"
+      "isItemFossil",
+      "isItemMineral",
+      "isItemRock",
+      "isItemMeteorite"
     ])
   },
 
@@ -190,13 +201,8 @@ export default {
       immediate: true
     },
     item(newVal) {
-      if (newVal) {
-        if (this.isItemMineral)
-          this.$vuetify.theme.themes.light.primary = "#E91E63";
-        else this.$vuetify.theme.themes.light.primary = "#FFA000";
-
-        if (newVal.url) this.getImageWidth(newVal.url);
-      } else this.$vuetify.theme.themes.light.primary = "#FFA000";
+      this.handleColorChange(newVal);
+      if (newVal && newVal.url) this.getImageWidth(newVal.url);
     }
   },
 
@@ -232,6 +238,20 @@ export default {
 
     openMindatInNewWindow(url) {
       window.open(url, "MindatWindow", "width=800,height=750");
+    },
+
+    handleColorChange(item) {
+      if (item) {
+        if (this.isItemFossil) {
+          this.$vuetify.theme.themes.light.primary = "#FFA000";
+        } else if (this.isItemMineral) {
+          this.$vuetify.theme.themes.light.primary = "#E91E63";
+        } else if (this.isItemRock) {
+          this.$vuetify.theme.themes.light.primary = "#0288D1";
+        } else if (this.isItemMeteorite) {
+          this.$vuetify.theme.themes.light.primary = "#689F38";
+        } else this.$vuetify.theme.themes.light.primary = "#FFA000";
+      } else this.$vuetify.theme.themes.light.primary = "#FFA000";
     }
   }
 };

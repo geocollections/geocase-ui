@@ -18,6 +18,7 @@ const mockData = {
         "collectioncode":"SMNS Palaeontology VII",
         "unitid":"BB-211-K/1",
         "fullscientificname":"! ist Do-4858-K! Blatt",
+        "recordbasis": "FossileSpecimen",
         "is_mineral":false,
         "_version_":1669767306844045316},
       {
@@ -31,6 +32,7 @@ const mockData = {
         "longitude":23.21743,
         "recordURI":"https://geocollections.info/specimen/299199",
         "stratigraphytext":"Nabala Stage",
+        "recordbasis": "MineralSpecimen",
         "unitid":"312-158",
         "_version_":1669767258615840800},
       {
@@ -40,6 +42,7 @@ const mockData = {
         "fullscientificname":"(?) Acrochordiceras",
         "is_mineral":false,
         "country":"Turkey",
+        "recordbasis": "RockSpecimen",
         "_version_":1669767305210363913},
       {
         "collectioncode": "SMNS Palaeontology VII",
@@ -48,6 +51,7 @@ const mockData = {
         "is_mineral": false,
         "mindat_id": 3314,
         "mindat_url": "https://www.mindat.org/min-3314.html",
+        "recordbasis": "MeteoriteSpecimen",
         "unitid": "BB-2244-U",
         "_version_": 1669767306419372000},
       {
