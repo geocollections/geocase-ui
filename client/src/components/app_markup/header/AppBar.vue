@@ -9,23 +9,13 @@
       :elevation="$route.name === 'Dashboard' && hover ? 12 : 4"
       :class="{ 'app-bar-front': $route.name === 'Dashboard' }"
     >
-      <div class="d-flex align-center">
-        <v-tooltip bottom>
-          <template v-slot:activator="{ on }">
-            <v-img
-              v-on="on"
-              alt="GeoCASe Logo"
-              class="shrink mr-4 link"
-              contain
-              :src="require('@/assets/geocase_logo.png')"
-              transition="scale-transition"
-              width="55"
-              @click="goToGeocasePage"
-            />
-          </template>
-          <span>Go to current GeoCASe application</span>
-        </v-tooltip>
+      <v-app-bar-nav-icon
+        @click.stop="$emit('update:drawer')"
+        aria-label="Open navigation drawer"
+        class="mr-2"
+      />
 
+      <div class="d-flex align-center">
         <v-tooltip bottom>
           <template v-slot:activator="{ on }">
             <v-toolbar-title
@@ -67,7 +57,7 @@
 
 <script>
 export default {
-  name: "AppBarWrapper",
+  name: "AppBar",
   methods: {
     goToGeocasePage() {
       window.open("http://www.geocase.eu/", "GeocaseWindow");

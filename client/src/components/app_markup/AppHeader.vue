@@ -1,6 +1,8 @@
 <template>
   <div class="app-header">
-    <app-bar-wrapper />
+    <navigation-drawer :drawer="drawer" @update:drawer="drawer = $event" />
+
+    <app-bar @update:drawer="drawer = !drawer" />
 
     <landing-image />
   </div>
@@ -8,10 +10,14 @@
 
 <script>
 import LandingImage from "./header/LandingImage";
-import AppBarWrapper from "./header/AppBarWrapper";
+import AppBar from "./header/AppBar";
+import NavigationDrawer from "./header/NavigationDrawer";
 export default {
   name: "AppHeader",
-  components: { AppBarWrapper, LandingImage }
+  components: { NavigationDrawer, AppBar, LandingImage },
+  data: () => ({
+    drawer: false
+  })
 };
 </script>
 
