@@ -1,30 +1,52 @@
 import SearchService from "../../../middleware/SearchService";
 
 const actions = {
-  updateDetailSearch({ commit }, detailSearch) {
-    commit("UPDATE_DETAIL_SEARCH", detailSearch);
+  updateResponseResults({ commit }, results) {
+    commit("UPDATE_RESPONSE_RESULTS", results);
   },
 
-  updateFastSearch({ commit }, fastSearch) {
-    commit("UPDATE_FAST_SEARCH", fastSearch);
+  updateResponseCount({ commit }, resultsCount) {
+    commit("UPDATE_RESPONSE_RESULTS_COUNT", resultsCount);
   },
 
-  updateSearchParameters({ commit }, searchParams) {
-    commit("UPDATE_SEARCH_PARAMETERS", searchParams);
+  updatePage({ commit }, page) {
+    commit("UPDATE_PAGE", page);
   },
 
-  async updateSearch({ dispatch, commit, rootState }, payload) {
+  updatePaginateBy({ commit }, paginateBy) {
+    commit("UPDATE_PAGINATE_BY", paginateBy);
+  },
+
+  updateSortBy({ commit }, sortBy) {
+    commit("UPDATE_SORT_BY", sortBy);
+  },
+
+  updateSortDesc({ commit }, sortDesc) {
+    commit("UPDATE_SORT_DESC", sortDesc);
+  },
+
+  updateSearchField({ commit }, payload) {
+    commit("UPDATE_SEARCH_FIELD", payload);
+  },
+
+  async search({ dispatch, commit, rootState, state }) {
     try {
-      let response;
+      let params = {
+        page: state.page,
+        paginateBy: state.paginateBy,
+        sortBy: state.sortBy,
+        sortDesc: state.sortDesc,
+        searchFields: state.searchFields
+      };
+      let response = await SearchService.search(params);
 
-      if (payload.type === "detail") {
-        response = await SearchService.getDetailSearch(payload.params);
-      } else if (payload.type === "fast") {
-        response = await SearchService.getFastSearch(payload.params);
-      } else {
-        response = await SearchService.updateSearchQuery(payload.params);
+      if (response) {
+        commit("UPDATE_RESPONSE_RESULTS", response?.response?.docs || []);
+        commit(
+          "UPDATE_RESPONSE_RESULTS_COUNT",
+          response?.response?.numFound || 0
+        );
       }
-      if (response) commit("UPDATE_RESPONSE", response.response);
     } catch (err) {
       dispatch(
         "settings/updateErrorMessage",

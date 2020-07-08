@@ -126,7 +126,7 @@
           <v-col cols="12">
             <!-- MAP -->
             <v-card v-if="localityExists">
-              <Map
+              <tab-map
                 style="margin-top: -12px"
                 :response="response"
                 :is-detail-view="true"
@@ -140,13 +140,13 @@
 </template>
 
 <script>
-import Map from "@/components/tabs/Map";
 import { mapActions, mapGetters, mapState } from "vuex";
+import TabMap from "../components/tabs/TabMap";
 
 export default {
   name: "DetailView",
 
-  components: { Map },
+  components: {TabMap},
 
   props: {
     id: {

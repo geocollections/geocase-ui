@@ -24,14 +24,17 @@
 import * as L from "leaflet";
 
 export default {
-  name: "Map",
+  name: "TabMap",
 
   props: {
-    response: {
-      type: Object,
+    responseResults: {
+      type: Array,
       required: true
     },
-
+    responseResultsCount: {
+      type: Number,
+      required: true
+    },
     isDetailView: {
       type: Boolean,
       default: false
@@ -154,8 +157,8 @@ export default {
 
   computed: {
     localities() {
-      if (this.response !== null && this.response.numFound > 0) {
-        return this.response.docs.filter(
+      if (this.responseResultsCount > 0) {
+        return this.responseResults.filter(
           locality =>
             !!locality.locality && !!locality.latitude && !!locality.longitude
         );

@@ -3,86 +3,71 @@ import mutations from "./mutations";
 import getters from "./getters";
 
 const state = {
-  searchParameters: {
-    page: 1,
-    paginateBy: 50,
-    sortBy: ["fullscientificname"],
-    sortDesc: [false]
-  },
-  detailSearch: {
-    textFields: {
-      fullscientificname: {
-        type: "Contains",
-        value: "",
-        label: "Name",
-        color: "red lighten-5"
-      },
-      highertaxon: {
-        type: "Contains",
-        value: "",
-        label: "Group",
-        color: "deep-purple lighten-5"
-      },
-      stratigraphy: {
-        type: "Contains",
-        value: "",
-        label: "Stratigraphy",
-        color: "teal lighten-5"
-      },
-      locality: {
-        type: "Contains",
-        value: "",
-        label: "Locality",
-        color: "orange lighten-5"
-      },
-      collectioncode: {
-        type: "Contains",
-        value: "",
-        label: "Institution",
-        color: "blue-grey lighten-5"
-      },
-      unitid: {
-        type: "Contains",
-        value: "",
-        label: "Object ID",
-        color: "green lighten-5"
-      }
+  responseResults: [],
+  responseResultsCount: 0,
+  page: 1,
+  paginateBy: 50,
+  sortBy: ["fullscientificname"],
+  sortDesc: [false],
+  searchFields: [
+    {
+      fieldType: "text",
+      field: "fastsearch",
+      lookUpType: "",
+      value: null,
+      label: "Fast search"
     },
-    extraFields: {
-      object: {
-        value: "- Any -",
-        label: "Object"
-      },
-      url: {
-        value: "- Any -",
-        label: "Multimedia"
-      }
+    {
+      fieldType: "text",
+      field: "fullscientificname",
+      lookUpType: "contains",
+      value: null,
+      label: "Name"
+    },
+    {
+      fieldType: "text",
+      field: "highertaxon",
+      lookUpType: "contains",
+      value: null,
+      label: "Group"
+    },
+    {
+      fieldType: "text",
+      field: "stratigraphy",
+      lookUpType: "contains",
+      value: null,
+      label: "Stratigraphy"
+    },
+    {
+      fieldType: "text",
+      field: "locality",
+      lookUpType: "contains",
+      value: null,
+      label: "Locality"
+    },
+    {
+      fieldType: "text",
+      field: "collectioncode",
+      lookUpType: "contains",
+      value: null,
+      label: "Institution"
+    },
+    {
+      fieldType: "text",
+      field: "unitid",
+      lookUpType: "contains",
+      value: null,
+      label: "Object ID"
     }
-  },
-  lookUpTypes: {
-    common: [
-      "Is equal to",
-      "Is not equal to",
-      "Contains",
-      "Contains any word",
-      "Contains all words",
-      "Starts with",
-      "Does not start with",
-      "Ends with",
-      "Does not end with",
-      "Does not contains",
-      "Length is shorter than",
-      "Length is longer than",
-      "Reqular expression"
-    ],
-    objects: ["- Any -", "Minerals only", "Fossils only"],
-    url: ["- Any -", "Yes", "No"]
-  },
-  fastSearch: "",
-  response: {
-    numFound: 0,
-    docs: []
-  },
+  ],
+  lookUpTypes: [
+    "contains",
+    "equals",
+    "starts with",
+    "does not contain",
+    "greater than",
+    "smaller than"
+  ],
   paginateByItems: [
     { text: "Paginate by 10", value: 10 },
     { text: "Paginate by 25", value: 25 },

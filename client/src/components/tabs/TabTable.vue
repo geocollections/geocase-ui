@@ -1,19 +1,19 @@
 <template>
-  <v-card flat v-if="response !== null">
+  <v-card flat>
     <v-data-table
       class="table mt-3"
       dense
       hide-default-footer
       :headers="headers"
-      :items="response.docs"
-      :items-per-page="searchParameters.paginateBy"
+      :items="responseResults"
+      :items-per-page="paginateBy"
       multi-sort
-      :page="searchParameters.page"
-      :sort-by="searchParameters.sortBy"
-      :sort-desc="searchParameters.sortDesc"
+      :page="page"
+      :sort-by="sortBy"
+      :sort-desc="sortDesc"
       @update:sort-by="$emit('sortBy:changed', $event)"
       @update:sort-desc="$emit('sortDesc:changed', $event)"
-      :server-items-length="response.numFound"
+      :server-items-length="responseResultsCount"
     >
       <template v-slot:no-data>
         <v-row class="mx-0" justify="center">
@@ -128,24 +128,31 @@
 
 <script>
 export default {
-  name: "Table",
+  name: "TabTable",
   props: {
-    response: {
-      type: Object,
+    responseResults: {
+      type: Array,
       required: true
     },
-
-    searchParameters: {
-      type: Object,
-      required: true,
-      default: function() {
-        return {
-          page: 1,
-          paginateBy: 25,
-          sortBy: ["fullscientificname"],
-          sortDesc: [false]
-        };
-      }
+    responseResultsCount: {
+      type: Number,
+      required: true
+    },
+    page: {
+      type: Number,
+      required: true
+    },
+    paginateBy: {
+      type: Number,
+      required: true
+    },
+    sortBy: {
+      type: Array,
+      required: true
+    },
+    sortDesc: {
+      type: Array,
+      required: true
     }
   },
 

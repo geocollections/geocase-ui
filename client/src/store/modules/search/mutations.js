@@ -1,20 +1,42 @@
-import { cloneDeep } from "lodash";
-
 const mutations = {
-  UPDATE_DETAIL_SEARCH(state, payload) {
-    state.detailSearch = cloneDeep(payload);
+  UPDATE_RESPONSE_RESULTS(state, payload) {
+    state.responseResults = payload;
   },
 
-  UPDATE_FAST_SEARCH(state, payload) {
-    state.fastSearch = payload;
+  UPDATE_RESPONSE_RESULTS_COUNT(state, payload) {
+    state.responseResultsCount = payload;
   },
 
-  UPDATE_SEARCH_PARAMETERS(state, payload) {
-    state.searchParameters = payload;
+  UPDATE_PAGE(state, payload) {
+    state.page = payload;
   },
 
-  UPDATE_RESPONSE(state, payload) {
-    state.response = cloneDeep(payload);
+  UPDATE_PAGINATE_BY(state, payload) {
+    state.paginateBy = payload;
+  },
+
+  UPDATE_SORT_BY(state, payload) {
+    state.sortBy = payload;
+  },
+
+  UPDATE_SORT_DESC(state, payload) {
+    state.sortDesc = payload;
+  },
+
+  UPDATE_SEARCH_FIELD(state, payload) {
+    let currentItemIndex = -1;
+    let currentItem = state.searchFields.find((item, index) => {
+      if (item.field === payload.field) {
+        currentItemIndex = index;
+        return true;
+      } else return false;
+    });
+    if (currentItemIndex !== -1 && currentItem) {
+      state.searchFields[currentItemIndex] = {
+        ...currentItem,
+        ...payload
+      };
+    }
   }
 };
 

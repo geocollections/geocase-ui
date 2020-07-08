@@ -1,5 +1,5 @@
 <template>
-  <v-card flat v-if="response !== null">
+  <v-card flat>
     <v-row class="mx-0" v-if="images.length > 0">
       <v-col
         v-for="(image, index) in images"
@@ -104,19 +104,23 @@
 
 <script>
 export default {
-  name: "Images",
+  name: "TabImages",
 
   props: {
-    response: {
-      type: Object,
+    responseResults: {
+      type: Array,
+      required: true
+    },
+    responseResultsCount: {
+      type: Number,
       required: true
     }
   },
 
   computed: {
     images() {
-      if (this.response !== null && this.response.numFound > 0) {
-        return this.response.docs.filter(image => !!image.url);
+      if (this.responseResultsCount > 0) {
+        return this.responseResults.filter(image => !!image.url);
       } else return [];
     }
   }

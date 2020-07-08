@@ -1,10 +1,10 @@
 <template>
   <v-container fluid>
-    <ScrollToTop />
+    <scroll-to-top />
 
     <div class="d-flex flex-column flex-md-row justify-space-between">
       <div :class="{ 'main-search pr-3': $vuetify.breakpoint.mdAndUp }">
-        <DetailSearch class="mb-3" />
+        <advanced-search class="mb-3" />
       </div>
 
       <div :class="{ 'main-table': $vuetify.breakpoint.mdAndUp }">
@@ -19,25 +19,23 @@
             >
             <v-icon left color="primary" large v-else>far fa-map</v-icon>
 
-            <span class="mr-1">{{ response.numFound }}</span>
+            <span class="mr-1">{{ responseResultsCount }}</span>
             <span class="mr-1">{{
-              `record${response.numFound === 1 ? "" : "s"} found`
+              `record${responseResultsCount === 1 ? "" : "s"} found`
             }}</span>
-            <span class="hidden-sm-and-up">{{
-              `(page: ${searchParameters.page})`
-            }}</span>
+            <span class="hidden-sm-and-up">{{ `(page: ${page})` }}</span>
           </v-card-title>
 
           <!-- PAGINATION -->
-          <Pagination
-            v-if="response && response.numFound"
-            :paginate-by="searchParameters.paginateBy"
+          <pagination
+            v-if="responseResultsCount > 10"
+            :paginate-by="paginateBy"
             :paginate-by-items="paginateByItems"
-            @update:paginateBy="paginateByChanged"
-            :results="response.docs"
-            :page="searchParameters.page"
-            :number-of-results="response.numFound"
-            @update:page="pageChanged"
+            @update:paginateBy="updatePaginateBy($event)"
+            :results="responseResults"
+            :page="page"
+            :number-of-results="responseResultsCount"
+            @update:page="updatePage($event)"
           />
 
           <v-tabs
@@ -62,17 +60,29 @@
           <v-tabs-items v-model="tab" touchless>
             <v-tab-item v-for="item in tabItems" :key="item">
               <v-card flat>
-                <Table
+                <tab-table
                   v-if="item === 'table'"
-                  :response="response"
-                  :search-parameters="searchParameters"
-                  v-on:sortBy:changed="sortByChanged"
-                  v-on:sortDesc:changed="sortDescChanged"
+                  :response-results="responseResults"
+                  :response-results-count="responseResultsCount"
+                  :page="page"
+                  :paginate-by="paginateBy"
+                  :sort-by="sortBy"
+                  :sort-desc="sortDesc"
+                  v-on:sortBy:changed="updateSortBy($event)"
+                  v-on:sortDesc:changed="updateSortDesc($event)"
                 />
 
-                <Images v-if="item === 'images'" :response="response" />
+                <tab-images
+                  v-if="item === 'images'"
+                  :response-results="responseResults"
+                  :response-results-count="responseResultsCount"
+                />
 
-                <Map v-if="item === 'map'" :response="response" />
+                <tab-map
+                  v-if="item === 'map'"
+                  :response-results="responseResults"
+                  :response-results-count="responseResultsCount"
+                />
               </v-card>
             </v-tab-item>
           </v-tabs-items>
@@ -83,171 +93,57 @@
 </template>
 
 <script>
-import DetailSearch from "@/components/search/DetailSearch";
 import debounce from "lodash/debounce";
-import Table from "@/components/tabs/Table";
-import Images from "@/components/tabs/Images";
-import Map from "@/components/tabs/Map";
 import ScrollToTop from "@/components/partial/ScrollToTop";
 import { mapActions, mapState } from "vuex";
 import Pagination from "../components/search/Pagination";
+import AdvancedSearch from "../components/search/AdvancedSearch";
+import TabImages from "../components/tabs/TabImages";
+import TabMap from "../components/tabs/TabMap";
+import TabTable from "../components/tabs/TabTable";
 
 export default {
   name: "Dashboard",
 
   components: {
+    TabTable,
+    TabMap,
+    TabImages,
+    AdvancedSearch,
     Pagination,
-    ScrollToTop,
-    Map,
-    Images,
-    Table,
-    DetailSearch
+    ScrollToTop
   },
 
   data: () => ({
     tab: null,
-    tabItems: ["table", "images", "map"],
-    detailViewDialog: false
+    tabItems: ["table", "images", "map"]
   }),
 
   computed: {
     ...mapState("search", [
-      "detailSearch",
-      "fastSearch",
-      "searchParameters",
-      "paginateByItems",
-      "response"
+      "responseResults",
+      "responseResultsCount",
+      "page",
+      "paginateBy",
+      "sortBy",
+      "sortDesc",
+      "paginateByItems"
     ])
   },
 
-  watch: {
-    fastSearch(newVal) {
-      this.updateSearchParameters({ ...this.searchParameters, page: 1 });
-      if (
-        this.searchParameters.sortBy.length === 1 &&
-        this.searchParameters.sortBy[0] === "fullscientificname" &&
-        this.searchParameters.sortDesc[0] === false
-      ) {
-        this.updateSearchParameters({
-          ...this.searchParameters,
-          sortBy: [],
-          sortDesc: []
-        });
-      }
-
-      this.doFastSearch({
-        fastSearch: newVal,
-        page: this.searchParameters.page,
-        paginateBy: this.searchParameters.paginateBy,
-        sortBy: this.searchParameters.sortBy,
-        sortDesc: this.searchParameters.sortDesc
-      });
-    },
-
-    detailSearch: {
-      handler(newVal) {
-        this.updateSearchParameters({ ...this.searchParameters, page: 1 });
-        if (
-          this.searchParameters.sortBy.length === 1 &&
-          this.searchParameters.sortBy[0] === "fullscientificname" &&
-          this.searchParameters.sortDesc[0] === false
-        ) {
-          this.updateSearchParameters({
-            ...this.searchParameters,
-            sortBy: [],
-            sortDesc: []
-          });
-        }
-
-        this.doDetailSearch({
-          detailSearch: newVal,
-          page: this.searchParameters.page,
-          paginateBy: this.searchParameters.paginateBy,
-          sortBy: this.searchParameters.sortBy,
-          sortDesc: this.searchParameters.sortDesc
-        });
-      },
-      deep: true
-    },
-
-    response(newVal) {
-      if (newVal && newVal.numFound) {
-        this.detailViewDialog = newVal.numFound === 1;
-      }
-    }
-  },
-
   async created() {
-    if (
-      this.fastSearch === "" &&
-      this.response &&
-      this.response.numFound &&
-      this.response.numFound === 0
-    ) {
-      await this.doFastSearch({
-        fastSearch: "*",
-        page: this.searchParameters.page,
-        paginateBy: this.searchParameters.paginateBy,
-        sortBy: this.searchParameters.sortBy,
-        sortDesc: this.searchParameters.sortDesc
-      });
-    } else {
-      await this.doFastSearch({
-        fastSearch: this.fastSearch,
-        page: this.searchParameters.page,
-        paginateBy: this.searchParameters.paginateBy,
-        sortBy: this.searchParameters.sortBy,
-        sortDesc: this.searchParameters.sortDesc
-      });
-    }
+    // Todo: Check route query only on created
+    await this.search();
   },
 
   methods: {
-    ...mapActions("search", ["updateSearchParameters", "updateSearch"]),
-
-    doDetailSearch: debounce(async function(searchParams) {
-      this.updateSearch({ params: searchParams, type: "detail" });
-    }, 0),
-
-    doFastSearch: debounce(async function(searchParams) {
-      this.updateSearch({ params: searchParams, type: "fast" });
-    }, 0),
-
-    updateSearchQuery: debounce(async function(searchParams) {
-      searchParams.fastSearch = this.fastSearch;
-      searchParams.detailSearch = this.detailSearch;
-      this.updateSearch({ params: searchParams, type: "update" });
-    }, 10),
-
-    pageChanged(newPage) {
-      this.updateSearchParameters({ ...this.searchParameters, page: newPage });
-      this.updateSearchQuery(this.searchParameters);
-    },
-
-    paginateByChanged(newPaginateBy) {
-      this.updateSearchParameters({
-        ...this.searchParameters,
-        page: 1,
-        paginateBy: newPaginateBy
-      });
-      this.updateSearchQuery(this.searchParameters);
-    },
-
-    sortByChanged(newSortBy) {
-      this.updateSearchParameters({
-        ...this.searchParameters,
-        sortBy: newSortBy
-      });
-      this.updateSearchQuery(this.searchParameters);
-    },
-
-    sortDescChanged(newSortDesc) {
-      this.updateSearchParameters({
-        ...this.searchParameters,
-        sortDesc: newSortDesc
-      });
-      this.updateSearchQuery(this.searchParameters);
-    }
+    ...mapActions("search", [
+      "updatePage",
+      "updatePaginateBy",
+      "updateSortBy",
+      "updateSortDesc",
+      "search"
+    ])
   }
 };
 </script>

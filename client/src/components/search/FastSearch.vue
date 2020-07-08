@@ -1,5 +1,9 @@
 <template>
-  <v-row no-gutters :justify="!inAppHeader ? 'center' : 'end'" :class="{ 'py-6': !inAppHeader }">
+  <v-row
+    no-gutters
+    :justify="!inAppHeader ? 'center' : 'end'"
+    :class="{ 'py-6': !inAppHeader }"
+  >
     <v-col
       :cols="!inAppHeader ? 10 : 12"
       :sm="!inAppHeader ? 6 : 12"
@@ -27,7 +31,7 @@
 
 <script>
 import TextFieldWrapper from "../input_wrappers/TextFieldWrapper";
-import { mapActions } from "vuex";
+import { mapActions, mapState } from "vuex";
 import HelpButton from "./fast_search/HelpButton";
 import { debounce } from "lodash";
 export default {
@@ -44,30 +48,22 @@ export default {
   }),
 
   computed: {
+    ...mapState("search", ["searchFields"]),
+
     fastSearch: {
       get() {
-        return this.$store.state.search.fastSearch;
+        return this.searchFields[0].value;
       },
-      set(value) {
-        console.log("value");
-        console.log(value);
-        this.$router.push({ path: "/", query: { search: value || undefined } });
-      }
-    }
-  },
 
-  watch: {
-    "$route.query": {
-      handler: function(newVal) {
-        if (newVal && newVal.search) this.updateFastSearch(newVal.search);
-        else this.updateFastSearch("");
-      },
-      immediate: true
+      set: debounce(function(value) {
+        console.log(value);
+        this.updateSearchField({ field: "fastsearch", value: value });
+      }, 500)
     }
   },
 
   methods: {
-    ...mapActions("search", ["updateFastSearch"]),
+    ...mapActions("search", ["updateSearchField"]),
 
     handleHelpButtonClick() {
       this.showHelp = !this.showHelp;
