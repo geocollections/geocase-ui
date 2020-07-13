@@ -5,8 +5,8 @@ const apiProxy = proxy({
   pathRewrite: { '^/api': '' },
   auth: `${process.env.API_USER}:${process.env.API_PASS}`,
   changeOrigin: true,
-  proxyTimeout: 100,
-  timeout: 5000
+  proxyTimeout: 20000,
+  timeout: 20000
 });
 
 module.exports = apiProxy
