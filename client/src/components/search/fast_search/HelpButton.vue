@@ -7,10 +7,14 @@
     :max-width="$vuetify.breakpoint.mdAndUp ? '960px' : ''"
   >
     <v-card>
-      <v-card-title class="font-weight-medium pb-3" style="font-size: 2rem">Search help</v-card-title>
+      <v-card-title class="font-weight-medium pb-3" style="font-size: 2rem"
+        >Search help</v-card-title
+      >
       <v-divider></v-divider>
 
-      <v-card-text style="max-height: 350px; padding: 20px 24px 20px; font-size: 1.125rem">
+      <v-card-text
+        style="max-height: 350px; padding: 20px 24px 20px; font-size: 1.125rem"
+      >
         <v-row no-gutters justify="center">
           <v-col cols="12" md="10" lg="9">
             <ul>
@@ -96,7 +100,7 @@ export default {
   text-decoration: none;
 }
 
-  ul > li {
-    padding: 4px 0;
-  }
+ul > li {
+  padding: 4px 0;
+}
 </style>

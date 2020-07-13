@@ -15,9 +15,11 @@ export default new Vuetify({
         info: "#2196F3",
         success: "#4CAF50",
         warning: "#FFC107",
+        main: "#FFA000",
+        fossil: "#8BC34A",
         mineral: "#E91E63",
-        rock: "#0288D1",
-        meteorite: "#689F38"
+        rock: "#03A9F4",
+        meteorite: "#607D8B"
       }
     }
   },

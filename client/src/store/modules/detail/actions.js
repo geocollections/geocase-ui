@@ -5,7 +5,7 @@ const actions = {
     try {
       const response = await SearchService.getDetailView(id);
       if (response) {
-        commit("UPDATE_RESPONSE", response.response);
+        commit("UPDATE_RESPONSE", response?.response?.docs || []);
 
         if (response.numFound === 0) {
           dispatch(

@@ -16,8 +16,11 @@
         v-model="fastSearch"
         label="Fast search"
         :append-outer-icon="!inAppHeader ? 'far fa-question-circle' : ''"
-        @click:append-outer="!inAppHeader ? handleHelpButtonClick : ''"
-        clearable
+        @click:append-outer="handleHelpButtonClick"
+        :append-icon="inAppHeader ? 'fas fa-search' : ''"
+        @click:append="doFastSearch"
+        @keyup.native="doFastSearch"
+        :clearable="!inAppHeader"
         light
         clear-icon="fas fa-times"
         :height="!inAppHeader ? '60' : ''"
@@ -31,9 +34,10 @@
 
 <script>
 import TextFieldWrapper from "../input_wrappers/TextFieldWrapper";
-import { mapActions, mapState } from "vuex";
+import { mapActions, mapGetters, mapState } from "vuex";
 import HelpButton from "./fast_search/HelpButton";
 import { debounce } from "lodash";
+import queryMixin from "../../mixins/queryMixin";
 export default {
   name: "FastSearch",
 
@@ -42,6 +46,8 @@ export default {
   },
 
   components: { HelpButton, TextFieldWrapper },
+
+  mixins: [queryMixin],
 
   data: () => ({
     showHelp: false
@@ -55,15 +61,28 @@ export default {
         return this.searchFields[0].value;
       },
 
-      set: debounce(function(value) {
-        console.log(value);
+      set(value) {
         this.updateSearchField({ field: "fastsearch", value: value });
-      }, 500)
+      }
     }
   },
 
   methods: {
     ...mapActions("search", ["updateSearchField"]),
+
+    doFastSearch(event) {
+      if (
+        this.inAppHeader &&
+        (event.type === "click" ||
+          event.keyCode === 13 ||
+          event.key === "Enter")
+      ) {
+        this.$router.push({
+          name: "Dashboard",
+          query: { ...this.$route.query, fastsearch: this.fastSearch }
+        });
+      }
+    },
 
     handleHelpButtonClick() {
       this.showHelp = !this.showHelp;

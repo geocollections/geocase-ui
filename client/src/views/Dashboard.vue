@@ -101,6 +101,7 @@ import AdvancedSearch from "../components/search/AdvancedSearch";
 import TabImages from "../components/tabs/TabImages";
 import TabMap from "../components/tabs/TabMap";
 import TabTable from "../components/tabs/TabTable";
+import queryMixin from "../mixins/queryMixin";
 
 export default {
   name: "Dashboard",
@@ -113,6 +114,8 @@ export default {
     Pagination,
     ScrollToTop
   },
+
+  mixins: [queryMixin],
 
   data: () => ({
     tab: null,
@@ -131,10 +134,20 @@ export default {
     ])
   },
 
-  async created() {
-    // Todo: Check route query only on created
-    await this.search();
+  watch: {
+    "$route.query": {
+      handler(newVal) {
+        this.deconstructQueryParams(newVal);
+        this.search();
+      },
+      immediate: true
+    }
   },
+
+  // async created() {
+  //   // Todo: Check route query only on created
+  //   await this.search();
+  // },
 
   methods: {
     ...mapActions("search", [

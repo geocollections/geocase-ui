@@ -20,7 +20,7 @@
           cols="12"
           sm="4"
           md="12"
-          v-for="(item, key) in searchFields"
+          v-for="(item, key) in filteredSearchFields"
           :key="key"
         >
           <v-row no-gutters>
@@ -37,7 +37,6 @@
               <SearchField
                 :value="item.value"
                 @input="updateSearchFieldDebounced({ ...item, value: $event })"
-                @click:clear="updateSearchField({ ...item, value: null })"
                 dense
                 clearable
                 clear-icon="fas fa-times"
@@ -53,24 +52,39 @@
 <script>
 import SearchLookUpType from "../input_wrappers/SelectWrapper";
 import SearchField from "../input_wrappers/TextFieldWrapper";
-import { mapActions, mapState } from "vuex";
-import { debounce } from "lodash";
+import { mapActions, mapGetters, mapState } from "vuex";
+import { cloneDeep, debounce } from "lodash";
+import queryMixin from "../../mixins/queryMixin";
 
 export default {
   name: "AdvancedSearch",
 
   components: { SearchField, SearchLookUpType },
 
+  mixins: [queryMixin],
+
   data: () => ({
     showSearch: true
   }),
 
   computed: {
-    ...mapState("search", ["lookUpTypes"]),
-    ...mapState("search", {
-      searchFields: state => state.searchFields.slice(1)
-    })
+    ...mapState("search", ["lookUpTypes", "searchFields"]),
+
+    filteredSearchFields() {
+      let clonedSearchFields = cloneDeep(this.searchFields);
+      return clonedSearchFields.filter(item => item.field !== "fastsearch");
+    }
   },
+
+  watch: {
+    searchFields: {
+      handler(newVal) {
+        this.constructQueryParams(newVal);
+      },
+      deep: true
+    }
+  },
+
   methods: {
     ...mapActions("search", ["updateSearchField"]),
 

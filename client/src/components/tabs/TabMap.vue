@@ -33,7 +33,8 @@ export default {
     },
     responseResultsCount: {
       type: Number,
-      required: true
+      required: false,
+      default: 1
     },
     isDetailView: {
       type: Boolean,

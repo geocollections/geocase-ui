@@ -1,3 +1,5 @@
+import { cloneDeep } from "lodash";
+
 const mutations = {
   UPDATE_RESPONSE_RESULTS(state, payload) {
     state.responseResults = payload;
@@ -24,19 +26,32 @@ const mutations = {
   },
 
   UPDATE_SEARCH_FIELD(state, payload) {
+    let clonedSearchFields = cloneDeep(state.searchFields);
     let currentItemIndex = -1;
-    let currentItem = state.searchFields.find((item, index) => {
+
+    let currentItem = clonedSearchFields.find((item, index) => {
       if (item.field === payload.field) {
         currentItemIndex = index;
         return true;
       } else return false;
     });
+
     if (currentItemIndex !== -1 && currentItem) {
-      state.searchFields[currentItemIndex] = {
+      clonedSearchFields[currentItemIndex] = {
         ...currentItem,
         ...payload
       };
     }
+
+    state.searchFields = clonedSearchFields;
+  },
+
+  RESET_SEARCH_FIELDS(state) {
+    state.searchFields.forEach(item => {
+      if (item.field === "fastsearch") item.lookUpType = "";
+      else item.lookUpType = "contains";
+      item.value = null;
+    });
   }
 };
 

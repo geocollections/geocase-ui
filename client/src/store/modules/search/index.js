@@ -9,6 +9,15 @@ const state = {
   paginateBy: 50,
   sortBy: ["fullscientificname"],
   sortDesc: [false],
+  searchFieldList: [
+    "fastsearch",
+    "fullscientificname",
+    "highertaxon",
+    "stratigraphy",
+    "locality",
+    "collectioncode",
+    "unitid"
+  ],
   searchFields: [
     {
       fieldType: "text",

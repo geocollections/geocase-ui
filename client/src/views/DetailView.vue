@@ -128,7 +128,7 @@
             <v-card v-if="localityExists">
               <tab-map
                 style="margin-top: -12px"
-                :response="response"
+                :response-results="response"
                 :is-detail-view="true"
               />
             </v-card>
@@ -146,18 +146,13 @@ import TabMap from "../components/tabs/TabMap";
 export default {
   name: "DetailView",
 
-  components: {TabMap},
+  components: { TabMap },
 
   props: {
     id: {
       type: String,
       required: false
-    },
-    dataFromSearch: {
-      type: Object,
-      required: false
-    },
-    isDialog: Boolean
+    }
   },
 
   computed: {
@@ -191,15 +186,6 @@ export default {
       },
       immediate: true
     },
-    // ID is used when showing detail view in a dialog.
-    id: {
-      handler() {
-        if (this.isDialog && this.id && this.dataFromSearch) {
-          this.updateResponseFromSearch(this.dataFromSearch);
-        }
-      },
-      immediate: true
-    },
     item(newVal) {
       this.handleColorChange(newVal);
       if (newVal && newVal.url) this.getImageWidth(newVal.url);
@@ -212,11 +198,7 @@ export default {
   },
 
   methods: {
-    ...mapActions("detail", [
-      "getDetailView",
-      "updateImageWidth",
-      "updateResponseFromSearch"
-    ]),
+    ...mapActions("detail", ["getDetailView", "updateImageWidth"]),
 
     async getDetailViewData(id) {
       this.getDetailView(id);
@@ -243,15 +225,17 @@ export default {
     handleColorChange(item) {
       if (item) {
         if (this.isItemFossil) {
-          this.$vuetify.theme.themes.light.primary = "#FFA000";
+          this.$vuetify.theme.themes.light.primary = this.$vuetify.theme.themes.light.fossil;
         } else if (this.isItemMineral) {
-          this.$vuetify.theme.themes.light.primary = "#E91E63";
+          this.$vuetify.theme.themes.light.primary = this.$vuetify.theme.themes.light.mineral;
         } else if (this.isItemRock) {
-          this.$vuetify.theme.themes.light.primary = "#0288D1";
+          this.$vuetify.theme.themes.light.primary = this.$vuetify.theme.themes.light.rock;
         } else if (this.isItemMeteorite) {
-          this.$vuetify.theme.themes.light.primary = "#689F38";
-        } else this.$vuetify.theme.themes.light.primary = "#FFA000";
-      } else this.$vuetify.theme.themes.light.primary = "#FFA000";
+          this.$vuetify.theme.themes.light.primary = this.$vuetify.theme.themes.light.meteorite;
+        } else
+          this.$vuetify.theme.themes.light.primary = this.$vuetify.theme.themes.light.main;
+      } else
+        this.$vuetify.theme.themes.light.primary = this.$vuetify.theme.themes.light.main;
     }
   }
 };

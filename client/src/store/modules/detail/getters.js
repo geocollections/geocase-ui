@@ -1,10 +1,10 @@
 const getters = {
   itemExists: state => {
-    return state.response !== null && state.response.numFound > 0;
+    return state.response && state.response.length > 0 && state.response[0].id;
   },
 
   item: (state, getters) => {
-    return getters.itemExists ? state.response.docs[0] : [];
+    return getters.itemExists ? state.response[0] : [];
   },
 
   imageExists: (state, getters) => {

@@ -29,6 +29,10 @@ const actions = {
     commit("UPDATE_SEARCH_FIELD", payload);
   },
 
+  resetSearchFields({ commit }) {
+    commit("RESET_SEARCH_FIELDS");
+  },
+
   async search({ dispatch, commit, rootState, state }) {
     try {
       let params = {
