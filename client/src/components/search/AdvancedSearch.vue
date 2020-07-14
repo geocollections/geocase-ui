@@ -72,7 +72,7 @@ export default {
 
     filteredSearchFields() {
       let clonedSearchFields = cloneDeep(this.searchFields);
-      return clonedSearchFields.filter(item => item.field !== "fastsearch");
+      return clonedSearchFields.filter(item => item.field !== "q");
     }
   },
 

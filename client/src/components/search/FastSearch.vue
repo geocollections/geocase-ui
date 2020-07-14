@@ -62,7 +62,7 @@ export default {
       },
 
       set(value) {
-        this.updateSearchField({ field: "fastsearch", value: value });
+        this.updateSearchField({ field: "q", value: value });
       }
     }
   },
@@ -79,7 +79,7 @@ export default {
       ) {
         this.$router.push({
           name: "Dashboard",
-          query: { ...this.$route.query, fastsearch: this.fastSearch }
+          query: { ...this.$route.query, q: this.fastSearch, page: 1 }
         });
       }
     },

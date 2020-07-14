@@ -60,7 +60,7 @@ function buildSearchFieldsQuery(searchFields) {
     if (value && value.trim().length > 0) {
       let encodedObject = `fq=${name}:`;
       let encodedValue = encodeURIComponent(value);
-      if (name === "fastsearch") encodedObject = encodedObject.substring(1, 3);
+      if (name === "q") encodedObject = encodedObject.substring(1, 3);
 
       if (lookUpType === "") encodedObject += encodedValue;
       else if (lookUpType === "contains") encodedObject += `*${encodedValue}*`;
@@ -75,7 +75,7 @@ function buildSearchFieldsQuery(searchFields) {
         encodedObject += `[* TO ${encodedValue}]`;
 
       encodedData.push(encodedObject);
-    } else if (name === "fastsearch") encodedData.push("q=*");
+    } else if (name === "q") encodedData.push("q=*");
   });
 
   return encodedData.join("&");

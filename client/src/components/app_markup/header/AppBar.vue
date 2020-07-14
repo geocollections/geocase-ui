@@ -8,6 +8,7 @@
       style="z-index: 2000"
       elevation="12"
       :class="{ 'app-bar-front': $route.name === 'Dashboard' }"
+      hide-on-scroll
     >
       <v-app-bar-nav-icon
         @click.stop="$emit('update:drawer')"

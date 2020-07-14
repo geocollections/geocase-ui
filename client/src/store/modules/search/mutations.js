@@ -43,7 +43,11 @@ const mutations = {
       };
     }
 
-    state.searchFields = clonedSearchFields;
+    const currentStringifiedSearchFields = JSON.stringify(
+      cloneDeep(state.searchFields)
+    );
+    if (currentStringifiedSearchFields !== JSON.stringify(clonedSearchFields))
+      state.searchFields = clonedSearchFields;
   },
 
   UPDATE_SEARCH_PARAM(state, payload) {
@@ -51,31 +55,18 @@ const mutations = {
       let field = payload.field === "paginate_by" ? "paginateBy" : "page";
       if (payload.value) {
         let parsedInt = parseInt(payload.value);
-        if (parsedInt && !isNaN(parsedInt)) state[field] = parsedInt;
+        if (parsedInt && !isNaN(parsedInt) && state[field] !== parsedInt)
+          state[field] = parsedInt;
       } else state[field] = field === "page" ? 1 : 50;
     } else if (payload.field === "sort_by" || payload.field === "sort_desc") {
       let field = payload.field === "sort_by" ? "sortBy" : "sortDesc";
       if (payload.value && payload.value.trim().length > 0) {
         let value = payload.value.split(",");
         if (field === "sortDesc") value = value.map(item => item === "true");
-        state[field] = value;
+        if (JSON.stringify(state[field]) !== JSON.stringify(value))
+          state[field] = value;
       } else state[field] = [];
     }
-  },
-
-  RESET_SEARCH_FIELDS(state) {
-    state.searchFields.forEach(item => {
-      if (item.field === "fastsearch") item.lookUpType = "";
-      else item.lookUpType = "contains";
-      item.value = null;
-    });
-  },
-
-  RESET_SEARCH_PARAMS(state) {
-    state.page = 1;
-    state.paginateBy = 50;
-    state.sortBy = ["fullscientificname"];
-    state.sortDesc = [false];
   }
 };
 

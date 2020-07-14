@@ -12,7 +12,7 @@ const state = {
   searchFields: [
     {
       fieldType: "text",
-      field: "fastsearch",
+      field: "q",
       lookUpType: "",
       value: null,
       label: "Fast search"
@@ -78,7 +78,7 @@ const state = {
     { text: "Paginate by 1000", value: 1000 }
   ],
   searchFieldList: [
-    "fastsearch",
+    "q",
     "fullscientificname",
     "highertaxon",
     "stratigraphy",

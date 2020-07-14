@@ -1,5 +1,5 @@
 import { mapActions, mapState } from "vuex";
-import { cloneDeep } from "lodash";
+import { cloneDeep, isEqual } from "lodash";
 
 const queryMixin = {
   computed: {
@@ -11,11 +11,7 @@ const queryMixin = {
   },
 
   methods: {
-    ...mapActions("search", [
-      "updateSearchField",
-      "updateSearchParam",
-      "resetSearch"
-    ]),
+    ...mapActions("search", ["updateSearchField", "updateSearchParam"]),
 
     constructQueryParams(searchFields, searchParams) {
       let appendableQuery = cloneDeep(this.$route.query);
@@ -50,11 +46,12 @@ const queryMixin = {
       }
 
       const newQueryParams = appendableQuery;
-      const currentQuery = JSON.stringify(this.$route.query);
-      const newQuery = JSON.stringify(newQueryParams);
 
-      if (currentQuery !== newQuery)
-        this.$router.push({ name: "Dashboard", query: newQueryParams });
+      if (!isEqual(this.$route.query, newQueryParams))
+        this.$router.push({
+          name: "Dashboard",
+          query: cloneDeep(newQueryParams)
+        });
     },
 
     deconstructQueryParams(queryParams) {
@@ -69,7 +66,7 @@ const queryMixin = {
 
           if (
             this.lookUpTypes.includes(lookUpType) ||
-            (field === "fastsearch" && lookUpType === "")
+            (field === "q" && lookUpType === "")
           ) {
             let value = item[1] || null;
 

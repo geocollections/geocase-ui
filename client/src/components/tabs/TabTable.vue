@@ -2,6 +2,7 @@
   <v-card flat>
     <v-data-table
       class="table mt-3"
+      mobile-breakpoint="0"
       dense
       hide-default-footer
       :headers="headers"
