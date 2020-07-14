@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "export NODE_ENV=production && export PORT=8000 && node -r dotenv/config server/index.js",
+    "dev_mock": "export NODE_ENV=development && export USE_MOCK_DATA=true && nodemon -r dotenv/config server/index.js",
     "dev": "export NODE_ENV=development && nodemon -r dotenv/config server/index.js"
   },
   "repository": {

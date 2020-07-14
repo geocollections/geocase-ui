@@ -1,6 +1,6 @@
 const getters = {
   itemExists: state => {
-    return state.response && state.response.length > 0 && state.response[0].id;
+    return state.response && state.response.length > 0 && state.response?.[0]?.id;
   },
 
   item: (state, getters) => {

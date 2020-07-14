@@ -141,13 +141,20 @@ export default {
         this.search();
       },
       immediate: true
+    },
+    page(newVal) {
+      this.constructQueryParams(null, { page: newVal });
+    },
+    paginateBy(newVal) {
+      this.constructQueryParams(null, { paginate_by: newVal, page: 1 });
+    },
+    sortDesc(newVal) {
+      this.constructQueryParams(null, {
+        sort_desc: newVal,
+        sort_by: this.sortBy
+      });
     }
   },
-
-  // async created() {
-  //   // Todo: Check route query only on created
-  //   await this.search();
-  // },
 
   methods: {
     ...mapActions("search", [

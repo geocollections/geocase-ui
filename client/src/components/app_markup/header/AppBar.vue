@@ -69,7 +69,7 @@ export default {
   methods: {
     goToFrontPage() {
       if (window.location.pathname === "/") {
-        window.location.assign(window.location.href);
+        window.location.assign(window.location.origin);
       } else this.$router.push({ path: "/" });
     }
   }

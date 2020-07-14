@@ -27,7 +27,7 @@ class SearchService {
 
   static async getDetailView(id) {
     try {
-      let url = `${API_URL}?q=id:${id}`;
+      let url = `${API_URL}?q=id:${decodeURIComponent(id)}`;
 
       const res = await axios.get(url);
       return res.data;
@@ -62,8 +62,8 @@ function buildSearchFieldsQuery(searchFields) {
       let encodedValue = encodeURIComponent(value);
       if (name === "fastsearch") encodedObject = encodedObject.substring(1, 3);
 
-      if (lookUpType === "contains" || lookUpType === "")
-        encodedObject += `*${encodedValue}*`;
+      if (lookUpType === "") encodedObject += encodedValue;
+      else if (lookUpType === "contains") encodedObject += `*${encodedValue}*`;
       else if (lookUpType === "equals") encodedObject += `"${encodedValue}"`;
       else if (lookUpType === "starts with")
         encodedObject += `${encodedValue}*`;
@@ -75,7 +75,7 @@ function buildSearchFieldsQuery(searchFields) {
         encodedObject += `[* TO ${encodedValue}]`;
 
       encodedData.push(encodedObject);
-    }
+    } else if (name === "fastsearch") encodedData.push("q=*");
   });
 
   return encodedData.join("&");

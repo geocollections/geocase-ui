@@ -25,7 +25,8 @@ if (process.env.NODE_ENV === 'production') {
   // Handle SPA
   app.get(/.*/, (req, res) => res.sendFile(__dirname + '/public/index.html'))
 } else {
-  app.use('/api', apiMock);
+  if (process.env.USE_MOCK_DATA) app.use('/api', apiMock);
+  else app.use('/api', api);
 }
 
 const PORT = process.env.PORT || 5000;

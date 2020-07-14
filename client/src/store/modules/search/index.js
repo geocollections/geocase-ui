@@ -9,15 +9,6 @@ const state = {
   paginateBy: 50,
   sortBy: ["fullscientificname"],
   sortDesc: [false],
-  searchFieldList: [
-    "fastsearch",
-    "fullscientificname",
-    "highertaxon",
-    "stratigraphy",
-    "locality",
-    "collectioncode",
-    "unitid"
-  ],
   searchFields: [
     {
       fieldType: "text",
@@ -85,7 +76,17 @@ const state = {
     { text: "Paginate by 250", value: 250 },
     { text: "Paginate by 500", value: 500 },
     { text: "Paginate by 1000", value: 1000 }
-  ]
+  ],
+  searchFieldList: [
+    "fastsearch",
+    "fullscientificname",
+    "highertaxon",
+    "stratigraphy",
+    "locality",
+    "collectioncode",
+    "unitid"
+  ],
+  searchParamsList: ["page", "paginate_by", "sort_by", "sort_desc"]
 };
 
 export default {
