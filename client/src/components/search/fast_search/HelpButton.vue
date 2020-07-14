@@ -23,7 +23,7 @@
                 tables. Uppercase and lowercase is not differentiated, for
                 wildcard use asterisk (<a
                   class="help-link"
-                  href="http://geocase.geocollections.info?search=acrochordiceras"
+                  href="http://geocase.geocollections.info?fastsearch=acrochordiceras"
                   >*</a
                 >).
               </li>
@@ -36,7 +36,7 @@
                 instance:
                 <a
                   class="help-link"
-                  href="http://geocase.geocollections.info?search=%2Bacrochordiceras %2Bturkey -balarama"
+                  href="http://geocase.geocollections.info?fastsearch=%2Bacrochordiceras %2Bturkey -balarama"
                   >+acrochordiceras +turkey -balarama</a
                 >.
               </li>
@@ -48,7 +48,7 @@
                 for instance:
                 <a
                   class="help-link"
-                  href='http://geocase.geocollections.info?search="160-12"'
+                  href='http://geocase.geocollections.info?fastsearch="160-12"'
                   >"160-12"</a
                 >.
               </li>
@@ -58,7 +58,7 @@
                 you know names of database fields. For example, query by
                 <a
                   class="help-link"
-                  href="http://geocase.geocollections.info?search=stratigraphy:Burtnieki*"
+                  href="http://geocase.geocollections.info?fastsearch=stratigraphy:Burtnieki*"
                   >stratigraphy:Burtnieki*</a
                 >
                 will search all records, where stratigraphy is set to Burtnieki

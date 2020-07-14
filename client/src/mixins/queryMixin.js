@@ -19,11 +19,15 @@ const queryMixin = {
 
     constructQueryParams(searchFields, searchParams) {
       let appendableQuery = cloneDeep(this.$route.query);
-      let newQueryParams = {};
 
       if (searchFields) {
         searchFields.forEach(item => {
           let queryKey = item.field;
+
+          // Clearing previous keys
+          Object.keys(appendableQuery).forEach(item =>
+            item.includes(queryKey) ? delete appendableQuery[item] : ""
+          );
 
           if (item.value && item.value.trim().length > 0) {
             if (item.lookUpType)
@@ -45,8 +49,7 @@ const queryMixin = {
         });
       }
 
-      newQueryParams = appendableQuery;
-
+      const newQueryParams = appendableQuery;
       const currentQuery = JSON.stringify(this.$route.query);
       const newQuery = JSON.stringify(newQueryParams);
 
@@ -55,10 +58,6 @@ const queryMixin = {
     },
 
     deconstructQueryParams(queryParams) {
-      // this.resetSearch();
-
-      console.log(queryParams);
-
       Object.entries(queryParams).forEach(item => {
         let splitItem = item[0].split("__");
         let field = splitItem[0];

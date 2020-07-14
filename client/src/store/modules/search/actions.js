@@ -35,7 +35,7 @@ const actions = {
 
   resetSearch({ commit }) {
     commit("RESET_SEARCH_FIELDS");
-    commit("RESET_SEARCH_PARAMS");
+    // commit("RESET_SEARCH_PARAMS");
   },
 
   async search({ dispatch, commit, rootState, state }) {

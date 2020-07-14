@@ -78,12 +78,6 @@ export default {
 
 <style scoped>
 .app-bar-front {
-  /*background: linear-gradient(*/
-  /*  320deg,*/
-  /*  rgba(255, 193, 7, 0.46) 0%,*/
-  /*  rgba(255, 160, 0, 0.46) 100%*/
-  /*) !important;*/
-
   background: linear-gradient(
     320deg,
     rgba(0, 0, 0, 0.46) 0%,
@@ -92,12 +86,6 @@ export default {
 }
 
 .app-bar-front:hover {
-  /*background: linear-gradient(*/
-  /*  320deg,*/
-  /*  rgba(255, 193, 7, 1) 0%,*/
-  /*  rgba(255, 160, 0, 1) 100%*/
-  /*) !important;*/
-
   background: linear-gradient(
     320deg,
     rgba(0, 0, 0, 0.8) 0%,
