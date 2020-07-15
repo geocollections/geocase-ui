@@ -160,8 +160,7 @@ export default {
     localities() {
       if (this.responseResultsCount > 0) {
         return this.responseResults.filter(
-          locality =>
-            !!locality.locality && !!locality.latitude && !!locality.longitude
+          locality => !!locality.latitude && !!locality.longitude
         );
       } else return [];
     }
