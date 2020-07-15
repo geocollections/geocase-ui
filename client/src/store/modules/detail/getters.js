@@ -1,6 +1,8 @@
 const getters = {
   itemExists: state => {
-    return state.response && state.response.length > 0 && state.response?.[0]?.id;
+    return (
+      state.response && state.response.length > 0 && state.response?.[0]?.id
+    );
   },
 
   item: (state, getters) => {
@@ -29,21 +31,18 @@ const getters = {
     });
   },
 
-  /* Todo: Currently unused types:
+  /* Currently unused types aka unspecified:
    * OtherSpecimen
    * Unspecified
-   * SedimentSample
-   * TechnologicalSample
    * specimen
-   * RecentPreservedSpecimen
    */
   isItemFossil: (state, getters) => {
     if (getters.item) {
       let type = getters.item.recordbasis;
-      // Todo: Maybe add more?
       return (
         type === "FossileSpecimen" ||
         type === "FossilSpecimen" ||
+        type === "RecentPreservedSpecimen" ||
         type === "fossil"
       );
     } else return false;
@@ -52,7 +51,6 @@ const getters = {
   isItemMineral: (state, getters) => {
     if (getters.item) {
       let type = getters.item.recordbasis;
-      // Todo: Maybe add more?
       return type === "MineralSpecimen";
     } else return false;
   },
@@ -60,15 +58,17 @@ const getters = {
   isItemRock: (state, getters) => {
     if (getters.item) {
       let type = getters.item.recordbasis;
-      // Todo: Maybe add more?
-      return type === "RockSpecimen" || type === "SedimentSample";
+      return (
+        type === "RockSpecimen" ||
+        type === "SedimentSample" ||
+        type === "TechnologicalSample"
+      );
     } else return false;
   },
 
   isItemMeteorite: (state, getters) => {
     if (getters.item) {
       let type = getters.item.recordbasis;
-      // Todo: Maybe add more?
       return type === "MeteoriteSpecimen";
     } else return false;
   }

@@ -10,22 +10,26 @@
         md="3"
         lg="2"
       >
-        <v-tooltip bottom color="secondary" z-index="51000">
-          <template v-slot:activator="{ on }">
+        <v-tooltip bottom color="secondary" z-index="51000" max-width="250">
+          <template v-slot:activator="{ on, value }">
             <v-card
               flat
               class="d-flex image-hover"
+              color="transparent"
               v-on="on"
+              :elevation="value ? 12 : 0"
               hover
               :to="{ path: `detail/${image.id}` }"
             >
               <v-img
                 v-if="image.url"
                 max-height="400"
+                max-width="400"
+                contain
                 aspect-ratio="1"
                 :src="image.url"
                 :lazy-src="image.url"
-                class="amber lighten-5"
+                class="transparent"
               >
                 <template v-slot:placeholder>
                   <v-row

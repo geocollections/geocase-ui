@@ -61,9 +61,10 @@ export default {
         return this.searchFields[0].value;
       },
 
-      set(value) {
+      set: debounce(function(value) {
+        console.log(value);
         this.updateSearchField({ field: "q", value: value });
-      }
+      }, 250)
     }
   },
 
@@ -77,10 +78,12 @@ export default {
           event.keyCode === 13 ||
           event.key === "Enter")
       ) {
-        this.$router.push({
-          name: "Dashboard",
-          query: { ...this.$route.query, q: this.fastSearch, page: 1 }
-        });
+        setTimeout(() => {
+          this.$router.push({
+            name: "Dashboard",
+            query: { ...this.$route.query, q: this.fastSearch, page: 1 }
+          });
+        }, 250);
       }
     },
 

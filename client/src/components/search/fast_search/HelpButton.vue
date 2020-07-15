@@ -31,8 +31,8 @@
               <li>
                 In case of multiple terms the results will include any of the
                 terms. To require a specific keyword to be present, precede it
-                with '<b class="secondary--text">+</b>'. To exclude a term,
-                precede it with '<b class="secondary--text">-</b>'. For
+                with '<b class="secondary--text font-weight-black">+</b>'. To exclude a term,
+                precede it with '<b class="secondary--text font-weight-black">-</b>'. For
                 instance:
                 <a
                   class="help-link"
@@ -74,7 +74,7 @@
       <v-card-actions>
         <v-spacer></v-spacer>
 
-        <v-btn color="green darken-1" text @click="$emit('close')">
+        <v-btn color="green darken-1" large text @click="$emit('close')">
           OK
         </v-btn>
       </v-card-actions>
@@ -98,6 +98,10 @@ export default {
 .help-link {
   font-weight: bold;
   text-decoration: none;
+}
+
+.help-link:hover {
+  opacity: 0.7;
 }
 
 ul > li {

@@ -79,18 +79,30 @@ export default {
 
 <style scoped>
 .app-bar-front {
+  /*background: linear-gradient(*/
+  /*  320deg,*/
+  /*  rgba(0, 0, 0, 0.7) 0%,*/
+  /*  rgba(255, 160, 0, 0.7) 100%*/
+  /*) !important;*/
+
   background: linear-gradient(
     320deg,
-    rgba(0, 0, 0, 0.46) 0%,
-    rgba(255, 160, 0, 0.46) 100%
+    rgba(255, 160, 0, 0.7) 0%,
+    rgba(0, 0, 0, 0.7) 100%
   ) !important;
 }
 
 .app-bar-front:hover {
+  /*background: linear-gradient(*/
+  /*  320deg,*/
+  /*  rgba(0, 0, 0, 0.9) 0%,*/
+  /*  rgba(255, 160, 0, 0.9) 100%*/
+  /*) !important;*/
+
   background: linear-gradient(
     320deg,
-    rgba(0, 0, 0, 0.8) 0%,
-    rgba(255, 160, 0, 0.8) 100%
+    rgba(255, 160, 0, 0.9) 0%,
+    rgba(0, 0, 0, 0.9) 100%
   ) !important;
 }
 

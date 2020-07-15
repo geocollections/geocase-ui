@@ -25,8 +25,6 @@
         </v-btn>
       </v-card-text>
 
-      <v-divider />
-
       <v-card-text class="pa-1 text-center white--text">
         {{ new Date().getFullYear() }} - <strong>GeoCASe</strong>
       </v-card-text>

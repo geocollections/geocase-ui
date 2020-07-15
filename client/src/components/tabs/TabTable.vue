@@ -111,9 +111,10 @@
           <v-img
             max-height="200"
             max-width="200"
+            contain
             :src="item.url"
             :lazy-src="item.url"
-            class="amber lighten-5"
+            class="transparent"
           >
             <template v-slot:placeholder>
               <v-row class="fill-height ma-0" align="center" justify="center">
@@ -195,25 +196,27 @@ export default {
       window.open(url, "MindatWindow", "width=800,height=750");
     },
 
-    /* Todo: Currently unused types:
+    /* Currently unused types aka unspecified
      * OtherSpecimen
      * Unspecified
-     * SedimentSample
-     * TechnologicalSample
      * specimen
-     * RecentPreservedSpecimen
      */
     getItemType(item) {
       let type = item.recordbasis;
       if (
         type === "FossileSpecimen" ||
         type === "FossilSpecimen" ||
+        type === "RecentPreservedSpecimen" ||
         type === "fossil"
       ) {
         return "fossil";
       } else if (type === "MineralSpecimen") {
         return "mineral";
-      } else if (type === "RockSpecimen" || type === "SedimentSample") {
+      } else if (
+        type === "RockSpecimen" ||
+        type === "SedimentSample" ||
+        type === "TechnologicalSample"
+      ) {
         return "rock";
       } else if (type === "MeteoriteSpecimen") {
         return "meteorite";

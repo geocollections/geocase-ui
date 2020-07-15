@@ -109,6 +109,8 @@
                 :src="item.url"
                 :lazy-src="item.url"
                 :max-width="imageWidth"
+                contain
+                :max-height="imageHeight"
               >
                 <template v-slot:placeholder>
                   <v-row
@@ -161,7 +163,8 @@ export default {
       "error",
       "showError",
       "itemHeaders",
-      "imageWidth"
+      "imageWidth",
+      "imageHeight"
     ]),
 
     ...mapGetters("detail", [
