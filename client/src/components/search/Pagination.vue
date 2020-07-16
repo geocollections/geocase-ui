@@ -27,7 +27,7 @@
         prev-icon="fas fa-angle-left"
         next-icon="fas fa-angle-right"
         :length="Math.ceil(numberOfResults / paginateBy)"
-        :total-visible="$vuetify.breakpoint.smAndDown ? 5 : 7"
+        :total-visible="$vuetify.breakpoint.smAndDown ? ($vuetify.breakpoint.xsOnly ? 4 : 5) : 7"
         @input="$emit('update:page', $event)"
       />
     </div>
