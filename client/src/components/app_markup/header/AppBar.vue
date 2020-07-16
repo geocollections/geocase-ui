@@ -7,7 +7,13 @@
       :color="$route.name !== 'Dashboard' ? 'primary' : ''"
       style="z-index: 2000"
       elevation="12"
-      :class="{ 'app-bar-front': $route.name === 'Dashboard' }"
+      :class="{
+        'app-bar-primary': $route.name === 'Dashboard',
+        'app-bar-fossil': appBarFossil,
+        'app-bar-mineral': appBarMineral,
+        'app-bar-rock': appBarRock,
+        'app-bar-meteorite': appBarMeteorite
+      }"
       hide-on-scroll
     >
       <v-app-bar-nav-icon
@@ -64,9 +70,38 @@
 
 <script>
 import FastSearch from "../../search/FastSearch";
+import { mapGetters } from "vuex";
 export default {
   name: "AppBar",
+
   components: { FastSearch },
+
+  computed: {
+    ...mapGetters("detail", [
+      "item",
+      "isItemFossil",
+      "isItemMineral",
+      "isItemRock",
+      "isItemMeteorite"
+    ]),
+
+    appBarFossil() {
+      return this.$route.name === "Detail" && this.isItemFossil;
+    },
+
+    appBarMineral() {
+      return this.$route.name === "Detail" && this.isItemMineral;
+    },
+
+    appBarRock() {
+      return this.$route.name === "Detail" && this.isItemRock;
+    },
+
+    appBarMeteorite() {
+      return this.$route.name === "Detail" && this.isItemMeteorite;
+    }
+  },
+
   methods: {
     goToFrontPage() {
       if (window.location.pathname === "/") {
@@ -78,13 +113,7 @@ export default {
 </script>
 
 <style scoped>
-.app-bar-front {
-  /*background: linear-gradient(*/
-  /*  320deg,*/
-  /*  rgba(0, 0, 0, 0.7) 0%,*/
-  /*  rgba(255, 160, 0, 0.7) 100%*/
-  /*) !important;*/
-
+.app-bar-primary {
   background: linear-gradient(
     320deg,
     rgba(255, 160, 0, 0.7) 0%,
@@ -92,19 +121,77 @@ export default {
   ) !important;
 }
 
-.app-bar-front:hover {
-  /*background: linear-gradient(*/
-  /*  320deg,*/
-  /*  rgba(0, 0, 0, 0.9) 0%,*/
-  /*  rgba(255, 160, 0, 0.9) 100%*/
-  /*) !important;*/
-
+.app-bar-primary:hover {
   background: linear-gradient(
     320deg,
     rgba(255, 160, 0, 0.9) 0%,
     rgba(0, 0, 0, 0.9) 100%
   ) !important;
 }
+
+.app-bar-fossil {
+  background: linear-gradient(
+    320deg,
+    rgba(139, 195, 74, 0.9) 0%,
+    rgba(0, 0, 0, 0.9) 100%
+  ) !important;
+}
+
+/*.app-bar-fossil:hover {*/
+/*  background: linear-gradient(*/
+/*    320deg,*/
+/*    rgba(139, 195, 74, 0.9) 0%,*/
+/*    rgba(0, 0, 0, 0.9) 100%*/
+/*  ) !important;*/
+/*}*/
+
+.app-bar-mineral {
+  background: linear-gradient(
+    320deg,
+    rgba(233, 30, 99, 0.9) 0%,
+    rgba(0, 0, 0, 0.9) 100%
+  ) !important;
+}
+
+/*.app-bar-mineral:hover {*/
+/*  background: linear-gradient(*/
+/*    320deg,*/
+/*    rgba(233, 30, 99, 0.9) 0%,*/
+/*    rgba(0, 0, 0, 0.9) 100%*/
+/*  ) !important;*/
+/*}*/
+
+.app-bar-rock {
+  background: linear-gradient(
+    320deg,
+    rgba(3, 169, 244, 0.9) 0%,
+    rgba(0, 0, 0, 0.9) 100%
+  ) !important;
+}
+
+/*.app-bar-rock:hover {*/
+/*  background: linear-gradient(*/
+/*    320deg,*/
+/*    rgba(3, 169, 244, 0.9) 0%,*/
+/*    rgba(0, 0, 0, 0.9) 100%*/
+/*  ) !important;*/
+/*}*/
+
+.app-bar-meteorite {
+  background: linear-gradient(
+    320deg,
+    rgba(96, 125, 139, 0.9) 0%,
+    rgba(0, 0, 0, 0.9) 100%
+  ) !important;
+}
+
+/*.app-bar-meteorite:hover {*/
+/*  background: linear-gradient(*/
+/*    320deg,*/
+/*    rgba(96, 125, 139, 0.9) 0%,*/
+/*    rgba(0, 0, 0, 0.9) 100%*/
+/*  ) !important;*/
+/*}*/
 
 .link:hover {
   cursor: pointer;
