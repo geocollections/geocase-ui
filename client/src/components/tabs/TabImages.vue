@@ -19,7 +19,7 @@
               v-on="on"
               :elevation="value ? 12 : 0"
               hover
-              :to="{ path: `detail/${image.id}` }"
+              :to="{ path: `specimen/${image.id}` }"
             >
               <v-img
                 v-if="image.url"

@@ -18,8 +18,8 @@ const router = new Router({
       component: Dashboard
     },
     {
-      // path: "/detail/:id(\\d+)",
-      path: "/detail/:id",
+      // path: "/specimen/:id(\\d+)",
+      path: "/specimen/:id",
       name: "Detail",
       component: () => import("@/views/DetailView")
     }

@@ -36,7 +36,7 @@
         <router-link
           class="icon-link"
           style="text-decoration: unset;"
-          :to="{ path: `detail/${item.id}` }"
+          :to="{ path: `specimen/${item.id}` }"
           title="Go to detail view"
         >
           <v-icon small color="primary" v-if="getItemType(item) === 'fossil'"
@@ -63,7 +63,7 @@
       <template v-slot:item.unitid="{ item }">
         <router-link
           style="text-decoration: unset;"
-          :to="{ path: `detail/${item.id}` }"
+          :to="{ path: `specimen/${item.id}` }"
           title="Go to detail view"
         >
           {{ item.unitid }}
@@ -105,7 +105,7 @@
           flat
           class="my-3 image-hover"
           hover
-          :to="{ path: `detail/${item.id}` }"
+          :to="{ path: `specimen/${item.id}` }"
           title="Go to detail view"
         >
           <v-img

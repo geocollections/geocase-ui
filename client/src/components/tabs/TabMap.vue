@@ -234,7 +234,7 @@ export default {
               marker.on("click", () => {
                 if (window.location.pathname.includes("detail")) {
                   window.open(item.recordURI, "RecordUriWindow");
-                } else this.$router.push({ path: `detail/${item.id}` });
+                } else this.$router.push({ path: `specimen/${item.id}` });
               });
             }
             if (item.locality) {
