@@ -1,8 +1,8 @@
 <template>
   <v-card flat>
-    <v-row class="mx-0" v-if="images.length > 0">
+    <v-row class="mx-0" v-if="searchResultImages.length > 0">
       <v-col
-        v-for="(image, index) in images"
+        v-for="(image, index) in searchResultImages"
         :key="index"
         class="d-flex child-flex"
         cols="6"
@@ -11,36 +11,19 @@
         lg="2"
       >
         <v-tooltip bottom color="secondary" z-index="51000" max-width="250">
-          <template v-slot:activator="{ on, value }">
+          <template v-slot:activator="{ on }">
             <v-card
               flat
               class="d-flex image-hover"
               color="transparent"
               v-on="on"
-              :elevation="value ? 12 : 0"
               hover
               :to="{ path: `specimen/${image.id}` }"
             >
-              <v-img
-                v-if="image.url"
-                max-height="400"
-                max-width="400"
-                contain
-                aspect-ratio="1"
-                :src="image.url"
-                :lazy-src="image.url"
-                class="transparent"
-              >
-                <template v-slot:placeholder>
-                  <v-row
-                    class="fill-height ma-0"
-                    align="center"
-                    justify="center"
-                  >
-                    <v-progress-circular indeterminate color="grey lighten-5" />
-                  </v-row>
-                </template>
-              </v-img>
+              <image-wrapper
+                v-if="image.extractedImage"
+                :image-src="image.extractedImage"
+              />
 
               <v-row align="center" v-else>
                 <v-col class="text-center">
@@ -107,8 +90,13 @@
 </template>
 
 <script>
+import helperMixin from "../../mixins/helperMixin";
+import ImageWrapper from "../partial/image/ImageWrapper";
+
 export default {
   name: "TabImages",
+  components: { ImageWrapper },
+  mixins: [helperMixin],
 
   props: {
     responseResults: {
@@ -119,16 +107,16 @@ export default {
       type: Number,
       required: true
     }
-  },
-
-  computed: {
-    images() {
-      if (this.responseResultsCount > 0) {
-        return this.responseResults.filter(image => !!image.url);
-      } else return [];
-    }
   }
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.image-hover:hover {
+  opacity: 0.6;
+  transition: opacity 150ms ease-in;
+}
+.image-hover {
+  transition: opacity 150ms ease-in;
+}
+</style>

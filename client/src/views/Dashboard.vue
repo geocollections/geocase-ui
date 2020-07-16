@@ -2,12 +2,12 @@
   <v-container fluid>
     <scroll-to-top />
 
-    <div class="d-flex flex-column flex-md-row justify-space-between">
-      <div :class="{ 'main-search pr-3': $vuetify.breakpoint.mdAndUp }">
+    <div class="d-flex flex-column flex-lg-row justify-space-between">
+      <div :class="{ 'main-search pr-3': $vuetify.breakpoint.lgAndUp }">
         <advanced-search class="mb-3" />
       </div>
 
-      <div :class="{ 'main-table': $vuetify.breakpoint.mdAndUp }">
+      <div :class="{ 'main-table': $vuetify.breakpoint.lgAndUp }">
         <v-card>
           <!-- NUM OF ITEMS -->
           <v-card-title class="py-2 font-weight-bold" style="font-size: 1.5rem">

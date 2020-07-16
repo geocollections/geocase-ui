@@ -107,21 +107,10 @@
           hover
           :to="{ path: `specimen/${item.id}` }"
           title="Go to detail view"
+          max-height="200"
+          max-width="200"
         >
-          <v-img
-            max-height="200"
-            max-width="200"
-            contain
-            :src="item.url"
-            :lazy-src="item.url"
-            class="transparent"
-          >
-            <template v-slot:placeholder>
-              <v-row class="fill-height ma-0" align="center" justify="center">
-                <v-progress-circular indeterminate color="grey lighten-5" />
-              </v-row>
-            </template>
-          </v-img>
+          <image-wrapper max-height="200" :image-src="item.url" />
         </v-card>
       </template>
     </v-data-table>
@@ -129,8 +118,10 @@
 </template>
 
 <script>
+import ImageWrapper from "../partial/image/ImageWrapper";
 export default {
   name: "TabTable",
+  components: { ImageWrapper },
   props: {
     responseResults: {
       type: Array,

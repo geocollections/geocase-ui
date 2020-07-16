@@ -10,7 +10,7 @@ const getters = {
   },
 
   imageExists: (state, getters) => {
-    return getters.itemExists && getters.item && getters.item.url;
+    return getters.itemExists && getters.item && getters.item.images;
   },
 
   localityExists: (state, getters) => {

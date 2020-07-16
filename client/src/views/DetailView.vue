@@ -78,15 +78,6 @@
               >
             </template>
 
-            <template v-slot:item.url="{ item }">
-              <a
-                :href="item.url"
-                target="UrlWindow"
-                style="text-decoration: unset;"
-                >{{ item.url }}</a
-              >
-            </template>
-
             <template v-slot:item.relatedResource="{ item }">
               <a
                 :href="item.relatedResource"
@@ -97,36 +88,21 @@
             </template>
           </v-data-table>
         </v-card>
+
+        <v-card class="mt-6" v-if="detailViewImages.length > 1">
+          <image-overflow :images="detailViewImages" />
+        </v-card>
       </v-col>
 
       <v-col cols="12" sm="6">
         <v-row no-gutters>
-          <v-col cols="12">
-            <!-- IMAGES -->
-            <v-card class="mb-6" v-if="imageExists">
-              <v-img
-                class="mx-auto my-0"
-                :src="item.url"
-                :lazy-src="item.url"
-                :max-width="imageWidth"
-                contain
-                :max-height="imageHeight"
-              >
-                <template v-slot:placeholder>
-                  <v-row
-                    class="fill-height ma-0"
-                    align="center"
-                    justify="center"
-                  >
-                    <v-progress-circular indeterminate color="grey lighten-5" />
-                  </v-row>
-                </template>
-              </v-img>
-            </v-card>
+          <!-- IMAGES -->
+          <v-col cols="12" v-if="imageExists && detailViewImages.length > 0">
+            <image-carousel :images="detailViewImages" />
           </v-col>
 
+          <!-- MAP -->
           <v-col cols="12">
-            <!-- MAP -->
             <v-card v-if="localityExists">
               <tab-map
                 style="margin-top: -12px"
@@ -144,11 +120,16 @@
 <script>
 import { mapActions, mapGetters, mapState } from "vuex";
 import TabMap from "../components/tabs/TabMap";
+import helperMixin from "../mixins/helperMixin";
+import ImageCarousel from "../components/partial/image/ImageCarousel";
+import ImageOverflow from "../components/partial/image/ImageOverflow";
 
 export default {
   name: "DetailView",
 
-  components: { TabMap },
+  components: {ImageOverflow, ImageCarousel, TabMap },
+
+  mixins: [helperMixin],
 
   props: {
     id: {
@@ -253,7 +234,7 @@ export default {
 }
 
 .item-card >>> .v-data-table__mobile-row:hover {
-  background: #fff8e1;
+  /*background: #eee;*/
 }
 
 .item-card >>> .v-data-table__mobile-row {

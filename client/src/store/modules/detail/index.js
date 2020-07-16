@@ -16,7 +16,6 @@ const state = {
     { text: "Stratigraphy", value: "stratigraphy" },
     { text: "Mindat", value: "mindat_url" },
     { text: "Record URI", value: "recordURI" },
-    { text: "Url", value: "url" },
     { text: "Related resource", value: "relatedResource" }
   ],
   imageWidth: 400,
