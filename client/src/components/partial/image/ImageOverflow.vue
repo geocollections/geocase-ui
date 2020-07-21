@@ -6,7 +6,13 @@
       'overflow-x-auto flex-column': overflowX
     }"
   >
-    <v-dialog v-model="dialog" max-width="700" style="z-index: 3000;">
+    <v-dialog
+      v-model="dialog"
+      fullscreen
+      hide-overlay
+      transition="dialog-bottom-transition"
+      style="z-index: 3000;"
+    >
       <template v-slot:activator="{ on, attrs }">
         <v-card
           flat
@@ -21,18 +27,52 @@
         </v-card>
       </template>
 
-      <v-card>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn large icon color="primary" @click="dialog = false">
-            <v-icon large>fas fa-times</v-icon>
-          </v-btn>
-        </v-card-actions>
+      <v-card dark>
+        <v-toolbar dark color="primary">
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on }">
+              <v-btn v-on="on" dark icon @click="dialog = false">
+                <v-icon>fas fa-times</v-icon>
+              </v-btn>
+            </template>
+            <span>Close gallery</span>
+          </v-tooltip>
 
-        <image-wrapper
-          max-height="unset"
-          :image-src="images[currentIndex].extractedImage"
-        />
+          <v-toolbar-title>Image gallery</v-toolbar-title>
+
+          <v-spacer></v-spacer>
+
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on }">
+              <v-btn v-on="on" dark icon @click="showGallery = !showGallery">
+                <v-icon small>fas fa-th</v-icon>
+              </v-btn>
+            </template>
+            <span>{{ `${showGallery ? "Hide" : "Show"} thumbnails` }}</span>
+          </v-tooltip>
+
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on }">
+              <v-btn v-on="on" dark icon @click="dialog = false">
+                <v-icon>fas fa-times</v-icon>
+              </v-btn>
+            </template>
+            <span>Close gallery</span>
+          </v-tooltip>
+        </v-toolbar>
+
+        <v-row no-gutters>
+          <v-col cols="12" :sm="showGallery ? 9 : 12">
+            <image-wrapper
+              max-height="unset"
+              :image-src="images[currentIndex].extractedImage"
+            />
+          </v-col>
+
+          <v-col v-if="showGallery" cols="12" sm="3">
+            images
+          </v-col>
+        </v-row>
 
         <v-card-text class="pt-5 pb-0">
           <div v-if="images[currentIndex].image_author">
@@ -54,13 +94,6 @@
             </a>
           </div>
         </v-card-text>
-
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn color="primary" text @click="dialog = false">
-            Close
-          </v-btn>
-        </v-card-actions>
       </v-card>
     </v-dialog>
   </div>
@@ -87,7 +120,8 @@ export default {
   },
   data: () => ({
     dialog: false,
-    currentIndex: 0
+    currentIndex: 0,
+    showGallery: true
   })
 };
 </script>
