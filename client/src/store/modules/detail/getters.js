@@ -31,6 +31,14 @@ const getters = {
     });
   },
 
+  filteredItemHeadersSecondary: (state, getters) => {
+    return state.itemHeadersSecondary.filter(header => {
+      if (getters.item[header.value]) {
+        return header;
+      }
+    });
+  },
+
   /* Currently unused types aka unspecified:
    * OtherSpecimen
    * Unspecified

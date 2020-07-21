@@ -19,6 +19,15 @@ const state = {
     { text: "Record URI", value: "recordURI" },
     { text: "Related resource", value: "relatedResource" }
   ],
+  itemHeadersSecondary: [
+    { text: "Contact data", value: "contactdata" },
+    { text: "Dataset owner", value: "datasetowner" },
+    { text: "Data source country", value: "datasourcecountry" },
+    { text: "Last harvested", value: "last_harvested_processing" },
+    { text: "Provider name", value: "providername" },
+    { text: "Provider address", value: "provideraddress" },
+    { text: "Provider url", value: "providerurl" }
+  ],
   imageWidth: 400,
   imageHeight: 400,
   isLoading: false

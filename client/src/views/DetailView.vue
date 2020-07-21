@@ -23,7 +23,16 @@
         <v-card>
           <v-card-title class="primary--text display-1">
             <div class="d-flex flex-column flex-nowrap">
-              <div class="mb-1">
+              <div
+                class="mb-1"
+                v-if="
+                  isItemFossil ||
+                    isItemMineral ||
+                    isItemRock ||
+                    isItemMeteorite ||
+                    item.recordbasis
+                "
+              >
                 <span class="mr-2">
                   <v-icon large color="primary" v-if="isItemFossil"
                     >fas fa-fish</v-icon
@@ -42,7 +51,7 @@
                 <span v-if="item.recordbasis">{{ item.recordbasis }}</span>
               </div>
 
-              <div class="text-h5">
+              <div class="text-h5" v-if="item.collectioncode || item.unitid">
                 <span v-if="item.collectioncode">{{
                   item.collectioncode
                 }}</span>
@@ -60,14 +69,24 @@
               >
                 <div v-if="item.fullscientificname">
                   <span>Name: </span>
-                  <span class="font-weight-black">{{ item.fullscientificname }}</span>
+                  <span class="font-weight-black">{{
+                    item.fullscientificname
+                  }}</span>
                 </div>
 
                 <div v-if="item.names">
-                  <span>Identification<span v-if="item.names.length > 1">s</span>: </span>
-                  <span class="font-italic" v-for="(entity, index) in item.names" :key="index">
+                  <span
+                    >Identification<span v-if="item.names.length > 1">s</span>:
+                  </span>
+                  <span
+                    class="font-italic"
+                    v-for="(entity, index) in item.names"
+                    :key="index"
+                  >
                     <span class="font-weight-black">{{ entity }}</span>
-                    <span class="mx-1" v-if="index < item.names.length - 1">|</span>
+                    <span class="mx-1" v-if="index < item.names.length - 1"
+                      >|</span
+                    >
                   </span>
                 </div>
 
@@ -94,6 +113,10 @@
             :headers="filteredItemHeaders"
             :items="[item]"
           >
+            <template v-slot:item.typestatus="{ item }">
+              <div class="font-weight-bold">{{ item.typestatus }}</div>
+            </template>
+
             <template v-slot:item.mindat_url="{ item }">
               <a
                 style="text-decoration: unset;"
@@ -126,7 +149,37 @@
           </v-data-table>
         </v-card>
 
-        <v-card class="mt-6" v-if="detailViewImages.length > 1">
+        <v-card
+          class="mt-6 item-card"
+          v-if="
+            filteredItemHeadersSecondary &&
+              filteredItemHeadersSecondary.length > 0
+          "
+        >
+          <v-data-table
+            dense
+            class="detail-view-table-secondary secondary--text"
+            :mobile-breakpoint="9000"
+            disable-sort
+            disable-filtering
+            disable-pagination
+            hide-default-header
+            hide-default-footer
+            :headers="filteredItemHeadersSecondary"
+            :items="[item]"
+          >
+            <template v-slot:item.providerurl="{ item }">
+              <a
+                :href="item.providerurl"
+                target="ProviderWindow"
+                style="text-decoration: unset;"
+                >{{ item.providerurl }}</a
+              >
+            </template>
+          </v-data-table>
+        </v-card>
+
+        <v-card class="mt-6" v-if="detailViewImages.length > 1 && false">
           <image-overflow :images="detailViewImages" />
         </v-card>
       </v-col>
@@ -209,6 +262,7 @@ export default {
       "localityExists",
       "item",
       "filteredItemHeaders",
+      "filteredItemHeadersSecondary",
       "isItemFossil",
       "isItemMineral",
       "isItemRock",
@@ -313,5 +367,8 @@ export default {
   text-align: left;
   width: 100%;
   padding-left: 10px;
+}
+
+.detail-view-table-secondary >>> .v-data-table {
 }
 </style>

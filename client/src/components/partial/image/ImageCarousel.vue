@@ -60,15 +60,18 @@
           </v-list-item-action>
         </v-list-item>
       </v-list>
+
+      <image-overflow :images="images" />
     </v-card>
   </v-card>
 </template>
 
 <script>
 import ImageWrapper from "./ImageWrapper";
+import ImageOverflow from "./ImageOverflow";
 export default {
   name: "ImageCarousel",
-  components: { ImageWrapper },
+  components: {ImageOverflow, ImageWrapper },
   props: {
     images: {
       type: Array,
