@@ -61,7 +61,7 @@
         </v-list-item>
       </v-list>
 
-      <image-overflow :images="images" />
+      <image-overflow v-if="images.length > 1" :images="images" />
     </v-card>
   </v-card>
 </template>

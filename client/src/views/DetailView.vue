@@ -150,7 +150,7 @@
         </v-card>
 
         <v-card
-          class="mt-6 item-card"
+          class="mt-6 item-card item-card--secondary"
           v-if="
             filteredItemHeadersSecondary &&
               filteredItemHeadersSecondary.length > 0
@@ -364,6 +364,8 @@ export default {
   padding-left: 10px;
 }
 
-.detail-view-table-secondary >>> .v-data-table {
+.item-card--secondary >>> .v-data-table td {
+  height: unset;
+  min-height: 36px;
 }
 </style>
