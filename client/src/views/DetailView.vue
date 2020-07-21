@@ -23,7 +23,7 @@
         <v-card>
           <v-card-title class="primary--text display-1">
             <div class="d-flex flex-column flex-nowrap">
-              <div>
+              <div class="mb-1">
                 <span class="mr-2">
                   <v-icon large color="primary" v-if="isItemFossil"
                     >fas fa-fish</v-icon
@@ -59,13 +59,16 @@
                 v-if="isItemFossil && (item.fullscientificname || item.names)"
               >
                 <div v-if="item.fullscientificname">
-                  {{ item.fullscientificname }}
+                  <span>Name: </span>
+                  <span class="font-weight-black">{{ item.fullscientificname }}</span>
                 </div>
 
                 <div v-if="item.names">
-                  <div class="font-italic" v-for="(entity, index) in item.names" :key="index">
-                    {{ entity }}
-                  </div>
+                  <span>Identification<span v-if="item.names.length > 1">s</span>: </span>
+                  <span class="font-italic" v-for="(entity, index) in item.names" :key="index">
+                    <span class="font-weight-black">{{ entity }}</span>
+                    <span class="mx-1" v-if="index < item.names.length - 1">|</span>
+                  </span>
                 </div>
 
                 <div v-else-if="!item.fullscientificname && !item.names">

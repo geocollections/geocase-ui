@@ -5,6 +5,7 @@ import getters from "./getters";
 const state = {
   response: null,
   itemHeaders: [
+    { text: "Type", value: "typestatus" },
     { text: "ID", value: "id" },
     { text: "Collection", value: "collectioncode" },
     { text: "Object ID", value: "unitid" },
