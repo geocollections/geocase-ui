@@ -19,33 +19,67 @@
     </v-row>
 
     <v-row>
+      <v-col cols="12">
+        <v-card>
+          <v-card-title class="primary--text display-1">
+            <div class="d-flex flex-column flex-nowrap">
+              <div>
+                <span class="mr-2">
+                  <v-icon large color="primary" v-if="isItemFossil"
+                    >fas fa-fish</v-icon
+                  >
+                  <v-icon large color="primary" v-else-if="isItemMineral"
+                    >far fa-gem</v-icon
+                  >
+                  <v-icon large color="primary" v-else-if="isItemRock"
+                    >fas fa-mountain</v-icon
+                  >
+                  <v-icon large color="primary" v-else-if="isItemMeteorite"
+                    >fas fa-meteor</v-icon
+                  >
+                </span>
+
+                <span v-if="item.recordbasis">{{ item.recordbasis }}</span>
+              </div>
+
+              <div class="text-h5">
+                <span v-if="item.collectioncode">{{
+                  item.collectioncode
+                }}</span>
+                <span
+                  class="mx-2 font-weight-bold"
+                  v-if="item.collectioncode && item.unitid"
+                  >|</span
+                >
+                <span v-if="item.unitid">{{ item.unitid }}</span>
+              </div>
+
+              <div
+                class="font-italic text-h6"
+                v-if="isItemFossil && (item.fullscientificname || item.names)"
+              >
+                <div v-if="item.fullscientificname">
+                  {{ item.fullscientificname }}
+                </div>
+
+                <div v-if="item.names">
+                  <div class="font-italic" v-for="(entity, index) in item.names" :key="index">
+                    {{ entity }}
+                  </div>
+                </div>
+
+                <div v-else-if="!item.fullscientificname && !item.names">
+                  Detail view (ID): {{ item.id }}
+                </div>
+              </div>
+            </div>
+          </v-card-title>
+        </v-card>
+      </v-col>
+
       <v-col cols="12" :sm="imageExists || localityExists ? 6 : 12">
         <!-- TABLE -->
         <v-card v-if="itemExists" class="item-card">
-          <v-card-title class="primary--text display-1">
-            <div class="d-flex flex-row flex-nowrap">
-              <div class="mr-2">
-                <v-icon color="primary" v-if="isItemFossil">fas fa-fish</v-icon>
-                <v-icon color="primary" v-else-if="isItemMineral"
-                  >far fa-gem</v-icon
-                >
-                <v-icon color="primary" v-else-if="isItemRock"
-                  >fas fa-mountain</v-icon
-                >
-                <v-icon color="primary" v-else-if="isItemMeteorite"
-                  >fas fa-meteor</v-icon
-                >
-              </div>
-
-              <div v-if="item.fullscientificname">
-                {{ item.fullscientificname }}
-              </div>
-              <div v-else>Detail view (ID): {{ item.id }}</div>
-            </div>
-          </v-card-title>
-
-          <v-divider />
-
           <v-data-table
             class="detail-view-table"
             :mobile-breakpoint="9000"
@@ -144,7 +178,7 @@ import ImageOverflow from "../components/partial/image/ImageOverflow";
 export default {
   name: "DetailView",
 
-  components: {ImageOverflow, ImageCarousel, TabMap },
+  components: { ImageOverflow, ImageCarousel, TabMap },
 
   mixins: [helperMixin],
 

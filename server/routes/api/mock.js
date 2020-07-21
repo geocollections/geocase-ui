@@ -19,6 +19,7 @@ const mockData = {
         "unitid":"BB-211-K/1",
         "fullscientificname":"! ist Do-4858-K! Blatt",
         "recordbasis": "FossileSpecimen",
+        "names": ["Kettnerites aff. huberti", "Kettnerites"],
         "is_mineral":false,
         "_version_":1669767306844045316},
       {
