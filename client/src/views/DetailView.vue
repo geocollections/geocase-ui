@@ -178,10 +178,6 @@
             </template>
           </v-data-table>
         </v-card>
-
-        <v-card class="mt-6" v-if="detailViewImages.length > 1 && false">
-          <image-overflow :images="detailViewImages" />
-        </v-card>
       </v-col>
 
       <v-col cols="12" sm="6">
@@ -229,12 +225,11 @@ import { mapActions, mapGetters, mapState } from "vuex";
 import TabMap from "../components/tabs/TabMap";
 import helperMixin from "../mixins/helperMixin";
 import ImageCarousel from "../components/partial/image/ImageCarousel";
-import ImageOverflow from "../components/partial/image/ImageOverflow";
 
 export default {
   name: "DetailView",
 
-  components: { ImageOverflow, ImageCarousel, TabMap },
+  components: { ImageCarousel, TabMap },
 
   mixins: [helperMixin],
 
