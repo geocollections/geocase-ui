@@ -19,7 +19,8 @@ const state = {
     { text: "Related resource", value: "relatedResource" }
   ],
   imageWidth: 400,
-  imageHeight: 400
+  imageHeight: 400,
+  isLoading: false
 };
 
 export default {

@@ -3,6 +3,7 @@ import SearchService from "../../../middleware/SearchService";
 const actions = {
   async getDetailView({ dispatch, commit, rootState }, id) {
     try {
+      commit("UPDATE_IS_LOADING", true);
       const response = await SearchService.getDetailView(id);
       if (response) {
         commit("UPDATE_RESPONSE", response?.response?.docs || []);
@@ -16,6 +17,7 @@ const actions = {
           if (!rootState.settings.error)
             dispatch("settings/updateErrorState", true, { root: true });
         }
+        commit("UPDATE_IS_LOADING", false);
       }
     } catch (err) {
       dispatch(
@@ -25,6 +27,7 @@ const actions = {
       );
       if (!rootState.settings.error)
         dispatch("settings/updateErrorState", true, { root: true });
+      commit("UPDATE_IS_LOADING", false);
     }
   },
 

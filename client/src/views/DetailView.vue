@@ -1,5 +1,5 @@
 <template>
-  <v-container class="detail-view">
+  <v-container class="detail-view" v-if="!isLoading">
     <v-row class="mx-0" justify="center" v-if="!itemExists">
       <v-col cols="12" style="max-width: 500px;">
         <v-alert
@@ -115,6 +115,23 @@
       </v-col>
     </v-row>
   </v-container>
+
+  <v-container class="detail-view" v-else>
+    <v-row>
+      <v-col cols="12" sm="6">
+        <v-skeleton-loader elevation="2" type="card"></v-skeleton-loader>
+      </v-col>
+      <v-col cols="12" sm="6">
+        <v-skeleton-loader elevation="2" type="card"></v-skeleton-loader>
+      </v-col>
+    </v-row>
+
+    <v-row>
+      <v-col cols="12">
+        <v-skeleton-loader elevation="2" type="card"></v-skeleton-loader>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
@@ -145,7 +162,8 @@ export default {
       "showError",
       "itemHeaders",
       "imageWidth",
-      "imageHeight"
+      "imageHeight",
+      "isLoading"
     ]),
 
     ...mapGetters("detail", [
