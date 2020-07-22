@@ -22,7 +22,7 @@
     </v-carousel>
 
     <v-card>
-      <v-list three-line>
+      <v-list :three-line="!!(author || date || licence)">
         <v-list-item>
           <v-list-item-content>
             <v-list-item-subtitle v-if="author"
