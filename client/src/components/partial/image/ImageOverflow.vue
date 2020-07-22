@@ -1,6 +1,6 @@
 <template>
   <div
-    class="d-flex flex-nowrap"
+    class="d-flex flex-nowrap image-overflow"
     :class="{
       'overflow-y-auto flex-row': overflowY,
       'overflow-x-auto flex-column': overflowX
@@ -61,39 +61,75 @@
           </v-tooltip>
         </v-toolbar>
 
-        <v-row no-gutters>
+        <v-row
+          no-gutters
+          style="max-height: calc(100vh - 56px); height: calc(100vh - 56px)"
+        >
           <v-col cols="12" :sm="showGallery ? 9 : 12">
-            <image-wrapper
-              max-height="unset"
-              :image-src="images[currentIndex].extractedImage"
-            />
+            <v-row no-gutters>
+              <v-col class="" cols="12">
+                <image-wrapper
+                  max-height="50vh"
+                  :image-src="images[currentIndex].extractedImage"
+                />
+              </v-col>
+
+              <v-col cols="12">
+                <v-card-text class="pt-5 pb-0">
+                  <div v-if="images[currentIndex].image_author">
+                    Author: {{ images[currentIndex].image_author }}
+                  </div>
+                  <div v-if="images[currentIndex].image_date">
+                    Date: {{ images[currentIndex].image_date }}
+                  </div>
+                  <div v-if="images[currentIndex].image_licence">
+                    Licence: {{ images[currentIndex].image_licence }}
+                  </div>
+                  <div v-if="images[currentIndex].extractedImage">
+                    <a
+                      :href="images[currentIndex].extractedImage"
+                      target="UrlWindow"
+                      class="link text-decoration-none"
+                      >Link to image
+                      <v-icon color="primary" x-small
+                        >fas fa-external-link-alt</v-icon
+                      >
+                    </a>
+                  </div>
+                </v-card-text>
+              </v-col>
+            </v-row>
           </v-col>
 
-          <v-col v-if="showGallery" cols="12" sm="3">
-            images
+          <v-col
+            class="image-overflow--gallery white black--text pa-1"
+            v-if="showGallery"
+            cols="12"
+            sm="3"
+          >
+            <v-row no-gutters>
+              <v-col
+                cols="6"
+                v-for="(entity, index) in images"
+                :key="index"
+                class="pa-1"
+              >
+                <v-card
+                  class="px-1 rounded"
+                  flat
+                  tile
+                  @click="currentIndex = index"
+                  :class="{ 'primary': currentIndex === index }"
+                >
+                  <image-wrapper
+                    max-height="100"
+                    :image-src="entity.extractedImage"
+                  />
+                </v-card>
+              </v-col>
+            </v-row>
           </v-col>
         </v-row>
-
-        <v-card-text class="pt-5 pb-0">
-          <div v-if="images[currentIndex].image_author">
-            Author: {{ images[currentIndex].image_author }}
-          </div>
-          <div v-if="images[currentIndex].image_date">
-            Date: {{ images[currentIndex].image_date }}
-          </div>
-          <div v-if="images[currentIndex].image_licence">
-            Licence: {{ images[currentIndex].image_licence }}
-          </div>
-          <div v-if="images[currentIndex].extractedImage">
-            <a
-              :href="images[currentIndex].extractedImage"
-              target="UrlWindow"
-              class="link text-decoration-none"
-              >Link to image
-              <v-icon color="primary" x-small>fas fa-external-link-alt</v-icon>
-            </a>
-          </div>
-        </v-card-text>
       </v-card>
     </v-dialog>
   </div>
@@ -133,5 +169,11 @@ export default {
 }
 .image-hover {
   transition: opacity 150ms ease-in;
+}
+
+.image-overflow--gallery {
+  box-shadow: -3px 0 1px -2px rgba(255, 255, 255, 0.2),
+    -2px 0 2px 0 rgba(255, 255, 255, 0.14),
+    -1px 0 5px 0 rgba(255, 255, 255, 0.12);
 }
 </style>
