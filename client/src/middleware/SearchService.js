@@ -75,6 +75,7 @@ function buildSearchFieldsQuery(searchFields) {
       if (name === "q") encodedObject = encodedObject.substring(1, 3);
 
       if (fieldType === "checkbox") {
+        if (name === "highertaxon_checkbox") encodedObject = "fq=highertaxon:";
         encodedValue = encodedValue.replace(/%2C/g, " OR ");
         encodedObject += encodedValue;
       } else {
