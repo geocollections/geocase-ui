@@ -62,57 +62,57 @@ const state = {
     {
       fieldType: "checkbox",
       field: "recordbasis",
-      lookUpType: "equals",
+      lookUpType: "",
       value: null,
-      label: "recordbasis",
+      label: "Specimen type",
       showCheckboxes: false
     },
     {
       fieldType: "checkbox",
-      field: "highertaxon",
-      lookUpType: "equals",
+      field: "highertaxon_checkbox",
+      lookUpType: "",
       value: null,
-      label: "highertaxon",
+      label: "Group",
       showCheckboxes: false
     },
     {
       fieldType: "checkbox",
       field: "type_status",
-      lookUpType: "equals",
+      lookUpType: "",
       value: null,
-      label: "type_status",
+      label: "Type status",
       showCheckboxes: false
     },
     {
       fieldType: "checkbox",
       field: "country",
-      lookUpType: "equals",
+      lookUpType: "",
       value: null,
-      label: "country",
+      label: "Country",
       showCheckboxes: false
     },
     {
       fieldType: "checkbox",
       field: "datasetowner",
-      lookUpType: "equals",
+      lookUpType: "",
       value: null,
-      label: "datasetowner",
+      label: "Dataset owner",
       showCheckboxes: false
     },
     {
       fieldType: "checkbox",
       field: "providername",
-      lookUpType: "equals",
+      lookUpType: "",
       value: null,
-      label: "providername",
+      label: "Provider",
       showCheckboxes: false
     },
     {
       fieldType: "checkbox",
       field: "providercountry",
-      lookUpType: "equals",
+      lookUpType: "",
       value: null,
-      label: "providercountry",
+      label: "Provider country",
       showCheckboxes: false
     }
   ],
@@ -124,6 +124,13 @@ const state = {
     "greater than",
     "smaller than"
   ],
+  recordbasis: [],
+  highertaxon: [],
+  type_status: [],
+  country: [],
+  datasetowner: [],
+  providername: [],
+  providercountry: [],
   paginateByItems: [
     { text: "Paginate by 10", value: 10 },
     { text: "Paginate by 25", value: 25 },
@@ -140,7 +147,13 @@ const state = {
     "stratigraphy",
     "locality",
     "collectioncode",
-    "unitid"
+    "unitid",
+    "recordbasis",
+    "type_status",
+    "country",
+    "datasetowner",
+    "providername",
+    "providercountry"
   ],
   searchParamsList: ["page", "paginate_by", "sort_by", "sort_desc"]
 };

@@ -62,8 +62,7 @@ export default {
       },
 
       set: debounce(function(value) {
-        console.log(value);
-        this.updateSearchField({ field: "q", value: value });
+        this.updateSearchField({ fieldType: "text", field: "q", value: value });
       }, 250)
     }
   },

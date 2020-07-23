@@ -29,6 +29,10 @@ const actions = {
     commit("UPDATE_SEARCH_FIELD_CHECKBOX_STATE", fieldName);
   },
 
+  resetSearch({ commit }) {
+    commit("RESET_SEARCH");
+  },
+
   async getFacets({ dispatch, commit, rootState }) {
     try {
       let response = await SearchService.getFacets();

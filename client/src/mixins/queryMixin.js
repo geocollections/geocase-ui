@@ -64,10 +64,7 @@ const queryMixin = {
           if (lookUpType && lookUpType.length > 0)
             lookUpType = replaceField(lookUpType, false);
 
-          if (
-            this.lookUpTypes.includes(lookUpType) ||
-            (field === "q" && lookUpType === "")
-          ) {
+          if (this.lookUpTypes.includes(lookUpType) || lookUpType === "") {
             let value = item[1] || null;
 
             this.updateSearchField({

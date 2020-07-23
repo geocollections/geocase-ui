@@ -1,4 +1,4 @@
-import { cloneDeep } from "lodash";
+import {cloneDeep} from "lodash";
 
 const mutations = {
   UPDATE_RESPONSE_RESULTS(state, payload) {
@@ -70,9 +70,11 @@ const mutations = {
   },
 
   UPDATE_FACETS(state, payload) {
-    console.log(payload);
     if (payload) {
-      //
+      Object.entries(payload).forEach(item => {
+        let key = item[0];
+        state[key] = item[1].filter(val => typeof val === "string").sort();
+      });
     }
   },
 
@@ -81,6 +83,13 @@ const mutations = {
       item => item.fieldType === "checkbox" && item.field === payload
     );
     if (item) item.showCheckboxes = !item.showCheckboxes;
+  },
+
+  RESET_SEARCH(state) {
+    state.searchFields.forEach(item => {
+      if (item.lookUpType !== "") item.lookUpType = "contains";
+      if (item.value !== null) item.value = null;
+    });
   }
 };
 

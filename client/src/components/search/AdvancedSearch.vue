@@ -14,15 +14,16 @@
     </v-card-title>
 
     <div v-show="showSearch">
-      <!-- TEXT FIELDS -->
+      <!-- SEARCH FIELDS -->
       <v-row no-gutters class="pa-1">
         <v-col
           cols="12"
-          sm="4"
-          md="12"
+          :sm="item.fieldType !== 'checkbox' ? 4 : 12"
+          lg="12"
           v-for="(item, key) in filteredSearchFields"
           :key="key"
         >
+          <!-- TEXT FIELDS -->
           <v-row no-gutters v-if="item.fieldType === 'text'">
             <v-col cols="12" class="px-1 pb-1">
               <SearchLookUpType
@@ -44,8 +45,12 @@
             </v-col>
           </v-row>
 
+          <!-- CHECKBOX FIELDS -->
           <v-row no-gutters v-else-if="item.fieldType === 'checkbox'">
-            <v-col cols="12" class="px-1 pb-1 d-flex flex-row justify-space-between">
+            <v-col
+              cols="12"
+              class="px-1 pb-1 d-flex flex-row justify-space-between"
+            >
               <div class="advanced-search--checkbox-label">
                 {{ item.label }}
               </div>
@@ -56,10 +61,37 @@
               </v-btn>
             </v-col>
 
-            <v-col cols="12" class="pa-1" v-if="item.showCheckboxes">
-              Todo: Checkboxes
+            <v-col
+              cols="12"
+              sm="4"
+              md="3"
+              lg="12"
+              class="px-1 pb-1"
+              v-for="(entity, index) in getCheckboxes(item.field)"
+              :key="index"
+              v-show="item.showCheckboxes"
+            >
+              <v-checkbox
+                class="mt-0 mb-2"
+                :input-value="item.value && item.value.includes(entity)"
+                :label="entity"
+                @change="
+                  updateCheckbox({ item, bool: $event, fieldName: entity })
+                "
+                hide-details
+                dense
+              />
             </v-col>
           </v-row>
+        </v-col>
+      </v-row>
+
+      <v-row no-gutters class="pa-1">
+        <v-col cols="12" class="d-flex justify-end pa-1">
+          <v-btn color="error" @click="reset">
+            Reset
+            <v-icon right>far fa-trash-alt</v-icon>
+          </v-btn>
         </v-col>
       </v-row>
     </div>
@@ -86,6 +118,7 @@ export default {
 
   computed: {
     ...mapState("search", ["lookUpTypes", "searchFields"]),
+    ...mapGetters("search", ["getCheckboxes"]),
 
     filteredSearchFields() {
       let clonedSearchFields = cloneDeep(this.searchFields);
@@ -103,11 +136,33 @@ export default {
   },
 
   methods: {
-    ...mapActions("search", ["updateSearchField", "updateSearchFieldCheckboxState"]),
+    ...mapActions("search", [
+      "updateSearchField",
+      "updateSearchFieldCheckboxState",
+      "resetSearch"
+    ]),
 
     updateSearchFieldDebounced: debounce(function(value) {
       this.updateSearchField(value);
-    }, 300)
+    }, 300),
+
+    updateCheckbox(event) {
+      if (event.bool) {
+        if (event.item.value) event.item.value += `,${event.fieldName}`;
+        else event.item.value = event.fieldName;
+      } else {
+        if (event.item.value) {
+          let valueList = event.item.value.split(",");
+          let filteredValues = valueList.filter(val => val !== event.fieldName);
+          event.item.value = filteredValues.join(",");
+        }
+      }
+      this.updateSearchField(event.item);
+    },
+
+    reset() {
+      this.resetSearch();
+    }
   }
 };
 </script>
