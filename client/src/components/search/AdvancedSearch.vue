@@ -23,7 +23,7 @@
           v-for="(item, key) in filteredSearchFields"
           :key="key"
         >
-          <v-row no-gutters>
+          <v-row no-gutters v-if="item.fieldType === 'text'">
             <v-col cols="12" class="px-1 pb-1">
               <SearchLookUpType
                 :use-custom-prepend-inner="item.label"
@@ -41,6 +41,23 @@
                 clearable
                 clear-icon="fas fa-times"
               />
+            </v-col>
+          </v-row>
+
+          <v-row no-gutters v-else-if="item.fieldType === 'checkbox'">
+            <v-col cols="12" class="px-1 pb-1 d-flex flex-row justify-space-between">
+              <div class="advanced-search--checkbox-label">
+                {{ item.label }}
+              </div>
+
+              <v-btn icon @click="updateSearchFieldCheckboxState(item.field)">
+                <v-icon v-if="item.showCheckboxes">fas fa-angle-up</v-icon>
+                <v-icon v-else>fas fa-angle-down</v-icon>
+              </v-btn>
+            </v-col>
+
+            <v-col cols="12" class="pa-1" v-if="item.showCheckboxes">
+              Todo: Checkboxes
             </v-col>
           </v-row>
         </v-col>
@@ -86,7 +103,7 @@ export default {
   },
 
   methods: {
-    ...mapActions("search", ["updateSearchField"]),
+    ...mapActions("search", ["updateSearchField", "updateSearchFieldCheckboxState"]),
 
     updateSearchFieldDebounced: debounce(function(value) {
       this.updateSearchField(value);
@@ -95,4 +112,11 @@ export default {
 };
 </script>
 
-<style scoped />
+<style scoped>
+.advanced-search--checkbox-label {
+  margin: 5px 4px 3px 0;
+  font-weight: bold;
+  color: black;
+  white-space: nowrap;
+}
+</style>

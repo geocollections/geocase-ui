@@ -1,8 +1,8 @@
 import axios from "axios";
 
 const API_URL = "/api";
-
-let query = "*";
+const FACET_QUERY =
+  "q=*&rows=0&facet=on&facet.mincount=1&facet.field=recordbasis&facet.field=highertaxon&facet.field=type_status&facet.field=country&facet.field=datasetowner&facet.field=providername&facet.field=providername&facet.field=providercountry";
 
 class SearchService {
   static async search(searchParams) {
@@ -28,6 +28,17 @@ class SearchService {
   static async getDetailView(id) {
     try {
       let url = `${API_URL}?q=id:${decodeURIComponent(id)}`;
+
+      const res = await axios.get(url);
+      return res.data;
+    } catch (err) {
+      throw new Error(err);
+    }
+  }
+
+  static async getFacets() {
+    try {
+      let url = `${API_URL}?${FACET_QUERY}`;
 
       const res = await axios.get(url);
       return res.data;

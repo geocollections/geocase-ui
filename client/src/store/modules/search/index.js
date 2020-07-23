@@ -58,6 +58,62 @@ const state = {
       lookUpType: "contains",
       value: null,
       label: "Object ID"
+    },
+    {
+      fieldType: "checkbox",
+      field: "recordbasis",
+      lookUpType: "equals",
+      value: null,
+      label: "recordbasis",
+      showCheckboxes: false
+    },
+    {
+      fieldType: "checkbox",
+      field: "highertaxon",
+      lookUpType: "equals",
+      value: null,
+      label: "highertaxon",
+      showCheckboxes: false
+    },
+    {
+      fieldType: "checkbox",
+      field: "type_status",
+      lookUpType: "equals",
+      value: null,
+      label: "type_status",
+      showCheckboxes: false
+    },
+    {
+      fieldType: "checkbox",
+      field: "country",
+      lookUpType: "equals",
+      value: null,
+      label: "country",
+      showCheckboxes: false
+    },
+    {
+      fieldType: "checkbox",
+      field: "datasetowner",
+      lookUpType: "equals",
+      value: null,
+      label: "datasetowner",
+      showCheckboxes: false
+    },
+    {
+      fieldType: "checkbox",
+      field: "providername",
+      lookUpType: "equals",
+      value: null,
+      label: "providername",
+      showCheckboxes: false
+    },
+    {
+      fieldType: "checkbox",
+      field: "providercountry",
+      lookUpType: "equals",
+      value: null,
+      label: "providercountry",
+      showCheckboxes: false
     }
   ],
   lookUpTypes: [

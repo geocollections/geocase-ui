@@ -67,6 +67,20 @@ const mutations = {
           state[field] = value;
       } else state[field] = [];
     }
+  },
+
+  UPDATE_FACETS(state, payload) {
+    console.log(payload);
+    if (payload) {
+      //
+    }
+  },
+
+  UPDATE_SEARCH_FIELD_CHECKBOX_STATE(state, payload) {
+    let item = state.searchFields.find(
+      item => item.fieldType === "checkbox" && item.field === payload
+    );
+    if (item) item.showCheckboxes = !item.showCheckboxes;
   }
 };
 
