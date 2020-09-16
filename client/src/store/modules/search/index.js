@@ -65,7 +65,8 @@ const state = {
       lookUpType: "",
       value: null,
       label: "Specimen type",
-      showCheckboxes: false
+      showCheckboxes: false,
+      showMore: false
     },
     {
       fieldType: "checkbox",
@@ -73,7 +74,8 @@ const state = {
       lookUpType: "",
       value: null,
       label: "Group",
-      showCheckboxes: false
+      showCheckboxes: false,
+      showMore: false
     },
     {
       fieldType: "checkbox",
@@ -81,7 +83,8 @@ const state = {
       lookUpType: "",
       value: null,
       label: "Type status",
-      showCheckboxes: false
+      showCheckboxes: false,
+      showMore: false
     },
     {
       fieldType: "checkbox",
@@ -89,7 +92,8 @@ const state = {
       lookUpType: "",
       value: null,
       label: "Country",
-      showCheckboxes: false
+      showCheckboxes: false,
+      showMore: false
     },
     {
       fieldType: "checkbox",
@@ -97,7 +101,8 @@ const state = {
       lookUpType: "",
       value: null,
       label: "Dataset owner",
-      showCheckboxes: false
+      showCheckboxes: false,
+      showMore: false
     },
     {
       fieldType: "checkbox",
@@ -105,7 +110,8 @@ const state = {
       lookUpType: "",
       value: null,
       label: "Provider",
-      showCheckboxes: false
+      showCheckboxes: false,
+      showMore: false
     },
     {
       fieldType: "checkbox",
@@ -113,7 +119,8 @@ const state = {
       lookUpType: "",
       value: null,
       label: "Provider country",
-      showCheckboxes: false
+      showCheckboxes: false,
+      showMore: false
     }
   ],
   lookUpTypes: [

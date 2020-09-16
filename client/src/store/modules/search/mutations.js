@@ -1,4 +1,4 @@
-import {cloneDeep} from "lodash";
+import { cloneDeep } from "lodash";
 
 const mutations = {
   UPDATE_RESPONSE_RESULTS(state, payload) {
@@ -73,16 +73,18 @@ const mutations = {
     if (payload) {
       Object.entries(payload).forEach(item => {
         let key = item[0];
-        state[key] = item[1].filter(val => typeof val === "string").sort();
+        state[key] = item[1].filter(val => typeof val === "string");
+        state[`${key}_count`] = item[1].filter(val => typeof val !== "string");
       });
     }
   },
 
+  // field is either showCheckboxes or showMore
   UPDATE_SEARCH_FIELD_CHECKBOX_STATE(state, payload) {
     let item = state.searchFields.find(
-      item => item.fieldType === "checkbox" && item.field === payload
+      item => item.fieldType === "checkbox" && item.field === payload.findField
     );
-    if (item) item.showCheckboxes = !item.showCheckboxes;
+    if (item) item[payload.changeField] = !item[payload.changeField];
   },
 
   RESET_SEARCH(state) {

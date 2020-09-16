@@ -25,8 +25,8 @@ const actions = {
     commit("UPDATE_SEARCH_PARAM", payload);
   },
 
-  updateSearchFieldCheckboxState({ commit }, fieldName) {
-    commit("UPDATE_SEARCH_FIELD_CHECKBOX_STATE", fieldName);
+  updateSearchFieldCheckboxState({ commit }, payload) {
+    commit("UPDATE_SEARCH_FIELD_CHECKBOX_STATE", payload);
   },
 
   resetSearch({ commit }) {

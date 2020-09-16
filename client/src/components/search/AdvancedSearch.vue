@@ -55,13 +55,22 @@
                 {{ item.label }}
               </div>
 
-              <v-btn icon @click="updateSearchFieldCheckboxState(item.field)">
+              <v-btn
+                icon
+                @click="
+                  updateSearchFieldCheckboxState({
+                    findField: item.field,
+                    changeField: 'showCheckboxes'
+                  })
+                "
+              >
                 <v-icon v-if="item.showCheckboxes">fas fa-angle-up</v-icon>
                 <v-icon v-else>fas fa-angle-down</v-icon>
               </v-btn>
             </v-col>
 
             <v-col
+              :class="{ 'd-none': !item.showMore && index > 3 }"
               cols="12"
               sm="4"
               md="3"
@@ -74,14 +83,43 @@
               <v-checkbox
                 class="mt-0 mb-2"
                 :input-value="item.value && item.value.includes(entity)"
-                :label="entity"
                 @change="
                   updateCheckbox({ item, bool: $event, fieldName: entity })
                 "
                 hide-details
                 dense
-              />
+              >
+                <template v-slot:label>
+                  <div>
+                    {{ entity }}
+                    <span
+                      class="font-italic font-weight-light"
+                      style="font-size: 0.875rem;"
+                      >({{ getCheckboxesCount(item.field)[index] }})</span
+                    >
+                  </div>
+                </template>
+              </v-checkbox>
             </v-col>
+
+            <v-btn
+              v-if="getCheckboxes(item.field).length > 4"
+              small
+              text
+              class="mx-4 mb-2 font-weight-bold"
+              v-show="item.showCheckboxes"
+              @click="
+                updateSearchFieldCheckboxState({
+                  findField: item.field,
+                  changeField: 'showMore'
+                })
+              "
+            >
+              <span v-if="item.showMore">
+                <v-icon x-small>fas fa-minus</v-icon> Less</span
+              >
+              <span v-else><v-icon x-small>fas fa-plus</v-icon> More</span>
+            </v-btn>
           </v-row>
         </v-col>
       </v-row>
@@ -118,7 +156,7 @@ export default {
 
   computed: {
     ...mapState("search", ["lookUpTypes", "searchFields"]),
-    ...mapGetters("search", ["getCheckboxes"]),
+    ...mapGetters("search", ["getCheckboxes", "getCheckboxesCount"]),
 
     filteredSearchFields() {
       let clonedSearchFields = cloneDeep(this.searchFields);
@@ -157,6 +195,7 @@ export default {
           event.item.value = filteredValues.join(",");
         }
       }
+      console.log(event.item);
       this.updateSearchField(event.item);
     },
 
