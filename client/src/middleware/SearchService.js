@@ -100,23 +100,4 @@ function buildSearchFieldsQuery(searchFields) {
   return encodedData.join("&");
 }
 
-function buildExtraFieldsQuery(extraFields) {
-  let query = "";
-
-  Object.keys(extraFields).forEach(key => {
-    // Todo: Skipping 'object' because there is no field to differentiate fossils from minerals
-    if (key === "url") {
-      if (extraFields[key].value !== "- Any -") {
-        if (extraFields[key].value !== "Yes") {
-          query += "url:*";
-        } else if (extraFields[key].value !== "No") {
-          query += '-url:["" TO *]';
-        }
-      }
-    }
-  });
-
-  return query;
-}
-
 export default SearchService;
