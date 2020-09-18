@@ -51,7 +51,15 @@
               cols="12"
               class="px-1 pb-1 d-flex flex-row justify-space-between"
             >
-              <div class="advanced-search--checkbox-label">
+              <div
+                class="advanced-search--checkbox-label"
+                @click="
+                  updateSearchFieldCheckboxState({
+                    findField: item.field,
+                    changeField: 'showCheckboxes'
+                  })
+                "
+              >
                 {{ item.label }}
               </div>
 
@@ -82,7 +90,9 @@
             >
               <v-checkbox
                 class="mt-0 mb-2"
-                :input-value="item.value && item.value.includes(entity)"
+                :input-value="
+                  item.value && item.value.includes(`&quot;${entity}&quot;`)
+                "
                 @change="
                   updateCheckbox({ item, bool: $event, fieldName: entity })
                 "
@@ -186,13 +196,16 @@ export default {
 
     updateCheckbox(event) {
       if (event.bool) {
-        if (event.item.value) event.item.value += `,${event.fieldName}`;
-        else event.item.value = event.fieldName;
+        if (event.item.value) event.item.value += ` OR "${event.fieldName}"`;
+        else event.item.value = `"${event.fieldName}"`;
       } else {
         if (event.item.value) {
-          let valueList = event.item.value.split(",");
-          let filteredValues = valueList.filter(val => val !== event.fieldName);
-          event.item.value = filteredValues.join(",");
+          let valueList = event.item.value.split(" OR ");
+          console.log(valueList);
+          let filteredValues = valueList.filter(
+            val => val !== `"${event.fieldName}"`
+          );
+          event.item.value = filteredValues.join(" OR ");
         }
       }
       console.log(event.item);
@@ -212,5 +225,10 @@ export default {
   font-weight: bold;
   color: black;
   white-space: nowrap;
+}
+
+.advanced-search--checkbox-label:hover {
+  cursor: pointer;
+  opacity: 0.7;
 }
 </style>
