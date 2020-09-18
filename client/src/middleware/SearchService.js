@@ -2,7 +2,7 @@ import axios from "axios";
 
 const API_URL = "/api";
 const FACET_QUERY =
-  "facet=on&facet.mincount=1&facet.field=recordbasis&facet.field=highertaxon&facet.field=type_status&facet.field=country&facet.field=datasetowner&facet.field=providername&facet.field=providername&facet.field=providercountry";
+  "q=*&rows=0&facet=on&facet.mincount=1&facet.field=recordbasis&facet.field=highertaxon&facet.field=type_status&facet.field=country&facet.field=datasetowner&facet.field=providername&facet.field=providername&facet.field=providercountry";
 
 class SearchService {
   static async search(searchParams) {
@@ -12,7 +12,7 @@ class SearchService {
 
       let searchFields = buildSearchFieldsQuery(searchParams.searchFields);
 
-      let url = `${API_URL}?start=${start}&rows=${searchParams.paginateBy}&sort=${sort}&defType=edismax&${FACET_QUERY}`;
+      let url = `${API_URL}?start=${start}&rows=${searchParams.paginateBy}&sort=${sort}&defType=edismax`;
 
       if (searchFields && searchFields.length > 0) url += `&${searchFields}`;
       else url += `&q=*`;
@@ -28,6 +28,17 @@ class SearchService {
   static async getDetailView(id) {
     try {
       let url = `${API_URL}?q=id:${decodeURIComponent(id)}`;
+
+      const res = await axios.get(url);
+      return res.data;
+    } catch (err) {
+      throw new Error(err);
+    }
+  }
+
+  static async getFacets() {
+    try {
+      let url = `${API_URL}?${FACET_QUERY}`;
 
       const res = await axios.get(url);
       return res.data;
@@ -87,6 +98,25 @@ function buildSearchFieldsQuery(searchFields) {
   });
 
   return encodedData.join("&");
+}
+
+function buildExtraFieldsQuery(extraFields) {
+  let query = "";
+
+  Object.keys(extraFields).forEach(key => {
+    // Todo: Skipping 'object' because there is no field to differentiate fossils from minerals
+    if (key === "url") {
+      if (extraFields[key].value !== "- Any -") {
+        if (extraFields[key].value !== "Yes") {
+          query += "url:*";
+        } else if (extraFields[key].value !== "No") {
+          query += '-url:["" TO *]';
+        }
+      }
+    }
+  });
+
+  return query;
 }
 
 export default SearchService;

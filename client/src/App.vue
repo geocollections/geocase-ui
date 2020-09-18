@@ -18,6 +18,8 @@
 <script>
 import AppHeader from "./components/app_markup/AppHeader";
 import AppFooter from "./components/app_markup/AppFooter";
+import toastMixin from "./mixins/toastMixin";
+import { mapActions } from "vuex";
 
 export default {
   name: "App",
@@ -25,6 +27,16 @@ export default {
   components: {
     AppFooter,
     AppHeader
+  },
+
+  mixins: [toastMixin],
+
+  created() {
+    this.getFacets();
+  },
+
+  methods: {
+    ...mapActions("search", ["getFacets"])
   }
 };
 </script>

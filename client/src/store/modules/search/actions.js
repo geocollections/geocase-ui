@@ -33,6 +33,23 @@ const actions = {
     commit("RESET_SEARCH");
   },
 
+  async getFacets({ dispatch, commit, rootState }) {
+    try {
+      let response = await SearchService.getFacets();
+
+      if (response)
+        commit("UPDATE_FACETS", response?.facet_counts?.facet_fields);
+    } catch (err) {
+      dispatch(
+        "settings/updateErrorMessage",
+        `<b>Name:</b> ${err.name}<br /><b>Message:</b> ${err.message}`,
+        { root: true }
+      );
+      if (!rootState.settings.error)
+        dispatch("settings/updateErrorState", true, { root: true });
+    }
+  },
+
   async search({ dispatch, commit, rootState, state }) {
     try {
       let params = {
@@ -50,7 +67,6 @@ const actions = {
           "UPDATE_RESPONSE_RESULTS_COUNT",
           response?.response?.numFound || 0
         );
-        commit("UPDATE_FACETS", response?.facet_counts?.facet_fields);
       }
     } catch (err) {
       dispatch(
