@@ -1,5 +1,3 @@
-import { cloneDeep } from "lodash";
-
 const mutations = {
   UPDATE_RESPONSE_RESULTS(state, payload) {
     state.responseResults = payload;
@@ -26,34 +24,11 @@ const mutations = {
   },
 
   UPDATE_SEARCH_FIELD(state, payload) {
-
-    console.log(payload)
-    let testItem = state.searchFields.find(stateItem => stateItem.field === payload.field);
-
-    console.log(testItem)
-
-    let clonedSearchFields = cloneDeep(state.searchFields);
-    let currentItemIndex = -1;
-
-    let currentItem = clonedSearchFields.find((item, index) => {
-      if (item.field === payload.field) {
-        currentItemIndex = index;
-        return true;
-      } else return false;
-    });
-
-    if (currentItemIndex !== -1 && currentItem) {
-      clonedSearchFields[currentItemIndex] = {
-        ...currentItem,
-        ...payload
-      };
-    }
-
-    const currentStringifiedSearchFields = JSON.stringify(
-      cloneDeep(state.searchFields)
-    );
-    if (currentStringifiedSearchFields !== JSON.stringify(clonedSearchFields))
-      state.searchFields = clonedSearchFields;
+    state.searchFields = [
+      ...state.searchFields.map(item =>
+        item.field !== payload.field ? item : { ...item, ...payload }
+      )
+    ];
   },
 
   UPDATE_SEARCH_PARAM(state, payload) {
@@ -85,7 +60,7 @@ const mutations = {
     }
   },
 
-  // field is either showCheckboxes or showMore
+  // payload.changeField is either "showCheckboxes" or "showMore"
   UPDATE_SEARCH_FIELD_CHECKBOX_STATE(state, payload) {
     let item = state.searchFields.find(
       item => item.fieldType === "checkbox" && item.field === payload.findField

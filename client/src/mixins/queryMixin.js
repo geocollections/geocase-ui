@@ -47,9 +47,6 @@ const queryMixin = {
 
       const newQueryParams = appendableQuery;
 
-      console.log(this.$route.query)
-      console.log(newQueryParams)
-
       if (!isEqual(this.$route.query, newQueryParams))
         this.$router.push({
           name: "Dashboard",
