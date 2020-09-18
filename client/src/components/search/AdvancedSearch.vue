@@ -20,13 +20,13 @@
           cols="12"
           :sm="item.fieldType !== 'checkbox' ? 4 : 12"
           lg="12"
-          v-for="(item, key) in filteredSearchFields"
-          :key="key"
+          v-for="item in filteredSearchFields"
+          :key="item.field"
         >
           <!-- TEXT FIELDS -->
           <v-row no-gutters v-if="item.fieldType === 'text'">
             <v-col cols="12" class="px-1 pb-1">
-              <SearchLookUpType
+              <SelectWrapper
                 :use-custom-prepend-inner="item.label"
                 :items="lookUpTypes"
                 :value="item.lookUpType"
@@ -147,7 +147,7 @@
 </template>
 
 <script>
-import SearchLookUpType from "../input_wrappers/SelectWrapper";
+import SelectWrapper from "../input_wrappers/SelectWrapper";
 import SearchField from "../input_wrappers/TextFieldWrapper";
 import { mapActions, mapGetters, mapState } from "vuex";
 import { cloneDeep, debounce } from "lodash";
@@ -156,7 +156,7 @@ import queryMixin from "../../mixins/queryMixin";
 export default {
   name: "AdvancedSearch",
 
-  components: { SearchField, SearchLookUpType },
+  components: { SearchField, SelectWrapper },
 
   mixins: [queryMixin],
 
@@ -166,12 +166,11 @@ export default {
 
   computed: {
     ...mapState("search", ["lookUpTypes", "searchFields"]),
-    ...mapGetters("search", ["getCheckboxes", "getCheckboxesCount"]),
-
-    filteredSearchFields() {
-      let clonedSearchFields = cloneDeep(this.searchFields);
-      return clonedSearchFields.filter(item => item.field !== "q");
-    }
+    ...mapGetters("search", [
+      "getCheckboxes",
+      "getCheckboxesCount",
+      "filteredSearchFields"
+    ])
   },
 
   watch: {
@@ -195,21 +194,22 @@ export default {
     }, 300),
 
     updateCheckbox(event) {
-      if (event.bool) {
-        if (event.item.value) event.item.value += ` OR "${event.fieldName}"`;
-        else event.item.value = `"${event.fieldName}"`;
+      let e = cloneDeep(event);
+      if (e.bool) {
+        if (e.item.value) e.item.value += ` OR "${e.fieldName}"`;
+        else e.item.value = `"${e.fieldName}"`;
       } else {
-        if (event.item.value) {
-          let valueList = event.item.value.split(" OR ");
+        if (e.item.value) {
+          let valueList = e.item.value.split(" OR ");
           console.log(valueList);
           let filteredValues = valueList.filter(
-            val => val !== `"${event.fieldName}"`
+            val => val !== `"${e.fieldName}"`
           );
-          event.item.value = filteredValues.join(" OR ");
+          e.item.value = filteredValues.join(" OR ");
         }
       }
-      console.log(event.item);
-      this.updateSearchField(event.item);
+      console.log(e.item);
+      this.updateSearchField(e.item);
     },
 
     reset() {
