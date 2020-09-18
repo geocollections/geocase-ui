@@ -18,7 +18,7 @@
       <v-row no-gutters class="pa-1">
         <v-col
           cols="12"
-          :sm="item.fieldType !== 'checkbox' ? 4 : 12"
+          :sm="!item.fieldType.includes('checkbox') ? 4 : 12"
           lg="12"
           v-for="item in filteredSearchFields"
           :key="item.field"
@@ -131,6 +131,22 @@
               <span v-else><v-icon x-small>fas fa-plus</v-icon> More</span>
             </v-btn>
           </v-row>
+
+          <!-- SINGLE CHECKBOX -->
+          <v-row no-gutters v-else-if="item.fieldType === 'single_checkbox'">
+            <v-col cols="12" class="px-1 pb-1 d-flex justify-end">
+              <v-checkbox
+                class="mt-0 mb-2"
+                :input-value="item.value"
+                :label="item.label"
+                true-value="true"
+                :false-value="null"
+                @change="updateSearchField({ ...item, value: $event })"
+                hide-details
+                dense
+              />
+            </v-col>
+          </v-row>
         </v-col>
       </v-row>
 
@@ -154,7 +170,7 @@ import { cloneDeep, debounce } from "lodash";
 import queryMixin from "../../mixins/queryMixin";
 
 export default {
-  name: "AdvancedSearch",
+  name: "AdvancedSearchOld",
 
   components: { SearchField, SelectWrapper },
 

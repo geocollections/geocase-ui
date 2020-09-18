@@ -4,7 +4,7 @@
 
     <div class="d-flex flex-column flex-lg-row justify-space-between">
       <div :class="{ 'main-search pr-3': $vuetify.breakpoint.lgAndUp }">
-        <advanced-search class="mb-3" />
+        <advanced-search-old class="mb-3" />
       </div>
 
       <div :class="{ 'main-table': $vuetify.breakpoint.lgAndUp }">
@@ -93,11 +93,10 @@
 </template>
 
 <script>
-import debounce from "lodash/debounce";
 import ScrollToTop from "@/components/partial/ScrollToTop";
 import { mapActions, mapState } from "vuex";
 import Pagination from "../components/search/Pagination";
-import AdvancedSearch from "../components/search/AdvancedSearch";
+import AdvancedSearchOld from "../components/search/AdvancedSearchOld";
 import TabImages from "../components/tabs/TabImages";
 import TabMap from "../components/tabs/TabMap";
 import TabTable from "../components/tabs/TabTable";
@@ -110,7 +109,7 @@ export default {
     TabTable,
     TabMap,
     TabImages,
-    AdvancedSearch,
+    AdvancedSearchOld,
     Pagination,
     ScrollToTop
   },
@@ -119,7 +118,8 @@ export default {
 
   data: () => ({
     tab: null,
-    tabItems: ["table", "images", "map"]
+    tabItems: ["table", "images", "map"],
+    searchDrawer: true
   }),
 
   computed: {
@@ -154,7 +154,8 @@ export default {
           paginate_by: newVal,
           page: 1
         });
-      } else this.constructQueryParams(null, { paginate_by: newVal.toString() });
+      } else
+        this.constructQueryParams(null, { paginate_by: newVal.toString() });
     },
     sortDesc(newVal) {
       this.constructQueryParams(null, {

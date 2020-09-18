@@ -121,6 +121,13 @@ const state = {
       label: "Provider country",
       showCheckboxes: false,
       showMore: false
+    },
+    {
+      fieldType: "single_checkbox",
+      field: "has_image",
+      lookUpType: "",
+      value: null,
+      label: "Has image"
     }
   ],
   lookUpTypes: [
@@ -160,7 +167,8 @@ const state = {
     "country",
     "datasetowner",
     "providername",
-    "providercountry"
+    "providercountry",
+    "has_image"
   ],
   searchParamsList: ["page", "paginate_by", "sort_by", "sort_desc"]
 };
