@@ -201,14 +201,12 @@ export default {
       } else {
         if (e.item.value) {
           let valueList = e.item.value.split(" OR ");
-          console.log(valueList);
           let filteredValues = valueList.filter(
             val => val !== `"${e.fieldName}"`
           );
           e.item.value = filteredValues.join(" OR ");
         }
       }
-      console.log(e.item);
       this.updateSearchField(e.item);
     },
 

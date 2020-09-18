@@ -26,6 +26,12 @@ const mutations = {
   },
 
   UPDATE_SEARCH_FIELD(state, payload) {
+
+    console.log(payload)
+    let testItem = state.searchFields.find(stateItem => stateItem.field === payload.field);
+
+    console.log(testItem)
+
     let clonedSearchFields = cloneDeep(state.searchFields);
     let currentItemIndex = -1;
 

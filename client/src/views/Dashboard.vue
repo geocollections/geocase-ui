@@ -134,16 +134,19 @@ export default {
     ])
   },
 
+  created() {
+    if (this.$route.query) {
+      this.deconstructQueryParams(this.$route.query);
+      this.search();
+    }
+  },
+
   watch: {
-    "$route.query": {
-      handler(newVal) {
-        this.deconstructQueryParams(newVal);
-        this.search();
-      },
-      immediate: true
+    "$route.query"() {
+      this.search();
     },
     page(newVal) {
-      this.constructQueryParams(null, { page: newVal });
+      this.constructQueryParams(null, { page: newVal.toString() });
     },
     paginateBy(newVal) {
       if (this.page !== 1) {
@@ -151,7 +154,7 @@ export default {
           paginate_by: newVal,
           page: 1
         });
-      } else this.constructQueryParams(null, { paginate_by: newVal });
+      } else this.constructQueryParams(null, { paginate_by: newVal.toString() });
     },
     sortDesc(newVal) {
       this.constructQueryParams(null, {
