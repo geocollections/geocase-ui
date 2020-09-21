@@ -14,7 +14,7 @@
     "axios": "^0.19.2",
     "json2csv": "^5.0.1",
     "leaflet": "^1.6.0",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "roboto-fontface": "*",
     "vue": "^2.6.10",
     "vue-izitoast": "^1.2.1",
