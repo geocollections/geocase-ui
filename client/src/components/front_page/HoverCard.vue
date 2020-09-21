@@ -2,11 +2,13 @@
   <v-hover v-slot:default="{ hover }" :close-delay="800">
     <v-card
       :elevation="hover ? 12 : 6"
-      tile
       height="300"
       hover
-      class="d-flex flex-column"
-      :style="`background-image: url(&quot;${image}&quot;); background-size:cover`"
+      class="d-flex flex-column card-background"
+      :style="
+        `background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.1), rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.7)), url(&quot;${image}&quot;);`
+      "
+      @click="$router.push({ path: url })"
     >
       <v-spacer />
 
@@ -25,7 +27,7 @@
           'animate__slideInUp opacity-1': hover,
           'animate__slideOutDown opacity-0': !hover
         }"
-        class="text-center animate__animated animate__faster white--text font-weight-bold"
+        class="text-center animate__animated animate__faster white--text"
         >{{ text }}</v-card-text
       >
 
@@ -37,7 +39,7 @@
         }"
         class="justify-center mb-2 animate__animated animate__faster"
       >
-        <v-btn dark class="font-weight-bold " elevation="6" :to="url" tile>{{
+        <v-btn class="font-weight-bold white--text" color="black" elevation="6" :to="url">{{
           button
         }}</v-btn>
       </v-card-actions>
@@ -62,6 +64,12 @@ export default {
 .opacity-1 {
   opacity: 1;
   transition: opacity 800ms ease;
+}
+
+.card-background {
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 .v-card__title,

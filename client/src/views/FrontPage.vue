@@ -2,11 +2,13 @@
   <v-container class="FrontPage">
     <!-- Todo: Info -->
     <v-row no-gutters>
-      <v-col class="pa-3" cols="12" sm="6" md="3"> </v-col>
+      <v-col class="pa-3" cols="12" sm="6" md="3">
+        <v-card>
+          <v-card-title>Number of records: 1110669</v-card-title>
+        </v-card>
+      </v-col>
     </v-row>
 
-    <!-- Todo: News etc. -->
-    <!--    <v-card class="mt-2">-->
     <v-row no-gutters>
       <v-col
         class="pa-3"
@@ -60,7 +62,7 @@ export default {
         button: "View Rocks",
         url:
           '/search?recordbasis="RockSpecimen" OR "SedimentSample" OR "TechnologicalSample"',
-        image: require("@/assets/front_page/mineral_0.png")
+        image: require("@/assets/front_page/rock.png")
       },
       {
         title: "Meteorites",
@@ -68,7 +70,7 @@ export default {
           "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
         button: "View Meteorites",
         url: '/search?recordbasis="RockSpecimen"',
-        image: require("@/assets/front_page/mineral_1.png")
+        image: require("@/assets/front_page/meteorite_1.png")
       }
     ]
   })
