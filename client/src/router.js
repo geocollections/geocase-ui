@@ -1,6 +1,7 @@
 import Vue from "vue";
 import Router from "vue-router";
-import Dashboard from "@/views/Dashboard";
+import Search from "@/views/Search";
+import FrontPage from "@/views/FrontPage";
 
 Vue.use(Router);
 
@@ -14,8 +15,13 @@ const router = new Router({
     },
     {
       path: "/",
-      name: "Dashboard",
-      component: Dashboard
+      name: "FrontPage",
+      component: FrontPage
+    },
+    {
+      path: "/search",
+      name: "Search",
+      component: Search
     },
     {
       // path: "/specimen/:id(\\d+)",

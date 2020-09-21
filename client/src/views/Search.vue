@@ -103,7 +103,7 @@ import TabTable from "../components/tabs/TabTable";
 import queryMixin from "../mixins/queryMixin";
 
 export default {
-  name: "Dashboard",
+  name: "Search",
 
   components: {
     TabTable,

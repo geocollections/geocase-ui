@@ -79,7 +79,7 @@ export default {
       ) {
         setTimeout(() => {
           this.$router.push({
-            name: "Dashboard",
+            name: "Search",
             query: { ...this.$route.query, q: this.fastSearch, page: 1 }
           });
         }, 250);

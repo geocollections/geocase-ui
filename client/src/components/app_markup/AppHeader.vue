@@ -4,7 +4,7 @@
 
     <app-bar @update:drawer="drawer = !drawer" />
 
-    <landing-image />
+    <landing-image v-if="$route.name === 'FrontPage'" />
   </div>
 </template>
 

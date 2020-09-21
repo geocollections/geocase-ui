@@ -49,7 +49,7 @@ const queryMixin = {
 
       if (!isEqual(this.$route.query, newQueryParams))
         this.$router.push({
-          name: "Dashboard",
+          name: "Search",
           query: cloneDeep(newQueryParams)
         });
     },

@@ -1,6 +1,5 @@
 <template>
   <v-img
-    v-if="$route.name === 'Dashboard'"
     class="landing-image"
     :src="require('@/assets/geocase_landing.jpg')"
     style="height: 37vh;"

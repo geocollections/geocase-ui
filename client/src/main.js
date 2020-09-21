@@ -8,6 +8,7 @@ import "roboto-fontface/css/roboto/roboto-fontface.css";
 import "leaflet/dist/leaflet.css";
 import "@fortawesome/fontawesome-free/css/all.css";
 import "izitoast/dist/css/iziToast.min.css";
+import "animate.css";
 
 Vue.config.productionTip = false;
 

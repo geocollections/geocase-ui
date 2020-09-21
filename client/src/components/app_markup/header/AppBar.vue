@@ -4,11 +4,11 @@
       dark
       app
       height="64"
-      :color="$route.name !== 'Dashboard' ? 'primary' : ''"
+      :color="$route.name !== 'FrontPage' ? 'primary' : ''"
       style="z-index: 2000"
       elevation="12"
       :class="{
-        'app-bar-primary': $route.name === 'Dashboard',
+        'app-bar-primary': $route.name === 'FrontPage',
         'app-bar-fossil': appBarFossil,
         'app-bar-mineral': appBarMineral,
         'app-bar-rock': appBarRock,
@@ -16,21 +16,14 @@
       }"
       hide-on-scroll
     >
-      <v-app-bar-nav-icon
-        @click.stop="$emit('update:drawer')"
-        aria-label="Open navigation drawer"
-        class="mr-2"
-      />
-
-      <div class="d-flex align-center">
-        <v-tooltip bottom>
-          <template v-slot:activator="{ on }">
-            <v-toolbar-title
-              v-on="on"
-              class="align-center font-weight-bold link"
-              style="letter-spacing: 1px"
-              @click="goToFrontPage"
-            >
+      <v-tooltip bottom>
+        <template v-slot:activator="{ on }">
+          <v-toolbar-title
+            v-on="on"
+            class="font-weight-bold link mr-3 white--text"
+            style="letter-spacing: 1px"
+          >
+            <router-link exact to="/" class="white--text text-decoration-none">
               <!--        <span-->
               <!--          class="hidden-xs-only"-->
               <!--          :class="{ 'small-font': $vuetify.breakpoint.smOnly }"-->
@@ -40,17 +33,21 @@
               <!--        <span class="hidden-sm-and-up">-->
               <!--          <v-icon large>fas fa-home</v-icon>-->
               <!--        </span>-->
-            </v-toolbar-title>
-          </template>
-          <span>Go to front page</span>
-        </v-tooltip>
-      </div>
+            </router-link>
+          </v-toolbar-title>
+        </template>
+        <span>Go to front page</span>
+      </v-tooltip>
+
+      <v-toolbar-items>
+        <v-btn text to="/search" exact>Search</v-btn>
+      </v-toolbar-items>
 
       <v-spacer />
 
       <fast-search
         style="max-width: 300px"
-        v-if="$route.name !== 'Dashboard' && $vuetify.breakpoint.mdAndUp"
+        v-if="$route.name !== 'FrontPage' && $vuetify.breakpoint.mdAndUp"
         in-app-header
       />
 
@@ -64,6 +61,12 @@
           <span>Go back</span>
         </v-tooltip>
       </div>
+
+      <v-app-bar-nav-icon
+        @click.stop="$emit('update:drawer')"
+        aria-label="Open navigation drawer"
+        class="mr-2"
+      />
     </v-app-bar>
   </v-hover>
 </template>
