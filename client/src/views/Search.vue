@@ -26,18 +26,6 @@
             <span class="hidden-sm-and-up">{{ `(page: ${page})` }}</span>
           </v-card-title>
 
-          <!-- PAGINATION -->
-          <pagination
-            v-if="responseResultsCount > 10"
-            :paginate-by="paginateBy"
-            :paginate-by-items="paginateByItems"
-            @update:paginateBy="updatePaginateBy($event)"
-            :results="responseResults"
-            :page="page"
-            :number-of-results="responseResultsCount"
-            @update:page="updatePage($event)"
-          />
-
           <v-tabs
             v-model="tab"
             grow
@@ -86,6 +74,18 @@
               </v-card>
             </v-tab-item>
           </v-tabs-items>
+
+          <!-- PAGINATION -->
+          <pagination
+              v-if="responseResultsCount > 10"
+              :paginate-by="paginateBy"
+              :paginate-by-items="paginateByItems"
+              @update:paginateBy="updatePaginateBy($event)"
+              :results="responseResults"
+              :page="page"
+              :number-of-results="responseResultsCount"
+              @update:page="updatePage($event)"
+          />
         </v-card>
       </div>
     </div>

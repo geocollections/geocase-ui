@@ -24,15 +24,15 @@
             style="letter-spacing: 1px"
           >
             <router-link exact to="/" class="white--text text-decoration-none">
-              <!--        <span-->
-              <!--          class="hidden-xs-only"-->
-              <!--          :class="{ 'small-font': $vuetify.breakpoint.smOnly }"-->
-              <!--          >GeoCASe experimental</span-->
-              <!--        >-->
-              <span>GeoCASe experimental</span>
-              <!--        <span class="hidden-sm-and-up">-->
-              <!--          <v-icon large>fas fa-home</v-icon>-->
-              <!--        </span>-->
+              <span
+                class="hidden-xs-only"
+                :class="{ 'small-font': $vuetify.breakpoint.smOnly }"
+                >GeoCASe experimental</span
+              >
+              <!--              <span>GeoCASe experimental</span>-->
+              <span class="hidden-sm-and-up">
+                <v-icon>fas fa-home</v-icon>
+              </span>
             </router-link>
           </v-toolbar-title>
         </template>

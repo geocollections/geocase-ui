@@ -8,13 +8,5 @@ module.exports = {
         target: "http://localhost:5000"
       }
     }
-  },
-  // module: {
-  //   rules: [
-  //     {
-  //       test: /\.scss$/,
-  //       use: ["vue-style-loader", "css-loader", "sass-loader"]
-  //     }
-  //   ]
-  // }
+  }
 };

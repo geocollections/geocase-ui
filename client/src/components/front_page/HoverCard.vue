@@ -4,7 +4,7 @@
       :elevation="hover ? 12 : 6"
       height="300"
       hover
-      class="d-flex flex-column card-background"
+      class="d-flex flex-column HoverCard"
       :style="
         `background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.1), rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.7)), url(&quot;${image}&quot;);`
       "

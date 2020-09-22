@@ -17,10 +17,9 @@
         label="Fast search"
         :append-outer-icon="!inAppHeader ? 'far fa-question-circle' : ''"
         @click:append-outer="handleHelpButtonClick"
-        :append-icon="inAppHeader ? 'fas fa-search' : ''"
+        append-icon="fas fa-search"
         @click:append="doFastSearch"
         @keyup.native="doFastSearch"
-        :clearable="!inAppHeader"
         light
         clear-icon="fas fa-times"
         :height="!inAppHeader ? '60' : ''"
@@ -72,10 +71,9 @@ export default {
 
     doFastSearch(event) {
       if (
-        this.inAppHeader &&
-        (event.type === "click" ||
-          event.keyCode === 13 ||
-          event.key === "Enter")
+        event.type === "click" ||
+        event.keyCode === 13 ||
+        event.key === "Enter"
       ) {
         setTimeout(() => {
           this.$router.push({
