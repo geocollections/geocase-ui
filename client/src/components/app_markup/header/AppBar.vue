@@ -14,8 +14,15 @@
         'app-bar-rock': appBarRock,
         'app-bar-meteorite': appBarMeteorite
       }"
-      hide-on-scroll
+      :hide-on-scroll="$route.name !== 'Search'"
     >
+      <v-app-bar-nav-icon
+          v-if="$vuetify.breakpoint.lgAndUp"
+        @click.stop="$emit('toggle:searchDrawer')"
+        aria-label="Toggle navigation drawer"
+        class="mr-2"
+      />
+
       <v-tooltip bottom>
         <template v-slot:activator="{ on }">
           <v-toolbar-title
@@ -47,7 +54,11 @@
 
       <fast-search
         style="max-width: 300px"
-        v-if="$route.name !== 'FrontPage' && $vuetify.breakpoint.mdAndUp"
+        v-if="
+          $route.name !== 'FrontPage' &&
+            $route.name !== 'Search' &&
+            $vuetify.breakpoint.mdAndUp
+        "
         in-app-header
       />
 

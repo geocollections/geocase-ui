@@ -11,12 +11,20 @@
   >
     <v-list dense>
       <v-subheader
-        v-if="$route.name !== 'FrontPage' && $vuetify.breakpoint.smAndDown"
+        v-if="
+          $route.name !== 'FrontPage' &&
+            $route.name !== 'Search' &&
+            $vuetify.breakpoint.smAndDown
+        "
         >SEARCH</v-subheader
       >
       <fast-search
         in-app-header
-        v-if="$route.name !== 'FrontPage' && $vuetify.breakpoint.smAndDown"
+        v-if="
+          $route.name !== 'FrontPage' &&
+            $route.name !== 'Search' &&
+            $vuetify.breakpoint.smAndDown
+        "
       />
 
       <v-subheader>EXTERNAL RESOURCES</v-subheader>
@@ -43,6 +51,7 @@
 
 <script>
 import FastSearch from "../../search/FastSearch";
+import { mapState } from "vuex";
 export default {
   name: "NavigationDrawer",
   components: { FastSearch },
@@ -52,35 +61,9 @@ export default {
       required: true
     }
   },
-  data: () => ({
-    externalResources: [
-      {
-        icon: "fas fa-database",
-        text: "GeoCASe",
-        url: "http://geocase.eu"
-      },
-      {
-        icon: "fab fa-github",
-        text: "ABCD-EFG standard GitHub",
-        url: "https://github.com/tdwg/efg"
-      },
-      {
-        icon: "far fa-hand-paper",
-        text: "ABCD-EFG standard",
-        url: "https://www.tdwg.org/community/esp/efg/"
-      },
-      {
-        icon: "fas fa-pager",
-        text: "BioCASe portal",
-        url: "https://www.biocase.org/"
-      },
-      {
-        icon: "fas fa-leaf",
-        text: "GBIF portal",
-        url: "https://www.gbif.org/"
-      }
-    ]
-  })
+  computed: {
+    ...mapState("settings", ["externalResources"])
+  }
 };
 </script>
 

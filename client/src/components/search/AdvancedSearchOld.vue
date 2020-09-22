@@ -20,18 +20,24 @@
           cols="12"
           :sm="!item.fieldType.includes('checkbox') ? 4 : 12"
           lg="12"
-          v-for="item in filteredSearchFields"
+          v-for="item in searchFields"
           :key="item.field"
         >
           <!-- TEXT FIELDS -->
           <v-row no-gutters v-if="item.fieldType === 'text'">
-            <v-col cols="12" class="px-1 pb-1">
+            <v-col
+              cols="12"
+              class="px-1"
+              :class="{ 'pb-1': item.field !== 'q' }"
+            >
               <SelectWrapper
+                v-if="item.field !== 'q'"
                 :use-custom-prepend-inner="item.label"
                 :items="lookUpTypes"
                 :value="item.lookUpType"
                 @input="updateSearchField({ ...item, lookUpType: $event })"
               />
+              <div v-else class="font-weight-bold">Fast search</div>
             </v-col>
 
             <v-col cols="12" class="pa-1">

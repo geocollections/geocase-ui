@@ -1,6 +1,8 @@
 <template>
   <v-container fluid>
-    <scroll-to-top />
+    <ScrollToTop />
+
+    <OpenFilters />
 
     <div class="d-flex flex-column flex-lg-row justify-space-between">
       <div :class="{ 'main-search pr-3': $vuetify.breakpoint.lgAndUp }">
@@ -77,14 +79,14 @@
 
           <!-- PAGINATION -->
           <pagination
-              v-if="responseResultsCount > 10"
-              :paginate-by="paginateBy"
-              :paginate-by-items="paginateByItems"
-              @update:paginateBy="updatePaginateBy($event)"
-              :results="responseResults"
-              :page="page"
-              :number-of-results="responseResultsCount"
-              @update:page="updatePage($event)"
+            v-if="responseResultsCount > 10"
+            :paginate-by="paginateBy"
+            :paginate-by-items="paginateByItems"
+            @update:paginateBy="updatePaginateBy($event)"
+            :results="responseResults"
+            :page="page"
+            :number-of-results="responseResultsCount"
+            @update:page="updatePage($event)"
           />
         </v-card>
       </div>
@@ -101,11 +103,13 @@ import TabImages from "../components/tabs/TabImages";
 import TabMap from "../components/tabs/TabMap";
 import TabTable from "../components/tabs/TabTable";
 import queryMixin from "../mixins/queryMixin";
+import OpenFilters from "@/components/partial/OpenFilters";
 
 export default {
   name: "Search",
 
   components: {
+    OpenFilters,
     TabTable,
     TabMap,
     TabImages,
@@ -179,11 +183,11 @@ export default {
 
 <style scoped>
 .main-search {
-  min-width: 300px;
+  /*min-width: 300px;*/
 }
 
 .main-table {
   /* search width 300px + 3 x padding (12px) = 336px */
-  min-width: calc(100vw - 336px);
+  /*min-width: calc(100vw - 336px);*/
 }
 </style>

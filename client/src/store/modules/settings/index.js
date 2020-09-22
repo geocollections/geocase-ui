@@ -1,6 +1,34 @@
 const state = {
   error: false,
-  errorMessage: ""
+  errorMessage: "",
+  searchDrawer: true,
+  externalResources: [
+    {
+      icon: "fas fa-database",
+      text: "GeoCASe",
+      url: "http://geocase.eu"
+    },
+    {
+      icon: "fab fa-github",
+      text: "ABCD-EFG standard GitHub",
+      url: "https://github.com/tdwg/efg"
+    },
+    {
+      icon: "far fa-hand-paper",
+      text: "ABCD-EFG standard",
+      url: "https://www.tdwg.org/community/esp/efg/"
+    },
+    {
+      icon: "fas fa-pager",
+      text: "BioCASe portal",
+      url: "https://www.biocase.org/"
+    },
+    {
+      icon: "fas fa-leaf",
+      text: "GBIF portal",
+      url: "https://www.gbif.org/"
+    }
+  ]
 };
 
 const actions = {
@@ -10,6 +38,10 @@ const actions = {
 
   updateErrorMessage({ commit }, message) {
     commit("SET_ERROR_MESSAGE", message);
+  },
+
+  updateSearchDrawerState({ commit, state }, bool) {
+    if (state.searchDrawer !== bool) commit("UPDATE_SEARCH_DRAWER_STATE", bool);
   }
 };
 
@@ -20,6 +52,11 @@ const mutations = {
 
   SET_ERROR_MESSAGE(state, message) {
     state.errorMessage = message;
+  },
+
+  UPDATE_SEARCH_DRAWER_STATE(state, bool) {
+    console.log("updating");
+    state.searchDrawer = bool;
   }
 };
 
