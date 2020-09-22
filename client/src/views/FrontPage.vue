@@ -1,11 +1,8 @@
 <template>
   <v-container class="FrontPage">
-    <!-- Todo: Info -->
     <v-row no-gutters>
-      <v-col class="pa-3" cols="12" sm="6" md="3">
-        <v-card>
-          <v-card-title>Number of records: 1110669</v-card-title>
-        </v-card>
+      <v-col cols="12" sm="4" v-for="item in stats" :key="item.text">
+        <StatsCard :text="item.text" :count="item.count" />
       </v-col>
     </v-row>
 
@@ -27,53 +24,22 @@
         />
       </v-col>
     </v-row>
-    <!--    </v-card>-->
   </v-container>
 </template>
 
 <script>
 import HoverCard from "@/components/front_page/HoverCard";
+import { mapGetters, mapState } from "vuex";
+import StatsCard from "@/components/front_page/StatsCard";
 export default {
   name: "FrontPage",
-  components: { HoverCard },
-  data: () => ({
-    cards: [
-      {
-        title: "Fossils",
-        text:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-        button: "View Fossils",
-        url:
-          '/search?recordbasis="FossileSpecimen" OR "FossilSpecimen" OR "RecentPreservedSpecimen" OR "fossil"',
-        image: require("@/assets/front_page/fossil.png")
-      },
-      {
-        title: "Minerals",
-        text:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-        button: "View Minerals",
-        url: '/search?recordbasis="MineralSpecimen"',
-        image: require("@/assets/front_page/mineral_2.png")
-      },
-      {
-        title: "Rocks",
-        text:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-        button: "View Rocks",
-        url:
-          '/search?recordbasis="RockSpecimen" OR "SedimentSample" OR "TechnologicalSample"',
-        image: require("@/assets/front_page/rock.png")
-      },
-      {
-        title: "Meteorites",
-        text:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-        button: "View Meteorites",
-        url: '/search?recordbasis="RockSpecimen"',
-        image: require("@/assets/front_page/meteorite_1.png")
-      }
-    ]
-  })
+
+  components: { StatsCard, HoverCard },
+
+  computed: {
+    ...mapState("frontpage", ["cards"]),
+    ...mapGetters("frontpage", ["stats"])
+  }
 };
 </script>
 

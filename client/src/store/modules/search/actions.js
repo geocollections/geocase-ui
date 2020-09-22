@@ -62,6 +62,7 @@ const actions = {
       let response = await SearchService.search(params);
 
       if (response) {
+        commit("UPDATE_FACETS", response?.facet_counts?.facet_fields);
         commit("UPDATE_RESPONSE_RESULTS", response?.response?.docs || []);
         commit(
           "UPDATE_RESPONSE_RESULTS_COUNT",

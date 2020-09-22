@@ -168,7 +168,8 @@ const state = {
     "datasetowner",
     "providername",
     "providercountry",
-    "has_image"
+    "has_image",
+    "has_coordinates"
   ],
   searchParamsList: ["page", "paginate_by", "sort_by", "sort_desc"]
 };

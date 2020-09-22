@@ -24,7 +24,7 @@ const mutations = {
   },
 
   UPDATE_SEARCH_FIELD(state, payload) {
-    console.log(payload)
+    console.log(payload);
     state.searchFields = [
       ...state.searchFields.map(item =>
         item.field !== payload.field ? item : { ...item, ...payload }

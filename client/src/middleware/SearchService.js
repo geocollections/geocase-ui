@@ -2,7 +2,9 @@ import axios from "axios";
 
 const API_URL = "/api";
 const FACET_QUERY =
-  "q=*&rows=0&facet=on&facet.mincount=1&facet.field=recordbasis&facet.field=highertaxon&facet.field=type_status&facet.field=country&facet.field=datasetowner&facet.field=providername&facet.field=providername&facet.field=providercountry";
+  "facet=on&facet.mincount=0&facet.limit=100&facet.field=recordbasis&facet.field=highertaxon&facet.field=type_status&facet.field=country&facet.field=datasetowner&facet.field=providername&facet.field=providercountry";
+const STATS_QUERY =
+  "facet=on&facet.field=providername&facet.field=providercountry";
 
 class SearchService {
   static async search(searchParams) {
@@ -12,7 +14,7 @@ class SearchService {
 
       let searchFields = buildSearchFieldsQuery(searchParams.searchFields);
 
-      let url = `${API_URL}?start=${start}&rows=${searchParams.paginateBy}&sort=${sort}&defType=edismax`;
+      let url = `${API_URL}?start=${start}&rows=${searchParams.paginateBy}&sort=${sort}&defType=edismax&${FACET_QUERY}`;
 
       if (searchFields && searchFields.length > 0) url += `&${searchFields}`;
       else url += `&q=*`;
@@ -36,9 +38,9 @@ class SearchService {
     }
   }
 
-  static async getFacets() {
+  static async getStats() {
     try {
-      let url = `${API_URL}?${FACET_QUERY}`;
+      let url = `${API_URL}?q=*&rows=0&${STATS_QUERY}`;
 
       const res = await axios.get(url);
       return res.data;

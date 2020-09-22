@@ -24,8 +24,8 @@
       <v-card-text
         v-show="hover"
         :class="{
-          'animate__slideInUp opacity-1': hover,
-          'animate__slideOutDown opacity-0': !hover
+          animate__slideInUp: hover,
+          animate__slideOutDown: !hover
         }"
         class="text-center animate__animated animate__faster white--text"
         >{{ text }}</v-card-text
@@ -34,14 +34,18 @@
       <v-card-actions
         v-show="hover"
         :class="{
-          'animate__slideInUp opacity-1': hover,
-          'animate__slideOutDown opacity-0': !hover
+          animate__slideInUp: hover,
+          animate__slideOutDown: !hover
         }"
         class="justify-center mb-2 animate__animated animate__faster"
       >
-        <v-btn class="font-weight-bold white--text" color="black" elevation="6" :to="url">{{
-          button
-        }}</v-btn>
+        <v-btn
+          class="font-weight-bold white--text"
+          color="black"
+          elevation="6"
+          :to="url"
+          >{{ button }}</v-btn
+        >
       </v-card-actions>
     </v-card>
   </v-hover>
@@ -56,17 +60,7 @@ export default {
 </script>
 
 <style scoped>
-.opacity-0 {
-  opacity: 0;
-  transition: all 800ms ease;
-}
-
-.opacity-1 {
-  opacity: 1;
-  transition: opacity 800ms ease;
-}
-
-.card-background {
+.HoverCard {
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;

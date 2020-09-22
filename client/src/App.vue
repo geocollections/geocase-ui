@@ -32,11 +32,11 @@ export default {
   mixins: [toastMixin],
 
   created() {
-    this.getFacets();
+    this.getStats();
   },
 
   methods: {
-    ...mapActions("search", ["getFacets"])
+    ...mapActions("frontpage", ["getStats"])
   }
 };
 </script>
