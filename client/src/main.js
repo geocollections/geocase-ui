@@ -1,14 +1,14 @@
 import Vue from "vue";
-import App from "./App.vue";
-import router from "./router";
-import vuetify from "./plugins/vuetify";
-import store from "./store";
+import App from "@/App";
+import router from "@/router";
+import store from "@/store";
 import VueIziToast from "vue-izitoast";
 import "roboto-fontface/css/roboto/roboto-fontface.css";
 import "leaflet/dist/leaflet.css";
 import "@fortawesome/fontawesome-free/css/all.css";
 import "izitoast/dist/css/iziToast.min.css";
 import "animate.css";
+import vuetify from "@/plugins/vuetify";
 
 Vue.config.productionTip = false;
 

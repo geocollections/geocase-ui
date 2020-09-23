@@ -90,8 +90,8 @@
 </template>
 
 <script>
-import helperMixin from "../../mixins/helperMixin";
-import ImageWrapper from "../partial/image/ImageWrapper";
+import helperMixin from "@/mixins/helperMixin";
+import ImageWrapper from "@/components/partial/image/ImageWrapper";
 
 export default {
   name: "TabImages",

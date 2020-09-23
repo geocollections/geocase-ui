@@ -5,7 +5,7 @@
       small
       fixed
       bottom
-      left
+      right
       color="amber"
       dark
       @click="updateSearchDrawerState(true)"

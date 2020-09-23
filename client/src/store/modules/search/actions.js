@@ -1,4 +1,4 @@
-import SearchService from "../../../middleware/SearchService";
+import SearchService from "@/middleware/SearchService";
 
 const actions = {
   updatePage({ commit }, page) {

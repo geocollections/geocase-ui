@@ -67,11 +67,11 @@
 </template>
 
 <script>
-import ImageWrapper from "./ImageWrapper";
-import ImageOverflow from "./ImageOverflow";
+import ImageWrapper from "@/components/partial/image/ImageWrapper";
+import ImageOverflow from "@/components/partial/image/ImageOverflow";
 export default {
   name: "ImageCarousel",
-  components: {ImageOverflow, ImageWrapper },
+  components: { ImageOverflow, ImageWrapper },
   props: {
     images: {
       type: Array,

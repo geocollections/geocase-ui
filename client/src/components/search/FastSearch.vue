@@ -32,11 +32,11 @@
 </template>
 
 <script>
-import TextFieldWrapper from "../input_wrappers/TextFieldWrapper";
-import { mapActions, mapGetters, mapState } from "vuex";
-import HelpButton from "./fast_search/HelpButton";
+import { mapActions, mapState } from "vuex";
 import { debounce } from "lodash";
-import queryMixin from "../../mixins/queryMixin";
+import TextFieldWrapper from "@/components/partial/input_wrappers/TextFieldWrapper";
+import HelpButton from "@/components/search/fast_search/HelpButton";
+import queryMixin from "@/mixins/queryMixin";
 export default {
   name: "FastSearch",
 

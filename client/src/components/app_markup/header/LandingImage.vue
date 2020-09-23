@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import FastSearch from "../../search/FastSearch";
+import FastSearch from "@/components/search/FastSearch";
 
 export default {
   name: "LandingImage",

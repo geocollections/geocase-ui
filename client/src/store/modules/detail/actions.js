@@ -1,4 +1,4 @@
-import SearchService from "../../../middleware/SearchService";
+import SearchService from "@/middleware/SearchService";
 
 const actions = {
   async getDetailView({ dispatch, commit, rootState }, id) {

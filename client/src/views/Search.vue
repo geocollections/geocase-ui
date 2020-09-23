@@ -1,10 +1,10 @@
 <template>
-  <v-container fluid>
+  <v-container fluid class="px-0">
     <ScrollToTop />
 
     <OpenFilters />
 
-    <v-card>
+    <v-card flat>
       <!-- NUM OF ITEMS -->
       <v-card-title class="py-2 font-weight-bold" style="font-size: 1.5rem">
         <v-icon left color="primary" large v-if="tab === 0"
@@ -89,12 +89,12 @@
 <script>
 import ScrollToTop from "@/components/partial/ScrollToTop";
 import { mapActions, mapState } from "vuex";
-import Pagination from "../components/search/Pagination";
-import TabImages from "../components/tabs/TabImages";
-import TabMap from "../components/tabs/TabMap";
-import TabTable from "../components/tabs/TabTable";
-import queryMixin from "../mixins/queryMixin";
 import OpenFilters from "@/components/partial/OpenFilters";
+import queryMixin from "@/mixins/queryMixin";
+import Pagination from "@/components/search/Pagination";
+import TabImages from "@/components/partial/tabs/TabImages";
+import TabMap from "@/components/partial/tabs/TabMap";
+import TabTable from "@/components/partial/tabs/TabTable";
 
 export default {
   name: "Search",

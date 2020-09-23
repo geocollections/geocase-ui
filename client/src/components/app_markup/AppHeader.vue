@@ -1,8 +1,10 @@
 <template>
   <div class="app-header">
-    <navigation-drawer :drawer="drawer" @update:drawer="drawer = $event" />
-
-    <advanced-search-drawer v-if="$route.name === 'Search'" />
+    <search-drawer
+      :drawer="searchDrawer"
+      @update:drawer="updateSearchDrawerState($event)"
+      v-if="$route.name === 'Search'"
+    />
 
     <app-bar
       @update:drawer="drawer = !drawer"
@@ -14,17 +16,13 @@
 </template>
 
 <script>
-import LandingImage from "./header/LandingImage";
-import AppBar from "./header/AppBar";
-import NavigationDrawer from "./header/NavigationDrawer";
-import AdvancedSearchDrawer from "@/components/search/advanced_search/AdvancedSearchDrawer";
 import { mapActions, mapState } from "vuex";
+import SearchDrawer from "@/components/app_markup/header/SearchDrawer";
+import AppBar from "@/components/app_markup/header/AppBar";
+import LandingImage from "@/components/app_markup/header/LandingImage";
 export default {
   name: "AppHeader",
-  components: { AdvancedSearchDrawer, NavigationDrawer, AppBar, LandingImage },
-  data: () => ({
-    drawer: false
-  }),
+  components: { SearchDrawer, AppBar, LandingImage },
   computed: {
     ...mapState("settings", ["searchDrawer"])
   },

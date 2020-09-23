@@ -17,12 +17,15 @@
       }"
       :hide-on-scroll="$route.name !== 'Search'"
     >
-      <v-app-bar-nav-icon
-          v-if="$vuetify.breakpoint.lgAndUp && $route.name === 'Search'"
+      <v-btn
+        v-if="$vuetify.breakpoint.lgAndUp && $route.name === 'Search'"
         @click.stop="$emit('toggle:searchDrawer')"
         aria-label="Toggle navigation drawer"
         class="mr-2"
-      />
+        icon
+      >
+        <v-icon>fas fa-sliders-h</v-icon>
+      </v-btn>
 
       <v-tooltip bottom>
         <template v-slot:activator="{ on }">
@@ -63,7 +66,36 @@
         in-app-header
       />
 
-      <div v-if="$route.name === 'Detail'">
+      <v-toolbar-items>
+        <v-menu v-model="externalResourcesDropdown" offset-y z-index="2101">
+          <template v-slot:activator="{ on }">
+            <v-btn text v-on="on">
+              Resources
+              <v-icon right>{{
+                externalResourcesDropdown
+                  ? "fas fa-caret-up"
+                  : "fas fa-caret-down"
+              }}</v-icon>
+            </v-btn>
+          </template>
+
+          <v-list color="primary" dark dense>
+            <v-list-item
+              v-for="item in externalResources"
+              :key="item.text"
+              :href="item.url"
+              target="ExternalResourceskWindow"
+            >
+              <v-list-item-icon>
+                <v-icon v-text="item.icon" />
+              </v-list-item-icon>
+              <v-list-item-title>{{ item.text }}</v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-menu>
+      </v-toolbar-items>
+
+      <div class="ml-4" v-if="$route.name === 'Detail'">
         <v-tooltip bottom>
           <template v-slot:activator="{ on }">
             <v-btn v-on="on" icon @click="$router.go(-1)">
@@ -73,25 +105,24 @@
           <span>Go back</span>
         </v-tooltip>
       </div>
-
-      <v-app-bar-nav-icon
-        @click.stop="$emit('update:drawer')"
-        aria-label="Open navigation drawer"
-        class="mr-2"
-      />
     </v-app-bar>
   </v-hover>
 </template>
 
 <script>
-import FastSearch from "../../search/FastSearch";
-import { mapGetters } from "vuex";
+import { mapGetters, mapState } from "vuex";
+import FastSearch from "@/components/search/FastSearch";
 export default {
   name: "AppBar",
 
   components: { FastSearch },
 
+  data: () => ({
+    externalResourcesDropdown: false
+  }),
+
   computed: {
+    ...mapState("settings", ["externalResources"]),
     ...mapGetters("detail", [
       "item",
       "isItemFossil",

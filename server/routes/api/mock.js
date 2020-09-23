@@ -2,16 +2,24 @@ const express = require('express');
 
 const router = express.Router();
 
+
 const mockData = {
   "responseHeader": {
     "status": 0,
-    "QTime": 0,
+    "QTime": 354,
     "params": {
       "q": "*",
-      "defType": "edismax",
-      "start": "0",
-      "sort": "fullscientificname asc",
-      "rows": "10"
+      "facet.field": ["recordbasis",
+        "highertaxon",
+        "type_status",
+        "country",
+        "datasetowner",
+        "providername",
+        "providername",
+        "providercountry"],
+      "facet.mincount": "1",
+      "rows": "0",
+      "facet": "on"
     }
   },
   "response": {
@@ -211,30 +219,6 @@ const mockData = {
         "relatedResource": "https://geocollections.info/file/104419",
         "_version_": 1669767255729111044
       }]
-  }
-}
-
-const mockFacetData = {
-  "responseHeader": {
-    "status": 0,
-    "QTime": 354,
-    "params": {
-      "q": "*",
-      "facet.field": ["recordbasis",
-        "highertaxon",
-        "type_status",
-        "country",
-        "datasetowner",
-        "providername",
-        "providername",
-        "providercountry"],
-      "facet.mincount": "1",
-      "rows": "0",
-      "facet": "on"
-    }
-  },
-  "response": {
-    "numFound": 1110026, "start": 0, "docs": []
   },
   "facet_counts": {
     "facet_queries": {},
@@ -514,8 +498,6 @@ router.get('/', (req, res) => {
     let item = clonedData.response.docs.find(item => item.id === id);
     clonedData.response.docs = [item];
     res.send(clonedData);
-  } else if (req.query && req.query.facet && req.query.facet.includes("on")) {
-    res.send(mockFacetData);
   } else res.send(mockData);
 });
 

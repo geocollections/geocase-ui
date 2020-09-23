@@ -31,9 +31,11 @@
               <li>
                 In case of multiple terms the results will include any of the
                 terms. To require a specific keyword to be present, precede it
-                with '<b class="secondary--text font-weight-black">+</b>'. To exclude a term,
-                precede it with '<b class="secondary--text font-weight-black">-</b>'. For
-                instance:
+                with '<b class="secondary--text font-weight-black">+</b>'. To
+                exclude a term, precede it with '<b
+                  class="secondary--text font-weight-black"
+                  >-</b
+                >'. For instance:
                 <a
                   class="help-link"
                   href="http://geocase.geocollections.info?q=%2Bacrochordiceras %2Bturkey -balarama"

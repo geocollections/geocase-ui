@@ -188,7 +188,8 @@
 </template>
 
 <script>
-import ImageWrapper from "./ImageWrapper";
+import ImageWrapper from "@/components/partial/image/ImageWrapper";
+
 export default {
   name: "ImageOverflow",
   components: { ImageWrapper },

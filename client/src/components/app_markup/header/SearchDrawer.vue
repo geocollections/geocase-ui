@@ -1,12 +1,14 @@
 <template>
   <v-navigation-drawer
     app
-    v-model="drawer"
+    :value="drawer"
+    @input="$emit('update:drawer', $event)"
     :style="footerStyle"
     clipped
     fixed
-    :right="isMdAndDown"
     width="350"
+    disable-route-watcher
+    class="elevation-4"
   >
     <!-- SEARCH FIELDS -->
     <v-row no-gutters class="pa-1">
@@ -42,7 +44,7 @@
             class="px-1 pb-1 d-flex flex-row justify-space-between"
           >
             <div
-              class="advanced-search--checkbox-label"
+              class="search--checkbox-label"
               @click="
                 updateSearchFieldCheckboxState({
                   findField: item.field,
@@ -70,9 +72,6 @@
           <v-col
             :class="{ 'd-none': !item.showMore && index > 3 }"
             cols="12"
-            sm="4"
-            md="3"
-            lg="12"
             class="px-1 pb-1"
             v-for="(entity, index) in getCheckboxes(item.field)"
             :key="index"
@@ -153,20 +152,26 @@
 
 <script>
 import { mapActions, mapGetters, mapState } from "vuex";
-import SearchField from "@/components/input_wrappers/TextFieldWrapper";
-import SelectWrapper from "@/components/input_wrappers/SelectWrapper";
+import SearchField from "@/components/partial/input_wrappers/TextFieldWrapper";
+import SelectWrapper from "@/components/partial/input_wrappers/SelectWrapper";
 import queryMixin from "@/mixins/queryMixin";
 import { cloneDeep, debounce } from "lodash";
 
 export default {
-  name: "AdvancedSearchDrawer",
+  name: "SearchDrawer",
 
   components: { SearchField, SelectWrapper },
 
   mixins: [queryMixin],
 
+  props: {
+    drawer: {
+      type: Boolean,
+      required: true
+    }
+  },
+
   computed: {
-    ...mapState("settings", ["searchDrawer"]),
     ...mapState("search", ["lookUpTypes", "searchFields"]),
     ...mapGetters("search", [
       "getCheckboxes",
@@ -183,16 +188,6 @@ export default {
       if (this.isMdAndDown)
         style += `margin-top: ${this.$vuetify.application.top}px; `;
       return style;
-    },
-
-    drawer: {
-      get() {
-        return this.searchDrawer;
-      },
-
-      set(value) {
-        this.updateSearchDrawerState(value);
-      }
     }
   },
 
@@ -206,7 +201,6 @@ export default {
   },
 
   methods: {
-    ...mapActions("settings", ["updateSearchDrawerState"]),
     ...mapActions("search", [
       "updateSearchField",
       "updateSearchFieldCheckboxState",
@@ -242,14 +236,14 @@ export default {
 </script>
 
 <style scoped>
-.advanced-search--checkbox-label {
+.search--checkbox-label {
   margin: 5px 4px 3px 0;
   font-weight: bold;
   color: black;
   white-space: nowrap;
 }
 
-.advanced-search--checkbox-label:hover {
+.search--checkbox-label:hover {
   cursor: pointer;
   opacity: 0.7;
 }

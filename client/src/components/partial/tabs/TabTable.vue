@@ -118,7 +118,8 @@
 </template>
 
 <script>
-import ImageWrapper from "../partial/image/ImageWrapper";
+import ImageWrapper from "@/components/partial/image/ImageWrapper";
+
 export default {
   name: "TabTable",
   components: { ImageWrapper },

@@ -6,7 +6,7 @@
       fab
       fixed
       bottom
-      right
+      left
       color="amber"
       dark
       @click="toTop"

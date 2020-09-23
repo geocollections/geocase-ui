@@ -27,7 +27,13 @@
         prev-icon="fas fa-angle-left"
         next-icon="fas fa-angle-right"
         :length="Math.ceil(numberOfResults / paginateBy)"
-        :total-visible="$vuetify.breakpoint.smAndDown ? ($vuetify.breakpoint.xsOnly ? 4 : 5) : 7"
+        :total-visible="
+          $vuetify.breakpoint.smAndDown
+            ? $vuetify.breakpoint.xsOnly
+              ? 4
+              : 5
+            : 7
+        "
         @input="$emit('update:page', $event)"
       />
     </div>
@@ -35,8 +41,9 @@
 </template>
 
 <script>
-import SelectWrapper from "../input_wrappers/SelectWrapper";
-import ExportButtons from "../partial/ExportButtons";
+import ExportButtons from "@/components/partial/ExportButtons";
+import SelectWrapper from "@/components/partial/input_wrappers/SelectWrapper";
+
 export default {
   name: "Pagination",
   components: { ExportButtons, SelectWrapper },

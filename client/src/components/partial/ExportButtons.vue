@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import toastMixin from "../../mixins/toastMixin";
+import toastMixin from "@/mixins/toastMixin";
 
 export default {
   name: "ExportButtons",
