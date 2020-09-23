@@ -2,7 +2,7 @@
   <div class="app-header">
     <navigation-drawer :drawer="drawer" @update:drawer="drawer = $event" />
 
-    <advanced-search-drawer />
+    <advanced-search-drawer v-if="$route.name === 'Search'" />
 
     <app-bar
       @update:drawer="drawer = !drawer"

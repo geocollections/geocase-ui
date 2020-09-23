@@ -3,6 +3,7 @@
     <v-app-bar
       dark
       app
+      clipped-left
       height="64"
       :color="$route.name !== 'FrontPage' ? 'primary' : ''"
       style="z-index: 2000"
@@ -17,7 +18,7 @@
       :hide-on-scroll="$route.name !== 'Search'"
     >
       <v-app-bar-nav-icon
-          v-if="$vuetify.breakpoint.lgAndUp"
+          v-if="$vuetify.breakpoint.lgAndUp && $route.name === 'Search'"
         @click.stop="$emit('toggle:searchDrawer')"
         aria-label="Toggle navigation drawer"
         class="mr-2"
