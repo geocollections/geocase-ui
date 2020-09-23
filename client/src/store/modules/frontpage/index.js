@@ -25,8 +25,8 @@ const state = {
     {
       title: "Rocks",
       text:
-        "Short information about rocks and sediments.",
-      button: "Rocks and sediments make up solid Earth. They may be magmatic, sedimentary or metamorphic.",
+        "Rocks and sediments make up solid Earth. They may be magmatic, sedimentary or metamorphic.",
+      button: "View Rocks",
       url:
         '/search?recordbasis="RockSpecimen" OR "SedimentSample" OR "TechnologicalSample"',
       image: require("@/assets/front_page/rock.png")
@@ -34,7 +34,7 @@ const state = {
     {
       title: "Meteorites",
       text:
-        "Meteorites are space rocks that have fallen on Earth. They are composed of same minerals as earthly rocks.",
+        "Meteorites are space rocks that have fallen on Earth. They are composed of the same minerals as earthly rocks.",
       button: "View Meteorites",
       url: '/search?recordbasis="MeteoriteSpecimen"',
       image: require("@/assets/front_page/meteorite_1.png")
