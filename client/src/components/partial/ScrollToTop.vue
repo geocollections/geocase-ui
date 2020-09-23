@@ -10,7 +10,7 @@
       color="amber"
       dark
       @click="toTop"
-      style="z-index: 1500"
+      :style="style"
     >
       <v-icon large>fas fa-angle-up</v-icon>
     </v-btn>
@@ -18,12 +18,25 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 export default {
   name: "ScrollToTop",
 
   data: () => ({
     showFab: false
   }),
+
+  computed: {
+    ...mapState("settings", ["searchDrawer"]),
+
+    style() {
+      let style = "z-index: 1600;";
+      if (this.searchDrawer)
+        style += `left: ${this.$vuetify.application.left + 16}px`;
+      return style;
+    }
+  },
 
   methods: {
     onScroll(event) {
