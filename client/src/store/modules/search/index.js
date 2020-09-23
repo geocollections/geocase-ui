@@ -127,7 +127,14 @@ const state = {
       field: "has_image",
       lookUpType: "",
       value: null,
-      label: "Has image"
+      label: "Show only data with images"
+    },
+    {
+      fieldType: "single_checkbox",
+      field: "has_map",
+      lookUpType: "",
+      value: null,
+      label: "Show only georeferenced data"
     }
   ],
   lookUpTypes: [
