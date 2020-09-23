@@ -8,7 +8,7 @@ const state = {
     {
       title: "Fossils",
       text:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        "Fossils are remains or traces of once lived organisms. They include bones, shells, burrows, and occasionally mineralised soft bodies.",
       button: "View Fossils",
       url:
         '/search?recordbasis="FossileSpecimen" OR "FossilSpecimen" OR "RecentPreservedSpecimen" OR "fossil"',
@@ -17,7 +17,7 @@ const state = {
     {
       title: "Minerals",
       text:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        "Minerals have certain chemical composition and crystal structure. They are the basic building blocks of all rocks.",
       button: "View Minerals",
       url: '/search?recordbasis="MineralSpecimen"',
       image: require("@/assets/front_page/mineral_2.png")
@@ -25,8 +25,8 @@ const state = {
     {
       title: "Rocks",
       text:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-      button: "View Rocks",
+        "Short information about rocks and sediments.",
+      button: "Rocks and sediments make up solid Earth. They may be magmatic, sedimentary or metamorphic.",
       url:
         '/search?recordbasis="RockSpecimen" OR "SedimentSample" OR "TechnologicalSample"',
       image: require("@/assets/front_page/rock.png")
@@ -34,9 +34,9 @@ const state = {
     {
       title: "Meteorites",
       text:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        "Meteorites are space rocks that have fallen on Earth. They are composed of same minerals as earthly rocks.",
       button: "View Meteorites",
-      url: '/search?recordbasis="RockSpecimen"',
+      url: '/search?recordbasis="MeteoriteSpecimen"',
       image: require("@/assets/front_page/meteorite_1.png")
     }
   ]
