@@ -7,35 +7,18 @@
     padless
     :style="`padding-left: ${$vuetify.application.left}px;`"
   >
-    <v-card flat tile width="100%" class="transparent">
-      <v-card-text class="pt-1 px-1 pb-0 text-center white--text">
-        GeoCASe experimental user interface developed at the Department of
-        Geology, TalTech. Code available in Github
-        <v-btn
-          icon
-          href="https://github.com/geocollections/geocase-ui"
-          target="GithubWindow"
-        >
-          <v-icon>fab fa-github</v-icon>
-        </v-btn>
-      </v-card-text>
-
-      <v-card-text class="pt-1 px-1 pb-0 text-center white--text">
-        GeoGASe portal software developed at Museum für Naturkunde Berlin. Code
-        available in Github
-        <v-btn
-          icon
-          href="https://github.com/MfN-Berlin/geocase-infrastructure"
-          target="GithubWindow"
-        >
-          <v-icon>fab fa-github</v-icon>
-        </v-btn>
-      </v-card-text>
-
-      <v-card-text class="pa-1 text-center white--text">
-        {{ new Date().getFullYear() }} - <strong>GeoCASe</strong>
+    <v-card-text class="pa-1 text-center white--text">
+        {{ new Date().getFullYear() }} | <strong>GeoCASe 2.0</strong>
       </v-card-text>
     </v-card>
+    
+     <v-card flat tile width="100%" class="transparent">
+      <v-card-text class="pt-1 px-1 pb-0 text-center white--text">
+        GeoCASe 2.0 portal is collaborative effort of the <a href="https://cetaf.org">CETAF Earth Sciences Group</a>.<br />
+        Portal software created and hosted by <a href="https://taltech.ee/en/department-geology">TalTech (Tallinn)</a> and <a href="https://www.museumfuernaturkunde.berlin/">Museum für Naturkunde (Berlin)</a>.<br />
+        Data by <a href="/partners_and_providers">partner institutions</a>.
+      </v-card-text>
+
   </v-footer>
 </template>
 
