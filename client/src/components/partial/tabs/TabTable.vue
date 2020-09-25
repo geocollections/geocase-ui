@@ -1,7 +1,7 @@
 <template>
   <v-card flat>
     <v-data-table
-      class="table mt-3"
+      class="table"
       mobile-breakpoint="0"
       dense
       hide-default-footer

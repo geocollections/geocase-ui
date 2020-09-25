@@ -25,6 +25,7 @@
         clear-icon="fas fa-times"
         :height="!inAppHeader ? '60' : ''"
         autocomplete="off"
+        solo
       />
     </v-col>
 

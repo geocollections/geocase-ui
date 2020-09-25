@@ -9,9 +9,10 @@
     width="350"
     disable-route-watcher
     class="elevation-4"
+    color="blue-grey lighten-4"
   >
     <!-- SEARCH FIELDS -->
-    <v-row no-gutters class="pa-1">
+    <v-row no-gutters class="pa-3">
       <v-col cols="12" v-for="item in searchFields" :key="item.field">
         <!-- TEXT FIELDS -->
         <v-row no-gutters v-if="item.fieldType === 'text'">
@@ -27,11 +28,13 @@
           </v-col>
 
           <v-col cols="12" class="pa-1">
-            <SearchField
+            <TextFieldWrapper
               :value="item.value"
               @input="updateSearchFieldDebounced({ ...item, value: $event })"
               dense
               clearable
+              solo-inverted
+              :placeholder="item.label"
               clear-icon="fas fa-times"
             />
           </v-col>
@@ -152,7 +155,7 @@
 
 <script>
 import { mapActions, mapGetters, mapState } from "vuex";
-import SearchField from "@/components/partial/input_wrappers/TextFieldWrapper";
+import TextFieldWrapper from "@/components/partial/input_wrappers/TextFieldWrapper";
 import SelectWrapper from "@/components/partial/input_wrappers/SelectWrapper";
 import queryMixin from "@/mixins/queryMixin";
 import { cloneDeep, debounce } from "lodash";
@@ -160,7 +163,7 @@ import { cloneDeep, debounce } from "lodash";
 export default {
   name: "SearchDrawer",
 
-  components: { SearchField, SelectWrapper },
+  components: { TextFieldWrapper, SelectWrapper },
 
   mixins: [queryMixin],
 

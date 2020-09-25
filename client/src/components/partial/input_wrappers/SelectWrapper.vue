@@ -4,7 +4,7 @@
     v-on="$listeners"
     hide-details
     dense
-    style="z-index: 1500;"
+    style="z-index: 2001;"
   >
     <template
       v-slot:prepend-inner
