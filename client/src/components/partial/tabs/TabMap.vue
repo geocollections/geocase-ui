@@ -15,7 +15,7 @@
     </v-row>
 
     <div class="map" v-if="localities.length > 0">
-      <div id="map" :style="{ height: isDetailView ? '50vh' : '65vh' }"></div>
+      <div id="map" :style="{ height: isDetailView ? '50vh' : '70vh' }"></div>
     </div>
   </v-card>
 </template>
@@ -271,7 +271,7 @@ export default {
 
         if (this.markers.length > 0) {
           let bounds = new L.featureGroup(this.markers).getBounds();
-          this.map.fitBounds(bounds, { maxZoom: 3 });
+          this.map.fitBounds(bounds, { maxZoom: 4 });
         }
       } else {
         // If response is empty then remove markers

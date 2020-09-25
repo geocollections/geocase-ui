@@ -54,6 +54,7 @@ html {
 }
 
 .custom-pb {
-  padding-bottom: 200px !important;
+  /* Main padding is calculated on refresh, no need to add custom 200px */
+  /*padding-bottom: 200px !important;*/
 }
 </style>
