@@ -15,7 +15,7 @@ const state = {
       field: "q",
       lookUpType: "",
       value: null,
-      label: "Fast search"
+      label: "Find quickly"
     },
     {
       fieldType: "text",

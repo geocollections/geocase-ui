@@ -14,12 +14,13 @@
       <text-field-wrapper
         class="fast-search-input"
         v-model="fastSearch"
-        label="Fast search"
+        label="Find quickly..."
         :append-outer-icon="!inAppHeader ? 'far fa-question-circle' : ''"
         @click:append-outer="handleHelpButtonClick"
         append-icon="fas fa-search"
         @click:append="doFastSearch"
         @keyup.native="doFastSearch"
+        :autofocus="$route.name === 'FrontPage'"
         light
         clear-icon="fas fa-times"
         :height="!inAppHeader ? '60' : ''"
@@ -118,5 +119,9 @@ export default {
   text-shadow: 1px 1px 2px #000000;
   /*text-shadow: unset;*/
   opacity: 0.9;
+}
+
+.fast-search-input >>> .v-label {
+  font-size: 1.25rem;
 }
 </style>

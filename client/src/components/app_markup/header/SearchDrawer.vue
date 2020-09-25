@@ -23,7 +23,7 @@
               :value="item.lookUpType"
               @input="updateSearchField({ ...item, lookUpType: $event })"
             />
-            <div v-else class="font-weight-bold">Fast search</div>
+            <div v-else class="font-weight-bold">Find quickly</div>
           </v-col>
 
           <v-col cols="12" class="pa-1">
