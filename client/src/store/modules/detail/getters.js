@@ -17,7 +17,7 @@ const getters = {
     return (
       getters.itemExists &&
       getters.item &&
-      getters.item.locality &&
+      getters.item.has_map &&
       getters.item.latitude &&
       getters.item.longitude
     );

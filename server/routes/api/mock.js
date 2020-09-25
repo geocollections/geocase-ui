@@ -25,6 +25,31 @@ const mockData = {
   "response": {
     "numFound": 1110026, "start": 0, "docs": [
       {
+        area_name: "Pacific Ocean",
+        collectioncode: "Neptune Database",
+        datasetowner: "Museum für Naturkunde Berlin",
+        datasetownerabbrev: "MfN",
+        datasourcecountry: "Germany",
+        datasourceurl: "http://biocase.naturkundemuseum-berlin.de/current/pywrapper.cgi?dsa=mfn_Neptune",
+        fullscientificname: "Actinocyclus ellipticus",
+        has_image: false,
+        has_map: true,
+        id: "725536",
+        is_mineral: false,
+        last_harvested_processing: "2020-05-31T08:28:54Z",
+        latitude: 4.2087,
+        longitude: -133.3302,
+        names: ["Actinocyclus ellipticus"],
+        occurrenceid: 725536,
+        provideraddress: "Neptune",
+        providercountry: "Germany",
+        providername: "Neptune",
+        providerurl: "Neptune",
+        recordbasis: "FossileSpecimen",
+        unitid: "5741_DACTI0090",
+        _version_: 1678545627496054800
+      },
+      {
         collectioncode: "GIT",
         collectorname: "Viira",
         country: "Estonia",

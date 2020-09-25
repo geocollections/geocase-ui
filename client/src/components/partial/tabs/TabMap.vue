@@ -159,9 +159,7 @@ export default {
   computed: {
     localities() {
       if (this.responseResultsCount > 0) {
-        return this.responseResults.filter(
-          locality => !!locality.latitude && !!locality.longitude
-        );
+        return this.responseResults.filter(locality => !!locality.has_map);
       } else return [];
     }
   },
@@ -251,11 +249,10 @@ export default {
         this.markerLayer = L.layerGroup(this.markers);
         this.map.addLayer(this.markerLayer);
 
-        if (this.markers.length > 1) {
+        if (this.markers.length > 0) {
           let bounds = new L.featureGroup(this.markers).getBounds();
-          this.map.fitBounds(bounds);
-        } else if (this.markers.length === 1)
-          this.map.setView(this.markers[0].getLatLng(), 6);
+          this.map.fitBounds(bounds, { maxZoom: 1 });
+        }
       } else {
         // If response is empty then remove markers
         if (this.markerLayer !== null) this.map.removeLayer(this.markerLayer);
