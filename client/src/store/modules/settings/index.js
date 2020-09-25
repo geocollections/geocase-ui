@@ -4,22 +4,17 @@ const state = {
   searchDrawer: true,
   externalResources: [
     {
-      icon: "fas fa-database",
-      text: "GeoCASe",
-      url: "http://geocase.eu"
+      icon: "fas fa-sitemap",
+      text: "CETAF",
+      url: "http://cetaf.org"
     },
     {
-      icon: "fab fa-github",
-      text: "ABCD-EFG standard GitHub",
-      url: "https://github.com/tdwg/efg"
+      icon: "fas fa-microscope",
+      text: "DiSSCo",
+      url: "http://www.dissco.eu"
     },
     {
-      icon: "far fa-hand-paper",
-      text: "ABCD-EFG standard",
-      url: "https://www.tdwg.org/community/esp/efg/"
-    },
-    {
-      icon: "fas fa-pager",
+      icon: "fas fa-network-wired",
       text: "BioCASe portal",
       url: "https://www.biocase.org/"
     },
@@ -27,6 +22,21 @@ const state = {
       icon: "fas fa-leaf",
       text: "GBIF portal",
       url: "https://www.gbif.org/"
+    },
+    {
+      icon: "far fa-hand-paper",
+      text: "ABCD-EFG standard",
+      url: "https://www.tdwg.org/community/esp/efg/"
+    },
+    {
+      icon: "fab fa-github",
+      text: "GeoCASe 2.0 on GitHub",
+      url: "https://github.com/geocollections/geocase-ui"
+    },
+    {
+      icon: "fas fa-database",
+      text: "GeoCASe 1.0 portal",
+      url: "http://geocase.eu"
     }
   ]
 };
