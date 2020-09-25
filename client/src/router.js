@@ -28,6 +28,11 @@ const router = new Router({
       path: "/specimen/:id",
       name: "Detail",
       component: () => import("@/views/DetailView")
+    },
+    {
+      path: "/partners_and_providers",
+      name: "Partners and providers",
+      component: () => import("@/views/PartnersAndProviders")
     }
   ]
 });
