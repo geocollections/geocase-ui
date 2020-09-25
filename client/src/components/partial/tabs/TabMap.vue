@@ -14,7 +14,7 @@
       </v-col>
     </v-row>
 
-    <div class="map mt-3">
+    <div class="map" v-if="localities.length > 0">
       <div id="map" :style="{ height: isDetailView ? '50vh' : '65vh' }"></div>
     </div>
   </v-card>
@@ -161,6 +161,26 @@ export default {
       if (this.responseResultsCount > 0) {
         return this.responseResults.filter(locality => !!locality.has_map);
       } else return [];
+    },
+
+    responseResultsHasEstonia() {
+      return this.localities.some(item => item.country === "Estonia");
+    },
+
+    filteredBaseMaps() {
+      return this.baseMaps.filter(item => {
+        if (item.name.includes("Estonia")) {
+          return this.responseResultsHasEstonia;
+        } else return item;
+      });
+    },
+
+    filteredOverlayMaps() {
+      return this.overlayMaps.filter(item => {
+        if (item.name.includes("Estonia")) {
+          return this.responseResultsHasEstonia;
+        } else return item;
+      });
     }
   },
 
@@ -182,11 +202,11 @@ export default {
         }).setView(L.latLng(58.5, 25.5), 6);
 
         let baseMaps = {};
-        this.baseMaps.forEach(
+        this.filteredBaseMaps.forEach(
           provider => (baseMaps[provider.name] = provider.leafletObject)
         );
         let overlayMaps = {};
-        this.overlayMaps.forEach(
+        this.filteredOverlayMaps.forEach(
           provider => (overlayMaps[provider.name] = provider.leafletObject)
         );
         L.control.layers(baseMaps, overlayMaps).addTo(this.map);
@@ -251,7 +271,7 @@ export default {
 
         if (this.markers.length > 0) {
           let bounds = new L.featureGroup(this.markers).getBounds();
-          this.map.fitBounds(bounds, { maxZoom: 1 });
+          this.map.fitBounds(bounds, { maxZoom: 3 });
         }
       } else {
         // If response is empty then remove markers
