@@ -21,10 +21,10 @@
               <li>
                 Enter term(s) for quickly searching through all main data
                 tables. Uppercase and lowercase is not differentiated, for
-                wildcard use asterisk (<a
+                wildcard use asterisk (<router-link
                   class="help-link"
-                  href="http://geocase.geocollections.info?q=acrochordiceras"
-                  >*</a
+                  :to="{ path: 'search', query: { q: '*oa' } }"
+                  >*</router-link
                 >).
               </li>
 
@@ -36,10 +36,13 @@
                   class="secondary--text font-weight-black"
                   >-</b
                 >'. For instance:
-                <a
+                <router-link
                   class="help-link"
-                  href="http://geocase.geocollections.info?q=%2Bacrochordiceras %2Bturkey -balarama"
-                  >+acrochordiceras +turkey -balarama</a
+                  :to="{
+                    path: 'search',
+                    query: { q: '+acrochordiceras +turkey -balarama' }
+                  }"
+                  >+acrochordiceras +turkey -balarama</router-link
                 >.
               </li>
 
@@ -48,20 +51,23 @@
                 <b class="secondary--text">double quotation marks</b>. Use them
                 also if the term includes special characters like '+' or '-',
                 for instance:
-                <a
+                <router-link
                   class="help-link"
-                  href='http://geocase.geocollections.info?q="160-12"'
-                  >"160-12"</a
+                  :to="{ path: 'search', query: { q: '&quot;160-12&quot;' } }"
+                  >"160-12"</router-link
                 >.
               </li>
 
               <li>
                 Quick search box can also be used for more advanced queries, if
                 you know names of database fields. For example, query by
-                <a
+                <router-link
                   class="help-link"
-                  href="http://geocase.geocollections.info?q=stratigraphy:Burtnieki*"
-                  >stratigraphy:Burtnieki*</a
+                  :to="{
+                    path: 'search',
+                    query: { q: 'stratigraphy:Burtnieki*' }
+                  }"
+                  >stratigraphy:Burtnieki*</router-link
                 >
                 will search all records, where stratigraphy is set to Burtnieki
                 Stage. NB! In this kind of search, uppercase is important
