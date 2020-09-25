@@ -5,11 +5,10 @@
       app
       clipped-left
       height="64"
-      :color="$route.name !== 'FrontPage' ? 'primary' : ''"
       style="z-index: 2000"
       elevation="12"
       :class="{
-        'app-bar-primary': $route.name === 'FrontPage',
+        'app-bar-primary': $route.name !== 'Detail',
         'app-bar-fossil': appBarFossil,
         'app-bar-mineral': appBarMineral,
         'app-bar-rock': appBarRock,
@@ -162,18 +161,18 @@ export default {
 .app-bar-primary {
   background: linear-gradient(
     320deg,
-    rgba(255, 160, 0, 0.7) 0%,
-    rgba(0, 0, 0, 0.7) 100%
-  ) !important;
-}
-
-.app-bar-primary:hover {
-  background: linear-gradient(
-    320deg,
     rgba(255, 160, 0, 0.9) 0%,
     rgba(0, 0, 0, 0.9) 100%
   ) !important;
 }
+
+/*.app-bar-primary:hover {*/
+/*  background: linear-gradient(*/
+/*    320deg,*/
+/*    rgba(255, 160, 0, 0.9) 0%,*/
+/*    rgba(0, 0, 0, 0.9) 100%*/
+/*  ) !important;*/
+/*}*/
 
 .app-bar-fossil {
   background: linear-gradient(
