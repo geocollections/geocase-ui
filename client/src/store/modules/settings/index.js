@@ -65,7 +65,7 @@ const mutations = {
   },
 
   UPDATE_SEARCH_DRAWER_STATE(state, bool) {
-    console.log("updating");
+    // console.log("updating");
     state.searchDrawer = bool;
   }
 };

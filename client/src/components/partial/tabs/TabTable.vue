@@ -99,30 +99,30 @@
         </v-btn>
       </template>
 
+      <!-- Todo: Open gallery? -->
       <template v-slot:item.url="{ item }">
-        <v-card
-          v-if="item.url"
-          flat
-          class="my-3 image-hover"
-          hover
-          :to="{ path: `specimen/${item.id}` }"
-          title="Go to detail view"
-          max-height="200"
-          max-width="200"
-        >
-          <image-wrapper max-height="200" :image-src="item.url" />
-        </v-card>
+        <v-icon>far fa-image</v-icon>
+        <!--        <v-card-->
+        <!--          v-if="item.url"-->
+        <!--          flat-->
+        <!--          class="my-3 image-hover"-->
+        <!--          hover-->
+        <!--          :to="{ path: `specimen/${item.id}` }"-->
+        <!--          title="Go to detail view"-->
+        <!--          max-height="200"-->
+        <!--          max-width="200"-->
+        <!--        >-->
+        <!--          <image-wrapper max-height="200" :image-src="item.url" />-->
+        <!--        </v-card>-->
       </template>
     </v-data-table>
   </v-card>
 </template>
 
 <script>
-import ImageWrapper from "@/components/partial/image/ImageWrapper";
 
 export default {
   name: "TabTable",
-  components: { ImageWrapper },
   props: {
     responseResults: {
       type: Array,
@@ -175,7 +175,7 @@ export default {
       // { text: "Stratigraphy Type", value: "" },
       // { text: "Term", value: "" },
       { text: "Record URI", value: "recordURI" },
-      { text: "Image", value: "url" }
+      { text: "Image", value: "url", align: "center" }
     ]
   }),
 

@@ -24,19 +24,23 @@
               :value="item.lookUpType"
               @input="updateSearchField({ ...item, lookUpType: $event })"
             />
-            <div v-else class="font-weight-bold">Find quickly</div>
+            <div v-else class="font-weight-bold text-center text-uppercase" style="font-size: 1.15rem;">Find quickly</div>
           </v-col>
 
           <v-col cols="12" class="pa-1">
             <TextFieldWrapper
               :value="item.value"
               @input="updateSearchFieldDebounced({ ...item, value: $event })"
-              dense
+              :dense="item.field !== 'q'"
               clearable
               solo-inverted
               :placeholder="item.label"
               clear-icon="fas fa-times"
             />
+          </v-col>
+
+          <v-col cols="12" class="mt-3" v-if="item.field === 'q'">
+            <div class="font-weight-bold text-center text-uppercase" style="font-size: 1.15rem;">Additional Filters</div>
           </v-col>
         </v-row>
 
@@ -48,6 +52,10 @@
           >
             <div
               class="search--checkbox-label"
+              :class="{
+                'search--checkbox-active font-weight-black':
+                  item.value && item.value.length > 0
+              }"
               @click="
                 updateSearchFieldCheckboxState({
                   findField: item.field,
@@ -142,8 +150,8 @@
       </v-col>
     </v-row>
 
-    <v-row no-gutters class="pa-1">
-      <v-col cols="12" class="d-flex justify-end pa-1">
+    <v-row no-gutters class="px-3 pb-5">
+      <v-col cols="12" class="d-flex justify-end">
         <v-btn color="error" @click="reset">
           Reset
           <v-icon right>far fa-trash-alt</v-icon>
@@ -249,5 +257,12 @@ export default {
 .search--checkbox-label:hover {
   cursor: pointer;
   opacity: 0.7;
+}
+
+.search--checkbox-active {
+  color: #ffa000;
+  letter-spacing: 1.25px;
+  text-shadow: 1px 1px 2px #000;
+  transition: all 800ms ease;
 }
 </style>

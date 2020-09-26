@@ -16,15 +16,21 @@
       }"
       :hide-on-scroll="$route.name !== 'Search'"
     >
-      <v-btn
-        v-if="$route.name === 'Search'"
-        @click.stop="$emit('toggle:searchDrawer')"
-        aria-label="Toggle navigation drawer"
-        class="mr-2"
-        icon
-      >
-        <v-icon>fas fa-sliders-h</v-icon>
-      </v-btn>
+      <v-tooltip bottom>
+        <template v-slot:activator="{ on }">
+          <v-btn
+            v-on="on"
+            v-if="$route.name === 'Search'"
+            @click.stop="$emit('toggle:searchDrawer')"
+            aria-label="Toggle navigation drawer"
+            class="mr-2"
+            icon
+          >
+            <v-icon>fas fa-sliders-h</v-icon>
+          </v-btn>
+        </template>
+        <span>Show/hide search filters</span>
+      </v-tooltip>
 
       <v-toolbar-items>
         <v-tooltip bottom>

@@ -3,9 +3,18 @@
     <!-- Todo: ALERT NEW PORTAL -->
     <v-row no-gutters>
       <v-col cols="12">
-        <div>
-          Todo: Alert box (new portal)
-        </div>
+        <v-alert
+          v-if="showAlert"
+          dismissible
+          prominent
+          type="info"
+          text
+          @input="hideAlert"
+        >
+          <div class="font-weight-bold" style="font-size: 1.25rem;">
+            This is GeoCASe 2.0 test interface
+          </div>
+        </v-alert>
       </v-col>
     </v-row>
 
@@ -49,7 +58,7 @@
 
 <script>
 import HoverCard from "@/components/front_page/HoverCard";
-import { mapGetters, mapState } from "vuex";
+import { mapActions, mapGetters, mapState } from "vuex";
 import StatsCard from "@/components/front_page/StatsCard";
 export default {
   name: "FrontPage",
@@ -57,8 +66,12 @@ export default {
   components: { StatsCard, HoverCard },
 
   computed: {
-    ...mapState("frontpage", ["cards"]),
+    ...mapState("frontpage", ["cards", "showAlert"]),
     ...mapGetters("frontpage", ["stats"])
+  },
+
+  methods: {
+    ...mapActions("frontpage", ["hideAlert"])
   }
 };
 </script>

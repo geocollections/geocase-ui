@@ -28,13 +28,8 @@ export default {
   }),
 
   computed: {
-    ...mapState("settings", ["searchDrawer"]),
-
     style() {
-      let style = "z-index: 1600;";
-      if (this.searchDrawer)
-        style += `left: ${this.$vuetify.application.left + 16}px`;
-      return style;
+      return "z-index: 1600;";
     }
   },
 

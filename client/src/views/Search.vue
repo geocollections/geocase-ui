@@ -2,20 +2,10 @@
   <v-container fluid class="px-4">
     <ScrollToTop />
 
-    <OpenFilters />
-
     <v-card flat>
       <!-- NUM OF ITEMS -->
       <v-card-title class="py-2 font-weight-bold" style="font-size: 1.5rem">
-        <v-icon left color="primary" large v-if="tab === 0"
-          >fas fa-table fa-2x</v-icon
-        >
-        <v-icon left color="primary" large v-else-if="tab === 1"
-          >far fa-image</v-icon
-        >
-        <v-icon left color="primary" large v-else>far fa-map</v-icon>
-
-        <span class="mr-1">{{ responseResultsCount }}</span>
+        <span class="mr-1" v-if="responseResultsCount">{{ responseResultsCount.toLocaleString() }}</span>
         <span class="mr-1">{{
           `record${responseResultsCount === 1 ? "" : "s"} found`
         }}</span>
@@ -26,18 +16,25 @@
         v-model="tab"
         grow
         show-arrows
-        slider-size="4"
-        color="primary"
-        active-class="amber lighten-5"
-        background-color="grey lighten-5"
+        slider-size="3"
+        color="black"
+        active-class="amber lighten-3"
+        background-color="amber lighten-5"
       >
         <v-tab
           class="font-weight-bold"
-          style="color: #FFA000;"
+          style="color: #000; font-size: 1rem;"
           v-for="item in tabItems"
           :key="item"
         >
           {{ item }}
+          <v-icon color="black" right small v-if="item === 'table'"
+            >fas fa-table</v-icon
+          >
+          <v-icon color="black" right small v-else-if="item === 'images'"
+            >far fa-image</v-icon
+          >
+          <v-icon color="black" right small v-else>far fa-map</v-icon>
         </v-tab>
       </v-tabs>
 
@@ -63,6 +60,7 @@
             />
 
             <tab-map
+              ref="map"
               v-if="item === 'map'"
               :response-results="responseResults"
               :response-results-count="responseResultsCount"
@@ -89,7 +87,6 @@
 <script>
 import ScrollToTop from "@/components/partial/ScrollToTop";
 import { mapActions, mapState } from "vuex";
-import OpenFilters from "@/components/partial/OpenFilters";
 import queryMixin from "@/mixins/queryMixin";
 import Pagination from "@/components/search/Pagination";
 import TabImages from "@/components/partial/tabs/TabImages";
@@ -100,7 +97,6 @@ export default {
   name: "Search",
 
   components: {
-    OpenFilters,
     TabTable,
     TabMap,
     TabImages,
@@ -155,6 +151,13 @@ export default {
         sort_desc: newVal,
         sort_by: this.sortBy
       });
+    },
+    tab(newVal) {
+      if (newVal === 2 && this.$refs?.map?.map) {
+        setTimeout(() => {
+          this.$refs.map[0].map.invalidateSize();
+        }, 100);
+      }
     }
   },
 

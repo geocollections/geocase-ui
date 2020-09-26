@@ -39,7 +39,8 @@ const state = {
       url: '/search?recordbasis="MeteoriteSpecimen"',
       image: require("@/assets/front_page/meteorite_1.png")
     }
-  ]
+  ],
+  showAlert: true
 };
 
 const actions = {
@@ -61,6 +62,10 @@ const actions = {
       if (!rootState.settings.error)
         dispatch("settings/updateErrorState", true, { root: true });
     }
+  },
+
+  hideAlert({ commit }) {
+    commit("HIDE_ALERT");
   }
 };
 
@@ -72,6 +77,10 @@ const mutations = {
         state[item[0]] = item[1].filter(val => typeof val !== "string").length;
       });
     }
+  },
+
+  HIDE_ALERT(state) {
+    state.showAlert = false;
   }
 };
 
