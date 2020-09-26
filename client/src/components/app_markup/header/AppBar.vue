@@ -17,7 +17,7 @@
       :hide-on-scroll="$route.name !== 'Search'"
     >
       <v-btn
-        v-if="$vuetify.breakpoint.lgAndUp && $route.name === 'Search'"
+        v-if="$route.name === 'Search'"
         @click.stop="$emit('toggle:searchDrawer')"
         aria-label="Toggle navigation drawer"
         class="mr-2"
@@ -26,30 +26,33 @@
         <v-icon>fas fa-sliders-h</v-icon>
       </v-btn>
 
-      <v-tooltip bottom>
-        <template v-slot:activator="{ on }">
-          <v-toolbar-title
-            v-on="on"
-            class="font-weight-bold link mr-3 white--text"
-            style="letter-spacing: 1px"
-          >
-            <router-link exact to="/" class="white--text text-decoration-none">
-              <span
-                class="hidden-xs-only"
-                :class="{ 'small-font': $vuetify.breakpoint.smOnly }"
-                >GeoCASe experimental</span
-              >
-              <!--              <span>GeoCASe experimental</span>-->
-              <span class="hidden-sm-and-up">
-                <v-icon>fas fa-home</v-icon>
-              </span>
-            </router-link>
-          </v-toolbar-title>
-        </template>
-        <span>Go to front page</span>
-      </v-tooltip>
-
       <v-toolbar-items>
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on }">
+            <v-toolbar-title
+              v-on="on"
+              class="font-weight-bold link mr-3 white--text align-self-center"
+              style="letter-spacing: 1px"
+            >
+              <router-link
+                exact
+                to="/"
+                class="white--text text-decoration-none"
+              >
+                <span
+                  class="hidden-xs-only"
+                  :class="{ 'small-font': $vuetify.breakpoint.smOnly }"
+                  >GeoCASe 2.0</span
+                >
+                <span class="hidden-sm-and-up">
+                  <v-icon>fas fa-home</v-icon>
+                </span>
+              </router-link>
+            </v-toolbar-title>
+          </template>
+          <span>Go to front page</span>
+        </v-tooltip>
+
         <v-btn text to="/search" exact>Search</v-btn>
       </v-toolbar-items>
 

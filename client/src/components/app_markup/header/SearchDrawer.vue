@@ -126,7 +126,7 @@
 
         <!-- SINGLE CHECKBOX -->
         <v-row no-gutters v-else-if="item.fieldType === 'single_checkbox'">
-          <v-col cols="12" class="px-1 pb-1 d-flex justify-end">
+          <v-col cols="12" class="px-1 pb-1 d-flex ">
             <v-checkbox
               class="mt-0 mb-2"
               :input-value="item.value"
