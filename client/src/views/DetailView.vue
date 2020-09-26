@@ -129,6 +129,59 @@
               </a>
             </template>
 
+            <template v-slot:item.taxon_id_pbdb="{ item }">
+              <a
+                style="text-decoration: unset;"
+                title="Link to taxon record in PBDB"
+                @click="openPaleobiodbInNewWindow(item.taxon_id_pbdb)"
+                >Link to taxon record in PBDB<v-icon right small color="primary"
+                  >fas fa-external-link-square-alt</v-icon
+                >
+              </a>
+            </template>
+
+            <template v-slot:item.taxon_id_eol="{ item }">
+              <a
+                style="text-decoration: unset;"
+                title="Link to taxon record in Encyclopedia of Life"
+                @click="openEolInNewWindow(item.taxon_id_eol)"
+                >Link to taxon record in Encyclopedia of Life<v-icon
+                  right
+                  small
+                  color="primary"
+                  >fas fa-external-link-square-alt</v-icon
+                >
+              </a>
+            </template>
+
+            <template v-slot:item.taxon_id_tol="{ item }">
+              <a
+                style="text-decoration: unset;"
+                title="Link to taxon record in Tree of life"
+                @click="openTolwebInNewWindow(item.taxon_id_tol)"
+                >Link to taxon record in Tree of life<v-icon
+                  right
+                  small
+                  color="primary"
+                  >fas fa-external-link-square-alt</v-icon
+                >
+              </a>
+            </template>
+
+            <template v-slot:item.taxon_id="{ item }">
+              <a
+                style="text-decoration: unset;"
+                title="Link to taxon record in fossiilid.info"
+                @click="openFossiilidInNewWindow(item.taxon_id)"
+                >Link to taxon record in fossiilid.info<v-icon
+                  right
+                  small
+                  color="primary"
+                  >fas fa-external-link-square-alt</v-icon
+                >
+              </a>
+            </template>
+
             <template v-slot:item.recordURI="{ item }">
               <a
                 :href="item.recordURI"
@@ -308,6 +361,38 @@ export default {
 
     openMindatInNewWindow(url) {
       window.open(url, "MindatWindow", "width=800,height=750");
+    },
+
+    openPaleobiodbInNewWindow(id) {
+      window.open(
+        `https://paleobiodb.org/classic/basicTaxonInfo?taxon_no=${id}`,
+        "PaleobiodbWindow",
+        "width=800,height=750"
+      );
+    },
+
+    openEolInNewWindow(id) {
+      window.open(
+        `https://eol.org/pages/${id}`,
+        "EolWindow",
+        "width=800,height=750"
+      );
+    },
+
+    openTolwebInNewWindow(id) {
+      window.open(
+        `http://tolweb.org/15054/${id}`,
+        "TolwebWindow",
+        "width=800,height=750"
+      );
+    },
+
+    openFossiilidInNewWindow(id) {
+      window.open(
+        `https://fossiilid.info/${id}`,
+        "FossiilidWindow",
+        "width=800,height=750"
+      );
     },
 
     handleColorChange(item) {

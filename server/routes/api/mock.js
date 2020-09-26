@@ -46,10 +46,12 @@ const mockData = {
         providername: "Neptune",
         providerurl: "Neptune",
         recordbasis: "FossileSpecimen",
+        taxon_id_pbdb: 1,
         unitid: "5741_DACTI0090",
         _version_: 1678545627496054800
       },
       {
+        taxon_id_eol: 2,
         collectioncode: "GIT",
         collectorname: "Viira",
         country: "Estonia",
@@ -85,6 +87,7 @@ const mockData = {
         _version_: 1672185993580511200
       },
       {
+        taxon_id_tol: 3,
         collectioncode: "GIT",
         datasetowner: "Department of Geology, TalTech",
         datasetownerabbrev: "GIT",
@@ -139,6 +142,7 @@ const mockData = {
         _version_: 1672186031994044400
       },
       {
+        taxon_id: 12,
         "id": "298858",
         "collectioncode": "SMNS Palaeontology IX",
         "unitid": "12929/1",

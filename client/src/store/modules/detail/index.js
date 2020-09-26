@@ -16,6 +16,10 @@ const state = {
     { text: "Longitude", value: "longitude" },
     { text: "Stratigraphy", value: "stratigraphy" },
     { text: "Mindat", value: "mindat_url" },
+    { text: "Taxon record in PBDB", value: "taxon_id_pbdb" },
+    { text: "Taxon in Encyclopedia of Life", value: "taxon_id_eol" },
+    { text: "Taxon in Tree of Life", value: "taxon_id_tol" },
+    { text: "Taxon in fossiilid.info", value: "taxon_id" },
     { text: "Record URI", value: "recordURI" },
     { text: "Related resource", value: "relatedResource" }
   ],
