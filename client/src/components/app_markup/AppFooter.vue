@@ -4,28 +4,25 @@
     absolute
     app
     dark
-    padless
     :style="`padding-left: ${$vuetify.application.left}px;`"
   >
     <v-card flat tile width="100%" class="transparent">
       <v-card-text class="pt-1 px-1 pb-0 text-center white--text">
-        {{ new Date().getFullYear() }} | <strong>GeoCASe 2.0</strong>
+        {{ new Date().getFullYear() }} | <strong>GeoCASe: The Earth Science Collections Portal</strong>
       </v-card-text>
 
       <v-card-text class="pt-0 px-1 pb-0 text-center white--text">
-        GeoCASe 2.0 portal is collaborative effort of the
+        GeoCASe 2.0 is collaborative effort of the
         <a href="https://cetaf.org" target="FooterWindow"
           >CETAF Earth Sciences Group</a
         >.<br />
         Portal software created and hosted by
         <a href="https://taltech.ee/en/department-geology" target="FooterWindow"
-          >TalTech (Tallinn)</a
+          >TalTech</a
         >
         and
         <a href="https://www.museumfuernaturkunde.berlin/" target="FooterWindow"
-          >Museum für Naturkunde (Berlin)</a
-        >.<br />
-        Data by <router-link to="/partners_and_providers">partner institutions</router-link>.
+          >Museum für Naturkunde</a>. Data by <router-link to="/partners_and_providers">partner institutions</router-link>.
       </v-card-text>
     </v-card>
   </v-footer>
