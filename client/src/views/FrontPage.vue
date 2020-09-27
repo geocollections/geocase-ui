@@ -12,18 +12,12 @@
           @input="hideAlert"
         >
           <div class="font-weight-bold" style="font-size: 1.25rem;">
-            This is GeoCASe 2.0 test interface
+            This is GeoCASe 2.0 prototype interface. It has incomplete functionality and data, and is intended for testing purposes only.
+          </div>
+          <div>
+            This box will be replaced by brief introduction about GeoCASe.
           </div>
         </v-alert>
-      </v-col>
-    </v-row>
-
-    <!-- Todo: INTRODUCTION -->
-    <v-row no-gutters>
-      <v-col cols="12">
-        <div>
-          Todo: Introduction text
-        </div>
       </v-col>
     </v-row>
 
