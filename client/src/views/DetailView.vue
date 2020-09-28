@@ -108,7 +108,6 @@
             disable-sort
             disable-filtering
             disable-pagination
-            hide-default-header
             hide-default-footer
             :headers="filteredItemHeaders"
             :items="[item]"
@@ -216,7 +215,6 @@
             disable-sort
             disable-filtering
             disable-pagination
-            hide-default-header
             hide-default-footer
             :headers="filteredItemHeadersSecondary"
             :items="[item]"
@@ -435,7 +433,7 @@ export default {
 }
 
 .item-card >>> .v-data-table__mobile-row__header {
-  min-width: 100px;
+  min-width: 115px;
 }
 
 .item-card >>> .v-data-table td {
@@ -452,5 +450,9 @@ export default {
 .item-card--secondary >>> .v-data-table td {
   height: unset;
   min-height: 36px;
+}
+
+.detail-view-table >>> thead, .detail-view-table-secondary >>> thead {
+  display: none;
 }
 </style>
