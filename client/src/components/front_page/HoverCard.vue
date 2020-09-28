@@ -8,7 +8,7 @@
       :style="
         `background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.1), rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.7)), url(&quot;${image}&quot;);`
       "
-      @click="$router.push({ path: url })"
+      @click="goToSearchView(url)"
     >
       <v-spacer />
 
@@ -52,10 +52,22 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
+
 export default {
   name: "HoverCard",
 
-  props: ["title", "text", "button", "url", "image"]
+  props: ["title", "text", "button", "url", "image"],
+
+  methods: {
+    ...mapActions("search", ["resetSearch"]),
+
+    // Resetting search fields before redirecting to search route
+    goToSearchView(url) {
+      this.resetSearch();
+      this.$router.push({ path: url });
+    }
+  }
 };
 </script>
 

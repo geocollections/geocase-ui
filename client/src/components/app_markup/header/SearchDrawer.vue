@@ -24,23 +24,35 @@
               :value="item.lookUpType"
               @input="updateSearchField({ ...item, lookUpType: $event })"
             />
-            <div v-else class="font-weight-bold text-center text-uppercase" style="font-size: 1.15rem;">Find quickly</div>
+            <div
+              v-else
+              class="font-weight-bold text-center text-uppercase"
+              style="font-size: 1.15rem;"
+            >
+              Find quickly
+            </div>
           </v-col>
 
           <v-col cols="12" class="pa-1">
             <TextFieldWrapper
+              class="search-drawer-text-field"
               :value="item.value"
               @input="updateSearchFieldDebounced({ ...item, value: $event })"
               :dense="item.field !== 'q'"
               clearable
-              solo-inverted
+              solo
               :placeholder="item.label"
               clear-icon="fas fa-times"
             />
           </v-col>
 
           <v-col cols="12" class="mt-3" v-if="item.field === 'q'">
-            <div class="font-weight-bold text-center text-uppercase" style="font-size: 1.15rem;">Additional Filters</div>
+            <div
+              class="font-weight-bold text-center text-uppercase"
+              style="font-size: 1.15rem;"
+            >
+              Additional Filters
+            </div>
           </v-col>
         </v-row>
 
@@ -53,7 +65,7 @@
             <div
               class="search--checkbox-label"
               :class="{
-                'search--checkbox-active font-weight-black':
+                'search--checkbox-active font-weight-bold text-center':
                   item.value && item.value.length > 0
               }"
               @click="
@@ -90,6 +102,7 @@
           >
             <v-checkbox
               class="mt-0 mb-2"
+              color="blue-grey darken-3"
               :input-value="
                 item.value && item.value.includes(`&quot;${entity}&quot;`)
               "
@@ -136,6 +149,7 @@
         <v-row no-gutters v-else-if="item.fieldType === 'single_checkbox'">
           <v-col cols="12" class="px-1 pb-1 d-flex ">
             <v-checkbox
+              color="blue-grey darken-3"
               class="mt-0 mb-2"
               :input-value="item.value"
               :label="item.label"
@@ -249,7 +263,7 @@ export default {
 <style scoped>
 .search--checkbox-label {
   margin: 5px 4px 3px 0;
-  font-weight: bold;
+  /*font-weight: bold;*/
   color: black;
   white-space: nowrap;
 }
@@ -260,9 +274,11 @@ export default {
 }
 
 .search--checkbox-active {
-  color: #ffa000;
-  letter-spacing: 1.25px;
-  text-shadow: 1px 1px 2px #000;
-  transition: all 800ms ease;
+  width: 100%;
+}
+
+/* solo-inverted override */
+.search-drawer-text-field >>> .v-input__slot {
+  background: #eceff1 !important;
 }
 </style>

@@ -14,13 +14,12 @@
         'app-bar-rock': appBarRock,
         'app-bar-meteorite': appBarMeteorite
       }"
-      :hide-on-scroll="$route.name !== 'Search'"
     >
       <v-tooltip bottom>
         <template v-slot:activator="{ on }">
           <v-btn
             v-on="on"
-            v-if="$route.name === 'Search'"
+            v-show="$route.name === 'Search'"
             @click.stop="$emit('toggle:searchDrawer')"
             aria-label="Toggle navigation drawer"
             class="mr-2"
@@ -59,14 +58,14 @@
           <span>Go to front page</span>
         </v-tooltip>
 
-        <v-btn text to="/search" exact>Search</v-btn>
+        <v-btn text to="/search">Search</v-btn>
       </v-toolbar-items>
 
       <v-spacer />
 
       <fast-search
         style="max-width: 300px"
-        v-if="
+        v-show="
           $route.name !== 'FrontPage' &&
             $route.name !== 'Search' &&
             $vuetify.breakpoint.mdAndUp
@@ -103,7 +102,7 @@
         </v-menu>
       </v-toolbar-items>
 
-      <div class="ml-4" v-if="$route.name === 'Detail'">
+      <div class="ml-4" v-show="$route.name === 'Detail'">
         <v-tooltip bottom>
           <template v-slot:activator="{ on }">
             <v-btn v-on="on" icon @click="$router.go(-1)">

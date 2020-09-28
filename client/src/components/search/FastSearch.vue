@@ -9,6 +9,7 @@
     >
       <text-field-wrapper
         class="fast-search-input"
+        :class="{ 'in-app-header': inAppHeader }"
         v-model="fastSearch"
         label="Find quickly..."
         :append-outer-icon="!inAppHeader ? 'far fa-question-circle' : ''"
@@ -21,7 +22,8 @@
         clear-icon="fas fa-times"
         :height="!inAppHeader ? '60' : ''"
         autocomplete="off"
-        solo
+        :solo="!inAppHeader"
+        :solo-inverted="inAppHeader"
       />
     </v-col>
 
@@ -95,6 +97,10 @@ export default {
   font-weight: 600;
 }
 
+.fast-search-input.in-app-header {
+  font-size: 1rem;
+}
+
 .fast-search-input >>> .v-input__icon--clear > .v-icon--link {
   font-size: 1.75rem !important;
 }
@@ -120,5 +126,9 @@ export default {
 
 .fast-search-input >>> .v-label {
   font-size: 1.25rem;
+}
+
+.fast-search-input.in-app-header >>> .v-label {
+  font-size: 1rem;
 }
 </style>

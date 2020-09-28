@@ -94,14 +94,15 @@
           :href="item.recordURI"
           target="RecordWindow"
           color="primary"
+          small
         >
-          <v-icon>fas fa-external-link-alt</v-icon>
+          <v-icon small>fas fa-external-link-alt</v-icon>
         </v-btn>
       </template>
 
       <!-- Todo: Open gallery? -->
       <template v-slot:item.url="{ item }">
-        <v-icon>far fa-image</v-icon>
+        <v-icon v-if="item.has_image" small>far fa-image</v-icon>
         <!--        <v-card-->
         <!--          v-if="item.url"-->
         <!--          flat-->
@@ -174,7 +175,7 @@ export default {
       { text: "Stratigraphy", value: "stratigraphy" },
       // { text: "Stratigraphy Type", value: "" },
       // { text: "Term", value: "" },
-      { text: "Record URI", value: "recordURI" },
+      { text: "Record URI", value: "recordURI", align: "center" },
       { text: "Image", value: "url", align: "center" }
     ]
   }),
