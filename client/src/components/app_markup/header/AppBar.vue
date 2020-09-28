@@ -58,7 +58,16 @@
           <span>Go to front page</span>
         </v-tooltip>
 
-        <v-btn text to="/search">Search</v-btn>
+        <v-btn class="hidden-xs-only" text to="/search">Search</v-btn>
+        <v-btn
+          class="hidden-md-and-down"
+          text
+          to="/partners_and_providers"
+          exact
+          >Partners and Providers</v-btn
+        >
+        <v-btn class="hidden-md-and-down" text to="/about" exact>About</v-btn>
+        <v-btn class="hidden-md-and-down" text to="/access" exact>Access</v-btn>
       </v-toolbar-items>
 
       <v-spacer />
@@ -102,16 +111,17 @@
         </v-menu>
       </v-toolbar-items>
 
-      <div class="ml-4" v-show="$route.name === 'Detail'">
-        <v-tooltip bottom>
-          <template v-slot:activator="{ on }">
-            <v-btn v-on="on" icon @click="$router.go(-1)">
-              <v-icon large>fas fa-arrow-left</v-icon>
-            </v-btn>
-          </template>
-          <span>Go back</span>
-        </v-tooltip>
-      </div>
+      <v-tooltip bottom>
+        <template v-slot:activator="{ on }">
+          <v-app-bar-nav-icon
+            v-on="on"
+            class="hidden-lg-and-up"
+            @click.stop="$emit('toggle:navigationDrawer')"
+            aria-label="Open navigation drawer"
+          />
+        </template>
+        <span>Show menu</span>
+      </v-tooltip>
     </v-app-bar>
   </v-hover>
 </template>

@@ -7,9 +7,11 @@
     />
 
     <app-bar
-      @update:drawer="drawer = !drawer"
+      @toggle:navigationDrawer="drawer = !drawer"
       @toggle:searchDrawer="updateSearchDrawerState(!searchDrawer)"
     />
+
+    <NavigationDrawer :drawer="drawer" @update:navigationDrawer="drawer = $event" />
 
     <landing-image v-if="$route.name === 'FrontPage'" />
   </div>
@@ -20,9 +22,13 @@ import { mapActions, mapState } from "vuex";
 import SearchDrawer from "@/components/app_markup/header/SearchDrawer";
 import AppBar from "@/components/app_markup/header/AppBar";
 import LandingImage from "@/components/app_markup/header/LandingImage";
+import NavigationDrawer from "@/components/app_markup/header/NavigationDrawer";
 export default {
   name: "AppHeader",
-  components: { SearchDrawer, AppBar, LandingImage },
+  components: {NavigationDrawer, SearchDrawer, AppBar, LandingImage },
+  data: () => ({
+    drawer: false
+  }),
   computed: {
     ...mapState("settings", ["searchDrawer"])
   },

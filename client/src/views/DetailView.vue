@@ -1,5 +1,7 @@
 <template>
   <v-container class="detail-view" v-if="!isLoading">
+    <GoBackButton />
+
     <v-row class="mx-0" justify="center" v-if="!itemExists">
       <v-col cols="12" style="max-width: 500px;">
         <v-alert
@@ -261,6 +263,8 @@
   </v-container>
 
   <v-container class="detail-view" v-else>
+    <GoBackButton />
+
     <v-row>
       <v-col cols="12" sm="6">
         <v-skeleton-loader elevation="2" type="card"></v-skeleton-loader>
@@ -283,11 +287,12 @@ import { mapActions, mapGetters, mapState } from "vuex";
 import ImageCarousel from "@/components/partial/image/ImageCarousel";
 import TabMap from "@/components/partial/tabs/TabMap";
 import helperMixin from "@/mixins/helperMixin";
+import GoBackButton from "@/components/partial/GoBackButton";
 
 export default {
   name: "DetailView",
 
-  components: { ImageCarousel, TabMap },
+  components: {GoBackButton, ImageCarousel, TabMap },
 
   mixins: [helperMixin],
 
