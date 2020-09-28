@@ -1,5 +1,8 @@
 <template>
-  <v-row no-gutters :class="{ 'py-6': !inAppHeader, 'justify-center': !inAppHeader }">
+  <v-row
+    no-gutters
+    :class="{ 'py-6': !inAppHeader, 'justify-center': !inAppHeader }"
+  >
     <v-col
       :cols="!inAppHeader ? 10 : 12"
       :sm="!inAppHeader ? 6 : 12"
