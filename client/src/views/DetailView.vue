@@ -18,81 +18,88 @@
       </v-col>
     </v-row>
 
-    <v-row>
+    <v-row v-if="itemExists">
       <v-col cols="12">
         <v-card>
-          <v-card-title class="primary--text display-1">
+          <v-card-title class="primary--text">
             <div class="d-flex flex-column flex-nowrap">
-              <div
-                class="mb-1"
-                v-if="
-                  isItemFossil ||
-                    isItemMineral ||
-                    isItemRock ||
-                    isItemMeteorite ||
-                    item.recordbasis
-                "
-              >
-                <span class="mr-2">
-                  <v-icon large color="primary" v-if="isItemFossil"
-                    >fas fa-fish</v-icon
-                  >
-                  <v-icon large color="primary" v-else-if="isItemMineral"
-                    >far fa-gem</v-icon
-                  >
-                  <v-icon large color="primary" v-else-if="isItemRock"
-                    >fas fa-mountain</v-icon
-                  >
-                  <v-icon large color="primary" v-else-if="isItemMeteorite"
-                    >fas fa-meteor</v-icon
-                  >
-                </span>
-
-                <span v-if="item.recordbasis">{{ item.recordbasis }}</span>
-              </div>
-
-              <div class="text-h5" v-if="item.collectioncode || item.unitid">
-                <span v-if="item.collectioncode">{{
-                  item.collectioncode
-                }}</span>
+              <div class="mb-1">
                 <span
-                  class="mx-2 font-weight-bold"
-                  v-if="item.collectioncode && item.unitid"
-                  >|</span
+                  v-if="
+                    isItemFossil ||
+                      isItemMineral ||
+                      isItemRock ||
+                      isItemMeteorite
+                  "
                 >
-                <span v-if="item.unitid">{{ item.unitid }}</span>
-              </div>
-
-              <div
-                class="font-italic text-h6"
-                v-if="isItemFossil && (item.fullscientificname || item.names)"
-              >
-                <div v-if="item.fullscientificname">
-                  <span>Name: </span>
-                  <span class="font-weight-black">{{
-                    item.fullscientificname
-                  }}</span>
-                </div>
-
-                <div v-if="item.names">
-                  <span
-                    >Identification<span v-if="item.names.length > 1">s</span>:
-                  </span>
-                  <span
-                    class="font-italic"
-                    v-for="(entity, index) in item.names"
-                    :key="index"
-                  >
-                    <span class="font-weight-black">{{ entity }}</span>
-                    <span class="mx-1" v-if="index < item.names.length - 1"
-                      >|</span
+                  <span class="mr-2">
+                    <v-icon small color="primary" v-if="isItemFossil"
+                      >fas fa-fish</v-icon
+                    >
+                    <v-icon small color="primary" v-else-if="isItemMineral"
+                      >far fa-gem</v-icon
+                    >
+                    <v-icon small color="primary" v-else-if="isItemRock"
+                      >fas fa-mountain</v-icon
+                    >
+                    <v-icon small color="primary" v-else-if="isItemMeteorite"
+                      >fas fa-meteor</v-icon
                     >
                   </span>
-                </div>
 
-                <div v-else-if="!item.fullscientificname && !item.names">
-                  Detail view (ID): {{ item.id }}
-                </div>
+                  <span>{{ getSpecimenType }}</span>
+                </span>
+
+                <span
+                  v-if="
+                    (isItemFossil ||
+                      isItemMineral ||
+                      isItemRock ||
+                      isItemMeteorite) &&
+                      (item.collectioncode || item.unitid)
+                  "
+                >
+                  -
+                </span>
+
+                <span
+                  class="font-weight-bold"
+                  v-if="item.collectioncode || item.unitid"
+                >
+                  <span v-if="item.collectioncode"
+                    >{{ item.collectioncode }}
+                  </span>
+                  <span v-if="item.unitid">{{ item.unitid }}</span>
+                </span>
+              </div>
+
+              <h1
+                :class="{ 'font-italic': isItemFossil }"
+                class="font-weight-bold mb-1"
+                style="font-size: 2rem;"
+                v-if="item.fullscientificname"
+              >
+                {{ item.fullscientificname }}
+              </h1>
+
+              <h2 style="font-size: 1.25rem;" v-if="filteredNames.length > 0">
+                <span class="font-weight-regular"
+                  >Identification<span v-if="filteredNames.length > 1">s</span>:
+                </span>
+                <span
+                  :class="{ 'font-italic': isItemFossil }"
+                  v-for="(entity, index) in filteredNames"
+                  :key="index"
+                >
+                  <span class="font-weight-bold">{{ entity }}</span>
+                  <span class="mx-1" v-if="index < filteredNames.length - 1"
+                    >|</span
+                  >
+                </span>
+              </h2>
+
+              <div v-if="!item.fullscientificname && !filteredNames">
+                GeoCASe ID: {{ item.id }}
               </div>
             </div>
           </v-card-title>
@@ -240,7 +247,7 @@
 
           <!-- MAP -->
           <v-col cols="12">
-            <v-card v-if="localityExists">
+            <v-card v-if="localityExists" class="mt-3">
               <tab-map
                 style="margin-top: -12px"
                 :response-results="response"
@@ -313,7 +320,23 @@ export default {
       "isItemMineral",
       "isItemRock",
       "isItemMeteorite"
-    ])
+    ]),
+
+    getSpecimenType() {
+      let type = "Fossil";
+      if (this.isItemMineral) type = "Mineral";
+      else if (this.isItemRock) type = "Rock";
+      else if (this.isItemMeteorite) type = "Meteorite";
+      return type;
+    },
+
+    filteredNames() {
+      if (this.item.names) {
+        return this.item.names.filter(
+          name => name !== this.item.fullscientificname
+        );
+      } else return [];
+    }
   },
 
   watch: {
@@ -452,7 +475,8 @@ export default {
   min-height: 36px;
 }
 
-.detail-view-table >>> thead, .detail-view-table-secondary >>> thead {
+.detail-view-table >>> thead,
+.detail-view-table-secondary >>> thead {
   display: none;
 }
 </style>

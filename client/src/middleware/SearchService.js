@@ -72,7 +72,8 @@ function buildSearchFieldsQuery(searchFields) {
     let fieldType = searchFields[field].fieldType;
 
     if (value && value.trim().length > 0) {
-      if (name === "q" && !(value.includes(" ") || value.includes("*"))) value = `"${value}"`;
+      if (name === "q" && !(value.includes(" ") || value.includes("*")))
+        value = `"${value}"`;
 
       let encodedObject = `fq=${name}:`;
       let encodedValue = encodeURIComponent(value);
