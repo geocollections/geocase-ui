@@ -1,6 +1,6 @@
 <template>
   <v-container class="Access">
-    <v-card :loading="loading" elevation="6" shaped class="pa-4">
+    <v-card :loading="loading" elevation="6" shaped class="px-8 py-6">
       <div v-if="page" v-html="page.content_en" />
     </v-card>
   </v-container>

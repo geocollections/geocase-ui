@@ -6,7 +6,7 @@
           v-on="on"
           fab
           fixed
-          right
+          left
           color="primary"
           dark
           @click="$router.go(-1)"
