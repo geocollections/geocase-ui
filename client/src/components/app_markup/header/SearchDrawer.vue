@@ -214,7 +214,7 @@ export default {
     },
 
     footerStyle() {
-      let style = `z-index: 2000; max-height: calc(100% - ${this.$vuetify.application.top}px);`;
+      let style = `z-index: 2010; max-height: calc(100% - ${this.$vuetify.application.top}px);`;
       if (this.isSmAndDown)
         style += `margin-top: ${this.$vuetify.application.top}px; `;
       return style;

@@ -8,6 +8,7 @@
         :value="paginateBy"
         :items="paginateByItems"
         @change="$emit('update:paginateBy', $event)"
+        is-pagination
       />
     </div>
 

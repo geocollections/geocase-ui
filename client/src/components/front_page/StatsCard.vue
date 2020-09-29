@@ -17,15 +17,22 @@
         class="font-weight-bold animate__animated"
         style="font-size: 1.75rem"
       >
-        {{ count }}
+        <animateNumber
+          :number="count"
+          :is-very-large="text === 'Total Records'"
+          :is-very-small="text !== 'Total Records'"
+        />
+        <!--        {{ count }}-->
       </div>
     </v-card>
   </v-hover>
 </template>
 
 <script>
+import AnimateNumber from "@/components/partial/AnimateNumber";
 export default {
   name: "StatsCard",
+  components: { AnimateNumber },
   props: ["text", "count"]
 };
 </script>

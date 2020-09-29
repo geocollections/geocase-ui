@@ -4,7 +4,7 @@
     v-on="$listeners"
     hide-details
     dense
-    style="z-index: 2001;"
+    :style="style"
   >
     <template
       v-slot:prepend-inner
@@ -22,6 +22,14 @@ export default {
     useCustomPrependInner: {
       type: String,
       default: ""
+    },
+    isPagination: Boolean
+  },
+  computed: {
+    style() {
+      let style = "z-index: 2020;";
+      if (this.isPagination) style = "z-index: 2005";
+      return style;
     }
   }
 };

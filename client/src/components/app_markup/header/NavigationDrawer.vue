@@ -6,7 +6,7 @@
     right
     temporary
     dark
-    style="z-index: 2001"
+    style="z-index: 2050"
     color="primary"
   >
     <v-list dense>
