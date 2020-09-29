@@ -59,15 +59,15 @@
         </v-tooltip>
 
         <v-btn class="hidden-xs-only" text to="/search">Search</v-btn>
+        <v-btn class="hidden-md-and-down" text to="/about" exact>About</v-btn>
+        <v-btn class="hidden-md-and-down" text to="/access" exact>Access</v-btn>
         <v-btn
           class="hidden-md-and-down"
           text
           to="/partners_and_providers"
           exact
-          >Partners and Providers</v-btn
+          >Partners</v-btn
         >
-        <v-btn class="hidden-md-and-down" text to="/about" exact>About</v-btn>
-        <v-btn class="hidden-md-and-down" text to="/access" exact>Access</v-btn>
       </v-toolbar-items>
 
       <v-spacer />

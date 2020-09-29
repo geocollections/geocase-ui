@@ -47,13 +47,13 @@ export default {
         to: "/search",
         icon: "fas fa-search"
       },
+      { text: "About", to: "/about", icon: "fas fa-info-circle" },
+      { text: "Access", to: "/access", icon: "fas fa-database" },
       {
-        text: "Partners and providers",
+        text: "Partners",
         to: "/partners_and_providers",
         icon: "far fa-handshake"
-      },
-      { text: "About", to: "/about", icon: "fas fa-info-circle" },
-      { text: "Access", to: "/access", icon: "fas fa-database" }
+      }
     ]
   })
 };
