@@ -11,32 +11,41 @@
       <router-view />
     </v-main>
 
+    <CookieLaw v-if="cookieLaw" v-on:accept="closeCookieLaw" />
+
     <app-footer />
   </v-app>
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import {mapActions, mapState} from "vuex";
 import toastMixin from "@/mixins/toastMixin";
 import AppHeader from "@/components/app_markup/AppHeader";
 import AppFooter from "@/components/app_markup/AppFooter";
+import CookieLaw from "@/components/partial/CookieLaw";
 
 export default {
   name: "App",
 
   components: {
+    CookieLaw,
     AppFooter,
     AppHeader
   },
 
   mixins: [toastMixin],
 
+  computed: {
+    ...mapState("cookie", ["cookieLaw"])
+  },
+
   created() {
     this.getStats();
   },
 
   methods: {
-    ...mapActions("frontpage", ["getStats"])
+    ...mapActions("frontpage", ["getStats"]),
+    ...mapActions("cookie", ["closeCookieLaw"])
   }
 };
 </script>
