@@ -8,6 +8,7 @@
     fixed
     width="350"
     disable-route-watcher
+    mobile-breakpoint="960"
     class="elevation-4"
     color="blue-grey lighten-4"
   >
@@ -208,9 +209,13 @@ export default {
       return this.$vuetify.breakpoint.mdAndDown;
     },
 
+    isSmAndDown() {
+      return this.$vuetify.breakpoint.smAndDown;
+    },
+
     footerStyle() {
       let style = `z-index: 2000; max-height: calc(100% - ${this.$vuetify.application.top}px);`;
-      if (this.isMdAndDown)
+      if (this.isSmAndDown)
         style += `margin-top: ${this.$vuetify.application.top}px; `;
       return style;
     }
