@@ -407,7 +407,7 @@ export default {
 
     openTolwebInNewWindow(id) {
       window.open(
-        `http://tolweb.org/15054/${id}`,
+        `http://tolweb.org/${id}`,
         "TolwebWindow",
         "width=800,height=750"
       );
@@ -461,7 +461,7 @@ export default {
 }
 
 .item-card >>> .v-data-table__mobile-row__header {
-  min-width: 115px;
+  min-width: 135px;
 }
 
 .item-card >>> .v-data-table td {
