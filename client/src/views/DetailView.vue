@@ -364,6 +364,7 @@ export default {
     "$route.params.id": {
       handler: async function(id) {
         if (typeof this.id === "undefined" || this.id === null) {
+          this.resetResponseFromSource();
           await this.getDetailViewData(id);
           this.getDetailViewDataDirectly();
         }
@@ -378,6 +379,7 @@ export default {
 
   beforeRouteLeave(to, from, next) {
     this.$vuetify.theme.themes.light.primary = "#FFA000";
+    this.resetResponseFromSource();
     next();
   },
 
@@ -385,7 +387,8 @@ export default {
     ...mapActions("detail", [
       "getDetailView",
       "updateImageWidth",
-      "getDetailViewDataFromSource"
+      "getDetailViewDataFromSource",
+      "resetResponseFromSource"
     ]),
 
     async getDetailViewData(id) {
