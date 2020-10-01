@@ -24,11 +24,11 @@
       <v-col cols="12" :sm="imageExists || localityExists ? 6 : 12">
         <!-- TITLE -->
         <v-card>
-          <v-card-title class="primary--text">
+          <v-card-title class="primary--text" style="word-break: break-word;">
             <div class="d-flex flex-column flex-nowrap">
               <div class="mb-1">
                 <span
-                    v-if="
+                  v-if="
                     isItemFossil ||
                       isItemMineral ||
                       isItemRock ||
@@ -37,16 +37,16 @@
                 >
                   <span class="mr-2">
                     <v-icon small color="primary" v-if="isItemFossil"
-                    >fas fa-fish</v-icon
+                      >fas fa-fish</v-icon
                     >
                     <v-icon small color="primary" v-else-if="isItemMineral"
-                    >far fa-gem</v-icon
+                      >far fa-gem</v-icon
                     >
                     <v-icon small color="primary" v-else-if="isItemRock"
-                    >fas fa-mountain</v-icon
+                      >fas fa-mountain</v-icon
                     >
                     <v-icon small color="primary" v-else-if="isItemMeteorite"
-                    >fas fa-meteor</v-icon
+                      >fas fa-meteor</v-icon
                     >
                   </span>
 
@@ -54,7 +54,7 @@
                 </span>
 
                 <span
-                    v-if="
+                  v-if="
                     (isItemFossil ||
                       isItemMineral ||
                       isItemRock ||
@@ -66,37 +66,37 @@
                 </span>
 
                 <span
-                    class="font-weight-bold"
-                    v-if="item.collectioncode || item.unitid"
+                  class="font-weight-bold"
+                  v-if="item.collectioncode || item.unitid"
                 >
                   <span v-if="item.collectioncode"
-                  >{{ item.collectioncode }}
+                    >{{ item.collectioncode }}
                   </span>
                   <span v-if="item.unitid">{{ item.unitid }}</span>
                 </span>
               </div>
 
               <h1
-                  :class="{ 'font-italic': isItemFossil }"
-                  class="font-weight-bold mb-1"
-                  style="font-size: 2rem;"
-                  v-if="item.fullscientificname"
+                :class="{ 'font-italic': isItemFossil }"
+                class="font-weight-bold mb-1"
+                style="font-size: 2rem;"
+                v-if="item.fullscientificname"
               >
                 {{ item.fullscientificname }}
               </h1>
 
               <h2 style="font-size: 1.25rem;" v-if="filteredNames.length > 0">
                 <span class="font-weight-regular"
-                >Identification<span v-if="filteredNames.length > 1">s</span>:
+                  >Identification<span v-if="filteredNames.length > 1">s</span>:
                 </span>
                 <span
-                    :class="{ 'font-italic': isItemFossil }"
-                    v-for="(entity, index) in filteredNames"
-                    :key="index"
+                  :class="{ 'font-italic': isItemFossil }"
+                  v-for="(entity, index) in filteredNames"
+                  :key="index"
                 >
                   <span class="font-weight-bold">{{ entity }}</span>
                   <span class="mx-1" v-if="index < filteredNames.length - 1"
-                  >|</span
+                    >|</span
                   >
                 </span>
               </h2>
