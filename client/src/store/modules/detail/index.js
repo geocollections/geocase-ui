@@ -4,6 +4,7 @@ import getters from "./getters";
 
 const state = {
   response: null,
+  responseFromSource: null,
   itemHeaders: [
     { text: "Type", value: "typestatus" },
     { text: "GeoCASe ID", value: "id" },
