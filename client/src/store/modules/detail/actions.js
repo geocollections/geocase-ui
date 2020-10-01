@@ -31,8 +31,29 @@ const actions = {
     }
   },
 
-  updateResponseFromSearch({ commit }, response) {
-    commit("UPDATE_RESPONSE", response);
+  async getDetailViewDataFromSource({ dispatch, commit, rootState }, url) {
+    try {
+      const response = await SearchService.getDetailViewDataFromSource(url);
+      if (response?.data) {
+        commit("UPDATE_RESPONSE_FROM_SOURCE", response?.data || []);
+      } else {
+        dispatch(
+          "settings/updateErrorMessage",
+          "Fetching data directly from source returned no results!",
+          { root: true }
+        );
+        if (!rootState.settings.error)
+          dispatch("settings/updateErrorState", true, { root: true });
+      }
+    } catch (err) {
+      dispatch(
+        "settings/updateErrorMessage",
+        `<b>Name:</b> ${err.name}<br /><b>Message:</b> ${err.message}`,
+        { root: true }
+      );
+      if (!rootState.settings.error)
+        dispatch("settings/updateErrorState", true, { root: true });
+    }
   },
 
   updateImageWidth({ commit }, width) {

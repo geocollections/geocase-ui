@@ -292,7 +292,7 @@ import GoBackButton from "@/components/partial/GoBackButton";
 export default {
   name: "DetailView",
 
-  components: {GoBackButton, ImageCarousel, TabMap },
+  components: { GoBackButton, ImageCarousel, TabMap },
 
   mixins: [helperMixin],
 
@@ -349,6 +349,7 @@ export default {
       handler: async function(id) {
         if (typeof this.id === "undefined" || this.id === null) {
           await this.getDetailViewData(id);
+          this.getDetailViewDataDirectly();
         }
       },
       immediate: true
@@ -365,10 +366,23 @@ export default {
   },
 
   methods: {
-    ...mapActions("detail", ["getDetailView", "updateImageWidth"]),
+    ...mapActions("detail", [
+      "getDetailView",
+      "updateImageWidth",
+      "getDetailViewDataFromSource"
+    ]),
 
     async getDetailViewData(id) {
-      this.getDetailView(id);
+      await this.getDetailView(id);
+    },
+
+    getDetailViewDataDirectly() {
+      if (this.item?.datasourceurl && this.item?.unitid) {
+        let querytoolUrl =
+          this.item.datasourceurl.replace("pywrapper", "querytool/raw") +
+          `&filter=(cat=${this.item.unitid})`;
+        this.getDetailViewDataFromSource(querytoolUrl);
+      }
     },
 
     getMeta(url) {

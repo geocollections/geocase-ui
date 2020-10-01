@@ -3,6 +3,12 @@ const mutations = {
     state.response = payload;
   },
 
+  // TODO update response
+  UPDATE_RESPONSE_FROM_SOURCE(state, payload) {
+    console.log(payload);
+    // state.response = payload;
+  },
+
   UPDATE_IS_LOADING(state, payload) {
     state.isLoading = payload;
   },

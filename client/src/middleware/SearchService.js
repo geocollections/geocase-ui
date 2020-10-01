@@ -38,6 +38,17 @@ class SearchService {
     }
   }
 
+  static async getDetailViewDataFromSource(dataSourceUrl) {
+    try {
+      let url = `${API_URL}/repeat?url=${encodeURIComponent(dataSourceUrl)}`;
+      const res = await axios.get(url);
+      return res.data;
+    } catch (err) {
+      if (err?.response?.data?.error) throw new Error(err.response.data.error);
+      else throw new Error(err);
+    }
+  }
+
   static async getStats() {
     try {
       let url = `${API_URL}?q=*&rows=0&${STATS_QUERY}`;

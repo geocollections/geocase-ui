@@ -1,6 +1,6 @@
 require('dotenv').config();
 const express = require('express');
-const bodyParser = require('body-parser');
+const bodyParser = require('body-parser'); // Todo: Can be removed, express v4.16.0 onwards has this functionality built-in
 const cors = require('cors');
 
 const app = express();
@@ -12,8 +12,10 @@ app.use(cors());
 const gc = require('./routes/api/gc');
 const api = require('./routes/api');
 const apiMock = require('./routes/api/mock');
+const apiRepeat = require('./routes/api/repeat');
 
 app.use('/api/gc', gc);
+app.use('/api/repeat', apiRepeat);
 
 // Handle production
 if (process.env.NODE_ENV === 'production') {
