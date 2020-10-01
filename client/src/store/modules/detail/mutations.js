@@ -5,7 +5,7 @@ const mutations = {
 
   // TODO update response
   UPDATE_RESPONSE_FROM_SOURCE(state, payload) {
-    console.log(payload);
+    // console.log(payload);
     state.responseFromSource = payload;
   },
 

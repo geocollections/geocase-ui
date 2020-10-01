@@ -209,6 +209,7 @@
           </v-data-table>
         </v-card>
 
+        <!-- TABLE SECONDARY -->
         <v-card
           class="mt-6 item-card item-card--secondary"
           v-if="
@@ -259,8 +260,19 @@
         </v-row>
       </v-col>
 
-      <v-col cols="12">
-        Data from source
+      <!-- DATA FROM SOURCE -->
+      <v-col cols="12" v-if="responseFromSource">
+        <v-card>
+          <v-card-title class="justify-center"
+            >Data directly from source</v-card-title
+          >
+
+          <v-card-text>
+            <pre style="font-size: 0.625rem; overflow: auto;">
+              {{ JSON.stringify(responseFromSource, null, 2) }}
+            </pre>
+          </v-card-text>
+        </v-card>
       </v-col>
     </v-row>
   </v-container>
