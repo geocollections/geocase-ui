@@ -7,8 +7,8 @@
       height="64"
       style="z-index: 2000"
       elevation="12"
+      class="app-bar-primary"
       :class="{
-        'app-bar-primary': $route.name !== 'Detail',
         'app-bar-fossil': appBarFossil,
         'app-bar-mineral': appBarMineral,
         'app-bar-rock': appBarRock,
