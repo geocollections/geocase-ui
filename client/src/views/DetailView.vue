@@ -120,6 +120,16 @@
             :headers="filteredItemHeaders"
             :items="[item]"
           >
+            <template v-slot:item.stratigraphy>
+              <div v-if="itemStratigraphy && itemStratigraphy.length > 0">
+                <ul>
+                  <li v-for="(item, index) in itemStratigraphy" :key="index">
+                    {{ item }}
+                  </li>
+                </ul>
+              </div>
+            </template>
+
             <template v-slot:item.mindat_url="{ item }">
               <a
                 style="text-decoration: unset;"

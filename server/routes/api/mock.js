@@ -230,9 +230,10 @@ const mockData = {
         "_version_": 1669767259249180675
       },
       {
-        "id": "47620",
+        "id": "1212568",
+        "datasourceurl": "http://131.130.131.9/biocase/pywrapper.cgi?dsa=gbif_w-geocase",
         "collectioncode": "GIT",
-        "unitid": "754-130",
+        "unitid": "1878B/0006/9859",
         "highertaxon": "Chitinozoa",
         "higherrank": "Classis",
         "fullscientificname": "+ Calpichitina?",

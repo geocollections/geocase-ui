@@ -1,3 +1,5 @@
+import { get } from "leaflet/src/dom/DomUtil";
+
 const getters = {
   itemExists: state => {
     return (
@@ -27,7 +29,8 @@ const getters = {
     return state.itemHeaders.filter(header => {
       if (getters.item[header.value]) {
         return header;
-      }
+      } else if (header.value === "stratigraphy" && getters.itemStratigraphy)
+        return header;
     });
   },
 
@@ -101,12 +104,30 @@ const getters = {
   },
 
   itemStratigraphy: state => {
-    console.log(state);
-    return "test";
+    const stratigraphy =
+      state?.responseFromSource?.["abcd:DataSets"]?.["abcd:DataSet"]?.[0]?.[
+        "abcd:Units"
+      ]?.[0]?.["abcd:Unit"]?.[0]?.["abcd:UnitExtension"]?.[0]?.[
+        "efg:EarthScienceSpecimen"
+      ]?.[0]?.["efg:UnitStratigraphicDetermination"]?.[0]?.[
+        "efg:ChronostratigraphicAttributions"
+      ]?.[0]?.["efg:ChronostratigraphicAttribution"];
+
+    if (stratigraphy) {
+      let stratigraphyList = stratigraphy.map(item => {
+        if (item["efg:ChronostratigraphicName"]) {
+          if (item["efg:ChronoStratigraphicDivision"])
+            return `${item["efg:ChronoStratigraphicDivision"]} : ${item["efg:ChronostratigraphicName"]}`;
+          else
+            return `Chronostratigraphy : ${item["efg:ChronostratigraphicName"]}`;
+        } else if (item["abcd:ChronostratigraphicTerm.abcd:Term"])
+          return `Chronostratigraphy : ${item["abcd:ChronostratigraphicTerm.abcd:Term"]}`;
+      });
+      return stratigraphyList;
+    } else return null;
   },
 
   contentContact: state => {
-    // console.log(state?.responseFromSource?.["abcd:DataSets"]?.["abcd:DataSet"]?.[0]?.["abcd:ContentContacts"]?.[0]?.["abcd:ContentContact"]?.[0])
     return state?.responseFromSource?.["abcd:DataSets"]?.[
       "abcd:DataSet"
     ]?.[0]?.["abcd:ContentContacts"]?.[0]?.["abcd:ContentContact"]?.[0];
