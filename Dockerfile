@@ -16,5 +16,5 @@ RUN npm prune --production
 # Server
 WORKDIR /opt/apps/geocase-prototype
 RUN npm install
-EXPOSE 8080
+EXPOSE 7000
 CMD ["npm", "run", "start"]
