@@ -397,7 +397,10 @@ export default {
       "contentContactName",
       "contentContactEmail",
       "contentContactPhone",
-      "contentContactAddress"
+      "contentContactAddress",
+      "logoURI",
+      "representationTitle",
+      "representationURI"
     ]),
 
     getSpecimenType() {

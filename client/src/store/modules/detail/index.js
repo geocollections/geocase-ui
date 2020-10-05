@@ -38,6 +38,7 @@ const state = {
     { text: "Contact e-mail", value: "contentContactEmail" },
     { text: "Contact phone", value: "contentContactPhone" },
     { text: "Contact address", value: "contentContactAddress" },
+    { text: "Institution homepage", value: "institutionHomepage" },
     { text: "Contact data", value: "contactdata" },
     { text: "Dataset owner", value: "datasetowner" },
     { text: "Data source country", value: "datasourcecountry" },

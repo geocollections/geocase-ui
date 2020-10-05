@@ -58,6 +58,11 @@ const getters = {
         getters?.contentContactAddress
       )
         return header;
+      else if (
+        header.value.includes("institutionHomepage") &&
+        getters?.representationTitle
+      )
+        return header;
     });
   },
 
@@ -147,6 +152,18 @@ const getters = {
 
   contentContactAddress: (state, getters) => {
     return getters?.contentContact?.["abcd:Address"]?.[0];
+  },
+
+  logoURI: state => {
+    return "logoURI from source";
+  },
+
+  representationTitle: state => {
+    return "representationTitle from source";
+  },
+
+  representationURI: state => {
+    return "representationURI from source";
   }
 };
 
