@@ -35,7 +35,26 @@ const getters = {
     return state.itemHeadersSecondary.filter(header => {
       if (getters.item[header.value]) {
         return header;
-      }
+      } else if (
+        header.value.includes("contentContactName") &&
+        getters?.contentContactName
+      )
+        return header;
+      else if (
+        header.value.includes("contentContactEmail") &&
+        getters?.contentContactEmail
+      )
+        return header;
+      else if (
+        header.value.includes("contentContactPhone") &&
+        getters?.contentContactPhone
+      )
+        return header;
+      else if (
+        header.value.includes("contentContactAddress") &&
+        getters?.contentContactAddress
+      )
+        return header;
     });
   },
 
@@ -79,6 +98,34 @@ const getters = {
       let type = getters.item.recordbasis;
       return type === "MeteoriteSpecimen";
     } else return false;
+  },
+
+  itemStratigraphy: state => {
+    console.log(state);
+    return "test";
+  },
+
+  contentContact: state => {
+    // console.log(state?.responseFromSource?.["abcd:DataSets"]?.["abcd:DataSet"]?.[0]?.["abcd:ContentContacts"]?.[0]?.["abcd:ContentContact"]?.[0])
+    return state?.responseFromSource?.["abcd:DataSets"]?.[
+      "abcd:DataSet"
+    ]?.[0]?.["abcd:ContentContacts"]?.[0]?.["abcd:ContentContact"]?.[0];
+  },
+
+  contentContactName: (state, getters) => {
+    return getters?.contentContact?.["abcd:Name"]?.[0];
+  },
+
+  contentContactEmail: (state, getters) => {
+    return getters?.contentContact?.["abcd:Email"]?.[0];
+  },
+
+  contentContactPhone: (state, getters) => {
+    return getters?.contentContact?.["abcd:Phone"]?.[0];
+  },
+
+  contentContactAddress: (state, getters) => {
+    return getters?.contentContact?.["abcd:Address"]?.[0];
   }
 };
 

@@ -34,6 +34,10 @@ const state = {
     { text: "Type status", value: "type_status" }
   ],
   itemHeadersSecondary: [
+    { text: "Contact person", value: "contentContactName" },
+    { text: "Contact e-mail", value: "contentContactEmail" },
+    { text: "Contact phone", value: "contentContactPhone" },
+    { text: "Contact address", value: "contentContactAddress" },
     { text: "Contact data", value: "contactdata" },
     { text: "Dataset owner", value: "datasetowner" },
     { text: "Data source country", value: "datasourcecountry" },

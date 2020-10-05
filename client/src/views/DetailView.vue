@@ -120,8 +120,8 @@
             :headers="filteredItemHeaders"
             :items="[item]"
           >
-            <template v-slot:item.typestatus="{ item }">
-              <div class="font-weight-bold">{{ item.typestatus }}</div>
+            <template v-slot:item.type_status="{ item }">
+              <div class="font-weight-bold">{{ item.type_status }}</div>
             </template>
 
             <template v-slot:item.mindat_url="{ item }">
@@ -228,8 +228,32 @@
             :headers="filteredItemHeadersSecondary"
             :items="[item]"
           >
+            <template v-slot:item.contentContactName>
+              <div>{{ contentContactName }}</div>
+            </template>
+
+            <template v-slot:item.contentContactEmail>
+              <div v-if="contentContactEmail">
+                <a
+                  :href="`mailto:${contentContactEmail}`"
+                  class="text-decoration-none"
+                  ><v-icon x-small class="mr-1" color="primary">far fa-envelope</v-icon
+                  >{{ contentContactEmail }}</a
+                >
+              </div>
+            </template>
+
+            <template v-slot:item.contentContactPhone>
+              <div>{{ contentContactPhone }}</div>
+            </template>
+
+            <template v-slot:item.contentContactAddress>
+              <div>{{ contentContactAddress }}</div>
+            </template>
+
             <template v-slot:item.providerurl="{ item }">
               <a
+                class=""
                 :href="item.providerurl"
                 target="ProviderWindow"
                 style="text-decoration: unset;"
@@ -340,7 +364,12 @@ export default {
       "isItemFossil",
       "isItemMineral",
       "isItemRock",
-      "isItemMeteorite"
+      "isItemMeteorite",
+      "itemStratigraphy",
+      "contentContactName",
+      "contentContactEmail",
+      "contentContactPhone",
+      "contentContactAddress"
     ]),
 
     getSpecimenType() {
