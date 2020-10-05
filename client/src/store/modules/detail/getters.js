@@ -120,8 +120,8 @@ const getters = {
             return `${item["efg:ChronoStratigraphicDivision"]} : ${item["efg:ChronostratigraphicName"]}`;
           else
             return `Chronostratigraphy : ${item["efg:ChronostratigraphicName"]}`;
-        } else if (item["abcd:ChronostratigraphicTerm.abcd:Term"])
-          return `Chronostratigraphy : ${item["abcd:ChronostratigraphicTerm.abcd:Term"]}`;
+        } else if (item["abcd:ChronostratigraphicTerm"])
+          return `Chronostratigraphy : ${item["abcd:Term"]}`;
       });
       return stratigraphyList;
     } else return null;
