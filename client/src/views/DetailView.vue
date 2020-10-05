@@ -279,6 +279,21 @@
               </div>
             </template>
 
+            <template v-slot:item.institutionHomepage>
+              <div v-if="representationTitle && representationURI">
+                <v-img v-if="logoURI" :src="logoURI" max-height="25"></v-img>
+                <a
+                  v-if="representationURI"
+                  class="text-decoration-none"
+                  :href="representationURI"
+                  :title="representationURI"
+                  target="InstitutionHomepage"
+                  >{{ representationTitle }}</a
+                >
+                <div v-else>{{ representationTitle }}</div>
+              </div>
+            </template>
+
             <template v-slot:item.providerurl="{ item }">
               <a
                 class=""

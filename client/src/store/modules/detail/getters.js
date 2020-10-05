@@ -155,15 +155,27 @@ const getters = {
   },
 
   logoURI: state => {
-    return "logoURI from source";
+    return state?.responseFromSource?.["abcd:DataSets"]?.[
+      "abcd:DataSet"
+    ]?.[0]?.["abcd:Metadata"]?.[0]?.["abcd:Description"]?.[0]?.[
+      "abcd:Representation"
+    ]?.[0]?.["abcd:URI"]?.[0];
   },
 
   representationTitle: state => {
-    return "representationTitle from source";
+    return state?.responseFromSource?.["abcd:DataSets"]?.[
+      "abcd:DataSet"
+    ]?.[0]?.["abcd:Metadata"]?.[0]?.["abcd:Description"]?.[0]?.[
+      "abcd:Representation"
+    ]?.[0]?.["abcd:Title"]?.[0];
   },
 
   representationURI: state => {
-    return "representationURI from source";
+    return state?.responseFromSource?.["abcd:DataSets"]?.[
+      "abcd:DataSet"
+    ]?.[0]?.["abcd:Metadata"]?.[0]?.["abcd:Owners"]?.[0]?.["abcd:Owner"]?.[0]?.[
+      "abcd:URIs"
+    ]?.[0]?.["abcd:URL"]?.[0];
   }
 };
 
