@@ -120,10 +120,6 @@
             :headers="filteredItemHeaders"
             :items="[item]"
           >
-            <template v-slot:item.type_status="{ item }">
-              <div class="font-weight-bold">{{ item.type_status }}</div>
-            </template>
-
             <template v-slot:item.mindat_url="{ item }">
               <a
                 style="text-decoration: unset;"
@@ -229,7 +225,9 @@
             :items="[item]"
           >
             <template v-slot:item.contentContactName>
-              <div>{{ contentContactName }}</div>
+              <div>
+                {{ contentContactName }}
+              </div>
             </template>
 
             <template v-slot:item.contentContactEmail>
@@ -237,18 +235,38 @@
                 <a
                   :href="`mailto:${contentContactEmail}`"
                   class="text-decoration-none"
-                  ><v-icon x-small class="mr-1" color="primary">far fa-envelope</v-icon
+                  ><v-icon x-small class="mr-1" color="primary"
+                    >far fa-envelope</v-icon
                   >{{ contentContactEmail }}</a
                 >
               </div>
             </template>
 
             <template v-slot:item.contentContactPhone>
-              <div>{{ contentContactPhone }}</div>
+              <div v-if="contentContactPhone">
+                <a
+                  :href="`tel:${contentContactPhone}`"
+                  class="text-decoration-none"
+                  ><v-icon x-small class="mr-1" color="primary"
+                    >fas fa-phone</v-icon
+                  >{{ contentContactPhone }}</a
+                >
+              </div>
             </template>
 
             <template v-slot:item.contentContactAddress>
-              <div>{{ contentContactAddress }}</div>
+              <div v-if="contentContactAddress">
+                <a
+                  :href="
+                    `https://www.google.com/maps/place/${contentContactAddress}`
+                  "
+                  target="GoogleMapsWindow"
+                  class="text-decoration-none"
+                  ><v-icon x-small class="mr-1" color="primary"
+                    >fas fa-map-marker-alt</v-icon
+                  >{{ contentContactAddress }}</a
+                >
+              </div>
             </template>
 
             <template v-slot:item.providerurl="{ item }">
