@@ -120,13 +120,12 @@ const getters = {
 
     if (stratigraphy) {
       let stratigraphyList = stratigraphy.map(item => {
-        if (item["efg:ChronostratigraphicName"]) {
-          if (item["efg:ChronoStratigraphicDivision"])
-            return `${item["efg:ChronoStratigraphicDivision"]} : ${item["efg:ChronostratigraphicName"]}`;
-          else
-            return `Chronostratigraphy : ${item["efg:ChronostratigraphicName"]}`;
-        } else if (item["abcd:ChronostratigraphicTerm"])
-          return `Chronostratigraphy : ${item["abcd:Term"]}`;
+        if (
+          item["efg:ChronostratigraphicName"] &&
+          item["efg:ChronoStratigraphicDivision"]
+        ) {
+          return `${item["efg:ChronoStratigraphicDivision"]} : ${item["efg:ChronostratigraphicName"]}`;
+        }
       });
       return stratigraphyList;
     } else return null;
@@ -157,9 +156,9 @@ const getters = {
   logoURI: state => {
     return state?.responseFromSource?.["abcd:DataSets"]?.[
       "abcd:DataSet"
-    ]?.[0]?.["abcd:Metadata"]?.[0]?.["abcd:Description"]?.[0]?.[
-      "abcd:Representation"
-    ]?.[0]?.["abcd:URI"]?.[0];
+    ]?.[0]?.["abcd:Metadata"]?.[0]?.["abcd:Owners"]?.[0]?.["abcd:Owner"]?.[0]?.[
+      "abcd:LogoURI"
+    ]?.[0];
   },
 
   representationTitle: state => {
@@ -173,9 +172,9 @@ const getters = {
   representationURI: state => {
     return state?.responseFromSource?.["abcd:DataSets"]?.[
       "abcd:DataSet"
-    ]?.[0]?.["abcd:Metadata"]?.[0]?.["abcd:Owners"]?.[0]?.["abcd:Owner"]?.[0]?.[
-      "abcd:URIs"
-    ]?.[0]?.["abcd:URL"]?.[0];
+    ]?.[0]?.["abcd:Metadata"]?.[0]?.["abcd:Description"]?.[0]?.[
+      "abcd:Representation"
+    ]?.[0]?.["abcd:URI"]?.[0];
   }
 };
 
