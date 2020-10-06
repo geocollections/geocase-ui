@@ -214,9 +214,10 @@ const mockData = {
         "_version_": 1669767259249180673
       },
       {
-        "id": "68174",
+        "id": "1713529",
         "collectioncode": "GIT",
-        "unitid": "821-169",
+        "unitid": "388-1",
+        "datasourceurl": "https://bc.geocollections.info/pywrapper.cgi?dsa=git",
         "highertaxon": "Brachiopoda",
         "higherrank": "Phylum",
         "fullscientificname": "(Porambonites (P.) latus",

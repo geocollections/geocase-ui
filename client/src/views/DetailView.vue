@@ -280,17 +280,30 @@
             </template>
 
             <template v-slot:item.institutionHomepage>
-              <div v-if="representationTitle && representationURI">
-                <v-img v-if="logoURI" :src="logoURI" max-height="25"></v-img>
-                <a
-                  v-if="representationURI"
-                  class="text-decoration-none"
-                  :href="representationURI"
-                  :title="representationURI"
-                  target="InstitutionHomepage"
-                  >{{ representationTitle }}</a
-                >
-                <div v-else>{{ representationTitle }}</div>
+              <div
+                v-if="representationTitle && representationURI"
+                class="d-flex justify-start"
+              >
+                <div class="align-self-center mr-3">
+                  <a
+                    v-if="representationURI"
+                    class="text-decoration-none"
+                    :href="representationURI"
+                    :title="representationURI"
+                    target="InstitutionHomepage"
+                    >{{ representationTitle }}</a
+                  >
+                  <div v-else>{{ representationTitle }}</div>
+                </div>
+
+                <div v-if="logoURI">
+                  <v-img
+                    :src="logoURI"
+                    height="100"
+                    width="100"
+                    contain
+                  ></v-img>
+                </div>
               </div>
             </template>
 
