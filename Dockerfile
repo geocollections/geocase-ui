@@ -1,4 +1,4 @@
-FROM node:latest-alpine
+FROM node:alpine
 
 RUN mkdir -p /opt/apps/geocase-prototype
 
