@@ -18,7 +18,7 @@ RUN npm install
 
 #
 # ---- Production ----
-FROM dependencies AS production
+FROM dependencies AS build
 # copy production node_modules
 COPY --from=dependencies /app/prod_node_modules ./node_modules
 # copy app source
@@ -28,7 +28,7 @@ RUN npm run build
 
 #
 # ---- Serve using nginx ----
-FROM nginx:alpine
-COPY --from=production /app/dist /usr/share/nginx/html
+FROM nginx:alpine AS production
+COPY --from=build /app/dist /usr/share/nginx/html
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
