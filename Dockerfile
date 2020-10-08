@@ -1,20 +1,34 @@
-FROM node:alpine
 
-RUN mkdir -p /opt/apps/geocase-prototype
+#
+# ---- Base ----
+FROM node:alpine AS base
+WORKDIR /app
+COPY package.json .
 
-# App root
-WORKDIR /opt/apps/geocase-prototype
-# Copy project files
+#
+# ---- Dependencies ----
+FROM base AS dependencies
+# install node packages
+RUN npm set progress=false && npm config set depth 0
+RUN npm install --only=production
+# copy production node_modules aside
+RUN cp -R node_modules prod_node_modules
+# install ALL node_modules, including 'devDependencies'
+RUN npm install
+
+#
+# ---- Production ----
+FROM dependencies AS production
+# copy production node_modules
+COPY --from=dependencies /app/prod_node_modules ./node_modules
+# copy app source
 COPY . .
-
-# Client
-WORKDIR /opt/apps/geocase-prototype/client
-RUN npm install
+# build files for production
 RUN npm run build
-RUN npm prune --production
 
-# Server
-WORKDIR /opt/apps/geocase-prototype
-RUN npm install
-EXPOSE 7000
-CMD ["npm", "run", "start"]
+#
+# ---- Serve using nginx ----
+FROM nginx:alpine
+COPY --from=production /app/dist /usr/share/nginx/html
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
