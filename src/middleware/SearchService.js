@@ -7,14 +7,17 @@ const STATS_QUERY =
   "facet=on&facet.field=providername&facet.field=providercountry";
 
 class SearchService {
-  static async search(searchParams) {
+  static async search(params) {
     try {
-      let start = (searchParams.page - 1) * searchParams.paginateBy;
-      let sort = buildSort(searchParams.sortBy, searchParams.sortDesc);
+      let start = (params.page - 1) * params.paginateBy;
+      let sort = buildSort(params.sortBy, params.sortDesc);
 
-      let searchFields = buildSearchFieldsQuery(searchParams.searchFields);
+      let searchFields = buildSearchFieldsQuery(
+        params.search,
+        params.searchIds
+      );
 
-      let url = `${API_URL}?start=${start}&rows=${searchParams.paginateBy}&sort=${sort}&defType=edismax&${FACET_QUERY}`;
+      let url = `${API_URL}?start=${start}&rows=${params.paginateBy}&sort=${sort}&defType=edismax&${FACET_QUERY}`;
 
       if (searchFields && searchFields.length > 0) url += `&${searchFields}`;
       else url += `&q=*`;
@@ -73,14 +76,14 @@ function buildSort(sortBy, sortDesc) {
   return sort;
 }
 
-function buildSearchFieldsQuery(searchFields) {
+function buildSearchFieldsQuery(search, searchIds) {
   let encodedData = [];
 
-  Object.keys(searchFields).forEach(field => {
-    let name = searchFields[field].field;
-    let lookUpType = searchFields[field].lookUpType;
-    let value = searchFields[field].value;
-    let fieldType = searchFields[field].fieldType;
+  searchIds.forEach(id => {
+    let name = search[id].id;
+    let type = search[id].type;
+    let lookUpType = search[id].lookUpType;
+    let value = search[id].value;
 
     if (value && value.trim().length > 0) {
       if (name === "q" && !(value.includes(" ") || value.includes("*")))
@@ -90,9 +93,8 @@ function buildSearchFieldsQuery(searchFields) {
       let encodedValue = encodeURIComponent(value);
       if (name === "q") encodedObject = encodedObject.substring(1, 3);
 
-      if (fieldType === "checkbox") {
+      if (type === "checkbox") {
         if (name === "highertaxon_checkbox") encodedObject = "fq=highertaxon:";
-        // encodedValue = encodedValue.replace(/%2C/g, " OR ");
         encodedObject += encodedValue;
       } else {
         if (lookUpType === "") encodedObject += encodedValue;

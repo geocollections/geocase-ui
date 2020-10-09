@@ -25,10 +25,6 @@ const actions = {
     commit("UPDATE_SEARCH_PARAM", payload);
   },
 
-  updateSearchFieldCheckboxState({ commit }, payload) {
-    commit("UPDATE_SEARCH_FIELD_CHECKBOX_STATE", payload);
-  },
-
   resetSearch({ commit }) {
     commit("RESET_SEARCH");
   },
@@ -57,7 +53,8 @@ const actions = {
         paginateBy: state.paginateBy,
         sortBy: state.sortBy,
         sortDesc: state.sortDesc,
-        searchFields: state.searchFields
+        searchIds: state.searchIds,
+        search: state.search
       };
       let response = await SearchService.search(params);
 

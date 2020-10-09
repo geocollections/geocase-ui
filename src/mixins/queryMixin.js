@@ -1,40 +1,38 @@
 import { mapActions, mapState } from "vuex";
-import { cloneDeep, isEqual } from "lodash";
+import { isEqual } from "lodash";
 
 const queryMixin = {
   computed: {
-    ...mapState("search", [
-      "searchFieldList",
-      "searchParamsList",
-      "lookUpTypes"
-    ])
+    ...mapState("search", ["searchParamsList", "lookUpTypes", "searchIds"])
   },
 
   methods: {
     ...mapActions("search", ["updateSearchField", "updateSearchParam"]),
 
-    constructQueryParams(searchFields, searchParams) {
-      let appendableQuery = cloneDeep(this.$route.query);
+    constructQueryParams(search, searchParams) {
+      // let appendableQuery = clone(this.$route.query);
+      let appendableQuery = { ...this.$route.query };
 
-      if (searchFields) {
-        searchFields.forEach(item => {
-          let queryKey = item.field;
+      if (search) {
+        this.searchIds.forEach(item => {
+          let queryKey = item;
 
           // Clearing previous keys
-          Object.keys(appendableQuery).forEach(item =>
-            item.includes(queryKey) ? delete appendableQuery[item] : ""
+          Object.keys(appendableQuery).forEach(entity =>
+            entity.includes(queryKey) ? delete appendableQuery[entity] : ""
           );
 
-          if (item.value && item.value.trim().length > 0) {
-            if (item.lookUpType)
-              queryKey += `__${replaceField(item.lookUpType)}`;
-            appendableQuery[queryKey] = item.value;
+          if (search[item].value && search[item].value.trim().length > 0) {
+            if (search[item].lookUpType)
+              queryKey += `__${replaceField(search[queryKey].lookUpType)}`;
+            appendableQuery[queryKey] = search[item].value;
           } else delete appendableQuery[queryKey];
         });
       }
 
       if (searchParams) {
-        let params = cloneDeep(searchParams);
+        // let params = cloneDeep(searchParams);
+        let params = { ...searchParams };
         Object.entries(params).forEach(item => {
           if (item[0] === "sort_by" || item[0] === "sort_desc") {
             let value = item[1].join(",");
@@ -50,7 +48,8 @@ const queryMixin = {
       if (!isEqual(this.$route.query, newQueryParams))
         this.$router.push({
           name: "Search",
-          query: cloneDeep(newQueryParams)
+          // query: clone(newQueryParams)
+          query: { ...newQueryParams }
         });
     },
 
@@ -59,7 +58,7 @@ const queryMixin = {
         let splitItem = item[0].split("__");
         let field = splitItem[0];
 
-        if (this.searchFieldList.includes(field)) {
+        if (this.searchIds.includes(field)) {
           let lookUpType = splitItem[1] || "";
           if (lookUpType && lookUpType.length > 0)
             lookUpType = replaceField(lookUpType, false);
@@ -68,7 +67,7 @@ const queryMixin = {
             let value = item[1] || null;
 
             this.updateSearchField({
-              field: field,
+              id: field,
               lookUpType: lookUpType,
               value: value
             });

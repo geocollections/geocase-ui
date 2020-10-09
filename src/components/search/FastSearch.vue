@@ -56,15 +56,15 @@ export default {
   }),
 
   computed: {
-    ...mapState("search", ["searchFields"]),
+    ...mapState("search", ["search"]),
 
     fastSearch: {
       get() {
-        return this.searchFields[0].value;
+        return this.search.q.value;
       },
 
       set: debounce(function(value) {
-        this.updateSearchField({ fieldType: "text", field: "q", value: value });
+        this.updateSearchField({ id: "q", value: value });
       }, 250)
     }
   },

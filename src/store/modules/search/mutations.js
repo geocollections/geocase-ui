@@ -24,11 +24,16 @@ const mutations = {
   },
 
   UPDATE_SEARCH_FIELD(state, payload) {
-    state.searchFields = [
-      ...state.searchFields.map(item =>
-        item.field !== payload.field ? item : { ...item, ...payload }
-      )
-    ];
+    console.log(payload);
+    if (payload.id) {
+      if ("value" in payload) state.search[payload.id].value = payload.value;
+      if ("lookUpType" in payload)
+        state.search[payload.id].lookUpType = payload.lookUpType;
+      if ("showCheckboxes" in payload)
+        state.search[payload.id].showCheckboxes = payload.showCheckboxes;
+      if ("showMore" in payload)
+        state.search[payload.id].showMore = payload.showMore;
+    }
   },
 
   UPDATE_SEARCH_PARAM(state, payload) {
@@ -50,6 +55,7 @@ const mutations = {
     }
   },
 
+  // Todo: Do not update so called currently active facets
   UPDATE_FACETS(state, payload) {
     if (payload) {
       Object.entries(payload).forEach(item => {
@@ -60,18 +66,11 @@ const mutations = {
     }
   },
 
-  // payload.changeField is either "showCheckboxes" or "showMore"
-  UPDATE_SEARCH_FIELD_CHECKBOX_STATE(state, payload) {
-    let item = state.searchFields.find(
-      item => item.fieldType === "checkbox" && item.field === payload.findField
-    );
-    if (item) item[payload.changeField] = !item[payload.changeField];
-  },
-
   RESET_SEARCH(state) {
-    state.searchFields.forEach(item => {
-      if (item.lookUpType !== "") item.lookUpType = "contains";
-      if (item.value !== null) item.value = null;
+    state.searchIds.forEach(item => {
+      if (state.search[item].lookUpType !== "")
+        state.search[item].lookUpType = "contains";
+      if (state.search[item].value !== null) state.search[item].value = null;
     });
   }
 };

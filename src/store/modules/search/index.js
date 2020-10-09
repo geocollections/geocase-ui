@@ -9,134 +9,171 @@ const state = {
   paginateBy: 50,
   sortBy: ["fullscientificname"],
   sortDesc: [false],
-  searchFields: [
-    {
-      fieldType: "text",
-      field: "q",
+  search: {
+    q: {
+      id: "q",
+      type: "text",
       lookUpType: "",
       value: null,
       label: "Find quickly"
     },
-    {
-      fieldType: "text",
-      field: "fullscientificname",
+    fullscientificname: {
+      id: "fullscientificname",
+      type: "text",
       lookUpType: "contains",
       value: null,
       label: "Name"
     },
-    {
-      fieldType: "text",
-      field: "highertaxon",
+    highertaxon: {
+      id: "highertaxon",
+      type: "text",
       lookUpType: "contains",
       value: null,
       label: "Group"
     },
-    {
-      fieldType: "text",
-      field: "stratigraphy",
+    stratigraphy: {
+      id: "stratigraphy",
+      type: "text",
       lookUpType: "contains",
       value: null,
       label: "Stratigraphy"
     },
-    {
-      fieldType: "text",
-      field: "locality",
+    locality: {
+      id: "locality",
+      type: "text",
       lookUpType: "contains",
       value: null,
       label: "Locality"
     },
-    {
-      fieldType: "text",
-      field: "collectioncode",
+    collectioncode: {
+      id: "collectioncode",
+      type: "text",
       lookUpType: "contains",
       value: null,
       label: "Institution"
     },
-    {
-      fieldType: "text",
-      field: "unitid",
+    unitid: {
+      id: "unitid",
+      type: "text",
       lookUpType: "contains",
       value: null,
       label: "Object ID"
     },
-    {
-      fieldType: "checkbox",
-      field: "recordbasis",
+    recordbasis: {
+      id: "recordbasis",
+      type: "checkbox",
       lookUpType: "",
       value: null,
       label: "Specimen type",
       showCheckboxes: false,
       showMore: false
     },
-    {
-      fieldType: "checkbox",
-      field: "highertaxon_checkbox",
+    highertaxon_checkbox: {
+      id: "highertaxon_checkbox",
+      type: "checkbox",
       lookUpType: "",
       value: null,
       label: "Group",
       showCheckboxes: false,
       showMore: false
     },
-    {
-      fieldType: "checkbox",
-      field: "type_status",
+    type_status: {
+      id: "type_status",
+      type: "checkbox",
       lookUpType: "",
       value: null,
       label: "Type status",
       showCheckboxes: false,
       showMore: false
     },
-    {
-      fieldType: "checkbox",
-      field: "country",
+    country: {
+      id: "country",
+      type: "checkbox",
       lookUpType: "",
       value: null,
       label: "Country",
       showCheckboxes: false,
       showMore: false
     },
-    {
-      fieldType: "checkbox",
-      field: "datasetowner",
+    datasetowner: {
+      id: "datasetowner",
+      type: "checkbox",
       lookUpType: "",
       value: null,
       label: "Dataset owner",
       showCheckboxes: false,
       showMore: false
     },
-    {
-      fieldType: "checkbox",
-      field: "providername",
+    providername: {
+      id: "providername",
+      type: "checkbox",
       lookUpType: "",
       value: null,
       label: "Provider",
       showCheckboxes: false,
       showMore: false
     },
-    {
-      fieldType: "checkbox",
-      field: "providercountry",
+    providercountry: {
+      id: "providercountry",
+      type: "checkbox",
       lookUpType: "",
       value: null,
       label: "Provider country",
       showCheckboxes: false,
       showMore: false
     },
-    {
-      fieldType: "single_checkbox",
-      field: "has_image",
+    has_image: {
+      id: "has_image",
+      type: "checkbox",
       lookUpType: "",
       value: null,
       label: "Show only data with images"
     },
-    {
-      fieldType: "single_checkbox",
-      field: "has_map",
+    has_map: {
+      id: "has_map",
+      type: "single_checkbox",
       lookUpType: "",
       value: null,
       label: "Show only georeferenced data"
     }
+  },
+  searchIds: [
+    "q",
+    "fullscientificname",
+    "highertaxon",
+    "stratigraphy",
+    "locality",
+    "collectioncode",
+    "unitid",
+    "recordbasis",
+    "highertaxon_checkbox",
+    "type_status",
+    "country",
+    "datasetowner",
+    "providername",
+    "providercountry",
+    "has_image",
+    "has_map"
   ],
+  searchTextIds: [
+    "q",
+    "fullscientificname",
+    "highertaxon",
+    "stratigraphy",
+    "locality",
+    "collectioncode",
+    "unitid"
+  ],
+  searchCheckboxIds: [
+    "recordbasis",
+    "highertaxon_checkbox",
+    "type_status",
+    "country",
+    "datasetowner",
+    "providername",
+    "providercountry"
+  ],
+  searchSingleCheckboxIds: ["has_image", "has_map"],
   lookUpTypes: [
     "contains",
     "equals",
@@ -160,23 +197,6 @@ const state = {
     { text: "Paginate by 250", value: 250 },
     { text: "Paginate by 500", value: 500 },
     { text: "Paginate by 1000", value: 1000 }
-  ],
-  searchFieldList: [
-    "q",
-    "fullscientificname",
-    "highertaxon",
-    "stratigraphy",
-    "locality",
-    "collectioncode",
-    "unitid",
-    "recordbasis",
-    "type_status",
-    "country",
-    "datasetowner",
-    "providername",
-    "providercountry",
-    "has_image",
-    "has_coordinates"
   ],
   searchParamsList: ["page", "paginate_by", "sort_by", "sort_desc"]
 };

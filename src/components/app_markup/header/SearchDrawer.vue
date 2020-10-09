@@ -14,16 +14,16 @@
   >
     <!-- SEARCH FIELDS -->
     <v-row no-gutters class="pa-3">
-      <v-col cols="12" v-for="item in searchFields" :key="item.field">
-        <!-- TEXT FIELDS -->
-        <v-row no-gutters v-if="item.fieldType === 'text'">
-          <v-col cols="12" class="px-1" :class="{ 'pb-1': item.field !== 'q' }">
+      <!-- TEXT FIELDS -->
+      <v-col cols="12" v-for="id in searchTextIds" :key="id">
+        <v-row no-gutters>
+          <v-col cols="12" class="px-1" :class="{ 'pb-1': id !== 'q' }">
             <SelectWrapper
-              v-if="item.field !== 'q'"
-              :use-custom-prepend-inner="item.label"
+              v-if="id !== 'q'"
+              :use-custom-prepend-inner="search[id].label"
               :items="lookUpTypes"
-              :value="item.lookUpType"
-              @input="updateSearchField({ ...item, lookUpType: $event })"
+              :value="search[id].lookUpType"
+              @input="updateSearchField({ id: id, lookUpType: $event })"
             />
             <div
               v-else
@@ -37,17 +37,17 @@
           <v-col cols="12" class="pa-1">
             <TextFieldWrapper
               class="search-drawer-text-field"
-              :value="item.value"
-              @input="updateSearchFieldDebounced({ ...item, value: $event })"
-              :dense="item.field !== 'q'"
+              :value="search[id].value"
+              @input="updateSearchFieldDebounced({ id: id, value: $event })"
+              :dense="id !== 'q'"
               clearable
               solo
-              :placeholder="item.label"
+              :placeholder="search[id].label"
               clear-icon="fas fa-times"
             />
           </v-col>
 
-          <v-col cols="12" class="mt-3" v-if="item.field === 'q'">
+          <v-col cols="12" class="mt-3" v-if="id === 'q'">
             <div
               class="font-weight-bold text-center text-uppercase"
               style="font-size: 1.15rem;"
@@ -56,9 +56,20 @@
             </div>
           </v-col>
         </v-row>
+      </v-col>
 
-        <!-- CHECKBOX FIELDS -->
-        <v-row no-gutters v-else-if="item.fieldType === 'checkbox'">
+      <!-- CHECKBOXES -->
+      <v-col
+        cols="12"
+        v-for="id in searchCheckboxIds"
+        :key="id"
+        class="px-1"
+        :class="{
+          'blue-grey lighten-3 rounded-lg pt-1 my-1':
+            search[id].value && search[id].value.length > 0
+        }"
+      >
+        <v-row no-gutters>
           <v-col
             cols="12"
             class="px-1 pb-1 d-flex flex-row justify-space-between"
@@ -67,48 +78,56 @@
               class="search--checkbox-label"
               :class="{
                 'search--checkbox-active font-weight-bold text-center':
-                  item.value && item.value.length > 0
+                  search[id].value && search[id].value.length > 0
               }"
               @click="
-                updateSearchFieldCheckboxState({
-                  findField: item.field,
-                  changeField: 'showCheckboxes'
+                updateSearchField({
+                  id: id,
+                  showCheckboxes: !search[id].showCheckboxes
                 })
               "
             >
-              {{ item.label }}
+              {{ search[id].label }}
             </div>
 
             <v-btn
               icon
               @click="
-                updateSearchFieldCheckboxState({
-                  findField: item.field,
-                  changeField: 'showCheckboxes'
+                updateSearchField({
+                  id: id,
+                  showCheckboxes: !search[id].showCheckboxes
                 })
               "
             >
-              <v-icon v-if="item.showCheckboxes">fas fa-angle-up</v-icon>
+              <v-icon v-if="search[id].showCheckboxes">fas fa-angle-up</v-icon>
               <v-icon v-else>fas fa-angle-down</v-icon>
             </v-btn>
           </v-col>
 
           <v-col
-            :class="{ 'd-none': !item.showMore && index > 3 }"
             cols="12"
             class="px-1 pb-1"
-            v-for="(entity, index) in getCheckboxes(item.field)"
-            :key="index"
-            v-show="item.showCheckboxes"
+            v-for="(entity, key) in getCheckboxes(
+              id,
+              search[id].showCheckboxes,
+              search[id].showMore
+            )"
+            :key="key"
           >
             <v-checkbox
               class="mt-0 mb-2"
               color="blue-grey darken-3"
               :input-value="
-                item.value && item.value.includes(`&quot;${entity}&quot;`)
+                search[id].value &&
+                  search[id].value.includes(`&quot;${entity}&quot;`)
               "
               @change="
-                updateCheckbox({ item, bool: $event, fieldName: entity })
+                updateCheckbox({
+                  id: id,
+                  bool: $event,
+                  value: search[id].value,
+                  fieldName: entity
+                })
               "
               hide-details
               dense
@@ -119,7 +138,7 @@
                   <span
                     class="font-italic font-weight-light"
                     style="font-size: 0.875rem;"
-                    >({{ getCheckboxesCount(item.field)[index] }})</span
+                    >({{ getCheckboxesCount(id)[key] }})</span
                   >
                 </div>
               </template>
@@ -127,36 +146,38 @@
           </v-col>
 
           <v-btn
-            v-if="getCheckboxes(item.field).length > 4"
+            v-if="getCheckboxesLength(id) > 4"
             small
             text
             class="mx-4 mb-2 font-weight-bold"
-            v-show="item.showCheckboxes"
+            v-show="search[id].showCheckboxes"
             @click="
-              updateSearchFieldCheckboxState({
-                findField: item.field,
-                changeField: 'showMore'
+              updateSearchField({
+                id: id,
+                showMore: !search[id].showMore
               })
             "
           >
-            <span v-if="item.showMore">
+            <span v-if="search[id].showMore">
               <v-icon x-small>fas fa-minus</v-icon> Less</span
             >
             <span v-else><v-icon x-small>fas fa-plus</v-icon> More</span>
           </v-btn>
         </v-row>
+      </v-col>
 
-        <!-- SINGLE CHECKBOX -->
-        <v-row no-gutters v-else-if="item.fieldType === 'single_checkbox'">
+      <!-- SINGLE CHECKBOXES -->
+      <v-col class="px-1" cols="12" v-for="id in searchSingleCheckboxIds" :key="id">
+        <v-row no-gutters>
           <v-col cols="12" class="px-1 pb-1 d-flex ">
             <v-checkbox
               color="blue-grey darken-3"
               class="mt-0 mb-2"
-              :input-value="item.value"
-              :label="item.label"
+              :input-value="search[id].value"
+              :label="search[id].label"
               true-value="true"
               :false-value="null"
-              @change="updateSearchField({ ...item, value: $event })"
+              @change="updateSearchField({ id: id, value: $event })"
               hide-details
               dense
             />
@@ -181,7 +202,7 @@ import { mapActions, mapGetters, mapState } from "vuex";
 import TextFieldWrapper from "@/components/partial/input_wrappers/TextFieldWrapper";
 import SelectWrapper from "@/components/partial/input_wrappers/SelectWrapper";
 import queryMixin from "@/mixins/queryMixin";
-import { cloneDeep, debounce } from "lodash";
+import { debounce } from "lodash";
 
 export default {
   name: "SearchDrawer",
@@ -198,16 +219,18 @@ export default {
   },
 
   computed: {
-    ...mapState("search", ["lookUpTypes", "searchFields"]),
+    ...mapState("search", [
+      "lookUpTypes",
+      "search",
+      "searchTextIds",
+      "searchCheckboxIds",
+      "searchSingleCheckboxIds"
+    ]),
     ...mapGetters("search", [
       "getCheckboxes",
       "getCheckboxesCount",
-      "filteredSearchFields"
+      "getCheckboxesLength"
     ]),
-
-    isMdAndDown() {
-      return this.$vuetify.breakpoint.mdAndDown;
-    },
 
     isSmAndDown() {
       return this.$vuetify.breakpoint.smAndDown;
@@ -222,7 +245,7 @@ export default {
   },
 
   watch: {
-    searchFields: {
+    search: {
       handler(newVal) {
         this.constructQueryParams(newVal);
       },
@@ -231,31 +254,28 @@ export default {
   },
 
   methods: {
-    ...mapActions("search", [
-      "updateSearchField",
-      "updateSearchFieldCheckboxState",
-      "resetSearch"
-    ]),
+    ...mapActions("search", ["updateSearchField", "resetSearch"]),
 
     updateSearchFieldDebounced: debounce(function(value) {
       this.updateSearchField(value);
     }, 300),
 
     updateCheckbox(event) {
-      let e = cloneDeep(event);
+      // let e = clone(event);
+      let e = { ...event };
       if (e.bool) {
-        if (e.item.value) e.item.value += ` OR "${e.fieldName}"`;
-        else e.item.value = `"${e.fieldName}"`;
+        if (e.value) e.value += ` OR "${e.fieldName}"`;
+        else e.value = `"${e.fieldName}"`;
       } else {
-        if (e.item.value) {
-          let valueList = e.item.value.split(" OR ");
+        if (e.value) {
+          let valueList = e.value.split(" OR ");
           let filteredValues = valueList.filter(
             val => val !== `"${e.fieldName}"`
           );
-          e.item.value = filteredValues.join(" OR ");
+          e.value = filteredValues.join(" OR ");
         }
       }
-      this.updateSearchField(e.item);
+      this.updateSearchField({ id: e.id, value: e.value });
     },
 
     reset() {
@@ -285,5 +305,9 @@ export default {
 /* solo-inverted override */
 .search-drawer-text-field >>> .v-input__slot {
   background: #eceff1 !important;
+}
+
+.add-transition {
+  transition: all 200ms ease-out;
 }
 </style>
