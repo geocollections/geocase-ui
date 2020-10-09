@@ -167,7 +167,12 @@
       </v-col>
 
       <!-- SINGLE CHECKBOXES -->
-      <v-col class="px-1" cols="12" v-for="id in searchSingleCheckboxIds" :key="id">
+      <v-col
+        class="px-1"
+        cols="12"
+        v-for="id in searchSingleCheckboxIds"
+        :key="id"
+      >
         <v-row no-gutters>
           <v-col cols="12" class="px-1 pb-1 d-flex ">
             <v-checkbox

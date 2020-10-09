@@ -1,11 +1,5 @@
 <template>
-  <v-select
-    v-bind="$attrs"
-    v-on="$listeners"
-    hide-details
-    dense
-    :style="style"
-  >
+  <v-select v-bind="$attrs" v-on="$listeners" hide-details dense :style="style">
     <template
       v-slot:prepend-inner
       v-if="useCustomPrependInner && useCustomPrependInner.length > 0"

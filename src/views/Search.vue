@@ -5,7 +5,9 @@
     <v-card flat>
       <!-- NUM OF ITEMS -->
       <v-card-title class="py-2 font-weight-bold" style="font-size: 1.5rem">
-        <span class="mr-1" v-if="responseResultsCount">{{ responseResultsCount.toLocaleString() }}</span>
+        <span class="mr-1" v-if="responseResultsCount">{{
+          responseResultsCount.toLocaleString()
+        }}</span>
         <span class="mr-1">{{
           `record${responseResultsCount === 1 ? "" : "s"} found`
         }}</span>

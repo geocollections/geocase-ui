@@ -121,7 +121,6 @@
 </template>
 
 <script>
-
 export default {
   name: "TabTable",
   props: {

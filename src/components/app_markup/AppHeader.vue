@@ -11,7 +11,10 @@
       @toggle:searchDrawer="updateSearchDrawerState(!searchDrawer)"
     />
 
-    <NavigationDrawer :drawer="drawer" @update:navigationDrawer="drawer = $event" />
+    <NavigationDrawer
+      :drawer="drawer"
+      @update:navigationDrawer="drawer = $event"
+    />
 
     <landing-image v-if="$route.name === 'FrontPage'" />
   </div>
@@ -25,7 +28,7 @@ import LandingImage from "@/components/app_markup/header/LandingImage";
 import NavigationDrawer from "@/components/app_markup/header/NavigationDrawer";
 export default {
   name: "AppHeader",
-  components: {NavigationDrawer, SearchDrawer, AppBar, LandingImage },
+  components: { NavigationDrawer, SearchDrawer, AppBar, LandingImage },
   data: () => ({
     drawer: false
   }),

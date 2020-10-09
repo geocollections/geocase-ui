@@ -8,7 +8,8 @@
   >
     <v-card flat tile width="100%" class="transparent">
       <v-card-text class="pt-1 px-1 pb-0 text-center white--text">
-        {{ new Date().getFullYear() }} | <strong>GeoCASe: The Earth Science Collections Portal</strong>
+        {{ new Date().getFullYear() }} |
+        <strong>GeoCASe: The Earth Science Collections Portal</strong>
       </v-card-text>
 
       <v-card-text class="pt-0 px-1 pb-0 text-center white--text">
@@ -22,7 +23,11 @@
         >
         and
         <a href="https://www.museumfuernaturkunde.berlin/" target="FooterWindow"
-          >Museum für Naturkunde</a>. Data by <router-link to="/partners_and_providers">partner institutions</router-link>.
+          >Museum für Naturkunde</a
+        >. Data by
+        <router-link to="/partners_and_providers"
+          >partner institutions</router-link
+        >.
       </v-card-text>
     </v-card>
   </v-footer>

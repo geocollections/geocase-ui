@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import {mapActions, mapState} from "vuex";
+import { mapActions, mapState } from "vuex";
 import toastMixin from "@/mixins/toastMixin";
 import AppHeader from "@/components/app_markup/AppHeader";
 import AppFooter from "@/components/app_markup/AppFooter";
