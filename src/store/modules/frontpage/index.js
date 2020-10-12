@@ -1,8 +1,8 @@
 import SearchService from "@/middleware/SearchService";
 
 const state = {
-  records: "1 110 026",
-  providername: "9",
+  records: "1 088 789",
+  providername: "7",
   providercountry: "4",
   cards: [
     {
