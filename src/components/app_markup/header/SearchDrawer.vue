@@ -12,6 +12,72 @@
     class="elevation-4"
     color="blue-grey lighten-4"
   >
+    <v-list>
+      <!-- FIND QUICKLY -->
+      <v-list-item>
+        <v-list-item-content>
+          <v-list-item-title
+            class="font-weight-bold text-center text-uppercase mb-2"
+            style="font-size: 1.15rem;"
+            >Find quickly</v-list-item-title
+          >
+
+          <TextFieldWrapper
+            class="search-drawer-text-field"
+            :value="search.q.value"
+            @input="updateSearchFieldDebounced({ id: 'q', value: $event })"
+            clearable
+            solo
+            :placeholder="search.q.label"
+            clear-icon="fas fa-times"
+          />
+        </v-list-item-content>
+      </v-list-item>
+
+      <!-- ADDITIONAL FILTERS -->
+      <v-list-group :value="showAdditionalFilters">
+        <template v-slot:activator>
+          <v-list-item-title
+            class="font-weight-bold text-center text-uppercase"
+            style="font-size: 1.15rem;"
+            >Additional filters</v-list-item-title
+          >
+        </template>
+
+        <v-list-group :value="true" no-action sub-group>
+          <template v-slot:activator>
+            <v-list-item-content>
+              <v-list-item-title>Text fields</v-list-item-title>
+            </v-list-item-content>
+          </template>
+
+          <v-list-item>
+            <v-list-item-title>Book</v-list-item-title>
+
+            <v-list-item-icon>
+              <v-icon>fas fa-book</v-icon>
+            </v-list-item-icon>
+          </v-list-item>
+        </v-list-group>
+
+        <v-list-group :value="true" no-action sub-group>
+          <template v-slot:activator>
+            <v-list-item-content>
+              <v-list-item-title>Checkboxes</v-list-item-title>
+            </v-list-item-content>
+          </template>
+
+          <v-list-item>
+            <v-list-item-title>book</v-list-item-title>
+
+            <v-list-item-icon>
+              <v-icon>fas fa-book</v-icon>
+            </v-list-item-icon>
+          </v-list-item>
+        </v-list-group>
+      </v-list-group>
+    </v-list>
+
     <!-- SEARCH FIELDS -->
     <v-row no-gutters class="pa-3">
       <!-- TEXT FIELDS -->
@@ -222,6 +288,10 @@ export default {
       required: true
     }
   },
+
+  data: () => ({
+    showAdditionalFilters: true
+  }),
 
   computed: {
     ...mapState("search", [
