@@ -44,35 +44,181 @@
           >
         </template>
 
-        <v-list-group :value="true" no-action sub-group>
+        <!-- TEXT FIELDS -->
+        <v-list-group :value="showTextFields" sub-group>
           <template v-slot:activator>
             <v-list-item-content>
-              <v-list-item-title>Text fields</v-list-item-title>
+              <v-list-item-title
+                class="font-weight-bold text-uppercase"
+                style="font-size: 0.875rem;"
+                >Text fields</v-list-item-title
+              >
             </v-list-item-content>
           </template>
 
-          <v-list-item>
-            <v-list-item-title>Book</v-list-item-title>
-
-            <v-list-item-icon>
-              <v-icon>fas fa-book</v-icon>
-            </v-list-item-icon>
+          <v-list-item v-for="id in searchTextIds" :key="id + 20">
+            <v-row no-gutters>
+              <v-col cols="12" class="py-1">
+                <SelectWrapper
+                  :use-custom-prepend-inner="search[id].label"
+                  :items="lookUpTypes"
+                  :value="search[id].lookUpType"
+                  @input="updateSearchField({ id: id, lookUpType: $event })"
+                />
+              </v-col>
+              <v-col cols="12" class="py-1">
+                <TextFieldWrapper
+                  class="search-drawer-text-field"
+                  :value="search[id].value"
+                  @input="updateSearchFieldDebounced({ id: id, value: $event })"
+                  dense
+                  clearable
+                  solo
+                  :placeholder="search[id].label"
+                  clear-icon="fas fa-times"
+                />
+              </v-col>
+            </v-row>
           </v-list-item>
         </v-list-group>
 
-        <v-list-group :value="true" no-action sub-group>
+        <!-- CHECKBOXES -->
+        <v-list-group :value="showCheckboxes" sub-group>
           <template v-slot:activator>
             <v-list-item-content>
-              <v-list-item-title>Checkboxes</v-list-item-title>
+              <v-list-item-title
+                class="font-weight-bold text-uppercase"
+                style="font-size: 0.875rem;"
+                >Checkboxes</v-list-item-title
+              >
             </v-list-item-content>
           </template>
 
-          <v-list-item>
-            <v-list-item-title>book</v-list-item-title>
+          <v-list-item v-for="id in searchCheckboxIds" :key="id + 40">
+            <v-row no-gutters>
+              <v-col
+                cols="12"
+                class="px-1 pb-1 d-flex flex-row justify-space-between"
+              >
+                <div
+                  class="search--checkbox-label"
+                  :class="{
+                    'search--checkbox-active font-weight-bold text-center':
+                      search[id].value && search[id].value.length > 0
+                  }"
+                  @click="
+                    updateSearchField({
+                      id: id,
+                      showCheckboxes: !search[id].showCheckboxes
+                    })
+                  "
+                >
+                  {{ search[id].label }}
+                </div>
 
-            <v-list-item-icon>
-              <v-icon>fas fa-book</v-icon>
-            </v-list-item-icon>
+                <v-btn
+                  icon
+                  @click="
+                    updateSearchField({
+                      id: id,
+                      showCheckboxes: !search[id].showCheckboxes
+                    })
+                  "
+                >
+                  <v-icon v-if="search[id].showCheckboxes"
+                    >fas fa-angle-up</v-icon
+                  >
+                  <v-icon v-else>fas fa-angle-down</v-icon>
+                </v-btn>
+              </v-col>
+
+              <v-col
+                cols="12"
+                class="px-1 pb-1"
+                v-for="(entity, key) in getCheckboxes(
+                  id,
+                  search[id].showCheckboxes,
+                  search[id].showMore
+                )"
+                :key="key"
+              >
+                <v-checkbox
+                  class="mt-0 mb-2"
+                  color="blue-grey darken-3"
+                  :input-value="
+                    search[id].value &&
+                      search[id].value.includes(`&quot;${entity}&quot;`)
+                  "
+                  @change="
+                    updateCheckbox({
+                      id: id,
+                      bool: $event,
+                      value: search[id].value,
+                      fieldName: entity
+                    })
+                  "
+                  hide-details
+                  dense
+                >
+                  <template v-slot:label>
+                    <div>
+                      {{ entity }}
+                      <span
+                        class="font-italic font-weight-light"
+                        style="font-size: 0.875rem;"
+                        >({{ getCheckboxesCount(id)[key] }})</span
+                      >
+                    </div>
+                  </template>
+                </v-checkbox>
+              </v-col>
+
+              <v-btn
+                v-if="getCheckboxesLength(id) > 4"
+                small
+                text
+                class="mx-4 mb-2 font-weight-bold"
+                v-show="search[id].showCheckboxes"
+                @click="
+                  updateSearchField({
+                    id: id,
+                    showMore: !search[id].showMore
+                  })
+                "
+              >
+                <span v-if="search[id].showMore">
+                  <v-icon x-small>fas fa-minus</v-icon> Less</span
+                >
+                <span v-else><v-icon x-small>fas fa-plus</v-icon> More</span>
+              </v-btn>
+            </v-row>
+          </v-list-item>
+        </v-list-group>
+
+        <!-- SINGLE CHECKBOXES -->
+        <v-list-group :value="showSingleCheckboxes" sub-group>
+          <template v-slot:activator>
+            <v-list-item-content>
+              <v-list-item-title
+                class="font-weight-bold text-uppercase"
+                style="font-size: 0.875rem;"
+                >Single checkboxes</v-list-item-title
+              >
+            </v-list-item-content>
+          </template>
+
+          <v-list-item v-for="id in searchSingleCheckboxIds" :key="id + 60">
+            <v-checkbox
+              color="blue-grey darken-3"
+              class="mt-0 mb-2"
+              :input-value="search[id].value"
+              :label="search[id].label"
+              true-value="true"
+              :false-value="null"
+              @change="updateSearchField({ id: id, value: $event })"
+              hide-details
+              dense
+            />
           </v-list-item>
         </v-list-group>
       </v-list-group>
@@ -290,7 +436,10 @@ export default {
   },
 
   data: () => ({
-    showAdditionalFilters: true
+    showAdditionalFilters: true,
+    showTextFields: true,
+    showCheckboxes: true,
+    showSingleCheckboxes: true
   }),
 
   computed: {
