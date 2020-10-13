@@ -156,7 +156,6 @@ const state = {
     "has_map"
   ],
   searchTextIds: [
-    "q",
     "fullscientificname",
     "highertaxon",
     "stratigraphy",

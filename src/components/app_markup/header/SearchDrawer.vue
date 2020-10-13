@@ -34,6 +34,8 @@
         </v-list-item-content>
       </v-list-item>
 
+      <v-divider />
+
       <!-- ADDITIONAL FILTERS -->
       <v-list-group :value="showAdditionalFilters">
         <template v-slot:activator>
@@ -44,253 +46,56 @@
           >
         </template>
 
-        <!-- TEXT FIELDS -->
-        <v-list-group :value="showTextFields" sub-group>
-          <template v-slot:activator>
-            <v-list-item-content>
-              <v-list-item-title
-                class="font-weight-bold text-uppercase"
-                style="font-size: 0.875rem;"
-                >Text fields</v-list-item-title
-              >
-            </v-list-item-content>
-          </template>
+        <v-divider />
 
-          <v-list-item v-for="id in searchTextIds" :key="id + 20">
-            <v-row no-gutters>
-              <v-col cols="12" class="py-1">
-                <SelectWrapper
-                  :use-custom-prepend-inner="search[id].label"
-                  :items="lookUpTypes"
-                  :value="search[id].lookUpType"
-                  @input="updateSearchField({ id: id, lookUpType: $event })"
-                />
-              </v-col>
-              <v-col cols="12" class="py-1">
-                <TextFieldWrapper
-                  class="search-drawer-text-field"
-                  :value="search[id].value"
-                  @input="updateSearchFieldDebounced({ id: id, value: $event })"
-                  dense
-                  clearable
-                  solo
-                  :placeholder="search[id].label"
-                  clear-icon="fas fa-times"
-                />
-              </v-col>
-            </v-row>
-          </v-list-item>
-        </v-list-group>
+        <!-- TEXT FIELDS -->
+        <v-list-item v-for="id in searchTextIds" :key="id">
+          <v-row no-gutters>
+            <v-col cols="12" class="py-1">
+              <SelectWrapper
+                :use-custom-prepend-inner="search[id].label"
+                :items="lookUpTypes"
+                :value="search[id].lookUpType"
+                @input="updateSearchField({ id: id, lookUpType: $event })"
+              />
+            </v-col>
+
+            <v-col cols="12" class="py-1">
+              <TextFieldWrapper
+                class="search-drawer-text-field"
+                :value="search[id].value"
+                @input="updateSearchFieldDebounced({ id: id, value: $event })"
+                dense
+                clearable
+                solo
+                :placeholder="search[id].label"
+                clear-icon="fas fa-times"
+              />
+            </v-col>
+          </v-row>
+        </v-list-item>
+
+        <div class="my-2"></div>
 
         <!-- CHECKBOXES -->
-        <v-list-group :value="showCheckboxes" sub-group>
-          <template v-slot:activator>
-            <v-list-item-content>
-              <v-list-item-title
-                class="font-weight-bold text-uppercase"
-                style="font-size: 0.875rem;"
-                >Checkboxes</v-list-item-title
-              >
-            </v-list-item-content>
-          </template>
+        <v-divider />
 
-          <v-list-item v-for="id in searchCheckboxIds" :key="id + 40">
-            <v-row no-gutters>
-              <v-col
-                cols="12"
-                class="px-1 pb-1 d-flex flex-row justify-space-between"
-              >
-                <div
-                  class="search--checkbox-label"
-                  :class="{
-                    'search--checkbox-active font-weight-bold text-center':
-                      search[id].value && search[id].value.length > 0
-                  }"
-                  @click="
-                    updateSearchField({
-                      id: id,
-                      showCheckboxes: !search[id].showCheckboxes
-                    })
-                  "
-                >
-                  {{ search[id].label }}
-                </div>
-
-                <v-btn
-                  icon
-                  @click="
-                    updateSearchField({
-                      id: id,
-                      showCheckboxes: !search[id].showCheckboxes
-                    })
-                  "
-                >
-                  <v-icon v-if="search[id].showCheckboxes"
-                    >fas fa-angle-up</v-icon
-                  >
-                  <v-icon v-else>fas fa-angle-down</v-icon>
-                </v-btn>
-              </v-col>
-
-              <v-col
-                cols="12"
-                class="px-1 pb-1"
-                v-for="(entity, key) in getCheckboxes(
-                  id,
-                  search[id].showCheckboxes,
-                  search[id].showMore
-                )"
-                :key="key"
-              >
-                <v-checkbox
-                  class="mt-0 mb-2"
-                  color="blue-grey darken-3"
-                  :input-value="
-                    search[id].value &&
-                      search[id].value.includes(`&quot;${entity}&quot;`)
-                  "
-                  @change="
-                    updateCheckbox({
-                      id: id,
-                      bool: $event,
-                      value: search[id].value,
-                      fieldName: entity
-                    })
-                  "
-                  hide-details
-                  dense
-                >
-                  <template v-slot:label>
-                    <div>
-                      {{ entity }}
-                      <span
-                        class="font-italic font-weight-light"
-                        style="font-size: 0.875rem;"
-                        >({{ getCheckboxesCount(id)[key] }})</span
-                      >
-                    </div>
-                  </template>
-                </v-checkbox>
-              </v-col>
-
-              <v-btn
-                v-if="getCheckboxesLength(id) > 4"
-                small
-                text
-                class="mx-4 mb-2 font-weight-bold"
-                v-show="search[id].showCheckboxes"
-                @click="
-                  updateSearchField({
-                    id: id,
-                    showMore: !search[id].showMore
-                  })
-                "
-              >
-                <span v-if="search[id].showMore">
-                  <v-icon x-small>fas fa-minus</v-icon> Less</span
-                >
-                <span v-else><v-icon x-small>fas fa-plus</v-icon> More</span>
-              </v-btn>
-            </v-row>
-          </v-list-item>
-        </v-list-group>
-
-        <!-- SINGLE CHECKBOXES -->
-        <v-list-group :value="showSingleCheckboxes" sub-group>
-          <template v-slot:activator>
-            <v-list-item-content>
-              <v-list-item-title
-                class="font-weight-bold text-uppercase"
-                style="font-size: 0.875rem;"
-                >Single checkboxes</v-list-item-title
-              >
-            </v-list-item-content>
-          </template>
-
-          <v-list-item v-for="id in searchSingleCheckboxIds" :key="id + 60">
-            <v-checkbox
-              color="blue-grey darken-3"
-              class="mt-0 mb-2"
-              :input-value="search[id].value"
-              :label="search[id].label"
-              true-value="true"
-              :false-value="null"
-              @change="updateSearchField({ id: id, value: $event })"
-              hide-details
-              dense
-            />
-          </v-list-item>
-        </v-list-group>
-      </v-list-group>
-    </v-list>
-
-    <!-- SEARCH FIELDS -->
-    <v-row no-gutters class="pa-3">
-      <!-- TEXT FIELDS -->
-      <v-col cols="12" v-for="id in searchTextIds" :key="id">
-        <v-row no-gutters>
-          <v-col cols="12" class="px-1" :class="{ 'pb-1': id !== 'q' }">
-            <SelectWrapper
-              v-if="id !== 'q'"
-              :use-custom-prepend-inner="search[id].label"
-              :items="lookUpTypes"
-              :value="search[id].lookUpType"
-              @input="updateSearchField({ id: id, lookUpType: $event })"
-            />
-            <div
-              v-else
-              class="font-weight-bold text-center text-uppercase"
-              style="font-size: 1.15rem;"
-            >
-              Find quickly
-            </div>
-          </v-col>
-
-          <v-col cols="12" class="pa-1">
-            <TextFieldWrapper
-              class="search-drawer-text-field"
-              :value="search[id].value"
-              @input="updateSearchFieldDebounced({ id: id, value: $event })"
-              :dense="id !== 'q'"
-              clearable
-              solo
-              :placeholder="search[id].label"
-              clear-icon="fas fa-times"
-            />
-          </v-col>
-
-          <v-col cols="12" class="mt-3" v-if="id === 'q'">
-            <div
-              class="font-weight-bold text-center text-uppercase"
-              style="font-size: 1.15rem;"
-            >
-              Additional Filters
-            </div>
-          </v-col>
-        </v-row>
-      </v-col>
-
-      <!-- CHECKBOXES -->
-      <v-col
-        cols="12"
-        v-for="id in searchCheckboxIds"
-        :key="id"
-        class="px-1"
-        :class="{
-          'blue-grey lighten-3 rounded-lg pt-1 my-1':
-            search[id].value && search[id].value.length > 0
-        }"
-      >
-        <v-row no-gutters>
-          <v-col
-            cols="12"
-            class="px-1 pb-1 d-flex flex-row justify-space-between"
-          >
-            <div
-              class="search--checkbox-label"
+        <v-card
+          class="checkboxes"
+          flat
+          tile
+          color="transparent"
+          v-for="id in searchCheckboxIds"
+          :key="id"
+          hover
+        >
+          <v-hover v-slot:default="{ hover }">
+            <v-card-title
+              class="checkboxes--title font-weight-bold text-uppercase py-2 px-6"
+              style="font-size: 0.875rem;"
               :class="{
-                'search--checkbox-active font-weight-bold text-center':
-                  search[id].value && search[id].value.length > 0
+                'blue-grey lighten-3': search[id].showCheckboxes,
+                'blue-grey lighten-2': search[id].showCheckboxes && hover
               }"
               @click="
                 updateSearchField({
@@ -300,110 +105,138 @@
               "
             >
               {{ search[id].label }}
-            </div>
+              <v-spacer />
 
-            <v-btn
-              icon
-              @click="
-                updateSearchField({
-                  id: id,
-                  showCheckboxes: !search[id].showCheckboxes
-                })
-              "
-            >
+              <v-tooltip v-if="getActiveCheckboxesCount(id) > 0" top>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn
+                    class="mr-6"
+                    v-bind="attrs"
+                    v-on="on"
+                    small
+                    color="error"
+                    icon
+                    @click.stop="
+                      updateSearchField({
+                        id: id,
+                        value: null
+                      })
+                    "
+                  >
+                    <v-badge color="transparent" bottom overlap
+                      ><v-icon small>fas fa-trash</v-icon>
+                      <template v-slot:badge>
+                        <span class="black--text font-weight-bold">{{
+                          getActiveCheckboxesCount(id)
+                        }}</span>
+                      </template>
+                    </v-badge>
+                  </v-btn>
+                </template>
+                <span>{{ `Clear '${search[id].label}' filters` }}</span>
+              </v-tooltip>
+
               <v-icon v-if="search[id].showCheckboxes">fas fa-angle-up</v-icon>
               <v-icon v-else>fas fa-angle-down</v-icon>
-            </v-btn>
-          </v-col>
+            </v-card-title>
+          </v-hover>
+          <v-divider />
 
-          <v-col
-            cols="12"
-            class="px-1 pb-1"
-            v-for="(entity, key) in getCheckboxes(
-              id,
-              search[id].showCheckboxes,
-              search[id].showMore
-            )"
-            :key="key"
-          >
-            <v-checkbox
-              class="mt-0 mb-2"
-              color="blue-grey darken-3"
-              :input-value="
-                search[id].value &&
-                  search[id].value.includes(`&quot;${entity}&quot;`)
-              "
-              @change="
-                updateCheckbox({
-                  id: id,
-                  bool: $event,
-                  value: search[id].value,
-                  fieldName: entity
-                })
-              "
-              hide-details
-              dense
+          <v-expand-transition>
+            <v-card-text
+              class="transition-fast-in-fast-out pb-0"
+              :class="{ 'blue-grey lighten-5': search[id].showCheckboxes }"
+              v-if="search[id].showCheckboxes"
             >
-              <template v-slot:label>
-                <div>
-                  {{ entity }}
-                  <span
-                    class="font-italic font-weight-light"
-                    style="font-size: 0.875rem;"
-                    >({{ getCheckboxesCount(id)[key] }})</span
+              <v-row no-gutters>
+                <v-col
+                  cols="12"
+                  class="px-1 pb-1"
+                  v-for="(entity, key) in getCheckboxes(
+                    id,
+                    search[id].showCheckboxes,
+                    search[id].showMore
+                  )"
+                  :key="key"
+                >
+                  <v-checkbox
+                    class="mt-0 mb-2"
+                    color="blue-grey darken-3"
+                    :input-value="
+                      search[id].value &&
+                        search[id].value.includes(`&quot;${entity}&quot;`)
+                    "
+                    @change="
+                      updateCheckbox({
+                        id: id,
+                        bool: $event,
+                        value: search[id].value,
+                        fieldName: entity
+                      })
+                    "
+                    hide-details
+                    dense
                   >
-                </div>
-              </template>
-            </v-checkbox>
-          </v-col>
+                    <template v-slot:label>
+                      <div>
+                        {{ entity }}
+                        <span
+                          class="font-italic font-weight-light"
+                          style="font-size: 0.875rem;"
+                          >({{ getCheckboxesCount(id)[key] }})</span
+                        >
+                      </div>
+                    </template>
+                  </v-checkbox>
+                </v-col>
 
-          <v-btn
-            v-if="getCheckboxesLength(id) > 4"
-            small
-            text
-            class="mx-4 mb-2 font-weight-bold"
-            v-show="search[id].showCheckboxes"
-            @click="
-              updateSearchField({
-                id: id,
-                showMore: !search[id].showMore
-              })
-            "
-          >
-            <span v-if="search[id].showMore">
-              <v-icon x-small>fas fa-minus</v-icon> Less</span
-            >
-            <span v-else><v-icon x-small>fas fa-plus</v-icon> More</span>
-          </v-btn>
-        </v-row>
-      </v-col>
+                <v-col cols="12">
+                  <v-btn
+                    v-if="getCheckboxesLength(id) > 4"
+                    small
+                    text
+                    class="mx-4 mb-2 font-weight-bold"
+                    v-show="search[id].showCheckboxes"
+                    @click="
+                      updateSearchField({
+                        id: id,
+                        showMore: !search[id].showMore
+                      })
+                    "
+                  >
+                    <span v-if="search[id].showMore">
+                      <v-icon x-small>fas fa-minus</v-icon> Less</span
+                    >
+                    <span v-else
+                      ><v-icon x-small>fas fa-plus</v-icon> More</span
+                    >
+                  </v-btn>
+                </v-col>
+              </v-row>
+            </v-card-text>
+          </v-expand-transition>
+        </v-card>
 
-      <!-- SINGLE CHECKBOXES -->
-      <v-col
-        class="px-1"
-        cols="12"
-        v-for="id in searchSingleCheckboxIds"
-        :key="id"
-      >
-        <v-row no-gutters>
-          <v-col cols="12" class="px-1 pb-1 d-flex ">
-            <v-checkbox
-              color="blue-grey darken-3"
-              class="mt-0 mb-2"
-              :input-value="search[id].value"
-              :label="search[id].label"
-              true-value="true"
-              :false-value="null"
-              @change="updateSearchField({ id: id, value: $event })"
-              hide-details
-              dense
-            />
-          </v-col>
-        </v-row>
-      </v-col>
-    </v-row>
+        <!-- SINGLE CHECKBOXES -->
+        <v-list-item v-for="id in searchSingleCheckboxIds" :key="id">
+          <v-checkbox
+            color="blue-grey darken-3"
+            class="mt-0 mb-2"
+            :input-value="search[id].value"
+            :label="search[id].label"
+            true-value="true"
+            :false-value="null"
+            @change="updateSearchField({ id: id, value: $event })"
+            hide-details
+            dense
+          />
+        </v-list-item>
+      </v-list-group>
 
-    <v-row no-gutters class="px-3 pb-5">
+      <v-divider />
+    </v-list>
+
+    <v-row no-gutters class="px-3 pb-5 mt-1">
       <v-col cols="12" class="d-flex justify-end">
         <v-btn color="error" @click="reset">
           Reset
@@ -453,7 +286,8 @@ export default {
     ...mapGetters("search", [
       "getCheckboxes",
       "getCheckboxesCount",
-      "getCheckboxesLength"
+      "getCheckboxesLength",
+      "getActiveCheckboxesCount"
     ]),
 
     isSmAndDown() {
@@ -531,7 +365,13 @@ export default {
   background: #eceff1 !important;
 }
 
-.add-transition {
-  transition: all 200ms ease-out;
+.checkboxes > .checkboxes--title:hover {
+  background-color: rgba(0, 0, 0, 0.04);
+  transition: background-color 100ms ease-in;
+}
+
+.checkboxes > .checkboxes--title {
+  background-color: unset;
+  transition: background-color 100ms ease-out;
 }
 </style>

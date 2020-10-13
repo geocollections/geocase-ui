@@ -17,6 +17,12 @@ const getters = {
   getCheckboxesCount: state => field => {
     if (field === "highertaxon_checkbox") return state.highertaxon_count;
     else return state[`${field}_count`];
+  },
+
+  getActiveCheckboxesCount: state => field => {
+    if (state.search[field].value) {
+      return state.search[field].value.split("OR").length;
+    } else return 0;
   }
 };
 
