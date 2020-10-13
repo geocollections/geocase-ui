@@ -15,7 +15,7 @@
         'app-bar-meteorite': appBarMeteorite
       }"
     >
-      <v-tooltip bottom>
+      <v-tooltip bottom z-index="3000">
         <template v-slot:activator="{ on }">
           <v-btn
             v-on="on"
@@ -32,7 +32,7 @@
       </v-tooltip>
 
       <v-toolbar-items>
-        <v-tooltip bottom>
+        <v-tooltip bottom z-index="3000">
           <template v-slot:activator="{ on }">
             <v-toolbar-title
               v-on="on"
