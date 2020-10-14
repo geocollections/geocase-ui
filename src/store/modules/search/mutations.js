@@ -60,6 +60,15 @@ const mutations = {
     if (payload) {
       Object.entries(payload).forEach(item => {
         let key = item[0];
+
+        let searchKey = key === "highertaxon" ? "highertaxon_checkbox" : key;
+        let length = 0;
+        if (state.search[searchKey].value) {
+          length = state.search[searchKey].value.split("OR").length;
+        } else length = 0;
+        console.log(key);
+        console.log(length);
+
         state[key] = item[1].filter(val => typeof val === "string");
         state[`${key}_count`] = item[1].filter(val => typeof val !== "string");
       });

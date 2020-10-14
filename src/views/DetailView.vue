@@ -488,6 +488,12 @@ export default {
         let querytoolUrl =
           this.item.datasourceurl.replace("pywrapper", "querytool/raw") +
           `&filter=(cat=${this.item.unitid})`;
+        if (
+          this.item.datasourceurl.includes("geocollections.info") &&
+          this.item?.datasetownerabbrev
+        ) {
+          querytoolUrl += `AND(col=${this.item.datasetownerabbrev})`;
+        }
         this.getDetailViewDataFromSource(querytoolUrl);
       }
     },
