@@ -66,11 +66,20 @@ const mutations = {
         if (state.search[searchKey].value) {
           length = state.search[searchKey].value.split("OR").length;
         } else length = 0;
-        console.log(key);
-        console.log(length);
-
-        state[key] = item[1].filter(val => typeof val === "string");
-        state[`${key}_count`] = item[1].filter(val => typeof val !== "string");
+        // console.log(key);
+        // console.log(length);
+        // console.log(state[key])
+        // console.log(state[`${key}_count`])
+        if (
+          searchKey !== state.lastUpdatedCheckbox ||
+          length === 0 ||
+          state[key].length === 0
+        ) {
+          state[key] = item[1].filter(val => typeof val === "string");
+          state[`${key}_count`] = item[1].filter(
+            val => typeof val !== "string"
+          );
+        }
       });
     }
   },
@@ -81,6 +90,10 @@ const mutations = {
         state.search[item].lookUpType = "contains";
       if (state.search[item].value !== null) state.search[item].value = null;
     });
+  },
+
+  UPDATE_LAST_UPDATED_CHECKBOX(state, payload) {
+    state.lastUpdatedCheckbox = payload;
   }
 };
 

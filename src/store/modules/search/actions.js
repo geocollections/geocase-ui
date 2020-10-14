@@ -17,8 +17,14 @@ const actions = {
     commit("UPDATE_SORT_DESC", sortDesc);
   },
 
-  updateSearchField({ commit }, payload) {
+  updateSearchField({ commit, state }, payload) {
     commit("UPDATE_SEARCH_FIELD", payload);
+    if (
+      payload.id &&
+      "value" in payload &&
+      state.search?.[payload.id]?.type === "checkbox"
+    )
+      commit("UPDATE_LAST_UPDATED_CHECKBOX", payload.id);
   },
 
   updateSearchParam({ commit }, payload) {
