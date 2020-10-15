@@ -64,6 +64,17 @@ class SearchService {
       throw new Error(err);
     }
   }
+
+  static async getAllFieldNames() {
+    try {
+      let url = `${API_URL}?q=*:*&wt=csv&rows=0&facet=on`;
+
+      const res = await axios.get(url);
+      return res.data;
+    } catch (err) {
+      throw new Error(err);
+    }
+  }
 }
 
 function buildSort(sortBy, sortDesc) {

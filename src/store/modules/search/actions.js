@@ -61,6 +61,25 @@ const actions = {
       if (!rootState.settings.error)
         dispatch("settings/updateErrorState", true, { root: true });
     }
+  },
+
+  async getAllFieldNames({ dispatch, commit, rootState }) {
+    try {
+      let response = await SearchService.getAllFieldNames();
+
+      if (response) {
+        let fields = response.split(",");
+        commit("SET_ALL_FIELD_NAMES", { fields: fields });
+      }
+    } catch (err) {
+      dispatch(
+        "settings/updateErrorMessage",
+        `<b>Name:</b> ${err.name}<br /><b>Message:</b> ${err.message}`,
+        { root: true }
+      );
+      if (!rootState.settings.error)
+        dispatch("settings/updateErrorState", true, { root: true });
+    }
   }
 };
 

@@ -197,7 +197,8 @@ const state = {
     { text: "Paginate by 500", value: 500 },
     { text: "Paginate by 1000", value: 1000 }
   ],
-  searchParamsList: ["page", "paginate_by", "sort_by", "sort_desc"]
+  searchParamsList: ["page", "paginate_by", "sort_by", "sort_desc"],
+  allFieldNames: null
 };
 
 export default {

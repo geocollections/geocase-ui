@@ -478,7 +478,6 @@ export default {
         this.responseFromSource["abcd:DataSets"],
         0
       );
-      console.log(treeview);
       return treeview;
     }
   },

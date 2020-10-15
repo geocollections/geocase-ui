@@ -67,6 +67,11 @@ const mutations = {
         state.search[item].lookUpType = "contains";
       if (state.search[item].value !== null) state.search[item].value = null;
     });
+  },
+
+  // Todo: Update so it wouldn't add all the fields like version etc.
+  SET_ALL_FIELD_NAMES(state, payload) {
+    state.allFieldNames = payload.fields;
   }
 };
 

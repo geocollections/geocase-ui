@@ -41,10 +41,12 @@ export default {
 
   created() {
     this.getStats();
+    this.getAllFieldNames();
   },
 
   methods: {
     ...mapActions("frontpage", ["getStats"]),
+    ...mapActions("search", ["getAllFieldNames"]),
     ...mapActions("cookie", ["closeCookieLaw"])
   }
 };
