@@ -361,10 +361,16 @@
 
             <v-expand-transition v-if="showResponseFromSource">
               <v-card-text>
-                <pre style="font-size: 0.625rem; overflow: auto;">
-              {{ JSON.stringify(responseFromSource, null, 2) }}
-            </pre
-                >
+                <v-treeview
+                  shaped
+                  selected-color="primary"
+                  selectable
+                  dense
+                  open-all
+                  hoverable
+                  open-on-click
+                  :items="computedResponseFromSource"
+                />
               </v-card-text>
             </v-expand-transition>
           </v-card>
@@ -465,6 +471,15 @@ export default {
           name => name !== this.item.fullscientificname
         );
       } else return [];
+    },
+
+    computedResponseFromSource() {
+      let treeview = this.buildTreeview(
+        this.responseFromSource["abcd:DataSets"],
+        0
+      );
+      console.log(treeview);
+      return treeview;
     }
   },
 
@@ -582,6 +597,20 @@ export default {
           this.$vuetify.theme.themes.light.primary = this.$vuetify.theme.themes.light.main;
       } else
         this.$vuetify.theme.themes.light.primary = this.$vuetify.theme.themes.light.main;
+    },
+
+    buildTreeview(data, depth) {
+      if (typeof data === "object") {
+        return Object.entries(data).map((item, index) => {
+          depth++;
+
+          return {
+            id: Math.floor(Math.random() * Math.floor(index + 314159 * depth)),
+            name: typeof item[1] === "string" ? item[1] : item[0],
+            children: this.buildTreeview(item[1], depth)
+          };
+        });
+      } else return [];
     }
   }
 };
