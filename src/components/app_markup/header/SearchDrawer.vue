@@ -37,7 +37,11 @@
       <v-divider />
 
       <!-- ADDITIONAL FILTERS -->
-      <v-list-group :value="showAdditionalFilters">
+      <v-list-group
+        :value="showAdditionalFilters"
+        active-class="blue-grey lighten-3"
+        color="black"
+      >
         <template v-slot:activator>
           <v-list-item-title
             class="font-weight-bold text-center text-uppercase"
