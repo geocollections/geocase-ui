@@ -20,341 +20,357 @@
       </v-col>
     </v-row>
 
-    <v-row v-if="itemExists">
-      <v-col cols="12" :sm="imageExists || localityExists ? 6 : 12">
-        <!-- TITLE -->
-        <v-card>
-          <v-card-title class="primary--text" style="word-break: break-word;">
-            <div class="d-flex flex-column flex-nowrap">
-              <div class="mb-1">
-                <span
-                  v-if="
-                    isItemFossil ||
-                      isItemMineral ||
-                      isItemRock ||
-                      isItemMeteorite
-                  "
-                >
-                  <span class="mr-2">
-                    <v-icon small color="primary" v-if="isItemFossil"
-                      >fas fa-fish</v-icon
-                    >
-                    <v-icon small color="primary" v-else-if="isItemMineral"
-                      >far fa-gem</v-icon
-                    >
-                    <v-icon small color="primary" v-else-if="isItemRock"
-                      >fas fa-mountain</v-icon
-                    >
-                    <v-icon small color="primary" v-else-if="isItemMeteorite"
-                      >fas fa-meteor</v-icon
-                    >
+    <v-card class="px-6 py-4" shaped v-if="itemExists">
+      <v-row>
+        <v-col cols="12" :sm="imageExists || localityExists ? 6 : 12">
+          <!-- TITLE -->
+          <v-card>
+            <v-card-title class="primary--text" style="word-break: break-word;">
+              <div class="d-flex flex-column flex-nowrap">
+                <div class="mb-1">
+                  <span
+                    v-if="
+                      isItemFossil ||
+                        isItemMineral ||
+                        isItemRock ||
+                        isItemMeteorite
+                    "
+                  >
+                    <span class="mr-2">
+                      <v-icon small color="primary" v-if="isItemFossil"
+                        >fas fa-fish</v-icon
+                      >
+                      <v-icon small color="primary" v-else-if="isItemMineral"
+                        >far fa-gem</v-icon
+                      >
+                      <v-icon small color="primary" v-else-if="isItemRock"
+                        >fas fa-mountain</v-icon
+                      >
+                      <v-icon small color="primary" v-else-if="isItemMeteorite"
+                        >fas fa-meteor</v-icon
+                      >
+                    </span>
+
+                    <span>{{ getSpecimenType }}</span>
                   </span>
 
-                  <span>{{ getSpecimenType }}</span>
-                </span>
-
-                <span
-                  v-if="
-                    (isItemFossil ||
-                      isItemMineral ||
-                      isItemRock ||
-                      isItemMeteorite) &&
-                      (item.collectioncode || item.unitid)
-                  "
-                >
-                  -
-                </span>
-
-                <span
-                  class="font-weight-bold"
-                  v-if="item.collectioncode || item.unitid"
-                >
-                  <span v-if="item.collectioncode"
-                    >{{ item.collectioncode }}
+                  <span
+                    v-if="
+                      (isItemFossil ||
+                        isItemMineral ||
+                        isItemRock ||
+                        isItemMeteorite) &&
+                        (item.collectioncode || item.unitid)
+                    "
+                  >
+                    -
                   </span>
-                  <span v-if="item.unitid">{{ item.unitid }}</span>
-                </span>
-              </div>
 
-              <h1
-                :class="{ 'font-italic': isItemFossil }"
-                class="font-weight-bold mb-1"
-                style="font-size: 2rem;"
-                v-if="item.fullscientificname"
-              >
-                {{ item.fullscientificname }}
-              </h1>
+                  <span
+                    class="font-weight-bold"
+                    v-if="item.collectioncode || item.unitid"
+                  >
+                    <span v-if="item.collectioncode"
+                      >{{ item.collectioncode }}
+                    </span>
+                    <span v-if="item.unitid">{{ item.unitid }}</span>
+                  </span>
+                </div>
 
-              <h2 style="font-size: 1.25rem;" v-if="filteredNames.length > 0">
-                <span class="font-weight-regular"
-                  >Identification<span v-if="filteredNames.length > 1">s</span>:
-                </span>
-                <span
+                <h1
                   :class="{ 'font-italic': isItemFossil }"
-                  v-for="(entity, index) in filteredNames"
-                  :key="index"
+                  class="font-weight-bold mb-1"
+                  style="font-size: 2rem;"
+                  v-if="item.fullscientificname"
                 >
-                  <span class="font-weight-bold">{{ entity }}</span>
-                  <span class="mx-1" v-if="index < filteredNames.length - 1"
-                    >|</span
+                  {{ item.fullscientificname }}
+                </h1>
+
+                <h2 style="font-size: 1.25rem;" v-if="filteredNames.length > 0">
+                  <span class="font-weight-regular"
+                    >Identification<span v-if="filteredNames.length > 1">s</span
+                    >:
+                  </span>
+                  <span
+                    :class="{ 'font-italic': isItemFossil }"
+                    v-for="(entity, index) in filteredNames"
+                    :key="index"
                   >
-                </span>
-              </h2>
+                    <span class="font-weight-bold">{{ entity }}</span>
+                    <span class="mx-1" v-if="index < filteredNames.length - 1"
+                      >|</span
+                    >
+                  </span>
+                </h2>
 
-              <div v-if="!item.fullscientificname && !filteredNames">
-                GeoCASe ID: {{ item.id }}
+                <div v-if="!item.fullscientificname && !filteredNames">
+                  GeoCASe ID: {{ item.id }}
+                </div>
               </div>
-            </div>
-          </v-card-title>
-        </v-card>
+            </v-card-title>
+          </v-card>
 
-        <!-- TABLE -->
-        <v-card v-if="itemExists" class="mt-6 item-card">
-          <v-data-table
-            class="detail-view-table"
-            :mobile-breakpoint="9000"
-            disable-sort
-            disable-filtering
-            disable-pagination
-            hide-default-footer
-            :headers="filteredItemHeaders"
-            :items="[item]"
+          <!-- TABLE -->
+          <v-card v-if="itemExists" class="mt-6 item-card">
+            <v-data-table
+              class="detail-view-table"
+              :mobile-breakpoint="9000"
+              disable-sort
+              disable-filtering
+              disable-pagination
+              hide-default-footer
+              :headers="filteredItemHeaders"
+              :items="[item]"
+            >
+              <template v-slot:item.stratigraphy>
+                <div v-if="itemStratigraphy && itemStratigraphy.length > 0">
+                  <ul>
+                    <li v-for="(item, index) in itemStratigraphy" :key="index">
+                      {{ item }}
+                    </li>
+                  </ul>
+                </div>
+              </template>
+
+              <template v-slot:item.mindat_url="{ item }">
+                <a
+                  style="text-decoration: unset;"
+                  title="Link to Mindat.org"
+                  @click="openMindatInNewWindow(item.mindat_url)"
+                  >{{ item.mindat_url }}
+                  <v-icon small color="primary"
+                    >fas fa-external-link-square-alt</v-icon
+                  >
+                </a>
+              </template>
+
+              <template v-slot:item.taxon_id_pbdb="{ item }">
+                <a
+                  style="text-decoration: unset;"
+                  title="Link to taxon record in PBDB"
+                  @click="openPaleobiodbInNewWindow(item.taxon_id_pbdb)"
+                  >Link to taxon record in PBDB<v-icon
+                    right
+                    small
+                    color="primary"
+                    >fas fa-external-link-square-alt</v-icon
+                  >
+                </a>
+              </template>
+
+              <template v-slot:item.taxon_id_eol="{ item }">
+                <a
+                  style="text-decoration: unset;"
+                  title="Link to taxon record in Encyclopedia of Life"
+                  @click="openEolInNewWindow(item.taxon_id_eol)"
+                  >Link to taxon record in Encyclopedia of Life<v-icon
+                    right
+                    small
+                    color="primary"
+                    >fas fa-external-link-square-alt</v-icon
+                  >
+                </a>
+              </template>
+
+              <template v-slot:item.taxon_id_tol="{ item }">
+                <a
+                  style="text-decoration: unset;"
+                  title="Link to taxon record in Tree of life"
+                  @click="openTolwebInNewWindow(item.taxon_id_tol)"
+                  >Link to taxon record in Tree of life<v-icon
+                    right
+                    small
+                    color="primary"
+                    >fas fa-external-link-square-alt</v-icon
+                  >
+                </a>
+              </template>
+
+              <template v-slot:item.taxon_id="{ item }">
+                <a
+                  style="text-decoration: unset;"
+                  title="Link to taxon record in fossiilid.info"
+                  @click="openFossiilidInNewWindow(item.taxon_id)"
+                  >Link to taxon record in fossiilid.info<v-icon
+                    right
+                    small
+                    color="primary"
+                    >fas fa-external-link-square-alt</v-icon
+                  >
+                </a>
+              </template>
+
+              <template v-slot:item.recordURI="{ item }">
+                <a
+                  :href="item.recordURI"
+                  target="RecordUriWindow"
+                  style="text-decoration: unset;"
+                  >{{ item.recordURI }}</a
+                >
+              </template>
+
+              <template v-slot:item.relatedResource="{ item }">
+                <a
+                  :href="item.relatedResource"
+                  target="RelatedResourceWindow"
+                  style="text-decoration: unset;"
+                  >{{ item.relatedResource }}</a
+                >
+              </template>
+            </v-data-table>
+          </v-card>
+
+          <!-- TABLE SECONDARY -->
+          <v-card
+            class="mt-6 item-card item-card--secondary"
+            v-if="
+              filteredItemHeadersSecondary &&
+                filteredItemHeadersSecondary.length > 0
+            "
           >
-            <template v-slot:item.stratigraphy>
-              <div v-if="itemStratigraphy && itemStratigraphy.length > 0">
-                <ul>
-                  <li v-for="(item, index) in itemStratigraphy" :key="index">
-                    {{ item }}
-                  </li>
-                </ul>
-              </div>
-            </template>
+            <v-data-table
+              dense
+              class="detail-view-table-secondary secondary--text"
+              :mobile-breakpoint="9000"
+              disable-sort
+              disable-filtering
+              disable-pagination
+              hide-default-footer
+              :headers="filteredItemHeadersSecondary"
+              :items="[item]"
+            >
+              <template v-slot:item.contentContactName>
+                <div>
+                  {{ contentContactName }}
+                </div>
+              </template>
 
-            <template v-slot:item.mindat_url="{ item }">
-              <a
-                style="text-decoration: unset;"
-                title="Link to Mindat.org"
-                @click="openMindatInNewWindow(item.mindat_url)"
-                >{{ item.mindat_url }}
-                <v-icon small color="primary"
-                  >fas fa-external-link-square-alt</v-icon
-                >
-              </a>
-            </template>
-
-            <template v-slot:item.taxon_id_pbdb="{ item }">
-              <a
-                style="text-decoration: unset;"
-                title="Link to taxon record in PBDB"
-                @click="openPaleobiodbInNewWindow(item.taxon_id_pbdb)"
-                >Link to taxon record in PBDB<v-icon right small color="primary"
-                  >fas fa-external-link-square-alt</v-icon
-                >
-              </a>
-            </template>
-
-            <template v-slot:item.taxon_id_eol="{ item }">
-              <a
-                style="text-decoration: unset;"
-                title="Link to taxon record in Encyclopedia of Life"
-                @click="openEolInNewWindow(item.taxon_id_eol)"
-                >Link to taxon record in Encyclopedia of Life<v-icon
-                  right
-                  small
-                  color="primary"
-                  >fas fa-external-link-square-alt</v-icon
-                >
-              </a>
-            </template>
-
-            <template v-slot:item.taxon_id_tol="{ item }">
-              <a
-                style="text-decoration: unset;"
-                title="Link to taxon record in Tree of life"
-                @click="openTolwebInNewWindow(item.taxon_id_tol)"
-                >Link to taxon record in Tree of life<v-icon
-                  right
-                  small
-                  color="primary"
-                  >fas fa-external-link-square-alt</v-icon
-                >
-              </a>
-            </template>
-
-            <template v-slot:item.taxon_id="{ item }">
-              <a
-                style="text-decoration: unset;"
-                title="Link to taxon record in fossiilid.info"
-                @click="openFossiilidInNewWindow(item.taxon_id)"
-                >Link to taxon record in fossiilid.info<v-icon
-                  right
-                  small
-                  color="primary"
-                  >fas fa-external-link-square-alt</v-icon
-                >
-              </a>
-            </template>
-
-            <template v-slot:item.recordURI="{ item }">
-              <a
-                :href="item.recordURI"
-                target="RecordUriWindow"
-                style="text-decoration: unset;"
-                >{{ item.recordURI }}</a
-              >
-            </template>
-
-            <template v-slot:item.relatedResource="{ item }">
-              <a
-                :href="item.relatedResource"
-                target="RelatedResourceWindow"
-                style="text-decoration: unset;"
-                >{{ item.relatedResource }}</a
-              >
-            </template>
-          </v-data-table>
-        </v-card>
-
-        <!-- TABLE SECONDARY -->
-        <v-card
-          class="mt-6 item-card item-card--secondary"
-          v-if="
-            filteredItemHeadersSecondary &&
-              filteredItemHeadersSecondary.length > 0
-          "
-        >
-          <v-data-table
-            dense
-            class="detail-view-table-secondary secondary--text"
-            :mobile-breakpoint="9000"
-            disable-sort
-            disable-filtering
-            disable-pagination
-            hide-default-footer
-            :headers="filteredItemHeadersSecondary"
-            :items="[item]"
-          >
-            <template v-slot:item.contentContactName>
-              <div>
-                {{ contentContactName }}
-              </div>
-            </template>
-
-            <template v-slot:item.contentContactEmail>
-              <div v-if="contentContactEmail">
-                <a
-                  :href="`mailto:${contentContactEmail}`"
-                  class="text-decoration-none"
-                  ><v-icon x-small class="mr-1" color="primary"
-                    >far fa-envelope</v-icon
-                  >{{ contentContactEmail }}</a
-                >
-              </div>
-            </template>
-
-            <template v-slot:item.contentContactPhone>
-              <div v-if="contentContactPhone">
-                <a
-                  :href="`tel:${contentContactPhone}`"
-                  class="text-decoration-none"
-                  ><v-icon x-small class="mr-1" color="primary"
-                    >fas fa-phone</v-icon
-                  >{{ contentContactPhone }}</a
-                >
-              </div>
-            </template>
-
-            <template v-slot:item.contentContactAddress>
-              <div v-if="contentContactAddress">
-                <a
-                  :href="
-                    `https://www.google.com/maps/place/${contentContactAddress}`
-                  "
-                  target="GoogleMapsWindow"
-                  class="text-decoration-none"
-                  ><v-icon x-small class="mr-1" color="primary"
-                    >fas fa-map-marker-alt</v-icon
-                  >{{ contentContactAddress }}</a
-                >
-              </div>
-            </template>
-
-            <template v-slot:item.institutionHomepage>
-              <div
-                v-if="representationTitle && representationURI"
-                class="d-flex justify-start"
-              >
-                <div class="align-self-center mr-3">
+              <template v-slot:item.contentContactEmail>
+                <div v-if="contentContactEmail">
                   <a
-                    v-if="representationURI"
+                    :href="`mailto:${contentContactEmail}`"
                     class="text-decoration-none"
-                    :href="representationURI"
-                    :title="representationURI"
-                    target="InstitutionHomepage"
-                    >{{ representationTitle }}</a
+                    ><v-icon x-small class="mr-1" color="primary"
+                      >far fa-envelope</v-icon
+                    >{{ contentContactEmail }}</a
                   >
-                  <div v-else>{{ representationTitle }}</div>
                 </div>
+              </template>
 
-                <div v-if="logoURI">
-                  <v-img
-                    :src="logoURI"
-                    height="100"
-                    width="100"
-                    contain
-                  ></v-img>
+              <template v-slot:item.contentContactPhone>
+                <div v-if="contentContactPhone">
+                  <a
+                    :href="`tel:${contentContactPhone}`"
+                    class="text-decoration-none"
+                    ><v-icon x-small class="mr-1" color="primary"
+                      >fas fa-phone</v-icon
+                    >{{ contentContactPhone }}</a
+                  >
                 </div>
-              </div>
-            </template>
+              </template>
 
-            <template v-slot:item.providerurl="{ item }">
-              <a
-                class=""
-                :href="item.providerurl"
-                target="ProviderWindow"
-                style="text-decoration: unset;"
-                >{{ item.providerurl }}</a
+              <template v-slot:item.contentContactAddress>
+                <div v-if="contentContactAddress">
+                  <a
+                    :href="
+                      `https://www.google.com/maps/place/${contentContactAddress}`
+                    "
+                    target="GoogleMapsWindow"
+                    class="text-decoration-none"
+                    ><v-icon x-small class="mr-1" color="primary"
+                      >fas fa-map-marker-alt</v-icon
+                    >{{ contentContactAddress }}</a
+                  >
+                </div>
+              </template>
+
+              <template v-slot:item.institutionHomepage>
+                <div
+                  v-if="representationTitle && representationURI"
+                  class="d-flex justify-start"
+                >
+                  <div class="align-self-center mr-3">
+                    <a
+                      v-if="representationURI"
+                      class="text-decoration-none"
+                      :href="representationURI"
+                      :title="representationURI"
+                      target="InstitutionHomepage"
+                      >{{ representationTitle }}</a
+                    >
+                    <div v-else>{{ representationTitle }}</div>
+                  </div>
+
+                  <div v-if="logoURI">
+                    <v-img
+                      :src="logoURI"
+                      height="100"
+                      width="100"
+                      contain
+                    ></v-img>
+                  </div>
+                </div>
+              </template>
+
+              <template v-slot:item.providerurl="{ item }">
+                <a
+                  class=""
+                  :href="item.providerurl"
+                  target="ProviderWindow"
+                  style="text-decoration: unset;"
+                  >{{ item.providerurl }}</a
+                >
+              </template>
+            </v-data-table>
+          </v-card>
+        </v-col>
+
+        <v-col cols="12" sm="6">
+          <v-row no-gutters>
+            <!-- IMAGES -->
+            <v-col cols="12" v-if="imageExists && detailViewImages.length > 0">
+              <image-carousel :images="detailViewImages" />
+            </v-col>
+
+            <!-- MAP -->
+            <v-col cols="12">
+              <v-card v-if="localityExists" class="mt-3">
+                <tab-map
+                  style="margin-top: -12px"
+                  :response-results="response"
+                  :is-detail-view="true"
+                />
+              </v-card>
+            </v-col>
+          </v-row>
+        </v-col>
+
+        <!-- DATA FROM SOURCE -->
+        <v-col cols="12" v-if="responseFromSource">
+          <v-card>
+            <v-card-title
+              class="justify-center card-title--clickable"
+              @click="showResponseFromSource = !showResponseFromSource"
+              >Data directly from source
+              <v-spacer />
+              <v-btn icon
+                ><v-icon v-if="showResponseFromSource">fas fa-angle-up</v-icon
+                ><v-icon v-else>fas fa-angle-down</v-icon></v-btn
               >
-            </template>
-          </v-data-table>
-        </v-card>
-      </v-col>
+            </v-card-title>
 
-      <v-col cols="12" sm="6">
-        <v-row no-gutters>
-          <!-- IMAGES -->
-          <v-col cols="12" v-if="imageExists && detailViewImages.length > 0">
-            <image-carousel :images="detailViewImages" />
-          </v-col>
-
-          <!-- MAP -->
-          <v-col cols="12">
-            <v-card v-if="localityExists" class="mt-3">
-              <tab-map
-                style="margin-top: -12px"
-                :response-results="response"
-                :is-detail-view="true"
-              />
-            </v-card>
-          </v-col>
-        </v-row>
-      </v-col>
-
-      <!-- DATA FROM SOURCE -->
-      <v-col cols="12" v-if="responseFromSource">
-        <v-card>
-          <v-card-title class="justify-center"
-            >Data directly from source</v-card-title
-          >
-
-          <v-card-text>
-            <pre style="font-size: 0.625rem; overflow: auto;">
+            <v-expand-transition v-if="showResponseFromSource">
+              <v-card-text>
+                <pre style="font-size: 0.625rem; overflow: auto;">
               {{ JSON.stringify(responseFromSource, null, 2) }}
-            </pre>
-          </v-card-text>
-        </v-card>
-      </v-col>
-    </v-row>
+            </pre
+                >
+              </v-card-text>
+            </v-expand-transition>
+          </v-card>
+        </v-col>
+      </v-row>
+    </v-card>
   </v-container>
 
   <v-container class="detail-view" v-else>
@@ -397,6 +413,10 @@ export default {
       required: false
     }
   },
+
+  data: () => ({
+    showResponseFromSource: false
+  }),
 
   computed: {
     ...mapState("detail", [
@@ -610,5 +630,10 @@ export default {
 .detail-view-table >>> thead,
 .detail-view-table-secondary >>> thead {
   display: none;
+}
+
+.card-title--clickable:hover {
+  opacity: 0.7;
+  cursor: pointer;
 }
 </style>
