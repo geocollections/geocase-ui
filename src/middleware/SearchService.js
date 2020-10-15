@@ -1,8 +1,10 @@
 import axios from "axios";
 
-const API_URL = process.env.NODE_ENV === "production" ? "/api" : "http://gc-api.geocollections.info";
-const FACET_QUERY =
-  "facet=on&facet.mincount=0&facet.limit=100&facet.field=recordbasis&facet.field=highertaxon&facet.field=type_status&facet.field=country&facet.field=datasetowner&facet.field=providername&facet.field=providercountry";
+const API_URL =
+  process.env.NODE_ENV === "production"
+    ? "/api"
+    : "http://gc-api.geocollections.info";
+const FACET_QUERY = "facet=on&facet.mincount=0&facet.limit=100";
 const STATS_QUERY =
   "facet=on&facet.field=providername&facet.field=providercountry";
 
@@ -78,12 +80,14 @@ function buildSort(sortBy, sortDesc) {
 
 function buildSearchFieldsQuery(search, searchIds) {
   let encodedData = [];
+  let facetFieldList = [];
 
   searchIds.forEach(id => {
     let name = search[id].id;
     let type = search[id].type;
     let lookUpType = search[id].lookUpType;
     let value = search[id].value;
+    let isExcluded = false;
 
     if (value && value.trim().length > 0) {
       if (name === "q" && !(value.includes(" ") || value.includes("*")))
@@ -94,7 +98,11 @@ function buildSearchFieldsQuery(search, searchIds) {
       if (name === "q") encodedObject = encodedObject.substring(1, 3);
 
       if (type === "checkbox") {
-        if (name === "highertaxon_checkbox") encodedObject = "fq=highertaxon:";
+        isExcluded = true;
+
+        encodedObject = `fq={!tag=${name}}${name}:`;
+        if (name === "highertaxon_checkbox")
+          encodedObject = "fq={!tag=highertaxon}highertaxon:";
         encodedObject += encodedValue;
       } else {
         if (lookUpType === "") encodedObject += encodedValue;
@@ -113,9 +121,16 @@ function buildSearchFieldsQuery(search, searchIds) {
 
       encodedData.push(encodedObject);
     } else if (name === "q") encodedData.push("q=*");
+
+    if (type === "checkbox") {
+      let field = name === "highertaxon_checkbox" ? "highertaxon" : name;
+      let facetField = `facet.field=${field}`;
+      if (isExcluded) facetField = `facet.field={!ex=${field}}${field}`;
+      facetFieldList.push(facetField);
+    }
   });
 
-  return encodedData.join("&");
+  return encodedData.join("&") + "&" + facetFieldList.join("&");
 }
 
 export default SearchService;

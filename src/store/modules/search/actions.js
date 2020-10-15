@@ -18,38 +18,18 @@ const actions = {
   },
 
   updateSearchField({ commit, state }, payload) {
-    commit("UPDATE_SEARCH_FIELD", payload);
-    if (
-      payload.id &&
-      "value" in payload &&
-      state.search?.[payload.id]?.type === "checkbox"
-    )
-      commit("UPDATE_LAST_UPDATED_CHECKBOX", payload.id);
+    if (payload.id) commit("UPDATE_SEARCH_FIELD", payload);
   },
 
   updateSearchParam({ commit }, payload) {
+    if (payload.field === "paginate_by") payload.field = "paginateBy";
+    if (payload.field === "sort_by") payload.field = "sortBy";
+    if (payload.field === "sort_desc") payload.field = "sortDesc";
     commit("UPDATE_SEARCH_PARAM", payload);
   },
 
   resetSearch({ commit }) {
     commit("RESET_SEARCH");
-  },
-
-  async getFacets({ dispatch, commit, rootState }) {
-    try {
-      let response = await SearchService.getFacets();
-
-      if (response)
-        commit("UPDATE_FACETS", response?.facet_counts?.facet_fields);
-    } catch (err) {
-      dispatch(
-        "settings/updateErrorMessage",
-        `<b>Name:</b> ${err.name}<br /><b>Message:</b> ${err.message}`,
-        { root: true }
-      );
-      if (!rootState.settings.error)
-        dispatch("settings/updateErrorState", true, { root: true });
-    }
   },
 
   async search({ dispatch, commit, rootState, state }) {
