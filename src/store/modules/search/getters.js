@@ -23,6 +23,19 @@ const getters = {
     if (state.search[field].value) {
       return state.search[field].value.split("OR").length;
     } else return 0;
+  },
+
+  allFieldNamesForExport: state => {
+    if (state.allFieldNames && state.allFieldNames.length > 0) {
+      const NOT_NEEDED_FIELDS = [
+        "acquiredFrom",
+        "last_harvested_processing",
+        "_version_"
+      ];
+      return state.allFieldNames.filter(
+        field => !NOT_NEEDED_FIELDS.includes(field)
+      );
+    } else return null;
   }
 };
 

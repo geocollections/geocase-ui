@@ -26,7 +26,7 @@
 
 <script>
 import toastMixin from "@/mixins/toastMixin";
-import { mapState } from "vuex";
+import { mapGetters, mapState } from "vuex";
 
 export default {
   name: "ExportButtons",
@@ -41,7 +41,7 @@ export default {
     }
   },
   computed: {
-    ...mapState("search", ["allFieldNames"])
+    ...mapGetters("search", ["allFieldNamesForExport"])
   },
   methods: {
     exportToCSV() {
@@ -83,9 +83,8 @@ export default {
 
       // Possibility to export exact fields for each object
       let fields = Object.keys(jsonArray[0]);
-      console.log(this.allFieldNames)
-      if (this.allFieldNames && this.allFieldNames.length > 0)
-        fields = this.allFieldNames;
+      console.log(this.allFieldNamesForExport);
+      if (this.allFieldNamesForExport) fields = this.allFieldNames;
       const opts = { fields };
       console.log(opts);
 
