@@ -1,7 +1,7 @@
 const state = {
   error: false,
   errorMessage: "",
-  searchDrawer: true,
+  searchDrawer: false,
   externalResources: [
     {
       icon: "fas fa-sitemap",
@@ -51,6 +51,7 @@ const actions = {
   },
 
   updateSearchDrawerState({ commit, state }, bool) {
+    console.log(state.searchDrawer !== bool)
     if (state.searchDrawer !== bool) commit("UPDATE_SEARCH_DRAWER_STATE", bool);
   }
 };

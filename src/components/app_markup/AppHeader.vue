@@ -32,6 +32,9 @@ export default {
   data: () => ({
     drawer: false
   }),
+  mounted() {
+    if (this.$vuetify.breakpoint.mdAndUp) this.updateSearchDrawerState(true);
+  },
   computed: {
     ...mapState("settings", ["searchDrawer"])
   },
