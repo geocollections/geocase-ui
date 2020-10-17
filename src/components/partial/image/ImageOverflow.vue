@@ -7,8 +7,6 @@
     transition="dialog-bottom-transition"
     style="z-index: 3000;"
     no-click-animation
-    @keyup.native.left="showPrev"
-    @keyup.native.right="showNext"
   >
     <v-card tile dark>
       <v-toolbar dark color="primary" height="64">
@@ -206,6 +204,16 @@ export default {
   data: () => ({
     showGallery: true
   }),
+  beforeDestroy() {
+    window.removeEventListener("keyup", this.handleKeyup);
+  },
+  watch: {
+    dialog(newVal) {
+      console.log(newVal);
+      if (newVal) window.addEventListener("keyup", this.handleKeyup);
+      else window.removeEventListener("keyup", this.handleKeyup);
+    }
+  },
   methods: {
     showPrev() {
       if (this.currentIndex > 0)
@@ -217,6 +225,13 @@ export default {
       if (this.currentIndex < this.images.length - 1)
         this.$emit("update:index", this.currentIndex + 1);
       else this.$emit("update:index", 0);
+    },
+
+    handleKeyup(event) {
+      console.log(event);
+      if (event?.keyCode === 39) this.showNext();
+      if (event?.keyCode === 37) this.showPrev();
+      if (event?.keyCode === 27) this.$emit("close:dialog");
     }
   }
 };
