@@ -18,7 +18,7 @@
               color="transparent"
               v-on="on"
               hover
-              :to="{ path: `specimen/${image.id}` }"
+              @click="openDialog(index)"
             >
               <image-wrapper
                 v-if="image.extractedImage"
@@ -71,6 +71,14 @@
           </span>
         </v-tooltip>
       </v-col>
+
+      <image-overflow
+        :images="searchResultImages"
+        :dialog="dialog"
+        :current-index="currentIndex"
+        @close:dialog="dialog = false"
+        @update:index="currentIndex = $event"
+      />
     </v-row>
 
     <v-row class="mx-0" justify="center" v-else>
@@ -92,10 +100,11 @@
 <script>
 import helperMixin from "@/mixins/helperMixin";
 import ImageWrapper from "@/components/partial/image/ImageWrapper";
+import ImageOverflow from "../image/ImageOverflow";
 
 export default {
   name: "TabImages",
-  components: { ImageWrapper },
+  components: { ImageOverflow, ImageWrapper },
   mixins: [helperMixin],
 
   props: {
@@ -106,6 +115,18 @@ export default {
     responseResultsCount: {
       type: Number,
       required: true
+    }
+  },
+
+  data: () => ({
+    dialog: false,
+    currentIndex: 0
+  }),
+
+  methods: {
+    openDialog(imageIndex) {
+      this.dialog = true;
+      this.currentIndex = imageIndex;
     }
   }
 };

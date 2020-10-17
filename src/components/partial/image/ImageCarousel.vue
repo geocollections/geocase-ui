@@ -66,18 +66,15 @@
           </v-list-item-action>
         </v-list-item>
       </v-list>
-
-      <image-overflow v-if="images.length > 1 && false" :images="images" />
     </v-card>
   </v-card>
 </template>
 
 <script>
 import ImageWrapper from "@/components/partial/image/ImageWrapper";
-import ImageOverflow from "@/components/partial/image/ImageOverflow";
 export default {
   name: "ImageCarousel",
-  components: { ImageOverflow, ImageWrapper },
+  components: { ImageWrapper },
   props: {
     images: {
       type: Array,
