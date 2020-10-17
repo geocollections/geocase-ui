@@ -22,6 +22,7 @@
 
     <v-card class="px-6 py-4" shaped v-if="itemExists">
       <v-row>
+        <!-- TITLE, TABLE and TABLE SECONDARY -->
         <v-col cols="12" :sm="imageExists || localityExists ? 6 : 12">
           <!-- TITLE -->
           <v-card>
@@ -325,6 +326,7 @@
           </v-card>
         </v-col>
 
+        <!-- IMAGES and MAP -->
         <v-col cols="12" sm="6">
           <v-row no-gutters>
             <!-- IMAGES -->

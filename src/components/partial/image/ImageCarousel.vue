@@ -1,5 +1,5 @@
 <template>
-  <v-card flat class="mb-6">
+  <v-card class="mb-6">
     <v-carousel
       height="unset"
       prev-icon="fas fa-angle-left"
@@ -11,7 +11,13 @@
       :hide-delimiters="images.length < 2"
       :show-arrows="images.length > 1"
     >
-      <v-carousel-item v-for="(entity, index) in images" :key="index">
+      <v-carousel-item
+        class="pa-2"
+        :href="entity.extractedImage"
+        target="UrlWindow"
+        v-for="(entity, index) in images"
+        :key="index"
+      >
         <image-wrapper
           class="mx-auto"
           :image-src="entity.extractedImage"
@@ -21,8 +27,8 @@
       </v-carousel-item>
     </v-carousel>
 
-    <v-card>
-      <v-list :three-line="!!(author || date || licence)">
+    <v-card flat>
+      <v-list class="py-0" :three-line="!!(author || date || licence)">
         <v-list-item>
           <v-list-item-content>
             <v-list-item-subtitle v-if="author"
@@ -61,7 +67,7 @@
         </v-list-item>
       </v-list>
 
-      <image-overflow v-if="images.length > 1" :images="images" />
+      <image-overflow v-if="images.length > 1 && false" :images="images" />
     </v-card>
   </v-card>
 </template>
