@@ -19,7 +19,7 @@ jobs:
       - run:
           name: Setup Docker image tag
           command: |
-            echo "export TAG=0.1.$CIRLCE_SHA_1" >> $BASH_ENV
+            echo "export TAG=0.1.$CIRLCE_SHA1" >> $BASH_ENV
       - run:
           name: Build Docker image
           command: |
@@ -53,7 +53,7 @@ workflows:
       - build_docker_image:
           filters:
             branches:
-              only: circleci-project-setup
+              only: master
       - publish_docker_image:
           requires:
             - build_docker_image
