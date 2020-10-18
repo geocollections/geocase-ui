@@ -353,7 +353,7 @@
             <v-card-title
               class="justify-center card-title--clickable"
               @click="showResponseFromSource = !showResponseFromSource"
-              >Data directly from source
+              >Data from provider (for developers)
               <v-spacer />
               <v-btn icon
                 ><v-icon v-if="showResponseFromSource">fas fa-angle-up</v-icon
@@ -365,8 +365,6 @@
               <v-card-text>
                 <v-treeview
                   shaped
-                  selected-color="primary"
-                  selectable
                   dense
                   open-all
                   hoverable
