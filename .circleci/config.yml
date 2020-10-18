@@ -7,7 +7,7 @@ executors:
   docker-publisher:
     environment:
       IMAGE_NAME: geocollections/geocase-ui
-      TAG: 0.1.$CIRCLE_SHA1
+      TAG: 0.1.{{ $CIRCLE_SHA1 }}
     docker:
       - image: circleci/buildpack-deps:stretch
 
