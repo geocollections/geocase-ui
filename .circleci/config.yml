@@ -7,6 +7,7 @@ executors:
   docker-publisher:
     environment:
       IMAGE_NAME: geocollections/geocase-ui
+      TAG: 0.1.$CIRCLE_SHA1
     docker:
       - image: circleci/buildpack-deps:stretch
 
@@ -16,10 +17,6 @@ jobs:
     steps:
       - checkout
       - setup_remote_docker
-      - run:
-          name: Setup Docker image tag
-          command: |
-            echo "export TAG=0.1.$CIRLCE_SHA1" >> $BASH_ENV
       - run:
           name: Build Docker image
           command: |
