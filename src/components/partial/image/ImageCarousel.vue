@@ -28,12 +28,9 @@
     </v-carousel>
 
     <v-card flat>
-      <v-list class="py-0" :three-line="!!(author || date || licence)">
+      <v-list class="py-0" :three-line="!!(date || licence)">
         <v-list-item>
           <v-list-item-content>
-            <v-list-item-subtitle v-if="author"
-              >Author: {{ author }}</v-list-item-subtitle
-            >
             <v-list-item-subtitle v-if="date"
               >Date: {{ date }}</v-list-item-subtitle
             >
@@ -85,7 +82,6 @@ export default {
   data: () => ({
     cycleImages: false,
     url: null,
-    author: null,
     date: null,
     licence: null,
     carouselItem: 0
@@ -94,7 +90,6 @@ export default {
   methods: {
     activeImage(index) {
       this.url = this.images[index].extractedImage;
-      this.author = this.images[index].image_author;
       this.licence = this.images[index].image_licence;
       this.date = this.images[index].image_date;
       this.licence = this.images[index].image_licence;

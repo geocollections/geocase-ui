@@ -101,9 +101,6 @@
                 class="pa-6 font-weight-bold"
                 style="font-size: 1.125rem; line-height: 1.5;"
               >
-                <div v-if="images[currentIndex].image_author">
-                  Author: {{ images[currentIndex].image_author }}
-                </div>
                 <div v-if="images[currentIndex].image_date">
                   Date: {{ images[currentIndex].image_date }}
                 </div>
