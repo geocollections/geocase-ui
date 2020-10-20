@@ -69,9 +69,12 @@ const mutations = {
     });
   },
 
-  // Todo: Update so it wouldn't add all the fields like version etc.
   SET_ALL_FIELD_NAMES(state, payload) {
     state.allFieldNames = payload.fields;
+  },
+
+  SET_LOADING(state, loadingState) {
+    state.isLoading = loadingState;
   }
 };
 

@@ -51,6 +51,7 @@
               :paginate-by="paginateBy"
               :sort-by="sortBy"
               :sort-desc="sortDesc"
+              :is-loading="isLoading"
               v-on:sortBy:changed="updateSortBy($event)"
               v-on:sortDesc:changed="updateSortDesc($event)"
             />
@@ -121,7 +122,8 @@ export default {
       "paginateBy",
       "sortBy",
       "sortDesc",
-      "paginateByItems"
+      "paginateByItems",
+      "isLoading"
     ])
   },
 

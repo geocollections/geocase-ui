@@ -33,6 +33,8 @@ const actions = {
   },
 
   async search({ dispatch, commit, rootState, state }) {
+    commit("SET_LOADING", true);
+
     try {
       let params = {
         page: state.page,
@@ -61,6 +63,8 @@ const actions = {
       if (!rootState.settings.error)
         dispatch("settings/updateErrorState", true, { root: true });
     }
+
+    commit("SET_LOADING", false);
   },
 
   async getAllFieldNames({ dispatch, commit, rootState }) {

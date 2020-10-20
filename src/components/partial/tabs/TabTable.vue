@@ -15,6 +15,8 @@
       @update:sort-by="$emit('sortBy:changed', $event)"
       @update:sort-desc="$emit('sortDesc:changed', $event)"
       :server-items-length="responseResultsCount"
+      :loading="isLoading"
+      loading-text="Loading... Please wait!"
     >
       <template v-slot:no-data>
         <v-row class="mx-0" justify="center">
@@ -147,6 +149,10 @@ export default {
     sortDesc: {
       type: Array,
       required: true
+    },
+    isLoading: {
+      type: Boolean,
+      default: false
     }
   },
 
