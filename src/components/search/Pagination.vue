@@ -1,6 +1,6 @@
 <template>
   <div
-    class="pa-2 d-flex flex-column flex-lg-row flex-nowrap justify-space-between align-center"
+    class="pa-2 d-flex flex-column flex-lg-row flex-nowrap justify-space-between align-center pagination"
     v-if="numberOfResults >= 0"
   >
     <div>

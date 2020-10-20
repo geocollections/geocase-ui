@@ -1,6 +1,8 @@
 <template>
   <v-card flat>
     <v-data-table
+      fixed-header
+      :height="tableHeight"
       class="table"
       mobile-breakpoint="0"
       dense
@@ -16,7 +18,6 @@
       @update:sort-desc="$emit('sortDesc:changed', $event)"
       :server-items-length="responseResultsCount"
       :loading="isLoading"
-      loading-text="Loading... Please wait!"
     >
       <template v-slot:no-data>
         <v-row class="mx-0" justify="center">
@@ -123,6 +124,8 @@
 </template>
 
 <script>
+import { throttle } from "lodash";
+
 export default {
   name: "TabTable",
   props: {
@@ -153,6 +156,9 @@ export default {
     isLoading: {
       type: Boolean,
       default: false
+    },
+    tabIndex: {
+      type: Number
     }
   },
 
@@ -182,13 +188,68 @@ export default {
       // { text: "Term", value: "" },
       { text: "Record URI", value: "recordURI", align: "center" },
       { text: "Image", value: "url", align: "center" }
-    ]
+    ],
+    tableHeight: "100%"
   }),
 
+  beforeDestroy() {
+    window.removeEventListener("resize", this.calculateTableHeight);
+  },
+
+  watch: {
+    tabIndex: {
+      handler(newVal) {
+        console.log(newVal === 0);
+        if (newVal === 0) {
+          window.addEventListener("resize", this.calculateTableHeight);
+          this.calculateTableHeight();
+        } else window.removeEventListener("resize", this.calculateTableHeight);
+      },
+      immediate: true
+    }
+  },
+
   methods: {
-    openUrl(url) {
-      window.open(url, "UrlWindow");
-    },
+    calculateTableHeight: throttle(function() {
+      let innerHeight = window?.innerHeight;
+      let paddingTotal = 24;
+      let appTop =
+        this.$vuetify.application.top !== 0
+          ? this.$vuetify.application.top
+          : 64;
+      let appBottom =
+        this.$vuetify.application.footer !== 0
+          ? this.$vuetify.application.footer
+          : 82;
+      let recordsFoundHeight = document.getElementsByClassName(
+        "records-found"
+      )?.[0]?.clientHeight;
+      let tabsHeight = document.getElementsByClassName("v-tabs")?.[0]
+        ?.clientHeight;
+      let paginationHeight = document.getElementsByClassName("pagination")?.[0]
+        ?.clientHeight;
+
+      // Defaults
+      if (!recordsFoundHeight) recordsFoundHeight = 48;
+      if (!tabsHeight) tabsHeight = 42;
+      if (!paginationHeight) {
+        if (this.$vuetify.breakpoint.lgAndUp) paginationHeight = 60;
+        else paginationHeight = 142;
+      }
+
+      if (this.$vuetify.breakpoint.mdAndUp) {
+        // 2 is for any rounding errors
+        this.tableHeight =
+          innerHeight -
+          appTop -
+          paddingTotal -
+          recordsFoundHeight -
+          tabsHeight -
+          paginationHeight -
+          appBottom -
+          2;
+      } else this.tableHeight = "100%";
+    }, 400),
 
     openMindatInNewWindow(url) {
       window.open(url, "MindatWindow", "width=800,height=750");
