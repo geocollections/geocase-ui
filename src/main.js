@@ -1,6 +1,6 @@
 import Vue from "vue";
 import App from "@/App";
-import router from "@/router";
+import router from "@/router/index";
 import store from "@/store";
 import VueIziToast from "vue-izitoast";
 import "roboto-fontface/css/roboto/roboto-fontface.css";

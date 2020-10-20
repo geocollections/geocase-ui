@@ -51,7 +51,7 @@ const actions = {
   },
 
   updateSearchDrawerState({ commit, state }, bool) {
-    console.log(state.searchDrawer !== bool)
+    console.log(state.searchDrawer !== bool);
     if (state.searchDrawer !== bool) commit("UPDATE_SEARCH_DRAWER_STATE", bool);
   }
 };

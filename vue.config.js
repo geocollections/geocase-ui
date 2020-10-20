@@ -1,3 +1,5 @@
+const routes = require("./src/router/routes.js");
+
 module.exports = {
   devServer: {
     proxy: {
@@ -5,6 +7,20 @@ module.exports = {
         // target: "http://gc-api.geocollections.info"
         target: "http://localhost:5000"
       }
+    }
+  },
+  pluginOptions: {
+    sitemap: {
+      productionOnly: true,
+      outputDir: "./public",
+      pretty: true,
+      baseURL: "http://geocase.geocollections.info",
+      defaults: {
+        lastmod: new Date().toISOString().split("T")[0],
+        changefreq: "daily",
+        priority: 0.5
+      },
+      routes
     }
   }
 };
