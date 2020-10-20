@@ -49,6 +49,7 @@ jobs:
             docker push $IMAGE_NAME
 
   run_docker_image:
+    executor: docker-publisher
     steps:
       - run:
           name: Run Docker image
