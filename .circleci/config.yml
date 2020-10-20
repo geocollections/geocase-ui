@@ -48,6 +48,12 @@ jobs:
             echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
             docker push $IMAGE_NAME
 
+  run_docker_image:
+    steps:
+      - run:
+          name: Run Docker image
+          command: ssh -o "StrictHostKeyChecking no" -p ${PORT} ${USER}@${ADDRESS} "cd /var/www/geocase-ui/script && . run_docker_image.sh"
+
 workflows:
   build-master:
     jobs:
@@ -58,6 +64,12 @@ workflows:
       - publish_docker_image:
           requires:
             - build_docker_image
+          filters:
+            branches:
+              only: master
+      - run_docker_image:
+          requires:
+            - publish_docker_image
           filters:
             branches:
               only: master
