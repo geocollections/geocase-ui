@@ -37,6 +37,11 @@ const state = {
       icon: "fas fa-database",
       text: "GeoCASe 1.0 portal",
       url: "http://geocase.eu"
+    },
+    {
+      icon: "fas fa-laptop-code",
+      text: "GeoCASe API",
+      url: "http://gc-api.geocollections.info/api-docs"
     }
   ]
 };
