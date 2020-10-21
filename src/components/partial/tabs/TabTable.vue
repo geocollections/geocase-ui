@@ -239,7 +239,7 @@ export default {
 
       if (this.$vuetify.breakpoint.mdAndUp) {
         // 2 is for any rounding errors
-        this.tableHeight =
+        let height =
           innerHeight -
           appTop -
           paddingTotal -
@@ -248,6 +248,9 @@ export default {
           paginationHeight -
           appBottom -
           2;
+
+        if (height < 500) this.tableHeight = "100%";
+        else this.tableHeight = height;
       } else this.tableHeight = "100%";
     }, 400),
 
