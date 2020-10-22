@@ -41,7 +41,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters("search", ["allFieldNamesForExport"])
+    ...mapGetters("search", ["getAllFieldNamesForExport"])
   },
   methods: {
     exportToCSV() {
@@ -83,8 +83,8 @@ export default {
 
       // Possibility to export exact fields for each object
       let fields = Object.keys(jsonArray[0]);
-      console.log(this.allFieldNamesForExport);
-      if (this.allFieldNamesForExport) fields = this.allFieldNames;
+      console.log(this.getAllFieldNamesForExport);
+      if (this.getAllFieldNamesForExport) fields = this.allFieldNames;
       const opts = { fields };
       console.log(opts);
 

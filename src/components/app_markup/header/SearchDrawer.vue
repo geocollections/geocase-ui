@@ -12,7 +12,7 @@
     class="elevation-4"
     color="blue-grey lighten-4"
   >
-    <v-list>
+    <v-list expand>
       <!-- FIND QUICKLY -->
       <v-list-item>
         <v-list-item-content>
@@ -238,12 +238,61 @@
       </v-list-group>
 
       <v-divider />
+
+      <!-- EXTRA OPTIONS -->
+      <v-list-group
+        :value="showExtraOptions"
+        active-class="blue-grey lighten-3"
+        color="black"
+      >
+        <template v-slot:activator>
+          <v-list-item-title
+            class="font-weight-bold text-center text-uppercase"
+            style="font-size: 1.15rem;"
+            >Extra options</v-list-item-title
+          >
+        </template>
+
+        <v-divider />
+
+        <!-- TABLE HEADERS -->
+        <v-list-item class="py-2 px-4">
+          <v-row no-gutters>
+            <v-col cols="12" class="py-1 mb-2">
+              <v-checkbox
+                color="blue-grey darken-3"
+                class="mt-0 mb-2"
+                :input-value="isTableHeaderFixed"
+                label="Fixed table header (only on large screens)"
+                @change="updateTableHeaderFixedState($event)"
+                hide-details
+                dense
+              />
+            </v-col>
+
+            <v-col cols="12" class="py-1">
+              <SelectWrapper
+                :items="getAllNonFixedTableHeaders"
+                :value="getAllShownTableHeaders"
+                chips
+                small-chips
+                deletable-chips
+                multiple
+                label="Table headers"
+                @change="updateTableHeaders($event)"
+                class="chips-select"
+              />
+            </v-col>
+          </v-row>
+        </v-list-item>
+      </v-list-group>
+      <v-divider />
     </v-list>
 
     <v-row no-gutters class="px-3 pb-5 mt-1">
       <v-col cols="12" class="d-flex justify-end">
         <v-btn color="error" @click="reset">
-          Reset
+          Reset search
           <v-icon right>far fa-trash-alt</v-icon>
         </v-btn>
       </v-col>
@@ -276,7 +325,8 @@ export default {
     showAdditionalFilters: true,
     showTextFields: true,
     showCheckboxes: true,
-    showSingleCheckboxes: true
+    showSingleCheckboxes: true,
+    showExtraOptions: false
   }),
 
   computed: {
@@ -285,13 +335,16 @@ export default {
       "search",
       "searchTextIds",
       "searchCheckboxIds",
-      "searchSingleCheckboxIds"
+      "searchSingleCheckboxIds",
+      "isTableHeaderFixed"
     ]),
     ...mapGetters("search", [
       "getCheckboxes",
       "getCheckboxesCount",
       "getCheckboxesLength",
-      "getActiveCheckboxesCount"
+      "getActiveCheckboxesCount",
+      "getAllNonFixedTableHeaders",
+      "getAllShownTableHeaders"
     ]),
 
     isSmAndDown() {
@@ -316,7 +369,12 @@ export default {
   },
 
   methods: {
-    ...mapActions("search", ["updateSearchField", "resetSearch"]),
+    ...mapActions("search", [
+      "updateSearchField",
+      "resetSearch",
+      "updateTableHeaders",
+      "updateTableHeaderFixedState"
+    ]),
 
     updateSearchFieldDebounced: debounce(function(value) {
       this.updateSearchField(value);

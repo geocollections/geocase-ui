@@ -25,7 +25,7 @@ const getters = {
     } else return 0;
   },
 
-  allFieldNamesForExport: state => {
+  getAllFieldNamesForExport: state => {
     if (state.allFieldNames && state.allFieldNames.length > 0) {
       const NOT_NEEDED_FIELDS = [
         "acquiredFrom",
@@ -36,6 +36,14 @@ const getters = {
         field => !NOT_NEEDED_FIELDS.includes(field)
       );
     } else return null;
+  },
+
+  getAllNonFixedTableHeaders: state => {
+    return state.tableHeaders.filter(item => !item.fixed);
+  },
+
+  getAllShownTableHeaders: state => {
+    return state.tableHeaders.filter(item => item.show);
   }
 };
 

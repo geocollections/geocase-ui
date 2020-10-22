@@ -73,8 +73,36 @@ const mutations = {
     state.allFieldNames = payload.fields;
   },
 
+  SET_ALL_TABLE_HEADERS(state, payload) {
+    let defaultNonFixedTableHeaders = state.tableHeaders
+      .filter(item => !item.fixed)
+      .map(item => item.value);
+    payload.fields.forEach(item => {
+      if (!defaultNonFixedTableHeaders.includes(item))
+        state.tableHeaders.push({
+          text: (item.charAt(0).toUpperCase() + item.slice(1)).replaceAll(
+            "_",
+            " "
+          ),
+          value: item,
+          show: false,
+          fixed: false
+        });
+    });
+  },
+
   SET_LOADING(state, loadingState) {
     state.isLoading = loadingState;
+  },
+
+  UPDATE_TABLE_HEADERS(state, headers) {
+    state.tableHeaders.forEach((item, index) => {
+      state.tableHeaders[index].show = !!headers.includes(item.value);
+    });
+  },
+
+  UPDATE_TABLE_HEADER_FIXED_STATE(state, bool) {
+    state.isTableHeaderFixed = bool;
   }
 };
 

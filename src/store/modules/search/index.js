@@ -199,7 +199,26 @@ const state = {
   ],
   searchParamsList: ["page", "paginate_by", "sort_by", "sort_desc"],
   allFieldNames: null,
-  isLoading: false
+  isLoading: false,
+  tableHeaders: [
+    { text: "", value: "icon", sortable: false, show: true, fixed: true },
+    { text: "Collection", value: "collectioncode", show: true, fixed: false },
+    { text: "Object ID", value: "unitid", show: true, fixed: false },
+    { text: "Group", value: "highertaxon", show: true, fixed: false },
+    { text: "Name", value: "fullscientificname", show: true, fixed: false },
+    { text: "Country", value: "country", show: true, fixed: false },
+    { text: "Locality", value: "locality", show: true, fixed: false },
+    { text: "Stratigraphy", value: "stratigraphy", show: true, fixed: false },
+    {
+      text: "Record URI",
+      value: "recordURI",
+      align: "center",
+      show: true,
+      fixed: false
+    },
+    { text: "Image", value: "url", align: "center", show: true, fixed: false }
+  ],
+  isTableHeaderFixed: true
 };
 
 export default {

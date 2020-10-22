@@ -1,13 +1,13 @@
 <template>
   <v-card flat>
     <v-data-table
-      fixed-header
-      :height="tableHeight"
+      :fixed-header="isTableHeaderFixed"
+      :height="isTableHeaderFixed ? tableHeight : '100%'"
       class="table"
       mobile-breakpoint="0"
       dense
       hide-default-footer
-      :headers="headers"
+      :headers="getAllShownTableHeaders"
       :items="responseResults"
       :items-per-page="paginateBy"
       multi-sort
@@ -125,6 +125,7 @@
 
 <script>
 import { throttle } from "lodash";
+import {mapGetters, mapState} from "vuex";
 
 export default {
   name: "TabTable",
@@ -163,32 +164,6 @@ export default {
   },
 
   data: () => ({
-    headers: [
-      // { text: "ID", value: "id" },
-      // { text: "Multimedia", value: "url" },
-      { text: "", value: "icon", sortable: false },
-      { text: "Collection", value: "collectioncode" },
-      { text: "Object ID", value: "unitid" },
-      // { text: "Gathering Date", value: "" },
-      // { text: "Collector Number", value: "" },
-      // { text: "Domain", value: "" },
-      { text: "Group", value: "highertaxon" },
-      { text: "Name", value: "fullscientificname" },
-      // { text: "Genus or Monomial", value: "" },
-      // { text: "Taxon Rank", value: "" },
-      // { text: "Infrageneric Epithet", value: "" },
-      // { text: "Infraspecific Epithet", value: "" },
-      // { text: "Gathering Country (ISO Code)", value: "country" },
-      { text: "Country", value: "country" },
-      // { text: "Kind of Unit", value: "" },
-      { text: "Locality", value: "locality" },
-      // { text: "Preparation Type", value: "" },
-      { text: "Stratigraphy", value: "stratigraphy" },
-      // { text: "Stratigraphy Type", value: "" },
-      // { text: "Term", value: "" },
-      { text: "Record URI", value: "recordURI", align: "center" },
-      { text: "Image", value: "url", align: "center" }
-    ],
     tableHeight: "100%"
   }),
 
@@ -199,7 +174,6 @@ export default {
   watch: {
     tabIndex: {
       handler(newVal) {
-        console.log(newVal === 0);
         if (newVal === 0) {
           window.addEventListener("resize", this.calculateTableHeight);
           this.calculateTableHeight();
@@ -207,6 +181,11 @@ export default {
       },
       immediate: true
     }
+  },
+
+  computed: {
+    ...mapState("search", ["isTableHeaderFixed"]),
+    ...mapGetters("search", ["getAllShownTableHeaders"])
   },
 
   methods: {

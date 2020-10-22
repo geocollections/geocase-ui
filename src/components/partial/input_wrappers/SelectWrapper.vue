@@ -36,4 +36,16 @@ export default {
   color: black;
   white-space: nowrap;
 }
+
+.chips-select >>> .v-select__selections {
+  padding: 8px 0;
+}
+
+.chips-select >>> .v-chip {
+  margin: 3px !important;
+}
+
+.chips-select >>> .v-label {
+  font-weight: bold;
+}
 </style>

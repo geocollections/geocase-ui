@@ -74,6 +74,7 @@ const actions = {
       if (response) {
         let fields = response.split(",");
         commit("SET_ALL_FIELD_NAMES", { fields: fields });
+        commit("SET_ALL_TABLE_HEADERS", { fields: fields });
       }
     } catch (err) {
       dispatch(
@@ -84,6 +85,14 @@ const actions = {
       if (!rootState.settings.error)
         dispatch("settings/updateErrorState", true, { root: true });
     }
+  },
+
+  updateTableHeaders({ commit }, payload) {
+    commit("UPDATE_TABLE_HEADERS", payload);
+  },
+
+  updateTableHeaderFixedState({ commit }, payload) {
+    commit("UPDATE_TABLE_HEADER_FIXED_STATE", payload);
   }
 };
 
