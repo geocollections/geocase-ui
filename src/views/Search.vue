@@ -4,7 +4,10 @@
 
     <v-card flat>
       <!-- NUM OF ITEMS -->
-      <v-card-title class="py-2 font-weight-bold records-found" style="font-size: 1.5rem">
+      <v-card-title
+        class="py-2 font-weight-bold records-found"
+        style="font-size: 1.5rem"
+      >
         <span class="mr-1" v-if="responseResultsCount">{{
           responseResultsCount.toLocaleString()
         }}</span>

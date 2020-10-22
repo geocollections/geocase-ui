@@ -39,7 +39,7 @@ class SearchService {
       const res = await axios.get(url);
       return res.data;
     } catch (err) {
-      console.error(err)
+      console.error(err);
       throw new Error(err);
     }
   }
@@ -50,7 +50,7 @@ class SearchService {
       const res = await axios.get(url);
       return res.data;
     } catch (err) {
-      console.error(err)
+      console.error(err);
       if (err?.response?.data?.error) throw new Error(err.response.data.error);
       else throw new Error(err);
     }
@@ -63,7 +63,7 @@ class SearchService {
       const res = await axios.get(url);
       return res.data;
     } catch (err) {
-      console.error(err)
+      console.error(err);
       throw new Error(err);
     }
   }
@@ -75,7 +75,7 @@ class SearchService {
       const res = await axios.get(url);
       return res.data;
     } catch (err) {
-      console.error(err)
+      console.error(err);
       throw new Error(err);
     }
   }
