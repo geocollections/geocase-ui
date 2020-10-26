@@ -58,9 +58,11 @@
               :tabIndex="tab"
               v-on:sortBy:changed="updateSortBy($event)"
               v-on:sortDesc:changed="updateSortDesc($event)"
+              @open:gallery="openGallery"
             />
 
             <tab-images
+              ref="imageTab"
               v-if="item === 'images'"
               :response-results="responseResults"
               :response-results-count="responseResultsCount"
@@ -176,7 +178,13 @@ export default {
       "updateSortBy",
       "updateSortDesc",
       "search"
-    ])
+    ]),
+
+    async openGallery(image) {
+      this.tab = 1;
+      await new Promise(resolve => setTimeout(resolve, 200));
+      this.$refs.imageTab[0].openDialogUsingImage(image);
+    }
   }
 };
 </script>

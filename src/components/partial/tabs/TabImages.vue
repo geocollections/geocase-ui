@@ -127,6 +127,14 @@ export default {
     openDialog(imageIndex) {
       this.dialog = true;
       this.currentIndex = imageIndex;
+    },
+
+    openDialogUsingImage(image) {
+      this.dialog = true;
+      let index = this.searchResultImages.findIndex(
+        item => item.extractedImage === image
+      );
+      this.currentIndex = index;
     }
   }
 };

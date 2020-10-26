@@ -7,7 +7,6 @@ const helperMixin = {
     "item.images": {
       handler: async function(newVal) {
         await this.getDetailViewImages(newVal);
-        console.log(this.detailViewImages)
       }
     }
   },

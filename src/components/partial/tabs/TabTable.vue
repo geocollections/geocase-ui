@@ -103,21 +103,16 @@
         </v-btn>
       </template>
 
-      <!-- Todo: Open gallery? -->
       <template v-slot:item.url="{ item }">
-        <v-icon v-if="item.has_image" small>far fa-image</v-icon>
-        <!--        <v-card-->
-        <!--          v-if="item.url"-->
-        <!--          flat-->
-        <!--          class="my-3 image-hover"-->
-        <!--          hover-->
-        <!--          :to="{ path: `specimen/${item.id}` }"-->
-        <!--          title="Go to detail view"-->
-        <!--          max-height="200"-->
-        <!--          max-width="200"-->
-        <!--        >-->
-        <!--          <image-wrapper max-height="200" :image-src="item.url" />-->
-        <!--        </v-card>-->
+        <v-btn
+          v-if="item.has_image"
+          icon
+          title="Open gallery"
+          small
+          @click="$emit('open:gallery', item.images[0])"
+        >
+          <v-icon small>far fa-image</v-icon>
+        </v-btn>
       </template>
     </v-data-table>
   </v-card>
