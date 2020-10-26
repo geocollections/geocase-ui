@@ -134,7 +134,7 @@ export default {
       let index = this.searchResultImages.findIndex(
         item => item.extractedImage === image
       );
-      this.currentIndex = index;
+      this.currentIndex = index ? index : 0;
     }
   }
 };

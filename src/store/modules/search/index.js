@@ -6,7 +6,7 @@ const state = {
   responseResults: [],
   responseResultsCount: 0,
   page: 1,
-  paginateBy: 50,
+  paginateBy: 25,
   sortBy: ["fullscientificname"],
   sortDesc: [false],
   search: {
@@ -193,9 +193,9 @@ const state = {
     { text: "Paginate by 25", value: 25 },
     { text: "Paginate by 50", value: 50 },
     { text: "Paginate by 100", value: 100 },
-    { text: "Paginate by 250", value: 250 },
-    { text: "Paginate by 500", value: 500 },
-    { text: "Paginate by 1000", value: 1000 }
+    // { text: "Paginate by 250", value: 250 },
+    // { text: "Paginate by 500", value: 500 },
+    // { text: "Paginate by 1000", value: 1000 }
   ],
   searchParamsList: ["page", "paginate_by", "sort_by", "sort_desc"],
   allFieldNames: null,

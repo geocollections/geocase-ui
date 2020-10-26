@@ -52,7 +52,7 @@ export default {
     paginateBy: {
       type: Number,
       required: true,
-      default: 50
+      default: 25
     },
     paginateByItems: {
       type: Array,

@@ -40,7 +40,7 @@ const mutations = {
         let parsedInt = parseInt(payload.value);
         if (parsedInt && !isNaN(parsedInt) && state[field] !== parsedInt)
           state[field] = parsedInt;
-      } else state[field] = field === "page" ? 1 : 50;
+      } else state[field] = field === "page" ? 1 : 25;
     } else if (field === "sortBy" || field === "sortDesc") {
       if (payload.value && payload.value.trim().length > 0) {
         let value = payload.value.split(",");
