@@ -287,10 +287,13 @@
 
               <template v-slot:item.institutionHomepage>
                 <div
-                  v-if="representationTitle && representationURI"
+                  v-if="representationTitle || representationURI || logoURI"
                   class="d-flex justify-start"
                 >
-                  <div class="align-self-center mr-3">
+                  <div
+                    class="align-self-center mr-3"
+                    v-if="representationTitle"
+                  >
                     <a
                       v-if="representationURI"
                       class="text-decoration-none"
@@ -431,8 +434,6 @@ export default {
       "error",
       "showError",
       "itemHeaders",
-      "imageWidth",
-      "imageHeight",
       "isLoading"
     ]),
 
@@ -495,7 +496,6 @@ export default {
     },
     item(newVal) {
       this.handleColorChange(newVal);
-      if (newVal && newVal.url) this.getImageWidth(newVal.url);
     }
   },
 
@@ -508,7 +508,6 @@ export default {
   methods: {
     ...mapActions("detail", [
       "getDetailView",
-      "updateImageWidth",
       "getDetailViewDataFromSource",
       "resetResponseFromSource"
     ]),
@@ -530,20 +529,6 @@ export default {
         }
         this.getDetailViewDataFromSource(querytoolUrl);
       }
-    },
-
-    getMeta(url) {
-      return new Promise((resolve, reject) => {
-        let img = new Image();
-        img.onload = () => resolve(img);
-        img.onerror = reject;
-        img.src = url;
-      });
-    },
-
-    async getImageWidth(url) {
-      let img = await this.getMeta(url);
-      if (img.width) this.updateImageWidth(img.width);
     },
 
     openMindatInNewWindow(url) {

@@ -47,8 +47,6 @@ const state = {
     { text: "Provider address", value: "provideraddress" },
     { text: "Provider url", value: "providerurl" }
   ],
-  imageWidth: 400,
-  imageHeight: 400,
   isLoading: false
 };
 

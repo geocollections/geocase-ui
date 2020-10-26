@@ -87,6 +87,7 @@
               <image-wrapper
                 max-height="calc(100vh - 64px)"
                 :image-src="images[currentIndex].extractedImage"
+                background-size-unset
               />
             </v-col>
 

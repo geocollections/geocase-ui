@@ -56,10 +56,6 @@ const actions = {
     }
   },
 
-  updateImageWidth({ commit }, width) {
-    commit("UPDATE_IMAGE_WIDTH", width);
-  },
-
   resetResponseFromSource({ commit }) {
     commit("UPDATE_RESPONSE_FROM_SOURCE", null);
   }

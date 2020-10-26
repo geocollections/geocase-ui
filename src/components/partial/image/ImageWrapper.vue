@@ -8,6 +8,7 @@
     aspect-ratio="1"
     :src="imageSrc"
     :lazy-src="imageSrc"
+    :class="{ 'background-size-unset': backgroundSizeUnset }"
   >
     <template v-slot:placeholder>
       <v-row class="fill-height ma-0" align="center" justify="center">
@@ -36,9 +37,17 @@ export default {
     contain: {
       type: Boolean,
       default: true
+    },
+    backgroundSizeUnset: {
+      type: Boolean,
+      default: false
     }
   }
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.background-size-unset >>> .v-image__image {
+  background-size: unset;
+}
+</style>

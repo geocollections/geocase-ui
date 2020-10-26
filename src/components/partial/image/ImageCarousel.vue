@@ -18,10 +18,12 @@
         v-for="(entity, index) in images"
         :key="index"
       >
+        <!-- Todo: If image height smaller than max then add prop background-size-unset -->
+
         <image-wrapper
           class="mx-auto"
           :image-src="entity.extractedImage"
-          max-height="500"
+          :max-height="calculateImageMaxHeight(entity.imageHeight)"
           :value="carouselItem"
         />
       </v-carousel-item>
@@ -84,7 +86,8 @@ export default {
     url: null,
     date: null,
     licence: null,
-    carouselItem: 0
+    carouselItem: 0,
+    imageMaxHeight: "500"
   }),
 
   methods: {
@@ -93,6 +96,12 @@ export default {
       this.licence = this.images[index].image_licence;
       this.date = this.images[index].image_date;
       this.licence = this.images[index].image_licence;
+    },
+
+    calculateImageMaxHeight(imageHeight) {
+      // return this.imageMaxHeight;
+      if (imageHeight && imageHeight < this.imageMaxHeight) return imageHeight.toString();
+      else return this.imageMaxHeight;
     }
   }
 };
