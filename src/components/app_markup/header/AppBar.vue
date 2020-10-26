@@ -5,7 +5,7 @@
       app
       clipped-left
       height="64"
-      style="z-index: 2000"
+      style="z-index: 2020"
       elevation="12"
       class="app-bar-primary"
       :class="{
