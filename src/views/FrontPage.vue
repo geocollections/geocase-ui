@@ -1,6 +1,5 @@
 <template>
   <v-container class="FrontPage">
-    <!-- Todo: ALERT NEW PORTAL -->
     <v-row no-gutters>
       <v-col cols="12">
         <v-alert

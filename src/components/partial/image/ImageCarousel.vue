@@ -18,8 +18,6 @@
         v-for="(entity, index) in images"
         :key="index"
       >
-        <!-- Todo: If image height smaller than max then add prop background-size-unset -->
-
         <image-wrapper
           class="mx-auto"
           :image-src="entity.extractedImage"
