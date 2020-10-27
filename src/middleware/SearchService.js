@@ -1,9 +1,6 @@
 import axios from "axios";
 
-const API_URL =
-  process.env.NODE_ENV === "production"
-    ? "/api"
-    : "http://gc-api.geocollections.info";
+const API_URL = "/api";
 const FACET_QUERY = "facet=on&facet.mincount=0&facet.limit=100";
 const STATS_QUERY =
   "facet=on&facet.field=providername&facet.field=providercountry";
