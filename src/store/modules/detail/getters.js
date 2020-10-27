@@ -127,7 +127,9 @@ const getters = {
           return `${item["efg:ChronoStratigraphicDivision"]} : ${item["efg:ChronostratigraphicName"]}`;
         }
       });
-      return stratigraphyList;
+      if (stratigraphyList && stratigraphyList.length > 0)
+        return stratigraphyList;
+      else return null;
     } else return null;
   },
 
