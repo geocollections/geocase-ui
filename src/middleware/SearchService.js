@@ -115,7 +115,7 @@ function buildSearchFieldsQuery(search, searchIds) {
         encodedObject = `fq={!tag=${name}}${name}:`;
         if (name === "highertaxon_checkbox")
           encodedObject = "fq={!tag=highertaxon}highertaxon:";
-        encodedObject += encodedValue;
+        encodedObject += `(${encodedValue})`;
       } else {
         if (lookUpType === "") encodedObject += encodedValue;
         else if (lookUpType === "contains")

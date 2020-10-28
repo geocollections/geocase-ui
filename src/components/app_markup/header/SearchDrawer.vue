@@ -381,18 +381,17 @@ export default {
     }, 300),
 
     updateCheckbox(event) {
-      // let e = clone(event);
       let e = { ...event };
       if (e.bool) {
-        if (e.value) e.value += ` OR "${e.fieldName}"`;
+        if (e.value) e.value += ` "${e.fieldName}"`;
         else e.value = `"${e.fieldName}"`;
       } else {
         if (e.value) {
-          let valueList = e.value.split(" OR ");
+          let valueList = e.value.replaceAll('" "', '"|-|"').split("|-|");
           let filteredValues = valueList.filter(
             val => val !== `"${e.fieldName}"`
           );
-          e.value = filteredValues.join(" OR ");
+          e.value = filteredValues.join(" ");
         }
       }
       this.updateSearchField({ id: e.id, value: e.value });

@@ -11,7 +11,7 @@ const state = {
         "Fossils are remains or traces of once lived organisms. They include bones, shells, burrows, and occasionally mineralised soft bodies.",
       button: "View Fossils",
       url:
-        '/search?recordbasis="FossileSpecimen" OR "FossilSpecimen" OR "RecentPreservedSpecimen" OR "fossil"',
+        '/search?recordbasis=("FossileSpecimen" "FossilSpecimen" "RecentPreservedSpecimen" "fossil")',
       image: require("@/assets/front_page/fossil.png")
     },
     {
@@ -28,7 +28,7 @@ const state = {
         "Rocks and sediments make up solid Earth. They may be magmatic, sedimentary or metamorphic.",
       button: "View Rocks",
       url:
-        '/search?recordbasis="RockSpecimen" OR "SedimentSample" OR "TechnologicalSample"',
+        '/search?recordbasis=("RockSpecimen" "SedimentSample" "TechnologicalSample")',
       image: require("@/assets/front_page/rock.png")
     },
     {
