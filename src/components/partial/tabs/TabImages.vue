@@ -90,7 +90,19 @@
           icon="fas fa-search"
           color="secondary"
         >
-          Couldn't find any images with these search parameters.
+          <div>
+            Couldn't find any images with these search parameters.
+          </div>
+
+          <div v-if="!search.has_image.value">
+            Add filter so it would only show results which have images.
+            <v-btn
+              x-small
+              color="secondary"
+              @click="updateSearchField({ id: 'has_image', value: 'true' })"
+              >Add filter</v-btn
+            >
+          </div>
         </v-alert>
       </v-col>
     </v-row>
@@ -101,6 +113,7 @@
 import helperMixin from "@/mixins/helperMixin";
 import ImageWrapper from "@/components/partial/image/ImageWrapper";
 import ImageOverflow from "../image/ImageOverflow";
+import { mapActions, mapState } from "vuex";
 
 export default {
   name: "TabImages",
@@ -123,7 +136,13 @@ export default {
     currentIndex: 0
   }),
 
+  computed: {
+    ...mapState("search", ["search"])
+  },
+
   methods: {
+    ...mapActions("search", ["updateSearchField"]),
+
     openDialog(imageIndex) {
       this.dialog = true;
       this.currentIndex = imageIndex;

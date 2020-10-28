@@ -9,12 +9,25 @@
           icon="fas fa-search"
           color="secondary"
         >
-          Couldn't find any localities with these search parameters. Add filter so it would only show results which have georeferenced data. <v-btn>e</v-btn>
+          <div>
+            Couldn't find any localities with these search parameters.
+          </div>
+
+          <div v-if="!search.has_map.value">
+            Add filter so it would only show results which have georeferenced
+            data.
+            <v-btn
+              x-small
+              color="secondary"
+              @click="updateSearchField({ id: 'has_map', value: 'true' })"
+              >Add filter</v-btn
+            >
+          </div>
         </v-alert>
       </v-col>
     </v-row>
 
-    <div class="map" v-if="localities.length > 0">
+    <div class="map" v-show="localities.length > 0">
       <div id="map" :style="{ height: isDetailView ? '50vh' : '70vh' }"></div>
     </div>
   </v-card>
@@ -24,6 +37,7 @@
 import "leaflet/dist/leaflet.css";
 
 import * as L from "leaflet";
+import { mapActions, mapState } from "vuex";
 
 export default {
   name: "TabMap",
@@ -159,6 +173,8 @@ export default {
   },
 
   computed: {
+    ...mapState("search", ["search"]),
+
     localities() {
       if (this.responseResultsCount > 0) {
         return this.responseResults.filter(locality => !!locality.has_map);
@@ -190,14 +206,22 @@ export default {
     localities: {
       handler(newVal) {
         this.setMarkers(newVal);
+        // Todo: Fix Zoom after invalidatingSize
+        if (this.map) {
+          this.$nextTick(() => {
+            this.map.invalidateSize();
+          });
+        }
       },
       deep: true
     }
   },
 
   methods: {
+    ...mapActions("search", ["updateSearchField"]),
+
     initMap() {
-      if (this.map === null && this.localities.length > 0) {
+      if (this.map === null) {
         this.map = L.map("map", {
           layers: [this.baseMaps[0].leafletObject],
           scrollWheelZoom: true

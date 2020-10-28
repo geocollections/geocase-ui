@@ -1,6 +1,11 @@
 <template>
   <v-hover v-slot:default="{ hover }">
-    <v-card @click="viewInfo" flat class="StatsCard pa-4 text-center" :class="{ 'hover-enter primary--text': hover, 'hover-leave': !hover }">
+    <v-card
+      @click="viewInfo"
+      flat
+      class="StatsCard pa-4 text-center"
+      :class="{ 'hover-enter primary--text': hover, 'hover-leave': !hover }"
+    >
       <div
         style="font-size: 1.25rem;"
         class="animate__animated"
@@ -28,7 +33,7 @@ export default {
   name: "StatsCard",
   props: ["text", "count"],
   methods: {
-    viewInfo(event) {
+    viewInfo() {
       if (this.text === "Number of Providers") {
         this.$router.push("partners_and_providers");
       } else if (this.text === "Provider Countries") {

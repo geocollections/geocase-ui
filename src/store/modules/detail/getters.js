@@ -237,11 +237,14 @@ const getters = {
   },
 
   dateLastEdited: state => {
-    return state?.responseFromSource?.["abcd:DataSets"]?.[
-      "abcd:DataSet"
-    ]?.[0]?.["abcd:Units"]?.[0]?.["abcd:Unit"]?.[0]?.[
-      "abcd:DateLastEdited"
-    ]?.[0];
+    let dateLastEdited =
+      state?.responseFromSource?.["abcd:DataSets"]?.["abcd:DataSet"]?.[0]?.[
+        "abcd:Units"
+      ]?.[0]?.["abcd:Unit"]?.[0]?.["abcd:DateLastEdited"]?.[0];
+
+    if (dateLastEdited && dateLastEdited.includes("T"))
+      return dateLastEdited.split("T")[0];
+    else return dateLastEdited;
   },
 
   itemArea: state => {
