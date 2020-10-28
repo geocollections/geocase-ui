@@ -1,6 +1,6 @@
 <template>
-  <v-hover v-slot:default="{ hover }" :close-delay="500">
-    <v-card flat class="StatsCard pa-4 text-center">
+  <v-hover v-slot:default="{ hover }">
+    <v-card @click="viewInfo" flat class="StatsCard pa-4 text-center" :class="{ 'hover-enter primary--text': hover, 'hover-leave': !hover }">
       <div
         style="font-size: 1.25rem;"
         class="animate__animated"
@@ -18,23 +18,33 @@
         style="font-size: 1.75rem"
       >
         {{ count }}
-        <!--        <animateNumber-->
-        <!--          :number="count"-->
-        <!--          :is-very-large="text === 'Total Records'"-->
-        <!--          :is-very-small="text !== 'Total Records'"-->
-        <!--        />-->
       </div>
     </v-card>
   </v-hover>
 </template>
 
 <script>
-// import AnimateNumber from "@/components/partial/AnimateNumber";
 export default {
   name: "StatsCard",
-  // components: { AnimateNumber },
-  props: ["text", "count"]
+  props: ["text", "count"],
+  methods: {
+    viewInfo(event) {
+      if (this.text === "Number of Providers") {
+        this.$router.push("partners_and_providers");
+      } else if (this.text === "Provider Countries") {
+        this.$router.push("partners_and_providers");
+      } else this.$router.push("search");
+    }
+  }
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.hover-enter {
+  transition: all 200ms ease-in;
+}
+
+.hover-leave {
+  transition: all 200ms ease-out;
+}
+</style>

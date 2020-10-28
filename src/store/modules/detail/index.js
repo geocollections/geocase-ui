@@ -7,7 +7,6 @@ const state = {
   responseFromSource: null,
   itemHeaders: [
     { text: "Type", value: "typestatus" },
-    { text: "GeoCASe ID", value: "id" },
     { text: "Collection", value: "collectioncode" },
     { text: "Object ID", value: "unitid" },
     { text: "Type status", value: "type_status" },
@@ -16,8 +15,8 @@ const state = {
     { text: "Country", value: "country" },
     // { text: "Area", value: "area_name" },
     // { text: "Area type", value: "area_type" },
-    { text: "Locality", value: "locality" },
     { text: "Area", value: "area" },
+    { text: "Locality", value: "locality" },
     { text: "Latitude", value: "latitude" },
     { text: "Longitude", value: "longitude" },
     { text: "Stratigraphy", value: "stratigraphy" },
@@ -49,7 +48,8 @@ const state = {
     { text: "Acknowledgement", value: "acknowledgements" },
     { text: "Last Edited", value: "dateLastEdited" },
     { text: "Last harvested", value: "last_harvested_processing" },
-    { text: "Provider name", value: "providername" }
+    { text: "Provider name", value: "providername" },
+    { text: "GeoCASe ID", value: "id" },
     // { text: "Provider address", value: "provideraddress" },
     // { text: "Provider url", value: "providerurl" }
   ],

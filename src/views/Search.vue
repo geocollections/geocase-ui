@@ -8,8 +8,8 @@
         class="py-2 font-weight-bold records-found"
         style="font-size: 1.5rem"
       >
-        <span class="mr-1" v-if="responseResultsCount">{{
-          responseResultsCount.toLocaleString()
+        <span class="mr-1">{{
+          responseResultsCount ? responseResultsCount.toLocaleString() : 0
         }}</span>
         <span class="mr-1">{{
           `record${responseResultsCount === 1 ? "" : "s"} found`
@@ -163,7 +163,7 @@ export default {
       });
     },
     tab(newVal) {
-      if (newVal === 2 && this.$refs?.map?.map) {
+      if (newVal === 2 && !!this.$refs?.map?.[0]?.map) {
         setTimeout(() => {
           this.$refs.map[0].map.invalidateSize();
         }, 100);

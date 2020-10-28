@@ -124,10 +124,7 @@
               :items="[item]"
             >
               <template v-slot:item.type_status="{ value }">
-                <div
-                  v-if="value === 'holotype'"
-                  class="font-weight-bold"
-                >
+                <div v-if="value === 'holotype' || value === 'neotype'" class="font-weight-bold">
                   {{ value }}
                 </div>
                 <div v-else>{{ value }}</div>

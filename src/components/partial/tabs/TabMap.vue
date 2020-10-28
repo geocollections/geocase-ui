@@ -9,7 +9,7 @@
           icon="fas fa-search"
           color="secondary"
         >
-          Couldn't find any localities with these search parameters.
+          Couldn't find any localities with these search parameters. Add filter so it would only show results which have georeferenced data. <v-btn>e</v-btn>
         </v-alert>
       </v-col>
     </v-row>
@@ -155,7 +155,7 @@ export default {
   },
 
   beforeDestroy() {
-    this.map.off("baselayerchange", this.handleLayerChange);
+    if (this.map) this.map.off("baselayerchange", this.handleLayerChange);
   },
 
   computed: {
@@ -197,7 +197,7 @@ export default {
 
   methods: {
     initMap() {
-      if (this.map === null) {
+      if (this.map === null && this.localities.length > 0) {
         this.map = L.map("map", {
           layers: [this.baseMaps[0].leafletObject],
           scrollWheelZoom: true
