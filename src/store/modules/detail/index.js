@@ -16,6 +16,7 @@ const state = {
     // { text: "Area", value: "area_name" },
     // { text: "Area type", value: "area_type" },
     { text: "Locality", value: "locality" },
+    { text: "Area", value: "area" },
     { text: "Latitude", value: "latitude" },
     { text: "Longitude", value: "longitude" },
     { text: "Stratigraphy", value: "stratigraphy" },
@@ -34,18 +35,23 @@ const state = {
     { text: "Type status", value: "type_status" }
   ],
   itemHeadersSecondary: [
+    { text: "Institution", value: "institutionHomepage" },
+    { text: "Dataset owner", value: "datasetowner" },
     { text: "Contact person", value: "contentContactName" },
     { text: "Contact e-mail", value: "contentContactEmail" },
     { text: "Contact phone", value: "contentContactPhone" },
     { text: "Contact address", value: "contentContactAddress" },
-    { text: "Institution", value: "institutionHomepage" },
     { text: "Contact data", value: "contactdata" },
-    { text: "Dataset owner", value: "datasetowner" },
     { text: "Data source country", value: "datasourcecountry" },
+    { text: "Copyright", value: "copyrights" },
+    { text: "Terms of use", value: "termsofusestatements" },
+    { text: "Disclaimer", value: "disclaimers" },
+    { text: "Acknowledgement", value: "acknowledgements" },
+    { text: "Last Edited", value: "dateLastEdited" },
     { text: "Last harvested", value: "last_harvested_processing" },
-    { text: "Provider name", value: "providername" },
-    { text: "Provider address", value: "provideraddress" },
-    { text: "Provider url", value: "providerurl" }
+    { text: "Provider name", value: "providername" }
+    // { text: "Provider address", value: "provideraddress" },
+    // { text: "Provider url", value: "providerurl" }
   ],
   isLoading: false
 };

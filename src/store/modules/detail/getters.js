@@ -31,6 +31,7 @@ const getters = {
         return header;
       } else if (header.value === "stratigraphy" && getters.itemStratigraphy)
         return header;
+      else if (header.value === "area" && getters.itemArea) return header;
     });
   },
 
@@ -61,6 +62,25 @@ const getters = {
       else if (
         header.value.includes("institutionHomepage") &&
         getters?.representationTitle
+      )
+        return header;
+      else if (header.value.includes("copyrights") && getters?.copyrights)
+        return header;
+      else if (
+        header.value.includes("termsofusestatements") &&
+        getters?.termsofusestatements
+      )
+        return header;
+      else if (header.value.includes("disclaimers") && getters?.disclaimers)
+        return header;
+      else if (
+        header.value.includes("acknowledgements") &&
+        getters?.acknowledgements
+      )
+        return header;
+      else if (
+        header.value.includes("dateLastEdited") &&
+        getters?.dateLastEdited
       )
         return header;
     });
@@ -177,7 +197,69 @@ const getters = {
     ]?.[0]?.["abcd:Metadata"]?.[0]?.["abcd:Description"]?.[0]?.[
       "abcd:Representation"
     ]?.[0]?.["abcd:URI"]?.[0];
-  }
+  },
+
+  copyrights: state => {
+    return state?.responseFromSource?.["abcd:DataSets"]?.[
+      "abcd:DataSet"
+    ]?.[0]?.["abcd:Metadata"]?.[0]?.["abcd:IPRStatements"]?.[0]?.[
+      "abcd:Copyrights"
+    ]?.[0]?.["abcd:Copyright"]?.[0]?.["abcd:Text"]?.[0];
+  },
+
+  termsofusestatements: state => {
+    return state?.responseFromSource?.["abcd:DataSets"]?.[
+      "abcd:DataSet"
+    ]?.[0]?.["abcd:Metadata"]?.[0]?.["abcd:IPRStatements"]?.[0]?.[
+      "abcd:TermsOfUseStatements"
+    ]?.[0]?.["abcd:TermsOfUse"]?.[0]?.["abcd:Text"]?.[0];
+  },
+
+  disclaimers: state => {
+    return state?.responseFromSource?.["abcd:DataSets"]?.[
+      "abcd:DataSet"
+    ]?.[0]?.["abcd:Metadata"]?.[0]?.["abcd:IPRStatements"]?.[0]?.[
+      "abcd:Disclaimers"
+    ]?.[0]?.["abcd:Disclaimer"]?.[0]?.["abcd:Text"]?.[0];
+  },
+
+  acknowledgements: state => {
+    return state?.responseFromSource?.["abcd:DataSets"]?.[
+      "abcd:DataSet"
+    ]?.[0]?.["abcd:Metadata"]?.[0]?.["abcd:IPRStatements"]?.[0]?.[
+      "abcd:Acknowledgements"
+    ]?.[0]?.["abcd:Acknowledgement"]?.[0]?.["abcd:Text"]?.[0];
+  },
+
+  dateLastEdited: state => {
+    return state?.responseFromSource?.["abcd:DataSets"]?.[
+      "abcd:DataSet"
+    ]?.[0]?.["abcd:Units"]?.[0]?.["abcd:Unit"]?.[0]?.[
+      "abcd:DateLastEdited"
+    ]?.[0];
+  },
+
+  itemArea: state => {
+    const area =
+      state?.responseFromSource?.["abcd:DataSets"]?.["abcd:DataSet"]?.[0]?.[
+        "abcd:Units"
+      ]?.[0]?.["abcd:Unit"]?.[0]?.["abcd:Gathering"]?.[0]?.["abcd:NamedAreas"];
+
+    if (area) {
+      let areaList = area.map(item => {
+        if (
+          item?.["abcd:NamedArea"]?.[0]?.["abcd:AreaClass"]?.[0]?.["_"] &&
+          item?.["abcd:NamedArea"]?.[0]?.["abcd:AreaName"]?.[0]?.["_"]
+        ) {
+          return `${item?.["abcd:NamedArea"]?.[0]?.["abcd:AreaClass"]?.[0]?.["_"]} : ${item?.["abcd:NamedArea"]?.[0]?.["abcd:AreaName"]?.[0]?.["_"]}`;
+        }
+      });
+      if (areaList && areaList.length > 0) return areaList;
+      else return null;
+    } else return null;
+  },
+
+  itemHighertaxon: state => {}
 };
 
 export default getters;

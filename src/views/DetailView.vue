@@ -133,6 +133,26 @@
                 </div>
               </template>
 
+              <template v-slot:item.area>
+                <div v-if="itemArea && itemArea.length > 0">
+                  <ul>
+                    <li v-for="(item, index) in itemArea" :key="index">
+                      {{ item }}
+                    </li>
+                  </ul>
+                </div>
+              </template>
+
+              <template v-slot:item.highertaxon>
+                <div v-if="itemHighertaxon && itemHighertaxon.length > 0">
+                  <ul>
+                    <li v-for="(item, index) in itemHighertaxon" :key="index">
+                      {{ item }}
+                    </li>
+                  </ul>
+                </div>
+              </template>
+
               <template v-slot:item.mindat_url="{ item }">
                 <a
                   style="text-decoration: unset;"
@@ -240,6 +260,37 @@
               :headers="filteredItemHeadersSecondary"
               :items="[item]"
             >
+              <template v-slot:item.institutionHomepage>
+                <div
+                  v-if="representationTitle || representationURI || logoURI"
+                  class="d-flex justify-start"
+                >
+                  <div
+                    class="align-self-center mr-3"
+                    v-if="representationTitle"
+                  >
+                    <a
+                      v-if="representationURI"
+                      class="text-decoration-none"
+                      :href="representationURI"
+                      :title="representationURI"
+                      target="InstitutionHomepage"
+                      >{{ representationTitle }}</a
+                    >
+                    <div v-else>{{ representationTitle }}</div>
+                  </div>
+
+                  <div v-if="logoURI">
+                    <v-img
+                      :src="logoURI"
+                      height="100"
+                      width="100"
+                      contain
+                    ></v-img>
+                  </div>
+                </div>
+              </template>
+
               <template v-slot:item.contentContactName>
                 <div>
                   {{ contentContactName }}
@@ -285,35 +336,28 @@
                 </div>
               </template>
 
-              <template v-slot:item.institutionHomepage>
-                <div
-                  v-if="representationTitle || representationURI || logoURI"
-                  class="d-flex justify-start"
-                >
-                  <div
-                    class="align-self-center mr-3"
-                    v-if="representationTitle"
-                  >
-                    <a
-                      v-if="representationURI"
-                      class="text-decoration-none"
-                      :href="representationURI"
-                      :title="representationURI"
-                      target="InstitutionHomepage"
-                      >{{ representationTitle }}</a
-                    >
-                    <div v-else>{{ representationTitle }}</div>
-                  </div>
+              <template v-slot:item.copyrights>
+                <div class="max-text-width">{{ copyrights }}</div>
+              </template>
 
-                  <div v-if="logoURI">
-                    <v-img
-                      :src="logoURI"
-                      height="100"
-                      width="100"
-                      contain
-                    ></v-img>
-                  </div>
-                </div>
+              <template v-slot:item.termsofusestatements>
+                <div class="max-text-width">{{ termsofusestatements }}</div>
+              </template>
+
+              <template v-slot:item.disclaimers>
+                <div class="max-text-width">{{ disclaimers }}</div>
+              </template>
+
+              <template v-slot:item.acknowledgements>
+                <div class="max-text-width">{{ acknowledgements }}</div>
+              </template>
+
+              <template v-slot:item.dateLastEdited>
+                <div>{{ dateLastEdited }}</div>
+              </template>
+
+              <template v-slot:item.last_harvested_processing>
+                <div>{{ computedLastHarvestedProcessing }}</div>
               </template>
 
               <template v-slot:item.providerurl="{ item }">
@@ -449,13 +493,20 @@ export default {
       "isItemRock",
       "isItemMeteorite",
       "itemStratigraphy",
+      "itemArea",
+      "itemHighertaxon",
       "contentContactName",
       "contentContactEmail",
       "contentContactPhone",
       "contentContactAddress",
       "logoURI",
       "representationTitle",
-      "representationURI"
+      "representationURI",
+      "copyrights",
+      "termsofusestatements",
+      "dateLastEdited",
+      "disclaimers",
+      "acknowledgements"
     ]),
 
     getSpecimenType() {
@@ -480,6 +531,15 @@ export default {
         0
       );
       return treeview;
+    },
+
+    computedLastHarvestedProcessing() {
+      if (this.item?.last_harvested_processing) {
+        if (this.item.last_harvested_processing.includes("T"))
+          return this.item.last_harvested_processing.split("T")[0];
+        else return this.item.last_harvested_processing;
+      }
+      return null;
     }
   },
 
@@ -621,7 +681,7 @@ export default {
 }
 
 .item-card >>> .v-data-table__mobile-row__header {
-  min-width: 135px;
+  min-width: 140px;
 }
 
 .item-card >>> .v-data-table td {
@@ -648,5 +708,9 @@ export default {
 .card-title--clickable:hover {
   opacity: 0.7;
   cursor: pointer;
+}
+
+.max-text-width {
+  max-width: 700px;
 }
 </style>
