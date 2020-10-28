@@ -32,6 +32,11 @@ const getters = {
       } else if (header.value === "stratigraphy" && getters.itemStratigraphy)
         return header;
       else if (header.value === "area" && getters.itemArea) return header;
+      else if (
+        header.value === "highertaxon" &&
+        (getters.itemArea || getters.item?.highertaxon)
+      )
+        return header;
     });
   },
 
@@ -259,7 +264,29 @@ const getters = {
     } else return null;
   },
 
-  itemHighertaxon: state => {}
+  itemHighertaxon: state => {
+    const highertaxon =
+      state?.responseFromSource?.["abcd:DataSets"]?.["abcd:DataSet"]?.[0]?.[
+        "abcd:Units"
+      ]?.[0]?.["abcd:Unit"]?.[0]?.["abcd:Identifications"]?.[0]?.[
+        "abcd:Identification"
+      ]?.[0]?.["abcd:Result"]?.[0]?.["abcd:TaxonIdentified"]?.[0]?.[
+        "abcd:HigherTaxa"
+      ]?.[0]?.["abcd:HigherTaxon"];
+
+    if (highertaxon) {
+      let highertaxonList = highertaxon.map(item => {
+        if (
+          item["abcd:HigherTaxonName"]?.[0] &&
+          item["abcd:HigherTaxonRank"]?.[0]
+        ) {
+          return `${item["abcd:HigherTaxonRank"]?.[0]} : ${item["abcd:HigherTaxonName"]?.[0]}`;
+        }
+      });
+      if (highertaxonList && highertaxonList.length > 0) return highertaxonList;
+      else return null;
+    } else return null;
+  }
 };
 
 export default getters;

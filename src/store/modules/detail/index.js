@@ -10,6 +10,7 @@ const state = {
     { text: "GeoCASe ID", value: "id" },
     { text: "Collection", value: "collectioncode" },
     { text: "Object ID", value: "unitid" },
+    { text: "Type status", value: "type_status" },
     // { text: "Rank", value: "higherrank" },
     { text: "Group", value: "highertaxon" },
     { text: "Country", value: "country" },
@@ -26,13 +27,12 @@ const state = {
     { text: "Taxon in Tree of Life", value: "taxon_id_tol" },
     { text: "Taxon in fossiilid.info", value: "taxon_id" },
     { text: "Record URI", value: "recordURI" },
-    { text: "Related resource", value: "relatedResource" },
+    { text: "Related resource", value: "relatedResource" }
     // { text: "Type status", value: "type_status" }
     // { text: "Type status", value: "type_status" },
     // { text: "Preservation", value: "" },
     // { text: "Reference(s) status", value: "" },
     // { text: "Taxonomy status", value: "" },
-    { text: "Type status", value: "type_status" }
   ],
   itemHeadersSecondary: [
     { text: "Institution", value: "institutionHomepage" },

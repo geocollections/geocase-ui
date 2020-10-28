@@ -123,6 +123,11 @@
               :headers="filteredItemHeaders"
               :items="[item]"
             >
+              <template v-slot:type_status="{ item, value }">
+                <div v-if="value === 'holotype'" class="font-weight-bold">{{ value }}</div>
+                <div v-else>{{ value }}</div>
+              </template>
+
               <template v-slot:item.stratigraphy>
                 <div v-if="itemStratigraphy && itemStratigraphy.length > 0">
                   <ul>
@@ -143,7 +148,7 @@
                 </div>
               </template>
 
-              <template v-slot:item.highertaxon>
+              <template v-slot:item.highertaxon="{ item }">
                 <div v-if="itemHighertaxon && itemHighertaxon.length > 0">
                   <ul>
                     <li v-for="(item, index) in itemHighertaxon" :key="index">
@@ -151,6 +156,7 @@
                     </li>
                   </ul>
                 </div>
+                <div v-else>{{ item.highertaxon }}</div>
               </template>
 
               <template v-slot:item.mindat_url="{ item }">
