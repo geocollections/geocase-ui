@@ -12,7 +12,7 @@ const state = {
       button: "View Fossils",
       url:
         '/search?recordbasis=("FossileSpecimen" "FossilSpecimen" "RecentPreservedSpecimen" "fossil")',
-      image: require("@/assets/front_page/fossil.png")
+      image: require("@/assets/front_page/fossil1.jpg")
     },
     {
       title: "Minerals",
@@ -20,7 +20,7 @@ const state = {
         "Minerals have certain chemical composition and crystal structure. They are the basic building blocks of all rocks.",
       button: "View Minerals",
       url: '/search?recordbasis="MineralSpecimen"',
-      image: require("@/assets/front_page/mineral_2.png")
+      image: require("@/assets/front_page/mineral1.jpg")
     },
     {
       title: "Rocks",
@@ -29,7 +29,7 @@ const state = {
       button: "View Rocks",
       url:
         '/search?recordbasis=("RockSpecimen" "SedimentSample" "TechnologicalSample")',
-      image: require("@/assets/front_page/rock.png")
+      image: require("@/assets/front_page/rock1.jpg")
     },
     {
       title: "Meteorites",
@@ -37,7 +37,7 @@ const state = {
         "Meteorites are space rocks that have fallen on Earth. They are composed of the same minerals as earthly rocks.",
       button: "View Meteorites",
       url: '/search?recordbasis="MeteoriteSpecimen"',
-      image: require("@/assets/front_page/meteorite_1.png")
+      image: require("@/assets/front_page/meteorite1.jpg")
     }
   ],
   showAlert: true
