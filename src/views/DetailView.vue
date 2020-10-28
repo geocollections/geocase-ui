@@ -123,9 +123,11 @@
               :headers="filteredItemHeaders"
               :items="[item]"
             >
-              <template v-slot:type_status="{ item, value }">
-                <div v-if="value === 'holotype'" class="font-weight-bold">{{ value }}</div>
-                <div v-else>{{ value }}</div>
+              <template v-slot:type_status="{ item }">
+                <div v-if="item.type_status === 'holotype'" class="font-weight-bold">
+                  {{ item.type_status }}
+                </div>
+                <div v-else>{{ item.type_status }}</div>
               </template>
 
               <template v-slot:item.stratigraphy>
