@@ -6,9 +6,9 @@
   >
     <v-row class="fill-height" align="center" justify="center">
       <v-col class="text-center" cols="12">
-        <h1 class="mb-2 font-weight-bold page-header">
+        <h1 class="mb-2 font-weight-bold page-header" style="font-size: 2.5rem;">
           GeoCASe 2.0
-          <div class="mt-2 hidden-sm-and-down">
+          <div class="mt-3 hidden-sm-and-down" style="font-size: 3rem;">
             The Earth Science Collections Portal
           </div>
         </h1>
