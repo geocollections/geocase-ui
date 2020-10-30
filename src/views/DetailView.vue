@@ -124,7 +124,10 @@
               :items="[item]"
             >
               <template v-slot:item.type_status="{ value }">
-                <div v-if="value === 'holotype' || value === 'neotype'" class="font-weight-bold">
+                <div
+                  v-if="value === 'holotype' || value === 'neotype'"
+                  class="font-weight-bold"
+                >
                   {{ value }}
                 </div>
                 <div v-else>{{ value }}</div>
@@ -132,7 +135,7 @@
 
               <template v-slot:item.stratigraphy>
                 <div v-if="itemStratigraphy && itemStratigraphy.length > 0">
-                  <ul>
+                  <ul class="circle-list">
                     <li v-for="(item, index) in itemStratigraphy" :key="index">
                       {{ item }}
                     </li>
@@ -142,7 +145,7 @@
 
               <template v-slot:item.area>
                 <div v-if="itemArea && itemArea.length > 0">
-                  <ul>
+                  <ul class="circle-list">
                     <li v-for="(item, index) in itemArea" :key="index">
                       {{ item }}
                     </li>
@@ -152,7 +155,7 @@
 
               <template v-slot:item.highertaxon="{ item }">
                 <div v-if="itemHighertaxon && itemHighertaxon.length > 0">
-                  <ul>
+                  <ul class="circle-list">
                     <li v-for="(item, index) in itemHighertaxon" :key="index">
                       {{ item }}
                     </li>
@@ -721,5 +724,9 @@ export default {
 
 .max-text-width {
   max-width: 700px;
+}
+
+.circle-list {
+  list-style-type: circle;
 }
 </style>
