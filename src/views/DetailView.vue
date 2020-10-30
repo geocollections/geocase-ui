@@ -595,6 +595,7 @@ export default {
         ) {
           querytoolUrl += `AND(col=${this.item.datasetownerabbrev})`;
         }
+        querytoolUrl += "&schema=http://www.tdwg.org/schemas/abcd/2.06";
         this.getDetailViewDataFromSource(querytoolUrl);
       }
     },
