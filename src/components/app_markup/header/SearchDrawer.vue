@@ -81,9 +81,9 @@
 
         <div class="my-2"></div>
 
-        <!-- CHECKBOXES -->
         <v-divider />
 
+        <!-- CHECKBOXES -->
         <v-card
           class="checkboxes"
           flat

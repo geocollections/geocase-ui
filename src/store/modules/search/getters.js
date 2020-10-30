@@ -21,7 +21,7 @@ const getters = {
 
   getActiveCheckboxesCount: state => field => {
     if (state.search[field].value) {
-      return state.search[field].value.split("OR").length;
+      return state.search[field].value.split('" "').length;
     } else return 0;
   },
 
