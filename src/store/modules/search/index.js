@@ -218,7 +218,7 @@ const state = {
     },
     { text: "Image", value: "url", align: "center", show: true, fixed: false }
   ],
-  isTableHeaderFixed: true
+  isTableHeaderFixed: false
 };
 
 export default {

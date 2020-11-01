@@ -17,17 +17,43 @@
         <a href="https://cetaf.org" target="FooterWindow"
           >CETAF Earth Sciences Group</a
         >.<br />
-        Portal software created and hosted by
+        Data by
+        <router-link to="/partners_and_providers"
+          >partner institutions</router-link
+        >
+        |
+        <a
+          href="https://github.com/geocollections/geocase-ui"
+          target="FooterWindow"
+          >Portal software</a
+        >
+        created and hosted by
         <a href="https://taltech.ee/en/department-geology" target="FooterWindow"
           >TalTech</a
         >
         and
         <a href="https://www.museumfuernaturkunde.berlin/" target="FooterWindow"
-          >Museum für Naturkunde</a
-        >. Data by
-        <router-link to="/partners_and_providers"
-          >partner institutions</router-link
-        >.
+          >MfN</a
+        >.<br />
+
+        <div class="d-flex flex-row justify-center">
+          <a
+            href="https://taltech.ee/en/department-geology"
+            target="FooterWindow"
+            ><v-img
+              src="https://files.geocollections.info/img/geocase/taltech1.png"
+              height="100"
+              contain
+          /></a>
+          <a
+            href="https://www.museumfuernaturkunde.berlin/"
+            target="FooterWindow"
+            ><v-img
+              src="https://files.geocollections.info/img/geocase/mfn1.png"
+              height="110"
+              contain
+          /></a>
+        </div>
       </v-card-text>
     </v-card>
   </v-footer>

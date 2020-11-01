@@ -194,7 +194,7 @@ export default {
       let appBottom =
         this.$vuetify.application.footer !== 0
           ? this.$vuetify.application.footer
-          : 82;
+          : 192;
       let recordsFoundHeight = document.getElementsByClassName(
         "records-found"
       )?.[0]?.clientHeight;
