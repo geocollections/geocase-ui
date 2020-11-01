@@ -125,7 +125,7 @@
             >
               <template v-slot:item.type_status="{ value }">
                 <div
-                  v-if="value === 'holotype' || value === 'neotype'"
+                  v-if="value === 'holotype' || value === 'neotype' || value === 'Holotypus' || value === 'Neotypus'"
                   class="font-weight-bold"
                 >
                   {{ value }}

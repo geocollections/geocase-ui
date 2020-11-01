@@ -112,10 +112,7 @@ function buildSearchFieldsQuery(search, searchIds) {
       if (type === "checkbox") {
         isExcluded = true;
 
-        encodedObject = `fq={!tag=${name}}${name}:`;
-        if (name === "highertaxon_checkbox")
-          encodedObject = "fq={!tag=highertaxon}highertaxon:";
-        encodedObject += `(${encodedValue})`;
+        encodedObject = `fq={!tag=${name}}${name}:(${encodedValue})`;
       } else {
         if (lookUpType === "") encodedObject += encodedValue;
         else if (lookUpType === "contains")
@@ -135,9 +132,8 @@ function buildSearchFieldsQuery(search, searchIds) {
     } else if (name === "q") encodedData.push("q=*");
 
     if (type === "checkbox") {
-      let field = name === "highertaxon_checkbox" ? "highertaxon" : name;
-      let facetField = `facet.field=${field}`;
-      if (isExcluded) facetField = `facet.field={!ex=${field}}${field}`;
+      let facetField = `facet.field=${name}`;
+      if (isExcluded) facetField = `facet.field={!ex=${name}}${name}`;
       facetFieldList.push(facetField);
     }
   });

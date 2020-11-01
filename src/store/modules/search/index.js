@@ -68,8 +68,8 @@ const state = {
       showCheckboxes: false,
       showMore: false
     },
-    highertaxon_checkbox: {
-      id: "highertaxon_checkbox",
+    highertaxon_facet: {
+      id: "highertaxon_facet",
       type: "checkbox",
       lookUpType: "",
       value: null,
@@ -146,7 +146,7 @@ const state = {
     "collectioncode",
     "unitid",
     "recordbasis",
-    "highertaxon_checkbox",
+    "highertaxon_facet",
     "type_status",
     "country",
     "datasetowner",
@@ -165,7 +165,7 @@ const state = {
   ],
   searchCheckboxIds: [
     "recordbasis",
-    "highertaxon_checkbox",
+    "highertaxon_facet",
     "type_status",
     "country",
     "datasetowner",
@@ -182,7 +182,7 @@ const state = {
     "smaller than"
   ],
   recordbasis: [],
-  highertaxon: [],
+  highertaxon_facet: [],
   type_status: [],
   country: [],
   datasetowner: [],
@@ -193,9 +193,9 @@ const state = {
     { text: "Paginate by 25", value: 25 },
     { text: "Paginate by 50", value: 50 },
     { text: "Paginate by 100", value: 100 },
-    // { text: "Paginate by 250", value: 250 },
-    // { text: "Paginate by 500", value: 500 },
-    // { text: "Paginate by 1000", value: 1000 }
+    { text: "Paginate by 250", value: 250 },
+    { text: "Paginate by 500", value: 500 },
+    { text: "Paginate by 1000", value: 1000 }
   ],
   searchParamsList: ["page", "paginate_by", "sort_by", "sort_desc"],
   allFieldNames: null,
