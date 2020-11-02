@@ -1,9 +1,9 @@
 import SearchService from "@/middleware/SearchService";
 
 const state = {
-  records: "1 088 789",
-  providername: "7",
-  providercountry: "4",
+  records: "1 089 567",
+  datasetowner: "8",
+  providercountry: "5",
   cards: [
     {
       title: "Fossils",
@@ -92,8 +92,8 @@ const getters = {
         count: state.records.toLocaleString()
       },
       {
-        text: "Number of Providers",
-        count: state.providername.toLocaleString()
+        text: "Number of Institutions",
+        count: state.datasetowner.toLocaleString()
       },
       {
         text: "Provider Countries",

@@ -34,7 +34,7 @@ export default {
   props: ["text", "count"],
   methods: {
     viewInfo() {
-      if (this.text === "Number of Providers") {
+      if (this.text === "Number of Institutions") {
         this.$router.push("partners_and_providers");
       } else if (this.text === "Provider Countries") {
         this.$router.push("partners_and_providers");

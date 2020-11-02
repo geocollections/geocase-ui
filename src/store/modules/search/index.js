@@ -45,13 +45,6 @@ const state = {
       value: null,
       label: "Locality"
     },
-    collectioncode: {
-      id: "collectioncode",
-      type: "text",
-      lookUpType: "contains",
-      value: null,
-      label: "Institution"
-    },
     unitid: {
       id: "unitid",
       type: "text",
@@ -143,7 +136,6 @@ const state = {
     "highertaxon",
     "stratigraphy",
     "locality",
-    "collectioncode",
     "unitid",
     "recordbasis",
     "highertaxon_facet",
@@ -160,7 +152,6 @@ const state = {
     "highertaxon",
     "stratigraphy",
     "locality",
-    "collectioncode",
     "unitid"
   ],
   searchCheckboxIds: [
