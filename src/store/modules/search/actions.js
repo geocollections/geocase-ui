@@ -5,7 +5,8 @@ const actions = {
     commit("UPDATE_PAGE", page);
   },
 
-  updatePaginateBy({ commit }, paginateBy) {
+  updatePaginateBy({ dispatch, commit, state }, paginateBy) {
+    if (state.page !== 1) dispatch("updatePage", 1);
     commit("UPDATE_PAGINATE_BY", paginateBy);
   },
 
