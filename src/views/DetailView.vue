@@ -27,85 +27,109 @@
           <!-- TITLE -->
           <v-card>
             <v-card-title class="primary--text" style="word-break: break-word;">
-              <div class="d-flex flex-column flex-nowrap">
-                <div class="mb-1">
-                  <span
-                    v-if="
-                      isItemFossil ||
-                        isItemMineral ||
-                        isItemRock ||
-                        isItemMeteorite
-                    "
-                  >
-                    <span class="mr-2">
-                      <v-icon small color="primary" v-if="isItemFossil"
-                        >fas fa-fish</v-icon
-                      >
-                      <v-icon small color="primary" v-else-if="isItemMineral"
-                        >far fa-gem</v-icon
-                      >
-                      <v-icon small color="primary" v-else-if="isItemRock"
-                        >fas fa-mountain</v-icon
-                      >
-                      <v-icon small color="primary" v-else-if="isItemMeteorite"
-                        >fas fa-meteor</v-icon
-                      >
+              <div
+                class="d-flex justify-start flex-wrap flex-grow-1 justify-space-between"
+              >
+                <div class="d-flex flex-column flex-nowrap">
+                  <div class="mb-1">
+                    <span
+                      v-if="
+                        isItemFossil ||
+                          isItemMineral ||
+                          isItemRock ||
+                          isItemMeteorite
+                      "
+                    >
+                      <span class="mr-2">
+                        <v-icon small color="primary" v-if="isItemFossil"
+                          >fas fa-fish</v-icon
+                        >
+                        <v-icon small color="primary" v-else-if="isItemMineral"
+                          >far fa-gem</v-icon
+                        >
+                        <v-icon small color="primary" v-else-if="isItemRock"
+                          >fas fa-mountain</v-icon
+                        >
+                        <v-icon
+                          small
+                          color="primary"
+                          v-else-if="isItemMeteorite"
+                          >fas fa-meteor</v-icon
+                        >
+                      </span>
+
+                      <span>{{ getSpecimenType }}</span>
                     </span>
 
-                    <span>{{ getSpecimenType }}</span>
-                  </span>
-
-                  <span
-                    v-if="
-                      (isItemFossil ||
-                        isItemMineral ||
-                        isItemRock ||
-                        isItemMeteorite) &&
-                        (item.collectioncode || item.unitid)
-                    "
-                  >
-                    -
-                  </span>
-
-                  <span
-                    class="font-weight-bold"
-                    v-if="item.collectioncode || item.unitid"
-                  >
-                    <span v-if="item.collectioncode"
-                      >{{ item.collectioncode }}
+                    <span
+                      v-if="
+                        (isItemFossil ||
+                          isItemMineral ||
+                          isItemRock ||
+                          isItemMeteorite) &&
+                          (item.collectioncode || item.unitid)
+                      "
+                    >
+                      -
                     </span>
-                    <span v-if="item.unitid">{{ item.unitid }}</span>
-                  </span>
+
+                    <span
+                      class="font-weight-bold"
+                      v-if="item.collectioncode || item.unitid"
+                    >
+                      <span v-if="item.collectioncode"
+                        >{{ item.collectioncode }}
+                      </span>
+                      <span v-if="item.unitid">{{ item.unitid }}</span>
+                    </span>
+                  </div>
+
+                  <h1
+                    :class="{ 'font-italic': isItemFossil }"
+                    class="font-weight-bold mb-1"
+                    style="font-size: 2rem;"
+                    v-if="item.fullscientificname"
+                  >
+                    {{ item.fullscientificname }}
+                  </h1>
+
+                  <h2
+                    style="font-size: 1.25rem;"
+                    v-if="filteredNames.length > 0"
+                  >
+                    <span class="font-weight-regular"
+                      >Identification<span v-if="filteredNames.length > 1"
+                        >s</span
+                      >:
+                    </span>
+                    <span
+                      :class="{ 'font-italic': isItemFossil }"
+                      v-for="(entity, index) in filteredNames"
+                      :key="index"
+                    >
+                      <span class="font-weight-bold">{{ entity }}</span>
+                      <span class="mx-1" v-if="index < filteredNames.length - 1"
+                        >|</span
+                      >
+                    </span>
+                  </h2>
+
+                  <div v-if="!item.fullscientificname && !filteredNames">
+                    GeoCASe ID: {{ item.id }}
+                  </div>
                 </div>
 
-                <h1
-                  :class="{ 'font-italic': isItemFossil }"
-                  class="font-weight-bold mb-1"
-                  style="font-size: 2rem;"
-                  v-if="item.fullscientificname"
+                <div
+                  v-if="logoURI"
+                  class="flex-grow-1"
+                  style="text-align: -webkit-right;"
                 >
-                  {{ item.fullscientificname }}
-                </h1>
-
-                <h2 style="font-size: 1.25rem;" v-if="filteredNames.length > 0">
-                  <span class="font-weight-regular"
-                    >Identification<span v-if="filteredNames.length > 1">s</span
-                    >:
-                  </span>
-                  <span
-                    :class="{ 'font-italic': isItemFossil }"
-                    v-for="(entity, index) in filteredNames"
-                    :key="index"
-                  >
-                    <span class="font-weight-bold">{{ entity }}</span>
-                    <span class="mx-1" v-if="index < filteredNames.length - 1"
-                      >|</span
-                    >
-                  </span>
-                </h2>
-
-                <div v-if="!item.fullscientificname && !filteredNames">
-                  GeoCASe ID: {{ item.id }}
+                  <v-img
+                    :src="logoURI"
+                    max-height="100"
+                    max-width="100"
+                    contain
+                  ></v-img>
                 </div>
               </div>
             </v-card-title>
@@ -278,7 +302,7 @@
             >
               <template v-slot:item.institutionHomepage>
                 <div
-                  v-if="representationTitle || representationURI || logoURI"
+                  v-if="representationTitle || representationURI"
                   class="d-flex justify-start"
                 >
                   <div
@@ -294,15 +318,6 @@
                       >{{ representationTitle }}</a
                     >
                     <div v-else>{{ representationTitle }}</div>
-                  </div>
-
-                  <div v-if="logoURI">
-                    <v-img
-                      :src="logoURI"
-                      height="100"
-                      width="100"
-                      contain
-                    ></v-img>
                   </div>
                 </div>
               </template>
@@ -743,5 +758,14 @@ export default {
 
 .circle-list {
   list-style-type: circle;
+}
+
+.title-logo {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+}
+
+.title-logo-sm {
 }
 </style>
