@@ -121,8 +121,7 @@
 
                 <div
                   v-if="logoURI"
-                  class="flex-grow-1"
-                  style="text-align: -webkit-right;"
+                  class="flex-grow-1 title-logo"
                 >
                   <v-img
                     :src="logoURI"
@@ -761,11 +760,8 @@ export default {
 }
 
 .title-logo {
-  position: absolute;
-  right: 0;
-  bottom: 0;
-}
-
-.title-logo-sm {
+  text-align: right;
+  text-align: -webkit-right;
+  text-align: -moz-right;
 }
 </style>
