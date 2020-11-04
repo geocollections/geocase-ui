@@ -4,7 +4,7 @@ module.exports = {
   devServer: {
     proxy: {
       "/api": {
-        target: "http://gc-api.geocollections.info/"
+        target: "http://geocase-api.geocollections.info/"
       }
     }
   },
