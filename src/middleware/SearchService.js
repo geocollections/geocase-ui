@@ -1,9 +1,10 @@
 import axios from "axios";
 
 const API_URL = "/api";
-const FACET_QUERY = "facet=on&facet.mincount=0&facet.limit=100";
+const FACET_QUERY =
+  "facet=on&facet.mincount=0&facet.limit=200&f.highertaxon_facet.facet.limit=100";
 const STATS_QUERY =
-  "facet=on&facet.field=datasetowner&facet.field=providercountry";
+  "facet=on&facet.field=datasetowner&facet.field=country&facet.limit=500";
 
 class SearchService {
   static async search(params) {
