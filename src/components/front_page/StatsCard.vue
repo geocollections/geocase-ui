@@ -36,8 +36,6 @@ export default {
     viewInfo() {
       if (this.text === "Number of Institutions") {
         this.$router.push("partners_and_providers");
-      } else if (this.text === "Countries with data") {
-        this.$router.push("partners_and_providers");
       } else this.$router.push("search");
     }
   }

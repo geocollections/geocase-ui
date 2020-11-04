@@ -49,7 +49,9 @@ const state = {
     { text: "Last Edited", value: "dateLastEdited" },
     { text: "Last harvested", value: "last_harvested_processing" },
     { text: "Provider name", value: "providername" },
+    { text: "Specimen verifier", value: "specimenVerifier" },
     { text: "GeoCASe ID", value: "id" },
+    { text: "UnitGUID", value: "unitGuid" }
     // { text: "Provider address", value: "provideraddress" },
     // { text: "Provider url", value: "providerurl" }
   ],

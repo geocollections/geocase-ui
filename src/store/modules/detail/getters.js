@@ -29,12 +29,12 @@ const getters = {
     return state.itemHeaders.filter(header => {
       if (getters.item[header.value]) {
         return header;
-      } else if (header.value === "stratigraphy" && getters.itemStratigraphy)
+      } else if (header.value === "stratigraphy" && getters?.itemStratigraphy)
         return header;
-      else if (header.value === "area" && getters.itemArea) return header;
+      else if (header.value === "area" && getters?.itemArea) return header;
       else if (
         header.value === "highertaxon" &&
-        (getters.itemArea || getters.item?.highertaxon)
+        (getters?.itemArea || getters.item?.highertaxon)
       )
         return header;
     });
@@ -45,49 +45,46 @@ const getters = {
       if (getters.item[header.value]) {
         return header;
       } else if (
-        header.value.includes("contentContactName") &&
+        header.value === "contentContactName" &&
         getters?.contentContactName
       )
         return header;
       else if (
-        header.value.includes("contentContactEmail") &&
+        header.value === "contentContactEmail" &&
         getters?.contentContactEmail
       )
         return header;
       else if (
-        header.value.includes("contentContactPhone") &&
+        header.value === "contentContactPhone" &&
         getters?.contentContactPhone
       )
         return header;
       else if (
-        header.value.includes("contentContactAddress") &&
+        header.value === "contentContactAddress" &&
         getters?.contentContactAddress
       )
         return header;
       else if (
-        header.value.includes("institutionHomepage") &&
+        header.value === "institutionHomepage" &&
         getters?.representationTitle
       )
         return header;
-      else if (header.value.includes("copyrights") && getters?.copyrights)
+      else if (header.value === "copyrights" && getters?.copyrights)
         return header;
       else if (
-        header.value.includes("termsofusestatements") &&
+        header.value === "termsofusestatements" &&
         getters?.termsofusestatements
       )
         return header;
-      else if (header.value.includes("disclaimers") && getters?.disclaimers)
+      else if (header.value === "disclaimers" && getters?.disclaimers)
         return header;
-      else if (
-        header.value.includes("acknowledgements") &&
-        getters?.acknowledgements
-      )
+      else if (header.value === "acknowledgements" && getters?.acknowledgements)
         return header;
-      else if (
-        header.value.includes("dateLastEdited") &&
-        getters?.dateLastEdited
-      )
+      else if (header.value === "dateLastEdited" && getters?.dateLastEdited)
         return header;
+      else if (header.value === "specimenVerifier" && getters?.specimenVerifier)
+        return header;
+      else if (header.value === "unitGuid" && getters?.unitGuid) return header;
     });
   },
 
@@ -150,7 +147,7 @@ const getters = {
             item["efg:ChronostratigraphicName"] &&
             item["efg:ChronoStratigraphicDivision"]
           ) {
-            return `${item["efg:ChronoStratigraphicDivision"]} : ${item["efg:ChronostratigraphicName"]}`;
+            return `${item["efg:ChronoStratigraphicDivision"]}: ${item["efg:ChronostratigraphicName"]}`;
           }
         })
         .filter(item => item);
@@ -171,7 +168,11 @@ const getters = {
   },
 
   contentContactEmail: (state, getters) => {
-    return getters?.contentContact?.["abcd:Email"]?.[0];
+    let email = getters?.contentContact?.["abcd:Email"]?.[0];
+    if (email) {
+      if (email.includes("(at)")) email = email.replace("(at)", "@");
+      return email;
+    } else return null;
   },
 
   contentContactPhone: (state, getters) => {
@@ -199,11 +200,21 @@ const getters = {
   },
 
   representationURI: state => {
-    return state?.responseFromSource?.["abcd:DataSets"]?.[
-      "abcd:DataSet"
-    ]?.[0]?.["abcd:Metadata"]?.[0]?.["abcd:Description"]?.[0]?.[
-      "abcd:Representation"
-    ]?.[0]?.["abcd:URI"]?.[0];
+    let representationUrl =
+      state?.responseFromSource?.["abcd:DataSets"]?.["abcd:DataSet"]?.[0]?.[
+        "abcd:Metadata"
+      ]?.[0]?.["abcd:Description"]?.[0]?.["abcd:Representation"]?.[0]?.[
+        "abcd:URI"
+      ]?.[0];
+    let ownerUrl =
+      state?.responseFromSource?.["abcd:DataSets"]?.["abcd:DataSet"]?.[0]?.[
+        "abcd:Metadata"
+      ]?.[0]?.["abcd:Owners"]?.[0]?.["abcd:Owner"]?.[0]?.["abcd:URIs"]?.[0]?.[
+        "abcd:URL"
+      ]?.[0];
+    if (representationUrl) return representationUrl;
+    else if (ownerUrl) return ownerUrl;
+    else return null;
   },
 
   copyrights: state => {
@@ -244,9 +255,18 @@ const getters = {
         "abcd:Units"
       ]?.[0]?.["abcd:Unit"]?.[0]?.["abcd:DateLastEdited"]?.[0];
 
-    if (dateLastEdited && dateLastEdited.includes("T"))
-      return dateLastEdited.split("T")[0];
-    else return dateLastEdited;
+    let dateModified =
+      state?.responseFromSource?.["abcd:DataSets"]?.["abcd:DataSet"]?.[0]?.[
+        "abcd:Metadata"
+      ]?.[0]?.["abcd:RevisionData"]?.[0]?.["abcd:DateModified"]?.[0];
+
+    if (dateLastEdited) {
+      if (dateLastEdited.includes("T")) return dateLastEdited.split("T")[0];
+      else return dateLastEdited;
+    } else if (dateModified) {
+      if (dateModified.includes("T")) return dateModified.split("T")[0];
+      else return dateModified;
+    } else return null;
   },
 
   itemArea: state => {
@@ -266,7 +286,7 @@ const getters = {
             areaClass = areaClass?.["_"] ? areaClass?.["_"] : areaClass;
             areaName = areaName?.["_"] ? areaName?.["_"] : areaName;
 
-            return `${areaClass} : ${areaName}`;
+            return `${areaClass}: ${areaName}`;
           }
         })
         .filter(item => item);
@@ -292,13 +312,29 @@ const getters = {
             item["abcd:HigherTaxonName"]?.[0] &&
             item["abcd:HigherTaxonRank"]?.[0]
           ) {
-            return `${item["abcd:HigherTaxonRank"]?.[0]} : ${item["abcd:HigherTaxonName"]?.[0]}`;
+            return `${item["abcd:HigherTaxonRank"]?.[0]}: ${item["abcd:HigherTaxonName"]?.[0]}`;
           }
         })
         .filter(item => item);
       if (highertaxonList && highertaxonList.length > 0) return highertaxonList;
       else return null;
     } else return null;
+  },
+
+  specimenVerifier: state => {
+    return state?.responseFromSource?.["abcd:DataSets"]?.[
+      "abcd:DataSet"
+    ]?.[0]?.["abcd:Units"]?.[0]?.["abcd:Unit"]?.[0]?.[
+      "abcd:SpecimenUnit"
+    ]?.[0]?.["abcd:NomenclaturalTypeDesignations"]?.[0]?.[
+      "abcd:NomenclaturalTypeDesignation"
+    ]?.[0]?.["abcd:Verifier"]?.[0]?.["abcd:FullName"]?.[0];
+  },
+
+  unitGuid: state => {
+    return state?.responseFromSource?.["abcd:DataSets"]?.[
+      "abcd:DataSet"
+    ]?.[0]?.["abcd:Units"]?.[0]?.["abcd:Unit"]?.[0]?.["abcd:UnitGUID"]?.[0];
   }
 };
 

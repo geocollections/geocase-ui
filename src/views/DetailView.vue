@@ -125,7 +125,12 @@
             >
               <template v-slot:item.type_status="{ value }">
                 <div
-                  v-if="value === 'holotype' || value === 'neotype' || value === 'Holotypus' || value === 'Neotypus'"
+                  v-if="
+                    value === 'holotype' ||
+                      value === 'neotype' ||
+                      value === 'Holotypus' ||
+                      value === 'Neotypus'
+                  "
                   class="font-weight-bold"
                 >
                   {{ value }}
@@ -336,7 +341,7 @@
                 <div v-if="contentContactAddress">
                   <a
                     :href="
-                      `https://www.google.com/maps/place/${contentContactAddress}`
+                      `https://www.google.com/maps/search/?api=1&query=${contentContactAddress}`
                     "
                     target="GoogleMapsWindow"
                     class="text-decoration-none"
@@ -379,6 +384,14 @@
                   style="text-decoration: unset;"
                   >{{ item.providerurl }}</a
                 >
+              </template>
+
+              <template v-slot:item.specimenVerifier>
+                <div>{{ specimenVerifier }}</div>
+              </template>
+
+              <template v-slot:item.unitGuid>
+                <div>{{ unitGuid }}</div>
               </template>
             </v-data-table>
           </v-card>
@@ -517,7 +530,9 @@ export default {
       "termsofusestatements",
       "dateLastEdited",
       "disclaimers",
-      "acknowledgements"
+      "acknowledgements",
+      "specimenVerifier",
+      "unitGuid"
     ]),
 
     getSpecimenType() {
