@@ -29,13 +29,23 @@
 </template>
 
 <script>
+import { mapActions, mapState } from "vuex";
+
 export default {
   name: "StatsCard",
   props: ["text", "count"],
+  computed: {
+    ...mapState("search", ["search"])
+  },
   methods: {
+    ...mapActions("search", ["updateSearchField"]),
     viewInfo() {
       if (this.text === "Number of Institutions") {
         this.$router.push("partners_and_providers");
+      } else if (this.text === "Countries with data") {
+        if (!this.search["country"].showCheckboxes)
+          this.updateSearchField({ id: "country", showCheckboxes: true });
+        this.$router.push("search");
       } else this.$router.push("search");
     }
   }
