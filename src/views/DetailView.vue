@@ -121,12 +121,12 @@
 
                 <div
                   v-if="logoURI"
-                  class="flex-grow-1 title-logo"
+                  class="flex-grow-1 title-logo align-self-center"
                 >
                   <v-img
                     :src="logoURI"
-                    max-height="100"
-                    max-width="100"
+                    :max-height="$vuetify.breakpoint.mdAndDown ? '75' : '100'"
+                    :max-width="$vuetify.breakpoint.mdAndDown ? '75' : '100'"
                     contain
                   ></v-img>
                 </div>
