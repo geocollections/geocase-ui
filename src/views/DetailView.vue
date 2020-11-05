@@ -617,7 +617,11 @@ export default {
     },
 
     getDetailViewDataDirectly() {
-      if (this.item?.datasourceurl && this.item?.unitid) {
+      if (
+        this.item?.datasourceurl &&
+        this.item?.unitid &&
+        this.item?.datasourceurl.includes("pywrapper")
+      ) {
         let querytoolUrl =
           this.item.datasourceurl.replace("pywrapper", "querytool/raw") +
           `&filter=(cat=${this.item.unitid})`;
