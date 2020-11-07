@@ -6,7 +6,7 @@
       fab
       fixed
       bottom
-      left
+      right
       color="amber"
       dark
       @click="toTop"
@@ -27,7 +27,7 @@ export default {
 
   computed: {
     style() {
-      return "z-index: 1600;";
+      return "z-index: 51600;";
     }
   },
 

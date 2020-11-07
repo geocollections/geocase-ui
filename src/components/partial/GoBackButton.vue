@@ -25,7 +25,7 @@ export default {
   name: "GoBackButton",
   computed: {
     style() {
-      return `top: ${this.$vuetify.application.top + 16}px`;
+      return `top: ${this.$vuetify.application.top + 16}px; z-index: 51600;`;
     }
   }
 };
