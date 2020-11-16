@@ -56,7 +56,7 @@ const actions = {
     } catch (err) {
       dispatch(
         "settings/updateErrorMessage",
-        `<b>Name:</b> ${err.name}<br /><b>Message:</b> ${err.message}`,
+        `<b>Failed to fetch statistics</b><br /><b>Name:</b> ${err.name}<br /><b>Message:</b> ${err.message}`,
         { root: true }
       );
       if (!rootState.settings.error)

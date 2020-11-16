@@ -58,7 +58,7 @@ const actions = {
     } catch (err) {
       dispatch(
         "settings/updateErrorMessage",
-        `<b>Name:</b> ${err.name}<br /><b>Message:</b> ${err.message}`,
+        `<b>Failed to fetch search results!</b><br /><b>Name:</b> ${err.name}<br /><b>Message:</b> ${err.message}`,
         { root: true }
       );
       if (!rootState.settings.error)
@@ -80,7 +80,7 @@ const actions = {
     } catch (err) {
       dispatch(
         "settings/updateErrorMessage",
-        `<b>Name:</b> ${err.name}<br /><b>Message:</b> ${err.message}`,
+        `<b>Failed to fetch field names!</b><br /<b>Name:</b> ${err.name}<br /><b>Message:</b> ${err.message}`,
         { root: true }
       );
       if (!rootState.settings.error)

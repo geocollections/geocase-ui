@@ -22,7 +22,7 @@ const actions = {
     } catch (err) {
       dispatch(
         "settings/updateErrorMessage",
-        `<b>Name:</b> ${err.name}<br /><b>Message:</b> ${err.message}`,
+        `<b>Failed to item with an ID: ${id}!</b><br /><b>Name:</b> ${err.name}<br /><b>Message:</b> ${err.message}`,
         { root: true }
       );
       if (!rootState.settings.error)
@@ -48,7 +48,7 @@ const actions = {
     } catch (err) {
       dispatch(
         "settings/updateErrorMessage",
-        `<b>Name:</b> ${err.name}<br /><b>Message:</b> ${err.message}`,
+        `<b>Failed to fetch data directly from source!</b><br /><b>Name:</b> ${err.name}<br /><b>Message:</b> ${err.message}`,
         { root: true }
       );
       if (!rootState.settings.error)
