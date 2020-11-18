@@ -65,12 +65,14 @@ export default {
 
       set: debounce(function(value) {
         this.updateSearchField({ id: "q", value: value });
+        // #112
+        if (this.search.page !== 1) this.updatePage(1);
       }, 250)
     }
   },
 
   methods: {
-    ...mapActions("search", ["updateSearchField"]),
+    ...mapActions("search", ["updateSearchField", "updatePage"]),
 
     doFastSearch(event) {
       if (

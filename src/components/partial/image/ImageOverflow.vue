@@ -8,7 +8,7 @@
     style="z-index: 3000;"
     no-click-animation
   >
-    <v-card tile dark>
+    <v-card tile>
       <v-toolbar dark color="primary" height="64">
         <v-tooltip bottom>
           <template v-slot:activator="{ on }">
@@ -138,7 +138,7 @@
           cols="4"
           sm="3"
           xl="2"
-          style="max-height: calc(100vh - 64px); overflow-y: auto"
+          style="height: calc(100vh - 64px); overflow-y: auto"
         >
           <v-row no-gutters>
             <v-col
@@ -261,9 +261,11 @@ export default {
 }
 
 .image-overflow--gallery {
-  box-shadow: -3px 0 1px -2px rgba(255, 255, 255, 0.2),
-    -2px 0 2px 0 rgba(255, 255, 255, 0.14),
-    -1px 0 5px 0 rgba(255, 255, 255, 0.12);
+  /*box-shadow: -3px 0 1px -2px rgba(255, 255, 255, 0.2),*/
+  /*  -2px 0 2px 0 rgba(255, 255, 255, 0.14),*/
+  /*  -1px 0 5px 0 rgba(255, 255, 255, 0.12);*/
+  box-shadow: 0 2px 4px -1px rgba(0,0,0,.2), 0 4px 5px 0 rgba(0,0,0,.14), 0 1px 10px 0 rgba(0,0,0,.12);
+  /*box-shadow: 0 2px 4px -1px rgba(0,0,0,.2), 0 4px 5px 0 rgba(0,0,0,.14), 0 1px 10px 0 rgba(0,0,0,.12);*/
 }
 
 .active-outline {

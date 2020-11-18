@@ -120,12 +120,7 @@
                     small
                     color="error"
                     icon
-                    @click.stop="
-                      updateSearchField({
-                        id: id,
-                        value: null
-                      })
-                    "
+                    @click.stop="resetFacet(id)"
                   >
                     <v-badge color="transparent" bottom overlap
                       ><v-icon small>fas fa-trash</v-icon>
@@ -230,7 +225,7 @@
             :label="search[id].label"
             true-value="true"
             :false-value="null"
-            @change="updateSearchField({ id: id, value: $event })"
+            @change="updateSearchFieldDebounced({ id: id, value: $event })"
             hide-details
             dense
           />
@@ -373,11 +368,14 @@ export default {
       "updateSearchField",
       "resetSearch",
       "updateTableHeaders",
-      "updateTableHeaderFixedState"
+      "updateTableHeaderFixedState",
+      "updatePage"
     ]),
 
     updateSearchFieldDebounced: debounce(function(value) {
       this.updateSearchField(value);
+      // #112
+      if (this.search.page !== 1) this.updatePage(1);
     }, 300),
 
     updateCheckbox(event) {
@@ -395,10 +393,21 @@ export default {
         }
       }
       this.updateSearchField({ id: e.id, value: e.value });
+      // #112
+      if (this.search.page !== 1) this.updatePage(1);
     },
 
     reset() {
       this.resetSearch();
+    },
+
+    resetFacet(id) {
+      this.updateSearchField({
+        id: id,
+        value: null
+      });
+      // #112
+      if (this.search.page !== 1) this.updatePage(1);
     }
   }
 };

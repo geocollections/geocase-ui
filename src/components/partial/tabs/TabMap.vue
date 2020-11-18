@@ -19,7 +19,7 @@
             <v-btn
               x-small
               color="secondary"
-              @click="updateSearchField({ id: 'has_map', value: 'true' })"
+              @click="$emit('add:filter', { id: 'has_map', value: 'true'} )"
               >Add filter</v-btn
             >
           </div>
