@@ -29,7 +29,16 @@
               icon="fas fa-search"
               color="secondary"
             >
-              Couldn't find any records with these search parameters.
+              <div>
+                Couldn't find any records with these search parameters.
+              </div>
+
+              <div>
+                <v-btn x-small color="error" @click="resetSearch">
+                  Reset search
+                  <v-icon x-small right>far fa-trash-alt</v-icon>
+                </v-btn>
+              </div>
             </v-alert>
           </v-col>
         </v-row>
@@ -120,7 +129,7 @@
 
 <script>
 import { throttle } from "lodash";
-import { mapGetters, mapState } from "vuex";
+import { mapActions, mapGetters, mapState } from "vuex";
 
 export default {
   name: "TabTable",
@@ -184,6 +193,8 @@ export default {
   },
 
   methods: {
+    ...mapActions("search", ["resetSearch"]),
+
     calculateTableHeight: throttle(function() {
       let innerHeight = window?.innerHeight;
       let paddingTotal = 24;

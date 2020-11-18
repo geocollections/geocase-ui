@@ -10,8 +10,6 @@ const queryMixin = {
     ...mapActions("search", ["updateSearchField", "updateSearchParam"]),
 
     constructQueryParams(search, searchParams) {
-      console.log(search)
-      console.log(searchParams)
       // let appendableQuery = clone(this.$route.query);
       let appendableQuery = { ...this.$route.query };
 

@@ -142,6 +142,7 @@ export default {
 
   watch: {
     "$route.query"() {
+      // this.deconstructQueryParams(newVal);
       this.search();
     },
     page(newVal) {

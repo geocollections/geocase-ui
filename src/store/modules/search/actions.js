@@ -18,8 +18,12 @@ const actions = {
     commit("UPDATE_SORT_DESC", sortDesc);
   },
 
-  updateSearchField({ commit, state }, payload) {
-    if (payload.id) commit("UPDATE_SEARCH_FIELD", payload);
+  updateSearchField({ dispatch, commit, state }, payload) {
+    if (payload.id) {
+      // #112 resetting page number after facet (search field) change
+      if ("value" in payload && state.page !== 1) dispatch("updatePage", 1);
+      commit("UPDATE_SEARCH_FIELD", payload);
+    }
   },
 
   updateSearchParam({ commit }, payload) {

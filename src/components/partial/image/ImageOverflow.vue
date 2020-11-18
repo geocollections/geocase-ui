@@ -207,7 +207,6 @@ export default {
   },
   watch: {
     dialog(newVal) {
-      console.log(newVal);
       if (newVal) window.addEventListener("keyup", this.handleKeyup);
       else window.removeEventListener("keyup", this.handleKeyup);
     }
@@ -226,7 +225,6 @@ export default {
     },
 
     handleKeyup(event) {
-      console.log(event);
       if (event?.keyCode === 39) this.showNext();
       if (event?.keyCode === 37) this.showPrev();
       if (event?.keyCode === 27) this.$emit("close:dialog");
