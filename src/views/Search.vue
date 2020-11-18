@@ -148,13 +148,7 @@ export default {
       this.constructQueryParams(null, { page: newVal.toString() });
     },
     paginateBy(newVal) {
-      if (this.page !== 1) {
-        this.constructQueryParams(null, {
-          paginate_by: newVal,
-          page: 1
-        });
-      } else
-        this.constructQueryParams(null, { paginate_by: newVal.toString() });
+      this.constructQueryParams(null, { paginate_by: newVal.toString() });
     },
     sortDesc(newVal) {
       this.constructQueryParams(null, {
