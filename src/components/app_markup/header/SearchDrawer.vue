@@ -369,11 +369,18 @@ export default {
       "resetSearch",
       "updateTableHeaders",
       "updateTableHeaderFixedState",
-      "updatePage"
+      "updatePage",
+      "updateSortBy",
+      "updateSortDesc"
     ]),
 
     updateSearchFieldDebounced: debounce(function(value) {
       this.updateSearchField(value);
+      // #113 removing sorting
+      if (value?.id === "q") {
+        this.updateSortBy([]);
+        this.updateSortDesc([]);
+      }
       // #112
       if (this.search.page !== 1) this.updatePage(1);
     }, 300),

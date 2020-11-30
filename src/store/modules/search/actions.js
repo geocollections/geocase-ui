@@ -11,10 +11,12 @@ const actions = {
   },
 
   updateSortBy({ commit }, sortBy) {
+    console.log(sortBy)
     commit("UPDATE_SORT_BY", sortBy);
   },
 
   updateSortDesc({ commit }, sortDesc) {
+    console.log(sortDesc)
     commit("UPDATE_SORT_DESC", sortDesc);
   },
 

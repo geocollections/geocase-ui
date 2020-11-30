@@ -4,7 +4,12 @@ module.exports = {
   devServer: {
     proxy: {
       "/api": {
-        target: "http://geocase-api.geocollections.info/"
+        target: "http://geocase-api.geocollections.info/",
+        changeOrigin: true,
+        pathRewrite: {
+          "^/api/repeat": "/v1/repeat",
+          "^/api": "/v1/solr"
+        }
       }
     }
   },

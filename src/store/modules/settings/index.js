@@ -41,7 +41,7 @@ const state = {
     {
       icon: "fas fa-laptop-code",
       text: "GeoCASe API",
-      url: "http://geocase-api.geocollections.info/api-docs"
+      url: "http://geocase-api.geocollections.info/"
     }
   ]
 };

@@ -65,6 +65,9 @@ export default {
 
       set: debounce(function(value) {
         this.updateSearchField({ id: "q", value: value });
+        // #113 removing sorting
+        this.updateSortBy([]);
+        this.updateSortDesc([]);
         // #112
         if (this.search.page !== 1) this.updatePage(1);
       }, 250)
@@ -72,7 +75,7 @@ export default {
   },
 
   methods: {
-    ...mapActions("search", ["updateSearchField", "updatePage"]),
+    ...mapActions("search", ["updateSearchField", "updatePage", "updateSortBy", "updateSortDesc"]),
 
     doFastSearch(event) {
       if (
