@@ -11,7 +11,11 @@
           style="font-size: 2.5rem;"
         >
           GeoCASe 2.0
-          <div class="hidden-sm-and-down" :class="$vuetify.breakpoint.xlOnly ? 'mt-8' : 'mt-4'" :style="titleStyleObject">
+          <div
+            class="hidden-sm-and-down"
+            :class="$vuetify.breakpoint.xlOnly ? 'mt-8' : 'mt-4'"
+            :style="titleStyleObject"
+          >
             The Earth Science Collections Portal
           </div>
         </h1>
@@ -32,7 +36,7 @@ export default {
     titleStyleObject() {
       return {
         fontSize: this.$vuetify.breakpoint.xlOnly ? "4rem" : "3.125rem"
-      }
+      };
     }
   }
 };
