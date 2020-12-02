@@ -11,7 +11,7 @@
           style="font-size: 2.5rem;"
         >
           GeoCASe 2.0
-          <div class="mt-3 hidden-sm-and-down" style="font-size: 3rem;">
+          <div class="hidden-sm-and-down" :class="$vuetify.breakpoint.xlOnly ? 'mt-8' : 'mt-4'" :style="titleStyleObject">
             The Earth Science Collections Portal
           </div>
         </h1>
@@ -27,7 +27,14 @@ import FastSearch from "@/components/search/FastSearch";
 
 export default {
   name: "LandingImage",
-  components: { FastSearch }
+  components: { FastSearch },
+  computed: {
+    titleStyleObject() {
+      return {
+        fontSize: this.$vuetify.breakpoint.xlOnly ? "4rem" : "3.125rem"
+      }
+    }
+  }
 };
 </script>
 
