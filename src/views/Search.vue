@@ -101,6 +101,7 @@ import Pagination from "@/components/search/Pagination";
 import TabImages from "@/components/partial/tabs/TabImages";
 import TabMap from "@/components/partial/tabs/TabMap";
 import TabTable from "@/components/partial/tabs/TabTable";
+import { debounce } from "lodash";
 
 export default {
   name: "Search",
@@ -145,18 +146,18 @@ export default {
       // this.deconstructQueryParams(newVal);
       this.search();
     },
-    page(newVal) {
+    page: debounce(function(newVal) {
       this.constructQueryParams(null, { page: newVal.toString() });
-    },
-    paginateBy(newVal) {
+    }, 300),
+    paginateBy: debounce(function(newVal) {
       this.constructQueryParams(null, { paginate_by: newVal.toString() });
-    },
-    sortDesc(newVal) {
+    }, 300),
+    sortDesc: debounce(function(newVal) {
       this.constructQueryParams(null, {
         sort_desc: newVal,
         sort_by: this.sortBy
       });
-    },
+    }, 300),
     tab(newVal) {
       if (newVal === 2 && !!this.$refs?.map?.[0]?.map) {
         setTimeout(() => {
@@ -179,7 +180,11 @@ export default {
       this.tab = 1;
       await new Promise(resolve => setTimeout(resolve, 200));
       this.$refs.imageTab[0].openDialogUsingImage(image);
-    }
+    },
+
+    updateSearchParamDebounced: debounce(function(action, value) {
+      action(value);
+    }, 300)
   }
 };
 </script>
