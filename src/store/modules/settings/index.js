@@ -43,7 +43,8 @@ const state = {
       text: "GeoCASe API",
       url: "http://geocase-api.geocollections.info/"
     }
-  ]
+  ],
+  language: "en"
 };
 
 const actions = {
@@ -57,6 +58,10 @@ const actions = {
 
   updateSearchDrawerState({ commit, state }, bool) {
     if (state.searchDrawer !== bool) commit("UPDATE_SEARCH_DRAWER_STATE", bool);
+  },
+
+  updateLanguage({ commit }, language) {
+    commit("UPDATE_LANGUAGE", language);
   }
 };
 
@@ -72,6 +77,10 @@ const mutations = {
   UPDATE_SEARCH_DRAWER_STATE(state, bool) {
     // console.log("updating");
     state.searchDrawer = bool;
+  },
+
+  UPDATE_LANGUAGE(state, language) {
+    state.language = language;
   }
 };
 
