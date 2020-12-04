@@ -1,1 +1,5 @@
-{}
+{
+  "messages": {
+    "languageChange": "Changed language! Support for other languages coming soon!"
+  }
+}

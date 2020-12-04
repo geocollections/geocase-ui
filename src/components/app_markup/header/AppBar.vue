@@ -83,7 +83,14 @@
       />
 
       <v-toolbar-items>
-        <v-menu v-model="externalResourcesDropdown" offset-y z-index="2101">
+        <LangButtons />
+
+        <v-menu
+          transition="slide-y-transition"
+          v-model="externalResourcesDropdown"
+          offset-y
+          z-index="2101"
+        >
           <template v-slot:activator="{ on }">
             <v-btn text v-on="on">
               Resources
@@ -129,10 +136,11 @@
 <script>
 import { mapGetters, mapState } from "vuex";
 import FastSearch from "@/components/search/FastSearch";
+import LangButtons from "@/components/partial/LangButtons";
 export default {
   name: "AppBar",
 
-  components: { FastSearch },
+  components: { LangButtons, FastSearch },
 
   data: () => ({
     externalResourcesDropdown: false

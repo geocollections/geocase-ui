@@ -1,6 +1,7 @@
 const routes = require("./src/router/routes.js");
 
 module.exports = {
+  transpileDependencies: ["vuetify"],
   devServer: {
     proxy: {
       "/api": {
