@@ -5,7 +5,7 @@
     <v-main
       :class="{
         'pt-2': $route.name === 'FrontPage',
-        'custom-pb': $vuetify.breakpoint.smAndDown
+        'custom-pb': $vuetify.breakpoint.smAndDown,
       }"
     >
       <router-view />
@@ -30,13 +30,13 @@ export default {
   components: {
     CookieLaw,
     AppFooter,
-    AppHeader
+    AppHeader,
   },
 
   mixins: [toastMixin],
 
   computed: {
-    ...mapState("cookie", ["cookieLaw"])
+    ...mapState("cookie", ["cookieLaw"]),
   },
 
   created() {
@@ -47,8 +47,8 @@ export default {
   methods: {
     ...mapActions("frontpage", ["getStats"]),
     ...mapActions("search", ["getAllFieldNames"]),
-    ...mapActions("cookie", ["closeCookieLaw"])
-  }
+    ...mapActions("cookie", ["closeCookieLaw"]),
+  },
 };
 </script>
 
