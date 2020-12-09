@@ -13,6 +13,7 @@
     >
       <MglAttributionControl position="bottom-right" />
       <MglNavigationControl position="top-right" />
+      <MglFullscreenControl position="top-right" />
       <MglScaleControl position="bottom-left" />
     </MglMap>
   </v-card>
@@ -26,6 +27,7 @@ import {
   MglMap,
   MglAttributionControl,
   MglNavigationControl,
+  MglFullscreenControl,
   MglScaleControl
 } from "vue-mapbox";
 
@@ -35,13 +37,14 @@ export default {
     MglMap,
     MglAttributionControl,
     MglNavigationControl,
+    MglFullscreenControl,
     MglScaleControl
   },
   data() {
     return {
       //accessToken: ACCESS_TOKEN, // your access token. Needed if you using Mapbox maps
       mapStyle: "https://basemaps.cartocdn.com/gl/positron-gl-style/style.json", // your map style
-      center: [13, 20],
+      center: [15, 35],
       zoom: 1.6,
       minZoom: 1,
       maxZoom: 14
