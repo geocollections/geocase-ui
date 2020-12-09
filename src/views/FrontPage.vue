@@ -12,10 +12,12 @@
             @input="hideAlert"
           >
             <div class="font-weight-bold" style="font-size: 1.25rem">
-              This is GeoCASe 2.0 prototype interface. It has incomplete functionality and
-              data, and is intended for testing purposes only.
+              This is GeoCASe 2.0 prototype interface. It has incomplete
+              functionality and data, and is intended for testing purposes only.
             </div>
-            <div>This box will be replaced by brief introduction about GeoCASe.</div>
+            <div>
+              This box will be replaced by brief introduction about GeoCASe.
+            </div>
           </v-alert>
         </v-col>
       </v-row>
@@ -66,12 +68,12 @@ export default {
 
   computed: {
     ...mapState("frontpage", ["cards", "showAlert"]),
-    ...mapGetters("frontpage", ["stats"]),
+    ...mapGetters("frontpage", ["stats"])
   },
 
   methods: {
-    ...mapActions("frontpage", ["hideAlert"]),
-  },
+    ...mapActions("frontpage", ["hideAlert"])
+  }
 };
 </script>
 
