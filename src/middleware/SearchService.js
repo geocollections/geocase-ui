@@ -110,6 +110,10 @@ function buildSearchFieldsQuery(search, searchIds) {
       let encodedValue = encodeURIComponent(value);
       if (name === "q") encodedObject = encodedObject.substring(1, 3);
 
+      // Todo: #118 + #119
+      if (name === "coordinates")
+        encodedObject = `fq={!geofilt sfield=${name}}&d=0&pt=`;
+
       if (type === "checkbox") {
         isExcluded = true;
 

@@ -61,6 +61,7 @@
                 :items="lookUpTypes"
                 :value="search[id].lookUpType"
                 @input="updateSearchField({ id: id, lookUpType: $event })"
+                :readonly="id === 'coordinates'"
               />
             </v-col>
 

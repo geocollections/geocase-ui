@@ -19,7 +19,7 @@
             <v-btn
               x-small
               color="secondary"
-              @click="$emit('add:filter', { id: 'has_map', value: 'true'} )"
+              @click="$emit('add:filter', { id: 'has_map', value: 'true' })"
               >Add filter</v-btn
             >
           </div>
@@ -34,9 +34,12 @@
 </template>
 
 <script>
-import "leaflet/dist/leaflet.css";
-
 import * as L from "leaflet";
+import "leaflet/dist/leaflet.css";
+import "leaflet.markercluster/dist/MarkerCluster.css";
+import "leaflet.markercluster/dist/MarkerCluster.Default.css";
+import "leaflet.markercluster/dist/leaflet.markercluster";
+
 import { mapActions, mapState } from "vuex";
 
 export default {
@@ -64,7 +67,7 @@ export default {
     markerLayer: null,
     markerIcon: new L.divIcon({
       html:
-        "<i class='v-icon notranslate fas fa-circle theme--light primary--text map-marker-icon' style='font-size: 0.75rem; opacity: 0.5;'/>",
+        "<i class='v-icon notranslate fas fa-circle theme--light primary--text searchMap-marker-icon' style='font-size: 0.75rem; opacity: 0.5;'/>",
       className: "map-marker"
     }),
     baseMaps: [
@@ -123,7 +126,7 @@ export default {
         maxZoom: 18
       },
       {
-        name: "Estonian map",
+        name: "Estonian searchMap",
         leafletObject: L.tileLayer(
           "https://tiles.maaamet.ee/tm/tms/1.0.0/kaart@GMC/{z}/{x}/{-y}.png&ASUTUS=TALTECH&KESKKOND=LIVE&IS=SARV",
           {
@@ -177,12 +180,16 @@ export default {
 
     localities() {
       if (this.responseResultsCount > 0) {
-        return this.responseResults.filter(locality => !!locality.has_map);
+        return this.isDetailView
+          ? this.responseResults.filter(locality => !!locality.has_map)
+          : this.responseResults;
       } else return [];
     },
 
     responseResultsHasEstonia() {
-      return this.localities.some(item => item.country === "Estonia");
+      return this.isDetailView
+        ? this.localities.some(item => item.country === "Estonia")
+        : true;
     },
 
     filteredBaseMaps() {
@@ -205,12 +212,14 @@ export default {
   watch: {
     localities: {
       handler(newVal) {
-        this.setMarkers(newVal);
-        // Todo: Fix Zoom after invalidatingSize
-        if (this.map) {
-          this.$nextTick(() => {
-            this.map.invalidateSize();
-          });
+        if (this.isDetailView) {
+          this.setMarkers(newVal);
+          // Todo: Fix Zoom after invalidatingSize
+          if (this.map) {
+            this.$nextTick(() => {
+              this.map.invalidateSize();
+            });
+          }
         }
       },
       deep: true
@@ -218,7 +227,7 @@ export default {
   },
 
   methods: {
-    ...mapActions("search", ["updateSearchField"]),
+    ...mapActions("search", ["updateSearchField", "updatePage"]),
 
     initMap() {
       if (this.map === null) {
@@ -259,50 +268,81 @@ export default {
     },
 
     setMarkers(localities) {
-      if (localities && localities.length > 0) {
-        // Resetting markers before adding new ones
-        if (this.markerLayer !== null) this.map.removeLayer(this.markerLayer);
-        this.markers = [];
+      if (this.isDetailView) {
+        if (localities && localities.length > 0) {
+          // Resetting markers before adding new ones
+          if (this.markerLayer !== null) this.map.removeLayer(this.markerLayer);
+          this.markers = [];
 
-        localities.forEach(item => {
-          if (item.latitude && item.longitude) {
-            let marker = L.marker(
-              {
-                lat: parseFloat(item.latitude),
-                lng: parseFloat(item.longitude)
-              },
-              { icon: this.markerIcon }
-            );
+          localities.forEach(item => {
+            if (item.latitude && item.longitude) {
+              let marker = L.marker(
+                {
+                  lat: parseFloat(item.latitude),
+                  lng: parseFloat(item.longitude)
+                },
+                { icon: this.markerIcon }
+              );
 
-            if (item.recordURI) {
-              marker.on("click", () => {
-                if (window.location.pathname.includes("detail")) {
-                  window.open(item.recordURI, "RecordUriWindow");
-                } else this.$router.push({ path: `specimen/${item.id}` });
-              });
+              if (item.recordURI) {
+                marker.on("click", () => {
+                  if (this.isDetailView) {
+                    window.open(item.recordURI, "RecordUriWindow");
+                  } else this.$router.push({ path: `specimen/${item.id}` });
+                });
+              }
+              if (item.locality) {
+                marker.bindTooltip(item.locality, {
+                  permanent: false,
+                  direction: "right"
+                });
+              }
+
+              this.markers.push(marker);
             }
-            if (item.locality) {
-              marker.bindTooltip(item.locality, {
-                permanent: false,
-                direction: "right"
-              });
-            }
+          });
+          // Adding marker layer to searchMap
+          this.markerLayer = L.layerGroup(this.markers);
+          this.map.addLayer(this.markerLayer);
 
-            this.markers.push(marker);
+          if (this.markers.length > 0) {
+            let bounds = new L.featureGroup(this.markers).getBounds();
+            this.map.fitBounds(bounds, { maxZoom: 4 });
           }
-        });
-        // Adding marker layer to map
-        this.markerLayer = L.layerGroup(this.markers);
-        this.map.addLayer(this.markerLayer);
-
-        if (this.markers.length > 0) {
-          let bounds = new L.featureGroup(this.markers).getBounds();
-          this.map.fitBounds(bounds, { maxZoom: 4 });
+        } else {
+          // If response is empty then remove markers
+          if (this.markerLayer !== null) this.map.removeLayer(this.markerLayer);
+          this.markers = [];
         }
       } else {
-        // If response is empty then remove markers
-        if (this.markerLayer !== null) this.map.removeLayer(this.markerLayer);
-        this.markers = [];
+        let geoJsonLayer = L.geoJSON(localities, {
+          pointToLayer: (feature, latlng) => {
+            let marker = L.marker(latlng, { icon: this.markerIcon });
+            marker.bindTooltip(
+              `Click to search specimens in this location! <br/> Lat: ${latlng.lat} <br/> Lon: ${latlng.lng}`,
+              {
+                permanent: false,
+                direction: "right"
+              }
+            );
+
+            marker.on("click", () => {
+              this.updateSearchField({
+                id: "coordinates",
+                value: `${latlng.lat},${latlng.lng}`
+              });
+              if (this.search.page !== 1) this.updatePage(1);
+              this.$emit("open:table");
+            });
+            return marker;
+          }
+        });
+
+        let markersCluster = L.markerClusterGroup();
+        markersCluster.addLayer(geoJsonLayer);
+        this.map.addLayer(markersCluster);
+
+        this.map.fitBounds(geoJsonLayer.getBounds());
       }
     }
   }

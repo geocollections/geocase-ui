@@ -6,6 +6,7 @@ import detail from "./modules/detail";
 import settings from "./modules/settings";
 import frontpage from "./modules/frontpage";
 import cookie from "./modules/cookie";
+import searchMap from "./modules/searchMap";
 
 Vue.use(Vuex);
 
@@ -21,7 +22,8 @@ export default new Vuex.Store({
     detail,
     settings,
     frontpage,
-    cookie
+    cookie,
+    searchMap
   },
   plugins: [vuexLocal.plugin],
   strict: process.env.NODE_ENV !== "production"

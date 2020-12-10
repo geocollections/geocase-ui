@@ -71,8 +71,9 @@
             <tab-map
               ref="map"
               v-if="item === 'map'"
-              :response-results="responseResults"
-              :response-results-count="responseResultsCount"
+              :response-results="mapResults"
+              :response-results-count="mapResultsCount"
+              @open:table="tab = 0"
             />
           </v-card>
         </v-tab-item>
@@ -80,7 +81,7 @@
 
       <!-- PAGINATION -->
       <pagination
-        v-if="responseResultsCount > 10"
+        v-if="responseResultsCount > 10 && tab !== 2"
         :paginate-by="paginateBy"
         :paginate-by-items="paginateByItems"
         @update:paginateBy="updatePaginateBy($event)"
@@ -131,13 +132,15 @@ export default {
       "sortDesc",
       "paginateByItems",
       "isLoading"
-    ])
+    ]),
+    ...mapState("searchMap", ["mapResults", "mapResultsCount"])
   },
 
   created() {
     if (this.$route.query) {
       this.deconstructQueryParams(this.$route.query);
       this.search();
+      if (this.mapResultsCount === 0) this.searchMapCoordinates();
     }
   },
 
@@ -175,6 +178,8 @@ export default {
       "updateSortDesc",
       "search"
     ]),
+
+    ...mapActions("searchMap", ["searchMapCoordinates"]),
 
     async openGallery(image) {
       this.tab = 1;

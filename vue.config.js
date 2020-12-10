@@ -9,7 +9,7 @@ module.exports = {
         changeOrigin: true,
         pathRewrite: {
           "^/api/repeat": "/v1/repeat",
-          "^/api": "/v1/solr"
+          "^/api": "/v2/solr"
         }
       }
     }
