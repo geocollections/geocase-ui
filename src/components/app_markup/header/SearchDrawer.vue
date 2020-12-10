@@ -73,7 +73,12 @@
                 dense
                 clearable
                 solo
-                :placeholder="search[id].label"
+                :readonly="id === 'coordinates'"
+                :placeholder="
+                  id === 'coordinates'
+                    ? `${search[id].label} - READ ONLY`
+                    : search[id].label
+                "
                 clear-icon="fas fa-times"
               />
             </v-col>
