@@ -42,25 +42,34 @@ export default {
   },
   data() {
     return {
-      //accessToken: ACCESS_TOKEN, // your access token. Needed if you using Mapbox maps
-      mapStyle: "https://basemaps.cartocdn.com/gl/positron-gl-style/style.json", // your map style
+      mapStyle: "http://localhost:8090/styles/geocase/style.json",
       center: [15, 35],
       zoom: 1.6,
       minZoom: 1,
-      maxZoom: 14
+      maxZoom: 20
     };
   },
   created() {
     // We need to set mapbox-gl library here in order to use it in template
     this.mapbox = Mapbox;
-    //console.log(Mapbox);
   },
   methods: {
     onMapLoaded(event) {
-      // in component
       this.map = event.map;
-      // or just to store if you want have access from other components
-      this.$store.map = event.map;
+      /*       this.map.setLayoutProperty(
+        "geocase-distinct-heatmap",
+        "visibility",
+        "none"
+      );
+      this.map.setLayoutProperty("geocase-all-heatmap", "visibility", "none");
+      this.map.on("click", "geocase-count-tile", function(e) {
+        console.log(e.features);
+      }); */
+      this.map.setLayoutProperty(
+        "geocase-distinct-points",
+        "visibility",
+        "visible"
+      );
     }
   }
 };
