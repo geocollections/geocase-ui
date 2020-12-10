@@ -12,10 +12,14 @@
           color="error"
         >
           <span v-if="showError" v-html="error" />
-          <span v-else
-            >Couldn't find any results with an <b>ID</b> of
-            <b>{{ $route.params.id }}</b></span
-          >
+          <span
+            v-else
+            v-html="
+              $t('detail.noResults', {
+                id: encodeURIComponent($route.params.id)
+              })
+            "
+          />
         </v-alert>
       </v-col>
     </v-row>
@@ -438,7 +442,7 @@
             <v-card-title
               class="justify-center card-title--clickable"
               @click="showResponseFromSource = !showResponseFromSource"
-              >Data from provider (for developers)
+              >{{ $t("detail.dataFromProvider") }}
               <v-spacer />
               <v-btn icon
                 ><v-icon v-if="showResponseFromSource">fas fa-angle-up</v-icon
@@ -546,7 +550,9 @@ export default {
       "disclaimers",
       "acknowledgements",
       "specimenVerifier",
-      "unitGuid"
+      "unitGuid",
+      "translatedItemHeaders",
+      "translatedItemHeadersSecondary"
     ]),
 
     getSpecimenType() {

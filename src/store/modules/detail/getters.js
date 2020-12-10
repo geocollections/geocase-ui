@@ -1,4 +1,4 @@
-import { get } from "leaflet/src/dom/DomUtil";
+import i18n from "@/i18n";
 
 const getters = {
   itemExists: state => {
@@ -26,7 +26,7 @@ const getters = {
   },
 
   filteredItemHeaders: (state, getters) => {
-    return state.itemHeaders.filter(header => {
+    return getters.translatedItemHeaders.filter(header => {
       if (getters.item[header.value]) {
         return header;
       } else if (header.value === "stratigraphy" && getters?.itemStratigraphy)
@@ -41,7 +41,7 @@ const getters = {
   },
 
   filteredItemHeadersSecondary: (state, getters) => {
-    return state.itemHeadersSecondary.filter(header => {
+    return getters.translatedItemHeadersSecondary.filter(header => {
       if (getters.item[header.value]) {
         return header;
       } else if (
@@ -335,6 +335,24 @@ const getters = {
     return state?.responseFromSource?.["abcd:DataSets"]?.[
       "abcd:DataSet"
     ]?.[0]?.["abcd:Units"]?.[0]?.["abcd:Unit"]?.[0]?.["abcd:UnitGUID"]?.[0];
+  },
+
+  translatedItemHeaders: state => {
+    return state.itemHeaders.map(header => {
+      return {
+        ...header,
+        text: i18n.t(`detail.table.${header.text}`)
+      };
+    });
+  },
+
+  translatedItemHeadersSecondary: state => {
+    return state.itemHeadersSecondary.map(header => {
+      return {
+        ...header,
+        text: i18n.t(`detail.secondaryTable.${header.text}`)
+      };
+    });
   }
 };
 

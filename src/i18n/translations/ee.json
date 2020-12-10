@@ -1,5 +1,49 @@
 {
   "messages": {
-    "languageChange": "Keeletugi varsti tulemas!"
+    "languageChange": "Vahetasite keelt!"
+  },
+  "detail": {
+    "noResults": "Kahjuks ei leidnud mitte ühtegi vastet, kus eksemplari <b>ID</b> oleks <b>{id}</b>",
+    "dataFromProvider": "Andmed otse teenusepakkujalt (arendajatele)",
+    "table": {
+      "type": "Tüüp",
+      "collection": "Kollektsioon",
+      "objectId": "Objekti ID",
+      "typeStatus": "Originaal staatus",
+      "group": "Grupp",
+      "country": "Riik",
+      "area": "Ala",
+      "locality": "Lokaliteet",
+      "latitude": "Laiuskraad",
+      "longitude": "Pikkuskraad",
+      "stratigraphy": "Stratigraafia",
+      "mindat": "Mindat",
+      "taxonRecordInPbdb": "Taksoni kirje PBDB-s",
+      "taxonInEncyclopediaOfLife": "Takson Encyclopedia of Life-s",
+      "taxonInTreeOfLife": "Takson Tree of Life's",
+      "TaxonInFossiilidInfo": "Takson fossiilid.info-s",
+      "recordUri": "Kirje URI",
+      "relatedResource": "Seotud allikas"
+    },
+    "secondaryTable": {
+      "institution": "Asutus",
+      "datasetOwner": "Andmekogumi omanik",
+      "contactPerson": "Kontaktisik",
+      "contactEmail": "E-mail",
+      "contactPhone": "Telefon",
+      "contactAddress": "Aadress",
+      "contactData": "Contact data",
+      "dataSourceCountry": "Andmeallika riik",
+      "copyright": "Autoriõigus",
+      "termsOfUse": "Kasutustingimused",
+      "disclaimer": "Hoiatustekst",
+      "acknowledgement": "Vastuvõtukinnitus",
+      "lastEdited": "Viimati muudetud",
+      "lastHarvested": "Viimati päritud",
+      "providerName": "Teenusepakkuja",
+      "specimenVerifier": "Eksemplari kontrollija",
+      "geocaseId": "GeoCASe ID",
+      "unitGuid": "UnitGUID"
+    }
   }
 }

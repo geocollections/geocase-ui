@@ -1,5 +1,49 @@
 {
   "messages": {
-    "languageChange": "Changed language! Support for other languages coming soon!"
+    "languageChange": "Changed language!"
+  },
+  "detail": {
+    "noResults": "Couldn't find any results with an <b>ID</b> of <b>{id}</b>",
+    "dataFromProvider": "Data from provider (for developers)",
+    "table": {
+      "type": "Type",
+      "collection": "Collection",
+      "objectId": "Object ID",
+      "typeStatus": "Type status",
+      "group": "Group",
+      "country": "Country",
+      "area": "Area",
+      "locality": "Locality",
+      "latitude": "Latitude",
+      "longitude": "Longitude",
+      "stratigraphy": "Stratigraphy",
+      "mindat": "Mindat",
+      "taxonRecordInPbdb": "Taxon record in PBDB",
+      "taxonInEncyclopediaOfLife": "Taxon in Encyclopedia of Life",
+      "taxonInTreeOfLife": "Taxon in Tree of Life",
+      "TaxonInFossiilidInfo": "Taxon in fossiilid.info",
+      "recordUri": "Record URI",
+      "relatedResource": "Related resource"
+    },
+    "secondaryTable": {
+      "institution": "Institution",
+      "datasetOwner": "Dataset owner",
+      "contactPerson": "Contact person",
+      "contactEmail": "Contact e-mail",
+      "contactPhone": "Contact phone",
+      "contactAddress": "Contact address",
+      "contactData": "Contact data",
+      "dataSourceCountry": "Data source country",
+      "copyright": "Copyright",
+      "termsOfUse": "Terms of use",
+      "disclaimer": "Disclaimer",
+      "acknowledgement": "Acknowledgement",
+      "lastEdited": "Last Edited",
+      "lastHarvested": "Last harvested",
+      "providerName": "Provider name",
+      "specimenVerifier": "Specimen verifier",
+      "geocaseId": "GeoCASe ID",
+      "unitGuid": "UnitGUID"
+    }
   }
 }
