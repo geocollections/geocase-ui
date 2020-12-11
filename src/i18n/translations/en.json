@@ -33,6 +33,16 @@
       }
     }
   },
+  "footer": {
+    "title": "GeoCASe: The Earth Science Collections Portal",
+    "collaboration": "GeoCASe 2.0 is collaborative effort of the",
+    "CETAF": "CETAF Earth Sciences Group",
+    "dataBy": "Data by",
+    "partnerInstitutions": "partner institutions",
+    "software": "Portal software",
+    "created": "created and hosted by",
+    "and": "and"
+  },
   "detail": {
     "noResults": "Couldn't find any results with an <b>ID</b> of <b>{id}</b>",
     "dataFromProvider": "Data from provider (for developers)",
@@ -79,8 +89,6 @@
   },
   "search": {
     "recordsFound": "records found | record found | records found",
-    "table": {
-
-    }
+    "table": {}
   }
 }
