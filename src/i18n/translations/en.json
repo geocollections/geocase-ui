@@ -43,6 +43,26 @@
     "created": "created and hosted by",
     "and": "and"
   },
+  "header": {
+    "search": "Search",
+    "about": "About",
+    "access": "Access",
+    "partners": "Partners",
+    "resources": "Resources",
+    "titleTooltip": "Go to front page",
+    "showSearch": "Show/hide search filters",
+    "showMenu": "Show menu"
+  },
+  "resources": {
+    "cetaf": "CETAF",
+    "dissco": "DiSSCo",
+    "biocase": "BioCASe portal",
+    "gbif": "GBIF portal",
+    "abcd-efg": "ABCD-EFG standard",
+    "geocase2-github": "GeoCASe 2.0 on GitHub",
+    "geocace1": "GeoCASe 1.0 portal",
+    "geocase-api": "GeoCASe API"
+  },
   "detail": {
     "noResults": "Couldn't find any results with an <b>ID</b> of <b>{id}</b>",
     "dataFromProvider": "Data from provider (for developers)",

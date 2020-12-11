@@ -28,7 +28,7 @@
             <v-icon>fas fa-sliders-h</v-icon>
           </v-btn>
         </template>
-        <span>Show/hide search filters</span>
+        <span>{{ $t("header.showSearch") }}</span>
       </v-tooltip>
 
       <v-toolbar-items>
@@ -55,18 +55,24 @@
               </router-link>
             </v-toolbar-title>
           </template>
-          <span>Go to front page</span>
+          <span>{{ $t("header.titleTooltip") }}</span>
         </v-tooltip>
 
-        <v-btn class="hidden-xs-only" text to="/search">Search</v-btn>
-        <v-btn class="hidden-md-and-down" text to="/about" exact>About</v-btn>
-        <v-btn class="hidden-md-and-down" text to="/access" exact>Access</v-btn>
+        <v-btn class="hidden-xs-only" text to="/search">{{
+          $t("header.search")
+        }}</v-btn>
+        <v-btn class="hidden-md-and-down" text to="/about" exact>{{
+          $t("header.about")
+        }}</v-btn>
+        <v-btn class="hidden-md-and-down" text to="/access" exact>{{
+          $t("header.access")
+        }}</v-btn>
         <v-btn
           class="hidden-md-and-down"
           text
           to="/partners_and_providers"
           exact
-          >Partners</v-btn
+          >{{ $t("header.partners") }}</v-btn
         >
       </v-toolbar-items>
 
@@ -93,7 +99,7 @@
         >
           <template v-slot:activator="{ on }">
             <v-btn text v-on="on">
-              Resources
+              {{ $t("header.resources") }}
               <v-icon right>{{
                 externalResourcesDropdown
                   ? "fas fa-caret-up"
@@ -127,7 +133,7 @@
             aria-label="Open navigation drawer"
           />
         </template>
-        <span>Show menu</span>
+        <span>{{ $t("header.showMenu") }}</span>
       </v-tooltip>
     </v-app-bar>
   </v-hover>
@@ -147,7 +153,7 @@ export default {
   }),
 
   computed: {
-    ...mapState("settings", ["externalResources"]),
+    ...mapGetters("settings", ["externalResources"]),
     ...mapGetters("detail", [
       "item",
       "isItemFossil",
