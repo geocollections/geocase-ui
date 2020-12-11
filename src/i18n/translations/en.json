@@ -2,11 +2,23 @@
   "messages": {
     "languageChange": "Changed language!"
   },
+  "searchHelp": {
+    "title": "Search help",
+    "help1": "Enter term(s) for quickly searching through all main data tables. Uppercase and lowercase is not differentiated, for wildcard use asterisk",
+    "help2": "In case of multiple terms the results will include any of the terms. To require a specific keyword to be present, precede it with '<b class=\"secondary--text font-weight-black\">+</b>'. To exclude a term, precede it with '<b class=\"secondary--text font-weight-black\">-</b>'. For instance:",
+    "help3": "To search exact expression, use <b class=\"secondary--text\">double quotation marks</b>. Use them also if the term includes special characters like '+' or '-', for instance:",
+    "help4": {
+      "prepend": "Quick search box can also be used for more advanced queries, if you know names of database fields. For example, query by",
+      "append": "will search all records, where stratigraphy is set to Burtnieki Stage. NB! In this kind of search, uppercase is important ('asaphus' and 'Asaphus' are not the same) and * is useful."
+    }
+  },
   "frontPage": {
     "prototype_alert": {
       "title": "This is GeoCASe 2.0 prototype interface. It has incomplete functionality and data, and is intended for testing purposes only.",
       "text": "This box will be replaced by brief introduction about GeoCASe."
     },
+    "title": "The Earth Science Collections Portal",
+    "findQuickly": "Find quickly...",
     "totalRecords": "Total Records",
     "institutionCount": "Number of Institutions",
     "countryCount": "Countries with data",
