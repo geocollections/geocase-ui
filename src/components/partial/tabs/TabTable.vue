@@ -30,12 +30,12 @@
               color="secondary"
             >
               <div>
-                Couldn't find any records with these search parameters.
+                {{ $t("search.tableNoResults") }}
               </div>
 
               <div>
                 <v-btn x-small color="error" @click="resetSearch">
-                  Reset search
+                  {{ $t("search.drawer.resetSearch") }}
                   <v-icon x-small right>far fa-trash-alt</v-icon>
                 </v-btn>
               </div>
@@ -49,7 +49,7 @@
           class="icon-link"
           style="text-decoration: unset;"
           :to="{ path: `specimen/${item.id}` }"
-          title="Go to detail view"
+          :title="$t('search.goToDetailView')"
         >
           <v-icon small color="primary" v-if="getItemType(item) === 'fossil'"
             >fas fa-fish</v-icon
@@ -76,7 +76,7 @@
         <router-link
           style="text-decoration: unset;"
           :to="{ path: `specimen/${item.id}` }"
-          title="Go to detail view"
+          :title="$t('search.goToDetailView')"
         >
           {{ item.unitid }}
         </router-link>
@@ -87,7 +87,7 @@
           <a
             style="text-decoration: unset; white-space: nowrap;"
             target="MindatWindow"
-            title="Link to Mindat.org"
+            :title="$t('search.mindatLink')"
             @click="openMindatInNewWindow(item.mindat_url)"
             >{{ item.fullscientificname }}
             <v-icon small color="primary"
@@ -116,7 +116,7 @@
         <v-btn
           v-if="item.has_image"
           icon
-          title="Open gallery"
+          :title="$t('search.openGallery')"
           small
           @click="$emit('open:gallery', item.images[0])"
         >

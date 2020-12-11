@@ -62,7 +62,9 @@
                         >
                       </span>
 
-                      <span>{{ getSpecimenType }}</span>
+                      <span>{{
+                        $t(`detail.specimenType.${getSpecimenType}`)
+                      }}</span>
                     </span>
 
                     <span
@@ -437,6 +439,7 @@
         </v-col>
 
         <!-- DATA FROM SOURCE -->
+        <!-- Todo: Prune!!! -->
         <v-col cols="12" v-if="responseFromSource">
           <v-card>
             <v-card-title
@@ -556,10 +559,10 @@ export default {
     ]),
 
     getSpecimenType() {
-      let type = "Fossil";
-      if (this.isItemMineral) type = "Mineral";
-      else if (this.isItemRock) type = "Rock";
-      else if (this.isItemMeteorite) type = "Meteorite";
+      let type = "fossil";
+      if (this.isItemMineral) type = "mineral";
+      else if (this.isItemRock) type = "rock";
+      else if (this.isItemMeteorite) type = "meteorite";
       return type;
     },
 

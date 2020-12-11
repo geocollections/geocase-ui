@@ -32,7 +32,7 @@
           v-for="item in tabItems"
           :key="item"
         >
-          {{ item }}
+          {{ $t(`search.tab.${item}`) }}
           <v-icon color="black" right small v-if="item === 'table'"
             >fas fa-table</v-icon
           >
@@ -83,7 +83,7 @@
       <pagination
         v-if="responseResultsCount > 10 && tab !== 2"
         :paginate-by="paginateBy"
-        :paginate-by-items="paginateByItems"
+        :paginate-by-items="paginateByItemsTranslated"
         @update:paginateBy="updatePaginateBy($event)"
         :results="responseResults"
         :page="page"
@@ -96,7 +96,7 @@
 
 <script>
 import ScrollToTop from "@/components/partial/ScrollToTop";
-import { mapActions, mapState } from "vuex";
+import { mapActions, mapGetters, mapState } from "vuex";
 import queryMixin from "@/mixins/queryMixin";
 import Pagination from "@/components/search/Pagination";
 import TabImages from "@/components/partial/tabs/TabImages";
@@ -130,10 +130,10 @@ export default {
       "paginateBy",
       "sortBy",
       "sortDesc",
-      "paginateByItems",
       "isLoading"
     ]),
-    ...mapState("searchMap", ["mapResults", "mapResultsCount"])
+    ...mapState("searchMap", ["mapResults", "mapResultsCount"]),
+    ...mapGetters("search", ["paginateByItemsTranslated"])
   },
 
   created() {

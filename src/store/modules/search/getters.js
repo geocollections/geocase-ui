@@ -1,3 +1,5 @@
+import i18n from "@/i18n";
+
 const getters = {
   getCheckboxes: state => (id, showCheckboxes, showMore) => {
     if (showCheckboxes) {
@@ -34,12 +36,30 @@ const getters = {
     } else return null;
   },
 
-  getAllNonFixedTableHeaders: state => {
-    return state.tableHeaders.filter(item => !item.fixed);
+  getAllNonFixedTableHeaders: (state, getters) => {
+    return getters.translatedtableHeaders.filter(item => !item.fixed);
   },
 
-  getAllShownTableHeaders: state => {
-    return state.tableHeaders.filter(item => item.show);
+  getAllShownTableHeaders: (state, getters) => {
+    return getters.translatedtableHeaders.filter(item => item.show);
+  },
+
+  translatedtableHeaders: state => {
+    return state.tableHeaders.map(header => {
+      return {
+        ...header,
+        text: i18n.t(`search.table.${header.text}`)
+      };
+    });
+  },
+
+  paginateByItemsTranslated: state => {
+    return state.paginateByItems.map(item => {
+      return {
+        ...item,
+        text: i18n.t(item.text, { value: item.value })
+      };
+    });
   }
 };
 

@@ -16,10 +16,10 @@
               <v-icon>fas fa-times</v-icon>
             </v-btn>
           </template>
-          <span>Close gallery</span>
+          <span>{{ $t("imageGallery.closeGallery") }}</span>
         </v-tooltip>
 
-        <v-toolbar-title>Image gallery</v-toolbar-title>
+        <v-toolbar-title>{{ $t("imageGallery.imageGallery") }}</v-toolbar-title>
 
         <v-spacer></v-spacer>
 
@@ -29,7 +29,7 @@
               <v-icon small>fas fa-th</v-icon>
             </v-btn>
           </template>
-          <span>{{ `${showGallery ? "Hide" : "Show"} thumbnails` }}</span>
+          <span>{{ $t(`imageGallery.${showGallery ? "hide" : "show"}Thumbnails`) }}</span>
         </v-tooltip>
 
         <v-tooltip bottom>
@@ -38,7 +38,7 @@
               <v-icon>fas fa-times</v-icon>
             </v-btn>
           </template>
-          <span>Close gallery</span>
+          <span>{{ $t("imageGallery.closeGallery") }}</span>
         </v-tooltip>
       </v-toolbar>
 
@@ -63,6 +63,8 @@
                   'image-control-83': showGallery && $vuetify.breakpoint.xlOnly
                 }"
               >
+                <!-- Todo: Fix mobile view next and prev buttons -->
+
                 <v-btn
                   class="ma-3"
                   color="primary"
@@ -103,16 +105,16 @@
                 style="font-size: 1.125rem; line-height: 1.5;"
               >
                 <div v-if="images[currentIndex].image_date">
-                  Date: {{ images[currentIndex].image_date }}
+                  {{ $t("imageGallery.date") }}: {{ images[currentIndex].image_date }}
                 </div>
                 <div v-if="images[currentIndex].image_licence">
-                  Licence: {{ images[currentIndex].image_licence }}
+                  {{ $t("imageGallery.licence") }}: {{ images[currentIndex].image_licence }}
                 </div>
                 <div>
                   <router-link
                     class="text-decoration-none"
                     :to="{ path: `specimen/${images[currentIndex].id}` }"
-                    >Go to specimen view</router-link
+                    >{{ $t("imageGallery.goToSpecimenView") }}</router-link
                   >
                 </div>
                 <div v-if="images[currentIndex].extractedImage">
@@ -120,7 +122,7 @@
                     :href="images[currentIndex].extractedImage"
                     target="UrlWindow"
                     class="link text-decoration-none"
-                    >Link to image
+                    >{{ $t("imageGallery.linkToImage") }}
                     <v-icon color="primary" x-small
                       >fas fa-external-link-alt</v-icon
                     >
@@ -264,7 +266,8 @@ export default {
   /*box-shadow: -3px 0 1px -2px rgba(255, 255, 255, 0.2),*/
   /*  -2px 0 2px 0 rgba(255, 255, 255, 0.14),*/
   /*  -1px 0 5px 0 rgba(255, 255, 255, 0.12);*/
-  box-shadow: 0 2px 4px -1px rgba(0,0,0,.2), 0 4px 5px 0 rgba(0,0,0,.14), 0 1px 10px 0 rgba(0,0,0,.12);
+  box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2), 0 4px 5px 0 rgba(0, 0, 0, 0.14),
+    0 1px 10px 0 rgba(0, 0, 0, 0.12);
   /*box-shadow: 0 2px 4px -1px rgba(0,0,0,.2), 0 4px 5px 0 rgba(0,0,0,.14), 0 1px 10px 0 rgba(0,0,0,.12);*/
 }
 

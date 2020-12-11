@@ -1,6 +1,6 @@
 <template>
   <v-fab-transition class="GoBackButton">
-    <v-tooltip left>
+    <v-tooltip right>
       <template v-slot:activator="{ on }">
         <v-btn
           v-on="on"
@@ -15,7 +15,7 @@
           <v-icon large>fas fa-arrow-left</v-icon>
         </v-btn>
       </template>
-      <span>Go back</span>
+      <span>{{ $t("detail.goBack") }}</span>
     </v-tooltip>
   </v-fab-transition>
 </template>

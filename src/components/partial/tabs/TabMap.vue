@@ -10,10 +10,10 @@
           color="secondary"
         >
           <div>
-            Couldn't find any localities with these search parameters.
+            {{ $t("search.mapNoResults") }}
           </div>
 
-          <div v-if="!search.has_map.value">
+          <!--<div v-if="!search.has_map.value">
             Add filter so it would only show results which have georeferenced
             data.
             <v-btn
@@ -22,7 +22,7 @@
               @click="$emit('add:filter', { id: 'has_map', value: 'true' })"
               >Add filter</v-btn
             >
-          </div>
+          </div>-->
         </v-alert>
       </v-col>
     </v-row>
@@ -315,34 +315,37 @@ export default {
           this.markers = [];
         }
       } else {
-        let geoJsonLayer = L.geoJSON(localities, {
-          pointToLayer: (feature, latlng) => {
-            let marker = L.marker(latlng, { icon: this.markerIcon });
-            marker.bindTooltip(
-              `Click to search specimens in this location! <br/> Lat: ${latlng.lat} <br/> Lon: ${latlng.lng}`,
-              {
-                permanent: false,
-                direction: "right"
-              }
-            );
+        // Todo: Loading icon etc.
+        setTimeout(() => {
+          let geoJsonLayer = L.geoJSON(localities, {
+            pointToLayer: (feature, latlng) => {
+              let marker = L.marker(latlng, { icon: this.markerIcon });
+              marker.bindTooltip(
+                `${this.$t("search.mapMarkerTooltip")} <br/> Lat: ${latlng.lat} <br/> Lon: ${latlng.lng}`,
+                {
+                  permanent: false,
+                  direction: "right"
+                }
+              );
 
-            marker.on("click", () => {
-              this.updateSearchField({
-                id: "coordinates",
-                value: `${latlng.lat},${latlng.lng}`
+              marker.on("click", () => {
+                this.updateSearchField({
+                  id: "coordinates",
+                  value: `${latlng.lat},${latlng.lng}`
+                });
+                if (this.search.page !== 1) this.updatePage(1);
+                this.$emit("open:table");
               });
-              if (this.search.page !== 1) this.updatePage(1);
-              this.$emit("open:table");
-            });
-            return marker;
-          }
-        });
+              return marker;
+            }
+          });
 
-        let markersCluster = L.markerClusterGroup();
-        markersCluster.addLayer(geoJsonLayer);
-        this.map.addLayer(markersCluster);
+          let markersCluster = L.markerClusterGroup();
+          markersCluster.addLayer(geoJsonLayer);
+          this.map.addLayer(markersCluster);
 
-        this.map.fitBounds(geoJsonLayer.getBounds());
+          this.map.fitBounds(geoJsonLayer.getBounds());
+        }, 500);
       }
     }
   }

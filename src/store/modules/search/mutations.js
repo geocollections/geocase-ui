@@ -80,10 +80,7 @@ const mutations = {
     payload.fields.forEach(item => {
       if (!defaultNonFixedTableHeaders.includes(item))
         state.tableHeaders.push({
-          text: (item.charAt(0).toUpperCase() + item.slice(1)).replaceAll(
-            "_",
-            " "
-          ),
+          text: item,
           value: item,
           show: false,
           fixed: false

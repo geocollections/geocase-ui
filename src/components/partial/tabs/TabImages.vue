@@ -40,31 +40,31 @@
           <span>
             <b>ID:</b> {{ image.id }}<br />
             <span v-if="image.collectioncode">
-              <b>Collection:</b> {{ image.collectioncode }}
+              <b>{{ $t("search.table.collectioncode") }}:</b> {{ image.collectioncode }}
               <br />
             </span>
             <span v-if="image.unitid">
-              <b>Object ID:</b>
+              <b>{{ $t("search.table.unitid") }}:</b>
               {{ image.unitid }}
               <br />
             </span>
             <span v-if="image.fullscientificname">
-              <b>Full Scientific Name:</b>
+              <b>{{ $t("search.table.fullscientificname") }}:</b>
               {{ image.fullscientificname }}
               <br />
             </span>
             <span v-if="image.country">
-              <b>Country:</b>
+              <b>{{ $t("search.table.country") }}:</b>
               {{ image.country }}
               <br />
             </span>
             <span v-if="image.locality">
-              <b>Locality:</b>
+              <b>{{ $t("search.table.locality") }}:</b>
               {{ image.locality }}
               <br />
             </span>
             <span v-if="image.stratigraphy">
-              <b>Stratigraphy:</b>
+              <b>{{ $t("search.table.stratigraphy") }}:</b>
               {{ image.stratigraphy }}
               <br />
             </span>
@@ -91,16 +91,17 @@
           color="secondary"
         >
           <div>
-            Couldn't find any images with these search parameters.
+            {{ $t("search.imageNoResults") }}
           </div>
 
           <div v-if="!search.has_image.value">
-            Add filter so it would only show results which have images.
+            {{ $t("search.imageNoResultsFilterInfo") }}
             <v-btn
               x-small
               color="secondary"
               @click="updateSearchField({ id: 'has_image', value: 'true' })"
-              >Add filter</v-btn
+            >
+              {{ $t("search.imageNoResultsAddFilter") }}</v-btn
             >
           </div>
         </v-alert>
