@@ -56,6 +56,8 @@ export default {
   methods: {
     onMapLoaded(event) {
       this.map = event.map;
+      console.log(this.map);
+      console.log(this.mapbox);
       /*       this.map.setLayoutProperty(
         "geocase-distinct-heatmap",
         "visibility",
