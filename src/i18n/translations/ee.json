@@ -14,8 +14,8 @@
   },
   "frontPage": {
     "prototype_alert": {
-      "title": "This is GeoCASe 2.0 prototype interface. It has incomplete functionality and data, and is intended for testing purposes only.",
-      "text": "This box will be replaced by brief introduction about GeoCASe."
+      "title": "See on GeoCASe 2.0 prototüüp liides. Funktsionaalsus ja andmestik ei ole veel täielik ning on mõeldud ainult testimiseks.",
+      "text": "See info kast asendatakse GeoCase lühitutvustusega."
     },
     "title": "Maateaduse kollektsioonide portaal",
     "findQuickly": "Leia kiirelt...",
@@ -24,9 +24,9 @@
     "countryCount": "Riigid andmetega",
     "cards": {
       "fossils": {
-        "title": "Fosiilid",
+        "title": "Fossiilid",
         "text": "Fossils are remains or traces of once lived organisms. They include bones, shells, burrows, and occasionally mineralised soft bodies.",
-        "button": "Vaata fosiile"
+        "button": "Vaata fossiile"
       },
       "minerals": {
         "title": "Mineraalid",
@@ -49,8 +49,8 @@
     "title": "GeoCASe: Maateaduse Kollektsioonide Portaal",
     "dataBy": "Andmed kogutud",
     "partnerInstitutions": "partner asutustelt",
-    "collab_html": "GeoCASe 2.0 on <a href=\"https://cetaf.org\" target=\"FooterWindow\">CETAF Maateaduste Grupi</a> ühistööl valminud.",
-    "created_html": "<a href=\"https://github.com/geocollections/geocase-ui\" target=\"FooterWindow\">Portaali tarkvara</a> valmistud and majutatud <a href=\"https://taltech.ee/en/department-geology\" target=\"FooterWindow\">TalTech</a> ja <a href=\"https://www.museumfuernaturkunde.berlin/\" target=\"FooterWindow\">MfN</a> poolt."
+    "collab_html": "GeoCASe 2.0 on valminud <a href='https://cetaf.org' target='FooterWindow'>CETAF Maateaduste Grupi</a> ühistööl.",
+    "created_html": "<a href='https://github.com/geocollections/geocase-ui' target='FooterWindow'>Portaali tarkvara</a> on valmistud ja majutatud <a href='https://taltech.ee/en/department-geology' target='FooterWindow'>TalTech</a> ning <a href='https://www.museumfuernaturkunde.berlin/' target='FooterWindow'>MfN</a> poolt."
   },
   "header": {
     "search": "Otsing",
