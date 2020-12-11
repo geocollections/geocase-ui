@@ -13,29 +13,15 @@
       </v-card-text>
 
       <v-card-text class="pt-0 px-1 pb-0 text-center white--text">
-        {{ $t("footer.collaboration") }}
-        <a href="https://cetaf.org" target="FooterWindow"
-          >{{$t("footer.CETAF")}}</a
-        >.<br />
+        <span v-html="$t('footer.collab_html')" />
+        <br />
         {{ $t("footer.dataBy") }}
         <router-link to="/partners_and_providers">{{
           $t("footer.partnerInstitutions")
         }}</router-link>
         |
-        <a
-          href="https://github.com/geocollections/geocase-ui"
-          target="FooterWindow"
-          >{{ $t("footer.software") }}</a
-        >
-        {{ $t("footer.created") }}
-        <a href="https://taltech.ee/en/department-geology" target="FooterWindow"
-          >TalTech</a
-        >
-        {{ $t("footer.and") }}
-        <a href="https://www.museumfuernaturkunde.berlin/" target="FooterWindow"
-          >MfN</a
-        >.<br />
-
+        <span v-html="$t('footer.created_html')" />
+        <br />
         <div class="d-flex flex-row justify-center">
           <a
             href="https://taltech.ee/en/department-geology"

@@ -35,13 +35,10 @@
   },
   "footer": {
     "title": "GeoCASe: The Earth Science Collections Portal",
-    "collaboration": "GeoCASe 2.0 is collaborative effort of the",
-    "CETAF": "CETAF Earth Sciences Group",
     "dataBy": "Data by",
     "partnerInstitutions": "partner institutions",
-    "software": "Portal software",
-    "created": "created and hosted by",
-    "and": "and"
+    "collab_html": "GeoCASe 2.0 is collaborative effort of the <a href=\"https://cetaf.org\" target=\"FooterWindow\">CETAF Earth Sciences Group</a>.",
+    "created_html": "<a href=\"https://github.com/geocollections/geocase-ui\" target=\"FooterWindow\">Portal software</a> created and hosted by <a href=\"https://taltech.ee/en/department-geology\" target=\"FooterWindow\">TalTech</a> and <a href=\"https://www.museumfuernaturkunde.berlin/\" target=\"FooterWindow\">MfN</a>."
   },
   "header": {
     "search": "Search",
