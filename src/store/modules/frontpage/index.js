@@ -1,45 +1,10 @@
 import SearchService from "@/middleware/SearchService";
+import i18n from "@/i18n";
 
 const state = {
   records: "1 091 666",
   datasetowner: "11",
   country: "159",
-  cards: [
-    {
-      title: "Fossils",
-      text:
-        "Fossils are remains or traces of once lived organisms. They include bones, shells, burrows, and occasionally mineralised soft bodies.",
-      button: "View Fossils",
-      url:
-        '/search?recordbasis=("FossileSpecimen" "FossilSpecimen" "RecentPreservedSpecimen" "fossil")',
-      image: require("@/assets/front_page/fossil1.jpg")
-    },
-    {
-      title: "Minerals",
-      text:
-        "Minerals have certain chemical composition and crystal structure. They are the basic building blocks of all rocks.",
-      button: "View Minerals",
-      url: '/search?recordbasis="MineralSpecimen"',
-      image: require("@/assets/front_page/mineral1.jpg")
-    },
-    {
-      title: "Rocks",
-      text:
-        "Rocks and sediments make up solid Earth. They may be magmatic, sedimentary or metamorphic.",
-      button: "View Rocks",
-      url:
-        '/search?recordbasis=("RockSpecimen" "SedimentSample" "TechnologicalSample")',
-      image: require("@/assets/front_page/rock1.jpg")
-    },
-    {
-      title: "Meteorites",
-      text:
-        "Meteorites are space rocks that have fallen on Earth. They are composed of the same minerals as earthly rocks.",
-      button: "View Meteorites",
-      url: '/search?recordbasis="MeteoriteSpecimen"',
-      image: require("@/assets/front_page/meteorite1.jpg")
-    }
-  ],
   showAlert: true
 };
 
@@ -88,16 +53,53 @@ const getters = {
   stats: state => {
     return [
       {
-        text: "Total Records",
-        count: state.records.toLocaleString()
+        text: i18n.t("frontPage.totalRecords"),
+        count: state.records.toLocaleString(),
+        id: 1
       },
       {
-        text: "Number of Institutions",
-        count: state.datasetowner.toLocaleString()
+        text: i18n.t("frontPage.institutionCount"),
+        count: state.datasetowner.toLocaleString(),
+        id: 2
       },
       {
-        text: "Countries with data",
-        count: state.country.toLocaleString()
+        text: i18n.t("frontPage.countryCount"),
+        count: state.country.toLocaleString(),
+        id: 3
+      }
+    ];
+  },
+  cards: () => {
+    return [
+      {
+        title: i18n.t("frontPage.cards.fossils.title"),
+        text: i18n.t("frontPage.cards.fossils.text"),
+        button: i18n.t("frontPage.cards.fossils.button"),
+        url:
+          '/search?recordbasis=("FossileSpecimen" "FossilSpecimen" "RecentPreservedSpecimen" "fossil")',
+        image: require("@/assets/front_page/fossil1.jpg")
+      },
+      {
+        title: i18n.t("frontPage.cards.minerals.title"),
+        text: i18n.t("frontPage.cards.minerals.text"),
+        button: i18n.t("frontPage.cards.minerals.button"),
+        url: '/search?recordbasis="MineralSpecimen"',
+        image: require("@/assets/front_page/mineral1.jpg")
+      },
+      {
+        title: i18n.t("frontPage.cards.rocks.title"),
+        text: i18n.t("frontPage.cards.rocks.text"),
+        button: i18n.t("frontPage.cards.rocks.button"),
+        url:
+          '/search?recordbasis=("RockSpecimen" "SedimentSample" "TechnologicalSample")',
+        image: require("@/assets/front_page/rock1.jpg")
+      },
+      {
+        title: i18n.t("frontPage.cards.meteorites.title"),
+        text: i18n.t("frontPage.cards.meteorites.text"),
+        button: i18n.t("frontPage.cards.meteorites.button"),
+        url: '/search?recordbasis="MeteoriteSpecimen"',
+        image: require("@/assets/front_page/meteorite1.jpg")
       }
     ];
   }

@@ -2,6 +2,76 @@
   "messages": {
     "languageChange": "Changed language!"
   },
+  "searchHelp": {
+    "title": "Search help",
+    "help1": "Enter term(s) for quickly searching through all main data tables. Uppercase and lowercase is not differentiated, for wildcard use asterisk",
+    "help2": "In case of multiple terms the results will include any of the terms. To require a specific keyword to be present, precede it with '<b class=\"secondary--text font-weight-black\">+</b>'. To exclude a term, precede it with '<b class=\"secondary--text font-weight-black\">-</b>'. For instance:",
+    "help3": "To search exact expression, use <b class=\"secondary--text\">double quotation marks</b>. Use them also if the term includes special characters like '+' or '-', for instance:",
+    "help4": {
+      "prepend": "Quick search box can also be used for more advanced queries, if you know names of database fields. For example, query by",
+      "append": "will search all records, where stratigraphy is set to Burtnieki Stage. NB! In this kind of search, uppercase is important ('asaphus' and 'Asaphus' are not the same) and * is useful."
+    }
+  },
+  "frontPage": {
+    "prototype_alert": {
+      "title": "This is GeoCASe 2.0 prototype interface. It has incomplete functionality and data, and is intended for testing purposes only.",
+      "text": "This box will be replaced by brief introduction about GeoCASe."
+    },
+    "title": "The Earth Science Collections Portal",
+    "findQuickly": "Find quickly...",
+    "totalRecords": "Total Records",
+    "institutionCount": "Number of Institutions",
+    "countryCount": "Countries with data",
+    "cards": {
+      "fossils": {
+        "title": "Fossils",
+        "text": "Fossils are remains or traces of once lived organisms. They include bones, shells, burrows, and occasionally mineralised soft bodies.",
+        "button": "View Fossils"
+      },
+      "minerals": {
+        "title": "Minerals",
+        "text": "Minerals have certain chemical composition and crystal structure. They are the basic building blocks of all rocks.",
+        "button": "View Minerals"
+      },
+      "rocks": {
+        "title": "Rocks",
+        "text": "Rocks and sediments make up solid Earth. They may be magmatic, sedimentary or metamorphic.",
+        "button": "View Rocks"
+      },
+      "meteorites": {
+        "title": "Meteorites",
+        "text": "Meteorites are space rocks that have fallen on Earth. They are composed of the same minerals as earthly rocks.",
+        "button": "View Meteorites"
+      }
+    }
+  },
+  "footer": {
+    "title": "GeoCASe: The Earth Science Collections Portal",
+    "dataBy": "Data by",
+    "partnerInstitutions": "partner institutions",
+    "collab_html": "GeoCASe 2.0 is collaborative effort of the <a href=\"https://cetaf.org\" target=\"FooterWindow\">CETAF Earth Sciences Group</a>.",
+    "created_html": "<a href=\"https://github.com/geocollections/geocase-ui\" target=\"FooterWindow\">Portal software</a> created and hosted by <a href=\"https://taltech.ee/en/department-geology\" target=\"FooterWindow\">TalTech</a> and <a href=\"https://www.museumfuernaturkunde.berlin/\" target=\"FooterWindow\">MfN</a>."
+  },
+  "header": {
+    "search": "Search",
+    "about": "About",
+    "access": "Access",
+    "partners": "Partners",
+    "resources": "Resources",
+    "titleTooltip": "Go to front page",
+    "showSearch": "Show/hide search filters",
+    "showMenu": "Show menu"
+  },
+  "resources": {
+    "cetaf": "CETAF",
+    "dissco": "DiSSCo",
+    "biocase": "BioCASe portal",
+    "gbif": "GBIF portal",
+    "abcd-efg": "ABCD-EFG standard",
+    "geocase2-github": "GeoCASe 2.0 on GitHub",
+    "geocase1": "GeoCASe 1.0 portal",
+    "geocase-api": "GeoCASe API"
+  },
   "detail": {
     "noResults": "Couldn't find any results with an <b>ID</b> of <b>{id}</b>",
     "dataFromProvider": "Data from provider (for developers)",
@@ -47,7 +117,7 @@
       "acknowledgement": "Acknowledgement",
       "lastEdited": "Last Edited",
       "lastHarvested": "Last harvested",
-      "providerName": "Provider",
+      "providerName": "Provider name",
       "specimenVerifier": "Specimen verifier",
       "geocaseId": "GeoCASe ID",
       "unitGuid": "UnitGUID"
