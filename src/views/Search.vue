@@ -12,7 +12,7 @@
           responseResultsCount ? responseResultsCount.toLocaleString() : 0
         }}</span>
         <span class="mr-1">{{
-          `record${responseResultsCount === 1 ? "" : "s"} found`
+          $tc("search.recordsFound", responseResultsCount)
         }}</span>
         <span class="hidden-sm-and-up">{{ `(page: ${page})` }}</span>
       </v-card-title>

@@ -29,5 +29,5 @@ export default new Vuex.Store({
     searchMap
   },
   plugins: [vuexLocal.plugin],
-  strict: process.env.NODE_ENV !== "production",
+  strict: process.env.NODE_ENV !== "production"
 });

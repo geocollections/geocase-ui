@@ -14,6 +14,9 @@ Vue.use(VueIziToast);
 
 Vue.config.productionTip = false;
 
+// Gets preferred language from store (fallback is en)
+i18n.locale = store?.state?.settings?.language || "en";
+
 new Vue({
   i18n,
   router,

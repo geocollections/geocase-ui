@@ -1,4 +1,3 @@
-import store from "@/store";
 import VueI18n from "vue-i18n";
 import Vue from "vue";
 
@@ -10,12 +9,8 @@ const messages = {
   de: require("./translations/de")
 };
 
-// Gets preferred language from store (fallback is en)
-const lang = store?.state?.settings?.language || "en";
-
 // Translation settings
 const i18n = new VueI18n({
-  locale: lang,
   fallbackLocale: "en",
   silentTranslationWarn: process.env.NODE_ENV === "production",
   messages

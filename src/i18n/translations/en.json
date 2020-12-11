@@ -45,5 +45,11 @@
       "geocaseId": "GeoCASe ID",
       "unitGuid": "UnitGUID"
     }
+  },
+  "search": {
+    "recordsFound": "records found | record found | records found",
+    "table": {
+
+    }
   }
 }
