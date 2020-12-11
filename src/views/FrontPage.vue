@@ -11,11 +11,10 @@
           @input="hideAlert"
         >
           <div class="font-weight-bold" style="font-size: 1.25rem;">
-            This is GeoCASe 2.0 prototype interface. It has incomplete
-            functionality and data, and is intended for testing purposes only.
+            {{ $t("frontPage.prototype_alert.title") }}
           </div>
           <div>
-            This box will be replaced by brief introduction about GeoCASe.
+            {{ $t("frontPage.prototype_alert.text") }}
           </div>
         </v-alert>
       </v-col>
@@ -24,7 +23,7 @@
     <!-- STATS -->
     <v-row no-gutters>
       <v-col cols="12" sm="4" v-for="item in stats" :key="item.text">
-        <StatsCard :text="item.text" :count="item.count" />
+        <StatsCard :text="item.text" :count="item.count" :id="item.id" />
       </v-col>
     </v-row>
 
@@ -60,8 +59,8 @@ export default {
   components: { StatsCard, HoverCard },
 
   computed: {
-    ...mapState("frontpage", ["cards", "showAlert"]),
-    ...mapGetters("frontpage", ["stats"])
+    ...mapState("frontpage", ["showAlert"]),
+    ...mapGetters("frontpage", ["stats", "cards"])
   },
 
   methods: {
