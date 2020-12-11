@@ -2,6 +2,64 @@
   "messages": {
     "languageChange": "Vahetasite keelt!"
   },
+  "frontPage": {
+    "prototype_alert": {
+      "title": "This is GeoCASe 2.0 prototype interface. It has incomplete functionality and data, and is intended for testing purposes only.",
+      "text": "This box will be replaced by brief introduction about GeoCASe."
+    },
+    "totalRecords": "Kirjeid kokku",
+    "institutionCount": "Asutuste arv",
+    "countryCount": "Riigid andmetega",
+    "cards": {
+      "fossils": {
+        "title": "Fosiilid",
+        "text": "Fossils are remains or traces of once lived organisms. They include bones, shells, burrows, and occasionally mineralised soft bodies.",
+        "button": "Vaata fosiile"
+      },
+      "minerals": {
+        "title": "Mineraalid",
+        "text": "Minerals have certain chemical composition and crystal structure. They are the basic building blocks of all rocks.",
+        "button": "Vaata Mineraale"
+      },
+      "rocks": {
+        "title": "Kivimid",
+        "text": "Rocks and sediments make up solid Earth. They may be magmatic, sedimentary or metamorphic.",
+        "button": "Vaata kivimeid"
+      },
+      "meteorites": {
+        "title": "Meteoriit",
+        "text": "Meteorites are space rocks that have fallen on Earth. They are composed of the same minerals as earthly rocks.",
+        "button": "Vaata meteoriite"
+      }
+    }
+  },
+  "footer": {
+    "title": "GeoCASe: Maateaduse Kollektsioonide Portaal",
+    "dataBy": "Andmed kogutud",
+    "partnerInstitutions": "partner asutustelt",
+    "collab_html": "GeoCASe 2.0 on <a href=\"https://cetaf.org\" target=\"FooterWindow\">CETAF Maateaduste Grupi</a> ühistööl valminud.",
+    "created_html": "<a href=\"https://github.com/geocollections/geocase-ui\" target=\"FooterWindow\">Portaali tarkvara</a> valmistud and majutatud <a href=\"https://taltech.ee/en/department-geology\" target=\"FooterWindow\">TalTech</a> ja <a href=\"https://www.museumfuernaturkunde.berlin/\" target=\"FooterWindow\">MfN</a> poolt."
+  },
+  "header": {
+    "search": "Otsing",
+    "about": "Liitu",
+    "access": "Ligipääs",
+    "partners": "Partnerid",
+    "resources": "Ressursid",
+    "titleTooltip": "Liigu esilehele",
+    "showSearch": "Näita/peida otsingu filtreid",
+    "showMenu": "Näita menüüd"
+  },
+  "resources": {
+    "cetaf": "CETAF",
+    "dissco": "DiSSCo",
+    "biocase": "BioCASe portaal",
+    "gbif": "GBIF portaal",
+    "abcd-efg": "ABCD-EFG standard",
+    "geocase2-github": "GeoCASe 2.0 GitHubis",
+    "geocase1": "GeoCASe 1.0 portaal",
+    "geocase-api": "GeoCASe API"
+  },
   "detail": {
     "noResults": "Kahjuks ei leidnud mitte ühtegi vastet, kus eksemplari <b>ID</b> oleks <b>{id}</b>",
     "dataFromProvider": "Andmed otse teenusepakkujalt (arendajatele)",
