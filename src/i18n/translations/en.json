@@ -2,6 +2,37 @@
   "messages": {
     "languageChange": "Changed language!"
   },
+  "frontPage": {
+    "prototype_alert": {
+      "title": "This is GeoCASe 2.0 prototype interface. It has incomplete functionality and data, and is intended for testing purposes only.",
+      "text": "This box will be replaced by brief introduction about GeoCASe."
+    },
+    "totalRecords": "Total Records",
+    "institutionCount": "Number of Institutions",
+    "countryCount": "Countries with data",
+    "cards": {
+      "fossils": {
+        "title": "Fossils",
+        "text": "Fossils are remains or traces of once lived organisms. They include bones, shells, burrows, and occasionally mineralised soft bodies.",
+        "button": "View Fossils"
+      },
+      "minerals": {
+        "title": "Minerals",
+        "text": "Minerals have certain chemical composition and crystal structure. They are the basic building blocks of all rocks.",
+        "button": "View Minerals"
+      },
+      "rocks": {
+        "title": "Rocks",
+        "text": "Rocks and sediments make up solid Earth. They may be magmatic, sedimentary or metamorphic.",
+        "button": "View Rocks"
+      },
+      "meteorites": {
+        "title": "Meteorites",
+        "text": "Meteorites are space rocks that have fallen on Earth. They are composed of the same minerals as earthly rocks.",
+        "button": "View Meteorites"
+      }
+    }
+  },
   "detail": {
     "noResults": "Couldn't find any results with an <b>ID</b> of <b>{id}</b>",
     "dataFromProvider": "Data from provider (for developers)",
