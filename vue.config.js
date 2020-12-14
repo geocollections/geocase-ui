@@ -1,4 +1,4 @@
-const routes = require("@/router/sitemapRoutes.js");
+const routes = require("./src/router/sitemapRoutes");
 
 module.exports = {
   transpileDependencies: ["vuetify"],

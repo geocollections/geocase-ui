@@ -34,15 +34,12 @@
         cols="12"
         sm="6"
         md="3"
-        v-for="card in cards"
-        :key="card.title"
+        v-for="cardId in cardIds"
+        :key="getCards[cardId].title"
       >
         <HoverCard
-          :title="card.title"
-          :text="card.text"
-          :button="card.button"
-          :url="card.url"
-          :image="card.image"
+          :card="getCards[cardId]"
+          @update:isLeaving="updateCardIsLeaving({ id: cardId, isLeaving: $event })"
         />
       </v-col>
     </v-row>
@@ -59,12 +56,12 @@ export default {
   components: { StatsCard, HoverCard },
 
   computed: {
-    ...mapState("frontpage", ["showAlert"]),
-    ...mapGetters("frontpage", ["stats", "cards"])
+    ...mapState("frontpage", ["showAlert", "cardIds"]),
+    ...mapGetters("frontpage", ["stats", "getCards"])
   },
 
   methods: {
-    ...mapActions("frontpage", ["hideAlert"])
+    ...mapActions("frontpage", ["hideAlert", "updateCardIsLeaving"])
   }
 };
 </script>

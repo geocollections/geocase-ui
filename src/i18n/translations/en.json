@@ -5,8 +5,8 @@
   "searchHelp": {
     "title": "Search help",
     "help1": "Enter term(s) for quickly searching through all main data tables. Uppercase and lowercase is not differentiated, for wildcard use asterisk",
-    "help2": "In case of multiple terms the results will include any of the terms. To require a specific keyword to be present, precede it with '<b class=\"secondary--text font-weight-black\">+</b>'. To exclude a term, precede it with '<b class=\"secondary--text font-weight-black\">-</b>'. For instance:",
-    "help3": "To search exact expression, use <b class=\"secondary--text\">double quotation marks</b>. Use them also if the term includes special characters like '+' or '-', for instance:",
+    "help2": "In case of multiple terms the results will include any of the terms. To require a specific keyword to be present, precede it with '<b class='secondary--text font-weight-black'>+</b>'. To exclude a term, precede it with '<b class='secondary--text font-weight-black'>-</b>'. For instance:",
+    "help3": "To search exact expression, use <b class='secondary--text'>double quotation marks</b>. Use them also if the term includes special characters like '+' or '-', for instance:",
     "help4": {
       "prepend": "Quick search box can also be used for more advanced queries, if you know names of database fields. For example, query by",
       "append": "will search all records, where stratigraphy is set to Burtnieki Stage. NB! In this kind of search, uppercase is important ('asaphus' and 'Asaphus' are not the same) and * is useful."
@@ -49,8 +49,8 @@
     "title": "GeoCASe: The Earth Science Collections Portal",
     "dataBy": "Data by",
     "partnerInstitutions": "partner institutions",
-    "collab_html": "GeoCASe 2.0 is collaborative effort of the <a href=\"https://cetaf.org\" target=\"FooterWindow\">CETAF Earth Sciences Group</a>.",
-    "created_html": "<a href=\"https://github.com/geocollections/geocase-ui\" target=\"FooterWindow\">Portal software</a> created and hosted by <a href=\"https://taltech.ee/en/department-geology\" target=\"FooterWindow\">TalTech</a> and <a href=\"https://www.museumfuernaturkunde.berlin/\" target=\"FooterWindow\">MfN</a>."
+    "collab_html": "GeoCASe 2.0 is collaborative effort of the <a href='https://cetaf.org' target='FooterWindow'>CETAF Earth Sciences Group</a>.",
+    "created_html": "<a href='https://github.com/geocollections/geocase-ui' target='FooterWindow'>Portal software</a> created and hosted by <a href='https://taltech.ee/en/department-geology' target='FooterWindow'>TalTech</a> and <a href='https://www.museumfuernaturkunde.berlin/' target='FooterWindow'>MfN</a>."
   },
   "header": {
     "search": "Search",

@@ -5,7 +5,32 @@ const state = {
   records: "1 091 666",
   datasetowner: "11",
   country: "159",
-  showAlert: true
+  showAlert: true,
+  cardIds: ["fossil", "mineral", "rock", "meteorite"],
+  cards: {
+    fossil: {
+      url:
+        '/search?recordbasis=("FossileSpecimen" "FossilSpecimen" "RecentPreservedSpecimen" "fossil")',
+      image: require("@/assets/front_page/fossil1.jpg"),
+      isLeaving: false
+    },
+    mineral: {
+      url: '/search?recordbasis="MineralSpecimen"',
+      image: require("@/assets/front_page/mineral1.jpg"),
+      isLeaving: false
+    },
+    rock: {
+      url:
+        '/search?recordbasis=("RockSpecimen" "SedimentSample" "TechnologicalSample")',
+      image: require("@/assets/front_page/rock1.jpg"),
+      isLeaving: false
+    },
+    meteorite: {
+      url: '/search?recordbasis="MeteoriteSpecimen"',
+      image: require("@/assets/front_page/meteorite1.jpg"),
+      isLeaving: false
+    }
+  }
 };
 
 const actions = {
@@ -31,6 +56,10 @@ const actions = {
 
   hideAlert({ commit }) {
     commit("HIDE_ALERT");
+  },
+
+  updateCardIsLeaving({ commit }, payload) {
+    commit("UPDATE_CARD_IS_LEAVING", payload);
   }
 };
 
@@ -46,6 +75,10 @@ const mutations = {
 
   HIDE_ALERT(state) {
     state.showAlert = false;
+  },
+
+  UPDATE_CARD_IS_LEAVING(state, payload) {
+    state.cards[payload.id].isLeaving = payload.isLeaving;
   }
 };
 
@@ -69,39 +102,33 @@ const getters = {
       }
     ];
   },
-  cards: () => {
-    return [
-      {
+  getCards: state => {
+    return {
+      fossil: {
+        ...state.cards.fossil,
         title: i18n.t("frontPage.cards.fossils.title"),
         text: i18n.t("frontPage.cards.fossils.text"),
-        button: i18n.t("frontPage.cards.fossils.button"),
-        url:
-          '/search?recordbasis=("FossileSpecimen" "FossilSpecimen" "RecentPreservedSpecimen" "fossil")',
-        image: require("@/assets/front_page/fossil1.jpg")
+        button: i18n.t("frontPage.cards.fossils.button")
       },
-      {
+      mineral: {
+        ...state.cards.mineral,
         title: i18n.t("frontPage.cards.minerals.title"),
         text: i18n.t("frontPage.cards.minerals.text"),
-        button: i18n.t("frontPage.cards.minerals.button"),
-        url: '/search?recordbasis="MineralSpecimen"',
-        image: require("@/assets/front_page/mineral1.jpg")
+        button: i18n.t("frontPage.cards.minerals.button")
       },
-      {
+      rock: {
+        ...state.cards.rock,
         title: i18n.t("frontPage.cards.rocks.title"),
         text: i18n.t("frontPage.cards.rocks.text"),
-        button: i18n.t("frontPage.cards.rocks.button"),
-        url:
-          '/search?recordbasis=("RockSpecimen" "SedimentSample" "TechnologicalSample")',
-        image: require("@/assets/front_page/rock1.jpg")
+        button: i18n.t("frontPage.cards.rocks.button")
       },
-      {
+      meteorite: {
+        ...state.cards.meteorite,
         title: i18n.t("frontPage.cards.meteorites.title"),
         text: i18n.t("frontPage.cards.meteorites.text"),
-        button: i18n.t("frontPage.cards.meteorites.button"),
-        url: '/search?recordbasis="MeteoriteSpecimen"',
-        image: require("@/assets/front_page/meteorite1.jpg")
+        button: i18n.t("frontPage.cards.meteorites.button")
       }
-    ];
+    };
   }
 };
 

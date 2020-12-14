@@ -5,8 +5,8 @@
   "searchHelp": {
     "title": "Otsingu abi",
     "help1": "Sisesta märksõna(d) kiireks otsinguks kõigist andmetabelitest. Suur- ja väiketähti ei eristata, pimesümbolina (wildcard) kasutada tärni ",
-    "help2": "Mitme märksõna korral otsitakse vasteid, kus esineb vähemalt üks otsitavatest. Et märksõna kindlasti tulemustes sisalduks, lisa selle ette '<b class=\"secondary--text font-weight-black\">+</b>'. Kui soovid mõne termini välistada, siis kasuta märksõna ees '<b class=\"secondary--text font-weight-black\">-</b>'. Näiteks: ",
-    "help3": "Mitmesõnalise väljendi otsimiseks ümbritse see <b class=\"secondary--text\">jutumärkidega</b>; sama tee ka siis kui otsitav sisaldab erimärke, nagu '-' ja '+', nt ",
+    "help2": "Mitme märksõna korral otsitakse vasteid, kus esineb vähemalt üks otsitavatest. Et märksõna kindlasti tulemustes sisalduks, lisa selle ette '<b class='secondary--text font-weight-black'>+</b>'. Kui soovid mõne termini välistada, siis kasuta märksõna ees '<b class='secondary--text font-weight-black'>-</b>'. Näiteks: ",
+    "help3": "Mitmesõnalise väljendi otsimiseks ümbritse see <b class='secondary--text'>jutumärkidega</b>; sama tee ka siis kui otsitav sisaldab erimärke, nagu '-' ja '+', nt ",
     "help4": {
       "prepend": "Kiirotsingut saab kasutada ka detailsemate pärigute jaoks, kuid selleks tuleb teada andmebaasi väljade nimetusi. Nt päring",
       "append": "otsib kirjeid, kus stratigraafiaks on määratud Burtnieki lade. NB! sellise otsingu puhul tehakse vahet suur- ja väiketähtedel ('asaphus' and 'Asaphus' ei ole samad), abiks on pimesümbol (*)."
@@ -25,22 +25,22 @@
     "cards": {
       "fossils": {
         "title": "Fossiilid",
-        "text": "Fossils are remains or traces of once lived organisms. They include bones, shells, burrows, and occasionally mineralised soft bodies.",
+        "text": "Kivistised on kunagi elanud organismide jäänused või jäljed. Nende hulka kuuluvad luud, kestad, urud ja aeg-ajalt mineraliseerunud pehmed kehad.",
         "button": "Vaata fossiile"
       },
       "minerals": {
         "title": "Mineraalid",
-        "text": "Minerals have certain chemical composition and crystal structure. They are the basic building blocks of all rocks.",
+        "text": "Mineraalidel on kindel keemiline koostis ja kristallstruktuur. Need on kõigi kivimite aluseks.",
         "button": "Vaata Mineraale"
       },
       "rocks": {
         "title": "Kivimid",
-        "text": "Rocks and sediments make up solid Earth. They may be magmatic, sedimentary or metamorphic.",
+        "text": "Kivimid ja setted moodustavad kindla Maa. Need võivad olla magmaatilised, settelised või moondelised.",
         "button": "Vaata kivimeid"
       },
       "meteorites": {
-        "title": "Meteoriit",
-        "text": "Meteorites are space rocks that have fallen on Earth. They are composed of the same minerals as earthly rocks.",
+        "title": "Meteoriidid",
+        "text": "Meteoriidid on Maale langenud kosmosekivimid, mis koosnevad samadest mineraalidest nagu maised kivimid.",
         "button": "Vaata meteoriite"
       }
     }
