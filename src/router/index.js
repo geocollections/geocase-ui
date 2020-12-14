@@ -6,8 +6,11 @@ import DetailView from "@/views/DetailView";
 import PartnersAndProviders from "@/views/PartnersAndProviders";
 import About from "@/views/About";
 import Access from "@/views/Access";
+import i18n from "@/i18n";
 
 Vue.use(Router);
+
+const LANGUAGE_REGEX = "(en|ee|de)";
 
 const router = new Router({
   mode: "history",
@@ -18,7 +21,7 @@ const router = new Router({
       redirect: "/"
     },
     {
-      path: "/",
+      path: `/:locale${LANGUAGE_REGEX}?`,
       name: "FrontPage",
       component: FrontPage,
       meta: {
@@ -29,7 +32,7 @@ const router = new Router({
       }
     },
     {
-      path: "/search",
+      path: `/:locale${LANGUAGE_REGEX}?/search`,
       name: "Search",
       component: Search,
       meta: {
@@ -41,7 +44,7 @@ const router = new Router({
     },
     {
       // path: "/specimen/:id(\\d+)",
-      path: "/specimen/:id",
+      path: "/:locale(en|ee|de)?/specimen/:id",
       name: "Detail",
       component: DetailView,
       meta: {
@@ -51,7 +54,7 @@ const router = new Router({
       }
     },
     {
-      path: "/partners_and_providers",
+      path: `/:locale${LANGUAGE_REGEX}?/partners_and_providers`,
       name: "Partners and providers",
       component: PartnersAndProviders,
       meta: {
@@ -62,7 +65,7 @@ const router = new Router({
       }
     },
     {
-      path: "/about",
+      path: `/:locale${LANGUAGE_REGEX}?/about`,
       name: "About",
       component: About,
       meta: {
@@ -73,7 +76,7 @@ const router = new Router({
       }
     },
     {
-      path: "/access",
+      path: `/:locale${LANGUAGE_REGEX}?/access`,
       name: "Access",
       component: Access,
       meta: {
@@ -84,6 +87,37 @@ const router = new Router({
       }
     }
   ]
+});
+
+import store from "@/store/index";
+
+router.beforeEach((to, from, next) => {
+  const hasLang = to.params?.locale;
+  const hadLang = from.params?.locale;
+
+  // If the language hasn't changed since last then route we're done
+  if (
+    hasLang &&
+    hadLang &&
+    to.params.locale.toLowerCase() === from.params.locale.toLowerCase()
+  )
+    next();
+
+  // Getting the current language
+  let lang = i18n.locale;
+
+  // Overwriting
+  if (hasLang) lang = to.params.locale.toLowerCase();
+
+  // Is language valid
+  if (!lang.match(LANGUAGE_REGEX)) lang = "en";
+
+  // Setting language based on the URL
+  i18n.locale = lang;
+  if (store.state.settings.language !== lang) store.dispatch("settings/updateLanguage", lang);
+
+  if (!hasLang && lang !== "en") return next(`/${lang}${to.fullPath}`);
+  else return next();
 });
 
 export default router;

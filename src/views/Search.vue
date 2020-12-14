@@ -145,9 +145,9 @@ export default {
   },
 
   watch: {
-    "$route.query"() {
-      // this.deconstructQueryParams(newVal);
-      this.search();
+    "$route.query"(newVal, oldVal) {
+      if (newVal[0] || JSON.stringify(newVal) !== JSON.stringify(oldVal))
+        this.search();
     },
     page: debounce(function(newVal) {
       this.constructQueryParams(null, { page: newVal.toString() });

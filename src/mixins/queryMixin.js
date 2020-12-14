@@ -48,6 +48,7 @@ const queryMixin = {
       if (!isEqual(this.$route.query, newQueryParams))
         this.$router.push({
           name: "Search",
+          params: this.$i18n.locale !== "en" ? { locale: this.$i18n.locale } : {},
           // query: clone(newQueryParams)
           query: { ...newQueryParams }
         });
