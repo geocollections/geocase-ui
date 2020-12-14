@@ -28,6 +28,14 @@
     </v-row>
 
     <div class="map" v-show="localities.length > 0">
+      <v-overlay :value="isLoading" z-index="2000">
+        <v-progress-circular
+          class="map-progress-circular"
+          :style="`margin-left: ${searchDrawer ? '350px' : 0}`"
+          indeterminate
+          size="128"
+        ></v-progress-circular>
+      </v-overlay>
       <div id="map" :style="{ height: isDetailView ? '50vh' : '70vh' }"></div>
     </div>
   </v-card>
@@ -163,7 +171,8 @@ export default {
         minZoom: 6,
         maxZoom: 18
       }
-    ]
+    ],
+    isLoading: false
   }),
 
   mounted() {
@@ -177,6 +186,7 @@ export default {
 
   computed: {
     ...mapState("search", ["search"]),
+    ...mapState("settings", ["searchDrawer"]),
 
     localities() {
       if (this.responseResultsCount > 0) {
@@ -316,12 +326,15 @@ export default {
         }
       } else {
         // Todo: Loading icon etc.
+        this.isLoading = true;
         setTimeout(() => {
           let geoJsonLayer = L.geoJSON(localities, {
             pointToLayer: (feature, latlng) => {
               let marker = L.marker(latlng, { icon: this.markerIcon });
               marker.bindTooltip(
-                `${this.$t("search.mapMarkerTooltip")} <br/> Lat: ${latlng.lat} <br/> Lon: ${latlng.lng}`,
+                `${this.$t("search.mapMarkerTooltip")} <br/> Lat: ${
+                  latlng.lat
+                } <br/> Lon: ${latlng.lng}`,
                 {
                   permanent: false,
                   direction: "right"
@@ -345,6 +358,7 @@ export default {
           this.map.addLayer(markersCluster);
 
           this.map.fitBounds(geoJsonLayer.getBounds());
+          this.isLoading = false;
         }, 500);
       }
     }
@@ -352,4 +366,8 @@ export default {
 };
 </script>
 
-<style scoped />
+<style scoped>
+.map-progress-circular {
+  transition: margin-left 200ms ease-in-out;
+}
+</style>
