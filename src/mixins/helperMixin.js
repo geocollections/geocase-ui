@@ -1,4 +1,8 @@
+import imageUrlMixin from "@/mixins/imageUrlMixin";
+
 const helperMixin = {
+  mixins: [imageUrlMixin],
+
   data: () => ({
     detailViewImages: []
   }),
@@ -16,11 +20,11 @@ const helperMixin = {
       if (this.imageExists) {
         const asyncRes = await Promise.all(
           images.map(async image => {
-            let img = await getMeta(image);
+            let img = await getMeta(this.getImageUrl(image));
 
             return {
               ...this.item,
-              extractedImage: image,
+              extractedImage: this.getImageUrl(image),
               imageWidth: img.width ? img.width : null,
               imageHeight: img.height ? img.height : null
             };
@@ -42,9 +46,12 @@ const helperMixin = {
         let allImages = [];
 
         responsesWithImages.forEach(item =>
-          item.images.forEach(image =>
-            allImages.push({ ...item, extractedImage: image })
-          )
+          item.images.forEach(image => {
+            allImages.push({
+              ...item,
+              extractedImage: this.getImageUrl(image)
+            });
+          })
         );
 
         return allImages;

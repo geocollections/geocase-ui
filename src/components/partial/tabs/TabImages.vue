@@ -1,5 +1,6 @@
 <template>
   <v-card flat>
+    <v-progress-linear v-if="isLoading" indeterminate color="primary"></v-progress-linear>
     <v-row class="mx-0" v-if="searchResultImages.length > 0">
       <v-col
         v-for="(image, index) in searchResultImages"
@@ -22,7 +23,7 @@
             >
               <image-wrapper
                 v-if="image.extractedImage"
-                :image-src="image.extractedImage"
+                :image-src="getImageUrl(image.extractedImage)"
               />
 
               <v-row align="center" v-else>
@@ -40,7 +41,8 @@
           <span>
             <b>ID:</b> {{ image.id }}<br />
             <span v-if="image.collectioncode">
-              <b>{{ $t("search.table.collectioncode") }}:</b> {{ image.collectioncode }}
+              <b>{{ $t("search.table.collectioncode") }}:</b>
+              {{ image.collectioncode }}
               <br />
             </span>
             <span v-if="image.unitid">
@@ -115,11 +117,12 @@ import helperMixin from "@/mixins/helperMixin";
 import ImageWrapper from "@/components/partial/image/ImageWrapper";
 import ImageOverflow from "../image/ImageOverflow";
 import { mapActions, mapState } from "vuex";
+import imageUrlMixin from "@/mixins/imageUrlMixin";
 
 export default {
   name: "TabImages",
   components: { ImageOverflow, ImageWrapper },
-  mixins: [helperMixin],
+  mixins: [helperMixin, imageUrlMixin],
 
   props: {
     responseResults: {
@@ -138,7 +141,8 @@ export default {
   }),
 
   computed: {
-    ...mapState("search", ["search"])
+    ...mapState("search", ["search", "isLoading"]),
+    ...mapState("settings", ["searchDrawer"])
   },
 
   methods: {
@@ -167,5 +171,9 @@ export default {
 }
 .image-hover {
   transition: opacity 150ms ease-in;
+}
+
+.map-progress-circular {
+  transition: margin-left 200ms ease-in-out;
 }
 </style>
