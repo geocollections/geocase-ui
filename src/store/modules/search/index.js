@@ -124,7 +124,7 @@ const state = {
     },
     has_image: {
       id: "has_image",
-      type: "checkbox",
+      type: "single_checkbox",
       lookUpType: "",
       value: null,
       label: "Show only data with images"

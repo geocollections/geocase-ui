@@ -67,6 +67,11 @@ const mutations = {
         state.search[item].lookUpType = "contains";
       if (state.search[item].value !== null) state.search[item].value = null;
     });
+    // Also resetting search params
+    state.page = 1;
+    state.paginateBy = 25;
+    state.sortBy = ["fullscientificname"];
+    state.sortDesc = [false];
   },
 
   SET_ALL_FIELD_NAMES(state, payload) {

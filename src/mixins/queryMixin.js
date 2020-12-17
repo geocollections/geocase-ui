@@ -19,7 +19,7 @@ const queryMixin = {
 
           // Clearing previous keys
           Object.keys(appendableQuery).forEach(entity =>
-            entity.includes(queryKey) ? delete appendableQuery[entity] : ""
+            entity === queryKey ? delete appendableQuery[entity] : ""
           );
 
           if (search[item].value && search[item].value.trim().length > 0) {
@@ -48,7 +48,8 @@ const queryMixin = {
       if (!isEqual(this.$route.query, newQueryParams))
         this.$router.push({
           name: "Search",
-          params: this.$i18n.locale !== "en" ? { locale: this.$i18n.locale } : {},
+          params:
+            this.$i18n.locale !== "en" ? { locale: this.$i18n.locale } : {},
           // query: clone(newQueryParams)
           query: { ...newQueryParams }
         });

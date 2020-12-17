@@ -103,6 +103,7 @@ import TabImages from "@/components/partial/tabs/TabImages";
 import TabMap from "@/components/partial/tabs/TabMap";
 import TabTable from "@/components/partial/tabs/TabTable";
 import { debounce } from "lodash";
+import imageUrlMixin from "@/mixins/imageUrlMixin";
 
 export default {
   name: "Search",
@@ -115,7 +116,7 @@ export default {
     ScrollToTop
   },
 
-  mixins: [queryMixin],
+  mixins: [queryMixin, imageUrlMixin],
 
   data: () => ({
     tab: null,
@@ -184,7 +185,7 @@ export default {
     async openGallery(image) {
       this.tab = 1;
       await new Promise(resolve => setTimeout(resolve, 200));
-      this.$refs.imageTab[0].openDialogUsingImage(image);
+      this.$refs.imageTab[0].openDialogUsingImage(this.getImageUrl(image));
     },
 
     updateSearchParamDebounced: debounce(function(action, value) {

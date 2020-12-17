@@ -1,6 +1,10 @@
 <template>
   <v-card flat>
-    <v-progress-linear v-if="isLoading" indeterminate color="primary"></v-progress-linear>
+    <v-progress-linear
+      v-if="isLoading"
+      indeterminate
+      color="primary"
+    ></v-progress-linear>
     <v-row class="mx-0" v-if="searchResultImages.length > 0">
       <v-col
         v-for="(image, index) in searchResultImages"
