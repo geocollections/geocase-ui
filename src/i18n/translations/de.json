@@ -1,15 +1,15 @@
 {
   "messages": {
-    "languageChange": "Die Sprache wurde ge&auml;ndert!"
+    "languageChange": "Die Sprache wurde geändert!"
   },
   "searchHelp": {
     "title": "Suchhilfe",
-    "help1": "Geben Sie den/die Begriff(e) f&uuml;r eine schnelle Suche in allen Haupttabellen ein. Gro&szlig;- und Kleinschreibung wird nicht unterschieden, f&uuml;r Platzhalter bitte ein Sternchen (*) verwenden",
-    "help2": "Bei Eingabe mehrerer Suchbegriffe enthalten Sie Ergebnisse f&uuml;r jeden der Begriffe. Um das Vorhandensein eines bestimmten Schl&uuml;sselworts sicherzustellen, stellen Sie ihm '<b class='secondary--text font-weight-black'>+</b>' voran. Um einen Begriff auszuschlie&szlig;en, stellen Sie ihm '<b class='secondary--text font-weight-black'>-</b>' voran. Zum Beispiel:",
-    "help3": "Um einen exakten Ausdruck zu suchen, verwenden Sie bitte <b class='secondary--text'>doppelte Anf&uuml;hrungszeichen</b>. Verwenden Sie diese auch, wenn der Begriff Sonderzeichen wie z. B. '+' oder '-' enth&auml;lt.",
+    "help1": "Geben Sie den/die Begriff(e) für eine schnelle Suche in allen Haupttabellen ein. Groß- und Kleinschreibung wird nicht unterschieden, für Platzhalter bitte ein Sternchen (*) verwenden",
+    "help2": "Bei Eingabe mehrerer Suchbegriffe enthalten Sie Ergebnisse für jeden der Begriffe. Um das Vorhandensein eines bestimmten Schlüsselworts sicherzustellen, stellen Sie ihm '<b class='secondary--text font-weight-black'>+</b>' voran. Um einen Begriff auszuschließen, stellen Sie ihm '<b class='secondary--text font-weight-black'>-</b>' voran. Zum Beispiel:",
+    "help3": "Um einen exakten Ausdruck zu suchen, verwenden Sie bitte <b class='secondary--text'>doppelte Anführungszeichen</b>. Verwenden Sie diese auch, wenn der Begriff Sonderzeichen wie z. B. '+' oder '-' enthalt.",
     "help4": {
-      "prepend": "Das Schnellsuchfeld kann auch f&uuml;r erweiterte Abfragen verwendet werden, wenn Sie die Namen der Datenbankfelder kennen. Zum Beispiel, Abfrage nach",
-      "append": "sucht alle Datens&auml;tze, bei denen die Stratigraphie auf Burtnieki-Stufe eingestellt ist. HINWEIS! Bei dieser Art der Suche ist die Gro&szlig;schreibung wichtig ('asaphus' und 'Asaphus' sind nicht dasselbe) und * ist n&uuml;tzlich."
+      "prepend": "Das Schnellsuchfeld kann auch für erweiterte Abfragen verwendet werden, wenn Sie die Namen der Datenbankfelder kennen. Zum Beispiel, Abfrage nach",
+      "append": "sucht alle Datensatze, bei denen die Stratigraphie auf Burtnieki-Stufe eingestellt ist. HINWEIS! Bei dieser Art der Suche ist die Großschreibung wichtig ('asaphus' und 'Asaphus' sind nicht dasselbe) und * ist nützlich."
     }
   },
   "frontPage": {
@@ -19,13 +19,13 @@
     },
     "title": "The Earth Science Collections Portal",
     "findQuickly": "Schnellsuche...",
-    "totalRecords": "Eintr&auml;ge insgesamt",
+    "totalRecords": "Einträge insgesamt",
     "institutionCount": "Anzahl der Institutionen",
-    "countryCount": "L&auml;nder mit Daten",
+    "countryCount": "Anzahl der Länder",
     "cards": {
       "fossils": {
         "title": "Fossilien",
-        "text": "Fossilien sind &Uuml;berreste oder Spuren von einst lebenden Organismen. Sie umfassen Knochen, Muscheln, H&ouml;hlen und gelegentlich mineralisierte Weichk&ouml;rper.",
+        "text": "Fossilien sind Überreste oder Spuren von einst lebenden Organismen. Sie umfassen Knochen, Muscheln, Höhlen und gelegentlich mineralisierte Weichkörper.",
         "button": "Fossilien ansehen"
       },
       "minerals": {
@@ -35,7 +35,7 @@
       },
       "rocks": {
         "title": "Gesteine",
-        "text": "Gesteine und Sedimente bilden die feste Erde. Sie k&ouml;nnen magmatisch, sediment&auml;r oder metamorph sein.",
+        "text": "Gesteine und Sedimente bilden die feste Erde. Sie können magmatisch, sedimentär oder metamorph sein.",
         "button": "Gesteine ansehen"
       },
       "meteorites": {
@@ -54,13 +54,13 @@
   },
   "header": {
     "search": "Suche",
-    "about": "&Uuml;ber uns",
+    "about": "Über GeoCASe",
     "access": "Zugang",
     "partners": "Partner",
     "resources": "Ressourcen",
     "titleTooltip": "Zur Startseite",
     "showSearch": "Zeige/verberge Suchfilter",
-    "showMenu": "Zeige das Men&uuml;"
+    "showMenu": "Zeige das Menü"
   },
   "resources": {
     "cetaf": "CETAF",
@@ -74,8 +74,8 @@
   },
   "detail": {
     "noResults": "Es konnten keine Ergebnisse mit der <b>ID</b> <b>{id}</b> gefunden werden.",
-    "dataFromProvider": "Daten vom Provider (f&uuml;r Entwickler)",
-    "goBack": "Zur&uuml;ck",
+    "dataFromProvider": "Daten vom Provider (für Entwickler)",
+    "goBack": "Zurück",
     "specimenType": {
       "fossil": "Fossil",
       "mineral": "Mineral",
@@ -90,9 +90,9 @@
       "group": "Gruppe",
       "country": "Land",
       "area": "Gebiet",
-      "locality": "Localit&auml;t",
+      "locality": "Lokalität",
       "latitude": "Breitengrad",
-      "longitude": "L&auml;ngengrad",
+      "longitude": "Langengrad",
       "stratigraphy": "Stratigraphie",
       "mindat": "Mindat",
       "taxonRecordInPbdb": "Taxon record in PBDB",
@@ -108,7 +108,7 @@
       "contactPerson": "Kontaktperson",
       "contactEmail": "Kontakt Email",
       "contactPhone": "Kontakt Telefonnummer",
-      "contactAddress": "Kontaktaddresse",
+      "contactAddress": "Kontaktadresse",
       "contactData": "Kontaktdaten",
       "dataSourceCountry": "Land der Datenquelle",
       "copyright": "Copyright",
@@ -117,18 +117,18 @@
       "acknowledgement": "Acknowledgement",
       "lastEdited": "Zuletzt bearbeitet",
       "lastHarvested": "Zuletzt abgeholt",
-      "providerName": "Anbietername",
-      "specimenVerifier": "Specimen Pr&uuml;fer",
+      "providerName": "Name des Datenanbieter",
+      "specimenVerifier": "Specimen Prüfer",
       "geocaseId": "GeoCASe ID",
       "unitGuid": "UnitGUID"
     }
   },
   "search": {
-    "recordsFound": "Eintr&auml;ge gefunden | Eintr&auml;ge gefunden | Eintr&auml;ge gefunden",
-    "openGallery": "Galerie &ouml;ffnen",
+    "recordsFound": "Einträge gefunden | Einträge gefunden | Einträge gefunden",
+    "openGallery": "Galerie öffnen",
     "mindatLink": "Link zu mindat.org",
     "goToDetailView": "Gehe zur Detailansicht",
-    "mapMarkerTooltip": "Hier klicken, um Specimens an dieser Lokalit&auml;t zu suchen!",
+    "mapMarkerTooltip": "Hier klicken, um Specimens an dieser Lokalität zu suchen!",
     "tab": {
       "table": "Tabelle",
       "images": "Bilder",
@@ -146,21 +146,21 @@
       "gatheringareas": "Sammelgebiete",
       "stratigraphytext": "Stratigraphie Text",
       "taxon_id_tol": "Taxon ID TOL",
-      "datasetownerabbrev": "Besitzer der Datensatzes (Abk.)",
+      "datasetownerabbrev": "Besitzer des Datensatzes (Abk.)",
       "last_harvested_processing": "Zuletzt abgeholt",
       "id": "ID",
       "taxon_hierarchy_string": "Taxon Hierarchie",
-      "longitude": "L&auml;ngegrad",
+      "longitude": "Langegrad",
       "highertaxon": "Gruppe",
       "images": "Bilder",
       "recordbasis": "Specimen type",
       "higherrank": "Rang",
       "acquiredfrom": "Erworben von",
       "datasourcecountry": "Land der Datenquelle",
-      "locality": "Localit&auml;t",
+      "locality": "Lokalität",
       "mindat_url": "Mindat URL",
       "occurrenceid": "Occurrence ID",
-      "provideraddress": "Anbieter Adresse",
+      "provideraddress": "Datenanbieter Adresse",
       "area_type": "Gebietstyp",
       "taxon_id_pbdb": "Taxon id PBDB",
       "has_map": "Hat Karte?",
@@ -171,11 +171,11 @@
       "type_fullscientificname": "Name type",
       "latitude": "Breitengrad",
       "image_license": "Bildlizenz",
-      "providercountry": "Anbieter Land",
+      "providercountry": "Datenanbieter Land",
       "type_status": "Typenstatus",
       "maxdepth": "Max. Tiefe",
       "stratigraphy": "Stratigraphie",
-      "providerurl": "Anbieter URL",
+      "providerurl": "Datenanbieter URL",
       "has_image": "Hat Bild?",
       "highertaxon_facet": "Gruppe",
       "image_author": "Bildersteller",
@@ -183,7 +183,7 @@
       "taxon_id": "Taxon ID",
       "image_date": "Erstellungsdatum des Bildes",
       "collectorname": "Sammler",
-      "providername": "Anbieter",
+      "providername": "Datenanbieter",
       "url": "URL",
       "relatedResource": "Verwandte Ressource",
       "names": "Namen",
@@ -203,29 +203,29 @@
       "copyFailed": "Kopieren fehlgeschlagen: Nicht zum Kopieren vorhanden!"
     },
     "drawer": {
-      "additionalFilters": "Zus&auml;tzliche Filter",
+      "additionalFilters": "Zusätzliche Filter",
       "extraOptions": "Extra-Optionen",
-      "resetSearch": "Suche zur&uuml;cksetzen",
+      "resetSearch": "Suche zurücksetzen",
       "clearFilters": "Entferne '{field}' Filter",
       "more": "Mehr",
       "less": "Weniger",
       "has_image": "Zeige nur Daten mit Bildern",
-      "has_map": "Zeige nur georeferenzierte Eintr&auml;ge",
-      "fixedHeaders": "Fixierter Tabellenkopf (nur f&uuml;r gro&szlig;e Monitore)",
+      "has_map": "Zeige nur georeferenzierte Einträge",
+      "fixedHeaders": "Fixierter Tabellenkopf (nur für große Monitore)",
       "tableHeaders": "Tabellenkopf"
     },
-    "tableNoResults": "Keine Eintr&auml;ge mit diesen Parametern gefunden.",
+    "tableNoResults": "Keine Einträge mit diesen Parametern gefunden.",
     "imageNoResults": "Keine Bilder mit diesen Parametern gefunden.",
-    "imageNoResultsFilterInfo": "Filter hinzuf&uuml;gen, umnur Eintr&auml;ge mit Bildern zu finden.",
-    "imageNoResultsAddFilter": "Filter hinzuf&uuml;gen",
-    "mapNoResults": "Konnte keine Lokalit&auml;ten finden."
+    "imageNoResultsFilterInfo": "Filter hinzufügen, um nur Einträge mit Bildern zu finden.",
+    "imageNoResultsAddFilter": "Filter hinzufügen",
+    "mapNoResults": "Konnte keine Lokalitäten finden."
   },
   "imageGallery": {
     "date": "Datum",
     "licence": "Lizenz",
     "linkToImage": "Link zum Bild",
     "cycleImages": "Bilder drehen",
-    "closeGallery": "Galerie schlie&szlig;en",
+    "closeGallery": "Galerie schließen",
     "imageGallery": "Bilder-Galerie",
     "hideThumbnails": "Zeige Voransichten",
     "showThumbnails": "Verberge Voransichten",
