@@ -114,7 +114,8 @@ router.beforeEach((to, from, next) => {
 
   // Setting language based on the URL
   i18n.locale = lang;
-  if (store.state.settings.language !== lang) store.dispatch("settings/updateLanguage", lang);
+  if (store.state.settings.language !== lang)
+    store.dispatch("settings/updateLanguage", lang);
 
   if (!hasLang && lang !== "en") return next(`/${lang}${to.fullPath}`);
   else return next();

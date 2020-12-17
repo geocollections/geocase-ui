@@ -29,7 +29,9 @@
               <v-icon small>fas fa-th</v-icon>
             </v-btn>
           </template>
-          <span>{{ $t(`imageGallery.${showGallery ? "hide" : "show"}Thumbnails`) }}</span>
+          <span>{{
+            $t(`imageGallery.${showGallery ? "hide" : "show"}Thumbnails`)
+          }}</span>
         </v-tooltip>
 
         <v-tooltip bottom>
@@ -105,10 +107,12 @@
                 style="font-size: 1.125rem; line-height: 1.5;"
               >
                 <div v-if="images[currentIndex].image_date">
-                  {{ $t("imageGallery.date") }}: {{ images[currentIndex].image_date }}
+                  {{ $t("imageGallery.date") }}:
+                  {{ images[currentIndex].image_date }}
                 </div>
                 <div v-if="images[currentIndex].image_licence">
-                  {{ $t("imageGallery.licence") }}: {{ images[currentIndex].image_licence }}
+                  {{ $t("imageGallery.licence") }}:
+                  {{ images[currentIndex].image_licence }}
                 </div>
                 <div>
                   <router-link

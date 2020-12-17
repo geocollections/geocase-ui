@@ -39,7 +39,9 @@
       >
         <HoverCard
           :card="getCards[cardId]"
-          @update:isLeaving="updateCardIsLeaving({ id: cardId, isLeaving: $event })"
+          @update:isLeaving="
+            updateCardIsLeaving({ id: cardId, isLeaving: $event })
+          "
         />
       </v-col>
     </v-row>

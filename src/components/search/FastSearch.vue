@@ -91,7 +91,8 @@ export default {
         setTimeout(() => {
           this.$router.push({
             name: "Search",
-            params: this.$i18n.locale !== "en" ? { locale: this.$i18n.locale } : {},
+            params:
+              this.$i18n.locale !== "en" ? { locale: this.$i18n.locale } : {},
             query: { ...this.$route.query, q: this.fastSearch, page: 1 }
           });
         }, 250);

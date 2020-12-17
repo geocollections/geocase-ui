@@ -42,7 +42,6 @@ const helperMixin = {
         let responsesWithImages = this.responseResults.filter(
           image => !!image.images
         );
-
         let allImages = [];
 
         responsesWithImages.forEach(item =>
