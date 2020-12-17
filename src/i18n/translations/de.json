@@ -73,9 +73,11 @@
     "geocase-api": "GeoCASe API"
   },
   "detail": {
+
     "noResults": "Es konnten keine Ergebnisse mit der <b>ID</b> <b>{id}</b> gefunden werden.",
     "dataFromProvider": "Daten vom Provider (für Entwickler)",
     "goBack": "Zurück",
+    "otherIdentification": "Weitere Identifikationen",
     "specimenType": {
       "fossil": "Fossil",
       "mineral": "Mineral",

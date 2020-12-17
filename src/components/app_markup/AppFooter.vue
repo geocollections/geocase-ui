@@ -27,7 +27,11 @@
             href="https://taltech.ee/en/department-geology"
             target="FooterWindow"
             ><v-img
-              src="https://files.geocollections.info/img/geocase/taltech1.png"
+              :src="
+                getImageUrl(
+                  'https://files.geocollections.info/img/geocase/taltech1.png'
+                )
+              "
               height="100"
               contain
           /></a>
@@ -35,7 +39,11 @@
             href="https://www.museumfuernaturkunde.berlin/"
             target="FooterWindow"
             ><v-img
-              src="https://files.geocollections.info/img/geocase/mfn1.png"
+              :src="
+                getImageUrl(
+                  'https://files.geocollections.info/img/geocase/mfn1.png'
+                )
+              "
               height="110"
               contain
           /></a>
@@ -46,8 +54,11 @@
 </template>
 
 <script>
+import imageUrlMixin from "@/mixins/imageUrlMixin";
+
 export default {
-  name: "AppFooter"
+  name: "AppFooter",
+  mixins: [imageUrlMixin]
 };
 </script>
 

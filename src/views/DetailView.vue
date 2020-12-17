@@ -104,9 +104,8 @@
                     v-if="filteredNames.length > 0"
                   >
                     <span class="font-weight-regular"
-                      >Identification<span v-if="filteredNames.length > 1"
-                        >s</span
-                      >:
+                      >{{ $t("detail.otherIdentification")
+                      }}<span v-if="filteredNames.length > 1">s</span>:
                     </span>
                     <span
                       :class="{ 'font-italic': isItemFossil }"
