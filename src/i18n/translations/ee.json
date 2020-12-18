@@ -3,7 +3,7 @@
     "languageChange": "Vahetasite keelt!"
   },
   "searchHelp": {
-    "title": "Otsingu abi",
+    "title": "Otsingu abiinfo",
     "help1": "Sisesta märksõna(d) kiireks otsinguks kõigist andmetabelitest. Suur- ja väiketähti ei eristata, pimesümbolina (wildcard) kasutada tärni ",
     "help2": "Mitme märksõna korral otsitakse vasteid, kus esineb vähemalt üks otsitavatest. Et märksõna kindlasti tulemustes sisalduks, lisa selle ette '<b class='secondary--text font-weight-black'>+</b>'. Kui soovid mõne termini välistada, siis kasuta märksõna ees '<b class='secondary--text font-weight-black'>-</b>'. Näiteks: ",
     "help3": "Mitmesõnalise väljendi otsimiseks ümbritse see <b class='secondary--text'>jutumärkidega</b>; sama tee ka siis kui otsitav sisaldab erimärke, nagu '-' ja '+', nt ",
@@ -14,10 +14,10 @@
   },
   "frontPage": {
     "prototype_alert": {
-      "title": "See on GeoCASe 2.0 prototüüp liides. Funktsionaalsus ja andmestik ei ole veel täielik ning on mõeldud ainult testimiseks.",
-      "text": "See info kast asendatakse GeoCase lühitutvustusega."
+      "title": "See on GeoCASe 2.0 prototüüp. Funktsionaalsus ja andmestik ei ole veel täielik ning on mõeldud ainult testimiseks.",
+      "text": "See infokast asendatakse GeoCase lühitutvustusega."
     },
-    "title": "Maateaduse kollektsioonide portaal",
+    "title": "Euroopa Geokogude Portaal",
     "findQuickly": "Leia kiirelt...",
     "totalRecords": "Kirjeid kokku",
     "institutionCount": "Asutuste arv",
@@ -46,11 +46,11 @@
     }
   },
   "footer": {
-    "title": "GeoCASe: Maateaduse Kollektsioonide Portaal",
+    "title": "GeoCASe: Euroopa Geokogude Portaal",
     "dataBy": "Andmed kogutud",
-    "partnerInstitutions": "partner asutustelt",
-    "collab_html": "GeoCASe 2.0 on valminud <a href='https://cetaf.org' target='FooterWindow'>CETAF Maateaduste Grupi</a> ühistööl.",
-    "created_html": "<a href='https://github.com/geocollections/geocase-ui' target='FooterWindow'>Portaali tarkvara</a> on valmistud ja majutatud <a href='https://taltech.ee/en/department-geology' target='FooterWindow'>TalTech</a> ning <a href='https://www.museumfuernaturkunde.berlin/' target='FooterWindow'>MfN</a> poolt."
+    "partnerInstitutions": "partnerasutustelt",
+    "collab_html": "GeoCASe 2.0 on valminud <a href='https://cetaf.org' target='FooterWindow'>CETAF Earth Science Group'i</a> ühistööl.",
+    "created_html": "<a href='https://github.com/geocollections/geocase-ui' target='FooterWindow'>Portaali tarkvara</a> on loodud ja majutatud <a href='https://taltech.ee/en/department-geology' target='FooterWindow'>TalTech</a> ning <a href='https://www.museumfuernaturkunde.berlin/' target='FooterWindow'>MfN</a> poolt."
   },
   "header": {
     "search": "Otsing",
@@ -74,7 +74,7 @@
   },
   "detail": {
     "noResults": "Kahjuks ei leidnud mitte ühtegi vastet, kus eksemplari <b>ID</b> oleks <b>{id}</b>",
-    "dataFromProvider": "Andmed otse teenusepakkujalt (arendajatele)",
+    "dataFromProvider": "Andmed otse algallikast (arendajatele)",
     "goBack": "Mine tagasi",
     "otherIdentification": "Teised määrangu(d)",
     "specimenType": {
@@ -100,7 +100,7 @@
       "taxonInEncyclopediaOfLife": "Takson Encyclopedia of Life-s",
       "taxonInTreeOfLife": "Takson Tree of Life'is",
       "TaxonInFossiilidInfo": "Takson fossiilid.info-s",
-      "recordUri": "Kirje URI",
+      "recordUri": "Kirje URL",
       "relatedResource": "Seotud allikas"
     },
     "secondaryTable": {
@@ -172,11 +172,11 @@
       "type_fullscientificname": "Nime tüüp",
       "latitude": "Laiuskraad",
       "image_license": "Pilti litsents",
-      "providercountry": "Teenusepakkuja riik",
+      "providercountry": "Andmetarnija riik",
       "type_status": "Originaal staatus",
       "maxdepth": "Max. sügavus",
       "stratigraphy": "Stratigraafia",
-      "providerurl": "Teenusepakkuja URL",
+      "providerurl": "Andmetarnija URL",
       "has_image": "On pilt?",
       "highertaxon_facet": "Rühm",
       "image_author": "Pildi autor",
@@ -184,7 +184,7 @@
       "taxon_id": "Taksoni ID",
       "image_date": "Pildi kuupäev",
       "collectorname": "Koguja",
-      "providername": "Teenusepakkuja",
+      "providername": "Andmetarnija",
       "url": "URL",
       "relatedResource": "Seotud allikas",
       "names": "Nimed",
@@ -205,14 +205,14 @@
     },
     "drawer": {
       "additionalFilters": "Täiendavad filtrid",
-      "extraOptions": "Lisa sätted",
+      "extraOptions": "Lisavõimalused",
       "resetSearch": "Taasta otsing",
       "clearFilters": "Puhasta '{field}' filtrid",
       "more": "Rohkem",
       "less": "Vähem",
-      "has_image": "Näita kirjeid, mis sisaldavad pilte",
-      "has_map": "Näita kirjeid, mis sisaldavad asukoha informatsiooni",
-      "fixedHeaders": "Fikseeri tabeli päis (ainult suurte ekraandie puhul)",
+      "has_image": "Näita ainult piltidega kirjeid",
+      "has_map": "Näita ainult koordinaatidega kirjeid",
+      "fixedHeaders": "Külmuta tabeli päiserida (ainult suurte ekraandie puhul)",
       "tableHeaders": "Tabeli päised"
     },
     "tableNoResults": "Antud otsinguparameetritega kirjeid ei leitud.",
