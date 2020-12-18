@@ -17,6 +17,7 @@ const state = {
     { text: "latitude", value: "latitude" },
     { text: "longitude", value: "longitude" },
     { text: "stratigraphy", value: "stratigraphy" },
+    { text: "reference", value: "reference" },
     { text: "mindat", value: "mindat_url" },
     { text: "taxonRecordInPbdb", value: "taxon_id_pbdb" },
     { text: "taxonInEncyclopediaOfLife", value: "taxon_id_eol" },

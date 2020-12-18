@@ -132,43 +132,51 @@ const getters = {
 
   itemStratigraphy: state => {
     const stratigraphy =
-      state?.responseFromSource?.["abcd:DataSets"]?.["abcd:DataSet"]?.[0]?.[
+      state?.responseFromSource?.["abcd:DataSets"]?.["abcd:DataSet"]?.[
         "abcd:Units"
-      ]?.[0]?.["abcd:Unit"]?.[0]?.["abcd:UnitExtension"]?.[0]?.[
-        "efg:EarthScienceSpecimen"
-      ]?.[0]?.["efg:UnitStratigraphicDetermination"]?.[0]?.[
-        "efg:ChronostratigraphicAttributions"
-      ]?.[0]?.["efg:ChronostratigraphicAttribution"];
+      ]?.["abcd:Unit"]?.["abcd:UnitExtension"]?.["efg:EarthScienceSpecimen"]?.[
+        "efg:UnitStratigraphicDetermination"
+      ]?.["efg:ChronostratigraphicAttributions"]?.[
+        "efg:ChronostratigraphicAttribution"
+      ];
 
     if (stratigraphy) {
-      let stratigraphyList = stratigraphy
-        .map(item => {
-          if (
-            item["efg:ChronostratigraphicName"] &&
-            item["efg:ChronoStratigraphicDivision"]
-          ) {
-            return `${item["efg:ChronoStratigraphicDivision"]}: ${item["efg:ChronostratigraphicName"]}`;
-          }
-        })
-        .filter(item => item);
-      if (stratigraphyList && stratigraphyList.length > 0)
-        return stratigraphyList;
-      else return null;
+      if (Array.isArray(stratigraphy)) {
+        let stratigraphyList = stratigraphy
+          .map(item => {
+            if (
+              item["efg:ChronostratigraphicName"] &&
+              item["efg:ChronoStratigraphicDivision"]
+            ) {
+              return `${item["efg:ChronoStratigraphicDivision"]}: ${item["efg:ChronostratigraphicName"]}`;
+            }
+          })
+          .filter(item => item);
+        if (stratigraphyList && stratigraphyList.length > 0)
+          return stratigraphyList;
+        else return null;
+      } else if (
+        stratigraphy["efg:ChronoStratigraphicDivision"] &&
+        stratigraphy["efg:ChronostratigraphicName"]
+      )
+        return [
+          `${stratigraphy["efg:ChronoStratigraphicDivision"]}: ${stratigraphy["efg:ChronostratigraphicName"]}`
+        ];
     } else return null;
   },
 
   contentContact: state => {
-    return state?.responseFromSource?.["abcd:DataSets"]?.[
-      "abcd:DataSet"
-    ]?.[0]?.["abcd:ContentContacts"]?.[0]?.["abcd:ContentContact"]?.[0];
+    return state?.responseFromSource?.["abcd:DataSets"]?.["abcd:DataSet"]?.[
+      "abcd:ContentContacts"
+    ]?.["abcd:ContentContact"];
   },
 
   contentContactName: (state, getters) => {
-    return getters?.contentContact?.["abcd:Name"]?.[0];
+    return getters?.contentContact?.["abcd:Name"];
   },
 
   contentContactEmail: (state, getters) => {
-    let email = getters?.contentContact?.["abcd:Email"]?.[0];
+    let email = getters?.contentContact?.["abcd:Email"];
     if (email) {
       if (email.includes("(at)")) email = email.replace("(at)", "@");
       return email;
@@ -176,89 +184,81 @@ const getters = {
   },
 
   contentContactPhone: (state, getters) => {
-    return getters?.contentContact?.["abcd:Phone"]?.[0];
+    return getters?.contentContact?.["abcd:Phone"];
   },
 
   contentContactAddress: (state, getters) => {
-    return getters?.contentContact?.["abcd:Address"]?.[0];
+    return getters?.contentContact?.["abcd:Address"];
   },
 
   logoURI: state => {
-    return state?.responseFromSource?.["abcd:DataSets"]?.[
-      "abcd:DataSet"
-    ]?.[0]?.["abcd:Metadata"]?.[0]?.["abcd:Owners"]?.[0]?.["abcd:Owner"]?.[0]?.[
-      "abcd:LogoURI"
-    ]?.[0];
+    return state?.responseFromSource?.["abcd:DataSets"]?.["abcd:DataSet"]?.[
+      "abcd:Metadata"
+    ]?.["abcd:Owners"]?.["abcd:Owner"]?.["abcd:LogoURI"];
   },
 
   representationTitle: state => {
-    return state?.responseFromSource?.["abcd:DataSets"]?.[
-      "abcd:DataSet"
-    ]?.[0]?.["abcd:Metadata"]?.[0]?.["abcd:Description"]?.[0]?.[
-      "abcd:Representation"
-    ]?.[0]?.["abcd:Title"]?.[0];
+    return state?.responseFromSource?.["abcd:DataSets"]?.["abcd:DataSet"]?.[
+      "abcd:Metadata"
+    ]?.["abcd:Description"]?.["abcd:Representation"]?.["abcd:Title"];
   },
 
   representationURI: state => {
     let representationUrl =
-      state?.responseFromSource?.["abcd:DataSets"]?.["abcd:DataSet"]?.[0]?.[
+      state?.responseFromSource?.["abcd:DataSets"]?.["abcd:DataSet"]?.[
         "abcd:Metadata"
-      ]?.[0]?.["abcd:Description"]?.[0]?.["abcd:Representation"]?.[0]?.[
-        "abcd:URI"
-      ]?.[0];
+      ]?.["abcd:Description"]?.["abcd:Representation"]?.["abcd:URI"];
     let ownerUrl =
-      state?.responseFromSource?.["abcd:DataSets"]?.["abcd:DataSet"]?.[0]?.[
+      state?.responseFromSource?.["abcd:DataSets"]?.["abcd:DataSet"]?.[
         "abcd:Metadata"
-      ]?.[0]?.["abcd:Owners"]?.[0]?.["abcd:Owner"]?.[0]?.["abcd:URIs"]?.[0]?.[
-        "abcd:URL"
-      ]?.[0];
+      ]?.["abcd:Owners"]?.["abcd:Owner"]?.["abcd:URIs"]?.["abcd:URL"];
     if (representationUrl) return representationUrl;
     else if (ownerUrl) return ownerUrl;
     else return null;
   },
 
   copyrights: state => {
-    return state?.responseFromSource?.["abcd:DataSets"]?.[
-      "abcd:DataSet"
-    ]?.[0]?.["abcd:Metadata"]?.[0]?.["abcd:IPRStatements"]?.[0]?.[
-      "abcd:Copyrights"
-    ]?.[0]?.["abcd:Copyright"]?.[0]?.["abcd:Text"]?.[0];
+    return state?.responseFromSource?.["abcd:DataSets"]?.["abcd:DataSet"]?.[
+      "abcd:Metadata"
+    ]?.["abcd:IPRStatements"]?.["abcd:Copyrights"]?.["abcd:Copyright"]?.[
+      "abcd:Text"
+    ];
   },
 
   termsofusestatements: state => {
-    return state?.responseFromSource?.["abcd:DataSets"]?.[
-      "abcd:DataSet"
-    ]?.[0]?.["abcd:Metadata"]?.[0]?.["abcd:IPRStatements"]?.[0]?.[
-      "abcd:TermsOfUseStatements"
-    ]?.[0]?.["abcd:TermsOfUse"]?.[0]?.["abcd:Text"]?.[0];
+    return state?.responseFromSource?.["abcd:DataSets"]?.["abcd:DataSet"]?.[
+      "abcd:Metadata"
+    ]?.["abcd:IPRStatements"]?.["abcd:TermsOfUseStatements"]?.[
+      "abcd:TermsOfUse"
+    ]?.["abcd:Text"];
   },
 
   disclaimers: state => {
-    return state?.responseFromSource?.["abcd:DataSets"]?.[
-      "abcd:DataSet"
-    ]?.[0]?.["abcd:Metadata"]?.[0]?.["abcd:IPRStatements"]?.[0]?.[
-      "abcd:Disclaimers"
-    ]?.[0]?.["abcd:Disclaimer"]?.[0]?.["abcd:Text"]?.[0];
+    return state?.responseFromSource?.["abcd:DataSets"]?.["abcd:DataSet"]?.[
+      "abcd:Metadata"
+    ]?.["abcd:IPRStatements"]?.["abcd:Disclaimers"]?.["abcd:Disclaimer"]?.[
+      "abcd:Text"
+    ];
   },
 
   acknowledgements: state => {
-    return state?.responseFromSource?.["abcd:DataSets"]?.[
-      "abcd:DataSet"
-    ]?.[0]?.["abcd:Metadata"]?.[0]?.["abcd:IPRStatements"]?.[0]?.[
-      "abcd:Acknowledgements"
-    ]?.[0]?.["abcd:Acknowledgement"]?.[0]?.["abcd:Text"]?.[0];
+    return state?.responseFromSource?.["abcd:DataSets"]?.["abcd:DataSet"]?.[
+      "abcd:Metadata"
+    ]?.["abcd:IPRStatements"]?.["abcd:Acknowledgements"]?.[
+      "abcd:Acknowledgement"
+    ]?.["abcd:Text"];
   },
 
   dateLastEdited: state => {
     let dateLastEdited =
-      state?.responseFromSource?.["abcd:DataSets"]?.["abcd:DataSet"]?.[0]?.[
+      state?.responseFromSource?.["abcd:DataSets"]?.["abcd:DataSet"]?.[
         "abcd:Units"
-      ]?.[0]?.["abcd:Unit"]?.[0]?.["abcd:DateLastEdited"]?.[0];
+      ]?.["abcd:Unit"]?.["abcd:DateLastEdited"];
 
     let dateModified =
-      state?.responseFromSource?.["abcd:DataSets"]?.["abcd:DataSet"]?.[0]?.[
+      state?.responseFromSource?.["abcd:DataSets"]?.["abcd:DataSet"]?.[
         "abcd:Metadata"
-      ]?.[0]?.["abcd:RevisionData"]?.[0]?.["abcd:DateModified"]?.[0];
+      ]?.["abcd:RevisionData"]?.["abcd:DateModified"];
 
     if (dateLastEdited) {
       if (dateLastEdited.includes("T")) return dateLastEdited.split("T")[0];
@@ -271,52 +271,60 @@ const getters = {
 
   itemArea: state => {
     const area =
-      state?.responseFromSource?.["abcd:DataSets"]?.["abcd:DataSet"]?.[0]?.[
+      state?.responseFromSource?.["abcd:DataSets"]?.["abcd:DataSet"]?.[
         "abcd:Units"
-      ]?.[0]?.["abcd:Unit"]?.[0]?.["abcd:Gathering"]?.[0]?.["abcd:NamedAreas"];
+      ]?.["abcd:Unit"]?.["abcd:Gathering"]?.["abcd:NamedAreas"];
 
     if (area) {
-      let areaList = area
-        .map(item => {
-          let areaClass =
-            item?.["abcd:NamedArea"]?.[0]?.["abcd:AreaClass"]?.[0];
-          let areaName = item?.["abcd:NamedArea"]?.[0]?.["abcd:AreaName"]?.[0];
+      if (Array.isArray(area)) {
+        let areaList = area
+          .map(item => {
+            let areaClass = item?.["abcd:NamedArea"]?.["abcd:AreaClass"];
+            let areaName = item?.["abcd:NamedArea"]?.["abcd:AreaName"];
 
-          if (areaClass && areaName) {
-            areaClass = areaClass?.["_"] ? areaClass?.["_"] : areaClass;
-            areaName = areaName?.["_"] ? areaName?.["_"] : areaName;
-
-            return `${areaClass}: ${areaName}`;
-          }
-        })
-        .filter(item => item);
-      if (areaList && areaList.length > 0) return areaList;
+            if (areaClass && areaName) return `${areaClass}: ${areaName}`;
+          })
+          .filter(item => item);
+        if (areaList && areaList.length > 0) return areaList;
+        else return null;
+      } else if (
+        area?.["abcd:NamedArea"]?.["abcd:AreaClass"] &&
+        area?.["abcd:NamedArea"]?.["abcd:AreaName"]
+      )
+        return [
+          `${area?.["abcd:NamedArea"]?.["abcd:AreaClass"]}: ${area?.["abcd:NamedArea"]?.["abcd:AreaName"]}`
+        ];
       else return null;
     } else return null;
   },
 
   itemHighertaxon: state => {
     const highertaxon =
-      state?.responseFromSource?.["abcd:DataSets"]?.["abcd:DataSet"]?.[0]?.[
+      state?.responseFromSource?.["abcd:DataSets"]?.["abcd:DataSet"]?.[
         "abcd:Units"
-      ]?.[0]?.["abcd:Unit"]?.[0]?.["abcd:Identifications"]?.[0]?.[
+      ]?.["abcd:Unit"]?.["abcd:Identifications"]?.[
         "abcd:Identification"
-      ]?.[0]?.["abcd:Result"]?.[0]?.["abcd:TaxonIdentified"]?.[0]?.[
-        "abcd:HigherTaxa"
-      ]?.[0]?.["abcd:HigherTaxon"];
+      ]?.[0]?.["abcd:Result"]?.["abcd:TaxonIdentified"]?.["abcd:HigherTaxa"]?.[
+        "abcd:HigherTaxon"
+      ];
 
     if (highertaxon) {
-      let highertaxonList = highertaxon
-        .map(item => {
-          if (
-            item["abcd:HigherTaxonName"]?.[0] &&
-            item["abcd:HigherTaxonRank"]?.[0]
-          ) {
-            return `${item["abcd:HigherTaxonRank"]?.[0]}: ${item["abcd:HigherTaxonName"]?.[0]}`;
-          }
-        })
-        .filter(item => item);
-      if (highertaxonList && highertaxonList.length > 0) return highertaxonList;
+      if (Array.isArray(highertaxon)) {
+        let highertaxonList = highertaxon
+          .map(item => {
+            if (item["abcd:HigherTaxonName"] && item["abcd:HigherTaxonRank"])
+              return `${item["abcd:HigherTaxonRank"]}: ${item["abcd:HigherTaxonName"]}`;
+          })
+          .filter(item => item);
+        if (highertaxonList && highertaxonList.length > 0)
+          return highertaxonList;
+      } else if (
+        highertaxon?.["abcd:HigherTaxonName"] &&
+        highertaxon?.["abcd:HigherTaxonRank"]
+      )
+        return [
+          `${highertaxon?.["abcd:HigherTaxonName"]}: ${highertaxon?.["abcd:HigherTaxonRank"]}`
+        ];
       else return null;
     } else return null;
   },
