@@ -152,18 +152,23 @@
               :items="[item]"
             >
               <template v-slot:item.type_status="{ value }">
-                <div
-                  v-if="
-                    value === 'holotype' ||
-                      value === 'neotype' ||
-                      value === 'Holotypus' ||
-                      value === 'Neotypus'
-                  "
-                  class="font-weight-bold"
-                >
-                  {{ value }}
+                <div>
+                  <span
+                    v-if="
+                      value === 'holotype' ||
+                        value === 'neotype' ||
+                        value === 'Holotypus' ||
+                        value === 'Neotypus'
+                    "
+                    class="font-weight-bold"
+                  >
+                    {{ value }}
+                  </span>
+                  <span v-else>
+                    {{ value }}
+                  </span>
+                  <span v-if="originalStatus">({{ originalStatus }})</span>
                 </div>
-                <div v-else>{{ value }}</div>
               </template>
 
               <template v-slot:item.stratigraphy>
@@ -186,6 +191,18 @@
                 </div>
               </template>
 
+              <template v-slot:item.areaDetail>
+                <div v-if="areaDetail">
+                  {{ areaDetail }}
+                </div>
+              </template>
+
+              <template v-slot:item.nearNamedPlace>
+                <div v-if="nearNamedPlace">
+                  {{ nearNamedPlace }}
+                </div>
+              </template>
+
               <template v-slot:item.highertaxon="{ item }">
                 <div v-if="itemHighertaxon && itemHighertaxon.length > 0">
                   <ul class="circle-list">
@@ -197,9 +214,50 @@
                 <div v-else>{{ item.highertaxon }}</div>
               </template>
 
+              <template v-slot:item.itemMineralGroup="{ item }">
+<!--                <div v-if="itemMineralGroup && itemMineralGroup.length > 0">-->
+<!--                  <ul class="circle-list">-->
+<!--                    <li v-for="(item, index) in itemMineralGroup" :key="index">-->
+<!--                      {{ item }}-->
+<!--                    </li>-->
+<!--                  </ul>-->
+<!--                </div>-->
+                <div v-if="itemMineralGroup">
+                  {{ itemMineralGroup }}
+                </div>
+              </template>
+
+              <template v-slot:item.mineralNameDetail="{ item }">
+                <div v-if="mineralNameDetail">
+                  {{ mineralNameDetail }}
+                </div>
+              </template>
+
               <template v-slot:item.reference="{ item }">
                 <div v-if="itemReference && itemReference.length > 0">
-                  {{ itemReference }}
+                  <ul class="circle-list">
+                    <li v-for="(item, index) in itemReference" :key="index">
+                      {{ item }}
+                    </li>
+                  </ul>
+                </div>
+              </template>
+
+              <template v-slot:item.unitWeight="{ item }">
+                <div v-if="unitWeight">
+                  {{ unitWeight }}
+                </div>
+              </template>
+
+              <template v-slot:item.acquisitionDate="{ item }">
+                <div v-if="acquisitionDate">
+                  {{ acquisitionDate }}
+                </div>
+              </template>
+
+              <template v-slot:item.gatheringAgent="{ item }">
+                <div v-if="gatheringAgent">
+                  {{ gatheringAgent }}
                 </div>
               </template>
 
@@ -545,7 +603,15 @@ export default {
       "itemStratigraphy",
       "itemReference",
       "itemArea",
+      "areaDetail",
+      "nearNamedPlace",
+      "originalStatus",
+      "unitWeight",
+      "acquisitionDate",
+      "gatheringAgent",
       "itemHighertaxon",
+      "itemMineralGroup",
+      "mineralNameDetail",
       "contentContactName",
       "contentContactEmail",
       "contentContactPhone",

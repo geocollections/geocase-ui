@@ -91,6 +91,7 @@
       "group": "Grupp",
       "country": "Riik",
       "area": "Ala",
+      "areaDetail": "Ala lisainfo",
       "locality": "Lokaliteet",
       "latitude": "Laiuskraad",
       "longitude": "Pikkuskraad",
@@ -102,7 +103,13 @@
       "TaxonInFossiilidInfo": "Takson fossiilid.info-s",
       "recordUri": "Kirje URL",
       "relatedResource": "Seotud allikas",
-      "reference": "Kirjandus"
+      "reference": "Kirjandus",
+      "unitWeight": "Kaal",
+      "nearNamedPlace": "Lähim koht",
+      "itemMineralGroup": "Grupp",
+      "mineralNameDetail": "Nime lisainfo",
+      "acquisitionDate": "Omandamise aeg",
+      "gatheringAgent": "Koguja"
     },
     "secondaryTable": {
       "institution": "Asutus",

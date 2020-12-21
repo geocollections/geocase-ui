@@ -91,6 +91,7 @@
       "group": "Group",
       "country": "Country",
       "area": "Area",
+      "areaDetail": "Area detail",
       "locality": "Locality",
       "latitude": "Latitude",
       "longitude": "Longitude",
@@ -102,7 +103,13 @@
       "TaxonInFossiilidInfo": "Taxon in fossiilid.info",
       "recordUri": "Record URI",
       "relatedResource": "Related resource",
-      "reference": "Reference"
+      "reference": "Reference",
+      "unitWeight": "Weight",
+      "nearNamedPlace": "Nearest place",
+      "itemMineralGroup": "Group",
+      "mineralNameDetail": "Name detail",
+      "acquisitionDate": "Acquisition date",
+      "gatheringAgent": "Gathering agent"
     },
     "secondaryTable": {
       "institution": "Institution",
