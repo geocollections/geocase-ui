@@ -101,7 +101,8 @@
       "taxonInTreeOfLife": "Taxon in Tree of Life",
       "TaxonInFossiilidInfo": "Taxon in fossiilid.info",
       "recordUri": "Record URI",
-      "relatedResource": "Related resource"
+      "relatedResource": "Related resource",
+      "reference": "Reference"
     },
     "secondaryTable": {
       "institution": "Institution",

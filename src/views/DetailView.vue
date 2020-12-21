@@ -197,6 +197,12 @@
                 <div v-else>{{ item.highertaxon }}</div>
               </template>
 
+              <template v-slot:item.reference="{ item }">
+                <div v-if="itemReference && itemReference.length > 0">
+                  {{ itemReference }}
+                </div>
+              </template>
+
               <template v-slot:item.mindat_url="{ item }">
                 <a
                   style="text-decoration: unset;"
@@ -537,6 +543,7 @@ export default {
       "isItemRock",
       "isItemMeteorite",
       "itemStratigraphy",
+      "itemReference",
       "itemArea",
       "itemHighertaxon",
       "contentContactName",

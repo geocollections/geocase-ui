@@ -101,7 +101,8 @@
       "taxonInTreeOfLife": "Takson Tree of Life'is",
       "TaxonInFossiilidInfo": "Takson fossiilid.info-s",
       "recordUri": "Kirje URL",
-      "relatedResource": "Seotud allikas"
+      "relatedResource": "Seotud allikas",
+      "reference": "Kirjandus"
     },
     "secondaryTable": {
       "institution": "Asutus",
