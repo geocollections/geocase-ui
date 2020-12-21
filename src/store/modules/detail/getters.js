@@ -32,6 +32,8 @@ const getters = {
       } else if (header.value === "stratigraphy" && getters?.itemStratigraphy)
         return header;
       else if (header.value === "area" && getters?.itemArea) return header;
+      else if (header.value === "reference" && getters?.itemReference)
+        return header;
       else if (
         header.value === "highertaxon" &&
         (getters?.itemArea || getters.item?.highertaxon)
@@ -340,9 +342,17 @@ const getters = {
   },
 
   unitGuid: state => {
-    return state?.responseFromSource?.["abcd:DataSets"]?.[
-      "abcd:DataSet"
-    ]?.[0]?.["abcd:Units"]?.[0]?.["abcd:Unit"]?.[0]?.["abcd:UnitGUID"]?.[0];
+    return state?.responseFromSource?.["abcd:DataSets"]?.["abcd:DataSet"]?.[
+      "abcd:Units"
+    ]?.["abcd:Unit"]?.["abcd:UnitGUID"];
+  },
+
+  itemReference: state => {
+    return state?.responseFromSource?.["abcd:DataSets"]?.["abcd:DataSet"]?.[
+      "abcd:Units"
+    ]?.["abcd:Unit"]?.["abcd:Identifications"]?.["abcd:Identification"]?.[0]?.[
+      "abcd:References"
+    ]?.["abcd:Reference"]?.["abcd:TitleCitation"];
   },
 
   translatedItemHeaders: state => {
