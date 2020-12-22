@@ -27,92 +27,6 @@ const getters = {
     );
   },
 
-  filteredItemHeaders: (state, getters) => {
-    return getters.translatedItemHeaders.filter(header => {
-      if (getters.item[header.value]) {
-        return header;
-      } else if (header.value === "stratigraphy" && getters?.itemStratigraphy)
-        return header;
-      else if (header.value === "area" && getters?.itemArea) return header;
-      else if (header.value === "unitWeight" && getters?.unitWeight)
-        return header;
-      else if (header.value === "reference" && getters?.itemReference)
-        return header;
-      else if (header.value === "areaDetail" && getters?.areaDetail)
-        return header;
-      else if (header.value === "nearNamedPlace" && getters?.nearNamedPlace)
-        return header;
-      else if (
-        header.value === "highertaxon" &&
-        (getters.item?.highertaxon || getters.itemHighertaxon)
-      )
-        return header;
-      else if (header.value === "itemMineralGroup" && getters.itemMineralGroup)
-        return header;
-      else if (
-        header.value === "mineralNameDetail" &&
-        getters.mineralNameDetail
-      )
-        return header;
-      else if (header.value === "acquisitionDate" && getters.acquisitionDate)
-        return header;
-      else if (header.value === "unitDateText" && getters.unitDateText)
-        return header;
-      else if (header.value === "gatheringAgent" && getters.gatheringAgent)
-        return header;
-      else if (header.value === "kindOfUnit" && getters.kindOfUnit)
-        return header;
-    });
-  },
-
-  filteredItemHeadersSecondary: (state, getters) => {
-    return getters.translatedItemHeadersSecondary.filter(header => {
-      if (getters.item[header.value]) {
-        return header;
-      } else if (
-        header.value === "contentContactName" &&
-        getters?.contentContactName
-      )
-        return header;
-      else if (
-        header.value === "contentContactEmail" &&
-        getters?.contentContactEmail
-      )
-        return header;
-      else if (
-        header.value === "contentContactPhone" &&
-        getters?.contentContactPhone
-      )
-        return header;
-      else if (
-        header.value === "contentContactAddress" &&
-        getters?.contentContactAddress
-      )
-        return header;
-      else if (
-        header.value === "institutionHomepage" &&
-        getters?.representationTitle
-      )
-        return header;
-      else if (header.value === "copyrights" && getters?.copyrights)
-        return header;
-      else if (
-        header.value === "termsofusestatements" &&
-        getters?.termsofusestatements
-      )
-        return header;
-      else if (header.value === "disclaimers" && getters?.disclaimers)
-        return header;
-      else if (header.value === "acknowledgements" && getters?.acknowledgements)
-        return header;
-      else if (header.value === "dateLastEdited" && getters?.dateLastEdited)
-        return header;
-      else if (header.value === "specimenVerifier" && getters?.specimenVerifier)
-        return header;
-      else if (header.value === "unitGuid" && getters?.unitGuid) return header;
-    });
-  },
-
   /* Currently unused types aka unspecified:
    * OtherSpecimen
    * Unspecified
@@ -308,7 +222,7 @@ const getters = {
             areaCombined += areaName;
             if (areaClass) areaCombined = `${areaClass}: ${areaCombined}`;
           }
-          return areaCombined ? [areaCombined] : null;
+          return areaCombined ? areaCombined : null;
         })
         .filter(item => item);
       if (areaList && areaList.length > 0) return areaList;
@@ -399,7 +313,7 @@ const getters = {
               url = `https://doi.org/${url}`;
             ref += ` (<a href="${url}" target="ReferenceWindow" style="text-decoration: none;">${url}</a>)`;
           }
-          return ref;
+          return ref ? ref : null;
         })
         .filter(item => item);
       if (referenceList && referenceList.length > 0) return referenceList;
@@ -515,6 +429,92 @@ const getters = {
         ...header,
         text: i18n.t(`detail.secondaryTable.${header.text}`)
       };
+    });
+  },
+
+  filteredItemHeaders: (state, getters) => {
+    return getters.translatedItemHeaders.filter(header => {
+      if (getters.item[header.value]) {
+        return header;
+      } else if (header.value === "stratigraphy" && getters?.itemStratigraphy)
+        return header;
+      else if (header.value === "area" && getters?.itemArea) return header;
+      else if (header.value === "unitWeight" && getters?.unitWeight)
+        return header;
+      else if (header.value === "reference" && getters?.itemReference)
+        return header;
+      else if (header.value === "areaDetail" && getters?.areaDetail)
+        return header;
+      else if (header.value === "nearNamedPlace" && getters?.nearNamedPlace)
+        return header;
+      else if (
+        header.value === "highertaxon" &&
+        (getters.item?.highertaxon || getters.itemHighertaxon)
+      )
+        return header;
+      else if (header.value === "itemMineralGroup" && getters.itemMineralGroup)
+        return header;
+      else if (
+        header.value === "mineralNameDetail" &&
+        getters.mineralNameDetail
+      )
+        return header;
+      else if (header.value === "acquisitionDate" && getters.acquisitionDate)
+        return header;
+      else if (header.value === "unitDateText" && getters.unitDateText)
+        return header;
+      else if (header.value === "gatheringAgent" && getters.gatheringAgent)
+        return header;
+      else if (header.value === "kindOfUnit" && getters.kindOfUnit)
+        return header;
+    });
+  },
+
+  filteredItemHeadersSecondary: (state, getters) => {
+    return getters.translatedItemHeadersSecondary.filter(header => {
+      if (getters.item[header.value]) {
+        return header;
+      } else if (
+        header.value === "contentContactName" &&
+        getters?.contentContactName
+      )
+        return header;
+      else if (
+        header.value === "contentContactEmail" &&
+        getters?.contentContactEmail
+      )
+        return header;
+      else if (
+        header.value === "contentContactPhone" &&
+        getters?.contentContactPhone
+      )
+        return header;
+      else if (
+        header.value === "contentContactAddress" &&
+        getters?.contentContactAddress
+      )
+        return header;
+      else if (
+        header.value === "institutionHomepage" &&
+        getters?.representationTitle
+      )
+        return header;
+      else if (header.value === "copyrights" && getters?.copyrights)
+        return header;
+      else if (
+        header.value === "termsofusestatements" &&
+        getters?.termsofusestatements
+      )
+        return header;
+      else if (header.value === "disclaimers" && getters?.disclaimers)
+        return header;
+      else if (header.value === "acknowledgements" && getters?.acknowledgements)
+        return header;
+      else if (header.value === "dateLastEdited" && getters?.dateLastEdited)
+        return header;
+      else if (header.value === "specimenVerifier" && getters?.specimenVerifier)
+        return header;
+      else if (header.value === "unitGuid" && getters?.unitGuid) return header;
     });
   }
 };

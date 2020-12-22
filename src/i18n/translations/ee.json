@@ -76,7 +76,7 @@
     "noResults": "Kahjuks ei leidnud mitte ühtegi vastet, kus eksemplari <b>ID</b> oleks <b>{id}</b>",
     "dataFromProvider": "Andmed otse algallikast (arendajatele)",
     "goBack": "Mine tagasi",
-    "otherIdentification": "Teised määrangu(d)",
+    "otherIdentification": "Teised määrangud",
     "specimenType": {
       "fossil": "Fossiil",
       "mineral": "Mineraal",

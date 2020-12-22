@@ -76,7 +76,7 @@
     "noResults": "Couldn't find any results with an <b>ID</b> of <b>{id}</b>",
     "dataFromProvider": "Data from provider (for developers)",
     "goBack": "Go back",
-    "otherIdentification": "Other identificaiton(s)",
+    "otherIdentification": "Other identificaitons",
     "specimenType": {
       "fossil": "Fossil",
       "mineral": "Mineral",
