@@ -120,9 +120,9 @@ workflows:
       - unit_test_application:
           requires:
             - bundle_dependencies
-            filters:
-              branches:
-                only: development
+          filters:
+            branches:
+              only: development
       - build_docker_image:
           filters:
             branches:
