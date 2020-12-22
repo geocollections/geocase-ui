@@ -109,7 +109,9 @@
       "itemMineralGroup": "Grupp",
       "mineralNameDetail": "Nime lisainfo",
       "acquisitionDate": "Omandamise aeg",
-      "gatheringAgent": "Koguja"
+      "gatheringAgent": "Koguja",
+      "unitDateText": "Kogumise aeg",
+      "kindOfUnit": "Üksus"
     },
     "secondaryTable": {
       "institution": "Asutus",

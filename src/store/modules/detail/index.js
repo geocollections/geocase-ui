@@ -26,6 +26,8 @@ const state = {
     { text: "unitWeight", value: "unitWeight" },
     { text: "acquisitionDate", value: "acquisitionDate" },
     { text: "gatheringAgent", value: "gatheringAgent" },
+    { text: "unitDateText", value: "unitDateText" },
+    { text: "kindOfUnit", value: "kindOfUnit" },
     { text: "taxonRecordInPbdb", value: "taxon_id_pbdb" },
     { text: "taxonInEncyclopediaOfLife", value: "taxon_id_eol" },
     { text: "taxonInTreeOfLife", value: "taxon_id_tol" },

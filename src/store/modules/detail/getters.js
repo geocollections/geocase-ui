@@ -56,7 +56,11 @@ const getters = {
         return header;
       else if (header.value === "acquisitionDate" && getters.acquisitionDate)
         return header;
+      else if (header.value === "unitDateText" && getters.unitDateText)
+        return header;
       else if (header.value === "gatheringAgent" && getters.gatheringAgent)
+        return header;
+      else if (header.value === "kindOfUnit" && getters.kindOfUnit)
         return header;
     });
   },
@@ -407,26 +411,23 @@ const getters = {
       ]?.["abcd:Unit"]?.["abcd:UnitReferences"]?.["abcd:UnitReference"];
 
     if (reference) {
-      if (Array.isArray(reference)) {
-        let referenceList = reference
-          .map(item => {
-            let ref = "";
-            if (item?.["abcd:TitleCitation"])
-              ref = item?.["abcd:TitleCitation"];
-            if (item?.["abcd:CitationDetail"])
-              ref += ` ${item?.["abcd:CitationDetail"]}`;
-            return ref;
-          })
-          .filter(item => item);
-        if (referenceList && referenceList.length > 0) return referenceList;
-      } else {
-        let ref = "";
-        if (reference?.["abcd:TitleCitation"])
-          ref = reference?.["abcd:TitleCitation"];
-        if (reference?.["abcd:CitationDetail"])
-          ref += ` ${reference?.["abcd:CitationDetail"]}`;
-        return ref ? ref : null;
-      }
+      reference = Array.isArray(reference) ? reference : [reference];
+      let referenceList = reference
+        .map(item => {
+          let ref = "";
+          if (item?.["abcd:TitleCitation"]) ref = item?.["abcd:TitleCitation"];
+          if (item?.["abcd:CitationDetail"])
+            ref += ` ${item?.["abcd:CitationDetail"]}`;
+          if (item?.["abcd:URI"]) {
+            let url = item?.["abcd:URI"];
+            if (!item?.["abcd:URI"].startsWith("http"))
+              url = `https://doi.org/${url}`;
+            ref += ` (<a href="${url}" target="ReferenceWindow" style="text-decoration: none;">${url}</a>)`;
+          }
+          return ref;
+        })
+        .filter(item => item);
+      if (referenceList && referenceList.length > 0) return referenceList;
     } else return null;
   },
 
@@ -468,6 +469,19 @@ const getters = {
     ]?.["abcd:Person"]?.["abcd:FullName"];
   },
 
+  unitDateText: state => {
+    return state?.responseFromSource?.["abcd:DataSets"]?.["abcd:DataSet"]?.[
+      "abcd:Units"
+    ]?.["abcd:Unit"]?.["abcd:Gathering"]?.["abcd:DateTime"]?.["abcd:DateText"];
+  },
+
+  kindOfUnit: state => {
+    return state?.responseFromSource?.["abcd:DataSets"]?.["abcd:DataSet"]?.[
+      "abcd:Units"
+    ]?.["abcd:Unit"]?.["abcd:KindOfUnit"];
+  },
+
+  // Is it possible there are multiple?
   itemMineralGroup: state => {
     const mineralGroup =
       state?.responseFromSource?.["abcd:DataSets"]?.["abcd:DataSet"]?.[

@@ -215,13 +215,13 @@
               </template>
 
               <template v-slot:item.itemMineralGroup="{ item }">
-<!--                <div v-if="itemMineralGroup && itemMineralGroup.length > 0">-->
-<!--                  <ul class="circle-list">-->
-<!--                    <li v-for="(item, index) in itemMineralGroup" :key="index">-->
-<!--                      {{ item }}-->
-<!--                    </li>-->
-<!--                  </ul>-->
-<!--                </div>-->
+                <!--                <div v-if="itemMineralGroup && itemMineralGroup.length > 0">-->
+                <!--                  <ul class="circle-list">-->
+                <!--                    <li v-for="(item, index) in itemMineralGroup" :key="index">-->
+                <!--                      {{ item }}-->
+                <!--                    </li>-->
+                <!--                  </ul>-->
+                <!--                </div>-->
                 <div v-if="itemMineralGroup">
                   {{ itemMineralGroup }}
                 </div>
@@ -237,7 +237,7 @@
                 <div v-if="itemReference && itemReference.length > 0">
                   <ul class="circle-list">
                     <li v-for="(item, index) in itemReference" :key="index">
-                      {{ item }}
+                      <span v-html="item" />
                     </li>
                   </ul>
                 </div>
@@ -258,6 +258,18 @@
               <template v-slot:item.gatheringAgent="{ item }">
                 <div v-if="gatheringAgent">
                   {{ gatheringAgent }}
+                </div>
+              </template>
+
+              <template v-slot:item.unitDateText="{ item }">
+                <div v-if="unitDateText">
+                  {{ unitDateText }}
+                </div>
+              </template>
+
+              <template v-slot:item.kindOfUnit="{ item }">
+                <div v-if="kindOfUnit">
+                  {{ kindOfUnit }}
                 </div>
               </template>
 
@@ -609,6 +621,8 @@ export default {
       "unitWeight",
       "acquisitionDate",
       "gatheringAgent",
+      "unitDateText",
+      "kindOfUnit",
       "itemHighertaxon",
       "itemMineralGroup",
       "mineralNameDetail",

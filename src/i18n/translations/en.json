@@ -109,7 +109,9 @@
       "itemMineralGroup": "Group",
       "mineralNameDetail": "Name detail",
       "acquisitionDate": "Acquisition date",
-      "gatheringAgent": "Gathering agent"
+      "gatheringAgent": "Collector",
+      "unitDateText": "Date collected",
+      "kindOfUnit": "Kind of unit"
     },
     "secondaryTable": {
       "institution": "Institution",
