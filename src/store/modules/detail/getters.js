@@ -156,7 +156,7 @@ const getters = {
   },
 
   itemStratigraphy: state => {
-    const stratigraphy =
+    let stratigraphy =
       state?.responseFromSource?.["abcd:DataSets"]?.["abcd:DataSet"]?.[
         "abcd:Units"
       ]?.["abcd:Unit"]?.["abcd:UnitExtension"]?.["efg:EarthScienceSpecimen"]?.[
@@ -166,27 +166,23 @@ const getters = {
       ];
 
     if (stratigraphy) {
-      if (Array.isArray(stratigraphy)) {
-        let stratigraphyList = stratigraphy
-          .map(item => {
-            if (
-              item["efg:ChronostratigraphicName"] &&
-              item["efg:ChronoStratigraphicDivision"]
-            ) {
-              return `${item["efg:ChronoStratigraphicDivision"]}: ${item["efg:ChronostratigraphicName"]}`;
-            }
-          })
-          .filter(item => item);
-        if (stratigraphyList && stratigraphyList.length > 0)
-          return stratigraphyList;
-        else return null;
-      } else if (
-        stratigraphy["efg:ChronoStratigraphicDivision"] &&
-        stratigraphy["efg:ChronostratigraphicName"]
-      )
-        return [
-          `${stratigraphy["efg:ChronoStratigraphicDivision"]}: ${stratigraphy["efg:ChronostratigraphicName"]}`
-        ];
+      stratigraphy = Array.isArray(stratigraphy)
+        ? stratigraphy
+        : [stratigraphy];
+
+      let stratigraphyList = stratigraphy
+        .map(item => {
+          if (
+            item["efg:ChronostratigraphicName"] &&
+            item["efg:ChronoStratigraphicDivision"]
+          ) {
+            return `${item["efg:ChronoStratigraphicDivision"]}: ${item["efg:ChronostratigraphicName"]}`;
+          }
+        })
+        .filter(item => item);
+      if (stratigraphyList && stratigraphyList.length > 0)
+        return stratigraphyList;
+      else return null;
     } else return null;
   },
 
@@ -295,45 +291,33 @@ const getters = {
   },
 
   itemArea: state => {
-    const area =
+    let area =
       state?.responseFromSource?.["abcd:DataSets"]?.["abcd:DataSet"]?.[
         "abcd:Units"
       ]?.["abcd:Unit"]?.["abcd:Gathering"]?.["abcd:NamedAreas"];
 
     if (area) {
-      if (Array.isArray(area)) {
-        let areaList = area
-          .map(item => {
-            let areaClass = item?.["abcd:NamedArea"]?.["abcd:AreaClass"];
-            let areaName = item?.["abcd:NamedArea"]?.["abcd:AreaName"];
+      area = Array.isArray(area) ? area : [area];
+      let areaList = area
+        .map(item => {
+          let areaClass = item?.["abcd:NamedArea"]?.["abcd:AreaClass"];
+          let areaName = item?.["abcd:NamedArea"]?.["abcd:AreaName"];
 
-            let areaCombined = "";
-            if (areaName) {
-              areaCombined += areaName;
-              if (areaClass) areaCombined = `${areaClass}: ${areaCombined}`;
-            }
-            return areaCombined ? [areaCombined] : null;
-          })
-          .filter(item => item);
-        if (areaList && areaList.length > 0) return areaList;
-        else return null;
-      } else if (
-        area?.["abcd:NamedArea"]?.["abcd:AreaClass"] ||
-        area?.["abcd:NamedArea"]?.["abcd:AreaName"]
-      ) {
-        let areaCombined = "";
-        if (area?.["abcd:NamedArea"]?.["abcd:AreaName"]) {
-          areaCombined += area?.["abcd:NamedArea"]?.["abcd:AreaName"];
-          if (area?.["abcd:NamedArea"]?.["abcd:AreaClass"])
-            areaCombined = `${area?.["abcd:NamedArea"]?.["abcd:AreaClass"]}: ${areaCombined}`;
-        }
-        return areaCombined ? [areaCombined] : null;
-      } else return null;
+          let areaCombined = "";
+          if (areaName) {
+            areaCombined += areaName;
+            if (areaClass) areaCombined = `${areaClass}: ${areaCombined}`;
+          }
+          return areaCombined ? [areaCombined] : null;
+        })
+        .filter(item => item);
+      if (areaList && areaList.length > 0) return areaList;
+      else return null;
     } else return null;
   },
 
   itemHighertaxon: state => {
-    const highertaxon =
+    let highertaxon =
       state?.responseFromSource?.["abcd:DataSets"]?.["abcd:DataSet"]?.[
         "abcd:Units"
       ]?.["abcd:Unit"]?.["abcd:Identifications"]?.["abcd:Identification"]?.[
@@ -341,23 +325,14 @@ const getters = {
       ]?.["abcd:TaxonIdentified"]?.["abcd:HigherTaxa"]?.["abcd:HigherTaxon"];
 
     if (highertaxon) {
-      if (Array.isArray(highertaxon)) {
-        let highertaxonList = highertaxon
-          .map(item => {
-            if (item["abcd:HigherTaxonName"] && item["abcd:HigherTaxonRank"])
-              return `${item["abcd:HigherTaxonRank"]}: ${item["abcd:HigherTaxonName"]}`;
-          })
-          .filter(item => item);
-        if (highertaxonList && highertaxonList.length > 0)
-          return highertaxonList;
-      } else if (
-        highertaxon?.["abcd:HigherTaxonName"] &&
-        highertaxon?.["abcd:HigherTaxonRank"]
-      )
-        return [
-          `${highertaxon?.["abcd:HigherTaxonName"]}: ${highertaxon?.["abcd:HigherTaxonRank"]}`
-        ];
-      else return null;
+      highertaxon = Array.isArray(highertaxon) ? highertaxon : [highertaxon];
+      let highertaxonList = highertaxon
+        .map(item => {
+          if (item["abcd:HigherTaxonName"] && item["abcd:HigherTaxonRank"])
+            return `${item["abcd:HigherTaxonRank"]}: ${item["abcd:HigherTaxonName"]}`;
+        })
+        .filter(item => item);
+      if (highertaxonList && highertaxonList.length > 0) return highertaxonList;
     } else return null;
   },
 
@@ -428,6 +403,7 @@ const getters = {
         })
         .filter(item => item);
       if (referenceList && referenceList.length > 0) return referenceList;
+      else return null;
     } else return null;
   },
 

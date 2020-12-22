@@ -60,10 +60,6 @@ jobs:
       - run:
           name: Unit testing application
           command: npm run test:unit
-      - save_cache:
-          key: << pipeline.parameters.package-version >>-build-{{ .Environment.CIRCLE_SHA1 }}
-          paths:
-            - ~/geocase/geocase-ui
 
   build_docker_image:
     executor: docker-publisher
