@@ -25,7 +25,7 @@ export default new Vuex.Store({
     detail,
     settings,
     frontpage,
-    cookie,
+    cookie
     // searchMap
   },
   plugins: [vuexLocal.plugin],

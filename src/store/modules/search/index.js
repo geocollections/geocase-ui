@@ -135,7 +135,7 @@ const state = {
       lookUpType: "",
       value: null,
       label: "Show only georeferenced data"
-    },
+    }
     // map: {
     //   id: "map",
     //   type: "map",
@@ -160,7 +160,7 @@ const state = {
     "providername",
     "providercountry",
     "has_image",
-    "has_map",
+    "has_map"
     // "map"
   ],
   searchTextIds: [
