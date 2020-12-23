@@ -228,7 +228,7 @@
     "tableNoResults": "Couldn't find any records with these search parameters.",
     "imageNoResults": "Couldn't find any images with these search parameters.",
     "imageNoResultsFilterInfo": "Add filter so it would only show results which have images.",
-    "imageNoResultsAddFilter": "Add filter",
+    "addFilter": "Add filter",
     "mapNoResults": "Couldn't find any localities."
   },
   "imageGallery": {

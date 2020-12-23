@@ -219,7 +219,7 @@
     "tableNoResults": "Keine Einträge mit diesen Parametern gefunden.",
     "imageNoResults": "Keine Bilder mit diesen Parametern gefunden.",
     "imageNoResultsFilterInfo": "Filter hinzufügen, um nur Einträge mit Bildern zu finden.",
-    "imageNoResultsAddFilter": "Filter hinzufügen",
+    "addFilter": "Filter hinzufügen",
     "mapNoResults": "Konnte keine Lokalitäten finden."
   },
   "imageGallery": {

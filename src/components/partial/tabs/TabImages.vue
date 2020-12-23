@@ -107,7 +107,7 @@
               color="secondary"
               @click="updateSearchField({ id: 'has_image', value: 'true' })"
             >
-              {{ $t("search.imageNoResultsAddFilter") }}</v-btn
+              {{ $t("search.addFilter") }}</v-btn
             >
           </div>
         </v-alert>

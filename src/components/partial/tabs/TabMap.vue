@@ -13,29 +13,19 @@
             {{ $t("search.mapNoResults") }}
           </div>
 
-          <!--<div v-if="!search.has_map.value">
-            Add filter so it would only show results which have georeferenced
-            data.
+          <div v-if="!search.has_map.value">
             <v-btn
               x-small
               color="secondary"
-              @click="$emit('add:filter', { id: 'has_map', value: 'true' })"
-              >Add filter</v-btn
+              @click="updateSearchField({ id: 'has_map', value: 'true' })"
+              >{{ $t("search.addFilter") }}</v-btn
             >
-          </div>-->
+          </div>
         </v-alert>
       </v-col>
     </v-row>
 
     <div class="map" v-show="localities.length > 0">
-      <v-overlay :value="isLoading" z-index="2000">
-        <v-progress-circular
-          class="map-progress-circular"
-          :style="`margin-left: ${searchDrawer ? '350px' : 0}`"
-          indeterminate
-          size="128"
-        ></v-progress-circular>
-      </v-overlay>
       <div id="map" :style="{ height: isDetailView ? '50vh' : '70vh' }"></div>
     </div>
   </v-card>
@@ -44,9 +34,9 @@
 <script>
 import * as L from "leaflet";
 import "leaflet/dist/leaflet.css";
-import "leaflet.markercluster/dist/MarkerCluster.css";
-import "leaflet.markercluster/dist/MarkerCluster.Default.css";
-import "leaflet.markercluster/dist/leaflet.markercluster";
+// import "leaflet.markercluster/dist/MarkerCluster.css";
+// import "leaflet.markercluster/dist/MarkerCluster.Default.css";
+// import "leaflet.markercluster/dist/leaflet.markercluster";
 
 import { mapActions, mapState } from "vuex";
 
@@ -134,7 +124,7 @@ export default {
         maxZoom: 18
       },
       {
-        name: "Estonian searchMap",
+        name: "Estonian map",
         leafletObject: L.tileLayer(
           "https://tiles.maaamet.ee/tm/tms/1.0.0/kaart@GMC/{z}/{x}/{-y}.png&ASUTUS=TALTECH&KESKKOND=LIVE&IS=SARV",
           {
@@ -171,8 +161,7 @@ export default {
         minZoom: 6,
         maxZoom: 18
       }
-    ],
-    isLoading: false
+    ]
   }),
 
   mounted() {
@@ -186,20 +175,15 @@ export default {
 
   computed: {
     ...mapState("search", ["search"]),
-    ...mapState("settings", ["searchDrawer"]),
 
     localities() {
       if (this.responseResultsCount > 0) {
-        return this.isDetailView
-          ? this.responseResults.filter(locality => !!locality.has_map)
-          : this.responseResults;
+        return this.responseResults.filter(locality => !!locality.has_map);
       } else return [];
     },
 
     responseResultsHasEstonia() {
-      return this.isDetailView
-        ? this.localities.some(item => item.country === "Estonia")
-        : true;
+      return this.localities.some(item => item.country === "Estonia");
     },
 
     filteredBaseMaps() {
@@ -222,14 +206,12 @@ export default {
   watch: {
     localities: {
       handler(newVal) {
-        if (this.isDetailView) {
-          this.setMarkers(newVal);
-          // Todo: Fix Zoom after invalidatingSize
-          if (this.map) {
-            this.$nextTick(() => {
-              this.map.invalidateSize();
-            });
-          }
+        this.setMarkers(newVal);
+        // Todo: Fix Zoom after invalidatingSize
+        if (this.map) {
+          this.$nextTick(() => {
+            this.map.invalidateSize();
+          });
         }
       },
       deep: true
@@ -237,7 +219,7 @@ export default {
   },
 
   methods: {
-    ...mapActions("search", ["updateSearchField", "updatePage"]),
+    ...mapActions("search", ["updateSearchField"]),
 
     initMap() {
       if (this.map === null) {
@@ -278,88 +260,50 @@ export default {
     },
 
     setMarkers(localities) {
-      if (this.isDetailView) {
-        if (localities && localities.length > 0) {
-          // Resetting markers before adding new ones
-          if (this.markerLayer !== null) this.map.removeLayer(this.markerLayer);
-          this.markers = [];
+      if (localities && localities.length > 0) {
+        // Resetting markers before adding new ones
+        if (this.markerLayer !== null) this.map.removeLayer(this.markerLayer);
+        this.markers = [];
 
-          localities.forEach(item => {
-            if (item.latitude && item.longitude) {
-              let marker = L.marker(
-                {
-                  lat: parseFloat(item.latitude),
-                  lng: parseFloat(item.longitude)
-                },
-                { icon: this.markerIcon }
-              );
+        localities.forEach(item => {
+          if (item.latitude && item.longitude) {
+            let marker = L.marker(
+              {
+                lat: parseFloat(item.latitude),
+                lng: parseFloat(item.longitude)
+              },
+              { icon: this.markerIcon }
+            );
 
-              if (item.recordURI) {
-                marker.on("click", () => {
-                  if (this.isDetailView) {
-                    window.open(item.recordURI, "RecordUriWindow");
-                  } else this.$router.push({ path: `specimen/${item.id}` });
-                });
-              }
-              if (item.locality) {
-                marker.bindTooltip(item.locality, {
-                  permanent: false,
-                  direction: "right"
-                });
-              }
-
-              this.markers.push(marker);
+            if (item.recordURI) {
+              marker.on("click", () => {
+                if (this.isDetailView) {
+                  window.open(item.recordURI, "RecordUriWindow");
+                } else this.$router.push({ path: `specimen/${item.id}` });
+              });
             }
-          });
-          // Adding marker layer to searchMap
-          this.markerLayer = L.layerGroup(this.markers);
-          this.map.addLayer(this.markerLayer);
+            if (item.locality) {
+              marker.bindTooltip(item.locality, {
+                permanent: false,
+                direction: "right"
+              });
+            }
 
-          if (this.markers.length > 0) {
-            let bounds = new L.featureGroup(this.markers).getBounds();
-            this.map.fitBounds(bounds, { maxZoom: 4 });
+            this.markers.push(marker);
           }
-        } else {
-          // If response is empty then remove markers
-          if (this.markerLayer !== null) this.map.removeLayer(this.markerLayer);
-          this.markers = [];
+        });
+        // Adding marker layer to searchMap
+        this.markerLayer = L.layerGroup(this.markers);
+        this.map.addLayer(this.markerLayer);
+
+        if (this.markers.length > 0) {
+          let bounds = new L.featureGroup(this.markers).getBounds();
+          this.map.fitBounds(bounds, { maxZoom: 4 });
         }
       } else {
-        // Todo: Loading icon etc.
-        this.isLoading = true;
-        setTimeout(() => {
-          let geoJsonLayer = L.geoJSON(localities, {
-            pointToLayer: (feature, latlng) => {
-              let marker = L.marker(latlng, { icon: this.markerIcon });
-              marker.bindTooltip(
-                `${this.$t("search.mapMarkerTooltip")} <br/> Lat: ${
-                  latlng.lat
-                } <br/> Lon: ${latlng.lng}`,
-                {
-                  permanent: false,
-                  direction: "right"
-                }
-              );
-
-              marker.on("click", () => {
-                this.updateSearchField({
-                  id: "coordinates",
-                  value: `${latlng.lat},${latlng.lng}`
-                });
-                if (this.search.page !== 1) this.updatePage(1);
-                this.$emit("open:table");
-              });
-              return marker;
-            }
-          });
-
-          let markersCluster = L.markerClusterGroup();
-          markersCluster.addLayer(geoJsonLayer);
-          this.map.addLayer(markersCluster);
-
-          this.map.fitBounds(geoJsonLayer.getBounds());
-          this.isLoading = false;
-        }, 500);
+        // If response is empty then remove markers
+        if (this.markerLayer !== null) this.map.removeLayer(this.markerLayer);
+        this.markers = [];
       }
     }
   }

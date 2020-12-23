@@ -228,7 +228,7 @@
     "tableNoResults": "Antud otsinguparameetritega kirjeid ei leitud.",
     "imageNoResults": "Antud otsinguparameetritega pilte ei leitud.",
     "imageNoResultsFilterInfo": "Lisa filter, et näha pilte sisaldavaid kirjeid.",
-    "imageNoResultsAddFilter": "Lisa filter",
+    "addFilter": "Lisa filter",
     "mapNoResults": "Lokaliteete ei leitud."
   },
   "imageGallery": {

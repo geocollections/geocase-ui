@@ -71,17 +71,23 @@
             <tab-map
               ref="map"
               v-if="item === 'map'"
-              :response-results="mapResults"
-              :response-results-count="mapResultsCount"
-              @open:table="tab = 0"
+              :response-results="responseResults"
+              :response-results-count="responseResultsCount"
             />
+<!--            <tab-map-->
+<!--              ref="map"-->
+<!--              v-if="item === 'map'"-->
+<!--              :response-results="mapResults"-->
+<!--              :response-results-count="mapResultsCount"-->
+<!--              @open:table="tab = 0"-->
+<!--            />-->
           </v-card>
         </v-tab-item>
       </v-tabs-items>
 
       <!-- PAGINATION -->
       <pagination
-        v-if="responseResultsCount > 10 && tab !== 2"
+        v-if="responseResultsCount > 10"
         :paginate-by="paginateBy"
         :paginate-by-items="paginateByItemsTranslated"
         @update:paginateBy="updatePaginateBy($event)"
@@ -133,7 +139,7 @@ export default {
       "sortDesc",
       "isLoading"
     ]),
-    ...mapState("searchMap", ["mapResults", "mapResultsCount"]),
+    // ...mapState("searchMap", ["mapResults", "mapResultsCount"]),
     ...mapGetters("search", ["paginateByItemsTranslated"])
   },
 
@@ -141,7 +147,7 @@ export default {
     if (this.$route.query) {
       this.deconstructQueryParams(this.$route.query);
       this.search();
-      if (this.mapResultsCount === 0) this.searchMapCoordinates();
+      // if (this.mapResultsCount === 0) this.searchMapCoordinates();
     }
   },
 
@@ -180,7 +186,7 @@ export default {
       "search"
     ]),
 
-    ...mapActions("searchMap", ["searchMapCoordinates"]),
+    // ...mapActions("searchMap", ["searchMapCoordinates"]),
 
     async openGallery(image) {
       this.tab = 1;
