@@ -26,8 +26,8 @@
               @click="openDialog(index)"
             >
               <image-wrapper
-                v-if="image.extractedImage"
-                :image-src="getImageUrl(image.extractedImage)"
+                v-if="image.thumbnailImage"
+                :image-src="image.thumbnailImage"
               />
 
               <v-row align="center" v-else>
@@ -121,12 +121,11 @@ import helperMixin from "@/mixins/helperMixin";
 import ImageWrapper from "@/components/partial/image/ImageWrapper";
 import ImageOverflow from "../image/ImageOverflow";
 import { mapActions, mapState } from "vuex";
-import imageUrlMixin from "@/mixins/imageUrlMixin";
 
 export default {
   name: "TabImages",
   components: { ImageOverflow, ImageWrapper },
-  mixins: [helperMixin, imageUrlMixin],
+  mixins: [helperMixin],
 
   props: {
     responseResults: {
@@ -160,7 +159,7 @@ export default {
     openDialogUsingImage(image) {
       this.dialog = true;
       let index = this.searchResultImages.findIndex(
-        item => item.extractedImage === image
+        item => item.originalImage === image
       );
       this.currentIndex = index ? index : 0;
     }

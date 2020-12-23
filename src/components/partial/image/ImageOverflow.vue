@@ -51,59 +51,45 @@
           :sm="showGallery ? 9 : 12"
           :xl="showGallery ? 10 : 12"
         >
-          <v-row no-gutters>
+          <div
+            class="d-flex flex-column flex-nowrap fill-height justify-space-between"
+          >
+            <!-- CONTROL (absolute) -->
+            <div
+              class="d-flex flex-row justify-space-between align-center image-overflow--control"
+              :style="
+                `height: calc(100vh - ${decreaseImageContainerHeightBy - 32}px)`
+              "
+              :class="{
+                'image-control-66': showGallery && $vuetify.breakpoint.xsOnly,
+                'image-control-75': showGallery && $vuetify.breakpoint.smAndUp,
+                'image-control-83': showGallery && $vuetify.breakpoint.xlOnly
+              }"
+            >
+              <v-btn class="ma-3" color="primary" fab small @click="showPrev">
+                <v-icon>fas fa-angle-left</v-icon>
+              </v-btn>
+
+              <v-btn class="ma-3" color="primary" fab small @click="showNext">
+                <v-icon>fas fa-angle-right</v-icon>
+              </v-btn>
+            </div>
+
             <!-- IMAGE -->
-            <v-col cols="12">
-              <!-- IMAGE CONTROL -->
-              <div
-                class="d-flex flex-row justify-space-between align-center image-overflow--control"
-                style="height: calc(100vh - 64px)"
-                :class="{
-                  'image-control-66': showGallery && $vuetify.breakpoint.xsOnly,
-                  'image-control-75':
-                    showGallery && $vuetify.breakpoint.smAndUp,
-                  'image-control-83': showGallery && $vuetify.breakpoint.xlOnly
-                }"
-              >
-                <!-- Todo: Fix mobile view next and prev buttons -->
-
-                <v-btn
-                  class="ma-3"
-                  color="primary"
-                  x-large
-                  icon
-                  @click="showPrev"
-                >
-                  <v-icon x-large>fas fa-angle-left</v-icon>
-                </v-btn>
-                <v-btn
-                  class="ma-3"
-                  color="primary"
-                  x-large
-                  icon
-                  @click="showNext"
-                >
-                  <v-icon x-large>fas fa-angle-right</v-icon>
-                </v-btn>
-              </div>
-
-              <!-- IMAGE -->
+            <div class="pa-4">
               <image-wrapper
-                max-height="calc(100vh - 64px)"
-                :image-src="images[currentIndex].extractedImage"
-                background-size-unset
+                :style="
+                  `height: calc(100vh - ${decreaseImageContainerHeightBy}px)`
+                "
+                :max-height="imageHeight.toString()"
+                :image-src="images[currentIndex].originalImage"
               />
-            </v-col>
+            </div>
 
             <!-- IMAGE INFO -->
-            <v-col
-              :cols="showGallery ? 8 : 12"
-              :sm="showGallery ? 9 : 12"
-              :xl="showGallery ? 10 : 12"
-              class="image-info"
-            >
+            <div class="image-info">
               <v-card-text
-                class="pa-6 font-weight-bold"
+                class="pa-6 font-weight-bold black--text"
                 style="font-size: 1.125rem; line-height: 1.5;"
               >
                 <div v-if="images[currentIndex].image_date">
@@ -121,9 +107,9 @@
                     >{{ $t("imageGallery.goToSpecimenView") }}</router-link
                   >
                 </div>
-                <div v-if="images[currentIndex].extractedImage">
+                <div v-if="images[currentIndex].originalImage">
                   <a
-                    :href="images[currentIndex].extractedImage"
+                    :href="images[currentIndex].originalImage"
                     target="UrlWindow"
                     class="link text-decoration-none"
                     >{{ $t("imageGallery.linkToImage") }}
@@ -133,8 +119,8 @@
                   </a>
                 </div>
               </v-card-text>
-            </v-col>
-          </v-row>
+            </div>
+          </div>
         </v-col>
 
         <!-- IMAGE GALLERY COL -->
@@ -166,7 +152,7 @@
                 <image-wrapper
                   :contain="false"
                   max-height="100"
-                  :image-src="entity.extractedImage"
+                  :image-src="entity.thumbnailImage"
                 />
               </v-card>
             </v-col>
@@ -179,6 +165,7 @@
 
 <script>
 import ImageWrapper from "@/components/partial/image/ImageWrapper";
+import { throttle } from "lodash";
 
 export default {
   name: "ImageOverflow",
@@ -206,15 +193,24 @@ export default {
     }
   },
   data: () => ({
-    showGallery: true
+    showGallery: true,
+    imageHeight: 400,
+    decreaseImageContainerHeightBy: 193 // Toolbar 64px + image-info 129px default
   }),
   beforeDestroy() {
     window.removeEventListener("keyup", this.handleKeyup);
+    window.removeEventListener("resize", this.calculateImageHeight);
   },
   watch: {
     dialog(newVal) {
-      if (newVal) window.addEventListener("keyup", this.handleKeyup);
-      else window.removeEventListener("keyup", this.handleKeyup);
+      if (newVal) {
+        window.addEventListener("keyup", this.handleKeyup);
+        window.addEventListener("resize", this.calculateImageHeight);
+        this.calculateImageHeight();
+      } else {
+        window.removeEventListener("keyup", this.handleKeyup);
+        window.removeEventListener("resize", this.calculateImageHeight);
+      }
     }
   },
   methods: {
@@ -234,7 +230,25 @@ export default {
       if (event?.keyCode === 39) this.showNext();
       if (event?.keyCode === 37) this.showPrev();
       if (event?.keyCode === 27) this.$emit("close:dialog");
-    }
+    },
+
+    calculateImageHeight: throttle(function() {
+      let innerHeight = window?.innerHeight;
+      let paddingHeight = 32;
+      let toolbarHeight = 64;
+      let imageInfoHeight = document.getElementsByClassName("image-info")?.[0]
+        ?.clientHeight;
+
+      // Defaults
+      if (!imageInfoHeight) imageInfoHeight = 129;
+
+      let imageHeight = innerHeight - toolbarHeight - imageInfoHeight;
+
+      console.log(imageHeight);
+      if (imageHeight > 400) this.imageHeight = imageHeight;
+      this.decreaseImageContainerHeightBy =
+        toolbarHeight + imageInfoHeight + paddingHeight;
+    }, 400)
   }
 };
 </script>
@@ -280,16 +294,7 @@ export default {
 }
 
 .image-info {
-  position: absolute;
-  bottom: 0;
-  z-index: 5000;
-  opacity: 0.3;
-  transition: all 200ms ease-out;
-}
-
-.image-info:hover {
-  opacity: 1;
-  background-color: rgba(0, 0, 0, 0.8);
-  transition: all 200ms ease-in;
+  box-shadow: 0 1px 4px -1px rgba(0, 0, 0, 0.2),
+    0 -1px 5px 0 rgba(0, 0, 0, 0.14), 0 2px 10px 0 rgba(0, 0, 0, 0.12) !important;
 }
 </style>

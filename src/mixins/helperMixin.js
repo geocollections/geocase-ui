@@ -24,7 +24,8 @@ const helperMixin = {
 
             return {
               ...this.item,
-              extractedImage: this.getImageUrl(image),
+              thumbnailImage: this.getImageUrl(image),
+              originalImage: image,
               imageWidth: img.width ? img.width : null,
               imageHeight: img.height ? img.height : null
             };
@@ -48,7 +49,8 @@ const helperMixin = {
           item.images.forEach(image => {
             allImages.push({
               ...item,
-              extractedImage: this.getImageUrl(image)
+              thumbnailImage: this.getImageUrl(image),
+              originalImage: image
             });
           })
         );

@@ -13,14 +13,14 @@
     >
       <v-carousel-item
         class="pa-2"
-        :href="entity.extractedImage"
+        :href="entity.originalImage"
         target="UrlWindow"
         v-for="(entity, index) in images"
         :key="index"
       >
         <image-wrapper
           class="mx-auto"
-          :image-src="entity.extractedImage"
+          :image-src="entity.thumbnailImage"
           :max-height="calculateImageMaxHeight(entity.imageHeight)"
           :value="carouselItem"
         />
