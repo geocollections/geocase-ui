@@ -494,11 +494,23 @@ describe("DetailViewGetters", () => {
           { text: "Object ID", value: "unitid" },
           { text: "Type status", value: "type_status" },
           { text: "Country", value: "country" },
-          { text: "Locality", value: "locality" }
+          { text: "Area", value: "area" },
+          { text: "Locality", value: "locality" },
+          { text: "Stratigraphy", value: "stratigraphy" }
         ],
         [
+          { text: "Institution", value: "institutionHomepage" },
           { text: "Dataset owner", value: "datasetowner" },
+          { text: "Contact person", value: "contentContactName" },
+          { text: "Contact e-mail", value: "contentContactEmail" },
+          { text: "Contact phone", value: "contentContactPhone" },
+          { text: "Contact address", value: "contentContactAddress" },
           { text: "Data source country", value: "datasourcecountry" },
+          { text: "Copyright", value: "copyrights" },
+          { text: "Terms of use", value: "termsofusestatements" },
+          { text: "Disclaimer", value: "disclaimers" },
+          { text: "Acknowledgement", value: "acknowledgements" },
+          { text: "Last Edited", value: "dateLastEdited" },
           { text: "Last harvested", value: "last_harvested_processing" },
           { text: "Provider name", value: "providername" },
           { text: "GeoCASe ID", value: "id" }
@@ -830,12 +842,20 @@ describe("DetailViewGetters", () => {
           { text: "Collection", value: "collectioncode" },
           { text: "Object ID", value: "unitid" },
           { text: "Country", value: "country" },
+          { text: "Area detail", value: "areaDetail" },
           { text: "Locality", value: "locality" },
-          { text: "Mindat", value: "mindat_url" }
+          { text: "Mindat", value: "mindat_url" },
+          { text: "Weight", value: "unitWeight" }
         ],
         [
+          { text: "Institution", value: "institutionHomepage" },
           { text: "Dataset owner", value: "datasetowner" },
+          { text: "Contact person", value: "contentContactName" },
+          { text: "Contact e-mail", value: "contentContactEmail" },
+          { text: "Contact phone", value: "contentContactPhone" },
+          { text: "Contact address", value: "contentContactAddress" },
           { text: "Data source country", value: "datasourcecountry" },
+          { text: "Last Edited", value: "dateLastEdited" },
           { text: "Last harvested", value: "last_harvested_processing" },
           { text: "Provider name", value: "providername" },
           { text: "GeoCASe ID", value: "id" }
@@ -1442,12 +1462,26 @@ describe("DetailViewGetters", () => {
           { text: "Latitude", value: "latitude" },
           { text: "Longitude", value: "longitude" },
           { text: "Stratigraphy", value: "stratigraphy" },
+          { text: "Reference", value: "reference" },
+          { text: "Collector", value: "gatheringAgent" },
+          { text: "Date collected", value: "unitDateText" },
+          { text: "Kind of unit", value: "kindOfUnit" },
           { text: "Record URI", value: "recordURI" },
           { text: "Related resource", value: "relatedResource" }
         ],
         [
+          { text: "Institution", value: "institutionHomepage" },
           { text: "Dataset owner", value: "datasetowner" },
+          { text: "Contact person", value: "contentContactName" },
+          { text: "Contact e-mail", value: "contentContactEmail" },
+          { text: "Contact phone", value: "contentContactPhone" },
+          { text: "Contact address", value: "contentContactAddress" },
           { text: "Data source country", value: "datasourcecountry" },
+          { text: "Copyright", value: "copyrights" },
+          { text: "Terms of use", value: "termsofusestatements" },
+          { text: "Disclaimer", value: "disclaimers" },
+          { text: "Acknowledgement", value: "acknowledgements" },
+          { text: "Last Edited", value: "dateLastEdited" },
           { text: "Last harvested", value: "last_harvested_processing" },
           { text: "Provider name", value: "providername" },
           { text: "GeoCASe ID", value: "id" }
@@ -1918,14 +1952,26 @@ describe("DetailViewGetters", () => {
           { text: "Latitude", value: "latitude" },
           { text: "Longitude", value: "longitude" },
           { text: "Stratigraphy", value: "stratigraphy" },
+          { text: "Collector", value: "gatheringAgent" },
+          { text: "Kind of unit", value: "kindOfUnit" },
           { text: "Taxon record in PBDB", value: "taxon_id_pbdb" },
           { text: "Taxon in fossiilid.info", value: "taxon_id" },
           { text: "Record URI", value: "recordURI" },
           { text: "Related resource", value: "relatedResource" }
         ],
         [
+          { text: "Institution", value: "institutionHomepage" },
           { text: "Dataset owner", value: "datasetowner" },
+          { text: "Contact person", value: "contentContactName" },
+          { text: "Contact e-mail", value: "contentContactEmail" },
+          { text: "Contact phone", value: "contentContactPhone" },
+          { text: "Contact address", value: "contentContactAddress" },
           { text: "Data source country", value: "datasourcecountry" },
+          { text: "Copyright", value: "copyrights" },
+          { text: "Terms of use", value: "termsofusestatements" },
+          { text: "Disclaimer", value: "disclaimers" },
+          { text: "Acknowledgement", value: "acknowledgements" },
+          { text: "Last Edited", value: "dateLastEdited" },
           { text: "Last harvested", value: "last_harvested_processing" },
           { text: "Provider name", value: "providername" },
           { text: "GeoCASe ID", value: "id" }
@@ -2360,12 +2406,24 @@ describe("DetailViewGetters", () => {
         [
           { text: "Collection", value: "collectioncode" },
           { text: "Object ID", value: "unitid" },
+          { text: "Reference", value: "reference" },
           { text: "Mindat", value: "mindat_url" },
+          { text: "Kind of unit", value: "kindOfUnit" },
           { text: "Record URI", value: "recordURI" }
         ],
         [
+          { text: "Institution", value: "institutionHomepage" },
           { text: "Dataset owner", value: "datasetowner" },
+          { text: "Contact person", value: "contentContactName" },
+          { text: "Contact e-mail", value: "contentContactEmail" },
+          { text: "Contact phone", value: "contentContactPhone" },
+          { text: "Contact address", value: "contentContactAddress" },
           { text: "Data source country", value: "datasourcecountry" },
+          { text: "Copyright", value: "copyrights" },
+          { text: "Terms of use", value: "termsofusestatements" },
+          { text: "Disclaimer", value: "disclaimers" },
+          { text: "Acknowledgement", value: "acknowledgements" },
+          { text: "Last Edited", value: "dateLastEdited" },
           { text: "Last harvested", value: "last_harvested_processing" },
           { text: "Provider name", value: "providername" },
           { text: "GeoCASe ID", value: "id" }
@@ -2546,6 +2604,9 @@ describe("DetailViewGetters", () => {
                   "abcd:KindOfUnit": "part of specimen",
                   "abcd:Gathering": {
                     "abcd:DateTime": { "abcd:ISODateTimeBegin": "2013-09-12" },
+                    "abcd:NearNamedPlaces": { "abcd:NamedPlaceRelation": {
+                      "abcd:NearNamedPlace":"test place"
+                      } },
                     "abcd:Agents": {
                       "abcd:GatheringAgent": {
                         "abcd:AgentText": "Isakar, M.",
@@ -2749,7 +2810,7 @@ describe("DetailViewGetters", () => {
         null,
         undefined,
         undefined,
-        undefined,
+        "test place",
         "test date",
         "Isakar, M.",
         undefined,
@@ -2810,19 +2871,37 @@ describe("DetailViewGetters", () => {
           { text: "Collection", value: "collectioncode" },
           { text: "Object ID", value: "unitid" },
           { text: "Group", value: "highertaxon" },
+          { text: "Area", value: "area" },
+          { text: "Nearest place", value: "nearNamedPlace" },
           { text: "Locality", value: "locality" },
           { text: "Latitude", value: "latitude" },
           { text: "Longitude", value: "longitude" },
+          { text: "Stratigraphy", value: "stratigraphy" },
+          { text: "Acquisition date", value: "acquisitionDate" },
+          { text: "Collector", value: "gatheringAgent" },
+          { text: "Kind of unit", value: "kindOfUnit" },
           { text: "Taxon record in PBDB", value: "taxon_id_pbdb" },
           { text: "Taxon in fossiilid.info", value: "taxon_id" },
           { text: "Record URI", value: "recordURI" }
         ],
         [
+          { text: "Institution", value: "institutionHomepage" },
           { text: "Dataset owner", value: "datasetowner" },
+          { text: "Contact person", value: "contentContactName" },
+          { text: "Contact e-mail", value: "contentContactEmail" },
+          { text: "Contact phone", value: "contentContactPhone" },
+          { text: "Contact address", value: "contentContactAddress" },
           { text: "Data source country", value: "datasourcecountry" },
+          { text: "Copyright", value: "copyrights" },
+          { text: "Terms of use", value: "termsofusestatements" },
+          { text: "Disclaimer", value: "disclaimers" },
+          { text: "Acknowledgement", value: "acknowledgements" },
+          { text: "Last Edited", value: "dateLastEdited" },
           { text: "Last harvested", value: "last_harvested_processing" },
           { text: "Provider name", value: "providername" },
-          { text: "GeoCASe ID", value: "id" }
+          { text: "Specimen verifier", value: "specimenVerifier" },
+          { text: "GeoCASe ID", value: "id" },
+          { text: "UnitGUID", value: "unitGuid" }
         ]
       ]
     }
@@ -3101,7 +3180,20 @@ describe("DetailViewGetters", () => {
     it("filteredItemHeaders", () => {
       const stubs = {
         translatedItemHeaders: testCase.expected[37],
-        item: testCase.expected[1]
+        item: testCase.expected[1],
+        itemStratigraphy: testCase.expected[8],
+        itemArea: testCase.expected[22],
+        unitWeight: testCase.expected[29],
+        itemReference: testCase.expected[27],
+        areaDetail: testCase.expected[28],
+        nearNamedPlace: testCase.expected[30],
+        itemHighertaxon: testCase.expected[23],
+        itemMineralGroup: testCase.expected[35],
+        mineralNameDetail: testCase.expected[36],
+        acquisitionDate: testCase.expected[31],
+        unitDateText: testCase.expected[33],
+        gatheringAgent: testCase.expected[32],
+        kindOfUnit: testCase.expected[34]
       };
       const result = getters.filteredItemHeaders(testCase.state, stubs);
 
@@ -3111,7 +3203,19 @@ describe("DetailViewGetters", () => {
     it("filteredItemHeadersSecondary", () => {
       const stubs = {
         translatedItemHeadersSecondary: testCase.expected[38],
-        item: testCase.expected[1]
+        item: testCase.expected[1],
+        contentContactName: testCase.expected[10],
+        contentContactEmail: testCase.expected[11],
+        contentContactPhone: testCase.expected[12],
+        contentContactAddress: testCase.expected[13],
+        representationTitle: testCase.expected[15],
+        copyrights: testCase.expected[17],
+        termsofusestatements: testCase.expected[18],
+        disclaimers: testCase.expected[19],
+        acknowledgements: testCase.expected[20],
+        dateLastEdited: testCase.expected[21],
+        specimenVerifier: testCase.expected[24],
+        unitGuid: testCase.expected[25]
       };
       const result = getters.filteredItemHeadersSecondary(
         testCase.state,
