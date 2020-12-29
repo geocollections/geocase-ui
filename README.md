@@ -19,3 +19,27 @@ npm run build
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+## Setup with docker-compose
+
+### Build Docker images
+```
+docker-compose build
+```
+
+### Initiate SSL certificates (only for initial installation)
+1)  configure the domains in line 8 of `init-letsencrypt.sh` for the creation of the certificate
+1)  configure the domains and paths to the certificates in `nginx/conf.d/default.conf`
+1)  execute `init-letsencrypt.sh` before the first start of the containers
+```
+chmod +x init-letsencrypt.sh
+./init-letsencrypt.sh
+```
+More information [here](https://medium.com/@pentacent/nginx-and-lets-encrypt-with-docker-in-less-than-5-minutes-b4b8a60d3a71).\
+*Thanks to Philipp Schmieder for the [article](https://medium.com/@pentacent/nginx-and-lets-encrypt-with-docker-in-less-than-5-minutes-b4b8a60d3a71) and the [repo](https://github.com/wmnnd/nginx-certbot) that provided the basis for the Let's Encrypt script.*\
+*__TODO:__ Update to the [latest approach](https://medium.com/@pentacent/lets-encrypt-for-your-docker-app-in-less-than-5-minutes-24e5b38ca40b)*
+
+### Start containers
+```
+docker-compose up -d
+```

@@ -23,3 +23,6 @@ yarn-error.log*
 *.sw*
 .editorconfig
 *.sh
+
+#certbot config and certificates
+/certbot/*

@@ -1,0 +1,28 @@
+version: "3"
+services:
+
+  nginx:
+    build: ./
+    image: "geocase:2.0"
+    ports:
+      - "80:80"
+      - "443:443"
+    hostname: "geocase-fontend" 
+    restart: "always"
+    environment:
+      - DOMAIN=geocase.eu
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d
+      # include certificates from certbot service
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
+    # reload every 6 hours in case certificates have been renewed
+    command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
+  certbot:
+    image: certbot/certbot
+    volumes:
+      # expose files from certbot service with docker host
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
+    # check renewal of certificates every 12 hours
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"

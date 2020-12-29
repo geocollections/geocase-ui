@@ -30,6 +30,8 @@ RUN npm run build
 # ---- Serve using nginx ----
 FROM nginx:alpine AS production
 COPY --from=build /app/dist /usr/share/nginx/html
-COPY --from=build /app/nginx/default.conf /etc/nginx/conf.d/
+COPY --from=build /app/nginx/conf.d/default.conf /etc/nginx/conf.d/
+VOLUME /etc/nginx/conf.d
 EXPOSE 80
+EXPOSE 443
 CMD ["nginx", "-g", "daemon off;"]
