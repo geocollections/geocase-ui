@@ -2,6 +2,8 @@
   <v-app>
     <app-header />
 
+    TEST
+
     <v-main
       :class="{
         'pt-2': $route.name === 'FrontPage',
