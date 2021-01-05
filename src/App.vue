@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <app-header />
-    
+
     <v-main
       :class="{
         'pt-2': $route.name === 'FrontPage',

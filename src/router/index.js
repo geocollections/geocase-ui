@@ -85,11 +85,83 @@ const router = new Router({
           changefreq: "monthly"
         }
       }
+    },
+    {
+      path: `/:locale${LANGUAGE_REGEX}?/join`,
+      name: "Join",
+      component: Join,
+      meta: {
+        sitemap: {
+          priority: 0.5,
+          changefreq: "monthly"
+        }
+      }
+    },
+    {
+      path: `/:locale${LANGUAGE_REGEX}?/tutorial`,
+      name: "Tutorial",
+      component: Tutorial,
+      meta: {
+        sitemap: {
+          priority: 0.5,
+          changefreq: "monthly"
+        }
+      }
+    },
+    {
+      path: `/:locale${LANGUAGE_REGEX}?/project`,
+      name: "Project",
+      component: Project,
+      meta: {
+        sitemap: {
+          priority: 0.5,
+          changefreq: "monthly"
+        }
+      }
+    },
+    {
+      path: `/:locale${LANGUAGE_REGEX}?/links`,
+      name: "Links",
+      component: Links,
+      meta: {
+        sitemap: {
+          priority: 0.5,
+          changefreq: "monthly"
+        }
+      }
+    },
+    {
+      path: `/:locale${LANGUAGE_REGEX}?/imprint`,
+      name: "Imprint",
+      component: Imprint,
+      meta: {
+        sitemap: {
+          priority: 0.5,
+          changefreq: "monthly"
+        }
+      }
+    },
+    {
+      path: `/:locale${LANGUAGE_REGEX}?/efg`,
+      name: "Efg",
+      component: Efg,
+      meta: {
+        sitemap: {
+          priority: 0.5,
+          changefreq: "monthly"
+        }
+      }
     }
   ]
 });
 
 import store from "@/store/index";
+import Join from "@/views/Join";
+import Tutorial from "@/views/Tutorial";
+import Project from "@/views/Project";
+import Links from "@/views/Links";
+import Imprint from "@/views/Imprint";
+import Efg from "@/views/Efg";
 
 router.beforeEach((to, from, next) => {
   const hasLang = to.params?.locale;

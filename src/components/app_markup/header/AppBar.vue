@@ -128,7 +128,6 @@
         <template v-slot:activator="{ on }">
           <v-app-bar-nav-icon
             v-on="on"
-            class="hidden-lg-and-up"
             @click.stop="$emit('toggle:navigationDrawer')"
             aria-label="Open navigation drawer"
           />

@@ -49,10 +49,24 @@ export default {
       },
       { text: "About", to: "/about", icon: "fas fa-info-circle" },
       { text: "Access", to: "/access", icon: "fas fa-database" },
+      { text: "Join", to: "/join", icon: "fas fa-signature" },
+      { text: "Tutorial", to: "/tutorial", icon: "far fa-question-circle" },
+      { text: "About the project (old)", to: "/project", icon: "fas fa-project-diagram" },
+      { text: "About efg", to: "/efg", icon: "fas fa-info-circle" },
       {
         text: "Partners",
         to: "/partners_and_providers",
         icon: "far fa-handshake"
+      },
+      {
+        text: "Links",
+        to: "/links",
+        icon: "fas fa-link"
+      },
+      {
+        text: "Imprint",
+        to: "/imprint",
+        icon: "fas fa-stamp"
       }
     ]
   })

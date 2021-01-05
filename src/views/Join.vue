@@ -1,0 +1,15 @@
+<template>
+  <v-container class="Join">
+    <v-card elevation="6" shaped class="px-8 py-6">
+      <div v-html="$t('join.whole_page')" />
+    </v-card>
+  </v-container>
+</template>
+
+<script>
+export default {
+  name: "Join"
+};
+</script>
+
+<style scoped></style>
