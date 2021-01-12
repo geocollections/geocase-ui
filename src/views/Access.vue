@@ -1,28 +1,14 @@
 <template>
   <v-container class="Access">
-    <v-card :loading="loading" elevation="6" shaped class="px-8 py-6">
-      <div v-if="page" v-html="page.content_en" />
+    <v-card elevation="6" shaped class="px-8 py-6">
+      <div v-html="$t('access.html')" />
     </v-card>
   </v-container>
 </template>
 
 <script>
-import StaticPageService from "@/middleware/StaticPageService";
-
 export default {
-  name: "Access",
-  data: () => ({
-    page: null,
-    pageId: 74,
-    loading: false
-  }),
-  async created() {
-    this.loading = true;
-    let response = await StaticPageService.getPage(this.pageId);
-    console.log(response?.results?.[0]);
-    if (response && response?.results?.[0]) this.page = response.results[0];
-    this.loading = false;
-  }
+  name: "Access"
 };
 </script>
 

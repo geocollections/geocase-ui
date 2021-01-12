@@ -1,7 +1,7 @@
 <template>
   <v-container class="Efg">
     <v-card elevation="6" shaped class="px-8 py-6">
-      <div v-html="$t('efg.whole_page')" />
+      <div v-html="$t('efg.html')" />
     </v-card>
   </v-container>
 </template>

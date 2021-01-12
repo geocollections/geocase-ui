@@ -1,7 +1,7 @@
 <template>
   <v-container class="Links">
     <v-card elevation="6" shaped class="px-8 py-6">
-      <div v-html="$t('links.whole_page')" />
+      <div v-html="$t('links.html')" />
     </v-card>
   </v-container>
 </template>
