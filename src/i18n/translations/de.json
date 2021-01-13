@@ -229,7 +229,8 @@
     "imageNoResults": "Keine Bilder mit diesen Parametern gefunden.",
     "imageNoResultsFilterInfo": "Filter hinzufügen, um nur Einträge mit Bildern zu finden.",
     "addFilter": "Filter hinzufügen",
-    "mapNoResults": "Konnte keine Lokalitäten finden."
+    "mapNoResults": "Keine Lokalitäten mit diesen Parametern gefunden.",
+    "mapNoResultsFilterInfo": "Add filter so it would show results which have a locality."
   },
   "imageGallery": {
     "date": "Datum",

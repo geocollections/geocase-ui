@@ -20,7 +20,7 @@
       :loading="isLoading"
     >
       <template v-slot:no-data>
-        <v-row class="mx-0" justify="center">
+        <v-row no-gutters class="my-4" justify="center">
           <v-col cols="12" style="max-width: 500px;">
             <v-alert
               class="mb-0"

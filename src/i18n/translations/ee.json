@@ -229,7 +229,8 @@
     "imageNoResults": "Antud otsinguparameetritega pilte ei leitud.",
     "imageNoResultsFilterInfo": "Lisa filter, et näha pilte sisaldavaid kirjeid.",
     "addFilter": "Lisa filter",
-    "mapNoResults": "Lokaliteete ei leitud."
+    "mapNoResults": "Antud otsinguparameetritega lokaliteete ei leitud.",
+    "mapNoResultsFilterInfo": "Lisa filter, et näha asukohta sisaldavaid kirjeid."
   },
   "imageGallery": {
     "date": "Kuupäev",

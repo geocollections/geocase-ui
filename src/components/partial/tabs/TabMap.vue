@@ -1,6 +1,11 @@
 <template>
   <v-card flat>
-    <v-row class="mx-0" justify="center" v-if="localities.length === 0">
+    <v-row
+      no-gutters
+      class="my-4"
+      justify="center"
+      v-if="localities.length === 0"
+    >
       <v-col cols="12" style="max-width: 500px;">
         <v-alert
           class="mb-0"
@@ -14,6 +19,7 @@
           </div>
 
           <div v-if="!search.has_map.value">
+            {{ $t("search.mapNoResultsFilterInfo") }}
             <v-btn
               x-small
               color="secondary"
