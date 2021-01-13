@@ -7,9 +7,8 @@
           'text-sm': $vuetify.breakpoint.smAndDown
         }"
       >
-        This website uses cookies in order to deliver the best possible web
-        experience. By continuing to visit this website you agree to our use of
-        cookies
+        {{ $t("cookiePolicy.introduction") }}
+
         <v-dialog
           v-model="cookieDialog"
           max-width="500px"
@@ -17,17 +16,13 @@
         >
           <template v-slot:activator="{ on }">
             <a class="table-link" v-on="on" title="Read Our Cookie Policy"
-              >Read Our Cookie Policy
+              >{{ $t("cookiePolicy.readMoreButton") }}
               <v-icon small color="primary">fas fa-cookie-bite</v-icon>
             </a>
           </template>
           <v-card>
-            <v-card-title>Cookie Policy</v-card-title>
-            <v-card-text>
-              Website visitor data is used only for non-personal statistical
-              analysis to further improve page functionality. Data will not be
-              passed on to third parties.</v-card-text
-            >
+            <v-card-title>{{ $t("cookiePolicy.title") }}</v-card-title>
+            <v-card-text>{{ $t("cookiePolicy.text") }}</v-card-text>
           </v-card>
         </v-dialog>
       </div>
