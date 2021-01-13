@@ -1,7 +1,6 @@
 import axios from "axios";
 
-const API_URL = "https://geocase-api.geocollections.info/";
-// const MAP_URL = "https://geocase-map.geocollections.info/";
+const API_URL = "/api";
 
 class MapService {
   static async searchCoordinates() {
