@@ -2,18 +2,18 @@ const routes = require("./src/router/sitemapRoutes");
 
 module.exports = {
   transpileDependencies: ["vuetify"],
-  devServer: {
-    proxy: {
-      "/api": {
-        target: "http://geocase-api.geocollections.info/",
-        changeOrigin: true,
-        pathRewrite: {
-          "^/api/repeat": "/v1/repeat",
-          "^/api": "/v2/solr"
-        }
-      }
-    }
-  },
+  // devServer: {
+  //   proxy: {
+  //     "/api": {
+  //       target: "http://geocase-api.geocollections.info/",
+  //       changeOrigin: true,
+  //       pathRewrite: {
+  //         "^/api/repeat": "/v1/repeat",
+  //         "^/api": "/v2/solr"
+  //       }
+  //     }
+  //   }
+  // },
   pluginOptions: {
     sitemap: {
       productionOnly: true,

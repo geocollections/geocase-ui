@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "/api";
+const API_URL = "https://geocase-api.geocollections.info/";
 const FACET_QUERY =
   "facet=on&facet.mincount=0&facet.limit=200&f.highertaxon_facet.facet.limit=100";
 const STATS_QUERY =
