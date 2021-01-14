@@ -13,14 +13,14 @@
     >
       <v-carousel-item
         class="pa-2"
-        :href="entity.extractedImage"
+        :href="entity.originalImage"
         target="UrlWindow"
         v-for="(entity, index) in images"
         :key="index"
       >
         <image-wrapper
           class="mx-auto"
-          :image-src="entity.extractedImage"
+          :image-src="entity.thumbnailImage"
           :max-height="calculateImageMaxHeight(entity.imageHeight)"
           :value="carouselItem"
         />
@@ -32,17 +32,18 @@
         <v-list-item>
           <v-list-item-content>
             <v-list-item-subtitle v-if="date"
-              >Date: {{ date }}</v-list-item-subtitle
+              >{{ $t("imageGallery.date") }}: {{ date }}</v-list-item-subtitle
             >
             <v-list-item-subtitle v-if="licence"
-              >Licence: {{ licence }}</v-list-item-subtitle
+              >{{ $t("imageGallery.licence") }}:
+              {{ licence }}</v-list-item-subtitle
             >
             <v-list-item-subtitle v-if="url"
               ><a
                 :href="url"
                 target="UrlWindow"
                 class="link text-decoration-none"
-                >Link to image
+                >{{ $t("imageGallery.linkToImage") }}
                 <v-icon color="primary" x-small
                   >fas fa-external-link-alt</v-icon
                 >
@@ -57,7 +58,7 @@
             <v-switch
               hide-details
               v-model="cycleImages"
-              label="Cycle Images"
+              :label="$t('imageGallery.cycleImages')"
               inset
             ></v-switch>
           </v-list-item-action>
@@ -98,7 +99,8 @@ export default {
 
     calculateImageMaxHeight(imageHeight) {
       // return this.imageMaxHeight;
-      if (imageHeight && imageHeight < this.imageMaxHeight) return imageHeight.toString();
+      if (imageHeight && imageHeight < this.imageMaxHeight)
+        return imageHeight.toString();
       else return this.imageMaxHeight;
     }
   }

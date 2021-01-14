@@ -33,16 +33,16 @@ import { mapActions, mapState } from "vuex";
 
 export default {
   name: "StatsCard",
-  props: ["text", "count"],
+  props: ["text", "count", "id"],
   computed: {
     ...mapState("search", ["search"])
   },
   methods: {
     ...mapActions("search", ["updateSearchField"]),
     viewInfo() {
-      if (this.text === "Number of Institutions") {
+      if (this.id === 2) {
         this.$router.push("partners_and_providers");
-      } else if (this.text === "Countries with data") {
+      } else if (this.text === 3) {
         if (!this.search["country"].showCheckboxes)
           this.updateSearchField({ id: "country", showCheckboxes: true });
         this.$router.push("search");

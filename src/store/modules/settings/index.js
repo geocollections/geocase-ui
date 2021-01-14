@@ -1,49 +1,9 @@
+import i18n from "@/i18n";
+
 const state = {
   error: false,
   errorMessage: "",
   searchDrawer: false,
-  externalResources: [
-    {
-      icon: "fas fa-sitemap",
-      text: "CETAF",
-      url: "http://cetaf.org"
-    },
-    {
-      icon: "fas fa-microscope",
-      text: "DiSSCo",
-      url: "http://www.dissco.eu"
-    },
-    {
-      icon: "fas fa-network-wired",
-      text: "BioCASe portal",
-      url: "https://www.biocase.org/"
-    },
-    {
-      icon: "fas fa-leaf",
-      text: "GBIF portal",
-      url: "https://www.gbif.org/"
-    },
-    {
-      icon: "far fa-hand-paper",
-      text: "ABCD-EFG standard",
-      url: "https://www.tdwg.org/community/esp/efg/"
-    },
-    {
-      icon: "fab fa-github",
-      text: "GeoCASe 2.0 on GitHub",
-      url: "https://github.com/geocollections/geocase-ui"
-    },
-    {
-      icon: "fas fa-database",
-      text: "GeoCASe 1.0 portal",
-      url: "http://geocase.eu"
-    },
-    {
-      icon: "fas fa-laptop-code",
-      text: "GeoCASe API",
-      url: "http://geocase-api.geocollections.info/"
-    }
-  ],
   language: "en"
 };
 
@@ -84,7 +44,52 @@ const mutations = {
   }
 };
 
-const getters = {};
+const getters = {
+  externalResources: () => {
+    return [
+      {
+        icon: "fas fa-sitemap",
+        text: i18n.t("resources.cetaf"),
+        url: "http://cetaf.org"
+      },
+      {
+        icon: "fas fa-microscope",
+        text: i18n.t("resources.dissco"),
+        url: "http://www.dissco.eu"
+      },
+      {
+        icon: "fas fa-network-wired",
+        text: i18n.t("resources.biocase"),
+        url: "https://www.biocase.org/"
+      },
+      {
+        icon: "fas fa-leaf",
+        text: i18n.t("resources.gbif"),
+        url: "https://www.gbif.org/"
+      },
+      {
+        icon: "far fa-hand-paper",
+        text: i18n.t("resources.abcd-efg"),
+        url: "https://www.tdwg.org/community/esp/efg/"
+      },
+      {
+        icon: "fab fa-github",
+        text: i18n.t("resources.geocase2-github"),
+        url: "https://github.com/geocollections/geocase-ui"
+      },
+      {
+        icon: "fas fa-database",
+        text: i18n.t("resources.geocase1"),
+        url: "http://geocase.eu"
+      },
+      {
+        icon: "fas fa-laptop-code",
+        text: i18n.t("resources.geocase-api"),
+        url: "http://geocase-api.geocollections.info/"
+      }
+    ];
+  }
+};
 
 export default {
   namespaced: true,

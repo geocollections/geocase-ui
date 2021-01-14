@@ -1,5 +1,245 @@
 {
   "messages": {
-    "languageChange": "Keeletugi varsti tulemas!"
+    "languageChange": "Vahetasite keelt!"
+  },
+  "searchHelp": {
+    "title": "Otsingu abiinfo",
+    "help1": "Sisesta märksõna(d) kiireks otsinguks kõigist andmetabelitest. Suur- ja väiketähti ei eristata, pimesümbolina (wildcard) kasutada tärni ",
+    "help2": "Mitme märksõna korral otsitakse vasteid, kus esineb vähemalt üks otsitavatest. Et märksõna kindlasti tulemustes sisalduks, lisa selle ette '<b class='secondary--text font-weight-black'>+</b>'. Kui soovid mõne termini välistada, siis kasuta märksõna ees '<b class='secondary--text font-weight-black'>-</b>'. Näiteks: ",
+    "help3": "Mitmesõnalise väljendi otsimiseks ümbritse see <b class='secondary--text'>jutumärkidega</b>; sama tee ka siis kui otsitav sisaldab erimärke, nagu '-' ja '+', nt ",
+    "help4": {
+      "prepend": "Kiirotsingut saab kasutada ka detailsemate pärigute jaoks, kuid selleks tuleb teada andmebaasi väljade nimetusi. Nt päring",
+      "append": "otsib kirjeid, kus stratigraafiaks on määratud Burtnieki lade. NB! sellise otsingu puhul tehakse vahet suur- ja väiketähtedel ('asaphus' and 'Asaphus' ei ole samad), abiks on pimesümbol (*)."
+    }
+  },
+  "frontPage": {
+    "prototype_alert": {
+      "title": "See on GeoCASe 2.0 prototüüp. Funktsionaalsus ja andmestik ei ole veel täielik ning on mõeldud ainult testimiseks.",
+      "text": "See infokast asendatakse GeoCase lühitutvustusega."
+    },
+    "title": "Euroopa Geokogude Portaal",
+    "findQuickly": "Leia kiirelt...",
+    "totalRecords": "Kirjeid kokku",
+    "institutionCount": "Asutuste arv",
+    "countryCount": "Riigid andmetega",
+    "cards": {
+      "fossils": {
+        "title": "Fossiilid",
+        "text": "Kivistised on kunagi elanud organismide jäänused või jäljed. Nende hulka kuuluvad luud, kestad, urud ja aeg-ajalt mineraliseerunud pehmed kehad.",
+        "button": "Vaata fossiile"
+      },
+      "minerals": {
+        "title": "Mineraalid",
+        "text": "Mineraalidel on kindel keemiline koostis ja kristallstruktuur. Need on kõigi kivimite aluseks.",
+        "button": "Vaata Mineraale"
+      },
+      "rocks": {
+        "title": "Kivimid",
+        "text": "Kivimid ja setted moodustavad kindla Maa. Need võivad olla magmaatilised, settelised või moondelised.",
+        "button": "Vaata kivimeid"
+      },
+      "meteorites": {
+        "title": "Meteoriidid",
+        "text": "Meteoriidid on Maale langenud kosmosekivimid, mis koosnevad samadest mineraalidest nagu maised kivimid.",
+        "button": "Vaata meteoriite"
+      }
+    }
+  },
+  "footer": {
+    "title": "GeoCASe: Euroopa Geokogude Portaal",
+    "dataBy": "Andmed kogutud",
+    "partnerInstitutions": "partnerasutustelt",
+    "collab_html": "GeoCASe 2.0 on valminud <a href='https://cetaf.org' target='FooterWindow'>CETAF Earth Science Group'i</a> ühistööl.",
+    "created_html": "<a href='https://github.com/geocollections/geocase-ui' target='FooterWindow'>Portaali tarkvara</a> on loodud ja majutatud <a href='https://taltech.ee/en/department-geology' target='FooterWindow'>TalTech</a> ning <a href='https://www.museumfuernaturkunde.berlin/' target='FooterWindow'>MfN</a> poolt."
+  },
+  "header": {
+    "search": "Otsing",
+    "about": "Liitu",
+    "access": "Ligipääs",
+    "partners": "Partnerid",
+    "resources": "Ressursid",
+    "titleTooltip": "Liigu esilehele",
+    "showSearch": "Näita/peida otsingu filtreid",
+    "showMenu": "Näita menüüd"
+  },
+  "resources": {
+    "cetaf": "CETAF",
+    "dissco": "DiSSCo",
+    "biocase": "BioCASe portaal",
+    "gbif": "GBIF portaal",
+    "abcd-efg": "ABCD-EFG standard",
+    "geocase2-github": "GeoCASe 2.0 GitHubis",
+    "geocase1": "GeoCASe 1.0 portaal",
+    "geocase-api": "GeoCASe API"
+  },
+  "detail": {
+    "noResults": "Kahjuks ei leidnud mitte ühtegi vastet, kus eksemplari <b>ID</b> oleks <b>{id}</b>",
+    "dataFromProvider": "Andmed otse algallikast (arendajatele)",
+    "goBack": "Mine tagasi",
+    "otherIdentification": "Teised määrangud",
+    "specimenType": {
+      "fossil": "Fossiil",
+      "mineral": "Mineraal",
+      "rock": "Kivim",
+      "meteorite": "Meteoriit"
+    },
+    "table": {
+      "type": "Tüüp",
+      "collection": "Kollektsioon",
+      "objectId": "Objekti ID",
+      "typeStatus": "Originaal staatus",
+      "group": "Grupp",
+      "country": "Riik",
+      "area": "Ala",
+      "areaDetail": "Ala lisainfo",
+      "locality": "Lokaliteet",
+      "latitude": "Laiuskraad",
+      "longitude": "Pikkuskraad",
+      "stratigraphy": "Stratigraafia",
+      "mindat": "Mindat",
+      "taxonRecordInPbdb": "Taksoni kirje PBDB-s",
+      "taxonInEncyclopediaOfLife": "Takson Encyclopedia of Life-s",
+      "taxonInTreeOfLife": "Takson Tree of Life'is",
+      "TaxonInFossiilidInfo": "Takson fossiilid.info-s",
+      "recordUri": "Kirje URL",
+      "relatedResource": "Seotud allikas",
+      "reference": "Kirjandus",
+      "unitWeight": "Kaal",
+      "nearNamedPlace": "Lähim koht",
+      "itemMineralGroup": "Grupp",
+      "mineralNameDetail": "Nime lisainfo",
+      "acquisitionDate": "Omandamise aeg",
+      "gatheringAgent": "Koguja",
+      "unitDateText": "Kogumise aeg",
+      "kindOfUnit": "Üksus"
+    },
+    "secondaryTable": {
+      "institution": "Asutus",
+      "datasetOwner": "Andmekogumi omanik",
+      "contactPerson": "Kontaktisik",
+      "contactEmail": "E-mail",
+      "contactPhone": "Telefon",
+      "contactAddress": "Aadress",
+      "contactData": "Kontaktandmed",
+      "dataSourceCountry": "Andmeallika riik",
+      "copyright": "Autoriõigus",
+      "termsOfUse": "Kasutustingimused",
+      "disclaimer": "Hoiatustekst",
+      "acknowledgement": "Vastuvõtukinnitus",
+      "lastEdited": "Viimati muudetud",
+      "lastHarvested": "Viimati päritud",
+      "providerName": "Teenusepakkuja",
+      "specimenVerifier": "Eksemplari kontrollija",
+      "geocaseId": "GeoCASe ID",
+      "unitGuid": "UnitGUID"
+    }
+  },
+  "search": {
+    "recordsFound": "kirjet | kirje | kirjet",
+    "openGallery": "Ava galerii",
+    "mindatLink": "Link mindat.org lehele",
+    "goToDetailView": "Mine detailvaatesse",
+    "mapMarkerTooltip": "Vajuta, et otsida eksemplare selles asukohas!",
+    "tab": {
+      "table": "Tabel",
+      "images": "Pildid",
+      "map": "Kaart"
+    },
+    "table": {
+      "empty": "",
+      "area_name": "Ala",
+      "country_original": "Riik originaal",
+      "country": "Riik",
+      "collectioncode": "Kollektsiooni kood",
+      "mindepth": "Min. sügavus",
+      "mindat_id": "Mindat ID",
+      "is_mineral": "Mineraal?",
+      "gatheringareas": "Leiuala",
+      "stratigraphytext": "Stratigraafia vaba",
+      "taxon_id_tol": "Takson Tree of Life'is",
+      "datasetownerabbrev": "Andmekogumi omanik",
+      "last_harvested_processing": "Viimati päritud",
+      "id": "ID",
+      "taxon_hierarchy_string": "Taksoni hierarhiline tekst",
+      "longitude": "Pikkuskraad",
+      "highertaxon": "Rühm",
+      "images": "Pildid",
+      "recordbasis": "Eksemplari tüüp",
+      "higherrank": "Kategooria",
+      "acquiredfrom": "Omandatud",
+      "datasourcecountry": "Andmeallika riik",
+      "locality": "Lokaliteet",
+      "mindat_url": "Mindat URL",
+      "occurrenceid": "Sündmuse ID",
+      "provideraddress": "Teenusepakkuja aadress",
+      "area_type": "Ala tüüp",
+      "taxon_id_pbdb": "Taksoni kirje PBDB-s",
+      "has_map": "On kaart?",
+      "highertaxa": "Klass",
+      "datasourceurl": "Andmeallika URL",
+      "fullscientificname": "Nimi",
+      "datasetowner": "Andmekogumi omanik",
+      "type_fullscientificname": "Nime tüüp",
+      "latitude": "Laiuskraad",
+      "image_license": "Pilti litsents",
+      "providercountry": "Andmetarnija riik",
+      "type_status": "Originaal staatus",
+      "maxdepth": "Max. sügavus",
+      "stratigraphy": "Stratigraafia",
+      "providerurl": "Andmetarnija URL",
+      "has_image": "On pilt?",
+      "highertaxon_facet": "Rühm",
+      "image_author": "Pildi autor",
+      "recordURI": "Kirje link",
+      "taxon_id": "Taksoni ID",
+      "image_date": "Pildi kuupäev",
+      "collectorname": "Koguja",
+      "providername": "Andmetarnija",
+      "url": "URL",
+      "relatedResource": "Seotud allikas",
+      "names": "Nimed",
+      "_version_": "_version_",
+      "unitid": "Objekti ID",
+      "coordinates": "Koordinaadid",
+      "coordinatesReadOnly": "Koordinaadid - LOE AINULT"
+    },
+    "pagination": "Kuva {value} kaupa",
+    "export": {
+      "export": "Ekspordi",
+      "exportToCsv": "Ekspordi CSV",
+      "copyToClipboard": "Kopeeri",
+      "downloadFailed": "Allalaadimine ebaõnnestus: Andmed puuduvad!",
+      "exportSuccessful": "Eksporditi <b>{type}</b>!",
+      "copySuccessful": "Kopeeritud!",
+      "copyFailed": "Kopeerimine ebaõnnestus: Pole midagi koperida!"
+    },
+    "drawer": {
+      "additionalFilters": "Täiendavad filtrid",
+      "extraOptions": "Lisavõimalused",
+      "resetSearch": "Taasta otsing",
+      "clearFilters": "Puhasta '{field}' filtrid",
+      "more": "Rohkem",
+      "less": "Vähem",
+      "has_image": "Näita ainult piltidega kirjeid",
+      "has_map": "Näita ainult koordinaatidega kirjeid",
+      "fixedHeaders": "Külmuta tabeli päiserida (ainult suurte ekraandie puhul)",
+      "tableHeaders": "Tabeli päised"
+    },
+    "tableNoResults": "Antud otsinguparameetritega kirjeid ei leitud.",
+    "imageNoResults": "Antud otsinguparameetritega pilte ei leitud.",
+    "imageNoResultsFilterInfo": "Lisa filter, et näha pilte sisaldavaid kirjeid.",
+    "addFilter": "Lisa filter",
+    "mapNoResults": "Lokaliteete ei leitud."
+  },
+  "imageGallery": {
+    "date": "Kuupäev",
+    "licence": "Litsents",
+    "linkToImage": "Link pildile",
+    "cycleImages": "Slaidiseannss",
+    "closeGallery": "Sulge galerii",
+    "imageGallery": "Pildigalerii",
+    "hideThumbnails": "Kuva pisipildid",
+    "showThumbnails": "Peida pisipildid",
+    "goToSpecimenView": "Mine detailvaatesse"
   }
 }

@@ -10,17 +10,15 @@
           color="secondary"
         >
           <div>
-            Couldn't find any localities with these search parameters.
+            {{ $t("search.mapNoResults") }}
           </div>
 
           <div v-if="!search.has_map.value">
-            Add filter so it would only show results which have georeferenced
-            data.
             <v-btn
               x-small
               color="secondary"
-              @click="$emit('add:filter', { id: 'has_map', value: 'true'} )"
-              >Add filter</v-btn
+              @click="updateSearchField({ id: 'has_map', value: 'true' })"
+              >{{ $t("search.addFilter") }}</v-btn
             >
           </div>
         </v-alert>
@@ -34,9 +32,12 @@
 </template>
 
 <script>
-import "leaflet/dist/leaflet.css";
-
 import * as L from "leaflet";
+import "leaflet/dist/leaflet.css";
+// import "leaflet.markercluster/dist/MarkerCluster.css";
+// import "leaflet.markercluster/dist/MarkerCluster.Default.css";
+// import "leaflet.markercluster/dist/leaflet.markercluster";
+
 import { mapActions, mapState } from "vuex";
 
 export default {
@@ -64,7 +65,7 @@ export default {
     markerLayer: null,
     markerIcon: new L.divIcon({
       html:
-        "<i class='v-icon notranslate fas fa-circle theme--light primary--text map-marker-icon' style='font-size: 0.75rem; opacity: 0.5;'/>",
+        "<i class='v-icon notranslate fas fa-circle theme--light primary--text searchMap-marker-icon' style='font-size: 0.75rem; opacity: 0.5;'/>",
       className: "map-marker"
     }),
     baseMaps: [
@@ -276,7 +277,7 @@ export default {
 
             if (item.recordURI) {
               marker.on("click", () => {
-                if (window.location.pathname.includes("detail")) {
+                if (this.isDetailView) {
                   window.open(item.recordURI, "RecordUriWindow");
                 } else this.$router.push({ path: `specimen/${item.id}` });
               });
@@ -291,7 +292,7 @@ export default {
             this.markers.push(marker);
           }
         });
-        // Adding marker layer to map
+        // Adding marker layer to searchMap
         this.markerLayer = L.layerGroup(this.markers);
         this.map.addLayer(this.markerLayer);
 
@@ -309,4 +310,8 @@ export default {
 };
 </script>
 
-<style scoped />
+<style scoped>
+.map-progress-circular {
+  transition: margin-left 200ms ease-in-out;
+}
+</style>

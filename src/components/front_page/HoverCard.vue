@@ -1,52 +1,67 @@
 <template>
-  <v-hover v-slot:default="{ hover }" :close-delay="800">
+  <v-hover v-slot="{ hover }" close-delay="1600">
     <v-card
       :elevation="hover ? 12 : 6"
+      @mouseleave="handleMouseLeave"
+      @mouseenter="handleMouseEnter"
       height="300"
       hover
       class="d-flex flex-column HoverCard"
       :style="
-        `background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.1), rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.7)), url(&quot;${image}&quot;);`
+        `background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.1), rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.7)), url(&quot;${card.image}&quot;);`
       "
-      @click="goToSearchView(url)"
+      @click="goToSearchView(card.url)"
     >
+      <v-overlay absolute :value="hover">
+        <div class="d-flex flex-column text-center">
+          <div
+            class="v-card__title justify-center text-uppercase font-weight-bold animate__animated"
+            :class="{
+              animate__fadeInUp: hover,
+              animate__fadeOutDown: card.isLeaving
+            }"
+          >
+            {{ card.title }}
+          </div>
+
+          <div
+            class="v-card__text text-center animate__animated font-weight-medium"
+            :class="{
+              animate__fadeInUp: hover,
+              animate__fadeOutDown: card.isLeaving
+            }"
+          >
+            {{ card.text }}
+          </div>
+
+          <div
+            class="v-card__actions justify-center animate__animated"
+            :class="{
+              animate__fadeInUp: hover,
+              animate__fadeOutDown: card.isLeaving
+            }"
+          >
+            <v-btn
+              class="font-weight-bold white--text"
+              color="black"
+              elevation="6"
+              :to="card.url"
+              >{{ card.button }}</v-btn
+            >
+          </div>
+        </div>
+      </v-overlay>
+
       <v-spacer />
 
       <v-card-title
         class="justify-center text-uppercase font-weight-bold animate__animated animate__faster white--text"
         :class="{
-          animate__slideInUp: hover,
-          animate__slideInDown: !hover
+          animate__fadeOutUp: !card.isLeaving && hover,
+          animate__fadeInDown: card.isLeaving
         }"
-        >{{ title }}</v-card-title
+        >{{ card.title }}</v-card-title
       >
-
-      <v-card-text
-        v-show="hover"
-        :class="{
-          animate__slideInUp: hover,
-          animate__slideOutDown: !hover
-        }"
-        class="text-center animate__animated animate__faster white--text"
-        >{{ text }}</v-card-text
-      >
-
-      <v-card-actions
-        v-show="hover"
-        :class="{
-          animate__slideInUp: hover,
-          animate__slideOutDown: !hover
-        }"
-        class="justify-center mb-2 animate__animated animate__faster"
-      >
-        <v-btn
-          class="font-weight-bold white--text"
-          color="black"
-          elevation="6"
-          :to="url"
-          >{{ button }}</v-btn
-        >
-      </v-card-actions>
     </v-card>
   </v-hover>
 </template>
@@ -57,7 +72,7 @@ import { mapActions } from "vuex";
 export default {
   name: "HoverCard",
 
-  props: ["title", "text", "button", "url", "image"],
+  props: ["card"],
 
   methods: {
     ...mapActions("search", ["resetSearch"]),
@@ -66,6 +81,15 @@ export default {
     goToSearchView(url) {
       this.resetSearch();
       this.$router.push({ path: url });
+    },
+
+    handleMouseLeave() {
+      if (!this.card.isLeaving)
+        setTimeout(() => this.$emit("update:isLeaving", true), 800);
+    },
+
+    handleMouseEnter() {
+      if (this.card.isLeaving) this.$emit("update:isLeaving", false);
     }
   }
 };

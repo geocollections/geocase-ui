@@ -10,6 +10,7 @@ class StaticPageService {
       const res = await axios.get(url);
       return res.data;
     } catch (err) {
+      console.error(err);
       throw new Error(err);
     }
   }

@@ -54,6 +54,11 @@ export default {
     }
   },
 
+  mounted() {
+    if (this.language !== this.$i18n.locale)
+      this.updateLanguage(this.$i18n.locale);
+  },
+
   methods: {
     ...mapActions("settings", ["updateLanguage"]),
 
@@ -70,6 +75,11 @@ export default {
       if (this.language === newLang) return;
       this.$i18n.locale = newLang;
       this.updateLanguage(newLang);
+      this.$router.replace({
+        name: this.$route.name,
+        params: newLang !== "en" ? { locale: newLang } : {},
+        query: { ...this.$route.query }
+      });
       this.toastInfo({ text: this.$t("messages.languageChange") });
     }
   }

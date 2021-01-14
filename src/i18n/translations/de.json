@@ -1,5 +1,236 @@
 {
   "messages": {
-    "languageChange": "Sprachunterstützung in Kürze!"
+    "languageChange": "Die Sprache wurde geändert!"
+  },
+  "searchHelp": {
+    "title": "Suchhilfe",
+    "help1": "Geben Sie den/die Begriff(e) für eine schnelle Suche in allen Haupttabellen ein. Groß- und Kleinschreibung wird nicht unterschieden, für Platzhalter bitte ein Sternchen (*) verwenden",
+    "help2": "Bei Eingabe mehrerer Suchbegriffe enthalten Sie Ergebnisse für jeden der Begriffe. Um das Vorhandensein eines bestimmten Schlüsselworts sicherzustellen, stellen Sie ihm '<b class='secondary--text font-weight-black'>+</b>' voran. Um einen Begriff auszuschließen, stellen Sie ihm '<b class='secondary--text font-weight-black'>-</b>' voran. Zum Beispiel:",
+    "help3": "Um einen exakten Ausdruck zu suchen, verwenden Sie bitte <b class='secondary--text'>doppelte Anführungszeichen</b>. Verwenden Sie diese auch, wenn der Begriff Sonderzeichen wie z. B. '+' oder '-' enthalt.",
+    "help4": {
+      "prepend": "Das Schnellsuchfeld kann auch für erweiterte Abfragen verwendet werden, wenn Sie die Namen der Datenbankfelder kennen. Zum Beispiel, Abfrage nach",
+      "append": "sucht alle Datensatze, bei denen die Stratigraphie auf Burtnieki-Stufe eingestellt ist. HINWEIS! Bei dieser Art der Suche ist die Großschreibung wichtig ('asaphus' und 'Asaphus' sind nicht dasselbe) und * ist nützlich."
+    }
+  },
+  "frontPage": {
+    "prototype_alert": {
+      "title": "This is GeoCASe 2.0 prototype interface. It has incomplete functionality and data, and is intended for testing purposes only.",
+      "text": "This box will be replaced by brief introduction about GeoCASe."
+    },
+    "title": "The Earth Science Collections Portal",
+    "findQuickly": "Schnellsuche...",
+    "totalRecords": "Einträge insgesamt",
+    "institutionCount": "Anzahl der Institutionen",
+    "countryCount": "Anzahl der Länder",
+    "cards": {
+      "fossils": {
+        "title": "Fossilien",
+        "text": "Fossilien sind Überreste oder Spuren von einst lebenden Organismen. Sie umfassen Knochen, Muscheln, Höhlen und gelegentlich mineralisierte Weichkörper.",
+        "button": "Fossilien ansehen"
+      },
+      "minerals": {
+        "title": "Minerale",
+        "text": "Minerale haben eine bestimmte chemische Zusammensetzung und Kristallstruktur. Sie sind die Grundbausteine aller Gesteine.",
+        "button": "Minerale ansehen"
+      },
+      "rocks": {
+        "title": "Gesteine",
+        "text": "Gesteine und Sedimente bilden die feste Erde. Sie können magmatisch, sedimentär oder metamorph sein.",
+        "button": "Gesteine ansehen"
+      },
+      "meteorites": {
+        "title": "Meteoriten",
+        "text": "Meteoriten sind Weltraumgestein, das auf die Erde gefallen ist. Sie bestehen aus den gleichen Mineralen wie irdische Gesteine.",
+        "button": "Meteoriten ansehen"
+      }
+    }
+  },
+  "footer": {
+    "title": "GeoCASe: The Earth Science Collections Portal",
+    "dataBy": "Daten von",
+    "partnerInstitutions": "Partnerinstitutionen",
+    "collab_html": "GeoCASe 2.0 is collaborative effort of the <a href='https://cetaf.org' target='FooterWindow'>CETAF Earth Sciences Group</a>.",
+    "created_html": "<a href='https://github.com/geocollections/geocase-ui' target='FooterWindow'>Portal software</a> created and hosted by <a href='https://taltech.ee/en/department-geology' target='FooterWindow'>TalTech</a> and <a href='https://www.museumfuernaturkunde.berlin/' target='FooterWindow'>MfN</a>."
+  },
+  "header": {
+    "search": "Suche",
+    "about": "Über GeoCASe",
+    "access": "Zugang",
+    "partners": "Partner",
+    "resources": "Ressourcen",
+    "titleTooltip": "Zur Startseite",
+    "showSearch": "Zeige/verberge Suchfilter",
+    "showMenu": "Zeige das Menü"
+  },
+  "resources": {
+    "cetaf": "CETAF",
+    "dissco": "DiSSCo",
+    "biocase": "BioCASe Portal",
+    "gbif": "GBIF Portal",
+    "abcd-efg": "ABCD-EFG Standard",
+    "geocase2-github": "GeoCASe 2.0 auf GitHub",
+    "geocase1": "GeoCASe 1.0 Portal",
+    "geocase-api": "GeoCASe API"
+  },
+  "detail": {
+
+    "noResults": "Es konnten keine Ergebnisse mit der <b>ID</b> <b>{id}</b> gefunden werden.",
+    "dataFromProvider": "Daten vom Provider (für Entwickler)",
+    "goBack": "Zurück",
+    "otherIdentification": "Weitere Identifikationen",
+    "specimenType": {
+      "fossil": "Fossil",
+      "mineral": "Mineral",
+      "rock": "Gestein",
+      "meteorite": "Meteorit"
+    },
+    "table": {
+      "type": "Typ",
+      "collection": "Sammlung",
+      "objectId": "Objekt ID",
+      "typeStatus": "Typenstatus",
+      "group": "Gruppe",
+      "country": "Land",
+      "area": "Gebiet",
+      "locality": "Lokalität",
+      "latitude": "Breitengrad",
+      "longitude": "Langengrad",
+      "stratigraphy": "Stratigraphie",
+      "mindat": "Mindat",
+      "taxonRecordInPbdb": "Taxon record in PBDB",
+      "taxonInEncyclopediaOfLife": "Taxon in Encyclopedia of Life",
+      "taxonInTreeOfLife": "Taxon in Tree of Life",
+      "TaxonInFossiilidInfo": "Taxon in fossiilid.info",
+      "recordUri": "Record URI",
+      "relatedResource": "Verwandte Ressource"
+    },
+    "secondaryTable": {
+      "institution": "Institution",
+      "datasetOwner": "Besitzer des Datensatzes",
+      "contactPerson": "Kontaktperson",
+      "contactEmail": "Kontakt Email",
+      "contactPhone": "Kontakt Telefonnummer",
+      "contactAddress": "Kontaktadresse",
+      "contactData": "Kontaktdaten",
+      "dataSourceCountry": "Land der Datenquelle",
+      "copyright": "Copyright",
+      "termsOfUse": "Nutzungsbedingungen",
+      "disclaimer": "Ausschlussklausel",
+      "acknowledgement": "Acknowledgement",
+      "lastEdited": "Zuletzt bearbeitet",
+      "lastHarvested": "Zuletzt abgeholt",
+      "providerName": "Name des Datenanbieter",
+      "specimenVerifier": "Specimen Prüfer",
+      "geocaseId": "GeoCASe ID",
+      "unitGuid": "UnitGUID"
+    }
+  },
+  "search": {
+    "recordsFound": "Einträge gefunden | Einträge gefunden | Einträge gefunden",
+    "openGallery": "Galerie öffnen",
+    "mindatLink": "Link zu mindat.org",
+    "goToDetailView": "Gehe zur Detailansicht",
+    "mapMarkerTooltip": "Hier klicken, um Specimens an dieser Lokalität zu suchen!",
+    "tab": {
+      "table": "Tabelle",
+      "images": "Bilder",
+      "map": "Karte"
+    },
+    "table": {
+      "empty": "",
+      "area_name": "Gebiet",
+      "country_original": "Original Land",
+      "country": "Land",
+      "collectioncode": "Code der Sammlung",
+      "mindepth": "Min. Tiefe",
+      "mindat_id": "Mindat ID",
+      "is_mineral": "Ist ein Mineral?",
+      "gatheringareas": "Sammelgebiete",
+      "stratigraphytext": "Stratigraphie Text",
+      "taxon_id_tol": "Taxon ID TOL",
+      "datasetownerabbrev": "Besitzer des Datensatzes (Abk.)",
+      "last_harvested_processing": "Zuletzt abgeholt",
+      "id": "ID",
+      "taxon_hierarchy_string": "Taxon Hierarchie",
+      "longitude": "Langegrad",
+      "highertaxon": "Gruppe",
+      "images": "Bilder",
+      "recordbasis": "Specimen type",
+      "higherrank": "Rang",
+      "acquiredfrom": "Erworben von",
+      "datasourcecountry": "Land der Datenquelle",
+      "locality": "Lokalität",
+      "mindat_url": "Mindat URL",
+      "occurrenceid": "Occurrence ID",
+      "provideraddress": "Datenanbieter Adresse",
+      "area_type": "Gebietstyp",
+      "taxon_id_pbdb": "Taxon id PBDB",
+      "has_map": "Hat Karte?",
+      "highertaxa": "Klasse",
+      "datasourceurl": "URL der Datenquelle",
+      "fullscientificname": "Name",
+      "datasetowner": "Besitzer des Datensatzes",
+      "type_fullscientificname": "Name type",
+      "latitude": "Breitengrad",
+      "image_license": "Bildlizenz",
+      "providercountry": "Datenanbieter Land",
+      "type_status": "Typenstatus",
+      "maxdepth": "Max. Tiefe",
+      "stratigraphy": "Stratigraphie",
+      "providerurl": "Datenanbieter URL",
+      "has_image": "Hat Bild?",
+      "highertaxon_facet": "Gruppe",
+      "image_author": "Bildersteller",
+      "recordURI": "Record URI",
+      "taxon_id": "Taxon ID",
+      "image_date": "Erstellungsdatum des Bildes",
+      "collectorname": "Sammler",
+      "providername": "Datenanbieter",
+      "url": "URL",
+      "relatedResource": "Verwandte Ressource",
+      "names": "Namen",
+      "_version_": "_version_",
+      "unitid": "Objekt ID",
+      "coordinates": "Koordinaten",
+      "coordinatesReadOnly": "Koordinaten - Nur Lesezugriff"
+    },
+    "pagination": "Nummeriere mit {value}",
+    "export": {
+      "export": "Export",
+      "exportToCsv": "Export CSV",
+      "copyToClipboard": "Kopiere in Zwischenablage",
+      "downloadFailed": "Download fehlgeschlagen: Nicht genug Daten vorhanden!",
+      "exportSuccessful": "Exportiert nach <b>{type}</b>!",
+      "copySuccessful": "In die <b>Zwischenablage</b> kopiert!",
+      "copyFailed": "Kopieren fehlgeschlagen: Nicht zum Kopieren vorhanden!"
+    },
+    "drawer": {
+      "additionalFilters": "Zusätzliche Filter",
+      "extraOptions": "Extra-Optionen",
+      "resetSearch": "Suche zurücksetzen",
+      "clearFilters": "Entferne '{field}' Filter",
+      "more": "Mehr",
+      "less": "Weniger",
+      "has_image": "Zeige nur Daten mit Bildern",
+      "has_map": "Zeige nur georeferenzierte Einträge",
+      "fixedHeaders": "Fixierter Tabellenkopf (nur für große Monitore)",
+      "tableHeaders": "Tabellenkopf"
+    },
+    "tableNoResults": "Keine Einträge mit diesen Parametern gefunden.",
+    "imageNoResults": "Keine Bilder mit diesen Parametern gefunden.",
+    "imageNoResultsFilterInfo": "Filter hinzufügen, um nur Einträge mit Bildern zu finden.",
+    "addFilter": "Filter hinzufügen",
+    "mapNoResults": "Konnte keine Lokalitäten finden."
+  },
+  "imageGallery": {
+    "date": "Datum",
+    "licence": "Lizenz",
+    "linkToImage": "Link zum Bild",
+    "cycleImages": "Bilder drehen",
+    "closeGallery": "Galerie schließen",
+    "imageGallery": "Bilder-Galerie",
+    "hideThumbnails": "Zeige Voransichten",
+    "showThumbnails": "Verberge Voransichten",
+    "goToSpecimenView": "Gehe zur Specimen-Ansicht"
   }
 }

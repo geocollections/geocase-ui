@@ -19,7 +19,7 @@
           <v-list-item-title
             class="font-weight-bold text-center text-uppercase mb-2"
             style="font-size: 1.15rem;"
-            >Find quickly</v-list-item-title
+            >{{ $t("frontPage.findQuickly") }}</v-list-item-title
           >
 
           <TextFieldWrapper
@@ -28,7 +28,7 @@
             @input="updateSearchFieldDebounced({ id: 'q', value: $event })"
             clearable
             solo
-            :placeholder="search.q.label"
+            :placeholder="$t('frontPage.findQuickly')"
             clear-icon="fas fa-times"
           />
         </v-list-item-content>
@@ -46,7 +46,7 @@
           <v-list-item-title
             class="font-weight-bold text-center text-uppercase"
             style="font-size: 1.15rem;"
-            >Additional filters</v-list-item-title
+            >{{ $t("search.drawer.additionalFilters") }}</v-list-item-title
           >
         </template>
 
@@ -57,10 +57,11 @@
           <v-row no-gutters>
             <v-col cols="12" class="py-1">
               <SelectWrapper
-                :use-custom-prepend-inner="search[id].label"
+                :use-custom-prepend-inner="$t(`search.table.${id}`)"
                 :items="lookUpTypes"
                 :value="search[id].lookUpType"
                 @input="updateSearchField({ id: id, lookUpType: $event })"
+                :readonly="id === 'coordinates'"
               />
             </v-col>
 
@@ -72,7 +73,14 @@
                 dense
                 clearable
                 solo
-                :placeholder="search[id].label"
+                :readonly="id === 'coordinates'"
+                :placeholder="
+                  $t(
+                    `search.table.${id}${
+                      id === 'coordinates' ? 'ReadOnly' : ''
+                    }`
+                  )
+                "
                 clear-icon="fas fa-times"
               />
             </v-col>
@@ -108,7 +116,7 @@
                 })
               "
             >
-              {{ search[id].label }}
+              {{ $t(`search.table.${id}`) }}
               <v-spacer />
 
               <v-tooltip v-if="getActiveCheckboxesCount(id) > 0" top>
@@ -132,7 +140,11 @@
                     </v-badge>
                   </v-btn>
                 </template>
-                <span>{{ `Clear '${search[id].label}' filters` }}</span>
+                <span>{{
+                  $t("search.drawer.clearFilters", {
+                    field: $t(`search.table.${id}`)
+                  })
+                }}</span>
               </v-tooltip>
 
               <v-icon v-if="search[id].showCheckboxes">fas fa-angle-up</v-icon>
@@ -204,10 +216,12 @@
                     "
                   >
                     <span v-if="search[id].showMore">
-                      <v-icon x-small>fas fa-minus</v-icon> Less</span
+                      <v-icon x-small>fas fa-minus</v-icon>
+                      {{ $t("search.drawer.less") }}</span
                     >
                     <span v-else
-                      ><v-icon x-small>fas fa-plus</v-icon> More</span
+                      ><v-icon x-small>fas fa-plus</v-icon>
+                      {{ $t("search.drawer.more") }}</span
                     >
                   </v-btn>
                 </v-col>
@@ -222,7 +236,7 @@
             color="blue-grey darken-3"
             class="mt-0 mb-2"
             :input-value="search[id].value"
-            :label="search[id].label"
+            :label="$t(`search.drawer.${id}`)"
             true-value="true"
             :false-value="null"
             @change="updateSearchFieldDebounced({ id: id, value: $event })"
@@ -244,13 +258,14 @@
           <v-list-item-title
             class="font-weight-bold text-center text-uppercase"
             style="font-size: 1.15rem;"
-            >Extra options</v-list-item-title
+            >{{ $t("search.drawer.extraOptions") }}</v-list-item-title
           >
         </template>
 
         <v-divider />
 
         <!-- TABLE HEADERS -->
+        <!-- Todo: Debounce it! -->
         <v-list-item class="py-2 px-4">
           <v-row no-gutters>
             <v-col cols="12" class="py-1 mb-2">
@@ -258,7 +273,7 @@
                 color="blue-grey darken-3"
                 class="mt-0 mb-2"
                 :input-value="isTableHeaderFixed"
-                label="Fixed table header (only on large screens)"
+                :label="$t('search.drawer.fixedHeaders')"
                 @change="updateTableHeaderFixedState($event)"
                 hide-details
                 dense
@@ -273,7 +288,7 @@
                 small-chips
                 deletable-chips
                 multiple
-                label="Table headers"
+                :label="$t('search.drawer.tableHeaders')"
                 @change="updateTableHeaders($event)"
                 class="chips-select"
               />
@@ -287,7 +302,7 @@
     <v-row no-gutters class="px-3 pb-5 mt-1">
       <v-col cols="12" class="d-flex justify-end">
         <v-btn color="error" @click="reset">
-          Reset search
+          {{ $t("search.drawer.resetSearch") }}
           <v-icon right>far fa-trash-alt</v-icon>
         </v-btn>
       </v-col>

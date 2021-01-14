@@ -1,4 +1,4 @@
-const routes = require("./src/router/routes.js");
+const routes = require("./src/router/sitemapRoutes");
 
 module.exports = {
   transpileDependencies: ["vuetify"],
@@ -9,7 +9,7 @@ module.exports = {
         changeOrigin: true,
         pathRewrite: {
           "^/api/repeat": "/v1/repeat",
-          "^/api": "/v1/solr"
+          "^/api": "/v2/solr"
         }
       }
     }

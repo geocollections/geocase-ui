@@ -12,10 +12,14 @@
           color="error"
         >
           <span v-if="showError" v-html="error" />
-          <span v-else
-            >Couldn't find any results with an <b>ID</b> of
-            <b>{{ $route.params.id }}</b></span
-          >
+          <span
+            v-else
+            v-html="
+              $t('detail.noResults', {
+                id: encodeURIComponent($route.params.id)
+              })
+            "
+          />
         </v-alert>
       </v-col>
     </v-row>
@@ -58,7 +62,9 @@
                         >
                       </span>
 
-                      <span>{{ getSpecimenType }}</span>
+                      <span>{{
+                        $t(`detail.specimenType.${getSpecimenType}`)
+                      }}</span>
                     </span>
 
                     <span
@@ -98,9 +104,8 @@
                     v-if="filteredNames.length > 0"
                   >
                     <span class="font-weight-regular"
-                      >Identification<span v-if="filteredNames.length > 1"
-                        >s</span
-                      >:
+                      >{{ $t("detail.otherIdentification")
+                      }}<span v-if="filteredNames.length > 1">s</span>:
                     </span>
                     <span
                       :class="{ 'font-italic': isItemFossil }"
@@ -147,18 +152,23 @@
               :items="[item]"
             >
               <template v-slot:item.type_status="{ value }">
-                <div
-                  v-if="
-                    value === 'holotype' ||
-                      value === 'neotype' ||
-                      value === 'Holotypus' ||
-                      value === 'Neotypus'
-                  "
-                  class="font-weight-bold"
-                >
-                  {{ value }}
+                <div>
+                  <span
+                    v-if="
+                      value === 'holotype' ||
+                        value === 'neotype' ||
+                        value === 'Holotypus' ||
+                        value === 'Neotypus'
+                    "
+                    class="font-weight-bold"
+                  >
+                    {{ value }}
+                  </span>
+                  <span v-else>
+                    {{ value }}
+                  </span>
+                  <span v-if="originalStatus">({{ originalStatus }})</span>
                 </div>
-                <div v-else>{{ value }}</div>
               </template>
 
               <template v-slot:item.stratigraphy>
@@ -181,6 +191,18 @@
                 </div>
               </template>
 
+              <template v-slot:item.areaDetail>
+                <div v-if="areaDetail">
+                  {{ areaDetail }}
+                </div>
+              </template>
+
+              <template v-slot:item.nearNamedPlace>
+                <div v-if="nearNamedPlace">
+                  {{ nearNamedPlace }}
+                </div>
+              </template>
+
               <template v-slot:item.highertaxon="{ item }">
                 <div v-if="itemHighertaxon && itemHighertaxon.length > 0">
                   <ul class="circle-list">
@@ -190,6 +212,65 @@
                   </ul>
                 </div>
                 <div v-else>{{ item.highertaxon }}</div>
+              </template>
+
+              <template v-slot:item.itemMineralGroup="{ item }">
+                <!--                <div v-if="itemMineralGroup && itemMineralGroup.length > 0">-->
+                <!--                  <ul class="circle-list">-->
+                <!--                    <li v-for="(item, index) in itemMineralGroup" :key="index">-->
+                <!--                      {{ item }}-->
+                <!--                    </li>-->
+                <!--                  </ul>-->
+                <!--                </div>-->
+                <div v-if="itemMineralGroup">
+                  {{ itemMineralGroup }}
+                </div>
+              </template>
+
+              <template v-slot:item.mineralNameDetail="{ item }">
+                <div v-if="mineralNameDetail">
+                  {{ mineralNameDetail }}
+                </div>
+              </template>
+
+              <template v-slot:item.reference="{ item }">
+                <div v-if="itemReference && itemReference.length > 0">
+                  <ul class="circle-list">
+                    <li v-for="(item, index) in itemReference" :key="index">
+                      <span v-html="item" />
+                    </li>
+                  </ul>
+                </div>
+              </template>
+
+              <template v-slot:item.unitWeight="{ item }">
+                <div v-if="unitWeight">
+                  {{ unitWeight }}
+                </div>
+              </template>
+
+              <template v-slot:item.acquisitionDate="{ item }">
+                <div v-if="acquisitionDate">
+                  {{ acquisitionDate }}
+                </div>
+              </template>
+
+              <template v-slot:item.gatheringAgent="{ item }">
+                <div v-if="gatheringAgent">
+                  {{ gatheringAgent }}
+                </div>
+              </template>
+
+              <template v-slot:item.unitDateText="{ item }">
+                <div v-if="unitDateText">
+                  {{ unitDateText }}
+                </div>
+              </template>
+
+              <template v-slot:item.kindOfUnit="{ item }">
+                <div v-if="kindOfUnit">
+                  {{ kindOfUnit }}
+                </div>
               </template>
 
               <template v-slot:item.mindat_url="{ item }">
@@ -433,12 +514,13 @@
         </v-col>
 
         <!-- DATA FROM SOURCE -->
+        <!-- Todo: Prune!!! -->
         <v-col cols="12" v-if="responseFromSource">
           <v-card>
             <v-card-title
               class="justify-center card-title--clickable"
               @click="showResponseFromSource = !showResponseFromSource"
-              >Data from provider (for developers)
+              >{{ $t("detail.dataFromProvider") }}
               <v-spacer />
               <v-btn icon
                 ><v-icon v-if="showResponseFromSource">fas fa-angle-up</v-icon
@@ -531,8 +613,19 @@ export default {
       "isItemRock",
       "isItemMeteorite",
       "itemStratigraphy",
+      "itemReference",
       "itemArea",
+      "areaDetail",
+      "nearNamedPlace",
+      "originalStatus",
+      "unitWeight",
+      "acquisitionDate",
+      "gatheringAgent",
+      "unitDateText",
+      "kindOfUnit",
       "itemHighertaxon",
+      "itemMineralGroup",
+      "mineralNameDetail",
       "contentContactName",
       "contentContactEmail",
       "contentContactPhone",
@@ -546,14 +639,16 @@ export default {
       "disclaimers",
       "acknowledgements",
       "specimenVerifier",
-      "unitGuid"
+      "unitGuid",
+      "translatedItemHeaders",
+      "translatedItemHeadersSecondary"
     ]),
 
     getSpecimenType() {
-      let type = "Fossil";
-      if (this.isItemMineral) type = "Mineral";
-      else if (this.isItemRock) type = "Rock";
-      else if (this.isItemMeteorite) type = "Meteorite";
+      let type = "fossil";
+      if (this.isItemMineral) type = "mineral";
+      else if (this.isItemRock) type = "rock";
+      else if (this.isItemMeteorite) type = "meteorite";
       return type;
     },
 

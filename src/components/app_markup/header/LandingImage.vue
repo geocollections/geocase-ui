@@ -16,7 +16,7 @@
             :class="$vuetify.breakpoint.xlOnly ? 'mt-8' : 'mt-4'"
             :style="titleStyleObject"
           >
-            The Earth Science Collections Portal
+            {{ $t("frontPage.title") }}
           </div>
         </h1>
 

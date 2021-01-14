@@ -7,9 +7,9 @@
     :max-width="$vuetify.breakpoint.mdAndUp ? '960px' : ''"
   >
     <v-card>
-      <v-card-title class="font-weight-medium pb-3" style="font-size: 2rem"
-        >Search help</v-card-title
-      >
+      <v-card-title class="font-weight-medium pb-3" style="font-size: 2rem">{{
+        $t("searchHelp.title")
+      }}</v-card-title>
       <v-divider></v-divider>
 
       <v-card-text
@@ -19,9 +19,7 @@
           <v-col cols="12" md="10" lg="9">
             <ul>
               <li>
-                Enter term(s) for quickly searching through all main data
-                tables. Uppercase and lowercase is not differentiated, for
-                wildcard use asterisk (<router-link
+                {{ $t("searchHelp.help1") }} (<router-link
                   class="help-link"
                   :to="{ path: 'search', query: { q: '*oa' } }"
                   >*</router-link
@@ -29,13 +27,7 @@
               </li>
 
               <li>
-                In case of multiple terms the results will include any of the
-                terms. To require a specific keyword to be present, precede it
-                with '<b class="secondary--text font-weight-black">+</b>'. To
-                exclude a term, precede it with '<b
-                  class="secondary--text font-weight-black"
-                  >-</b
-                >'. For instance:
+                <span v-html="$t('searchHelp.help2')" />
                 <router-link
                   class="help-link"
                   :to="{
@@ -47,10 +39,7 @@
               </li>
 
               <li>
-                To search exact expression, use
-                <b class="secondary--text">double quotation marks</b>. Use them
-                also if the term includes special characters like '+' or '-',
-                for instance:
+                <span v-html="$t('searchHelp.help3')" />
                 <router-link
                   class="help-link"
                   :to="{ path: 'search', query: { q: '&quot;160-12&quot;' } }"
@@ -59,8 +48,7 @@
               </li>
 
               <li>
-                Quick search box can also be used for more advanced queries, if
-                you know names of database fields. For example, query by
+                {{ $t("searchHelp.help4.prepend") }}
                 <router-link
                   class="help-link"
                   :to="{
@@ -69,9 +57,8 @@
                   }"
                   >stratigraphy:Burtnieki*</router-link
                 >
-                will search all records, where stratigraphy is set to Burtnieki
-                Stage. NB! In this kind of search, uppercase is important
-                ('asaphus' and 'Asaphus' are not the same) and * is useful.
+
+                {{ $t("searchHelp.help4.append") }}
               </li>
             </ul>
           </v-col>

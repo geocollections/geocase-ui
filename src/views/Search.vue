@@ -12,7 +12,7 @@
           responseResultsCount ? responseResultsCount.toLocaleString() : 0
         }}</span>
         <span class="mr-1">{{
-          `record${responseResultsCount === 1 ? "" : "s"} found`
+          $tc("search.recordsFound", responseResultsCount)
         }}</span>
         <span class="hidden-sm-and-up">{{ `(page: ${page})` }}</span>
       </v-card-title>
@@ -32,7 +32,7 @@
           v-for="item in tabItems"
           :key="item"
         >
-          {{ item }}
+          {{ $t(`search.tab.${item}`) }}
           <v-icon color="black" right small v-if="item === 'table'"
             >fas fa-table</v-icon
           >
@@ -74,6 +74,13 @@
               :response-results="responseResults"
               :response-results-count="responseResultsCount"
             />
+            <!--            <tab-map-->
+            <!--              ref="map"-->
+            <!--              v-if="item === 'map'"-->
+            <!--              :response-results="mapResults"-->
+            <!--              :response-results-count="mapResultsCount"-->
+            <!--              @open:table="tab = 0"-->
+            <!--            />-->
           </v-card>
         </v-tab-item>
       </v-tabs-items>
@@ -82,7 +89,7 @@
       <pagination
         v-if="responseResultsCount > 10"
         :paginate-by="paginateBy"
-        :paginate-by-items="paginateByItems"
+        :paginate-by-items="paginateByItemsTranslated"
         @update:paginateBy="updatePaginateBy($event)"
         :results="responseResults"
         :page="page"
@@ -95,7 +102,7 @@
 
 <script>
 import ScrollToTop from "@/components/partial/ScrollToTop";
-import { mapActions, mapState } from "vuex";
+import { mapActions, mapGetters, mapState } from "vuex";
 import queryMixin from "@/mixins/queryMixin";
 import Pagination from "@/components/search/Pagination";
 import TabImages from "@/components/partial/tabs/TabImages";
@@ -129,22 +136,24 @@ export default {
       "paginateBy",
       "sortBy",
       "sortDesc",
-      "paginateByItems",
       "isLoading"
-    ])
+    ]),
+    // ...mapState("searchMap", ["mapResults", "mapResultsCount"]),
+    ...mapGetters("search", ["paginateByItemsTranslated"])
   },
 
   created() {
     if (this.$route.query) {
       this.deconstructQueryParams(this.$route.query);
       this.search();
+      // if (this.mapResultsCount === 0) this.searchMapCoordinates();
     }
   },
 
   watch: {
-    "$route.query"() {
-      // this.deconstructQueryParams(newVal);
-      this.search();
+    "$route.query"(newVal, oldVal) {
+      if (newVal[0] || JSON.stringify(newVal) !== JSON.stringify(oldVal))
+        this.search();
     },
     page: debounce(function(newVal) {
       this.constructQueryParams(null, { page: newVal.toString() });
@@ -175,6 +184,8 @@ export default {
       "updateSortDesc",
       "search"
     ]),
+
+    // ...mapActions("searchMap", ["searchMapCoordinates"]),
 
     async openGallery(image) {
       this.tab = 1;

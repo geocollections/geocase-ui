@@ -14,7 +14,7 @@
         class="fast-search-input"
         :class="{ 'in-app-header': inAppHeader }"
         v-model="fastSearch"
-        label="Find quickly..."
+        :label="$t('frontPage.findQuickly')"
         :append-outer-icon="!inAppHeader ? 'far fa-question-circle' : ''"
         @click:append-outer="handleHelpButtonClick"
         append-icon="fas fa-search"
@@ -75,7 +75,12 @@ export default {
   },
 
   methods: {
-    ...mapActions("search", ["updateSearchField", "updatePage", "updateSortBy", "updateSortDesc"]),
+    ...mapActions("search", [
+      "updateSearchField",
+      "updatePage",
+      "updateSortBy",
+      "updateSortDesc"
+    ]),
 
     doFastSearch(event) {
       if (
@@ -86,6 +91,8 @@ export default {
         setTimeout(() => {
           this.$router.push({
             name: "Search",
+            params:
+              this.$i18n.locale !== "en" ? { locale: this.$i18n.locale } : {},
             query: { ...this.$route.query, q: this.fastSearch, page: 1 }
           });
         }, 250);

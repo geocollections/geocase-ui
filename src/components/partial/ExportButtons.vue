@@ -2,21 +2,21 @@
   <v-menu offset-y>
     <template v-slot:activator="{ on }">
       <v-btn color="primary" dark v-on="on">
-        <span>Export</span>
+        <span>{{ $t("search.export.export") }}</span>
         <v-icon right>fas fa-file-export</v-icon>
       </v-btn>
     </template>
     <v-list color="primary" dark dense>
       <v-list-item @click="exportToCSV">
         <v-list-item-title>
-          Export to CSV
+          {{ $t("search.export.exportToCsv") }}
           <v-icon right>far fa-file</v-icon>
         </v-list-item-title>
       </v-list-item>
 
       <v-list-item @click="copyToClipboard">
         <v-list-item-title>
-          Copy to clipboard
+          {{ $t("search.export.copyToClipboard") }}
           <v-icon right>far fa-copy</v-icon>
         </v-list-item-title>
       </v-list-item>
@@ -50,7 +50,7 @@ export default {
           let csvString = this.convertJsonToCsv(this.tableData);
 
           if (csvString.length === 0) {
-            this.toastError({ text: "Download failed: Not enough data!" });
+            this.toastError({ text: this.$t("search.export.downloadFailed") });
             return;
           }
 
@@ -73,9 +73,12 @@ export default {
             }, 0);
           }
 
-          this.toastSuccess({ text: "Exported to <strong>CSV</strong>" });
-        } else this.toastError({ text: "Download failed: Not enough data!" });
-      } else this.toastError({ text: "Download failed: Not enough data!" });
+          this.toastSuccess({
+            text: this.$t("search.export.exportSuccessful", { type: "CSV" })
+          });
+        } else
+          this.toastError({ text: this.$t("search.export.downloadFailed") });
+      } else this.toastError({ text: this.$t("search.export.downloadFailed") });
     },
 
     convertJsonToCsv(jsonArray) {
@@ -123,9 +126,9 @@ export default {
         document.execCommand("Copy");
         sel.removeAllRanges();
 
-        this.toastSuccess({ text: "Copied to <strong>clipboard!</strong>" });
+        this.toastSuccess({ text: this.$t("search.export.copySuccessful") });
       } else {
-        this.toastError({ text: "Copying failed: Nothing to copy!" });
+        this.toastError({ text: this.$t("search.export.copyFailed") });
       }
     }
   }

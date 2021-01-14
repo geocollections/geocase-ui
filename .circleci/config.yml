@@ -16,6 +16,51 @@ executors:
       - image: circleci/buildpack-deps:stretch
 
 jobs:
+  checkout_code:
+    docker:
+      - image: circleci/node:lts
+    working_directory: ~/geocase/geocase-ui
+    steps:
+      - checkout
+      - save_cache:
+          key: << pipeline.parameters.package-version >>-repo-{{ .Environment.CIRCLE_SHA1 }}
+          paths:
+            - ~/geocase/geocase-ui
+
+  bundle_dependencies:
+    docker:
+      - image: circleci/node:lts
+    working_directory: ~/geocase/geocase-ui
+    steps:
+      - restore_cache:
+          key: << pipeline.parameters.package-version >>-repo-{{ .Environment.CIRCLE_SHA1 }}
+      - restore_cache:
+          key: << pipeline.parameters.package-version >>-bundle-{{ .Environment.CIRCLE_SHA1 }}
+      - run:
+          name: Npm disabling progress bar and adding depth 0
+          command: npm set progress=false && npm config set depth 0
+      - run:
+          name: Installing packages
+          command: npm install
+      - save_cache:
+          key: << pipeline.parameters.package-version >>-bundle-{{ .Environment.CIRCLE_SHA1 }}
+          paths:
+            - ./node_modules
+            - ./package-lock.json
+
+  unit_test_application:
+    docker:
+      - image: circleci/node:lts
+    working_directory: ~/geocase/geocase-ui
+    steps:
+      - restore_cache:
+          key: << pipeline.parameters.package-version >>-repo-{{ .Environment.CIRCLE_SHA1 }}
+      - restore_cache:
+          key: << pipeline.parameters.package-version >>-bundle-{{ .Environment.CIRCLE_SHA1 }}
+      - run:
+          name: Unit testing application
+          command: npm run test:unit
+
   build_docker_image:
     executor: docker-publisher
     steps:
@@ -58,6 +103,22 @@ jobs:
 workflows:
   build-master:
     jobs:
+      - checkout_code:
+          filters:
+            branches:
+              only: development
+      - bundle_dependencies:
+          requires:
+            - checkout_code
+          filters:
+            branches:
+              only: development
+      - unit_test_application:
+          requires:
+            - bundle_dependencies
+          filters:
+            branches:
+              only: development
       - build_docker_image:
           filters:
             branches:

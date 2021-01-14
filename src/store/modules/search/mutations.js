@@ -67,6 +67,11 @@ const mutations = {
         state.search[item].lookUpType = "contains";
       if (state.search[item].value !== null) state.search[item].value = null;
     });
+    // Also resetting search params
+    state.page = 1;
+    state.paginateBy = 25;
+    state.sortBy = ["fullscientificname"];
+    state.sortDesc = [false];
   },
 
   SET_ALL_FIELD_NAMES(state, payload) {
@@ -80,10 +85,7 @@ const mutations = {
     payload.fields.forEach(item => {
       if (!defaultNonFixedTableHeaders.includes(item))
         state.tableHeaders.push({
-          text: (item.charAt(0).toUpperCase() + item.slice(1)).replaceAll(
-            "_",
-            " "
-          ),
+          text: item,
           value: item,
           show: false,
           fixed: false

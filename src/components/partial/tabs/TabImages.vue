@@ -1,5 +1,10 @@
 <template>
   <v-card flat>
+    <v-progress-linear
+      v-if="isLoading"
+      indeterminate
+      color="primary"
+    ></v-progress-linear>
     <v-row class="mx-0" v-if="searchResultImages.length > 0">
       <v-col
         v-for="(image, index) in searchResultImages"
@@ -21,8 +26,8 @@
               @click="openDialog(index)"
             >
               <image-wrapper
-                v-if="image.extractedImage"
-                :image-src="image.extractedImage"
+                v-if="image.thumbnailImage"
+                :image-src="image.thumbnailImage"
               />
 
               <v-row align="center" v-else>
@@ -40,31 +45,32 @@
           <span>
             <b>ID:</b> {{ image.id }}<br />
             <span v-if="image.collectioncode">
-              <b>Collection:</b> {{ image.collectioncode }}
+              <b>{{ $t("search.table.collectioncode") }}:</b>
+              {{ image.collectioncode }}
               <br />
             </span>
             <span v-if="image.unitid">
-              <b>Object ID:</b>
+              <b>{{ $t("search.table.unitid") }}:</b>
               {{ image.unitid }}
               <br />
             </span>
             <span v-if="image.fullscientificname">
-              <b>Full Scientific Name:</b>
+              <b>{{ $t("search.table.fullscientificname") }}:</b>
               {{ image.fullscientificname }}
               <br />
             </span>
             <span v-if="image.country">
-              <b>Country:</b>
+              <b>{{ $t("search.table.country") }}:</b>
               {{ image.country }}
               <br />
             </span>
             <span v-if="image.locality">
-              <b>Locality:</b>
+              <b>{{ $t("search.table.locality") }}:</b>
               {{ image.locality }}
               <br />
             </span>
             <span v-if="image.stratigraphy">
-              <b>Stratigraphy:</b>
+              <b>{{ $t("search.table.stratigraphy") }}:</b>
               {{ image.stratigraphy }}
               <br />
             </span>
@@ -91,16 +97,17 @@
           color="secondary"
         >
           <div>
-            Couldn't find any images with these search parameters.
+            {{ $t("search.imageNoResults") }}
           </div>
 
           <div v-if="!search.has_image.value">
-            Add filter so it would only show results which have images.
+            {{ $t("search.imageNoResultsFilterInfo") }}
             <v-btn
               x-small
               color="secondary"
               @click="updateSearchField({ id: 'has_image', value: 'true' })"
-              >Add filter</v-btn
+            >
+              {{ $t("search.addFilter") }}</v-btn
             >
           </div>
         </v-alert>
@@ -137,7 +144,8 @@ export default {
   }),
 
   computed: {
-    ...mapState("search", ["search"])
+    ...mapState("search", ["search", "isLoading"]),
+    ...mapState("settings", ["searchDrawer"])
   },
 
   methods: {
@@ -151,7 +159,7 @@ export default {
     openDialogUsingImage(image) {
       this.dialog = true;
       let index = this.searchResultImages.findIndex(
-        item => item.extractedImage === image
+        item => item.originalImage === image
       );
       this.currentIndex = index ? index : 0;
     }
@@ -166,5 +174,9 @@ export default {
 }
 .image-hover {
   transition: opacity 150ms ease-in;
+}
+
+.map-progress-circular {
+  transition: margin-left 200ms ease-in-out;
 }
 </style>

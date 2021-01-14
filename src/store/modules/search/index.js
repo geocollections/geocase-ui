@@ -45,6 +45,13 @@ const state = {
       value: null,
       label: "Locality"
     },
+    // coordinates: {
+    //   id: "coordinates",
+    //   type: "text",
+    //   lookUpType: "",
+    //   value: null,
+    //   label: "Coordinates"
+    // },
     unitid: {
       id: "unitid",
       type: "text",
@@ -117,7 +124,7 @@ const state = {
     },
     has_image: {
       id: "has_image",
-      type: "checkbox",
+      type: "single_checkbox",
       lookUpType: "",
       value: null,
       label: "Show only data with images"
@@ -129,6 +136,13 @@ const state = {
       value: null,
       label: "Show only georeferenced data"
     }
+    // map: {
+    //   id: "map",
+    //   type: "map",
+    //   lookUpType: "",
+    //   value: null,
+    //   label: "Map"
+    // }
   },
   searchIds: [
     "q",
@@ -136,6 +150,7 @@ const state = {
     "highertaxon",
     "stratigraphy",
     "locality",
+    // "coordinates",
     "unitid",
     "recordbasis",
     "highertaxon_facet",
@@ -146,12 +161,14 @@ const state = {
     "providercountry",
     "has_image",
     "has_map"
+    // "map"
   ],
   searchTextIds: [
     "fullscientificname",
     "highertaxon",
     "stratigraphy",
     "locality",
+    // "coordinates",
     "unitid"
   ],
   searchCheckboxIds: [
@@ -180,34 +197,44 @@ const state = {
   providername: [],
   providercountry: [],
   paginateByItems: [
-    { text: "Paginate by 10", value: 10 },
-    { text: "Paginate by 25", value: 25 },
-    { text: "Paginate by 50", value: 50 },
-    { text: "Paginate by 100", value: 100 },
-    { text: "Paginate by 250", value: 250 },
-    { text: "Paginate by 500", value: 500 },
-    { text: "Paginate by 1000", value: 1000 }
+    { text: "search.pagination", value: 10 },
+    { text: "search.pagination", value: 25 },
+    { text: "search.pagination", value: 50 },
+    { text: "search.pagination", value: 100 },
+    { text: "search.pagination", value: 250 },
+    { text: "search.pagination", value: 500 },
+    { text: "search.pagination", value: 1000 }
   ],
   searchParamsList: ["page", "paginate_by", "sort_by", "sort_desc"],
   allFieldNames: null,
   isLoading: false,
   tableHeaders: [
-    { text: "", value: "icon", sortable: false, show: true, fixed: true },
-    { text: "Collection", value: "collectioncode", show: true, fixed: false },
-    { text: "Object ID", value: "unitid", show: true, fixed: false },
-    { text: "Group", value: "highertaxon", show: true, fixed: false },
-    { text: "Name", value: "fullscientificname", show: true, fixed: false },
-    { text: "Country", value: "country", show: true, fixed: false },
-    { text: "Locality", value: "locality", show: true, fixed: false },
-    { text: "Stratigraphy", value: "stratigraphy", show: true, fixed: false },
+    { text: "empty", value: "icon", sortable: false, show: true, fixed: true },
     {
-      text: "Record URI",
+      text: "collectioncode",
+      value: "collectioncode",
+      show: true,
+      fixed: false
+    },
+    { text: "unitid", value: "unitid", show: true, fixed: false },
+    { text: "highertaxon", value: "highertaxon", show: true, fixed: false },
+    {
+      text: "fullscientificname",
+      value: "fullscientificname",
+      show: true,
+      fixed: false
+    },
+    { text: "country", value: "country", show: true, fixed: false },
+    { text: "locality", value: "locality", show: true, fixed: false },
+    { text: "stratigraphy", value: "stratigraphy", show: true, fixed: false },
+    {
+      text: "recordURI",
       value: "recordURI",
       align: "center",
       show: true,
       fixed: false
     },
-    { text: "Image", value: "url", align: "center", show: true, fixed: false }
+    { text: "url", value: "url", align: "center", show: true, fixed: false }
   ],
   isTableHeaderFixed: false
 };
