@@ -78,5 +78,8 @@ export default {
 <style scoped>
 .teaser-map {
   padding: 0;
+  min-height: 500px;
+  max-height: 800px;
+  height: 650px;
 }
 </style>
