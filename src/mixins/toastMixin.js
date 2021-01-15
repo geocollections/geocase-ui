@@ -2,7 +2,7 @@ import { mapActions, mapState } from "vuex";
 
 const toastMixin = {
   computed: {
-    ...mapState("settings", ["error", "errorMessage"])
+    ...mapState("settings", ["error", "errorMessage", "info", "infoMessage"])
   },
 
   watch: {
@@ -11,11 +11,18 @@ const toastMixin = {
         this.toastError({ text: this.errorMessage });
         this.updateErrorState(false);
       }
+    },
+
+    info(newVal) {
+      if (newVal) {
+        this.toastInfo({ text: this.infoMessage });
+        this.updateInfoState(false);
+      }
     }
   },
 
   methods: {
-    ...mapActions("settings", ["updateErrorState"]),
+    ...mapActions("settings", ["updateErrorState", "updateInfoState"]),
 
     toastSuccess(data) {
       if (!data.timeout) data.timeout = 5000;

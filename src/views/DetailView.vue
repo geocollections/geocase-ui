@@ -580,6 +580,10 @@ export default {
 
   mixins: [helperMixin],
 
+  metaInfo: {
+    title: "Detail view"
+  },
+
   props: {
     id: {
       type: String,

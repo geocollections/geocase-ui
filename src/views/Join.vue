@@ -8,7 +8,11 @@
 
 <script>
 export default {
-  name: "Join"
+  name: "Join",
+
+  metaInfo: {
+    title: "Join the Network"
+  }
 };
 </script>
 

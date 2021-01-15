@@ -19,7 +19,7 @@ module.exports = {
       productionOnly: true,
       outputDir: "./public",
       pretty: true,
-      baseURL: "http://geocase.geocollections.info",
+      baseURL: "http://new.geocase.eu",
       defaults: {
         lastmod: new Date().toISOString().split("T")[0],
         changefreq: "daily",

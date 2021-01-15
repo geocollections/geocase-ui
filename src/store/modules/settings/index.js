@@ -3,6 +3,8 @@ import i18n from "@/i18n";
 const state = {
   error: false,
   errorMessage: "",
+  info: false,
+  infoMessage: "",
   searchDrawer: false,
   language: "en"
 };
@@ -14,6 +16,14 @@ const actions = {
 
   updateErrorMessage({ commit }, message) {
     commit("SET_ERROR_MESSAGE", message);
+  },
+
+  updateInfoState({ commit }, bool) {
+    commit("SET_INFO_STATE", bool);
+  },
+
+  updateInfoMessage({ commit }, message) {
+    commit("SET_INFO_MESSAGE", message);
   },
 
   updateSearchDrawerState({ commit, state }, bool) {
@@ -32,6 +42,14 @@ const mutations = {
 
   SET_ERROR_MESSAGE(state, message) {
     state.errorMessage = message;
+  },
+
+  SET_INFO_STATE(state, bool) {
+    state.info = bool;
+  },
+
+  SET_INFO_MESSAGE(state, message) {
+    state.infoMessage = message;
   },
 
   UPDATE_SEARCH_DRAWER_STATE(state, bool) {

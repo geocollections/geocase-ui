@@ -35,6 +35,13 @@ export default {
 
   mixins: [toastMixin],
 
+  metaInfo: {
+    // if no subcomponents specify a metaInfo.title, this title will be used
+    title: "Welcome",
+    // all titles will be injected into this template
+    titleTemplate: "%s | GeoCASe"
+  },
+
   computed: {
     ...mapState("cookie", ["cookieLaw"])
   },

@@ -5,12 +5,14 @@ import store from "@/store";
 import vuetify from "@/plugins/vuetify";
 import VueIziToast from "vue-izitoast";
 import i18n from "@/i18n";
+import VueMeta from "vue-meta";
 
 import "izitoast/dist/css/iziToast.min.css";
 import "@fortawesome/fontawesome-free/css/all.css";
 import "animate.css";
 
 Vue.use(VueIziToast);
+Vue.use(VueMeta);
 
 Vue.config.productionTip = false;
 
