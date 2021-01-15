@@ -42,11 +42,11 @@ export default {
   },
   data() {
     return {
-      mapStyle: "http://localhost:8090/styles/geocase/style.json",
-      center: [15, 35],
-      zoom: 1.6,
+      mapStyle: "http://localhost:8090/styles/geocase-heatmap/style.json",
+      center: [15, 50],
+      zoom: 1.9,
       minZoom: 1,
-      maxZoom: 20
+      maxZoom: 19
     };
   },
   created() {
@@ -56,9 +56,8 @@ export default {
   methods: {
     onMapLoaded(event) {
       this.map = event.map;
-      console.log(this.map);
-      console.log(this.mapbox);
-      /*       this.map.setLayoutProperty(
+      /*       
+      this.map.setLayoutProperty(
         "geocase-distinct-heatmap",
         "visibility",
         "none"
@@ -66,12 +65,13 @@ export default {
       this.map.setLayoutProperty("geocase-all-heatmap", "visibility", "none");
       this.map.on("click", "geocase-count-tile", function(e) {
         console.log(e.features);
-      }); */
+      }); 
       this.map.setLayoutProperty(
         "geocase-distinct-points",
         "visibility",
         "visible"
       );
+      */
     }
   }
 };
