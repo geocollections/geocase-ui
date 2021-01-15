@@ -41,11 +41,21 @@ export default {
   methods: {
     onMapLoaded(event) {
       this.map = event.map;
-      // resize & add controls solve bug: rerender over full width
-      this.map.resize();
-      this.map.addControl(new Mapbox.NavigationControl(), "top-right");
-      this.map.addControl(new Mapbox.FullscreenControl(), "top-right");
-      this.map.addControl(new Mapbox.ScaleControl(), "bottom-left");
+      const map = this.map;
+      // resize() & addControl solve bug: rerender over full width
+      map.resize();
+      map.addControl(new Mapbox.NavigationControl(), "top-right");
+      map.addControl(new Mapbox.FullscreenControl(), "top-right");
+      map.addControl(new Mapbox.ScaleControl(), "bottom-left");
+      map.on("click", "geocase-distinct", function(e) {
+        console.log(e.features[0].properties);
+        /*         
+        new Mapbox.Popup()
+          .setLngLat(e.lngLat)
+          .setHTML(e.features[0].properties.id)
+          .addTo(map); 
+        */
+      });
     }
   }
 };
@@ -56,5 +66,7 @@ export default {
   border: 2px solid #777;
   border-top: none;
   min-width: 55px;
+}
+.mapboxgl-popup {
 }
 </style>
