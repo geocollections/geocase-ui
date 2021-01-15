@@ -4,66 +4,131 @@ module.exports = [
     redirect: "/"
   },
   {
-    path: "/",
+    path: "/:locale",
     name: "FrontPage",
-    component: () => import("@/views/FrontPage"),
     meta: {
       sitemap: {
+        slugs: ["", "ee", "en", "de"],
         priority: 1.0,
         changefreq: "daily"
       }
     }
   },
   {
-    path: "/search",
+    path: "/:locale/search",
     name: "Search",
-    component: () => import("@/views/Search"),
     meta: {
       sitemap: {
+        slugs: ["", "ee", "en", "de"],
         priority: 1.0,
         changefreq: "daily"
       }
     }
   },
   {
-    // path: "/specimen/:id(\\d+)",
-    path: "/specimen/:id",
+    path: "/:locale/specimen/:id",
     name: "Detail",
-    component: () => import("@/views/DetailView"),
     meta: {
       sitemap: {
+        slugs: ["", "ee", "en", "de"],
         ignoreRoute: true
       }
     }
   },
   {
-    path: "/partners_and_providers",
+    path: "/:locale/partners_and_providers",
     name: "Partners and providers",
-    component: () => import("@/views/PartnersAndProviders"),
     meta: {
       sitemap: {
+        slugs: ["", "ee", "en", "de"],
         priority: 0.7,
         changefreq: "monthly"
       }
     }
   },
   {
-    path: "/about",
+    path: "/:locale/about",
     name: "About",
-    component: () => import("@/views/About"),
     meta: {
       sitemap: {
-        priority: 0.6,
+        slugs: ["", "ee", "en", "de"],
+        priority: 0.7,
         changefreq: "monthly"
       }
     }
   },
   {
-    path: "/access",
+    path: "/:locale/access",
     name: "Access",
-    component: () => import("@/views/Access"),
     meta: {
       sitemap: {
+        slugs: ["", "ee", "en", "de"],
+        priority: 0.5,
+        changefreq: "monthly"
+      }
+    }
+  },
+  {
+    path: "/:locale/join",
+    name: "Join",
+    meta: {
+      sitemap: {
+        slugs: ["", "ee", "en", "de"],
+        priority: 0.5,
+        changefreq: "monthly"
+      }
+    }
+  },
+  {
+    path: `/:locale/tutorial`,
+    name: "Tutorial",
+    meta: {
+      sitemap: {
+        slugs: ["", "ee", "en", "de"],
+        priority: 0.5,
+        changefreq: "monthly"
+      }
+    }
+  },
+  {
+    path: `/:locale/project`,
+    name: "Project",
+    meta: {
+      sitemap: {
+        slugs: ["", "ee", "en", "de"],
+        priority: 0.5,
+        changefreq: "monthly"
+      }
+    }
+  },
+  {
+    path: `/:locale/links`,
+    name: "Links",
+    meta: {
+      sitemap: {
+        slugs: ["", "ee", "en", "de"],
+        priority: 0.5,
+        changefreq: "monthly"
+      }
+    }
+  },
+  {
+    path: `/:locale/imprint`,
+    name: "Imprint",
+    meta: {
+      sitemap: {
+        slugs: ["", "ee", "en", "de"],
+        priority: 0.5,
+        changefreq: "monthly"
+      }
+    }
+  },
+  {
+    path: `/:locale/efg`,
+    name: "Efg",
+    meta: {
+      sitemap: {
+        slugs: ["", "ee", "en", "de"],
         priority: 0.5,
         changefreq: "monthly"
       }
