@@ -27,7 +27,7 @@ export default {
   },
   data() {
     return {
-      mapStyle: "http://localhost:8090/styles/geocase-heatmap/style.json",
+      mapStyle: "https://geocase-map.geocollections.info/styles/geocase-heatmap/style.json",
       center: [15, 45],
       zoom: 1.5,
       minZoom: 1,
