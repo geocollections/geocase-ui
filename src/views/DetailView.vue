@@ -580,8 +580,18 @@ export default {
 
   mixins: [helperMixin],
 
-  metaInfo: {
-    title: "Detail view"
+  metaInfo() {
+    const type =
+      this.getSpecimenType.charAt(0).toUpperCase() +
+      this.getSpecimenType.substring(1);
+    const collectioncode = this.item.collectioncode;
+    const unitid = this.item.unitid;
+
+    let title = `${type} Specimen`;
+    if (collectioncode || unitid) title += ` - ${collectioncode} ${unitid}`;
+    return {
+      title: title
+    };
   },
 
   props: {
