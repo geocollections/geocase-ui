@@ -123,6 +123,10 @@ export default {
 
   mixins: [queryMixin],
 
+  metaInfo: {
+    title: "Search"
+  },
+
   data: () => ({
     tab: null,
     tabItems: ["table", "images", "map"]

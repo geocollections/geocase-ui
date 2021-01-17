@@ -38,12 +38,12 @@ const actions = {
         commit("UPDATE_RESPONSE_FROM_SOURCE", response?.data || []);
       } else {
         dispatch(
-          "settings/updateErrorMessage",
+          "settings/updateInfoMessage",
           "Fetching data directly from source returned no results!",
           { root: true }
         );
-        if (!rootState.settings.error)
-          dispatch("settings/updateErrorState", true, { root: true });
+        if (!rootState.settings.info)
+          dispatch("settings/updateInfoState", true, { root: true });
       }
     } catch (err) {
       dispatch(

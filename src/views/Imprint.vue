@@ -8,7 +8,11 @@
 
 <script>
 export default {
-  name: "Imprint"
+  name: "Imprint",
+
+  metaInfo: {
+    title: "Imprint"
+  }
 };
 </script>
 

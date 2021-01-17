@@ -1,4 +1,4 @@
 User-agent: *
 Disallow:
 
-Sitemap: http://geocase.geocollections.info/sitemap.xml
+Sitemap: https://new.geocase.eu/sitemap.xml
