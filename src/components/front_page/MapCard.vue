@@ -27,7 +27,7 @@ export default {
   },
   data() {
     return {
-      mapStyle: "https://geocase-map.geocollections.info/styles/geocase-heatmap/style.json",
+      mapStyle: "https://map.geocase.eu/styles/geocase-heatmap/style.json",
       center: [15, 45],
       zoom: 1.5,
       minZoom: 1,
@@ -48,8 +48,19 @@ export default {
       map.addControl(new Mapbox.FullscreenControl(), "top-right");
       map.addControl(new Mapbox.ScaleControl(), "bottom-left");
       map.on("click", "geocase-distinct", function(e) {
-        console.log(e.features[0].properties);
-        /*         
+        const pointProperties = e?.features?.[0]?.properties;
+        if (pointProperties?.latitude && pointProperties?.longitude) {
+          const [lat, lng, locality] = [
+            pointProperties?.latitude,
+            pointProperties?.longitude,
+            pointProperties?.locality
+          ];
+          console.log(lat);
+          console.log(lng);
+          console.log(locality);
+          //
+        }
+        /*
         new Mapbox.Popup()
           .setLngLat(e.lngLat)
           .setHTML(e.features[0].properties.id)
