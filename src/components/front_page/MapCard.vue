@@ -1,39 +1,84 @@
 <template>
   <v-card height="100%">
     <MglMap
-      container="map"
       :mapStyle.sync="mapStyle"
+      container="map"
       :zoom.sync="zoom"
       :minZoom.sync="minZoom"
       :maxZoom.sync="maxZoom"
       :center.sync="center"
+      :attribution-control="false"
       :scroll-zoom="false"
       @load="onMapLoaded"
     >
+      <MglAttributionControl position="bottom-right" />
+      <MglNavigationControl position="top-right" />
+      <MglGeolocateControl position="top-right" />
+      <MglFullscreenControl position="top-right" />
+      <MglScaleControl position="bottom-left" />
+
+      <MglPopup
+        ref="popup"
+        :close-on-click="popup.closeOnClick"
+        :anchor="popup.anchor"
+        :offset="popup.offset"
+        :coordinates="popup.coordinates"
+        :max-width="popup.maxWidth"
+        @open="openPopup"
+        @close="closePopup"
+      >
+        <v-card>
+          <v-card-title>Hello, I'm a popup!</v-card-title>
+        </v-card>
+      </MglPopup>
     </MglMap>
   </v-card>
 </template>
 
 <script>
-import Mapbox from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
-import { MglMap } from "vue-mapbox";
+import Mapbox from "mapbox-gl";
+import {
+  MglMap,
+  MglAttributionControl,
+  MglNavigationControl,
+  MglGeolocateControl,
+  MglFullscreenControl,
+  MglScaleControl,
+  MglPopup
+} from "v-mapbox";
 import { mapActions, mapState } from "vuex";
 
 export default {
   name: "MapCard",
+
   components: {
-    MglMap
+    MglMap,
+    MglAttributionControl,
+    MglNavigationControl,
+    MglGeolocateControl,
+    MglFullscreenControl,
+    MglScaleControl,
+    MglPopup
   },
+
   data() {
     return {
       mapStyle: "https://map.geocase.eu/styles/geocase-heatmap/style.json",
-      center: [15, 45],
+      // center: [15, 45],
+      center: [24.753, 59.437],
       // zoom: 1.5,
       zoom: 10.5,
       minZoom: 1,
       maxZoom: 19,
-      popupDom: null
+      popupDom: null,
+      popup: {
+        closeOnClick: false,
+        coordinates: [15, 45],
+        anchor: "bottom-left",
+        offset: [5, -10],
+        maxWidth: "400px"
+      }
     };
   },
   computed: {
@@ -45,7 +90,7 @@ export default {
 
     // Storing map objects as non-reactive properties. (Docs suggested)
     this.map = null;
-    this.mapboxPopup = this.mapboxPopup = new Mapbox.Popup({
+    this.mapboxPopup = new Mapbox.Popup({
       closeOnClick: false,
       closeOnMove: true,
       focusAfterOpen: false,
@@ -57,13 +102,18 @@ export default {
   methods: {
     ...mapActions("frontpage", ["getLocalitySpecimens"]),
 
+    openPopup(e) {
+      console.log(e);
+    },
+
+    closePopup(e) {
+      console.log("closing popup");
+    },
+
     onMapLoaded(event) {
       this.map = event.map;
       // resize() & addControl solve bug: rerender over full width
-      this.map.resize();
-      this.map.addControl(new Mapbox.NavigationControl(), "top-right");
-      this.map.addControl(new Mapbox.FullscreenControl(), "top-right");
-      this.map.addControl(new Mapbox.ScaleControl(), "bottom-left");
+      this.$nextTick(() => this.map.resize());
 
       this.map.on("mouseenter", "geocase-distinct", this.handleMouseEnter);
       this.map.on("mouseleave", "geocase-distinct", this.handleMouseLeave);
@@ -72,6 +122,8 @@ export default {
 
     handleMouseEnter(e) {
       console.log("mouse enter");
+      console.log(this.$refs.popup);
+      this.$refs.popup.open = true;
 
       this.map.getCanvas().style.cursor = "pointer";
       const pointProperties = e?.features?.[0]?.properties;
@@ -93,11 +145,14 @@ export default {
         };
 
         this.popupDom = this.buildDefaultPopupDOM(popupData);
+        this.appendMapResults(popupData.id);
 
-        this.mapboxPopup
-          .setLngLat(coordinates)
-          .setDOMContent(this.popupDom)
-          .addTo(this.map);
+        // this.popupCoordinates = coordinates;
+
+        // this.mapboxPopup
+        //   .setLngLat(coordinates)
+        //   .setDOMContent(this.popupDom)
+        //   .addTo(this.map);
       }
     },
 
@@ -134,37 +189,81 @@ export default {
         html += `<div class="v-card__text"><div>Lat: ${data.lat}</div><div>Long: ${data.lng}</div></div>`;
 
       if (data) {
-        // html += `<div class="v-card__actions justify-end"></div>`;
+        if (
+          !this.mapResults?.[data.id] ||
+          !this.mapResults?.[data.id]?.numFound ||
+          this.mapResults?.[data.id]?.numFound === 0
+        ) {
+          const searchButton = document.createElement("div");
+          searchButton.id = "mapbox-gl-search-button";
+          searchButton.className = "v-card__actions justify-end";
+          searchButton.innerHTML = `<button type="button" class="v-btn v-btn--text theme--light v-size--small primary--text"><span class="v-btn__content"><i aria-hidden="true" class="v-icon notranslate mr-1 fas fa-search theme--light" style="font-size: 12px;"></i> ${this.$t(
+            "frontPage.map.search"
+          )} </span></button>`;
 
-        const searchButton = document.createElement("div");
-        searchButton.className = "v-card__actions justify-end";
+          popupElement.innerHTML = html;
+          popupElement.appendChild(searchButton);
 
-        searchButton.innerHTML = `<button type="button" class="v-btn v-btn--text theme--light v-size--small primary--text"><span class="v-btn__content"><i aria-hidden="true" class="v-icon notranslate mr-1 fas fa-search theme--light" style="font-size: 12px;"></i> ${this.$t(
-          "frontPage.map.search"
-        )} </span></button>`;
-        popupElement.innerHTML = html;
-        popupElement.appendChild(searchButton);
-
-        searchButton.addEventListener("click", () =>
-          this.handlePopupSearchBtn(data)
-        );
+          searchButton.addEventListener("click", () =>
+            this.handlePopupSearchBtn(data)
+          );
+        } else popupElement.innerHTML = html;
       }
 
       return popupElement;
     },
 
-    // Todo: Fetch data
     async handlePopupSearchBtn(markerData) {
       console.log("search button click");
       console.log(markerData);
       await this.getLocalitySpecimens(markerData);
-      console.log("test");
+      this.appendMapResults(markerData.id);
+    },
+
+    appendMapResults(id) {
+      if (this.mapResults?.[id]?.numFound) {
+        const cardTextElement = document.createElement("div");
+        cardTextElement.className = "v-card__text pt-0 px-0";
+        cardTextElement.innerHTML = `<div class="px-4 pb-2 text-subtitle-1">${this.$t(
+          "frontPage.map.numFound"
+        )}: <b>${this.mapResults[id].numFound}</b></div>`;
+
+        if (this.mapResults?.[id]?.docs) {
+          const ulElement = document.createElement("ul");
+          ulElement.style.cssText = "max-height:200px;overflow:auto;";
+          this.mapResults?.[id]?.docs.forEach(item => {
+            const liElement = document.createElement("li");
+            liElement.innerHTML = `<a href="/specimen/${
+              item.id
+            }">${item.fullscientificname || item.id}</a>`;
+            ulElement.appendChild(liElement);
+          });
+          cardTextElement.appendChild(ulElement);
+          // num
+        }
+
+        this.popupDom.appendChild(cardTextElement);
+      }
     }
   }
 };
 </script>
 
 <style>
+.mgl-map-wrapper {
+  height: 100%;
+  position: relative;
+  width: 100%;
+}
+
+.mgl-map-wrapper .mapboxgl-map {
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
+
 .mapboxgl-ctrl-scale {
   border: 2px solid #777;
   border-top: none;

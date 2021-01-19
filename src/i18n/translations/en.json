@@ -45,7 +45,8 @@
       }
     },
     "map": {
-      "search": "Search"
+      "search": "Search",
+      "numFound": "Specimens"
     }
   },
   "footer": {

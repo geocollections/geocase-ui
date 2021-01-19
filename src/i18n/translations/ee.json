@@ -45,7 +45,8 @@
       }
     },
     "map": {
-      "search": "Otsi"
+      "search": "Otsi",
+      "numFound": "Eksemplare"
     }
   },
   "footer": {
