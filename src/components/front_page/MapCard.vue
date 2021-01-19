@@ -17,6 +17,7 @@
       <MglFullscreenControl position="top-right" />
       <MglScaleControl position="bottom-left" />
 
+      <!-- Todo: Create a wrapper component -->
       <MglPopup
         ref="popup"
         :close-on-click="popup.closeOnClick"
@@ -24,11 +25,207 @@
         :offset="popup.offset"
         :coordinates="popup.coordinates"
         :max-width="popup.maxWidth"
-        @open="openPopup"
-        @close="closePopup"
       >
         <v-card>
-          <v-card-title>Hello, I'm a popup!</v-card-title>
+          <v-card-title>{{ activePopupData.locality }}</v-card-title>
+          <v-card-text class="pb-0">
+            <div>Lat: {{ activePopupData.lat }}</div>
+            <div>Long: {{ activePopupData.lng }}</div>
+          </v-card-text>
+
+          <v-card
+            flat
+            v-if="
+              mapResults[activePopupData.id] &&
+                mapResults[activePopupData.id].numFound > 0
+            "
+          >
+            <v-card-title class="text-subtitle-1 pb-2">
+              {{ $t("frontPage.map.numFound") }}
+              <b class="ml-1">{{ mapResults[activePopupData.id].numFound }}</b>
+            </v-card-title>
+
+            <v-data-table
+              disable-filtering
+              disable-sort
+              fixed-header
+              height="200"
+              dense
+              :headers="[
+                { text: '', value: 'icon' },
+                { text: $t('search.table.unitid'), value: 'unitid' },
+                {
+                  text: $t('search.table.fullscientificname'),
+                  value: 'fullscientificname'
+                }
+              ]"
+              :items="mapResults[activePopupData.id].docs"
+              :footer-props="{
+                itemsPerPageOptions: [10, 25, 50, -1],
+                itemsPerPageText: $t('frontPage.map.itemsPerPageText'),
+                showFirstLastPage: true
+              }"
+            >
+              <template v-slot:item.icon="{ item }">
+                <router-link
+                  class="icon-link"
+                  style="text-decoration: unset;"
+                  :to="{ path: `specimen/${item.id}` }"
+                  :title="$t('search.goToDetailView')"
+                >
+                  <v-icon
+                    small
+                    color="primary"
+                    v-if="getItemType(item) === 'fossil'"
+                    >fas fa-fish</v-icon
+                  >
+                  <v-icon
+                    small
+                    color="primary"
+                    v-else-if="getItemType(item) === 'mineral'"
+                    >far fa-gem</v-icon
+                  >
+                  <v-icon
+                    small
+                    color="primary"
+                    v-else-if="getItemType(item) === 'rock'"
+                    >fas fa-mountain</v-icon
+                  >
+                  <v-icon
+                    small
+                    color="primary"
+                    v-else-if="getItemType(item) === 'meteorite'"
+                    >fas fa-meteor</v-icon
+                  >
+                </router-link>
+              </template>
+
+              <template v-slot:item.unitid="{ item }">
+                <router-link
+                  style="text-decoration: unset;"
+                  :to="{ path: `specimen/${item.id}` }"
+                  :title="$t('search.goToDetailView')"
+                >
+                  {{ item.unitid }}
+                </router-link>
+              </template>
+
+              <template v-slot:item.fullscientificname="{ item }">
+                <div v-if="item.mindat_id">
+                  <a
+                    style="text-decoration: unset; white-space: nowrap;"
+                    target="MindatWindow"
+                    :title="$t('search.mindatLink')"
+                    @click="openMindatInNewWindow(item.mindat_url)"
+                    >{{ item.fullscientificname }}
+                    <v-icon small color="primary"
+                      >fas fa-external-link-square-alt</v-icon
+                    >
+                  </a>
+                </div>
+                <div v-else>{{ item.fullscientificname }}</div>
+              </template>
+            </v-data-table>
+
+            <!--            <v-simple-table-->
+            <!--              v-if="-->
+            <!--                mapResults[activePopupData.id].docs &&-->
+            <!--                  mapResults[activePopupData.id].docs.length > 0-->
+            <!--              "-->
+            <!--              fixed-header-->
+            <!--              height="200px"-->
+            <!--              dense-->
+            <!--            >-->
+            <!--              <template v-slot:default>-->
+            <!--                <thead>-->
+            <!--                  <tr>-->
+            <!--                    <th></th>-->
+            <!--                    <th class="text-left">{{ $t("search.table.unitid") }}</th>-->
+            <!--                    <th class="text-left">-->
+            <!--                      {{ $t("search.table.fullscientificname") }}-->
+            <!--                    </th>-->
+            <!--                  </tr>-->
+            <!--                </thead>-->
+            <!--                <tbody>-->
+            <!--                  <tr-->
+            <!--                    v-for="(item, index) in mapResults[activePopupData.id].docs"-->
+            <!--                    :key="index"-->
+            <!--                  >-->
+            <!--                    <td>-->
+            <!--                      <router-link-->
+            <!--                        class="icon-link"-->
+            <!--                        style="text-decoration: unset;"-->
+            <!--                        :to="{ path: `specimen/${item.id}` }"-->
+            <!--                        :title="$t('search.goToDetailView')"-->
+            <!--                      >-->
+            <!--                        <v-icon-->
+            <!--                          small-->
+            <!--                          color="primary"-->
+            <!--                          v-if="getItemType(item) === 'fossil'"-->
+            <!--                          >fas fa-fish</v-icon-->
+            <!--                        >-->
+            <!--                        <v-icon-->
+            <!--                          small-->
+            <!--                          color="primary"-->
+            <!--                          v-else-if="getItemType(item) === 'mineral'"-->
+            <!--                          >far fa-gem</v-icon-->
+            <!--                        >-->
+            <!--                        <v-icon-->
+            <!--                          small-->
+            <!--                          color="primary"-->
+            <!--                          v-else-if="getItemType(item) === 'rock'"-->
+            <!--                          >fas fa-mountain</v-icon-->
+            <!--                        >-->
+            <!--                        <v-icon-->
+            <!--                          small-->
+            <!--                          color="primary"-->
+            <!--                          v-else-if="getItemType(item) === 'meteorite'"-->
+            <!--                          >fas fa-meteor</v-icon-->
+            <!--                        >-->
+            <!--                      </router-link>-->
+            <!--                    </td>-->
+            <!--                    <td>-->
+            <!--                      <router-link-->
+            <!--                        style="text-decoration: unset;"-->
+            <!--                        :to="{ path: `specimen/${item.id}` }"-->
+            <!--                        :title="$t('search.goToDetailView')"-->
+            <!--                      >-->
+            <!--                        {{ item.unitid }}-->
+            <!--                      </router-link>-->
+            <!--                    </td>-->
+            <!--                    <td>-->
+            <!--                      <div v-if="item.mindat_id">-->
+            <!--                        <a-->
+            <!--                          style="text-decoration: unset; white-space: nowrap;"-->
+            <!--                          target="MindatWindow"-->
+            <!--                          :title="$t('search.mindatLink')"-->
+            <!--                          @click="openMindatInNewWindow(item.mindat_url)"-->
+            <!--                          >{{ item.fullscientificname }}-->
+            <!--                          <v-icon small color="primary"-->
+            <!--                            >fas fa-external-link-square-alt</v-icon-->
+            <!--                          >-->
+            <!--                        </a>-->
+            <!--                      </div>-->
+            <!--                      <div v-else>{{ item.fullscientificname }}</div>-->
+            <!--                    </td>-->
+            <!--                  </tr>-->
+            <!--                </tbody>-->
+            <!--              </template>-->
+            <!--            </v-simple-table>-->
+          </v-card>
+
+          <v-card-actions
+            class="justify-end"
+            v-if="
+              !mapResults[activePopupData.id] ||
+                mapResults[activePopupData.id].numFound === 0
+            "
+          >
+            <v-btn small text color="primary" @click="handleSearchBtnClick"
+              ><v-icon x-small class="mr-1">fas fa-search</v-icon
+              >{{ $t("frontPage.map.search") }}</v-btn
+            >
+          </v-card-actions>
         </v-card>
       </MglPopup>
     </MglMap>
@@ -75,9 +272,15 @@ export default {
       popup: {
         closeOnClick: false,
         coordinates: [15, 45],
-        anchor: "bottom-left",
-        offset: [5, -10],
+        anchor: "left",
+        offset: [7, 0],
         maxWidth: "400px"
+      },
+      activePopupData: {
+        id: null,
+        lat: null,
+        lng: null,
+        locality: null
       }
     };
   },
@@ -102,14 +305,6 @@ export default {
   methods: {
     ...mapActions("frontpage", ["getLocalitySpecimens"]),
 
-    openPopup(e) {
-      console.log(e);
-    },
-
-    closePopup(e) {
-      console.log("closing popup");
-    },
-
     onMapLoaded(event) {
       this.map = event.map;
       // resize() & addControl solve bug: rerender over full width
@@ -121,11 +316,8 @@ export default {
     },
 
     handleMouseEnter(e) {
-      console.log("mouse enter");
-      console.log(this.$refs.popup);
-      this.$refs.popup.open = true;
-
       this.map.getCanvas().style.cursor = "pointer";
+
       const pointProperties = e?.features?.[0]?.properties;
       let coordinates = e?.features?.[0]?.geometry?.coordinates;
 
@@ -136,28 +328,18 @@ export default {
         coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
       }
 
-      if (pointProperties?.latitude && pointProperties?.longitude) {
-        const popupData = {
-          id: pointProperties?.id,
-          lat: pointProperties?.latitude,
-          lng: pointProperties?.longitude,
-          locality: pointProperties?.locality
-        };
+      this.popup.coordinates = coordinates;
+      this.activePopupData = {
+        id: pointProperties?.id,
+        lat: pointProperties?.latitude,
+        lng: pointProperties?.longitude,
+        locality: pointProperties?.locality
+      };
 
-        this.popupDom = this.buildDefaultPopupDOM(popupData);
-        this.appendMapResults(popupData.id);
-
-        // this.popupCoordinates = coordinates;
-
-        // this.mapboxPopup
-        //   .setLngLat(coordinates)
-        //   .setDOMContent(this.popupDom)
-        //   .addTo(this.map);
-      }
+      this.$refs.popup.open = true;
     },
 
     handleMouseLeave() {
-      console.log("mouse leave");
       this.map.getCanvas().style.cursor = "";
     },
 
@@ -179,71 +361,49 @@ export default {
       }
     },
 
-    buildDefaultPopupDOM(data) {
-      const popupElement = document.createElement("div");
-
-      let html = "";
-      if (data?.locality)
-        html += `<div class='v-card__title'>${data.locality}</div>`;
-      if (data?.lat && data?.lng)
-        html += `<div class="v-card__text"><div>Lat: ${data.lat}</div><div>Long: ${data.lng}</div></div>`;
-
-      if (data) {
-        if (
-          !this.mapResults?.[data.id] ||
-          !this.mapResults?.[data.id]?.numFound ||
-          this.mapResults?.[data.id]?.numFound === 0
-        ) {
-          const searchButton = document.createElement("div");
-          searchButton.id = "mapbox-gl-search-button";
-          searchButton.className = "v-card__actions justify-end";
-          searchButton.innerHTML = `<button type="button" class="v-btn v-btn--text theme--light v-size--small primary--text"><span class="v-btn__content"><i aria-hidden="true" class="v-icon notranslate mr-1 fas fa-search theme--light" style="font-size: 12px;"></i> ${this.$t(
-            "frontPage.map.search"
-          )} </span></button>`;
-
-          popupElement.innerHTML = html;
-          popupElement.appendChild(searchButton);
-
-          searchButton.addEventListener("click", () =>
-            this.handlePopupSearchBtn(data)
-          );
-        } else popupElement.innerHTML = html;
+    async handleSearchBtnClick() {
+      if (
+        this.activePopupData.id &&
+        (!this.mapResults?.[this.activePopupData.id] ||
+          !this.mapResults?.[this.activePopupData.id]?.numFound ||
+          this.mapResults?.[this.activePopupData.id]?.numFound === 0)
+      ) {
+        await this.getLocalitySpecimens(this.activePopupData);
       }
-
-      return popupElement;
+      console.log(this.mapResults);
     },
 
-    async handlePopupSearchBtn(markerData) {
-      console.log("search button click");
-      console.log(markerData);
-      await this.getLocalitySpecimens(markerData);
-      this.appendMapResults(markerData.id);
+    // Taken from TabTable.vue
+    openMindatInNewWindow(url) {
+      window.open(url, "MindatWindow", "width=800,height=750");
     },
 
-    appendMapResults(id) {
-      if (this.mapResults?.[id]?.numFound) {
-        const cardTextElement = document.createElement("div");
-        cardTextElement.className = "v-card__text pt-0 px-0";
-        cardTextElement.innerHTML = `<div class="px-4 pb-2 text-subtitle-1">${this.$t(
-          "frontPage.map.numFound"
-        )}: <b>${this.mapResults[id].numFound}</b></div>`;
-
-        if (this.mapResults?.[id]?.docs) {
-          const ulElement = document.createElement("ul");
-          ulElement.style.cssText = "max-height:200px;overflow:auto;";
-          this.mapResults?.[id]?.docs.forEach(item => {
-            const liElement = document.createElement("li");
-            liElement.innerHTML = `<a href="/specimen/${
-              item.id
-            }">${item.fullscientificname || item.id}</a>`;
-            ulElement.appendChild(liElement);
-          });
-          cardTextElement.appendChild(ulElement);
-          // num
-        }
-
-        this.popupDom.appendChild(cardTextElement);
-      }
+    // Taken from TabTable.vue
+    /* Currently unused types aka unspecified
+     * OtherSpecimen
+     * Unspecified
+     * specimen
+     */
+    getItemType(item) {
+      let type = item.recordbasis;
+      if (
+        type === "FossileSpecimen" ||
+        type === "FossilSpecimen" ||
+        type === "RecentPreservedSpecimen" ||
+        type === "fossil"
+      ) {
+        return "fossil";
+      } else if (type === "MineralSpecimen") {
+        return "mineral";
+      } else if (
+        type === "RockSpecimen" ||
+        type === "SedimentSample" ||
+        type === "TechnologicalSample"
+      ) {
+        return "rock";
+      } else if (type === "MeteoriteSpecimen") {
+        return "meteorite";
+      } else "none";
     }
   }
 };

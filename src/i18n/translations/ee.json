@@ -46,7 +46,8 @@
     },
     "map": {
       "search": "Otsi",
-      "numFound": "Eksemplare"
+      "numFound": "Eksemplare",
+      "itemsPerPageText": "Ridu lehel"
     }
   },
   "footer": {

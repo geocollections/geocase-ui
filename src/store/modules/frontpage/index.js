@@ -118,7 +118,7 @@ const mutations = {
   },
 
   INIT_MAP_RESULTS(state, id) {
-    state.mapResults[id] = { numFound: 0, docs: [] };
+    state.mapResults = { ...state.mapResults, [id]: { numFound: 0, docs: [] } };
   },
 
   UPDATE_MAP_RESPONSE_RESULTS(state, payload) {

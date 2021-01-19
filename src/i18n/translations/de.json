@@ -46,7 +46,8 @@
     },
     "map": {
       "search": "Search",
-      "numFound": "Specimens"
+      "numFound": "Specimens",
+      "itemsPerPageText": "Rows per page"
     }
   },
   "footer": {
