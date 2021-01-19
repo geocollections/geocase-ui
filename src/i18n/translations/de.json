@@ -43,6 +43,9 @@
         "text": "Meteoriten sind Weltraumgestein, das auf die Erde gefallen ist. Sie bestehen aus den gleichen Mineralen wie irdische Gesteine.",
         "button": "Meteoriten ansehen"
       }
+    },
+    "map": {
+      "search": "Search"
     }
   },
   "footer": {

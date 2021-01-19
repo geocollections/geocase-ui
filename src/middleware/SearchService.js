@@ -77,6 +77,18 @@ class SearchService {
       throw new Error(err);
     }
   }
+
+  static async getAllSpecimensInProximity(data) {
+    try {
+      let url = `${API_URL}?q=*:*&fq={!geofilt sfield=coordinates}&d=0&pt=${data.lat},${data.lng}&start=0&rows=10000`;
+
+      const res = await axios.get(url);
+      return res.data;
+    } catch (err) {
+      console.error(err);
+      throw new Error(err);
+    }
+  }
 }
 
 function buildSort(sortBy, sortDesc) {

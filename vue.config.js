@@ -5,7 +5,7 @@ module.exports = {
   devServer: {
     proxy: {
       "/api": {
-        target: "http://geocase-api.geocollections.info/",
+        target: "http://api.geocase.eu/",
         changeOrigin: true
         // pathRewrite: {
         //   // "^/api/repeat": "/v1/repeat",

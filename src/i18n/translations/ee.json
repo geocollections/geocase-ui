@@ -43,6 +43,9 @@
         "text": "Meteoriidid on Maale langenud kosmosekivimid, mis koosnevad samadest mineraalidest nagu maised kivimid.",
         "button": "Vaata meteoriite"
       }
+    },
+    "map": {
+      "search": "Otsi"
     }
   },
   "footer": {

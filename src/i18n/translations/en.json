@@ -43,6 +43,9 @@
         "text": "Meteorites are space rocks that have fallen on Earth. They are composed of the same minerals as earthly rocks.",
         "button": "View Meteorites"
       }
+    },
+    "map": {
+      "search": "Search"
     }
   },
   "footer": {
