@@ -47,6 +47,52 @@ export default {
       map.addControl(new Mapbox.NavigationControl(), "top-right");
       map.addControl(new Mapbox.FullscreenControl(), "top-right");
       map.addControl(new Mapbox.ScaleControl(), "bottom-left");
+
+      let popup = new Mapbox.Popup({
+        // closeButton: false,
+        closeOnClick: false,
+        anchor: 'bottom-left',
+        offset: [-10, -10]
+      });
+
+      map.on("mouseenter", "geocase-distinct", function(e) {
+        console.log(e);
+        map.getCanvas().style.cursor = "pointer";
+
+        const pointProperties = e?.features?.[0]?.properties;
+        let coordinates = e?.features?.[0]?.geometry?.coordinates;
+
+        // Ensure that if the map is zoomed out such that multiple
+        // copies of the feature are visible, the popup appears
+        // over the copy being pointed to.
+        while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+          coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+        }
+        if (pointProperties?.latitude && pointProperties?.longitude) {
+          const [lat, lng, locality] = [
+            pointProperties?.latitude,
+            pointProperties?.longitude,
+            pointProperties?.locality
+          ];
+
+          popup
+            .setLngLat(coordinates)
+            .setHTML(
+              `<div class="text-h6">${locality}</div>
+               <div class="text-body-2">
+                   <div>Lat: ${lat}</div>
+                   <div>Lon: ${lng}</div>
+               </div>`
+            )
+            .addTo(map);
+        }
+      });
+
+      map.on("mouseleave", "geocase-distinct", function() {
+        map.getCanvas().style.cursor = "";
+        // popup.remove();
+      });
+
       map.on("click", "geocase-distinct", function(e) {
         const pointProperties = e?.features?.[0]?.properties;
         if (pointProperties?.latitude && pointProperties?.longitude) {
