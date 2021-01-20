@@ -1,5 +1,5 @@
 <template>
-  <div>Todo: How to</div>
+  <div class="Howto" v-html="$t('howto.html')" />
 </template>
 
 <script>
