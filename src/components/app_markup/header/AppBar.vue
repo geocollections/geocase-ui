@@ -74,6 +74,13 @@
           exact
           >{{ $t("header.partners") }}</v-btn
         >
+        <v-btn
+          class="hidden-md-and-down"
+          text
+          to="/howto"
+          exact
+          >{{ $t("header.howto") }}</v-btn
+        >
       </v-toolbar-items>
 
       <v-spacer />

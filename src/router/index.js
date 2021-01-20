@@ -151,6 +151,17 @@ const router = new Router({
           changefreq: "monthly"
         }
       }
+    },
+    {
+      path: `/:locale${LANGUAGE_REGEX}?/howto`,
+      name: "HowTo",
+      component: HowTo,
+      meta: {
+        sitemap: {
+          priority: 0.5,
+          changefreq: "monthly"
+        }
+      }
     }
   ]
 });
@@ -162,6 +173,7 @@ import Project from "@/views/Project";
 import Links from "@/views/Links";
 import Imprint from "@/views/Imprint";
 import Efg from "@/views/Efg";
+import HowTo from "@/views/HowTo";
 
 router.beforeEach((to, from, next) => {
   const hasLang = to.params?.locale;

@@ -67,6 +67,11 @@ export default {
         text: "Imprint",
         to: "/imprint",
         icon: "fas fa-stamp"
+      },
+      {
+        text: "How-to",
+        to: "/howto",
+        icon: "fas fa-info"
       }
     ]
   })
