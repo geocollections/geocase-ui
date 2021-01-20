@@ -85,8 +85,6 @@ const actions = {
           id: localityData.id
         });
       }
-
-      console.log(response);
     } catch (err) {
       dispatch(
         "settings/updateErrorMessage",
@@ -126,7 +124,6 @@ const mutations = {
   },
 
   UPDATE_MAP_RESPONSE_RESULTS_COUNT(state, payload) {
-    console.log(payload);
     state.mapResults[payload.id].numFound = payload.numFound;
   }
 };

@@ -6,11 +6,11 @@ module.exports = {
     proxy: {
       "/api": {
         target: "http://api.geocase.eu/",
-        changeOrigin: true
-        // pathRewrite: {
-        //   // "^/api/repeat": "/v1/repeat",
-        //   // "^/api": "/v1/solr"
-        // }
+        changeOrigin: true,
+        pathRewrite: {
+          "^/api/repeat": "/v1/repeat",
+          "^/api": "/v1/solr"
+        }
       }
     }
   },

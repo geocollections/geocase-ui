@@ -48,7 +48,11 @@
       </v-row>
     </v-container>
     <!-- teaser-map-container -->
-    <v-container class="teaser-map" fluid>
+    <v-container
+      class="teaser-map"
+      :class="{ 'height-50vh': $vuetify.breakpoint.smAndDown }"
+      fluid
+    >
       <MapCard />
     </v-container>
   </div>
@@ -81,5 +85,9 @@ export default {
   min-height: 500px;
   max-height: 800px;
   height: 650px;
+}
+
+.height-50vh {
+  height: 50vh;
 }
 </style>
