@@ -50,7 +50,7 @@
     <!-- teaser-map-container -->
     <v-container
       class="teaser-map"
-      :class="{ 'height-50vh': $vuetify.breakpoint.smAndDown }"
+      :class="{ 'height-50vh': $vuetify.breakpoint.mdAndDown }"
       fluid
     >
       <MapCard />
@@ -82,7 +82,7 @@ export default {
 <style scoped>
 .teaser-map {
   padding: 0;
-  min-height: 500px;
+  min-height: 320px;
   max-height: 800px;
   height: 650px;
 }

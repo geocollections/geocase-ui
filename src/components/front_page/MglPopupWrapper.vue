@@ -4,9 +4,9 @@
     :anchor="popup.anchor"
     :offset="popup.offset"
     :coordinates="popup.coordinates"
-    :max-width="popup.maxWidth"
+    :max-width="popupMaxWidth"
   >
-    <v-card>
+    <v-card :max-width="popupMaxWidth">
       <v-card-title>{{ activePopupData.locality }}</v-card-title>
       <v-card-text class="pb-0">
         <div>Lat: {{ activePopupData.lat }}</div>
@@ -14,6 +14,7 @@
       </v-card-text>
 
       <v-card
+        :max-width="popupMaxWidth"
         flat
         v-if="
           mapResults[activePopupData.id] &&
@@ -32,6 +33,7 @@
           fixed-header
           height="200"
           dense
+          mobile-breakpoint="100"
           :headers="[
             { text: '', value: 'icon' },
             { text: $t('search.table.unitid'), value: 'unitid' },
@@ -142,6 +144,11 @@ export default {
     mapResults: {
       type: Object,
       required: true
+    },
+    popupMaxWidth: {
+      type: String,
+      required: false,
+      default: "400px"
     }
   },
   methods: {

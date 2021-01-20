@@ -22,6 +22,7 @@
         :popup="popup"
         :active-popup-data="activePopupData"
         :map-results="mapResults"
+        :popup-max-width="popupMaxWidth"
         @clicked:searchButton="handleSearchBtnClick"
       />
     </MglMap>
@@ -58,10 +59,10 @@ export default {
   data() {
     return {
       mapStyle: "https://map.geocase.eu/styles/geocase-heatmap/style.json",
-      // center: [15, 45],
-      center: [24.753, 59.437],
-      // zoom: 1.5,
-      zoom: 10.5,
+      center: [15, 45],
+      // center: [24.753, 59.437], // test
+      zoom: 1.5,
+      // zoom: 10.5, // test
       minZoom: 1,
       maxZoom: 19,
       popup: {
@@ -80,7 +81,11 @@ export default {
     };
   },
   computed: {
-    ...mapState("frontpage", ["mapResults"])
+    ...mapState("frontpage", ["mapResults"]),
+
+    popupMaxWidth() {
+      return this.$vuetify.breakpoint.smAndDown ? "250px" : "400px";
+    }
   },
   created() {
     // We need to set mapbox-gl library here in order to use it in template
