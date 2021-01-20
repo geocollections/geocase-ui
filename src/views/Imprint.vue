@@ -1,18 +1,10 @@
 <template>
-  <v-container class="Imprint">
-    <v-card elevation="6" shaped class="px-8 py-6">
-      <div v-html="$t('imprint.html')" />
-    </v-card>
-  </v-container>
+  <div v-html="$t('imprint.html')" />
 </template>
 
 <script>
 export default {
-  name: "Imprint",
-
-  metaInfo: {
-    title: "Imprint"
-  }
+  name: "Imprint"
 };
 </script>
 

@@ -58,10 +58,17 @@
     "created_html": "<a href='https://github.com/geocollections/geocase-ui' target='FooterWindow'>Portaali tarkvara</a> on loodud ja majutatud <a href='https://taltech.ee/en/department-geology' target='FooterWindow'>TalTech</a> ning <a href='https://www.museumfuernaturkunde.berlin/' target='FooterWindow'>MfN</a> poolt."
   },
   "header": {
+    "home": "Pealeht",
     "search": "Otsing",
     "about": "Liitu",
     "access": "Ligipääs",
+    "join": "Liitu",
+    "tutorial": "Juhend",
+    "project": "Projekt",
+    "efg": "EFG",
     "partners": "Partnerid",
+    "links": "Lingid",
+    "imprint": "Andmed",
     "howto": "Juhend",
     "resources": "Ressursid",
     "titleTooltip": "Liigu esilehele",

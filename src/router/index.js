@@ -23,145 +23,75 @@ const router = new Router({
     {
       path: `/:locale${LANGUAGE_REGEX}?`,
       name: "FrontPage",
-      component: FrontPage,
-      meta: {
-        sitemap: {
-          priority: 1.0,
-          changefreq: "daily"
-        }
-      }
+      component: FrontPage
     },
     {
       path: `/:locale${LANGUAGE_REGEX}?/search`,
       name: "Search",
-      component: Search,
-      meta: {
-        sitemap: {
-          priority: 1.0,
-          changefreq: "daily"
-        }
-      }
+      component: Search
     },
     {
       // path: "/specimen/:id(\\d+)",
       path: "/:locale(en|ee|de)?/specimen/:id",
       name: "Detail",
-      component: DetailView,
-      meta: {
-        sitemap: {
-          ignoreRoute: true
-        }
-      }
+      component: DetailView
     },
     {
-      path: `/:locale${LANGUAGE_REGEX}?/partners_and_providers`,
-      name: "Partners and providers",
-      component: PartnersAndProviders,
-      meta: {
-        sitemap: {
-          priority: 0.7,
-          changefreq: "monthly"
+      path: `/:locale${LANGUAGE_REGEX}?/`,
+      name: "Static",
+      component: StaticPage,
+      children: [
+        {
+          path: `partners_and_providers`,
+          name: "Partners and providers",
+          component: PartnersAndProviders
+        },
+        {
+          path: `about`,
+          name: "About",
+          component: About
+        },
+        {
+          path: `access`,
+          name: "Access",
+          component: Access
+        },
+        {
+          path: `join`,
+          name: "Join",
+          component: Join
+        },
+        {
+          path: `tutorial`,
+          name: "Tutorial",
+          component: Tutorial
+        },
+        {
+          path: `project`,
+          name: "Project",
+          component: Project
+        },
+        {
+          path: `links`,
+          name: "Links",
+          component: Links
+        },
+        {
+          path: `imprint`,
+          name: "Imprint",
+          component: Imprint
+        },
+        {
+          path: `efg`,
+          name: "Efg",
+          component: Efg
+        },
+        {
+          path: `howto`,
+          name: "HowTo",
+          component: HowTo
         }
-      }
-    },
-    {
-      path: `/:locale${LANGUAGE_REGEX}?/about`,
-      name: "About",
-      component: About,
-      meta: {
-        sitemap: {
-          priority: 0.6,
-          changefreq: "monthly"
-        }
-      }
-    },
-    {
-      path: `/:locale${LANGUAGE_REGEX}?/access`,
-      name: "Access",
-      component: Access,
-      meta: {
-        sitemap: {
-          priority: 0.5,
-          changefreq: "monthly"
-        }
-      }
-    },
-    {
-      path: `/:locale${LANGUAGE_REGEX}?/join`,
-      name: "Join",
-      component: Join,
-      meta: {
-        sitemap: {
-          priority: 0.5,
-          changefreq: "monthly"
-        }
-      }
-    },
-    {
-      path: `/:locale${LANGUAGE_REGEX}?/tutorial`,
-      name: "Tutorial",
-      component: Tutorial,
-      meta: {
-        sitemap: {
-          priority: 0.5,
-          changefreq: "monthly"
-        }
-      }
-    },
-    {
-      path: `/:locale${LANGUAGE_REGEX}?/project`,
-      name: "Project",
-      component: Project,
-      meta: {
-        sitemap: {
-          priority: 0.5,
-          changefreq: "monthly"
-        }
-      }
-    },
-    {
-      path: `/:locale${LANGUAGE_REGEX}?/links`,
-      name: "Links",
-      component: Links,
-      meta: {
-        sitemap: {
-          priority: 0.5,
-          changefreq: "monthly"
-        }
-      }
-    },
-    {
-      path: `/:locale${LANGUAGE_REGEX}?/imprint`,
-      name: "Imprint",
-      component: Imprint,
-      meta: {
-        sitemap: {
-          priority: 0.5,
-          changefreq: "monthly"
-        }
-      }
-    },
-    {
-      path: `/:locale${LANGUAGE_REGEX}?/efg`,
-      name: "Efg",
-      component: Efg,
-      meta: {
-        sitemap: {
-          priority: 0.5,
-          changefreq: "monthly"
-        }
-      }
-    },
-    {
-      path: `/:locale${LANGUAGE_REGEX}?/howto`,
-      name: "HowTo",
-      component: HowTo,
-      meta: {
-        sitemap: {
-          priority: 0.5,
-          changefreq: "monthly"
-        }
-      }
+      ]
     }
   ]
 });
@@ -174,6 +104,7 @@ import Links from "@/views/Links";
 import Imprint from "@/views/Imprint";
 import Efg from "@/views/Efg";
 import HowTo from "@/views/HowTo";
+import StaticPage from "@/views/StaticPage";
 
 router.beforeEach((to, from, next) => {
   const hasLang = to.params?.locale;

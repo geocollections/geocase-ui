@@ -11,7 +11,7 @@
   >
     <v-list dense>
       <v-subheader>ROUTES</v-subheader>
-      <v-list-item v-for="item in routes" :key="item.text" :to="item.to">
+      <v-list-item v-for="item in routes" :key="item.name" :to="item.to">
         <v-list-item-action>
           <v-icon>{{ item.icon }}</v-icon>
         </v-list-item-action>
@@ -27,6 +27,8 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 export default {
   name: "NavigationDrawer",
   props: {
@@ -35,46 +37,9 @@ export default {
       required: true
     }
   },
-  data: () => ({
-    routes: [
-      {
-        text: "Home",
-        to: "/",
-        icon: "fas fa-home"
-      },
-      {
-        text: "Search",
-        to: "/search",
-        icon: "fas fa-search"
-      },
-      { text: "About", to: "/about", icon: "fas fa-info-circle" },
-      { text: "Access", to: "/access", icon: "fas fa-database" },
-      { text: "Join", to: "/join", icon: "fas fa-signature" },
-      { text: "Tutorial", to: "/tutorial", icon: "far fa-question-circle" },
-      { text: "About the project (old)", to: "/project", icon: "fas fa-project-diagram" },
-      { text: "About efg", to: "/efg", icon: "fas fa-info-circle" },
-      {
-        text: "Partners",
-        to: "/partners_and_providers",
-        icon: "far fa-handshake"
-      },
-      {
-        text: "Links",
-        to: "/links",
-        icon: "fas fa-link"
-      },
-      {
-        text: "Imprint",
-        to: "/imprint",
-        icon: "fas fa-stamp"
-      },
-      {
-        text: "How-to",
-        to: "/howto",
-        icon: "fas fa-info"
-      }
-    ]
-  })
+  computed: {
+    ...mapGetters("settings", ["routes"])
+  }
 };
 </script>
 

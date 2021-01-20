@@ -1,9 +1,5 @@
 <template>
-  <v-container class="Project">
-    <v-card elevation="6" shaped class="px-8 py-6">
-      <div v-html="$t('project.html')" />
-    </v-card>
-  </v-container>
+  <div v-html="$t('project.html')" />
 </template>
 
 <script>

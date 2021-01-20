@@ -1,18 +1,10 @@
 <template>
-  <v-container class="About">
-    <v-card elevation="6" shaped class="px-8 py-6">
-      <div v-html="$t('about.html')" />
-    </v-card>
-  </v-container>
+  <div class="About" v-html="$t('about.html')" />
 </template>
 
 <script>
 export default {
-  name: "About",
-
-  metaInfo: {
-    title: "About"
-  }
+  name: "About"
 };
 </script>
 

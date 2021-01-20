@@ -58,10 +58,17 @@
     "created_html": "<a href='https://github.com/geocollections/geocase-ui' target='FooterWindow'>Portal software</a> created and hosted by <a href='https://taltech.ee/en/department-geology' target='FooterWindow'>TalTech</a> and <a href='https://www.museumfuernaturkunde.berlin/' target='FooterWindow'>MfN</a>."
   },
   "header": {
+    "home": "Home",
     "search": "Suche",
     "about": "Über GeoCASe",
     "access": "Zugang",
+    "join": "Join",
+    "tutorial": "Tutorial",
+    "project": "Project",
+    "efg": "EFG",
     "partners": "Partner",
+    "links": "Links",
+    "imprint": "Imprint",
     "howto": "How-to",
     "resources": "Ressourcen",
     "titleTooltip": "Zur Startseite",

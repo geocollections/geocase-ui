@@ -1,9 +1,5 @@
 <template>
-  <v-container class="Join">
-    <v-card elevation="6" shaped class="px-8 py-6">
-      <div v-html="$t('join.html')" />
-    </v-card>
-  </v-container>
+  <div v-html="$t('join.html')" />
 </template>
 
 <script>

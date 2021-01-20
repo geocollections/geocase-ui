@@ -106,6 +106,98 @@ const getters = {
         url: "http://geocase-api.geocollections.info/"
       }
     ];
+  },
+
+  routes: () => {
+    return [
+      {
+        text: i18n.t("header.home"),
+        to: "/",
+        name: "FrontPage",
+        icon: "fas fa-home",
+        isStatic: false
+      },
+      {
+        text: i18n.t("header.search"),
+        to: "/search",
+        name: "Search",
+        icon: "fas fa-search",
+        isStatic: false
+      },
+      {
+        text: i18n.t("header.about"),
+        to: "/about",
+        name: "About",
+        icon: "fas fa-info-circle",
+        isStatic: true
+      },
+      {
+        text: i18n.t("header.access"),
+        to: "/access",
+        name: "Access",
+        icon: "fas fa-database",
+        isStatic: true
+      },
+      {
+        text: i18n.t("header.join"),
+        to: "/join",
+        name: "Join",
+        icon: "fas fa-signature",
+        isStatic: true
+      },
+      {
+        text: i18n.t("header.tutorial"),
+        to: "/tutorial",
+        name: "Tutorial",
+        icon: "far fa-question-circle",
+        isStatic: true
+      },
+      {
+        text: i18n.t("header.project"),
+        to: "/project",
+        name: "Project",
+        icon: "fas fa-project-diagram",
+        isStatic: true
+      },
+      {
+        text: i18n.t("header.efg"),
+        to: "/efg",
+        name: "Efg",
+        icon: "fas fa-info-circle",
+        isStatic: true
+      },
+      {
+        text: i18n.t("header.partners"),
+        to: "/partners_and_providers",
+        name: "Partners and providers",
+        icon: "far fa-handshake",
+        isStatic: true
+      },
+      {
+        text: i18n.t("header.links"),
+        to: "/links",
+        name: "Links",
+        icon: "fas fa-link"
+      },
+      {
+        text: i18n.t("header.imprint"),
+        to: "/imprint",
+        name: "Imprint",
+        icon: "fas fa-stamp",
+        isStatic: true
+      },
+      {
+        text: i18n.t("header.howto"),
+        to: "/howto",
+        name: "Howto",
+        icon: "fas fa-info",
+        isStatic: true
+      }
+    ];
+  },
+
+  staticPages: (state, getters) => {
+    return getters.routes.filter(item => item.isStatic);
   }
 };
 

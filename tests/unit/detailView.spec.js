@@ -2604,9 +2604,11 @@ describe("DetailViewGetters", () => {
                   "abcd:KindOfUnit": "part of specimen",
                   "abcd:Gathering": {
                     "abcd:DateTime": { "abcd:ISODateTimeBegin": "2013-09-12" },
-                    "abcd:NearNamedPlaces": { "abcd:NamedPlaceRelation": {
-                      "abcd:NearNamedPlace":"test place"
-                      } },
+                    "abcd:NearNamedPlaces": {
+                      "abcd:NamedPlaceRelation": {
+                        "abcd:NearNamedPlace": "test place"
+                      }
+                    },
                     "abcd:Agents": {
                       "abcd:GatheringAgent": {
                         "abcd:AgentText": "Isakar, M.",
