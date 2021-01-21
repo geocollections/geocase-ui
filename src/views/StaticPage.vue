@@ -1,7 +1,12 @@
 <template>
   <v-container class="StaticPage">
-    <v-card elevation="6" shaped class="py-6 pl-sm-8 pr-sm-6">
-      <v-tabs optional show-arrows :vertical="isSmAndUp">
+    <v-card elevation="6" shaped class="py-6 pl-md-8 pr-md-6">
+      <v-tabs
+        optional
+        show-arrows
+        :vertical="isMdAndUp"
+        :class="{ 'v-item-group-mb-3': !isMdAndUp }"
+      >
         <v-tab
           class="my-1 justify-start"
           v-for="(item, index) in staticPages"
@@ -15,8 +20,8 @@
           {{ item.text }}
         </v-tab>
 
-        <v-tabs-items class="px-4 px-sm-0 pl-sm-6 pt-4 pt-sm-0">
-          <router-view class="px-2" />
+        <v-tabs-items class="px-4 px-md-0 pl-md-6 pt-4 pt-md-0">
+          <router-view class="px-2 mx-auto" style="max-width: 700px;" />
         </v-tabs-items>
       </v-tabs>
     </v-card>
@@ -38,11 +43,18 @@ export default {
   computed: {
     ...mapGetters("settings", ["staticPages"]),
 
-    isSmAndUp() {
-      return this.$vuetify.breakpoint.smAndUp;
+    isMdAndUp() {
+      return this.$vuetify.breakpoint.mdAndUp;
     }
   }
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.StaticPage {
+  max-width: 1000px;
+}
+.v-item-group-mb-3 >>> .v-item-group:first-child {
+  margin-bottom: 12px;
+}
+</style>
