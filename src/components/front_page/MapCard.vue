@@ -8,7 +8,7 @@
       :maxZoom.sync="maxZoom"
       :center.sync="center"
       :attribution-control="false"
-      :scroll-zoom="false"
+      :scroll-zoom="true"
       @load="onMapLoaded"
     >
       <MglAttributionControl position="bottom-right" />
