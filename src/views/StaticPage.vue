@@ -14,10 +14,12 @@
           :to="item.to"
           :class="{ 'v-tab--active': $route.path.endsWith(item.to) }"
         >
-          <v-icon left>
-            {{ item.icon }}
-          </v-icon>
-          {{ item.text }}
+            <v-icon left>
+              {{ item.icon }}
+            </v-icon>
+
+              {{ item.text }}
+
         </v-tab>
 
         <v-tabs-items class="px-4 px-md-0 pl-md-6 pt-4 pt-md-0">
@@ -56,5 +58,10 @@ export default {
 }
 .v-item-group-mb-3 >>> .v-item-group:first-child {
   margin-bottom: 12px;
+}
+
+/* To normalize icon sizes (larger ones seem to have 30px width) */
+.StaticPage >>> .v-tab .v-icon {
+  min-width: 30px;
 }
 </style>
