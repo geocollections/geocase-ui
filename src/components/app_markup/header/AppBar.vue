@@ -47,8 +47,9 @@
                 <span
                   class="hidden-xs-only"
                   :class="{ 'small-font': $vuetify.breakpoint.smOnly }"
-                  >GeoCASe 2.0</span
-                >
+                  >GeoCASe 2.0
+                  <span v-if="!isProductionUrl">DEV</span>
+                </span>
                 <span class="hidden-sm-and-up">
                   <v-icon>fas fa-home</v-icon>
                 </span>
@@ -178,6 +179,10 @@ export default {
 
     appBarMeteorite() {
       return this.$route.name === "Detail" && this.isItemMeteorite;
+    },
+
+    isProductionUrl() {
+      return document.location.origin.includes("geocase.eu");
     }
   },
 
