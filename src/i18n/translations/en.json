@@ -55,7 +55,9 @@
     "dataBy": "Data by",
     "partnerInstitutions": "partner institutions",
     "collab_html": "GeoCASe 2.0 is collaborative effort of the <a href='https://cetaf.org' target='FooterWindow'>CETAF Earth Sciences Group</a>.",
-    "created_html": "<a href='https://github.com/geocollections/geocase-ui' target='FooterWindow'>Portal software</a> created and hosted by <a href='https://taltech.ee/en/department-geology' target='FooterWindow'>TalTech</a> and <a href='https://www.museumfuernaturkunde.berlin/' target='FooterWindow'>MfN</a>."
+    "created_html": "<a href='https://github.com/geocollections/geocase-ui' target='FooterWindow'>Portal software</a> created and hosted by <a href='https://taltech.ee/en/department-geology' target='FooterWindow'>TalTech</a> and <a href='https://www.museumfuernaturkunde.berlin/' target='FooterWindow'>MfN</a>.",
+    "taltechLogoAltText": "Tallinn University of Technology logo",
+    "mfnLogoAltText": "Museum für Naturkunde Berlin logo"
   },
   "header": {
     "home": "Home",
@@ -73,7 +75,8 @@
     "resources": "Resources",
     "titleTooltip": "Go to front page",
     "showSearch": "Show/hide search filters",
-    "showMenu": "Show menu"
+    "showMenu": "Show menu",
+    "landingPageAltText": "White baryte crystals"
   },
   "resources": {
     "cetaf": "CETAF",

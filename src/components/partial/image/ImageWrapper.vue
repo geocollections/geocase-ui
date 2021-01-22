@@ -9,6 +9,7 @@
     :src="imageSrc"
     :lazy-src="imageSrc"
     :class="{ 'background-size-unset': backgroundSizeUnset }"
+    :alt="altText"
   >
     <template v-slot:placeholder>
       <v-row class="fill-height ma-0" align="center" justify="center">
@@ -41,6 +42,10 @@ export default {
     backgroundSizeUnset: {
       type: Boolean,
       default: false
+    },
+    altText: {
+      type: String,
+      default: ""
     }
   }
 };

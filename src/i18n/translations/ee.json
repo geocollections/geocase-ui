@@ -55,7 +55,9 @@
     "dataBy": "Andmed kogutud",
     "partnerInstitutions": "partnerasutustelt",
     "collab_html": "GeoCASe 2.0 on valminud <a href='https://cetaf.org' target='FooterWindow'>CETAF Earth Science Group'i</a> ühistööl.",
-    "created_html": "<a href='https://github.com/geocollections/geocase-ui' target='FooterWindow'>Portaali tarkvara</a> on loodud ja majutatud <a href='https://taltech.ee/en/department-geology' target='FooterWindow'>TalTech</a> ning <a href='https://www.museumfuernaturkunde.berlin/' target='FooterWindow'>MfN</a> poolt."
+    "created_html": "<a href='https://github.com/geocollections/geocase-ui' target='FooterWindow'>Portaali tarkvara</a> on loodud ja majutatud <a href='https://taltech.ee/en/department-geology' target='FooterWindow'>TalTech</a> ning <a href='https://www.museumfuernaturkunde.berlin/' target='FooterWindow'>MfN</a> poolt.",
+    "taltechLogoAltText": "Tallinna Tehnikaülikooli logo",
+    "mfnLogoAltText": "Berliini loodusmuuseumi logo"
   },
   "header": {
     "home": "Pealeht",
@@ -73,7 +75,8 @@
     "resources": "Ressursid",
     "titleTooltip": "Liigu esilehele",
     "showSearch": "Näita/peida otsingu filtreid",
-    "showMenu": "Näita menüüd"
+    "showMenu": "Näita menüüd",
+    "landingPageAltText": "Valged barüüdikristallid"
   },
   "resources": {
     "cetaf": "CETAF",

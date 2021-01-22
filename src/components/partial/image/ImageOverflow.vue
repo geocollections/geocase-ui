@@ -83,6 +83,7 @@
                 "
                 :max-height="imageHeight.toString()"
                 :image-src="images[currentIndex].originalImage"
+                :alt-text="images[currentIndex].altText"
               />
             </div>
 
@@ -153,6 +154,7 @@
                   :contain="false"
                   max-height="100"
                   :image-src="entity.thumbnailImage"
+                  :alt-text="entity.altText"
                 />
               </v-card>
             </v-col>
@@ -244,7 +246,6 @@ export default {
 
       let imageHeight = innerHeight - toolbarHeight - imageInfoHeight;
 
-      console.log(imageHeight);
       if (imageHeight > 400) this.imageHeight = imageHeight;
       this.decreaseImageContainerHeightBy =
         toolbarHeight + imageInfoHeight + paddingHeight;

@@ -27,6 +27,7 @@
             href="https://taltech.ee/en/department-geology"
             target="FooterWindow"
             ><v-img
+              :alt="$t('footer.taltechLogoAltText')"
               :src="
                 getImageUrl(
                   'https://files.geocollections.info/img/geocase/taltech1.png'
@@ -39,6 +40,7 @@
             href="https://www.museumfuernaturkunde.berlin/"
             target="FooterWindow"
             ><v-img
+              :alt="$t('footer.mfnLogoAltText')"
               :src="
                 getImageUrl(
                   'https://files.geocollections.info/img/geocase/mfn1.png'
@@ -54,11 +56,11 @@
 </template>
 
 <script>
-import imageUrlMixin from "@/mixins/imageUrlMixin";
+import imageMixin from "@/mixins/imageMixin";
 
 export default {
   name: "AppFooter",
-  mixins: [imageUrlMixin]
+  mixins: [imageMixin]
 };
 </script>
 
