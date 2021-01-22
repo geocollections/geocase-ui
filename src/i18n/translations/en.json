@@ -26,22 +26,26 @@
       "fossils": {
         "title": "Fossils",
         "text": "Fossils are remains or traces of once lived organisms. They include bones, shells, burrows, and occasionally mineralised soft bodies.",
-        "button": "View Fossils"
+        "button": "View Fossils",
+        "imageAltText": "Fossil"
       },
       "minerals": {
         "title": "Minerals",
         "text": "Minerals have certain chemical composition and crystal structure. They are the basic building blocks of all rocks.",
-        "button": "View Minerals"
+        "button": "View Minerals",
+        "imageAltText": "Mineral"
       },
       "rocks": {
         "title": "Rocks",
         "text": "Rocks and sediments make up solid Earth. They may be magmatic, sedimentary or metamorphic.",
-        "button": "View Rocks"
+        "button": "View Rocks",
+        "imageAltText": "Rock"
       },
       "meteorites": {
         "title": "Meteorites",
         "text": "Meteorites are space rocks that have fallen on Earth. They are composed of the same minerals as earthly rocks.",
-        "button": "View Meteorites"
+        "button": "View Meteorites",
+        "imageAltText": "Meteorite"
       }
     },
     "map": {

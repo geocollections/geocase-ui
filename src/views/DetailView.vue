@@ -133,6 +133,7 @@
                     :max-height="$vuetify.breakpoint.mdAndDown ? '75' : '100'"
                     :max-width="$vuetify.breakpoint.mdAndDown ? '75' : '100'"
                     contain
+                    :alt="`${item.datasetowner} logo`"
                   ></v-img>
                 </div>
               </div>

@@ -26,22 +26,26 @@
       "fossils": {
         "title": "Fossiilid",
         "text": "Kivistised on kunagi elanud organismide jäänused või jäljed. Nende hulka kuuluvad luud, kestad, urud ja aeg-ajalt mineraliseerunud pehmed kehad.",
-        "button": "Vaata fossiile"
+        "button": "Vaata fossiile",
+        "imageAltText": "Fossiil"
       },
       "minerals": {
         "title": "Mineraalid",
         "text": "Mineraalidel on kindel keemiline koostis ja kristallstruktuur. Need on kõigi kivimite aluseks.",
-        "button": "Vaata Mineraale"
+        "button": "Vaata Mineraale",
+        "imageAltText": "Mineraal"
       },
       "rocks": {
         "title": "Kivimid",
         "text": "Kivimid ja setted moodustavad kindla Maa. Need võivad olla magmaatilised, settelised või moondelised.",
-        "button": "Vaata kivimeid"
+        "button": "Vaata kivimeid",
+        "imageAltText": "Kivim"
       },
       "meteorites": {
         "title": "Meteoriidid",
         "text": "Meteoriidid on Maale langenud kosmosekivimid, mis koosnevad samadest mineraalidest nagu maised kivimid.",
-        "button": "Vaata meteoriite"
+        "button": "Vaata meteoriite",
+        "imageAltText": "Meteoriit"
       }
     },
     "map": {

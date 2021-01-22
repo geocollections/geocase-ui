@@ -26,22 +26,26 @@
       "fossils": {
         "title": "Fossilien",
         "text": "Fossilien sind Überreste oder Spuren von einst lebenden Organismen. Sie umfassen Knochen, Muscheln, Höhlen und gelegentlich mineralisierte Weichkörper.",
-        "button": "Fossilien ansehen"
+        "button": "Fossilien ansehen",
+        "imageAltText": "Fossil"
       },
       "minerals": {
         "title": "Minerale",
         "text": "Minerale haben eine bestimmte chemische Zusammensetzung und Kristallstruktur. Sie sind die Grundbausteine aller Gesteine.",
-        "button": "Minerale ansehen"
+        "button": "Minerale ansehen",
+        "imageAltText": "Mineral"
       },
       "rocks": {
         "title": "Gesteine",
         "text": "Gesteine und Sedimente bilden die feste Erde. Sie können magmatisch, sedimentär oder metamorph sein.",
-        "button": "Gesteine ansehen"
+        "button": "Gesteine ansehen",
+        "imageAltText": "Rock"
       },
       "meteorites": {
         "title": "Meteoriten",
         "text": "Meteoriten sind Weltraumgestein, das auf die Erde gefallen ist. Sie bestehen aus den gleichen Mineralen wie irdische Gesteine.",
-        "button": "Meteoriten ansehen"
+        "button": "Meteoriten ansehen",
+        "imageAltText": "Meteorite"
       }
     },
     "map": {

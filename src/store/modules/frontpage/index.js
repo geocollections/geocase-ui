@@ -154,25 +154,29 @@ const getters = {
         ...state.cards.fossil,
         title: i18n.t("frontPage.cards.fossils.title"),
         text: i18n.t("frontPage.cards.fossils.text"),
-        button: i18n.t("frontPage.cards.fossils.button")
+        button: i18n.t("frontPage.cards.fossils.button"),
+        imageAltText: i18n.t("frontPage.cards.fossils.button.imageAltText")
       },
       mineral: {
         ...state.cards.mineral,
         title: i18n.t("frontPage.cards.minerals.title"),
         text: i18n.t("frontPage.cards.minerals.text"),
-        button: i18n.t("frontPage.cards.minerals.button")
+        button: i18n.t("frontPage.cards.minerals.button"),
+        imageAltText: i18n.t("frontPage.cards.minerals.button.imageAltText")
       },
       rock: {
         ...state.cards.rock,
         title: i18n.t("frontPage.cards.rocks.title"),
         text: i18n.t("frontPage.cards.rocks.text"),
-        button: i18n.t("frontPage.cards.rocks.button")
+        button: i18n.t("frontPage.cards.rocks.button"),
+        imageAltText: i18n.t("frontPage.cards.rocks.button.imageAltText")
       },
       meteorite: {
         ...state.cards.meteorite,
         title: i18n.t("frontPage.cards.meteorites.title"),
         text: i18n.t("frontPage.cards.meteorites.text"),
-        button: i18n.t("frontPage.cards.meteorites.button")
+        button: i18n.t("frontPage.cards.meteorites.button"),
+        imageAltText: i18n.t("frontPage.cards.meteorites.imageAltText")
       }
     };
   }
