@@ -1,7 +1,6 @@
 <template>
   <MglPopup
     :close-on-click="popup.closeOnClick"
-    :offset="popup.offset"
     :coordinates="popup.coordinates"
     :max-width="popupMaxWidth"
   >

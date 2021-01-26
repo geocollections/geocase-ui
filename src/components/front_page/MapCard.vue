@@ -69,7 +69,7 @@ export default {
         closeOnClick: false,
         coordinates: [15, 45],
         anchor: "left",
-        offset: [7, 0],
+        // offset: [7, 0],
         maxWidth: "400px"
       },
       activePopupData: {
