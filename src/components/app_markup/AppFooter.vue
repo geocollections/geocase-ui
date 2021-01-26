@@ -22,7 +22,17 @@
         |
         <span v-html="$t('footer.created_html')" />
         <br />
-        <div class="d-flex flex-row justify-center">
+        <div style="max-height: 100px;" class="d-flex flex-row justify-center">
+          <a
+            href="https://taltech.ee/en/department-geology"
+            target="FooterWindow"
+            ><v-img
+              :alt="$t('footer.taltechLogoAltText')"
+              :src="require('@/assets/cetaf_logo.png')"
+              height="100"
+              max-width="175"
+              contain
+          /></a>
           <a
             href="https://taltech.ee/en/department-geology"
             target="FooterWindow"
@@ -34,6 +44,7 @@
                 )
               "
               height="100"
+              max-width="175"
               contain
           /></a>
           <a
@@ -46,7 +57,8 @@
                   'https://files.geocollections.info/img/geocase/mfn1.png'
                 )
               "
-              height="110"
+              height="100"
+              max-width="175"
               contain
           /></a>
         </div>
