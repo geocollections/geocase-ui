@@ -123,13 +123,6 @@ const getters = {
         name: "Imprint",
         icon: "fas fa-stamp",
         isStatic: true
-      },
-      {
-        text: i18n.t("header.howto"),
-        to: "/howto",
-        name: "Howto",
-        icon: "fas fa-info",
-        isStatic: true
       }
     ];
   },

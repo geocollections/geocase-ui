@@ -133,16 +133,5 @@ module.exports = [
         changefreq: "monthly"
       }
     }
-  },
-  {
-    path: `/:locale/howto`,
-    name: "HowTo",
-    meta: {
-      sitemap: {
-        slugs: ["", "ee", "en", "de"],
-        priority: 0.5,
-        changefreq: "monthly"
-      }
-    }
   }
 ];

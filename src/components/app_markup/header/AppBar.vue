@@ -76,8 +76,8 @@
           exact
           >{{ $t("header.partners") }}</v-btn
         >
-        <v-btn class="hidden-xs-only" text to="/howto" exact>{{
-          $t("header.howto")
+        <v-btn class="hidden-xs-only" text to="/tutorial" exact>{{
+          $t("header.tutorial")
         }}</v-btn>
       </v-toolbar-items>
 

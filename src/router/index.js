@@ -85,11 +85,6 @@ const router = new Router({
           path: `efg`,
           name: "Efg",
           component: Efg
-        },
-        {
-          path: `howto`,
-          name: "HowTo",
-          component: HowTo
         }
       ]
     }
@@ -103,7 +98,6 @@ import Project from "@/views/Project";
 import Links from "@/views/Links";
 import Imprint from "@/views/Imprint";
 import Efg from "@/views/Efg";
-import HowTo from "@/views/HowTo";
 import StaticPage from "@/views/StaticPage";
 
 router.beforeEach((to, from, next) => {
