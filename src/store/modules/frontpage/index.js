@@ -155,21 +155,21 @@ const getters = {
         title: i18n.t("frontPage.cards.fossils.title"),
         text: i18n.t("frontPage.cards.fossils.text"),
         button: i18n.t("frontPage.cards.fossils.button"),
-        imageAltText: i18n.t("frontPage.cards.fossils.button.imageAltText")
+        imageAltText: i18n.t("frontPage.cards.fossils.imageAltText")
       },
       mineral: {
         ...state.cards.mineral,
         title: i18n.t("frontPage.cards.minerals.title"),
         text: i18n.t("frontPage.cards.minerals.text"),
         button: i18n.t("frontPage.cards.minerals.button"),
-        imageAltText: i18n.t("frontPage.cards.minerals.button.imageAltText")
+        imageAltText: i18n.t("frontPage.cards.minerals.imageAltText")
       },
       rock: {
         ...state.cards.rock,
         title: i18n.t("frontPage.cards.rocks.title"),
         text: i18n.t("frontPage.cards.rocks.text"),
         button: i18n.t("frontPage.cards.rocks.button"),
-        imageAltText: i18n.t("frontPage.cards.rocks.button.imageAltText")
+        imageAltText: i18n.t("frontPage.cards.rocks.imageAltText")
       },
       meteorite: {
         ...state.cards.meteorite,
