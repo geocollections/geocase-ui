@@ -77,24 +77,10 @@ const getters = {
         isStatic: true
       },
       {
-        text: i18n.t("header.join"),
-        to: "/join",
-        name: "Join",
-        icon: "fas fa-signature",
-        isStatic: true
-      },
-      {
         text: i18n.t("header.tutorial"),
         to: "/tutorial",
         name: "Tutorial",
         icon: "far fa-question-circle",
-        isStatic: true
-      },
-      {
-        text: i18n.t("header.project"),
-        to: "/project",
-        name: "Project",
-        icon: "fas fa-project-diagram",
         isStatic: true
       },
       {

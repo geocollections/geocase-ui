@@ -57,19 +57,9 @@ const router = new Router({
           component: Access
         },
         {
-          path: `join`,
-          name: "Join",
-          component: Join
-        },
-        {
           path: `tutorial`,
           name: "Tutorial",
           component: Tutorial
-        },
-        {
-          path: `project`,
-          name: "Project",
-          component: Project
         },
         {
           path: `links`,
@@ -92,9 +82,7 @@ const router = new Router({
 });
 
 import store from "@/store/index";
-import Join from "@/views/Join";
 import Tutorial from "@/views/Tutorial";
-import Project from "@/views/Project";
 import Links from "@/views/Links";
 import Imprint from "@/views/Imprint";
 import Efg from "@/views/Efg";
