@@ -1,6 +1,4 @@
 const routes = require("./src/router/sitemapRoutes");
-const path = require("path");
-const PrerenderSPAPlugin = require("prerender-spa-plugin");
 
 module.exports = {
   transpileDependencies: ["vuetify"],
