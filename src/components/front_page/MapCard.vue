@@ -94,6 +94,13 @@ export default {
     // Storing map objects as non-reactive properties. (Docs suggested)
     this.map = null;
   },
+  beforeDestroy() {
+    if (this.map) {
+      this.map.off("mouseenter", "geocase-distinct", this.setActivePopupData);
+      this.map.off("mouseleave", "geocase-distinct", this.handleMouseLeave);
+      this.map.off("click", "geocase-distinct", this.setActivePopupData);
+    }
+  },
   methods: {
     ...mapActions("frontpage", ["getLocalitySpecimens"]),
 
@@ -112,8 +119,6 @@ export default {
     },
 
     setActivePopupData(e) {
-      console.log(e);
-      console.log(this.$refs);
       if (e.type === "mouseenter")
         this.map.getCanvas().style.cursor = "pointer";
 

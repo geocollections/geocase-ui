@@ -1,7 +1,6 @@
 <template>
   <MglPopup
     :close-on-click="popup.closeOnClick"
-    :anchor="popup.anchor"
     :offset="popup.offset"
     :coordinates="popup.coordinates"
     :max-width="popupMaxWidth"
@@ -13,22 +12,15 @@
         <div>Long: {{ activePopupData.lng }}</div>
       </v-card-text>
 
-      <v-card
-        :max-width="popupMaxWidth"
-        flat
-        v-if="
-          mapResults[activePopupData.id] &&
-            mapResults[activePopupData.id].numFound > 0
-        "
-      >
+      <v-card :max-width="popupMaxWidth" flat v-if="activeNumFound">
         <v-card-title class="text-subtitle-1 pb-2">
           {{ $t("frontPage.map.numFound") }}
-          <b class="ml-1">{{ mapResults[activePopupData.id].numFound }}</b>
+          <b class="ml-1">{{ activeNumFound }}</b>
         </v-card-title>
 
         <v-data-table
           disable-filtering
-          :hide-default-footer="mapResults[activePopupData.id].numFound <= 10"
+          :hide-default-footer="activeNumFound <= 10"
           disable-sort
           fixed-header
           height="200"
@@ -42,7 +34,7 @@
               value: 'fullscientificname'
             }
           ]"
-          :items="mapResults[activePopupData.id].docs"
+          :items="activeDocs"
           :footer-props="{
             itemsPerPageOptions: [10, 25, 50, -1],
             itemsPerPageText: $t('frontPage.map.itemsPerPageText'),
@@ -111,13 +103,7 @@
         </v-data-table>
       </v-card>
 
-      <v-card-actions
-        class="justify-end"
-        v-if="
-          !mapResults[activePopupData.id] ||
-            mapResults[activePopupData.id].numFound === 0
-        "
-      >
+      <v-card-actions class="justify-end" v-if="activeNumFound === 0">
         <v-btn small text color="primary" @click="$emit('clicked:searchButton')"
           ><v-icon x-small class="mr-1">fas fa-search</v-icon
           >{{ $t("frontPage.map.search") }}</v-btn
@@ -149,6 +135,15 @@ export default {
       type: String,
       required: false,
       default: "400px"
+    }
+  },
+  computed: {
+    activeNumFound() {
+      return this.mapResults?.[this.activePopupData?.id]?.numFound || 0;
+    },
+
+    activeDocs() {
+      return this.mapResults?.[this.activePopupData?.id]?.docs || [];
     }
   },
   methods: {
