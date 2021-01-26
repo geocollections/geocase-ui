@@ -3,6 +3,8 @@
     :close-on-click="popup.closeOnClick"
     :coordinates="popup.coordinates"
     :max-width="popupMaxWidth"
+    :close-on-move="false"
+    :focus-after-open="false"
   >
     <v-card :max-width="popupMaxWidth">
       <v-card-title>{{ activePopupData.locality }}</v-card-title>
@@ -12,7 +14,7 @@
       </v-card-text>
 
       <v-card :max-width="popupMaxWidth" flat v-if="activeNumFound">
-        <v-card-title class="text-subtitle-1 pb-2">
+        <v-card-title class="text-subtitle-1 pb-2 text-no-wrap">
           {{ $t("frontPage.map.numFound") }}
           <b class="ml-1">{{ activeNumFound }}</b>
         </v-card-title>
