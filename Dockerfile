@@ -1,7 +1,7 @@
 
 #
 # ---- Base ----
-FROM node:lts-alpine AS base
+FROM node:lts AS base
 WORKDIR /app
 COPY package.json .
 
