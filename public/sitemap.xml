@@ -1,266 +1,194 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 	<url>
-		<loc>https://new.geocase.eu</loc>
-		<lastmod>2021-01-15</lastmod>
+		<loc>https://geocase.eu</loc>
+		<lastmod>2021-01-28</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>0.5</priority>
 	</url>
 	<url>
-		<loc>https://new.geocase.eu/ee</loc>
-		<lastmod>2021-01-15</lastmod>
+		<loc>https://geocase.eu/ee</loc>
+		<lastmod>2021-01-28</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>0.5</priority>
 	</url>
 	<url>
-		<loc>https://new.geocase.eu/en</loc>
-		<lastmod>2021-01-15</lastmod>
+		<loc>https://geocase.eu/en</loc>
+		<lastmod>2021-01-28</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>0.5</priority>
 	</url>
 	<url>
-		<loc>https://new.geocase.eu/de</loc>
-		<lastmod>2021-01-15</lastmod>
+		<loc>https://geocase.eu/de</loc>
+		<lastmod>2021-01-28</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>0.5</priority>
 	</url>
 	<url>
-		<loc>https://new.geocase.eu/search</loc>
-		<lastmod>2021-01-15</lastmod>
+		<loc>https://geocase.eu/search</loc>
+		<lastmod>2021-01-28</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>0.5</priority>
 	</url>
 	<url>
-		<loc>https://new.geocase.eu/ee/search</loc>
-		<lastmod>2021-01-15</lastmod>
+		<loc>https://geocase.eu/ee/search</loc>
+		<lastmod>2021-01-28</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>0.5</priority>
 	</url>
 	<url>
-		<loc>https://new.geocase.eu/en/search</loc>
-		<lastmod>2021-01-15</lastmod>
+		<loc>https://geocase.eu/en/search</loc>
+		<lastmod>2021-01-28</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>0.5</priority>
 	</url>
 	<url>
-		<loc>https://new.geocase.eu/de/search</loc>
-		<lastmod>2021-01-15</lastmod>
+		<loc>https://geocase.eu/de/search</loc>
+		<lastmod>2021-01-28</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>0.5</priority>
 	</url>
 	<url>
-		<loc>https://new.geocase.eu/partners_and_providers</loc>
-		<lastmod>2021-01-15</lastmod>
+		<loc>https://geocase.eu/partners_and_providers</loc>
+		<lastmod>2021-01-28</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>0.5</priority>
 	</url>
 	<url>
-		<loc>https://new.geocase.eu/ee/partners_and_providers</loc>
-		<lastmod>2021-01-15</lastmod>
+		<loc>https://geocase.eu/ee/partners_and_providers</loc>
+		<lastmod>2021-01-28</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>0.5</priority>
 	</url>
 	<url>
-		<loc>https://new.geocase.eu/en/partners_and_providers</loc>
-		<lastmod>2021-01-15</lastmod>
+		<loc>https://geocase.eu/en/partners_and_providers</loc>
+		<lastmod>2021-01-28</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>0.5</priority>
 	</url>
 	<url>
-		<loc>https://new.geocase.eu/de/partners_and_providers</loc>
-		<lastmod>2021-01-15</lastmod>
+		<loc>https://geocase.eu/de/partners_and_providers</loc>
+		<lastmod>2021-01-28</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>0.5</priority>
 	</url>
 	<url>
-		<loc>https://new.geocase.eu/about</loc>
-		<lastmod>2021-01-15</lastmod>
+		<loc>https://geocase.eu/about</loc>
+		<lastmod>2021-01-28</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>0.5</priority>
 	</url>
 	<url>
-		<loc>https://new.geocase.eu/ee/about</loc>
-		<lastmod>2021-01-15</lastmod>
+		<loc>https://geocase.eu/ee/about</loc>
+		<lastmod>2021-01-28</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>0.5</priority>
 	</url>
 	<url>
-		<loc>https://new.geocase.eu/en/about</loc>
-		<lastmod>2021-01-15</lastmod>
+		<loc>https://geocase.eu/en/about</loc>
+		<lastmod>2021-01-28</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>0.5</priority>
 	</url>
 	<url>
-		<loc>https://new.geocase.eu/de/about</loc>
-		<lastmod>2021-01-15</lastmod>
+		<loc>https://geocase.eu/de/about</loc>
+		<lastmod>2021-01-28</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>0.5</priority>
 	</url>
 	<url>
-		<loc>https://new.geocase.eu/access</loc>
-		<lastmod>2021-01-15</lastmod>
+		<loc>https://geocase.eu/access</loc>
+		<lastmod>2021-01-28</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>0.5</priority>
 	</url>
 	<url>
-		<loc>https://new.geocase.eu/ee/access</loc>
-		<lastmod>2021-01-15</lastmod>
+		<loc>https://geocase.eu/ee/access</loc>
+		<lastmod>2021-01-28</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>0.5</priority>
 	</url>
 	<url>
-		<loc>https://new.geocase.eu/en/access</loc>
-		<lastmod>2021-01-15</lastmod>
+		<loc>https://geocase.eu/en/access</loc>
+		<lastmod>2021-01-28</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>0.5</priority>
 	</url>
 	<url>
-		<loc>https://new.geocase.eu/de/access</loc>
-		<lastmod>2021-01-15</lastmod>
+		<loc>https://geocase.eu/de/access</loc>
+		<lastmod>2021-01-28</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>0.5</priority>
 	</url>
 	<url>
-		<loc>https://new.geocase.eu/join</loc>
-		<lastmod>2021-01-15</lastmod>
+		<loc>https://geocase.eu/tutorial</loc>
+		<lastmod>2021-01-28</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>0.5</priority>
 	</url>
 	<url>
-		<loc>https://new.geocase.eu/ee/join</loc>
-		<lastmod>2021-01-15</lastmod>
+		<loc>https://geocase.eu/ee/tutorial</loc>
+		<lastmod>2021-01-28</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>0.5</priority>
 	</url>
 	<url>
-		<loc>https://new.geocase.eu/en/join</loc>
-		<lastmod>2021-01-15</lastmod>
+		<loc>https://geocase.eu/en/tutorial</loc>
+		<lastmod>2021-01-28</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>0.5</priority>
 	</url>
 	<url>
-		<loc>https://new.geocase.eu/de/join</loc>
-		<lastmod>2021-01-15</lastmod>
+		<loc>https://geocase.eu/de/tutorial</loc>
+		<lastmod>2021-01-28</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>0.5</priority>
 	</url>
 	<url>
-		<loc>https://new.geocase.eu/tutorial</loc>
-		<lastmod>2021-01-15</lastmod>
+		<loc>https://geocase.eu/links</loc>
+		<lastmod>2021-01-28</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>0.5</priority>
 	</url>
 	<url>
-		<loc>https://new.geocase.eu/ee/tutorial</loc>
-		<lastmod>2021-01-15</lastmod>
+		<loc>https://geocase.eu/ee/links</loc>
+		<lastmod>2021-01-28</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>0.5</priority>
 	</url>
 	<url>
-		<loc>https://new.geocase.eu/en/tutorial</loc>
-		<lastmod>2021-01-15</lastmod>
+		<loc>https://geocase.eu/en/links</loc>
+		<lastmod>2021-01-28</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>0.5</priority>
 	</url>
 	<url>
-		<loc>https://new.geocase.eu/de/tutorial</loc>
-		<lastmod>2021-01-15</lastmod>
+		<loc>https://geocase.eu/de/links</loc>
+		<lastmod>2021-01-28</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>0.5</priority>
 	</url>
 	<url>
-		<loc>https://new.geocase.eu/project</loc>
-		<lastmod>2021-01-15</lastmod>
+		<loc>https://geocase.eu/efg</loc>
+		<lastmod>2021-01-28</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>0.5</priority>
 	</url>
 	<url>
-		<loc>https://new.geocase.eu/ee/project</loc>
-		<lastmod>2021-01-15</lastmod>
+		<loc>https://geocase.eu/ee/efg</loc>
+		<lastmod>2021-01-28</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>0.5</priority>
 	</url>
 	<url>
-		<loc>https://new.geocase.eu/en/project</loc>
-		<lastmod>2021-01-15</lastmod>
+		<loc>https://geocase.eu/en/efg</loc>
+		<lastmod>2021-01-28</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>0.5</priority>
 	</url>
 	<url>
-		<loc>https://new.geocase.eu/de/project</loc>
-		<lastmod>2021-01-15</lastmod>
-		<changefreq>daily</changefreq>
-		<priority>0.5</priority>
-	</url>
-	<url>
-		<loc>https://new.geocase.eu/links</loc>
-		<lastmod>2021-01-15</lastmod>
-		<changefreq>daily</changefreq>
-		<priority>0.5</priority>
-	</url>
-	<url>
-		<loc>https://new.geocase.eu/ee/links</loc>
-		<lastmod>2021-01-15</lastmod>
-		<changefreq>daily</changefreq>
-		<priority>0.5</priority>
-	</url>
-	<url>
-		<loc>https://new.geocase.eu/en/links</loc>
-		<lastmod>2021-01-15</lastmod>
-		<changefreq>daily</changefreq>
-		<priority>0.5</priority>
-	</url>
-	<url>
-		<loc>https://new.geocase.eu/de/links</loc>
-		<lastmod>2021-01-15</lastmod>
-		<changefreq>daily</changefreq>
-		<priority>0.5</priority>
-	</url>
-	<url>
-		<loc>https://new.geocase.eu/imprint</loc>
-		<lastmod>2021-01-15</lastmod>
-		<changefreq>daily</changefreq>
-		<priority>0.5</priority>
-	</url>
-	<url>
-		<loc>https://new.geocase.eu/ee/imprint</loc>
-		<lastmod>2021-01-15</lastmod>
-		<changefreq>daily</changefreq>
-		<priority>0.5</priority>
-	</url>
-	<url>
-		<loc>https://new.geocase.eu/en/imprint</loc>
-		<lastmod>2021-01-15</lastmod>
-		<changefreq>daily</changefreq>
-		<priority>0.5</priority>
-	</url>
-	<url>
-		<loc>https://new.geocase.eu/de/imprint</loc>
-		<lastmod>2021-01-15</lastmod>
-		<changefreq>daily</changefreq>
-		<priority>0.5</priority>
-	</url>
-	<url>
-		<loc>https://new.geocase.eu/efg</loc>
-		<lastmod>2021-01-15</lastmod>
-		<changefreq>daily</changefreq>
-		<priority>0.5</priority>
-	</url>
-	<url>
-		<loc>https://new.geocase.eu/ee/efg</loc>
-		<lastmod>2021-01-15</lastmod>
-		<changefreq>daily</changefreq>
-		<priority>0.5</priority>
-	</url>
-	<url>
-		<loc>https://new.geocase.eu/en/efg</loc>
-		<lastmod>2021-01-15</lastmod>
-		<changefreq>daily</changefreq>
-		<priority>0.5</priority>
-	</url>
-	<url>
-		<loc>https://new.geocase.eu/de/efg</loc>
-		<lastmod>2021-01-15</lastmod>
+		<loc>https://geocase.eu/de/efg</loc>
+		<lastmod>2021-01-28</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>0.5</priority>
 	</url>
