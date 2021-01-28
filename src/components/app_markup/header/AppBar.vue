@@ -39,11 +39,7 @@
               class="font-weight-bold link mr-3 white--text align-self-center"
               style="letter-spacing: 1px"
             >
-              <router-link
-                exact
-                to="/"
-                class="white--text text-decoration-none"
-              >
+              <router-link to="/" class="white--text text-decoration-none">
                 <span
                   class="hidden-xs-only"
                   :class="{ 'small-font': $vuetify.breakpoint.smOnly }"
@@ -63,10 +59,10 @@
         <v-btn class="hidden-xs-only" text to="/search">{{
           $t("header.search")
         }}</v-btn>
-        <v-btn class="hidden-md-and-down" text to="/about" exact>{{
+        <v-btn class="hidden-md-and-down" text to="/about">{{
           $t("header.about")
         }}</v-btn>
-        <v-btn class="hidden-md-and-down" text to="/access" exact>{{
+        <v-btn class="hidden-md-and-down" text to="/access">{{
           $t("header.access")
         }}</v-btn>
         <v-btn
@@ -76,7 +72,7 @@
           exact
           >{{ $t("header.partners") }}</v-btn
         >
-        <v-btn class="hidden-xs-only" text to="/tutorial" exact>{{
+        <v-btn class="hidden-xs-only" text to="/tutorial">{{
           $t("header.tutorial")
         }}</v-btn>
       </v-toolbar-items>
