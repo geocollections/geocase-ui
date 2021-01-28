@@ -14,7 +14,7 @@
         class="fast-search-input"
         :class="{ 'in-app-header': inAppHeader }"
         v-model="fastSearch"
-        :label="$t('frontPage.findQuickly')"
+        :label="$t('frontPage.quickSearch')"
         :append-outer-icon="!inAppHeader ? 'far fa-question-circle' : ''"
         @click:append-outer="handleHelpButtonClick"
         append-icon="fas fa-search"

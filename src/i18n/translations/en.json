@@ -19,6 +19,7 @@
     },
     "title": "The Earth Science Collections Portal",
     "findQuickly": "Find quickly...",
+    "quickSearch": "Quick search...",
     "totalRecords": "Total Records",
     "institutionCount": "Number of Institutions",
     "countryCount": "Countries with data",
@@ -61,7 +62,8 @@
     "collab_html": "GeoCASe 2.0 is collaborative effort of the <a href='https://cetaf.org' target='FooterWindow'>CETAF Earth Sciences Group</a>.",
     "created_html": "<a href='https://github.com/geocollections/geocase-ui' target='FooterWindow'>Portal software</a> created and hosted by <a href='https://taltech.ee/en/department-geology' target='FooterWindow'>TalTech</a> and <a href='https://www.museumfuernaturkunde.berlin/' target='FooterWindow'>MfN</a>.",
     "taltechLogoAltText": "Tallinn University of Technology logo",
-    "mfnLogoAltText": "Museum für Naturkunde Berlin logo"
+    "mfnLogoAltText": "Museum für Naturkunde Berlin logo",
+    "cetagLogoAltText": "Consortium of European Taxonomic Facilities"
   },
   "header": {
     "home": "Home",

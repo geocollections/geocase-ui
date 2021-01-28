@@ -22,45 +22,22 @@
         |
         <span v-html="$t('footer.created_html')" />
         <br />
-        <div style="max-height: 100px;" class="d-flex flex-row justify-center">
+        <div style="height: 100px;" class="d-flex flex-row justify-center">
           <a
-            href="https://taltech.ee/en/department-geology"
+            v-for="(item, index) in footerLogos"
+            :key="index"
+            :href="item.href"
             target="FooterWindow"
-            ><v-img
-              :alt="$t('footer.taltechLogoAltText')"
-              :src="require('@/assets/cetaf_logo.png')"
-              height="100"
+            class="align-self-center"
+          >
+            <v-img
+              :alt="$t(item.alt)"
+              :src="item.src"
+              height="90"
               max-width="175"
               contain
-          /></a>
-          <a
-            href="https://taltech.ee/en/department-geology"
-            target="FooterWindow"
-            ><v-img
-              :alt="$t('footer.taltechLogoAltText')"
-              :src="
-                getImageUrl(
-                  'https://files.geocollections.info/img/geocase/taltech1.png'
-                )
-              "
-              height="100"
-              max-width="175"
-              contain
-          /></a>
-          <a
-            href="https://www.museumfuernaturkunde.berlin/"
-            target="FooterWindow"
-            ><v-img
-              :alt="$t('footer.mfnLogoAltText')"
-              :src="
-                getImageUrl(
-                  'https://files.geocollections.info/img/geocase/mfn1.png'
-                )
-              "
-              height="100"
-              max-width="175"
-              contain
-          /></a>
+            ></v-img>
+          </a>
         </div>
       </v-card-text>
     </v-card>
@@ -72,7 +49,32 @@ import imageMixin from "@/mixins/imageMixin";
 
 export default {
   name: "AppFooter",
-  mixins: [imageMixin]
+  mixins: [imageMixin],
+  computed: {
+    footerLogos() {
+      return [
+        {
+          href: "https://cetaf.org/",
+          alt: "footer.cetafLogoAltText",
+          src: require("@/assets/cetaf_logo.png")
+        },
+        {
+          href: "https://taltech.ee/en/department-geology",
+          alt: "footer.taltechLogoAltText",
+          src: this.getImageUrl(
+            "https://files.geocollections.info/img/geocase/taltech1.png"
+          )
+        },
+        {
+          href: "https://www.museumfuernaturkunde.berlin/",
+          alt: "footer.mfnLogoAltText",
+          src: this.getImageUrl(
+            "https://files.geocollections.info/img/geocase/mfn1.png"
+          )
+        }
+      ];
+    }
+  }
 };
 </script>
 
