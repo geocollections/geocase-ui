@@ -14,10 +14,7 @@
             <div class="font-weight-bold" style="font-size: 1.25rem;">
               {{ $t("frontPage.prototype_alert.title") }}
             </div>
-            <div>
-              <!-- TODO:  This is GeoCASe 2.0 beta interface. Please report problems in GitHub (https://github.com/geocollections/geocase-ui). The old portal is accessible at: http://old.geocase.eu. -->
-              {{ $t("frontPage.prototype_alert.text") }}
-            </div>
+            <div v-html="$t('frontPage.prototype_alert.text')" />
           </v-alert>
         </v-col>
       </v-row>

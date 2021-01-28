@@ -14,8 +14,8 @@
   },
   "frontPage": {
     "prototype_alert": {
-      "title": "This is GeoCASe 2.0 prototype interface. It has incomplete functionality and data, and is intended for testing purposes only.",
-      "text": "This box will be replaced by brief introduction about GeoCASe."
+      "title": "This is GeoCASe 2.0 beta interface.",
+      "text": "Please report problems in <a href=\"https://github.com/geocollections/geocase-ui\" target=\"_blank\">GitHub</a>. The old portal is accessible at: <a href=\"http://old.geocase.eu\" target=\"_blank\">http://old.geocase.eu</a>."
     },
     "title": "The Earth Science Collections Portal",
     "findQuickly": "Schnellsuche...",

@@ -14,8 +14,8 @@
   },
   "frontPage": {
     "prototype_alert": {
-      "title": "See on GeoCASe 2.0 prototüüp. Funktsionaalsus ja andmestik ei ole veel täielik ning on mõeldud ainult testimiseks.",
-      "text": "See infokast asendatakse GeoCase lühitutvustusega."
+      "title": "This is GeoCASe 2.0 beta interface.",
+      "text": "Please report problems in <a href=\"https://github.com/geocollections/geocase-ui\" target=\"_blank\">GitHub</a>. The old portal is accessible at: <a href=\"http://old.geocase.eu\" target=\"_blank\">http://old.geocase.eu</a>."
     },
     "title": "Euroopa Geokogude Portaal",
     "findQuickly": "Leia kiirelt...",
