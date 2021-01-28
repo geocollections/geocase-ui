@@ -57,19 +57,9 @@ const router = new Router({
           component: Access
         },
         {
-          path: `join`,
-          name: "Join",
-          component: Join
-        },
-        {
           path: `tutorial`,
           name: "Tutorial",
           component: Tutorial
-        },
-        {
-          path: `project`,
-          name: "Project",
-          component: Project
         },
         {
           path: `links`,
@@ -77,19 +67,9 @@ const router = new Router({
           component: Links
         },
         {
-          path: `imprint`,
-          name: "Imprint",
-          component: Imprint
-        },
-        {
           path: `efg`,
           name: "Efg",
           component: Efg
-        },
-        {
-          path: `howto`,
-          name: "HowTo",
-          component: HowTo
         }
       ]
     }
@@ -97,13 +77,9 @@ const router = new Router({
 });
 
 import store from "@/store/index";
-import Join from "@/views/Join";
 import Tutorial from "@/views/Tutorial";
-import Project from "@/views/Project";
 import Links from "@/views/Links";
-import Imprint from "@/views/Imprint";
 import Efg from "@/views/Efg";
-import HowTo from "@/views/HowTo";
 import StaticPage from "@/views/StaticPage";
 
 router.beforeEach((to, from, next) => {

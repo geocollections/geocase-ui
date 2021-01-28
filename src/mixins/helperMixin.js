@@ -1,7 +1,7 @@
-import imageUrlMixin from "@/mixins/imageUrlMixin";
+import imageMixin from "@/mixins/imageMixin";
 
 const helperMixin = {
-  mixins: [imageUrlMixin],
+  mixins: [imageMixin],
 
   data: () => ({
     detailViewImages: []
@@ -27,7 +27,8 @@ const helperMixin = {
               thumbnailImage: this.getImageUrl(image),
               originalImage: image,
               imageWidth: img.width ? img.width : null,
-              imageHeight: img.height ? img.height : null
+              imageHeight: img.height ? img.height : null,
+              altText: this.getImageAltText(this.item)
             };
           })
         );
@@ -50,7 +51,8 @@ const helperMixin = {
             allImages.push({
               ...item,
               thumbnailImage: this.getImageUrl(image),
-              originalImage: image
+              originalImage: image,
+              altText: this.getImageAltText(item)
             });
           })
         );

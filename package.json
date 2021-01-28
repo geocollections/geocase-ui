@@ -19,7 +19,7 @@
     "leaflet.markercluster": "^1.4.1",
     "lodash": "^4.17.20",
     "mapbox-gl": "1.13.0",
-    "v-mapbox": "^1.6.4",
+    "v-mapbox": "enmust/v-mapbox.git",
     "vue": "^2.6.12",
     "vue-i18n": "^8.22.3",
     "vue-izitoast": "^1.2.1",

@@ -9,22 +9,13 @@
       >
         {{ $t("cookiePolicy.introduction") }}
 
-        <v-dialog
-          v-model="cookieDialog"
-          max-width="500px"
-          style="z-index: 150000;"
-        >
-          <template v-slot:activator="{ on }">
-            <a class="table-link" v-on="on" title="Read Our Cookie Policy"
-              >{{ $t("cookiePolicy.readMoreButton") }}
-              <v-icon small color="primary">fas fa-cookie-bite</v-icon>
-            </a>
-          </template>
-          <v-card>
-            <v-card-title>{{ $t("cookiePolicy.title") }}</v-card-title>
-            <v-card-text>{{ $t("cookiePolicy.text") }}</v-card-text>
-          </v-card>
-        </v-dialog>
+        <router-link
+          to="/access"
+          class="table-link text-decoration-none"
+          :title="$t('cookiePolicy.readMoreButton')"
+          >{{ $t("cookiePolicy.readMoreButton") }}
+          <v-icon small color="primary">fas fa-cookie-bite</v-icon>
+        </router-link>
       </div>
 
       <div class="align-self-center">
@@ -42,10 +33,7 @@
 
 <script>
 export default {
-  name: "CookieLaw",
-  data: () => ({
-    cookieDialog: false
-  })
+  name: "CookieLaw"
 };
 </script>
 

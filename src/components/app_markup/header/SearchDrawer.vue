@@ -13,13 +13,13 @@
     color="blue-grey lighten-4"
   >
     <v-list expand>
-      <!-- FIND QUICKLY -->
+      <!-- QUICK SEARCH -->
       <v-list-item>
         <v-list-item-content>
           <v-list-item-title
             class="font-weight-bold text-center text-uppercase mb-2"
             style="font-size: 1.15rem;"
-            >{{ $t("frontPage.findQuickly") }}</v-list-item-title
+            >{{ $t("frontPage.quickSearch") }}</v-list-item-title
           >
 
           <TextFieldWrapper
@@ -28,7 +28,7 @@
             @input="updateSearchFieldDebounced({ id: 'q', value: $event })"
             clearable
             solo
-            :placeholder="$t('frontPage.findQuickly')"
+            :placeholder="$t('frontPage.quickSearch')"
             clear-icon="fas fa-times"
           />
         </v-list-item-content>

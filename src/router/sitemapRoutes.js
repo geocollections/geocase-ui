@@ -69,30 +69,8 @@ module.exports = [
     }
   },
   {
-    path: "/:locale/join",
-    name: "Join",
-    meta: {
-      sitemap: {
-        slugs: ["", "ee", "en", "de"],
-        priority: 0.5,
-        changefreq: "monthly"
-      }
-    }
-  },
-  {
     path: `/:locale/tutorial`,
     name: "Tutorial",
-    meta: {
-      sitemap: {
-        slugs: ["", "ee", "en", "de"],
-        priority: 0.5,
-        changefreq: "monthly"
-      }
-    }
-  },
-  {
-    path: `/:locale/project`,
-    name: "Project",
     meta: {
       sitemap: {
         slugs: ["", "ee", "en", "de"],
@@ -113,30 +91,8 @@ module.exports = [
     }
   },
   {
-    path: `/:locale/imprint`,
-    name: "Imprint",
-    meta: {
-      sitemap: {
-        slugs: ["", "ee", "en", "de"],
-        priority: 0.5,
-        changefreq: "monthly"
-      }
-    }
-  },
-  {
     path: `/:locale/efg`,
     name: "Efg",
-    meta: {
-      sitemap: {
-        slugs: ["", "ee", "en", "de"],
-        priority: 0.5,
-        changefreq: "monthly"
-      }
-    }
-  },
-  {
-    path: `/:locale/howto`,
-    name: "HowTo",
     meta: {
       sitemap: {
         slugs: ["", "ee", "en", "de"],

@@ -28,6 +28,7 @@
               <image-wrapper
                 v-if="image.thumbnailImage"
                 :image-src="image.thumbnailImage"
+                :alt-text="image.altText"
               />
 
               <v-row align="center" v-else>

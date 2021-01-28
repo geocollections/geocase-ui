@@ -1,5 +1,6 @@
 <template>
   <v-img
+      :alt="$t('header.landingPageAltText')"
     class="landing-image"
     :src="require('@/assets/geocase_landing.jpg')"
     style="height: 37vh;"

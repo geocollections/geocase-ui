@@ -23,6 +23,7 @@
           :image-src="entity.thumbnailImage"
           :max-height="calculateImageMaxHeight(entity.imageHeight)"
           :value="carouselItem"
+          :alt-text="entity.altText"
         />
       </v-carousel-item>
     </v-carousel>

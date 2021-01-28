@@ -10,6 +10,7 @@
       :style="
         `background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.1), rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.7)), url(&quot;${card.image}&quot;);`
       "
+      :aria-label="card.imageAltText"
       @click="goToSearchView(card.url)"
     >
       <v-overlay absolute :value="hover">
