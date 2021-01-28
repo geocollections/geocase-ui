@@ -22,7 +22,7 @@
         |
         <span v-html="$t('footer.created_html')" />
         <br />
-        <div style="height: 100px;" class="d-flex flex-row justify-center">
+        <div class="d-flex flex-column flex-sm-row justify-center">
           <a
             v-for="(item, index) in footerLogos"
             :key="index"

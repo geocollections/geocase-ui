@@ -45,7 +45,7 @@
                   :class="{ 'small-font': $vuetify.breakpoint.smOnly }"
                   >GeoCASe 2.0
                   <span v-if="!isProductionUrl">DEV</span>
-                  <span v-else>BETA</span>
+                  <span v-else>beta</span>
                 </span>
                 <span class="hidden-sm-and-up">
                   <v-icon>fas fa-home</v-icon>
