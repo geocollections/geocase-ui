@@ -91,17 +91,6 @@ module.exports = [
     }
   },
   {
-    path: `/:locale/imprint`,
-    name: "Imprint",
-    meta: {
-      sitemap: {
-        slugs: ["", "ee", "en", "de"],
-        priority: 0.5,
-        changefreq: "monthly"
-      }
-    }
-  },
-  {
     path: `/:locale/efg`,
     name: "Efg",
     meta: {

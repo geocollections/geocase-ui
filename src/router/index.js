@@ -67,11 +67,6 @@ const router = new Router({
           component: Links
         },
         {
-          path: `imprint`,
-          name: "Imprint",
-          component: Imprint
-        },
-        {
           path: `efg`,
           name: "Efg",
           component: Efg
@@ -84,7 +79,6 @@ const router = new Router({
 import store from "@/store/index";
 import Tutorial from "@/views/Tutorial";
 import Links from "@/views/Links";
-import Imprint from "@/views/Imprint";
 import Efg from "@/views/Efg";
 import StaticPage from "@/views/StaticPage";
 
