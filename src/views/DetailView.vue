@@ -699,7 +699,7 @@ export default {
         if (typeof this.id === "undefined" || this.id === null) {
           this.resetResponseFromSource();
           await this.getDetailViewData(id);
-          await this.getDetailViewDataDirectly();
+          this.getDetailViewDataDirectly();
         }
       },
       immediate: true

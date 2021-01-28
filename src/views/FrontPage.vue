@@ -15,6 +15,7 @@
               {{ $t("frontPage.prototype_alert.title") }}
             </div>
             <div>
+              <!-- TODO:  This is GeoCASe 2.0 beta interface. Please report problems in GitHub (https://github.com/geocollections/geocase-ui). The old portal is accessible at: http://old.geocase.eu. -->
               {{ $t("frontPage.prototype_alert.text") }}
             </div>
           </v-alert>
