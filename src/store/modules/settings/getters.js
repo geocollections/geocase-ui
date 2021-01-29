@@ -36,12 +36,12 @@ const getters = {
       {
         icon: "fas fa-database",
         text: i18n.t("resources.geocase1"),
-        url: "http://geocase.eu"
+        url: "http://old.geocase.eu"
       },
       {
         icon: "fas fa-laptop-code",
         text: i18n.t("resources.geocase-api"),
-        url: "http://geocase-api.geocollections.info/"
+        url: "https://api.geocase.eu/"
       }
     ];
   },

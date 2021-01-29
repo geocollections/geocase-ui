@@ -1,6 +1,6 @@
 # geocase-ui
-This is a new GeoCASe web application currently called [GeoCASe 2.0](http://geocase.geocollections.info) which is still in development state. 
-It is based on the previous GeoCASe application found [here](http://geocase.eu). It aims to replace/enhance the current Drupal-based solution (see https://github.com/geocollections/geocase-infrastructure).
+This is a new GeoCASe web application currently called [GeoCASe 2.0](https://geocase.eu) which is still in development state. 
+It is based on the previous GeoCASe application found [here](http://old.geocase.eu). It aims to replace/enhance the current Drupal-based solution (see https://github.com/geocollections/geocase-infrastructure).
 
 ## Project setup
 ```
