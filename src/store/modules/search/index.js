@@ -7,8 +7,8 @@ const state = {
   responseResultsCount: 0,
   page: 1,
   paginateBy: 25,
-  sortBy: ["fullscientificname"],
-  sortDesc: [false],
+  sortBy: [],
+  sortDesc: [],
   search: {
     q: {
       id: "q",

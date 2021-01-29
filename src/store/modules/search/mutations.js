@@ -70,8 +70,8 @@ const mutations = {
     // Also resetting search params
     state.page = 1;
     state.paginateBy = 25;
-    state.sortBy = ["fullscientificname"];
-    state.sortDesc = [false];
+    state.sortBy = [];
+    state.sortDesc = [];
   },
 
   SET_ALL_FIELD_NAMES(state, payload) {
