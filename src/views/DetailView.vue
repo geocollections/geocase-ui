@@ -582,6 +582,7 @@ export default {
   mixins: [helperMixin],
 
   metaInfo() {
+    // TITLE
     const type =
       this.getSpecimenType.charAt(0).toUpperCase() +
       this.getSpecimenType.substring(1);
@@ -594,8 +595,33 @@ export default {
     if (fullscientificname) title = fullscientificname;
     else if (collectioncode || unitid)
       title += ` - ${collectioncode} ${unitid}`;
+
+    // DESCRIPTION
+    let description = "";
+    const fields = [
+      "recordbasis",
+      "fullscientificname",
+      "locality",
+      "datasetowner"
+    ];
+    if (this.item) {
+      fields.forEach((item, index) => {
+        if (this.item[item])
+          description += ` ${this.$t(`search.table.${item}`)}: ${
+            this.item[item]
+          }${index < fields.length - 1 ? "," : ""}`;
+      });
+    }
+
     return {
-      title: title
+      title: title,
+      meta: [
+        {
+          vmid: "description",
+          name: "description",
+          content: description
+        }
+      ]
     };
   },
 

@@ -45,7 +45,7 @@ export default {
         vmid: "description",
         name: "description",
         content:
-          "This is GeoCASe 2.0 prototype interface. It has incomplete functionality and data, and is intended for testing purposes only."
+          "GeoCASe stands for Geoscience Collections Access Service. This is the GeoCASe 2.0 beta interface. It is still in development and currently has incomplete functionality and data."
       }
     ]
   },
