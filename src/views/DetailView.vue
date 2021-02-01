@@ -587,9 +587,13 @@ export default {
       this.getSpecimenType.substring(1);
     const collectioncode = this.item.collectioncode;
     const unitid = this.item.unitid;
+    const fullscientificname = this.item.fullscientificname;
 
     let title = `${type} Specimen`;
-    if (collectioncode || unitid) title += ` - ${collectioncode} ${unitid}`;
+
+    if (fullscientificname) title = fullscientificname;
+    else if (collectioncode || unitid)
+      title += ` - ${collectioncode} ${unitid}`;
     return {
       title: title
     };
