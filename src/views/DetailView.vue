@@ -515,8 +515,7 @@
         </v-col>
 
         <!-- DATA FROM SOURCE -->
-        <!-- Todo: Prune!!! -->
-        <v-col cols="12" v-if="responseFromSource">
+        <v-col cols="12" v-show="responseFromSource">
           <v-card>
             <v-card-title
               class="justify-center card-title--clickable"
@@ -529,7 +528,7 @@
               >
             </v-card-title>
 
-            <v-expand-transition v-if="showResponseFromSource">
+            <v-expand-transition v-show="showResponseFromSource">
               <v-card-text>
                 <v-treeview
                   shaped
@@ -832,10 +831,12 @@ export default {
       if (typeof data === "object") {
         return Object.entries(data).map((item, index) => {
           depth++;
+          console.log(item);
 
           return {
             id: Math.floor(Math.random() * Math.floor(index + 314159 * depth)),
-            name: typeof item[1] === "string" ? item[1] : item[0],
+            name:
+              typeof item[1] === "string" ? `${item[0]}: ${item[1]}` : item[0],
             children: this.buildTreeview(item[1], depth)
           };
         });

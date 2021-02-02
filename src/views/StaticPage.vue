@@ -14,12 +14,11 @@
           :to="item.to"
           :class="{ 'v-tab--active': $route.path.endsWith(item.to) }"
         >
-            <v-icon left>
-              {{ item.icon }}
-            </v-icon>
+          <v-icon left>
+            {{ item.icon }}
+          </v-icon>
 
-              {{ item.text }}
-
+          {{ item.text }}
         </v-tab>
 
         <v-tabs-items class="px-4 px-md-0 pl-md-6 pt-4 pt-md-0">
@@ -37,6 +36,7 @@ export default {
   name: "StaticPage",
 
   metaInfo() {
+    console.log(this.$route.name)
     return {
       title: this.$route.name
     };
