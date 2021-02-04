@@ -57,7 +57,7 @@ export default {
           href: "https://cetaf.org/",
           alt: "footer.cetafLogoAltText",
           src: this.getImageUrl(
-            "https://files.geocollections.info/img/geocase/footer_logos/taltech1.png"
+            "https://files.geocollections.info/img/geocase/footer_logos/cetaf_logo.png"
           )
         },
         {
