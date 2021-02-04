@@ -38,7 +38,8 @@ export default {
   metaInfo() {
     const description = this.$t("seo.description");
     const ogTitle = this.$t("seo.ogTitle");
-    const image = "";
+    const image =
+      "https://files.geocollections.info/img/geocase/front_page/geocase_landing.jpg";
     const ogUrl = document.location.href;
     const imageAlt = this.$t("header.landingPageAltText");
     return {
@@ -66,8 +67,7 @@ export default {
         {
           vmid: "og:image",
           property: "og:image",
-          content:
-            "https://files.geocollections.info/img/geocase/front_page/geocase_landing.jpg"
+          content: image
         },
         {
           vmid: "og:url",
@@ -84,6 +84,11 @@ export default {
           vmid: "og:site_name",
           property: "og:site_name",
           content: "GeoCASe"
+        },
+        {
+          vmid: "og:image:alt",
+          name: "og:image:alt",
+          content: imageAlt
         },
         {
           vmid: "twitter:image:alt",

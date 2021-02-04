@@ -287,5 +287,9 @@
     "readMoreButton": "Read our terms of use",
     "title": "Cookie Policy",
     "text": "Website visitor data is used only for non-personal statistical analysis to further improve page functionality. Data will not be passed on to third parties."
+  },
+  "seo": {
+    "description": "GeoCASe is a data network and web portal designed to make collections of minerals, rocks, meteorites and fossils held in museums and research institutions universally available online.",
+    "ogTitle": "GeoCASe 2.0: The Earth Science Collections Portal"
   }
 }
