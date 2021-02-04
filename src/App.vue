@@ -35,19 +35,63 @@ export default {
 
   mixins: [toastMixin],
 
-  metaInfo: {
-    // if no subcomponents specify a metaInfo.title, this title will be used
-    title: "Welcome",
-    // all titles will be injected into this template
-    titleTemplate: "%s | GeoCASe",
-    meta: [
-      {
-        vmid: "description",
-        name: "description",
-        content:
-          "GeoCASe stands for Geoscience Collections Access Service. This is the GeoCASe 2.0 beta interface. It is still in development and currently has incomplete functionality and data."
-      }
-    ]
+  metaInfo() {
+    const description = this.$t("seo.description");
+    const ogTitle = this.$t("seo.ogTitle");
+    const image = "";
+    const ogUrl = document.location.href;
+    const imageAlt = this.$t("header.landingPageAltText");
+    return {
+      // if no subcomponents specify a metaInfo.title, this title will be used
+      title: "Welcome",
+      // all titles will be injected into this template
+      titleTemplate: "%s | GeoCASe",
+      meta: [
+        {
+          vmid: "description",
+          name: "description",
+          content: description
+        },
+        // Essential
+        {
+          vmid: "og:title",
+          property: "og:title",
+          content: ogTitle
+        },
+        {
+          vmid: "og:description",
+          property: "og:description",
+          content: description
+        },
+        {
+          vmid: "og:image",
+          property: "og:image",
+          content:
+            "https://files.geocollections.info/img/geocase/front_page/geocase_landing.jpg"
+        },
+        {
+          vmid: "og:url",
+          property: "og:url",
+          content: ogUrl
+        },
+        {
+          vmid: "twitter:card",
+          name: "twitter:card",
+          content: "summary_large_image"
+        },
+        // Non-Essential
+        {
+          vmid: "og:site_name",
+          property: "og:site_name",
+          content: "GeoCASe"
+        },
+        {
+          vmid: "twitter:image:alt",
+          name: "twitter:image:alt",
+          content: imageAlt
+        }
+      ]
+    };
   },
 
   computed: {
