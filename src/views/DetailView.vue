@@ -612,6 +612,12 @@ export default {
       });
     }
 
+    const ogImage =
+      this.detailViewImages?.[0]?.thumbnailImage ??
+      "https://files.geocollections.info/img/geocase/front_page/geocase_landing.jpg";
+    const ogImageAlt = this.detailViewImages?.[0]?.altText ?? description;
+    const ogUrl = document.location.href;
+
     return {
       title: title,
       meta: [
@@ -619,6 +625,36 @@ export default {
           vmid: "description",
           name: "description",
           content: description
+        },
+        {
+          vmid: "og:title",
+          property: "og:title",
+          content: title
+        },
+        {
+          vmid: "og:description",
+          property: "og:description",
+          content: description
+        },
+        {
+          vmid: "og:image",
+          property: "og:image",
+          content: ogImage
+        },
+        {
+          vmid: "og:url",
+          property: "og:url",
+          content: ogUrl
+        },
+        {
+          vmid: "og:image:alt",
+          name: "og:image:alt",
+          content: ogImageAlt
+        },
+        {
+          vmid: "twitter:image:alt",
+          name: "twitter:image:alt",
+          content: ogImageAlt
         }
       ]
     };
@@ -706,7 +742,7 @@ export default {
 
     computedResponseFromSource() {
       let treeview = this.buildTreeview(
-        this.responseFromSource["abcd:DataSets"],
+        this.responseFromSource?.["abcd:DataSets"],
         0
       );
       return treeview;
@@ -831,7 +867,6 @@ export default {
       if (typeof data === "object") {
         return Object.entries(data).map((item, index) => {
           depth++;
-          console.log(item);
 
           return {
             id: Math.floor(Math.random() * Math.floor(index + 314159 * depth)),
