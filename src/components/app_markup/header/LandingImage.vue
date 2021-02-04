@@ -1,8 +1,8 @@
 <template>
   <v-img
-      :alt="$t('header.landingPageAltText')"
+    :alt="$t('header.landingPageAltText')"
     class="landing-image"
-    :src="require('@/assets/geocase_landing.jpg')"
+    :src="landingImage"
     style="height: 37vh;"
   >
     <v-row class="fill-height" align="center" justify="center">
@@ -38,6 +38,10 @@ export default {
       return {
         fontSize: this.$vuetify.breakpoint.xlOnly ? "4rem" : "3.125rem"
       };
+    },
+
+    landingImage() {
+      return "https://files.geocollections.info/img/geocase/front_page/geocase_landing.jpg";
     }
   }
 };

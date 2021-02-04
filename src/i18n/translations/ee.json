@@ -288,5 +288,9 @@
     "readMoreButton": "Lugege meie kasutustingimusi",
     "title": "Küpsisepoliitika",
     "text": "Veebilehe külastajate andmeid kasutatakse ainult mitteisikustatud statistiliseks analüüsiks ning lehekülje funktsionaalsuse parandamiseks. Andmeid ei edastada kolmandatele osapooltele."
+  },
+  "seo": {
+    "description": "GeoCASe is a data network and web portal designed to make collections of minerals, rocks, meteorites and fossils held in museums and research institutions universally available online.",
+    "ogTitle": "GeoCASe 2.0: Euroopa Geokogude Portaal"
   }
 }

@@ -12,23 +12,27 @@ const state = {
     fossil: {
       url:
         '/search?recordbasis=("FossileSpecimen" "FossilSpecimen" "RecentPreservedSpecimen" "fossil")',
-      image: require("@/assets/front_page/fossil1.jpg"),
+      image:
+        "https://files.geocollections.info/img/geocase/front_page/fossil1.jpg",
       isLeaving: false
     },
     mineral: {
       url: '/search?recordbasis="MineralSpecimen"',
-      image: require("@/assets/front_page/mineral1.jpg"),
+      image:
+        "https://files.geocollections.info/img/geocase/front_page/mineral1.jpg",
       isLeaving: false
     },
     rock: {
       url:
         '/search?recordbasis=("RockSpecimen" "SedimentSample" "TechnologicalSample")',
-      image: require("@/assets/front_page/rock1.jpg"),
+      image:
+        "https://files.geocollections.info/img/geocase/front_page/rock1.jpg",
       isLeaving: false
     },
     meteorite: {
       url: '/search?recordbasis="MeteoriteSpecimen"',
-      image: require("@/assets/front_page/meteorite1.jpg"),
+      image:
+        "https://geocase.eu/thumbnail/?url=https://files.geocollections.info/img/geocase/front_page/meteorite1.jpg",
       isLeaving: false
     }
   },

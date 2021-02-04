@@ -101,13 +101,13 @@ export default {
   background-repeat: no-repeat;
 }
 .flag-en {
-  background-image: url("../../assets/flags/en.svg");
+  background-image: url("https://files.geocollections.info/img/geocase/flags/en.svg");
 }
 .flag-ee {
-  background-image: url("../../assets/flags/ee.svg");
+  background-image: url("https://files.geocollections.info/img/geocase/flags/ee.svg");
 }
 .flag-de {
-  background-image: url("../../assets/flags/de.svg");
+  background-image: url("https://files.geocollections.info/img/geocase/flags/de.svg");
 }
 .flag-squared {
   width: 1em;

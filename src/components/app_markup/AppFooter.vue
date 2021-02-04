@@ -56,20 +56,22 @@ export default {
         {
           href: "https://cetaf.org/",
           alt: "footer.cetafLogoAltText",
-          src: require("@/assets/cetaf_logo.png")
+          src: this.getImageUrl(
+            "https://files.geocollections.info/img/geocase/footer_logos/taltech1.png"
+          )
         },
         {
           href: "https://taltech.ee/en/department-geology",
           alt: "footer.taltechLogoAltText",
           src: this.getImageUrl(
-            "https://files.geocollections.info/img/geocase/taltech1.png"
+            "https://files.geocollections.info/img/geocase/footer_logos/taltech1.png"
           )
         },
         {
           href: "https://www.museumfuernaturkunde.berlin/",
           alt: "footer.mfnLogoAltText",
           src: this.getImageUrl(
-            "https://files.geocollections.info/img/geocase/mfn1.png"
+            "https://files.geocollections.info/img/geocase/footer_logos/mfn1.png"
           )
         }
       ];
