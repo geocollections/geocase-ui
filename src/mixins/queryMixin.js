@@ -10,7 +10,6 @@ const queryMixin = {
     ...mapActions("search", ["updateSearchField", "updateSearchParam"]),
 
     constructQueryParams(search, searchParams) {
-      // let appendableQuery = clone(this.$route.query);
       let appendableQuery = { ...this.$route.query };
 
       if (search) {
@@ -18,9 +17,12 @@ const queryMixin = {
           let queryKey = item;
 
           // Clearing previous keys
-          Object.keys(appendableQuery).forEach(entity =>
-            entity === queryKey ? delete appendableQuery[entity] : ""
-          );
+          Object.keys(appendableQuery).forEach(entity => {
+            let appendableQueryKey = entity;
+            if (entity.includes("__"))
+              appendableQueryKey = entity.split("__")[0];
+            if (appendableQueryKey === queryKey) delete appendableQuery[entity];
+          });
 
           if (search[item].value && search[item].value.trim().length > 0) {
             if (search[item].lookUpType)
@@ -31,7 +33,6 @@ const queryMixin = {
       }
 
       if (searchParams) {
-        // let params = cloneDeep(searchParams);
         let params = { ...searchParams };
         Object.entries(params).forEach(item => {
           if (item[0] === "sort_by" || item[0] === "sort_desc") {
@@ -50,7 +51,6 @@ const queryMixin = {
           name: "Search",
           params:
             this.$i18n.locale !== "en" ? { locale: this.$i18n.locale } : {},
-          // query: clone(newQueryParams)
           query: { ...newQueryParams }
         });
     },
