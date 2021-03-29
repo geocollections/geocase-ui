@@ -150,7 +150,8 @@
       "providerName": "Teenusepakkuja",
       "specimenVerifier": "Eksemplari kontrollija",
       "geocaseId": "GeoCASe ID",
-      "unitGuid": "UnitGUID"
+      "unitGuid": "UnitGUID",
+      "cetafIdentifier": "CETAF"
     }
   },
   "search": {

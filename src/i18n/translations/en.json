@@ -150,7 +150,8 @@
       "providerName": "Provider name",
       "specimenVerifier": "Specimen verifier",
       "geocaseId": "GeoCASe ID",
-      "unitGuid": "UnitGUID"
+      "unitGuid": "UnitGUID",
+      "cetafIdentifier": "CETAF"
     }
   },
   "search": {

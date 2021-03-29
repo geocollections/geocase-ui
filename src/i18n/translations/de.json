@@ -149,7 +149,8 @@
       "providerName": "Name des Datenanbieter",
       "specimenVerifier": "Specimen Prüfer",
       "geocaseId": "GeoCASe ID",
-      "unitGuid": "UnitGUID"
+      "unitGuid": "UnitGUID",
+      "cetafIdentifier": "CETAF"
     }
   },
   "search": {

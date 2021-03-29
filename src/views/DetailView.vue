@@ -489,6 +489,25 @@
               <template v-slot:item.unitGuid>
                 <div>{{ unitGuid }}</div>
               </template>
+
+              <template v-slot:item.cetaf_identifier>
+                <a
+                  :href="
+                    getCetafIdentifierUrl(
+                      item.datasourcecountry,
+                      item.cetaf_identifier
+                    )
+                  "
+                  target="CetafIdentifierWindow"
+                  style="text-decoration: unset;"
+                  >{{
+                    getCetafIdentifierUrl(
+                      item.datasourcecountry,
+                      item.cetaf_identifier
+                    )
+                  }}</a
+                >
+              </template>
             </v-data-table>
           </v-card>
         </v-col>
@@ -876,6 +895,13 @@ export default {
           };
         });
       } else return [];
+    },
+
+    getCetafIdentifierUrl(country, identifier) {
+      if (country && identifier) {
+        country = country === "UK" ? "united-kingdom" : country.toLowerCase();
+        return `https://collections.naturalsciences.be/cpb/nh-collections/countries/${country}/${identifier}`;
+      }
     }
   }
 };
