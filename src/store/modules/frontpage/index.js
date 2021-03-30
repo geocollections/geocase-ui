@@ -3,9 +3,9 @@ import mutations from "./mutations";
 import getters from "./getters";
 
 const state = {
-  records: "1 128 949",
-  datasetowner: "11",
-  country: "161",
+  records: "",
+  datasetowner: "",
+  country: "",
   showAlert: true,
   cardIds: ["fossil", "mineral", "rock", "meteorite"],
   cards: {

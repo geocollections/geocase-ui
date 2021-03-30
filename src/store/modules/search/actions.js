@@ -19,6 +19,7 @@ const actions = {
   },
 
   updateSearchField({ dispatch, commit, state }, payload) {
+    console.log(payload)
     if (payload.id) {
       // #112 resetting page number after facet (search field) change
       // if ("value" in payload && state.page !== 1) dispatch("updatePage", 1);

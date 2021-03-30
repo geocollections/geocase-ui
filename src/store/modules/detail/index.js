@@ -53,7 +53,8 @@ const state = {
     { text: "providerName", value: "providername" },
     { text: "specimenVerifier", value: "specimenVerifier" },
     { text: "geocaseId", value: "id" },
-    { text: "unitGuid", value: "unitGuid" }
+    { text: "unitGuid", value: "unitGuid" },
+    { text: "cetafIdentifier", value: "cetaf_identifier" }
   ],
   isLoading: false
 };
