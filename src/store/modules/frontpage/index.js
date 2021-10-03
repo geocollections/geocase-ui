@@ -10,27 +10,26 @@ const state = {
   cardIds: ["fossil", "mineral", "rock", "meteorite"],
   cards: {
     fossil: {
-      url:
-        '/search?recordbasis=("FossileSpecimen" "FossilSpecimen" "RecentPreservedSpecimen" "fossil")',
+      url: '/search?recordbasis="Fossil"',
       image:
         "https://files.geocollections.info/img/geocase/front_page/fossil1.jpg",
       isLeaving: false
     },
     mineral: {
-      url: '/search?recordbasis="MineralSpecimen"',
+      url: '/search?recordbasis="Mineral"',
       image:
         "https://files.geocollections.info/img/geocase/front_page/mineral1.jpg",
       isLeaving: false
     },
     rock: {
       url:
-        '/search?recordbasis=("RockSpecimen" "SedimentSample" "TechnologicalSample")',
+        '/search?recordbasis=("Rock" "Sediment sample" "Technological sample")',
       image:
         "https://files.geocollections.info/img/geocase/front_page/rock1.jpg",
       isLeaving: false
     },
     meteorite: {
-      url: '/search?recordbasis="MeteoriteSpecimen"',
+      url: '/search?recordbasis="Meteorite"',
       image:
         "https://geocase.eu/thumbnail/?url=https://files.geocollections.info/img/geocase/front_page/meteorite1.jpg",
       isLeaving: false
