@@ -250,22 +250,17 @@ export default {
      */
     getItemType(item) {
       let type = item.recordbasis;
-      if (
-        type === "FossileSpecimen" ||
-        type === "FossilSpecimen" ||
-        type === "RecentPreservedSpecimen" ||
-        type === "fossil"
-      ) {
+      if (type === "Fossil" || type === "Recent preserved") {
         return "fossil";
-      } else if (type === "MineralSpecimen") {
+      } else if (type === "Mineral") {
         return "mineral";
       } else if (
-        type === "RockSpecimen" ||
-        type === "SedimentSample" ||
-        type === "TechnologicalSample"
+        type === "Rock" ||
+        type === "Sediment sample" ||
+        type === "Technologicals ample"
       ) {
         return "rock";
-      } else if (type === "MeteoriteSpecimen") {
+      } else if (type === "Meteorite") {
         return "meteorite";
       } else "none";
     }
