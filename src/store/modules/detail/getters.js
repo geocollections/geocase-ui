@@ -35,19 +35,14 @@ const getters = {
   isItemFossil: (state, getters) => {
     if (getters.item) {
       let type = getters.item.recordbasis;
-      return (
-        type === "FossileSpecimen" ||
-        type === "FossilSpecimen" ||
-        type === "RecentPreservedSpecimen" ||
-        type === "fossil"
-      );
+      return type === "Fossil" || type === "Recent preserved";
     } else return false;
   },
 
   isItemMineral: (state, getters) => {
     if (getters.item) {
       let type = getters.item.recordbasis;
-      return type === "MineralSpecimen";
+      return type === "Mineral";
     } else return false;
   },
 
@@ -55,9 +50,9 @@ const getters = {
     if (getters.item) {
       let type = getters.item.recordbasis;
       return (
-        type === "RockSpecimen" ||
-        type === "SedimentSample" ||
-        type === "TechnologicalSample"
+        type === "Rock" ||
+        type === "Sediment sample" ||
+        type === "Technological sample"
       );
     } else return false;
   },
@@ -65,7 +60,7 @@ const getters = {
   isItemMeteorite: (state, getters) => {
     if (getters.item) {
       let type = getters.item.recordbasis;
-      return type === "MeteoriteSpecimen";
+      return type === "Meteorite";
     } else return false;
   },
 
