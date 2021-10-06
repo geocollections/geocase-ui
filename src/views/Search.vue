@@ -207,7 +207,7 @@ export default {
 </script>
 
 <style scoped>
-.search-tabs >>> .border-bottom {
+.v-tab.border-bottom.v-tab--active {
   border: none !important;
   border-bottom: solid 3px black !important;
 }
