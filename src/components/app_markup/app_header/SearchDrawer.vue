@@ -91,6 +91,70 @@
 
         <v-divider />
 
+        <!-- MAP -->
+        <v-card class="checkboxes" flat tile color="transparent" hover>
+          <v-hover v-slot:default="{ hover }">
+            <v-card-title
+              class="checkboxes--title font-weight-bold text-uppercase py-2 px-6"
+              style="font-size: 0.875rem;"
+              :class="{
+                'blue-grey lighten-3': search.map.showCheckboxes,
+                'blue-grey lighten-2': search.map.showCheckboxes && hover
+              }"
+              @click="
+                updateSearchField({
+                  id: 'map',
+                  showCheckboxes: !search.map.showCheckboxes
+                })
+              "
+            >
+              {{ $t(`search.table.map`) }}
+              <v-spacer />
+
+              <v-tooltip v-if="search.map.value" top>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn
+                    class="mr-6"
+                    v-bind="attrs"
+                    v-on="on"
+                    small
+                    color="error"
+                    icon
+                    @click.stop="resetFacet('map')"
+                  >
+                    <v-badge color="transparent" bottom overlap
+                      ><v-icon small>fas fa-trash</v-icon>
+                    </v-badge>
+                  </v-btn>
+                </template>
+                <span>{{
+                  $t("search.drawer.clearFilters", {
+                    field: $t(`search.table.map`)
+                  })
+                }}</span>
+              </v-tooltip>
+
+              <v-icon v-if="search.map.showCheckboxes">fas fa-angle-up</v-icon>
+              <v-icon v-else>fas fa-angle-down</v-icon>
+            </v-card-title>
+          </v-hover>
+          <v-divider />
+
+          <v-expand-transition>
+            <v-card-text
+              class="transition-fast-in-fast-out pa-0"
+              :class="{ 'blue-grey lighten-5': search.map.showCheckboxes }"
+              v-show="search.map.showCheckboxes"
+            >
+              <search-map
+                :open="search.map.showCheckboxes"
+                :response-results="responseResults"
+                :response-results-count="responseResultsCount"
+              />
+            </v-card-text>
+          </v-expand-transition>
+        </v-card>
+
         <!-- CHECKBOXES -->
         <v-card
           class="checkboxes"
@@ -316,11 +380,12 @@ import TextFieldWrapper from "@/components/input_wrappers/TextFieldWrapper";
 import SelectWrapper from "@/components/input_wrappers/SelectWrapper";
 import queryMixin from "@/mixins/queryMixin";
 import { debounce } from "lodash";
+import SearchMap from "@/components/SearchMap";
 
 export default {
   name: "SearchDrawer",
 
-  components: { TextFieldWrapper, SelectWrapper },
+  components: { TextFieldWrapper, SelectWrapper, SearchMap },
 
   mixins: [queryMixin],
 
@@ -346,7 +411,9 @@ export default {
       "searchTextIds",
       "searchCheckboxIds",
       "searchSingleCheckboxIds",
-      "isTableHeaderFixed"
+      "isTableHeaderFixed",
+      "responseResults",
+      "responseResultsCount"
     ]),
     ...mapGetters("search", [
       "getCheckboxes",

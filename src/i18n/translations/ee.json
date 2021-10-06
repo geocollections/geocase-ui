@@ -222,7 +222,8 @@
       "_version_": "_version_",
       "unitid": "Objekti ID",
       "coordinates": "Koordinaadid",
-      "coordinatesReadOnly": "Koordinaadid - LOE AINULT"
+      "coordinatesReadOnly": "Koordinaadid - LOE AINULT",
+      "map": "Kaart"
     },
     "pagination": "Kuva {value} kaupa",
     "export": {

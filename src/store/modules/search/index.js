@@ -60,6 +60,14 @@ const state = {
       value: null,
       label: "Object ID"
     },
+    map: {
+      id: "map",
+      type: "map",
+      lookUpType: "",
+      value: null,
+      label: "Map",
+      showCheckboxes: false
+    },
     recordbasis: {
       id: "recordbasis",
       type: "checkbox",

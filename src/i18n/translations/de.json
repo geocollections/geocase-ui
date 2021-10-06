@@ -221,7 +221,8 @@
       "_version_": "_version_",
       "unitid": "Objekt ID",
       "coordinates": "Koordinaten",
-      "coordinatesReadOnly": "Koordinaten - Nur Lesezugriff"
+      "coordinatesReadOnly": "Koordinaten - Nur Lesezugriff",
+      "map": "Karte"
     },
     "pagination": "Nummeriere mit {value}",
     "export": {

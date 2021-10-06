@@ -222,7 +222,8 @@
       "_version_": "_version_",
       "unitid": "Object ID",
       "coordinates": "Coordinates",
-      "coordinatesReadOnly": "Coordinates - READ ONLY"
+      "coordinatesReadOnly": "Coordinates - READ ONLY",
+      "map": "Map"
     },
     "pagination": "Paginate by {value}",
     "export": {

@@ -31,7 +31,7 @@ const state = {
     meteorite: {
       url: '/search?recordbasis="Meteorite"',
       image:
-        "https://geocase.eu/thumbnail/?url=https://files.geocollections.info/img/geocase/front_page/meteorite1.jpg",
+        "https://files.geocollections.info/img/geocase/front_page/meteorite1.jpg",
       isLeaving: false
     }
   },
