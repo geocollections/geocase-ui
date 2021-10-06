@@ -103,7 +103,7 @@
 </template>
 
 <script>
-import ScrollToTop from "@/components/partial/ScrollToTop";
+import ScrollToTop from "@/components/ScrollToTop";
 import { mapActions, mapGetters, mapState } from "vuex";
 import queryMixin from "@/mixins/queryMixin";
 import Pagination from "@/components/search/Pagination";

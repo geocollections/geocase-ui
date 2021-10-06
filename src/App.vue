@@ -22,7 +22,7 @@ import { mapActions, mapState } from "vuex";
 import toastMixin from "@/mixins/toastMixin";
 import AppHeader from "@/components/app_markup/AppHeader";
 import AppFooter from "@/components/app_markup/AppFooter";
-import CookieLaw from "@/components/partial/CookieLaw";
+import CookieLaw from "@/components/CookieLaw";
 
 export default {
   name: "App",

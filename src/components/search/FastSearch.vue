@@ -37,7 +37,7 @@
 <script>
 import { mapActions, mapState } from "vuex";
 import { debounce } from "lodash";
-import TextFieldWrapper from "@/components/partial/input_wrappers/TextFieldWrapper";
+import TextFieldWrapper from "@/components/input_wrappers/TextFieldWrapper";
 import HelpButton from "@/components/search/fast_search/HelpButton";
 import queryMixin from "@/mixins/queryMixin";
 export default {

@@ -42,8 +42,8 @@
 </template>
 
 <script>
-import ExportButtons from "@/components/partial/ExportButtons";
-import SelectWrapper from "@/components/partial/input_wrappers/SelectWrapper";
+import ExportButtons from "@/components/ExportButtons";
+import SelectWrapper from "@/components/input_wrappers/SelectWrapper";
 
 export default {
   name: "Pagination",

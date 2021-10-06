@@ -70,7 +70,7 @@
 </template>
 
 <script>
-import ImageWrapper from "@/components/partial/image/ImageWrapper";
+import ImageWrapper from "@/components/image/ImageWrapper";
 export default {
   name: "ImageCarousel",
   components: { ImageWrapper },

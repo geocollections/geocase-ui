@@ -587,10 +587,10 @@
 
 <script>
 import { mapActions, mapGetters, mapState } from "vuex";
-import ImageCarousel from "@/components/partial/image/ImageCarousel";
+import ImageCarousel from "@/components/image/ImageCarousel";
 import TabMap from "@/components/tabs/TabMap";
 import helperMixin from "@/mixins/helperMixin";
-import GoBackButton from "@/components/partial/GoBackButton";
+import GoBackButton from "@/components/GoBackButton";
 
 export default {
   name: "DetailView",

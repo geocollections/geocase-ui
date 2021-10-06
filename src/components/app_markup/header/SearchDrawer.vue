@@ -312,8 +312,8 @@
 
 <script>
 import { mapActions, mapGetters, mapState } from "vuex";
-import TextFieldWrapper from "@/components/partial/input_wrappers/TextFieldWrapper";
-import SelectWrapper from "@/components/partial/input_wrappers/SelectWrapper";
+import TextFieldWrapper from "@/components/input_wrappers/TextFieldWrapper";
+import SelectWrapper from "@/components/input_wrappers/SelectWrapper";
 import queryMixin from "@/mixins/queryMixin";
 import { debounce } from "lodash";
 
