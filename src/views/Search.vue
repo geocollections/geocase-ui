@@ -107,9 +107,9 @@ import ScrollToTop from "@/components/partial/ScrollToTop";
 import { mapActions, mapGetters, mapState } from "vuex";
 import queryMixin from "@/mixins/queryMixin";
 import Pagination from "@/components/search/Pagination";
-import TabImages from "@/components/partial/tabs/TabImages";
-import TabMap from "@/components/partial/tabs/TabMap";
-import TabTable from "@/components/partial/tabs/TabTable";
+import TabImages from "@/components/tabs/TabImages";
+import TabMap from "@/components/tabs/TabMap";
+import TabTable from "@/components/tabs/TabTable";
 import { debounce } from "lodash";
 
 export default {
