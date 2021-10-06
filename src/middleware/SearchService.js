@@ -9,8 +9,9 @@ const STATS_QUERY =
 class SearchService {
   static async search(params) {
     try {
+      console.log(params);
       let start = (params.page - 1) * params.paginateBy;
-      let sort = buildSort(params.sortBy, params.sortDesc);
+      let sort = buildSort(params.sortBy, params.sortDesc, params.search);
 
       let searchFields = buildSearchFieldsQuery(
         params.search,
@@ -91,11 +92,16 @@ class SearchService {
   }
 }
 
-function buildSort(sortBy, sortDesc) {
+function buildSort(sortBy, sortDesc, search) {
   let sort = "";
   if (sortBy && sortDesc && sortBy.length > 0 && sortDesc.length > 0) {
     sortBy.forEach((field, index) => {
-      sort += field + (sortDesc[index] ? " desc" : " asc") + ",";
+      // Added support for multivalue fields
+      if (search?.[field]?.fields?.length > 0) {
+        search?.[field]?.fields.forEach(item => {
+          sort += item + (sortDesc[index] ? " desc" : " asc") + ",";
+        });
+      } else sort += field + (sortDesc[index] ? " desc" : " asc") + ",";
     });
 
     if (sort.length > 0) sort = sort.substring(0, sort.length - 1);
