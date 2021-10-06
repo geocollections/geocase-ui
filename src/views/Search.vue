@@ -19,12 +19,14 @@
 
       <v-tabs
         v-model="tab"
+        class="search-tabs"
         grow
         show-arrows
         slider-size="3"
         color="black"
-        active-class="amber lighten-3"
+        active-class="amber lighten-3 border-bottom"
         background-color="amber lighten-5"
+        hide-slider
       >
         <v-tab
           class="font-weight-bold"
@@ -204,4 +206,9 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.search-tabs >>> .border-bottom {
+  border: none !important;
+  border-bottom: solid 3px black !important;
+}
+</style>
