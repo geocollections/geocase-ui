@@ -112,6 +112,11 @@
         </v-btn>
       </template>
 
+      <template v-slot:item.stratigraphy="{ item }">
+        <div v-if="item.stratigraphy">{{ item.stratigraphy }}</div>
+        <div v-else>{{ item.stratigraphytext }}</div>
+      </template>
+
       <template v-slot:item.url="{ item }">
         <v-btn
           v-if="item.has_image"

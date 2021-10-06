@@ -36,7 +36,8 @@ const state = {
       type: "text",
       lookUpType: "contains",
       value: null,
-      label: "Stratigraphy"
+      label: "Stratigraphy",
+      fields: ["stratigraphy", "stratigraphytext"]
     },
     locality: {
       id: "locality",
@@ -185,6 +186,7 @@ const state = {
     "contains",
     "equals",
     "starts with",
+    "ends with",
     "does not contain",
     "greater than",
     "smaller than"

@@ -9,7 +9,6 @@ const STATS_QUERY =
 class SearchService {
   static async search(params) {
     try {
-      console.log(params);
       let start = (params.page - 1) * params.paginateBy;
       let sort = buildSort(params.sortBy, params.sortDesc, params.search);
 
@@ -118,50 +117,81 @@ function buildSearchFieldsQuery(search, searchIds) {
     let type = search[id].type;
     let lookUpType = search[id].lookUpType;
     let value = search[id].value;
+    let fields = search[id]?.fields;
     let isExcluded = false;
 
-    if (value && value.trim().length > 0) {
-      if (name === "q" && !(value.includes(" ") || value.includes("*")))
-        value = `"${value}"`;
+    // Support for multiple search fields
+    if (fields?.length > 0) {
+      if (value && value.trim().length > 0) {
+        let filterQueryValue = fields.map(field => {
+          name = field;
+          let encodedValue = encodeURIComponent(value);
 
-      let encodedObject = `fq=${name}:`;
-      let encodedValue = encodeURIComponent(value);
-      if (name === "q") encodedObject = encodedObject.substring(1, 3);
+          return createSolrFieldQuery(name, encodedValue, lookUpType);
+        });
 
-      // Todo: #118 + #119
-      // if (name === "coordinates")
-      //   encodedObject = `fq={!geofilt sfield=${name}}&d=0&pt=`;
+        const filterQuery = `fq=${filterQueryValue.join(" OR ")}`;
+
+        encodedData.push(filterQuery);
+      }
+    } else {
+      if (value && value.trim().length > 0) {
+        if (name === "q" && !(value.includes(" ") || value.includes("*")))
+          value = `"${value}"`;
+
+        let filterQuery = `fq=${name}:`;
+        let encodedValue = encodeURIComponent(value);
+        if (name === "q") filterQuery = filterQuery.substring(1, 3);
+
+        // Todo: #118 + #119
+        // if (name === "coordinates")
+        //   filterQuery = `fq={!geofilt sfield=${name}}&d=0&pt=`;
+
+        if (type === "checkbox") {
+          isExcluded = true;
+
+          filterQuery = `fq={!tag=${name}}${name}:(${encodedValue})`;
+        } else {
+          filterQuery = `fq=${createSolrFieldQuery(
+            name,
+            encodedValue,
+            lookUpType
+          )}`;
+        }
+
+        encodedData.push(filterQuery);
+      } else if (name === "q") encodedData.push("q=*");
 
       if (type === "checkbox") {
-        isExcluded = true;
-
-        encodedObject = `fq={!tag=${name}}${name}:(${encodedValue})`;
-      } else {
-        if (lookUpType === "") encodedObject += encodedValue;
-        else if (lookUpType === "contains")
-          encodedObject += `*${encodedValue}*`;
-        else if (lookUpType === "equals") encodedObject += `"${encodedValue}"`;
-        else if (lookUpType === "starts with")
-          encodedObject += `${encodedValue}*`;
-        else if (lookUpType === "does not contain")
-          encodedObject = `fq=-${name}:${encodedValue}`;
-        else if (lookUpType === "greater than")
-          encodedObject += `[${encodedValue} TO *]`;
-        else if (lookUpType === "smaller than")
-          encodedObject += `[* TO ${encodedValue}]`;
+        let facetField = `facet.field=${name}`;
+        if (isExcluded) facetField = `facet.field={!ex=${name}}${name}`;
+        facetFieldList.push(facetField);
       }
-
-      encodedData.push(encodedObject);
-    } else if (name === "q") encodedData.push("q=*");
-
-    if (type === "checkbox") {
-      let facetField = `facet.field=${name}`;
-      if (isExcluded) facetField = `facet.field={!ex=${name}}${name}`;
-      facetFieldList.push(facetField);
     }
   });
 
   return encodedData.join("&") + "&" + facetFieldList.join("&");
+}
+
+function createSolrFieldQuery(field, value, lookUpType) {
+  switch (lookUpType) {
+    case "contains":
+      return `${field}:*${value}*`;
+    case "equals":
+      return `${field}:"${value}"`;
+    case "starts with":
+      return `${field}:${value}*`;
+    case "ends with":
+      return `${field}:*${value}`;
+    case "does not contain":
+      return `-${field}:${value}`;
+    case "greater than":
+      return `${field}:[${value} TO *]`;
+    case "smaller than":
+      return `${field}:[* TO ${value}]`;
+    default:
+      return `${field}:${value}`;
+  }
 }
 
 export default SearchService;

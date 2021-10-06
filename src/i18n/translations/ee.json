@@ -115,6 +115,7 @@
       "latitude": "Laiuskraad",
       "longitude": "Pikkuskraad",
       "stratigraphy": "Stratigraafia",
+      "stratigraphyText": "Stratigraafia vaba",
       "mindat": "Mindat",
       "taxonRecordInPbdb": "Taksoni kirje PBDB-s",
       "taxonInEncyclopediaOfLife": "Takson Encyclopedia of Life-s",

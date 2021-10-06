@@ -115,6 +115,7 @@
       "latitude": "Latitude",
       "longitude": "Longitude",
       "stratigraphy": "Stratigraphy",
+      "stratigraphyText": "Stratigraphy text",
       "mindat": "Mindat",
       "taxonRecordInPbdb": "Taxon record in PBDB",
       "taxonInEncyclopediaOfLife": "Taxon in Encyclopedia of Life",

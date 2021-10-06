@@ -114,6 +114,7 @@
       "latitude": "Breitengrad",
       "longitude": "Langengrad",
       "stratigraphy": "Stratigraphie",
+      "stratigraphyText": "Stratigraphie frei",
       "mindat": "Mindat",
       "taxonRecordInPbdb": "Taxon record in PBDB",
       "taxonInEncyclopediaOfLife": "Taxon in Encyclopedia of Life",

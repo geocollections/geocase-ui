@@ -22,10 +22,10 @@
 
 <script>
 import { mapActions, mapState } from "vuex";
-import SearchDrawer from "@/components/app_markup/header/SearchDrawer";
-import AppBar from "@/components/app_markup/header/AppBar";
-import LandingImage from "@/components/app_markup/header/LandingImage";
-import NavigationDrawer from "@/components/app_markup/header/NavigationDrawer";
+import SearchDrawer from "@/components/app_markup/app_header/SearchDrawer";
+import AppBar from "@/components/app_markup/app_header/AppBar";
+import LandingImage from "@/components/app_markup/app_header/LandingImage";
+import NavigationDrawer from "@/components/app_markup/app_header/NavigationDrawer";
 export default {
   name: "AppHeader",
   components: { NavigationDrawer, SearchDrawer, AppBar, LandingImage },
