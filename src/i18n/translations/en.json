@@ -223,7 +223,8 @@
       "unitid": "Object ID",
       "coordinates": "Coordinates",
       "coordinatesReadOnly": "Coordinates - READ ONLY",
-      "map": "Map"
+      "map": "Map",
+      "cetaf_identifier": "CETAF id"
     },
     "pagination": "Paginate by {value}",
     "export": {

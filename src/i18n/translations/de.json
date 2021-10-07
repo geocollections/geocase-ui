@@ -222,7 +222,8 @@
       "unitid": "Objekt ID",
       "coordinates": "Koordinaten",
       "coordinatesReadOnly": "Koordinaten - Nur Lesezugriff",
-      "map": "Karte"
+      "map": "Karte",
+      "cetaf_identifier": "CETAF id"
     },
     "pagination": "Nummeriere mit {value}",
     "export": {

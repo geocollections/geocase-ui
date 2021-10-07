@@ -223,7 +223,8 @@
       "unitid": "Objekti ID",
       "coordinates": "Koordinaadid",
       "coordinatesReadOnly": "Koordinaadid - LOE AINULT",
-      "map": "Kaart"
+      "map": "Kaart",
+      "cetaf_identifier": "CETAF id"
     },
     "pagination": "Kuva {value} kaupa",
     "export": {
