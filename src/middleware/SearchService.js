@@ -152,11 +152,14 @@ function buildSearchFieldsQuery(search, searchIds) {
 
           filterQuery = `fq={!tag=${name}}${name}:(${encodedValue})`;
         } else {
-          filterQuery = `fq=${createSolrFieldQuery(
-            name,
-            encodedValue,
-            lookUpType
-          )}`;
+          if (name === "q") {
+            filterQuery += encodedValue;
+          } else
+            filterQuery = `fq=${createSolrFieldQuery(
+              name,
+              encodedValue,
+              lookUpType
+            )}`;
         }
 
         encodedData.push(filterQuery);
