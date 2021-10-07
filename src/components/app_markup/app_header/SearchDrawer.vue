@@ -146,7 +146,6 @@
               :class="{ 'blue-grey lighten-5': search.map.showCheckboxes }"
               v-show="search.map.showCheckboxes"
             >
-              {{ search.map.value }}
               <map-wrapper
                 map-id="search-map"
                 :open="search.map.showCheckboxes"

@@ -314,7 +314,7 @@ export default {
         if (this.markers.length > 0) {
           let bounds = new L.featureGroup(this.markers).getBounds();
           this.map.fitBounds(bounds, {
-            maxZoom: this.mapId === "tab-map" ? 4 : null
+            maxZoom: this.mapId === "tab-map" ? 4 : 6
           });
         }
       } else {
