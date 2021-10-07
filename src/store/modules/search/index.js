@@ -46,13 +46,6 @@ const state = {
       value: null,
       label: "Locality"
     },
-    // coordinates: {
-    //   id: "coordinates",
-    //   type: "text",
-    //   lookUpType: "",
-    //   value: null,
-    //   label: "Coordinates"
-    // },
     unitid: {
       id: "unitid",
       type: "text",
@@ -66,7 +59,8 @@ const state = {
       lookUpType: "",
       value: null,
       label: "Map",
-      showCheckboxes: false
+      showCheckboxes: false,
+      fields: ["coordinates"]
     },
     recordbasis: {
       id: "recordbasis",
@@ -145,13 +139,6 @@ const state = {
       value: null,
       label: "Show only georeferenced data"
     }
-    // map: {
-    //   id: "map",
-    //   type: "map",
-    //   lookUpType: "",
-    //   value: null,
-    //   label: "Map"
-    // }
   },
   searchIds: [
     "q",
@@ -159,8 +146,8 @@ const state = {
     "highertaxon",
     "stratigraphy",
     "locality",
-    // "coordinates",
     "unitid",
+    "map", // Map is a special case
     "recordbasis",
     "highertaxon_facet",
     "type_status",
@@ -170,14 +157,12 @@ const state = {
     "providercountry",
     "has_image",
     "has_map"
-    // "map"
   ],
   searchTextIds: [
     "fullscientificname",
     "highertaxon",
     "stratigraphy",
     "locality",
-    // "coordinates",
     "unitid"
   ],
   searchCheckboxIds: [

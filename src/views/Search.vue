@@ -76,13 +76,6 @@
               :response-results="responseResults"
               :response-results-count="responseResultsCount"
             />
-            <!--            <tab-map-->
-            <!--              ref="map"-->
-            <!--              v-if="item === 'map'"-->
-            <!--              :response-results="mapResults"-->
-            <!--              :response-results-count="mapResultsCount"-->
-            <!--              @open:table="tab = 0"-->
-            <!--            />-->
           </v-card>
         </v-tab-item>
       </v-tabs-items>

@@ -9,7 +9,11 @@
 
 <script>
 import * as L from "leaflet";
+import "@geoman-io/leaflet-geoman-free";
 import "leaflet/dist/leaflet.css";
+import "@geoman-io/leaflet-geoman-free/dist/leaflet-geoman.css";
+import { mapFields } from "vuex-map-fields";
+import { debounce } from "lodash";
 
 export default {
   name: "MapWrapper",
@@ -35,10 +39,13 @@ export default {
       type: Number,
       required: false,
       default: 1
-    }
+    },
+    activateSearch: Boolean
   },
   data: () => {
     return {
+      allGeomanLayers: null,
+      activeGeomanLayer: null,
       map: null,
       markers: [],
       markerLayer: null,
@@ -145,6 +152,10 @@ export default {
   },
 
   computed: {
+    ...mapFields("search", {
+      geoJSON: "search.map.value"
+    }),
+
     localities() {
       if (this.responseResultsCount > 0) {
         return this.responseResults.filter(locality => !!locality.has_map);
@@ -188,16 +199,40 @@ export default {
 
     open(newVal) {
       if (newVal && this.map) this.map.invalidateSize();
+    },
+
+    activeGeomanLayer(newVal) {
+      if (newVal) {
+        const json = newVal.toGeoJSON();
+
+        // Adding radius if Circle
+        if (newVal instanceof L.Circle) {
+          json.properties.radius = newVal.getRadius();
+        }
+
+        if (json) this.geoJSON = json;
+      } else this.geoJSON = null;
+
+      // Updating activeG"updaeomanLayer triggers search update
+      this.$emit("update");
+    },
+
+    geoJSON(newVal) {
+      if (!newVal) this.removeAllGeomanLayers();
     }
   },
 
   mounted() {
     this.initMap();
+    if (this.activateSearch) this.initLeafletGeoman();
     this.setMarkers(this.localities);
   },
 
   beforeDestroy() {
-    if (this.map) this.map.off("baselayerchange", this.handleLayerChange);
+    if (this.map) {
+      this.map.off("baselayerchange", this.handleLayerChange);
+      if (this.activateSearch) this.terminateLeafletGeoman();
+    }
   },
 
   methods: {
@@ -278,13 +313,65 @@ export default {
 
         if (this.markers.length > 0) {
           let bounds = new L.featureGroup(this.markers).getBounds();
-          this.map.fitBounds(bounds, { maxZoom: 4 });
+          this.map.fitBounds(bounds, {
+            maxZoom: this.mapId === "tab-map" ? 4 : null
+          });
         }
       } else {
         // If response is empty then remove markers
         if (this.markerLayer !== null) this.map.removeLayer(this.markerLayer);
         this.markers = [];
       }
+    },
+
+    initLeafletGeoman() {
+      if (this.map) {
+        this.map.pm.addControls({
+          position: "topleft",
+          drawMarker: false,
+          drawCircleMarker: false,
+          drawPolyline: false,
+          editMode: false,
+          dragMode: false,
+          cutPolygon: false,
+          rotateMode: false
+        });
+
+        this.map.pm.setGlobalOptions({
+          allowSelfIntersection: false,
+          finishOn: "dblclick",
+          snappable: false
+        });
+
+        this.allGeomanLayers = L.layerGroup();
+        this.allGeomanLayers.addTo(this.map);
+
+        this.map.on("pm:create", this.handlePmCreate);
+        this.map.on("pm:remove", this.handlePmRemove);
+      }
+    },
+
+    terminateLeafletGeoman() {
+      this.map.off("pm:create", this.handlePmCreate);
+      this.map.off("pm:remove", this.handlePmRemove);
+    },
+
+    handlePmCreate({ layer }) {
+      this.removeAllGeomanLayers();
+      layer.addTo(this.allGeomanLayers);
+      this.activeGeomanLayer = layer;
+    },
+
+    handlePmRemove() {
+      this.removeAllGeomanLayers();
+      this.activeGeomanLayer = null;
+      this.geoJSON = null;
+      this.$emit("update");
+    },
+
+    removeAllGeomanLayers() {
+      if (this.allGeomanLayers)
+        this.allGeomanLayers.eachLayer(layer => layer.remove());
     }
   }
 };

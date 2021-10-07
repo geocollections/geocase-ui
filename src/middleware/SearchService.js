@@ -1,4 +1,7 @@
 import axios from "axios";
+import { cloneDeep } from "lodash";
+import earcut from "earcut";
+import Wkt from "wicket/wicket";
 
 const API_URL = "/api";
 const FACET_QUERY =
@@ -8,6 +11,7 @@ const STATS_QUERY =
 
 class SearchService {
   static async search(params) {
+    console.log(params);
     try {
       let start = (params.page - 1) * params.paginateBy;
       let sort = buildSort(params.sortBy, params.sortDesc, params.search);
@@ -121,7 +125,7 @@ function buildSearchFieldsQuery(search, searchIds) {
     let isExcluded = false;
 
     // Support for multiple search fields
-    if (fields?.length > 0) {
+    if (fields?.length > 1) {
       if (value && value.trim().length > 0) {
         let filterQueryValue = fields.map(field => {
           name = field;
@@ -135,26 +139,88 @@ function buildSearchFieldsQuery(search, searchIds) {
         encodedData.push(filterQuery);
       }
     } else {
-      if (value && value.trim().length > 0) {
+      if (value && type === "map") {
+        // Todo: Map search
+        console.log("Todo: Map search");
+
+        console.log(value);
+
+        if (value.geometry.type === "Polygon") {
+          // LON LAT
+          const clonedValue = cloneDeep(value);
+
+          // Polygon triangulation
+          const data = earcut.flatten(clonedValue.geometry.coordinates);
+          const triangles = earcut(data.vertices, data.holes, data.dimensions);
+
+          // Reversing triangles to geo coordinates
+          const coordinates = triangles.map(item => {
+            const startIndex = item * 2;
+            return [data.vertices[startIndex], data.vertices[startIndex + 1]];
+          });
+          const triangleCoordinates = coordinates.reduce(
+            (prev, item, index, arr) => {
+              if ((index + 1) % 3 === 0) {
+                prev.push([
+                  arr[index - 2],
+                  arr[index - 1],
+                  arr[index],
+                  arr[index - 2]
+                ]);
+              }
+              return prev;
+            },
+            []
+          );
+
+          // Creating WKT string for query
+          const wkt = new Wkt.Wkt();
+          wkt.read(
+            JSON.stringify({
+              coordinates:
+                triangleCoordinates.length > 1
+                  ? [triangleCoordinates]
+                  : triangleCoordinates,
+              type: triangleCoordinates.length > 1 ? "MultiPolygon" : "Polygon"
+            })
+          );
+          let wktString = wkt.write();
+          wktString = wktString.replaceAll("),(", ")),((");
+
+          const solrFilter = fields
+            .map(field => `${field}:"isWithin(${wktString})"`)
+            .join(" OR ");
+
+          console.log(solrFilter);
+        } else {
+          // CIRCLE
+          const reversedCoordinates = [...value.geometry.coordinates].reverse();
+          // convert to km (from m) and round to 1 decimal place
+          const radius = Math.round((value.properties.radius / 1000) * 10) / 10;
+
+          // NOTE:  Might cause trouble when multiple fields in fields array.
+          // Right now there is always one field in the fields array
+          const solrFilter = fields.map(field => `{!geofilt sfield=${field}}`);
+
+          console.log(solrFilter)
+          console.log(radius)
+          console.log(reversedCoordinates[0])
+          console.log(reversedCoordinates[1])
+        }
+      } else if (value && value.trim().length > 0) {
         if (name === "q" && !(value.includes(" ") || value.includes("*")))
           value = `"${value}"`;
 
         let filterQuery = `fq=${name}:`;
         let encodedValue = encodeURIComponent(value);
-        if (name === "q") filterQuery = filterQuery.substring(1, 3);
-
-        // Todo: #118 + #119
-        // if (name === "coordinates")
-        //   filterQuery = `fq={!geofilt sfield=${name}}&d=0&pt=`;
 
         if (type === "checkbox") {
           isExcluded = true;
 
           filterQuery = `fq={!tag=${name}}${name}:(${encodedValue})`;
         } else {
-          if (name === "q") {
-            filterQuery += encodedValue;
-          } else
+          if (name === "q") filterQuery += `q=${encodedValue}`;
+          else
             filterQuery = `fq=${createSolrFieldQuery(
               name,
               encodedValue,

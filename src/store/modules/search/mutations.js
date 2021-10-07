@@ -1,4 +1,8 @@
+import { updateField } from "vuex-map-fields";
+
 const mutations = {
+  updateField,
+
   UPDATE_RESPONSE_RESULTS(state, payload) {
     state.responseResults = payload;
   },

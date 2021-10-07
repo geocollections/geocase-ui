@@ -1,6 +1,9 @@
 import i18n from "@/i18n";
+import { getField } from "vuex-map-fields";
 
 const getters = {
+  getField,
+
   getCheckboxes: state => (id, showCheckboxes, showMore) => {
     if (showCheckboxes) {
       if (showMore) return state[id];

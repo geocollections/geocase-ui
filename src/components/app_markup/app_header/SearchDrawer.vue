@@ -146,11 +146,14 @@
               :class="{ 'blue-grey lighten-5': search.map.showCheckboxes }"
               v-show="search.map.showCheckboxes"
             >
+              {{ search.map.value }}
               <map-wrapper
                 map-id="search-map"
                 :open="search.map.showCheckboxes"
                 :response-results="responseResults"
                 :response-results-count="responseResultsCount"
+                activate-search
+                @update="doSearch"
               />
             </v-card-text>
           </v-expand-transition>
@@ -456,6 +459,8 @@ export default {
       "updateSortBy",
       "updateSortDesc"
     ]),
+
+    ...mapActions("search", { doSearch: "search" }),
 
     updateSearchFieldDebounced: debounce(function(value) {
       this.updateSearchField(value);
