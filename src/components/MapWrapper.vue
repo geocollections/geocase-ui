@@ -1,6 +1,6 @@
 <template>
   <div
-    id="search-map"
+    :id="mapId"
     :style="{
       height: `${height}`
     }"
@@ -12,8 +12,12 @@ import * as L from "leaflet";
 import "leaflet/dist/leaflet.css";
 
 export default {
-  name: "SearchMap",
+  name: "MapWrapper",
   props: {
+    mapId: {
+      type: String,
+      default: "map"
+    },
     height: {
       type: String,
       default: "500px"
@@ -142,8 +146,6 @@ export default {
 
   computed: {
     localities() {
-      console.log(this.responseResultsCount);
-      console.log(this.responseResults);
       if (this.responseResultsCount > 0) {
         return this.responseResults.filter(locality => !!locality.has_map);
       } else return [];
@@ -191,6 +193,7 @@ export default {
 
   mounted() {
     this.initMap();
+    this.setMarkers(this.localities);
   },
 
   beforeDestroy() {
@@ -199,11 +202,8 @@ export default {
 
   methods: {
     initMap() {
-      console.log("map");
-      console.log(this.map);
       if (this.map === null) {
-        console.log("map init");
-        this.map = L.map("search-map", {
+        this.map = L.map(this.mapId, {
           layers: [this.baseMaps[0].leafletObject],
           scrollWheelZoom: true
         }).setView(L.latLng(58.5, 25.5), 6);
@@ -240,7 +240,6 @@ export default {
     },
 
     setMarkers(localities) {
-      console.log(localities);
       if (localities && localities.length > 0) {
         // Resetting markers before adding new ones
         if (this.markerLayer !== null) this.map.removeLayer(this.markerLayer);
@@ -291,8 +290,4 @@ export default {
 };
 </script>
 
-<style scoped>
-#search-map {
-  height: 500px;
-}
-</style>
+<style scoped></style>

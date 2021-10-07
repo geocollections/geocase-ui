@@ -146,7 +146,8 @@
               :class="{ 'blue-grey lighten-5': search.map.showCheckboxes }"
               v-show="search.map.showCheckboxes"
             >
-              <search-map
+              <map-wrapper
+                map-id="search-map"
                 :open="search.map.showCheckboxes"
                 :response-results="responseResults"
                 :response-results-count="responseResultsCount"
@@ -380,12 +381,12 @@ import TextFieldWrapper from "@/components/input_wrappers/TextFieldWrapper";
 import SelectWrapper from "@/components/input_wrappers/SelectWrapper";
 import queryMixin from "@/mixins/queryMixin";
 import { debounce } from "lodash";
-import SearchMap from "@/components/SearchMap";
+import MapWrapper from "@/components/MapWrapper";
 
 export default {
   name: "SearchDrawer",
 
-  components: { TextFieldWrapper, SelectWrapper, SearchMap },
+  components: { TextFieldWrapper, SelectWrapper, MapWrapper },
 
   mixins: [queryMixin],
 
