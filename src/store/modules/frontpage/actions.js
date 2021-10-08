@@ -12,9 +12,9 @@ const actions = {
         });
     } catch (err) {
       dispatch(
-          "settings/updateErrorMessage",
-          `<b>Failed to fetch statistics</b><br /><b>Name:</b> ${err.name}<br /><b>Message:</b> ${err.message}`,
-          { root: true }
+        "settings/updateErrorMessage",
+        `<b>Failed to fetch statistics</b><br /><b>Name:</b> ${err.name}<br /><b>Message:</b> ${err.message}`,
+        { root: true }
       );
       if (!rootState.settings.error)
         dispatch("settings/updateErrorState", true, { root: true });
@@ -30,14 +30,14 @@ const actions = {
   },
 
   async getLocalitySpecimens(
-      { dispatch, commit, rootState, state },
-      localityData
+    { dispatch, commit, rootState, state },
+    localityData
   ) {
     try {
       if (!state.mapResults?.[localityData.id])
         commit("INIT_MAP_RESULTS", localityData.id);
       let response = await SearchService.getAllSpecimensInProximity(
-          localityData
+        localityData
       );
 
       if (response) {
@@ -52,9 +52,9 @@ const actions = {
       }
     } catch (err) {
       dispatch(
-          "settings/updateErrorMessage",
-          `<b>Failed to fetch specimens in proximity</b><br /><b>Name:</b> ${err.name}<br /><b>Message:</b> ${err.message}`,
-          { root: true }
+        "settings/updateErrorMessage",
+        `<b>Failed to fetch specimens in proximity</b><br /><b>Name:</b> ${err.name}<br /><b>Message:</b> ${err.message}`,
+        { root: true }
       );
       if (!rootState.settings.error)
         dispatch("settings/updateErrorState", true, { root: true });
