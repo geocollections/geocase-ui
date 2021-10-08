@@ -32,20 +32,20 @@
                   class="help-link"
                   :to="{
                     path: 'search',
-                    query: { q: '+acrochordiceras +turkey -balarama' }
+                    query: { q: '+bryozoa -germany +tub*' }
                   }"
-                  >+acrochordiceras +turkey -balarama</router-link
+                  >+bryozoa -germany +tub*</router-link
                 >.
               </li>
 
-              <li>
-                <span v-html="$t('searchHelp.help3')" />
-                <router-link
-                  class="help-link"
-                  :to="{ path: 'search', query: { q: '&quot;160-12&quot;' } }"
-                  >"160-12"</router-link
-                >.
-              </li>
+              <!--              <li>-->
+              <!--                <span v-html="$t('searchHelp.help3')" />-->
+              <!--                <router-link-->
+              <!--                  class="help-link"-->
+              <!--                  :to="{ path: 'search', query: { q: '&quot;160-12&quot;' } }"-->
+              <!--                  >"160-12"</router-link-->
+              <!--                >.-->
+              <!--              </li>-->
 
               <li>
                 {{ $t("searchHelp.help4.prepend") }}
