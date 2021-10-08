@@ -140,11 +140,6 @@ function buildSearchFieldsQuery(search, searchIds) {
       }
     } else {
       if (value && type === "map") {
-        // Todo: Map search
-        console.log("Todo: Map search");
-
-        console.log(value);
-
         if (value.geometry.type === "Polygon") {
           // LON LAT
           const clonedValue = cloneDeep(value);
@@ -219,7 +214,7 @@ function buildSearchFieldsQuery(search, searchIds) {
 
           filterQuery = `fq={!tag=${name}}${name}:(${encodedValue})`;
         } else {
-          if (name === "q") filterQuery += `q=${encodedValue}`;
+          if (name === "q") filterQuery = `q=${encodedValue}`;
           else
             filterQuery = `fq=${createSolrFieldQuery(
               name,
