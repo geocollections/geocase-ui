@@ -186,7 +186,7 @@ function buildSearchFieldsQuery(search, searchIds) {
             .map(field => `${field}:"isWithin(${wktString})"`)
             .join(" OR ");
 
-          console.log(solrFilter);
+          encodedData.push(`fq=${solrFilter}`);
         } else {
           // CIRCLE
           const reversedCoordinates = [...value.geometry.coordinates].reverse();
@@ -197,10 +197,9 @@ function buildSearchFieldsQuery(search, searchIds) {
           // Right now there is always one field in the fields array
           const solrFilter = fields.map(field => `{!geofilt sfield=${field}}`);
 
-          console.log(solrFilter)
-          console.log(radius)
-          console.log(reversedCoordinates[0])
-          console.log(reversedCoordinates[1])
+          encodedData.push(
+            `fq=${solrFilter}&d=${radius}&pt=${reversedCoordinates[0]},${reversedCoordinates[1]}`
+          );
         }
       } else if (value && value.trim().length > 0) {
         if (name === "q" && !(value.includes(" ") || value.includes("*")))
