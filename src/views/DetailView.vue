@@ -176,7 +176,8 @@
                 <div v-if="itemStratigraphy && itemStratigraphy.length > 0">
                   <ul class="circle-list">
                     <li v-for="(item, index) in itemStratigraphy" :key="index">
-                      {{ item }}
+                      <span v-if="item.division">{{ item.division }}: </span>
+                      <span v-if="item.name">{{ item.name }}</span>
                     </li>
                   </ul>
                 </div>

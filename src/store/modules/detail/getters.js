@@ -64,8 +64,12 @@ const getters = {
     } else return false;
   },
 
+  // There is a problem that currently stratigraphy is coming from both standards
+  // which one should we use, both??
   itemStratigraphy: state => {
-    let stratigraphy =
+    // As an array of objects [{ name: '', division: '' }, ...]
+    let stratigraphyList = [];
+    let stratigraphyEFG =
       state?.responseFromSource?.["abcd:DataSets"]?.["abcd:DataSet"]?.[
         "abcd:Units"
       ]?.["abcd:Unit"]?.["abcd:UnitExtension"]?.["efg:EarthScienceSpecimen"]?.[
@@ -73,26 +77,42 @@ const getters = {
       ]?.["efg:ChronostratigraphicAttributions"]?.[
         "efg:ChronostratigraphicAttribution"
       ];
+    let stratigraphyABCD =
+      state?.responseFromSource?.["abcd:DataSets"]?.["abcd:DataSet"]?.[
+        "abcd:Units"
+      ]?.["abcd:Unit"]?.["abcd:Gathering"]?.["abcd:Stratigraphy"]?.[
+        "abcd:ChronostratigraphicTerms"
+      ]?.["abcd:ChronostratigraphicTerm"];
 
-    if (stratigraphy) {
-      stratigraphy = Array.isArray(stratigraphy)
-        ? stratigraphy
-        : [stratigraphy];
+    if (stratigraphyEFG) {
+      if (!Array.isArray(stratigraphyEFG)) stratigraphyEFG = [stratigraphyEFG];
 
-      let stratigraphyList = stratigraphy
-        .map(item => {
-          if (
-            item["efg:ChronostratigraphicName"] &&
-            item["efg:ChronoStratigraphicDivision"]
-          ) {
-            return `${item["efg:ChronoStratigraphicDivision"]}: ${item["efg:ChronostratigraphicName"]}`;
-          }
-        })
-        .filter(item => item);
-      if (stratigraphyList && stratigraphyList.length > 0)
-        return stratigraphyList;
-      else return null;
-    } else return null;
+      stratigraphyList = stratigraphyEFG.reduce((prev, curr) => {
+        if (curr["efg:ChronostratigraphicName"])
+          prev.push({
+            name: curr["efg:ChronostratigraphicName"],
+            division: curr["efg:ChronoStratigraphicDivision"]
+          });
+
+        return prev;
+      }, []);
+    }
+
+    if (stratigraphyABCD) {
+      if (!Array.isArray(stratigraphyABCD))
+        stratigraphyABCD = [stratigraphyABCD];
+
+      stratigraphyABCD.forEach(item => {
+        if (
+          item?.["abcd:Term"] &&
+          !stratigraphyList.some(strat => strat.name === item?.["abcd:Term"])
+        )
+          stratigraphyList.push({
+            name: item["abcd:Term"]
+          });
+      });
+    }
+    return stratigraphyList?.length > 0 ? stratigraphyList : null;
   },
 
   contentContact: state => {
