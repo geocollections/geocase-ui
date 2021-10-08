@@ -40,7 +40,8 @@ export default {
       required: false,
       default: 1
     },
-    activateSearch: Boolean
+    activateSearch: Boolean,
+    isDetailView: Boolean
   },
   data: () => {
     return {
@@ -292,9 +293,9 @@ export default {
 
             if (item.recordURI) {
               marker.on("click", () => {
-                if (this.isDetailView) {
+                if (this.isDetailView)
                   window.open(item.recordURI, "RecordUriWindow");
-                } else this.$router.push({ path: `specimen/${item.id}` });
+                else this.$router.push({ path: `specimen/${item.id}` });
               });
             }
             if (item.locality) {

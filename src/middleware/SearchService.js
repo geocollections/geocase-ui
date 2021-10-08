@@ -11,7 +11,6 @@ const STATS_QUERY =
 
 class SearchService {
   static async search(params) {
-    console.log(params);
     try {
       let start = (params.page - 1) * params.paginateBy;
       let sort = buildSort(params.sortBy, params.sortDesc, params.search);

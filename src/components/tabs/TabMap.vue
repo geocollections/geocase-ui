@@ -36,6 +36,7 @@
         :response-results="responseResults"
         :response-results-count="responseResultsCount"
         :height="isDetailView ? '50vh' : '70vh'"
+        :is-detail-view="isDetailView"
       />
     </div>
   </v-card>
