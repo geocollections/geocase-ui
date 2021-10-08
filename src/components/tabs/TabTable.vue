@@ -113,8 +113,20 @@
       </template>
 
       <template v-slot:item.stratigraphy="{ item }">
-        <div v-if="item.stratigraphy">{{ item.stratigraphy }}</div>
-        <div v-else>{{ item.stratigraphytext }}</div>
+        <div v-if="item.stratigraphies">
+          <ul style="list-style-type: circle">
+            <li v-for="(item, index) in item.stratigraphies" :key="index">
+              {{ item }}
+            </li>
+          </ul>
+        </div>
+        <div v-else-if="item.stratigraphytexts">
+          <ul style="list-style-type: circle">
+            <li v-for="(item, index) in item.stratigraphytexts" :key="index">
+              {{ item }}
+            </li>
+          </ul>
+        </div>
       </template>
 
       <template v-slot:item.url="{ item }">
@@ -304,5 +316,9 @@ export default {
 .table >>> tbody > tr > td:first-child,
 .table >>> thead > tr > th:first-child {
   padding: 0 8px;
+}
+
+.table >>> .sorting-disabled {
+  background-color: #eceff1;
 }
 </style>

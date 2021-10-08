@@ -173,11 +173,35 @@
               </template>
 
               <template v-slot:item.stratigraphy>
-                <div v-if="itemStratigraphy && itemStratigraphy.length > 0">
-                  <ul class="circle-list">
-                    <li v-for="(item, index) in itemStratigraphy" :key="index">
-                      <span v-if="item.division">{{ item.division }}: </span>
-                      <span v-if="item.name">{{ item.name }}</span>
+
+                <!-- Currently uncommented stratigraphy directly from source as all the cases haven't been handled yet  -->
+                <!-- For example currently only handling Chronostratigraphic terms but there's also Lithostratigraphic terms -->
+                <!-- That means itemStratigraphy getter needs to be updated -->
+                <!--                <div v-if="itemStratigraphy && itemStratigraphy.length > 0">-->
+                <!--                  <ul class="circle-list">-->
+                <!--                    <li v-for="(item, index) in itemStratigraphy" :key="index">-->
+                <!--                      <span v-if="item.division">{{ item.division }}: </span>-->
+                <!--                      <span v-if="item.name">{{ item.name }}</span>-->
+                <!--                    </li>-->
+                <!--                  </ul>-->
+                <!--                </div>-->
+                <div v-if="item.stratigraphies">
+                  <ul style="list-style-type: circle">
+                    <li
+                      v-for="(item, index) in item.stratigraphies"
+                      :key="index"
+                    >
+                      {{ item }}
+                    </li>
+                  </ul>
+                </div>
+                <div v-else-if="item.stratigraphytexts">
+                  <ul style="list-style-type: circle">
+                    <li
+                      v-for="(item, index) in item.stratigraphytexts"
+                      :key="index"
+                    >
+                      {{ item }}
                     </li>
                   </ul>
                 </div>

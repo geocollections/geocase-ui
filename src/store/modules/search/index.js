@@ -37,7 +37,7 @@ const state = {
       lookUpType: "contains",
       value: null,
       label: "Stratigraphy",
-      fields: ["stratigraphy", "stratigraphytext"]
+      fields: ["stratigraphies", "stratigraphytexts"]
     },
     locality: {
       id: "locality",
@@ -221,7 +221,14 @@ const state = {
     },
     { text: "country", value: "country", show: true, fixed: false },
     { text: "locality", value: "locality", show: true, fixed: false },
-    { text: "stratigraphy", value: "stratigraphy", show: true, fixed: false },
+    {
+      text: "stratigraphy",
+      value: "stratigraphy",
+      show: true,
+      fixed: false,
+      sortable: false,
+      class: "sorting-disabled"
+    },
     {
       text: "recordURI",
       value: "recordURI",
