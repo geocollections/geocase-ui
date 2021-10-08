@@ -292,11 +292,12 @@ export default {
             );
 
             if (item.recordURI) {
-              marker.on("click", () => {
-                if (this.isDetailView)
-                  window.open(item.recordURI, "RecordUriWindow");
-                else this.$router.push({ path: `specimen/${item.id}` });
-              });
+              if (this.mapId !== "search-map")
+                marker.on("click", () => {
+                  if (this.isDetailView)
+                    window.open(item.recordURI, "RecordUriWindow");
+                  else this.$router.push({ path: `specimen/${item.id}` });
+                });
             }
             if (item.locality) {
               marker.bindTooltip(item.locality, {
