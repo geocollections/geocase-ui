@@ -119,7 +119,7 @@
 
 <script>
 import helperMixin from "@/mixins/helperMixin";
-import ImageWrapper from "@/components/partial/image/ImageWrapper";
+import ImageWrapper from "@/components/image/ImageWrapper";
 import ImageOverflow from "../image/ImageOverflow";
 import { mapActions, mapState } from "vuex";
 

@@ -19,12 +19,14 @@
 
       <v-tabs
         v-model="tab"
+        class="search-tabs"
         grow
         show-arrows
         slider-size="3"
         color="black"
-        active-class="amber lighten-3"
+        active-class="amber lighten-3 border-bottom"
         background-color="amber lighten-5"
+        hide-slider
       >
         <v-tab
           class="font-weight-bold"
@@ -74,13 +76,6 @@
               :response-results="responseResults"
               :response-results-count="responseResultsCount"
             />
-            <!--            <tab-map-->
-            <!--              ref="map"-->
-            <!--              v-if="item === 'map'"-->
-            <!--              :response-results="mapResults"-->
-            <!--              :response-results-count="mapResultsCount"-->
-            <!--              @open:table="tab = 0"-->
-            <!--            />-->
           </v-card>
         </v-tab-item>
       </v-tabs-items>
@@ -101,13 +96,13 @@
 </template>
 
 <script>
-import ScrollToTop from "@/components/partial/ScrollToTop";
+import ScrollToTop from "@/components/ScrollToTop";
 import { mapActions, mapGetters, mapState } from "vuex";
 import queryMixin from "@/mixins/queryMixin";
 import Pagination from "@/components/search/Pagination";
-import TabImages from "@/components/partial/tabs/TabImages";
-import TabMap from "@/components/partial/tabs/TabMap";
-import TabTable from "@/components/partial/tabs/TabTable";
+import TabImages from "@/components/tabs/TabImages";
+import TabMap from "@/components/tabs/TabMap";
+import TabTable from "@/components/tabs/TabTable";
 import { debounce } from "lodash";
 
 export default {
@@ -204,4 +199,9 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.v-tab.border-bottom.v-tab--active {
+  border: none !important;
+  border-bottom: solid 3px black !important;
+}
+</style>

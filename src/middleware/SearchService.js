@@ -1,4 +1,7 @@
 import axios from "axios";
+import { cloneDeep } from "lodash";
+import earcut from "earcut";
+import Wkt from "wicket/wicket";
 
 const API_URL = "/api";
 const FACET_QUERY =
@@ -10,7 +13,7 @@ class SearchService {
   static async search(params) {
     try {
       let start = (params.page - 1) * params.paginateBy;
-      let sort = buildSort(params.sortBy, params.sortDesc);
+      let sort = buildSort(params.sortBy, params.sortDesc, params.search);
 
       let searchFields = buildSearchFieldsQuery(
         params.search,
@@ -91,11 +94,16 @@ class SearchService {
   }
 }
 
-function buildSort(sortBy, sortDesc) {
+function buildSort(sortBy, sortDesc, search) {
   let sort = "";
   if (sortBy && sortDesc && sortBy.length > 0 && sortDesc.length > 0) {
     sortBy.forEach((field, index) => {
-      sort += field + (sortDesc[index] ? " desc" : " asc") + ",";
+      // Added support for multivalue fields
+      if (search?.[field]?.fields?.length > 0) {
+        search?.[field]?.fields.forEach(item => {
+          sort += item + (sortDesc[index] ? " desc" : " asc") + ",";
+        });
+      } else sort += field + (sortDesc[index] ? " desc" : " asc") + ",";
     });
 
     if (sort.length > 0) sort = sort.substring(0, sort.length - 1);
@@ -112,50 +120,140 @@ function buildSearchFieldsQuery(search, searchIds) {
     let type = search[id].type;
     let lookUpType = search[id].lookUpType;
     let value = search[id].value;
+    let fields = search[id]?.fields;
     let isExcluded = false;
 
-    if (value && value.trim().length > 0) {
-      if (name === "q" && !(value.includes(" ") || value.includes("*")))
-        value = `"${value}"`;
+    // Support for multiple search fields
+    if (fields?.length > 1) {
+      if (value && value.trim().length > 0) {
+        let filterQueryValue = fields.map(field => {
+          name = field;
+          let encodedValue = encodeURIComponent(value);
 
-      let encodedObject = `fq=${name}:`;
-      let encodedValue = encodeURIComponent(value);
-      if (name === "q") encodedObject = encodedObject.substring(1, 3);
+          return createSolrFieldQuery(name, encodedValue, lookUpType);
+        });
 
-      // Todo: #118 + #119
-      // if (name === "coordinates")
-      //   encodedObject = `fq={!geofilt sfield=${name}}&d=0&pt=`;
+        const filterQuery = `fq=${filterQueryValue.join(" OR ")}`;
+
+        encodedData.push(filterQuery);
+      }
+    } else {
+      if (value && type === "map") {
+        if (value.geometry.type === "Polygon") {
+          // LON LAT
+          const clonedValue = cloneDeep(value);
+
+          // Polygon triangulation
+          const data = earcut.flatten(clonedValue.geometry.coordinates);
+          const triangles = earcut(data.vertices, data.holes, data.dimensions);
+
+          // Reversing triangles to geo coordinates
+          const coordinates = triangles.map(item => {
+            const startIndex = item * 2;
+            return [data.vertices[startIndex], data.vertices[startIndex + 1]];
+          });
+          const triangleCoordinates = coordinates.reduce(
+            (prev, item, index, arr) => {
+              if ((index + 1) % 3 === 0) {
+                prev.push([
+                  arr[index - 2],
+                  arr[index - 1],
+                  arr[index],
+                  arr[index - 2]
+                ]);
+              }
+              return prev;
+            },
+            []
+          );
+
+          // Creating WKT string for query
+          const wkt = new Wkt.Wkt();
+          wkt.read(
+            JSON.stringify({
+              coordinates:
+                triangleCoordinates.length > 1
+                  ? [triangleCoordinates]
+                  : triangleCoordinates,
+              type: triangleCoordinates.length > 1 ? "MultiPolygon" : "Polygon"
+            })
+          );
+          let wktString = wkt.write();
+          wktString = wktString.replaceAll("),(", ")),((");
+
+          const solrFilter = fields
+            .map(field => `${field}:"isWithin(${wktString})"`)
+            .join(" OR ");
+
+          encodedData.push(`fq=${solrFilter}`);
+        } else {
+          // CIRCLE
+          const reversedCoordinates = [...value.geometry.coordinates].reverse();
+          // convert to km (from m) and round to 1 decimal place
+          const radius = Math.round((value.properties.radius / 1000) * 10) / 10;
+
+          // NOTE:  Might cause trouble when multiple fields in fields array.
+          // Right now there is always one field in the fields array
+          const solrFilter = fields.map(field => `{!geofilt sfield=${field}}`);
+
+          encodedData.push(
+            `fq=${solrFilter}&d=${radius}&pt=${reversedCoordinates[0]},${reversedCoordinates[1]}`
+          );
+        }
+      } else if (value && value.trim().length > 0) {
+        if (name === "q" && !(value.includes(" ") || value.includes("*")))
+          value = `"${value}"`;
+
+        let filterQuery = `fq=${name}:`;
+        let encodedValue = encodeURIComponent(value);
+
+        if (type === "checkbox") {
+          isExcluded = true;
+
+          filterQuery = `fq={!tag=${name}}${name}:(${encodedValue})`;
+        } else {
+          if (name === "q") filterQuery = `q=${encodedValue}`;
+          else
+            filterQuery = `fq=${createSolrFieldQuery(
+              name,
+              encodedValue,
+              lookUpType
+            )}`;
+        }
+
+        encodedData.push(filterQuery);
+      } else if (name === "q") encodedData.push("q=*");
 
       if (type === "checkbox") {
-        isExcluded = true;
-
-        encodedObject = `fq={!tag=${name}}${name}:(${encodedValue})`;
-      } else {
-        if (lookUpType === "") encodedObject += encodedValue;
-        else if (lookUpType === "contains")
-          encodedObject += `*${encodedValue}*`;
-        else if (lookUpType === "equals") encodedObject += `"${encodedValue}"`;
-        else if (lookUpType === "starts with")
-          encodedObject += `${encodedValue}*`;
-        else if (lookUpType === "does not contain")
-          encodedObject = `fq=-${name}:${encodedValue}`;
-        else if (lookUpType === "greater than")
-          encodedObject += `[${encodedValue} TO *]`;
-        else if (lookUpType === "smaller than")
-          encodedObject += `[* TO ${encodedValue}]`;
+        let facetField = `facet.field=${name}`;
+        if (isExcluded) facetField = `facet.field={!ex=${name}}${name}`;
+        facetFieldList.push(facetField);
       }
-
-      encodedData.push(encodedObject);
-    } else if (name === "q") encodedData.push("q=*");
-
-    if (type === "checkbox") {
-      let facetField = `facet.field=${name}`;
-      if (isExcluded) facetField = `facet.field={!ex=${name}}${name}`;
-      facetFieldList.push(facetField);
     }
   });
 
   return encodedData.join("&") + "&" + facetFieldList.join("&");
+}
+
+function createSolrFieldQuery(field, value, lookUpType) {
+  switch (lookUpType) {
+    case "contains":
+      return `${field}:*${value}*`;
+    case "equals":
+      return `${field}:"${value}"`;
+    case "starts with":
+      return `${field}:${value}*`;
+    case "ends with":
+      return `${field}:*${value}`;
+    case "does not contain":
+      return `-${field}:${value}`;
+    case "greater than":
+      return `${field}:[${value} TO *]`;
+    case "smaller than":
+      return `${field}:[* TO ${value}]`;
+    default:
+      return `${field}:${value}`;
+  }
 }
 
 export default SearchService;

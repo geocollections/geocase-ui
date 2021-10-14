@@ -21,6 +21,7 @@ const state = {
     { text: "latitude", value: "latitude" },
     { text: "longitude", value: "longitude" },
     { text: "stratigraphy", value: "stratigraphy" },
+    { text: "stratigraphyText", value: "stratigraphytext" },
     { text: "reference", value: "reference" },
     { text: "mindat", value: "mindat_url" },
     { text: "unitWeight", value: "unitWeight" },

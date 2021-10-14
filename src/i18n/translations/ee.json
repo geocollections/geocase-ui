@@ -115,6 +115,7 @@
       "latitude": "Laiuskraad",
       "longitude": "Pikkuskraad",
       "stratigraphy": "Stratigraafia",
+      "stratigraphyText": "Stratigraafia vaba",
       "mindat": "Mindat",
       "taxonRecordInPbdb": "Taksoni kirje PBDB-s",
       "taxonInEncyclopediaOfLife": "Takson Encyclopedia of Life-s",
@@ -221,7 +222,9 @@
       "_version_": "_version_",
       "unitid": "Objekti ID",
       "coordinates": "Koordinaadid",
-      "coordinatesReadOnly": "Koordinaadid - LOE AINULT"
+      "coordinatesReadOnly": "Koordinaadid - LOE AINULT",
+      "map": "Kaart",
+      "cetaf_identifier": "CETAF id"
     },
     "pagination": "Kuva {value} kaupa",
     "export": {

@@ -15,6 +15,7 @@ const vuexLocal = new VuexPersistence({
   storage: window.localStorage,
   reducer: state => ({
     cookie: state.cookie,
+    frontpage: { showAlert: state.frontpage.showAlert },
     settings: { language: state.settings.language }
   })
 });

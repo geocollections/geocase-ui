@@ -142,7 +142,7 @@
 <script>
 import { mapGetters, mapState } from "vuex";
 import FastSearch from "@/components/search/FastSearch";
-import LangButtons from "@/components/partial/LangButtons";
+import LangButtons from "@/components/LangButtons";
 export default {
   name: "AppBar",
 

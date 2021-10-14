@@ -13,23 +13,26 @@ const queryMixin = {
       let appendableQuery = { ...this.$route.query };
 
       if (search) {
-        this.searchIds.forEach(item => {
-          let queryKey = item;
+        this.searchIds
+          .filter(item => item !== "map") // Skipping map because of geoJSON object
+          .forEach(item => {
+            let queryKey = item;
 
-          // Clearing previous keys
-          Object.keys(appendableQuery).forEach(entity => {
-            let appendableQueryKey = entity;
-            if (entity.includes("__"))
-              appendableQueryKey = entity.split("__")[0];
-            if (appendableQueryKey === queryKey) delete appendableQuery[entity];
+            // Clearing previous keys
+            Object.keys(appendableQuery).forEach(entity => {
+              let appendableQueryKey = entity;
+              if (entity.includes("__"))
+                appendableQueryKey = entity.split("__")[0];
+              if (appendableQueryKey === queryKey)
+                delete appendableQuery[entity];
+            });
+
+            if (search[item].value && search[item].value.trim().length > 0) {
+              if (search[item].lookUpType)
+                queryKey += `__${replaceField(search[queryKey].lookUpType)}`;
+              appendableQuery[queryKey] = search[item].value;
+            } else delete appendableQuery[queryKey];
           });
-
-          if (search[item].value && search[item].value.trim().length > 0) {
-            if (search[item].lookUpType)
-              queryKey += `__${replaceField(search[queryKey].lookUpType)}`;
-            appendableQuery[queryKey] = search[item].value;
-          } else delete appendableQuery[queryKey];
-        });
       }
 
       if (searchParams) {

@@ -86,10 +86,8 @@ export default {
 
       // Possibility to export exact fields for each object
       let fields = Object.keys(jsonArray[0]);
-      console.log(this.getAllFieldNamesForExport);
       if (this.getAllFieldNamesForExport) fields = this.allFieldNames;
       const opts = { fields };
-      console.log(opts);
 
       try {
         const parser = new Parser(opts);

@@ -166,7 +166,7 @@
 </template>
 
 <script>
-import ImageWrapper from "@/components/partial/image/ImageWrapper";
+import ImageWrapper from "@/components/image/ImageWrapper";
 import { throttle } from "lodash";
 
 export default {

@@ -115,6 +115,7 @@
       "latitude": "Latitude",
       "longitude": "Longitude",
       "stratigraphy": "Stratigraphy",
+      "stratigraphyText": "Stratigraphy text",
       "mindat": "Mindat",
       "taxonRecordInPbdb": "Taxon record in PBDB",
       "taxonInEncyclopediaOfLife": "Taxon in Encyclopedia of Life",
@@ -221,7 +222,9 @@
       "_version_": "_version_",
       "unitid": "Object ID",
       "coordinates": "Coordinates",
-      "coordinatesReadOnly": "Coordinates - READ ONLY"
+      "coordinatesReadOnly": "Coordinates - READ ONLY",
+      "map": "Map",
+      "cetaf_identifier": "CETAF id"
     },
     "pagination": "Paginate by {value}",
     "export": {

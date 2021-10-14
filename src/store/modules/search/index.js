@@ -36,7 +36,8 @@ const state = {
       type: "text",
       lookUpType: "contains",
       value: null,
-      label: "Stratigraphy"
+      label: "Stratigraphy",
+      fields: ["stratigraphies", "stratigraphytexts"]
     },
     locality: {
       id: "locality",
@@ -45,19 +46,21 @@ const state = {
       value: null,
       label: "Locality"
     },
-    // coordinates: {
-    //   id: "coordinates",
-    //   type: "text",
-    //   lookUpType: "",
-    //   value: null,
-    //   label: "Coordinates"
-    // },
     unitid: {
       id: "unitid",
       type: "text",
       lookUpType: "contains",
       value: null,
       label: "Object ID"
+    },
+    map: {
+      id: "map",
+      type: "map",
+      lookUpType: "",
+      value: null,
+      label: "Map",
+      showCheckboxes: false,
+      fields: ["coordinates"]
     },
     recordbasis: {
       id: "recordbasis",
@@ -136,13 +139,6 @@ const state = {
       value: null,
       label: "Show only georeferenced data"
     }
-    // map: {
-    //   id: "map",
-    //   type: "map",
-    //   lookUpType: "",
-    //   value: null,
-    //   label: "Map"
-    // }
   },
   searchIds: [
     "q",
@@ -150,8 +146,8 @@ const state = {
     "highertaxon",
     "stratigraphy",
     "locality",
-    // "coordinates",
     "unitid",
+    "map", // Map is a special case
     "recordbasis",
     "highertaxon_facet",
     "type_status",
@@ -161,14 +157,12 @@ const state = {
     "providercountry",
     "has_image",
     "has_map"
-    // "map"
   ],
   searchTextIds: [
     "fullscientificname",
     "highertaxon",
     "stratigraphy",
     "locality",
-    // "coordinates",
     "unitid"
   ],
   searchCheckboxIds: [
@@ -185,6 +179,7 @@ const state = {
     "contains",
     "equals",
     "starts with",
+    "ends with",
     "does not contain",
     "greater than",
     "smaller than"
@@ -226,7 +221,14 @@ const state = {
     },
     { text: "country", value: "country", show: true, fixed: false },
     { text: "locality", value: "locality", show: true, fixed: false },
-    { text: "stratigraphy", value: "stratigraphy", show: true, fixed: false },
+    {
+      text: "stratigraphy",
+      value: "stratigraphy",
+      show: true,
+      fixed: false,
+      sortable: false,
+      class: "sorting-disabled"
+    },
     {
       text: "recordURI",
       value: "recordURI",

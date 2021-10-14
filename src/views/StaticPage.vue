@@ -36,7 +36,6 @@ export default {
   name: "StaticPage",
 
   metaInfo() {
-    console.log(this.$route.name)
     return {
       title: this.$route.name
     };
