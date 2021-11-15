@@ -22,7 +22,7 @@
         </v-tab>
 
         <v-tabs-items class="px-4 px-md-0 pl-md-6 pt-4 pt-md-0">
-          <router-view class="px-2 mx-auto" style="max-width: 700px;" />
+          <router-view class="px-2 mx-auto" style="max-width: 700px" />
         </v-tabs-items>
       </v-tabs>
     </v-card>
@@ -37,7 +37,7 @@ export default {
 
   metaInfo() {
     return {
-      title: this.$route.name
+      title: this.$route.name,
     };
   },
 
@@ -46,8 +46,8 @@ export default {
 
     isMdAndUp() {
       return this.$vuetify.breakpoint.mdAndUp;
-    }
-  }
+    },
+  },
 };
 </script>
 

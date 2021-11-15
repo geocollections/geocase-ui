@@ -100,7 +100,7 @@ function buildSort(sortBy, sortDesc, search) {
     sortBy.forEach((field, index) => {
       // Added support for multivalue fields
       if (search?.[field]?.fields?.length > 0) {
-        search?.[field]?.fields.forEach(item => {
+        search?.[field]?.fields.forEach((item) => {
           sort += item + (sortDesc[index] ? " desc" : " asc") + ",";
         });
       } else sort += field + (sortDesc[index] ? " desc" : " asc") + ",";
@@ -115,7 +115,7 @@ function buildSearchFieldsQuery(search, searchIds) {
   let encodedData = [];
   let facetFieldList = [];
 
-  searchIds.forEach(id => {
+  searchIds.forEach((id) => {
     let name = search[id].id;
     let type = search[id].type;
     let lookUpType = search[id].lookUpType;
@@ -126,7 +126,7 @@ function buildSearchFieldsQuery(search, searchIds) {
     // Support for multiple search fields
     if (fields?.length > 1) {
       if (value && value.trim().length > 0) {
-        let filterQueryValue = fields.map(field => {
+        let filterQueryValue = fields.map((field) => {
           name = field;
           let encodedValue = encodeURIComponent(value);
 
@@ -148,7 +148,7 @@ function buildSearchFieldsQuery(search, searchIds) {
           const triangles = earcut(data.vertices, data.holes, data.dimensions);
 
           // Reversing triangles to geo coordinates
-          const coordinates = triangles.map(item => {
+          const coordinates = triangles.map((item) => {
             const startIndex = item * 2;
             return [data.vertices[startIndex], data.vertices[startIndex + 1]];
           });
@@ -159,7 +159,7 @@ function buildSearchFieldsQuery(search, searchIds) {
                   arr[index - 2],
                   arr[index - 1],
                   arr[index],
-                  arr[index - 2]
+                  arr[index - 2],
                 ]);
               }
               return prev;
@@ -175,14 +175,14 @@ function buildSearchFieldsQuery(search, searchIds) {
                 triangleCoordinates.length > 1
                   ? [triangleCoordinates]
                   : triangleCoordinates,
-              type: triangleCoordinates.length > 1 ? "MultiPolygon" : "Polygon"
+              type: triangleCoordinates.length > 1 ? "MultiPolygon" : "Polygon",
             })
           );
           let wktString = wkt.write();
           wktString = wktString.replaceAll("),(", ")),((");
 
           const solrFilter = fields
-            .map(field => `${field}:"isWithin(${wktString})"`)
+            .map((field) => `${field}:"isWithin(${wktString})"`)
             .join(" OR ");
 
           encodedData.push(`fq=${solrFilter}`);
@@ -194,7 +194,9 @@ function buildSearchFieldsQuery(search, searchIds) {
 
           // NOTE:  Might cause trouble when multiple fields in fields array.
           // Right now there is always one field in the fields array
-          const solrFilter = fields.map(field => `{!geofilt sfield=${field}}`);
+          const solrFilter = fields.map(
+            (field) => `{!geofilt sfield=${field}}`
+          );
 
           encodedData.push(
             `fq=${solrFilter}&d=${radius}&pt=${reversedCoordinates[0]},${reversedCoordinates[1]}`

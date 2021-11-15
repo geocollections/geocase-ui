@@ -34,7 +34,7 @@ const state = {
     { text: "taxonInTreeOfLife", value: "taxon_id_tol" },
     { text: "TaxonInFossiilidInfo", value: "taxon_id" },
     { text: "recordUri", value: "recordURI" },
-    { text: "relatedResource", value: "relatedResource" }
+    { text: "relatedResource", value: "relatedResource" },
   ],
   itemHeadersSecondary: [
     { text: "institution", value: "institutionHomepage" },
@@ -55,9 +55,9 @@ const state = {
     { text: "specimenVerifier", value: "specimenVerifier" },
     { text: "geocaseId", value: "id" },
     { text: "unitGuid", value: "unitGuid" },
-    { text: "cetafIdentifier", value: "cetaf_identifier" }
+    { text: "cetafIdentifier", value: "cetaf_identifier" },
   ],
-  isLoading: false
+  isLoading: false,
 };
 
 export default {
@@ -65,5 +65,5 @@ export default {
   state,
   actions,
   mutations,
-  getters
+  getters,
 };

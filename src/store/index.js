@@ -13,11 +13,11 @@ Vue.use(Vuex);
 const vuexLocal = new VuexPersistence({
   key: "GeoCASE_v1.1.0",
   storage: window.localStorage,
-  reducer: state => ({
+  reducer: (state) => ({
     cookie: state.cookie,
     frontpage: { showAlert: state.frontpage.showAlert },
-    settings: { language: state.settings.language }
-  })
+    settings: { language: state.settings.language },
+  }),
 });
 
 export default new Vuex.Store({
@@ -26,9 +26,9 @@ export default new Vuex.Store({
     detail,
     settings,
     frontpage,
-    cookie
+    cookie,
     // searchMap
   },
   plugins: [vuexLocal.plugin],
-  strict: process.env.NODE_ENV !== "production"
+  strict: process.env.NODE_ENV !== "production",
 });

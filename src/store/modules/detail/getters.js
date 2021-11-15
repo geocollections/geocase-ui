@@ -1,7 +1,7 @@
 import i18n from "@/i18n";
 
 const getters = {
-  itemExists: state => {
+  itemExists: (state) => {
     return !!(
       state.response &&
       state.response.length > 0 &&
@@ -66,7 +66,7 @@ const getters = {
 
   // There is a problem that currently stratigraphy is coming from both standards
   // which one should we use, both??
-  itemStratigraphy: state => {
+  itemStratigraphy: (state) => {
     // As an array of objects [{ name: '', division: '' }, ...]
     let stratigraphyList = [];
     let stratigraphyEFG =
@@ -91,7 +91,7 @@ const getters = {
         if (curr["efg:ChronostratigraphicName"])
           prev.push({
             name: curr["efg:ChronostratigraphicName"],
-            division: curr["efg:ChronoStratigraphicDivision"]
+            division: curr["efg:ChronoStratigraphicDivision"],
           });
 
         return prev;
@@ -102,20 +102,20 @@ const getters = {
       if (!Array.isArray(stratigraphyABCD))
         stratigraphyABCD = [stratigraphyABCD];
 
-      stratigraphyABCD.forEach(item => {
+      stratigraphyABCD.forEach((item) => {
         if (
           item?.["abcd:Term"] &&
-          !stratigraphyList.some(strat => strat.name === item?.["abcd:Term"])
+          !stratigraphyList.some((strat) => strat.name === item?.["abcd:Term"])
         )
           stratigraphyList.push({
-            name: item["abcd:Term"]
+            name: item["abcd:Term"],
           });
       });
     }
     return stratigraphyList?.length > 0 ? stratigraphyList : null;
   },
 
-  contentContact: state => {
+  contentContact: (state) => {
     return state?.responseFromSource?.["abcd:DataSets"]?.["abcd:DataSet"]?.[
       "abcd:ContentContacts"
     ]?.["abcd:ContentContact"];
@@ -141,19 +141,19 @@ const getters = {
     return getters?.contentContact?.["abcd:Address"];
   },
 
-  logoURI: state => {
+  logoURI: (state) => {
     return state?.responseFromSource?.["abcd:DataSets"]?.["abcd:DataSet"]?.[
       "abcd:Metadata"
     ]?.["abcd:Owners"]?.["abcd:Owner"]?.["abcd:LogoURI"];
   },
 
-  representationTitle: state => {
+  representationTitle: (state) => {
     return state?.responseFromSource?.["abcd:DataSets"]?.["abcd:DataSet"]?.[
       "abcd:Metadata"
     ]?.["abcd:Description"]?.["abcd:Representation"]?.["abcd:Title"];
   },
 
-  representationURI: state => {
+  representationURI: (state) => {
     let representationUrl =
       state?.responseFromSource?.["abcd:DataSets"]?.["abcd:DataSet"]?.[
         "abcd:Metadata"
@@ -167,7 +167,7 @@ const getters = {
     else return null;
   },
 
-  copyrights: state => {
+  copyrights: (state) => {
     return state?.responseFromSource?.["abcd:DataSets"]?.["abcd:DataSet"]?.[
       "abcd:Metadata"
     ]?.["abcd:IPRStatements"]?.["abcd:Copyrights"]?.["abcd:Copyright"]?.[
@@ -175,7 +175,7 @@ const getters = {
     ];
   },
 
-  termsofusestatements: state => {
+  termsofusestatements: (state) => {
     return state?.responseFromSource?.["abcd:DataSets"]?.["abcd:DataSet"]?.[
       "abcd:Metadata"
     ]?.["abcd:IPRStatements"]?.["abcd:TermsOfUseStatements"]?.[
@@ -183,7 +183,7 @@ const getters = {
     ]?.["abcd:Text"];
   },
 
-  disclaimers: state => {
+  disclaimers: (state) => {
     return state?.responseFromSource?.["abcd:DataSets"]?.["abcd:DataSet"]?.[
       "abcd:Metadata"
     ]?.["abcd:IPRStatements"]?.["abcd:Disclaimers"]?.["abcd:Disclaimer"]?.[
@@ -191,7 +191,7 @@ const getters = {
     ];
   },
 
-  acknowledgements: state => {
+  acknowledgements: (state) => {
     return state?.responseFromSource?.["abcd:DataSets"]?.["abcd:DataSet"]?.[
       "abcd:Metadata"
     ]?.["abcd:IPRStatements"]?.["abcd:Acknowledgements"]?.[
@@ -199,7 +199,7 @@ const getters = {
     ]?.["abcd:Text"];
   },
 
-  dateLastEdited: state => {
+  dateLastEdited: (state) => {
     let dateLastEdited =
       state?.responseFromSource?.["abcd:DataSets"]?.["abcd:DataSet"]?.[
         "abcd:Units"
@@ -219,7 +219,7 @@ const getters = {
     } else return null;
   },
 
-  itemArea: state => {
+  itemArea: (state) => {
     let area =
       state?.responseFromSource?.["abcd:DataSets"]?.["abcd:DataSet"]?.[
         "abcd:Units"
@@ -228,7 +228,7 @@ const getters = {
     if (area) {
       area = Array.isArray(area) ? area : [area];
       let areaList = area
-        .map(item => {
+        .map((item) => {
           let areaClass = item?.["abcd:NamedArea"]?.["abcd:AreaClass"];
           let areaName = item?.["abcd:NamedArea"]?.["abcd:AreaName"];
 
@@ -239,13 +239,13 @@ const getters = {
           }
           return areaCombined ? areaCombined : null;
         })
-        .filter(item => item);
+        .filter((item) => item);
       if (areaList && areaList.length > 0) return areaList;
       else return null;
     } else return null;
   },
 
-  itemHighertaxon: state => {
+  itemHighertaxon: (state) => {
     let highertaxon =
       state?.responseFromSource?.["abcd:DataSets"]?.["abcd:DataSet"]?.[
         "abcd:Units"
@@ -256,16 +256,16 @@ const getters = {
     if (highertaxon) {
       highertaxon = Array.isArray(highertaxon) ? highertaxon : [highertaxon];
       let highertaxonList = highertaxon
-        .map(item => {
+        .map((item) => {
           if (item["abcd:HigherTaxonName"] && item["abcd:HigherTaxonRank"])
             return `${item["abcd:HigherTaxonRank"]}: ${item["abcd:HigherTaxonName"]}`;
         })
-        .filter(item => item);
+        .filter((item) => item);
       if (highertaxonList && highertaxonList.length > 0) return highertaxonList;
     } else return null;
   },
 
-  specimenVerifier: state => {
+  specimenVerifier: (state) => {
     return state?.responseFromSource?.["abcd:DataSets"]?.["abcd:DataSet"]?.[
       "abcd:Units"
     ]?.["abcd:Unit"]?.["abcd:SpecimenUnit"]?.[
@@ -275,13 +275,13 @@ const getters = {
     ];
   },
 
-  unitGuid: state => {
+  unitGuid: (state) => {
     return state?.responseFromSource?.["abcd:DataSets"]?.["abcd:DataSet"]?.[
       "abcd:Units"
     ]?.["abcd:Unit"]?.["abcd:UnitGUID"];
   },
 
-  originalStatus: state => {
+  originalStatus: (state) => {
     let reference =
       state?.responseFromSource?.["abcd:DataSets"]?.["abcd:DataSet"]?.[
         "abcd:Units"
@@ -308,7 +308,7 @@ const getters = {
     return reference;
   },
 
-  itemReference: state => {
+  itemReference: (state) => {
     let reference =
       state?.responseFromSource?.["abcd:DataSets"]?.["abcd:DataSet"]?.[
         "abcd:Units"
@@ -317,7 +317,7 @@ const getters = {
     if (reference) {
       reference = Array.isArray(reference) ? reference : [reference];
       let referenceList = reference
-        .map(item => {
+        .map((item) => {
           let ref = "";
           if (item?.["abcd:TitleCitation"]) ref = item?.["abcd:TitleCitation"];
           if (item?.["abcd:CitationDetail"])
@@ -330,19 +330,19 @@ const getters = {
           }
           return ref ? ref : null;
         })
-        .filter(item => item);
+        .filter((item) => item);
       if (referenceList && referenceList.length > 0) return referenceList;
       else return null;
     } else return null;
   },
 
-  areaDetail: state => {
+  areaDetail: (state) => {
     return state?.responseFromSource?.["abcd:DataSets"]?.["abcd:DataSet"]?.[
       "abcd:Units"
     ]?.["abcd:Unit"]?.["abcd:Gathering"]?.["abcd:AreaDetail"];
   },
 
-  unitWeight: state => {
+  unitWeight: (state) => {
     return state?.responseFromSource?.["abcd:DataSets"]?.["abcd:DataSet"]?.[
       "abcd:Units"
     ]?.["abcd:Unit"]?.["abcd:UnitExtension"]?.["efg:EarthScienceSpecimen"]?.[
@@ -350,7 +350,7 @@ const getters = {
     ];
   },
 
-  nearNamedPlace: state => {
+  nearNamedPlace: (state) => {
     return state?.responseFromSource?.["abcd:DataSets"]?.["abcd:DataSet"]?.[
       "abcd:Units"
     ]?.["abcd:Unit"]?.["abcd:Gathering"]?.["abcd:NearNamedPlaces"]?.[
@@ -358,7 +358,7 @@ const getters = {
     ]?.["abcd:NearNamedPlace"];
   },
 
-  acquisitionDate: state => {
+  acquisitionDate: (state) => {
     return state?.responseFromSource?.["abcd:DataSets"]?.["abcd:DataSet"]?.[
       "abcd:Units"
     ]?.["abcd:Unit"]?.["abcd:SpecimenUnit"]?.["abcd:Acquisition"]?.[
@@ -366,7 +366,7 @@ const getters = {
     ];
   },
 
-  gatheringAgent: state => {
+  gatheringAgent: (state) => {
     return state?.responseFromSource?.["abcd:DataSets"]?.["abcd:DataSet"]?.[
       "abcd:Units"
     ]?.["abcd:Unit"]?.["abcd:Gathering"]?.["abcd:Agents"]?.[
@@ -374,20 +374,20 @@ const getters = {
     ]?.["abcd:Person"]?.["abcd:FullName"];
   },
 
-  unitDateText: state => {
+  unitDateText: (state) => {
     return state?.responseFromSource?.["abcd:DataSets"]?.["abcd:DataSet"]?.[
       "abcd:Units"
     ]?.["abcd:Unit"]?.["abcd:Gathering"]?.["abcd:DateTime"]?.["abcd:DateText"];
   },
 
-  kindOfUnit: state => {
+  kindOfUnit: (state) => {
     return state?.responseFromSource?.["abcd:DataSets"]?.["abcd:DataSet"]?.[
       "abcd:Units"
     ]?.["abcd:Unit"]?.["abcd:KindOfUnit"];
   },
 
   // Is it possible there are multiple?
-  itemMineralGroup: state => {
+  itemMineralGroup: (state) => {
     const mineralGroup =
       state?.responseFromSource?.["abcd:DataSets"]?.["abcd:DataSet"]?.[
         "abcd:Units"
@@ -413,7 +413,7 @@ const getters = {
     // } else return null;
   },
 
-  mineralNameDetail: state => {
+  mineralNameDetail: (state) => {
     let name =
       state?.responseFromSource?.["abcd:DataSets"]?.["abcd:DataSet"]?.[
         "abcd:Units"
@@ -429,26 +429,26 @@ const getters = {
     return nameDetail ? nameDetail : null;
   },
 
-  translatedItemHeaders: state => {
-    return state.itemHeaders.map(header => {
+  translatedItemHeaders: (state) => {
+    return state.itemHeaders.map((header) => {
       return {
         ...header,
-        text: i18n.t(`detail.table.${header.text}`)
+        text: i18n.t(`detail.table.${header.text}`),
       };
     });
   },
 
-  translatedItemHeadersSecondary: state => {
-    return state.itemHeadersSecondary.map(header => {
+  translatedItemHeadersSecondary: (state) => {
+    return state.itemHeadersSecondary.map((header) => {
       return {
         ...header,
-        text: i18n.t(`detail.secondaryTable.${header.text}`)
+        text: i18n.t(`detail.secondaryTable.${header.text}`),
       };
     });
   },
 
   filteredItemHeaders: (state, getters) => {
-    return getters.translatedItemHeaders.filter(header => {
+    return getters.translatedItemHeaders.filter((header) => {
       if (getters.item[header.value]) {
         return header;
       } else if (header.value === "stratigraphy" && getters?.itemStratigraphy)
@@ -486,7 +486,7 @@ const getters = {
   },
 
   filteredItemHeadersSecondary: (state, getters) => {
-    return getters.translatedItemHeadersSecondary.filter(header => {
+    return getters.translatedItemHeadersSecondary.filter((header) => {
       if (getters.item[header.value]) {
         return header;
       } else if (
@@ -531,7 +531,7 @@ const getters = {
         return header;
       else if (header.value === "unitGuid" && getters?.unitGuid) return header;
     });
-  }
+  },
 };
 
 export default getters;

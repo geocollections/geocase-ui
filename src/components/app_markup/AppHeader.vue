@@ -30,17 +30,17 @@ export default {
   name: "AppHeader",
   components: { NavigationDrawer, SearchDrawer, AppBar, LandingImage },
   data: () => ({
-    drawer: false
+    drawer: false,
   }),
   mounted() {
     if (this.$vuetify.breakpoint.mdAndUp) this.updateSearchDrawerState(true);
   },
   computed: {
-    ...mapState("settings", ["searchDrawer"])
+    ...mapState("settings", ["searchDrawer"]),
   },
   methods: {
-    ...mapActions("settings", ["updateSearchDrawerState"])
-  }
+    ...mapActions("settings", ["updateSearchDrawerState"]),
+  },
 };
 </script>
 

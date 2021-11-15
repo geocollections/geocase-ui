@@ -37,8 +37,8 @@ export default {
     languages: [
       { value: "en", text: "ENG" },
       { value: "ee", text: "EST" },
-      { value: "de", text: "GER" }
-    ]
+      { value: "de", text: "GER" },
+    ],
   }),
 
   computed: {
@@ -49,9 +49,9 @@ export default {
         flag: true,
         "flag-squared": true,
         "flag-circle": true,
-        "lang-button": true
+        "lang-button": true,
       };
-    }
+    },
   },
 
   mounted() {
@@ -67,7 +67,7 @@ export default {
       return {
         "flag-en": lang === "en",
         "flag-ee": lang === "ee",
-        "flag-de": lang === "de"
+        "flag-de": lang === "de",
       };
     },
 
@@ -78,11 +78,11 @@ export default {
       this.$router.replace({
         name: this.$route.name,
         params: newLang !== "en" ? { locale: newLang } : {},
-        query: { ...this.$route.query }
+        query: { ...this.$route.query },
       });
       this.toastInfo({ text: this.$t("messages.languageChange") });
-    }
-  }
+    },
+  },
 };
 </script>
 

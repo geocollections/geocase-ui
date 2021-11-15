@@ -32,20 +32,20 @@
             { text: $t('search.table.unitid'), value: 'unitid' },
             {
               text: $t('search.table.fullscientificname'),
-              value: 'fullscientificname'
-            }
+              value: 'fullscientificname',
+            },
           ]"
           :items="activeDocs"
           :footer-props="{
             itemsPerPageOptions: [10, 25, 50, -1],
             itemsPerPageText: $t('frontPage.map.itemsPerPageText'),
-            showFirstLastPage: true
+            showFirstLastPage: true,
           }"
         >
           <template v-slot:item.icon="{ item }">
             <router-link
               class="icon-link"
-              style="text-decoration: unset;"
+              style="text-decoration: unset"
               :to="{ path: `specimen/${item.id}` }"
               :title="$t('search.goToDetailView')"
             >
@@ -78,7 +78,7 @@
 
           <template v-slot:item.unitid="{ item }">
             <router-link
-              style="text-decoration: unset;"
+              style="text-decoration: unset"
               :to="{ path: `specimen/${item.id}` }"
               :title="$t('search.goToDetailView')"
             >
@@ -89,7 +89,7 @@
           <template v-slot:item.fullscientificname="{ item }">
             <div v-if="item.mindat_id">
               <a
-                style="text-decoration: unset; white-space: nowrap;"
+                style="text-decoration: unset; white-space: nowrap"
                 target="MindatWindow"
                 :title="$t('search.mindatLink')"
                 @click="openMindatInNewWindow(item.mindat_url)"
@@ -122,21 +122,21 @@ export default {
   props: {
     popup: {
       type: Object,
-      required: true
+      required: true,
     },
     activePopupData: {
       type: Object,
-      required: true
+      required: true,
     },
     mapResults: {
       type: Object,
-      required: true
+      required: true,
     },
     popupMaxWidth: {
       type: String,
       required: false,
-      default: "400px"
-    }
+      default: "400px",
+    },
   },
   computed: {
     activeNumFound() {
@@ -145,7 +145,7 @@ export default {
 
     activeDocs() {
       return this.mapResults?.[this.activePopupData?.id]?.docs || [];
-    }
+    },
   },
   methods: {
     // Taken from TabTable.vue
@@ -174,8 +174,8 @@ export default {
       } else if (type === "Meteorite") {
         return "meteorite";
       } else "none";
-    }
-  }
+    },
+  },
 };
 </script>
 

@@ -26,8 +26,8 @@ export default {
   computed: {
     style() {
       return `top: ${this.$vuetify.application.top + 16}px; z-index: 51600;`;
-    }
-  }
+    },
+  },
 };
 </script>
 

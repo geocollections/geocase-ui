@@ -5,7 +5,7 @@
     fullscreen
     hide-overlay
     transition="dialog-bottom-transition"
-    style="z-index: 3000;"
+    style="z-index: 3000"
     no-click-animation
   >
     <v-card tile>
@@ -52,18 +52,29 @@
           :xl="showGallery ? 10 : 12"
         >
           <div
-            class="d-flex flex-column flex-nowrap fill-height justify-space-between"
+            class="
+              d-flex
+              flex-column flex-nowrap
+              fill-height
+              justify-space-between
+            "
           >
             <!-- CONTROL (absolute) -->
             <div
-              class="d-flex flex-row justify-space-between align-center image-overflow--control"
-              :style="
-                `height: calc(100vh - ${decreaseImageContainerHeightBy - 32}px)`
+              class="
+                d-flex
+                flex-row
+                justify-space-between
+                align-center
+                image-overflow--control
               "
+              :style="`height: calc(100vh - ${
+                decreaseImageContainerHeightBy - 32
+              }px)`"
               :class="{
                 'image-control-66': showGallery && $vuetify.breakpoint.xsOnly,
                 'image-control-75': showGallery && $vuetify.breakpoint.smAndUp,
-                'image-control-83': showGallery && $vuetify.breakpoint.xlOnly
+                'image-control-83': showGallery && $vuetify.breakpoint.xlOnly,
               }"
             >
               <v-btn class="ma-3" color="primary" fab small @click="showPrev">
@@ -78,9 +89,7 @@
             <!-- IMAGE -->
             <div class="pa-4">
               <image-wrapper
-                :style="
-                  `height: calc(100vh - ${decreaseImageContainerHeightBy}px)`
-                "
+                :style="`height: calc(100vh - ${decreaseImageContainerHeightBy}px)`"
                 :max-height="imageHeight.toString()"
                 :image-src="images[currentIndex].originalImage"
                 :alt-text="images[currentIndex].altText"
@@ -91,7 +100,7 @@
             <div class="image-info">
               <v-card-text
                 class="pa-6 font-weight-bold black--text"
-                style="font-size: 1.125rem; line-height: 1.5;"
+                style="font-size: 1.125rem; line-height: 1.5"
               >
                 <div v-if="images[currentIndex].image_date">
                   {{ $t("imageGallery.date") }}:
@@ -175,29 +184,29 @@ export default {
   props: {
     images: {
       type: Array,
-      required: true
+      required: true,
     },
     overflowY: {
       type: Boolean,
-      default: true
+      default: true,
     },
     overflowX: {
       type: Boolean,
-      default: false
+      default: false,
     },
     dialog: {
       type: Boolean,
-      default: false
+      default: false,
     },
     currentIndex: {
       type: Number,
-      default: 0
-    }
+      default: 0,
+    },
   },
   data: () => ({
     showGallery: true,
     imageHeight: 400,
-    decreaseImageContainerHeightBy: 193 // Toolbar 64px + image-info 129px default
+    decreaseImageContainerHeightBy: 193, // Toolbar 64px + image-info 129px default
   }),
   beforeDestroy() {
     window.removeEventListener("keyup", this.handleKeyup);
@@ -213,7 +222,7 @@ export default {
         window.removeEventListener("keyup", this.handleKeyup);
         window.removeEventListener("resize", this.calculateImageHeight);
       }
-    }
+    },
   },
   methods: {
     showPrev() {
@@ -234,12 +243,12 @@ export default {
       if (event?.keyCode === 27) this.$emit("close:dialog");
     },
 
-    calculateImageHeight: throttle(function() {
+    calculateImageHeight: throttle(function () {
       let innerHeight = window?.innerHeight;
       let paddingHeight = 32;
       let toolbarHeight = 64;
-      let imageInfoHeight = document.getElementsByClassName("image-info")?.[0]
-        ?.clientHeight;
+      let imageInfoHeight =
+        document.getElementsByClassName("image-info")?.[0]?.clientHeight;
 
       // Defaults
       if (!imageInfoHeight) imageInfoHeight = 129;
@@ -249,8 +258,8 @@ export default {
       if (imageHeight > 400) this.imageHeight = imageHeight;
       this.decreaseImageContainerHeightBy =
         toolbarHeight + imageInfoHeight + paddingHeight;
-    }, 400)
-  }
+    }, 400),
+  },
 };
 </script>
 

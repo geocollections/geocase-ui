@@ -22,13 +22,13 @@ export default {
   name: "ScrollToTop",
 
   data: () => ({
-    showFab: false
+    showFab: false,
   }),
 
   computed: {
     style() {
       return "z-index: 51600;";
-    }
+    },
   },
 
   methods: {
@@ -41,8 +41,8 @@ export default {
 
     toTop() {
       this.$vuetify.goTo(0);
-    }
-  }
+    },
+  },
 };
 </script>
 

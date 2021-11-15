@@ -58,7 +58,7 @@ const actions = {
 
   resetResponseFromSource({ commit }) {
     commit("UPDATE_RESPONSE_FROM_SOURCE", null);
-  }
+  },
 };
 
 export default actions;

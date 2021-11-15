@@ -18,7 +18,7 @@
         <v-list-item-content>
           <v-list-item-title
             class="font-weight-bold text-center text-uppercase mb-2"
-            style="font-size: 1.15rem;"
+            style="font-size: 1.15rem"
             >{{ $t("frontPage.quickSearch") }}</v-list-item-title
           >
 
@@ -45,7 +45,7 @@
         <template v-slot:activator>
           <v-list-item-title
             class="font-weight-bold text-center text-uppercase"
-            style="font-size: 1.15rem;"
+            style="font-size: 1.15rem"
             >{{ $t("search.drawer.additionalFilters") }}</v-list-item-title
           >
         </template>
@@ -95,16 +95,22 @@
         <v-card class="checkboxes" flat tile color="transparent" hover>
           <v-hover v-slot:default="{ hover }">
             <v-card-title
-              class="checkboxes--title font-weight-bold text-uppercase py-2 px-6"
-              style="font-size: 0.875rem;"
+              class="
+                checkboxes--title
+                font-weight-bold
+                text-uppercase
+                py-2
+                px-6
+              "
+              style="font-size: 0.875rem"
               :class="{
                 'blue-grey lighten-3': search.map.showCheckboxes,
-                'blue-grey lighten-2': search.map.showCheckboxes && hover
+                'blue-grey lighten-2': search.map.showCheckboxes && hover,
               }"
               @click="
                 updateSearchField({
                   id: 'map',
-                  showCheckboxes: !search.map.showCheckboxes
+                  showCheckboxes: !search.map.showCheckboxes,
                 })
               "
             >
@@ -129,7 +135,7 @@
                 </template>
                 <span>{{
                   $t("search.drawer.clearFilters", {
-                    field: $t(`search.table.map`)
+                    field: $t(`search.table.map`),
                   })
                 }}</span>
               </v-tooltip>
@@ -170,16 +176,22 @@
         >
           <v-hover v-slot:default="{ hover }">
             <v-card-title
-              class="checkboxes--title font-weight-bold text-uppercase py-2 px-6"
-              style="font-size: 0.875rem;"
+              class="
+                checkboxes--title
+                font-weight-bold
+                text-uppercase
+                py-2
+                px-6
+              "
+              style="font-size: 0.875rem"
               :class="{
                 'blue-grey lighten-3': search[id].showCheckboxes,
-                'blue-grey lighten-2': search[id].showCheckboxes && hover
+                'blue-grey lighten-2': search[id].showCheckboxes && hover,
               }"
               @click="
                 updateSearchField({
                   id: id,
-                  showCheckboxes: !search[id].showCheckboxes
+                  showCheckboxes: !search[id].showCheckboxes,
                 })
               "
             >
@@ -209,7 +221,7 @@
                 </template>
                 <span>{{
                   $t("search.drawer.clearFilters", {
-                    field: $t(`search.table.${id}`)
+                    field: $t(`search.table.${id}`),
                   })
                 }}</span>
               </v-tooltip>
@@ -242,14 +254,14 @@
                     color="blue-grey darken-3"
                     :input-value="
                       search[id].value &&
-                        search[id].value.includes(`&quot;${entity}&quot;`)
+                      search[id].value.includes(`&quot;${entity}&quot;`)
                     "
                     @change="
                       updateCheckbox({
                         id: id,
                         bool: $event,
                         value: search[id].value,
-                        fieldName: entity
+                        fieldName: entity,
                       })
                     "
                     hide-details
@@ -260,7 +272,7 @@
                         {{ entity }}
                         <span
                           class="font-italic font-weight-light"
-                          style="font-size: 0.875rem;"
+                          style="font-size: 0.875rem"
                           >({{ getCheckboxesCount(id)[key] }})</span
                         >
                       </div>
@@ -278,7 +290,7 @@
                     @click="
                       updateSearchField({
                         id: id,
-                        showMore: !search[id].showMore
+                        showMore: !search[id].showMore,
                       })
                     "
                   >
@@ -324,7 +336,7 @@
         <template v-slot:activator>
           <v-list-item-title
             class="font-weight-bold text-center text-uppercase"
-            style="font-size: 1.15rem;"
+            style="font-size: 1.15rem"
             >{{ $t("search.drawer.extraOptions") }}</v-list-item-title
           >
         </template>
@@ -395,8 +407,8 @@ export default {
   props: {
     drawer: {
       type: Boolean,
-      required: true
-    }
+      required: true,
+    },
   },
 
   data: () => ({
@@ -404,7 +416,7 @@ export default {
     showTextFields: true,
     showCheckboxes: true,
     showSingleCheckboxes: true,
-    showExtraOptions: false
+    showExtraOptions: false,
   }),
 
   computed: {
@@ -416,7 +428,7 @@ export default {
       "searchSingleCheckboxIds",
       "isTableHeaderFixed",
       "responseResults",
-      "responseResultsCount"
+      "responseResultsCount",
     ]),
     ...mapGetters("search", [
       "getCheckboxes",
@@ -424,7 +436,7 @@ export default {
       "getCheckboxesLength",
       "getActiveCheckboxesCount",
       "getAllNonFixedTableHeaders",
-      "getAllShownTableHeaders"
+      "getAllShownTableHeaders",
     ]),
 
     isSmAndDown() {
@@ -436,7 +448,7 @@ export default {
       if (this.isSmAndDown)
         style += `margin-top: ${this.$vuetify.application.top}px; `;
       return style;
-    }
+    },
   },
 
   watch: {
@@ -444,8 +456,8 @@ export default {
       handler(newVal) {
         this.constructQueryParams(newVal);
       },
-      deep: true
-    }
+      deep: true,
+    },
   },
 
   methods: {
@@ -456,12 +468,12 @@ export default {
       "updateTableHeaderFixedState",
       "updatePage",
       "updateSortBy",
-      "updateSortDesc"
+      "updateSortDesc",
     ]),
 
     ...mapActions("search", { doSearch: "search" }),
 
-    updateSearchFieldDebounced: debounce(function(value) {
+    updateSearchFieldDebounced: debounce(function (value) {
       this.updateSearchField(value);
       // #113 removing sorting
       if (value?.id === "q") {
@@ -481,7 +493,7 @@ export default {
         if (e.value) {
           let valueList = e.value.replaceAll('" "', '"|-|"').split("|-|");
           let filteredValues = valueList.filter(
-            val => val !== `"${e.fieldName}"`
+            (val) => val !== `"${e.fieldName}"`
           );
           e.value = filteredValues.join(" ");
         }
@@ -498,12 +510,12 @@ export default {
     resetFacet(id) {
       this.updateSearchField({
         id: id,
-        value: null
+        value: null,
       });
       // #112
       if (this.search.page !== 1) this.updatePage(1);
-    }
-  }
+    },
+  },
 };
 </script>
 

@@ -15,21 +15,21 @@ const state = {
       type: "text",
       lookUpType: "",
       value: null,
-      label: "Find quickly"
+      label: "Find quickly",
     },
     fullscientificname: {
       id: "fullscientificname",
       type: "text",
       lookUpType: "contains",
       value: null,
-      label: "Name"
+      label: "Name",
     },
     highertaxon: {
       id: "highertaxon",
       type: "text",
       lookUpType: "contains",
       value: null,
-      label: "Group"
+      label: "Group",
     },
     stratigraphy: {
       id: "stratigraphy",
@@ -37,21 +37,21 @@ const state = {
       lookUpType: "contains",
       value: null,
       label: "Stratigraphy",
-      fields: ["stratigraphies", "stratigraphytexts"]
+      fields: ["stratigraphies", "stratigraphytexts"],
     },
     locality: {
       id: "locality",
       type: "text",
       lookUpType: "contains",
       value: null,
-      label: "Locality"
+      label: "Locality",
     },
     unitid: {
       id: "unitid",
       type: "text",
       lookUpType: "contains",
       value: null,
-      label: "Object ID"
+      label: "Object ID",
     },
     map: {
       id: "map",
@@ -60,7 +60,7 @@ const state = {
       value: null,
       label: "Map",
       showCheckboxes: false,
-      fields: ["coordinates"]
+      fields: ["coordinates"],
     },
     recordbasis: {
       id: "recordbasis",
@@ -69,7 +69,7 @@ const state = {
       value: null,
       label: "Specimen type",
       showCheckboxes: false,
-      showMore: false
+      showMore: false,
     },
     highertaxon_facet: {
       id: "highertaxon_facet",
@@ -78,7 +78,7 @@ const state = {
       value: null,
       label: "Group",
       showCheckboxes: false,
-      showMore: false
+      showMore: false,
     },
     type_status: {
       id: "type_status",
@@ -87,7 +87,7 @@ const state = {
       value: null,
       label: "Type status",
       showCheckboxes: false,
-      showMore: false
+      showMore: false,
     },
     country: {
       id: "country",
@@ -96,7 +96,7 @@ const state = {
       value: null,
       label: "Country",
       showCheckboxes: false,
-      showMore: false
+      showMore: false,
     },
     datasetowner: {
       id: "datasetowner",
@@ -105,7 +105,7 @@ const state = {
       value: null,
       label: "Dataset owner",
       showCheckboxes: false,
-      showMore: false
+      showMore: false,
     },
     providername: {
       id: "providername",
@@ -114,7 +114,7 @@ const state = {
       value: null,
       label: "Provider",
       showCheckboxes: false,
-      showMore: false
+      showMore: false,
     },
     providercountry: {
       id: "providercountry",
@@ -123,22 +123,22 @@ const state = {
       value: null,
       label: "Provider country",
       showCheckboxes: false,
-      showMore: false
+      showMore: false,
     },
     has_image: {
       id: "has_image",
       type: "single_checkbox",
       lookUpType: "",
       value: null,
-      label: "Show only data with images"
+      label: "Show only data with images",
     },
     has_map: {
       id: "has_map",
       type: "single_checkbox",
       lookUpType: "",
       value: null,
-      label: "Show only georeferenced data"
-    }
+      label: "Show only georeferenced data",
+    },
   },
   searchIds: [
     "q",
@@ -156,14 +156,14 @@ const state = {
     "providername",
     "providercountry",
     "has_image",
-    "has_map"
+    "has_map",
   ],
   searchTextIds: [
     "fullscientificname",
     "highertaxon",
     "stratigraphy",
     "locality",
-    "unitid"
+    "unitid",
   ],
   searchCheckboxIds: [
     "recordbasis",
@@ -172,7 +172,7 @@ const state = {
     "country",
     "datasetowner",
     "providername",
-    "providercountry"
+    "providercountry",
   ],
   searchSingleCheckboxIds: ["has_image", "has_map"],
   lookUpTypes: [
@@ -182,7 +182,7 @@ const state = {
     "ends with",
     "does not contain",
     "greater than",
-    "smaller than"
+    "smaller than",
   ],
   recordbasis: [],
   highertaxon_facet: [],
@@ -198,7 +198,7 @@ const state = {
     { text: "search.pagination", value: 100 },
     { text: "search.pagination", value: 250 },
     { text: "search.pagination", value: 500 },
-    { text: "search.pagination", value: 1000 }
+    { text: "search.pagination", value: 1000 },
   ],
   searchParamsList: ["page", "paginate_by", "sort_by", "sort_desc"],
   allFieldNames: null,
@@ -209,7 +209,7 @@ const state = {
       text: "collectioncode",
       value: "collectioncode",
       show: true,
-      fixed: false
+      fixed: false,
     },
     { text: "unitid", value: "unitid", show: true, fixed: false },
     { text: "highertaxon", value: "highertaxon", show: true, fixed: false },
@@ -217,7 +217,7 @@ const state = {
       text: "fullscientificname",
       value: "fullscientificname",
       show: true,
-      fixed: false
+      fixed: false,
     },
     { text: "country", value: "country", show: true, fixed: false },
     { text: "locality", value: "locality", show: true, fixed: false },
@@ -227,18 +227,18 @@ const state = {
       show: true,
       fixed: false,
       sortable: false,
-      class: "sorting-disabled"
+      class: "sorting-disabled",
     },
     {
       text: "recordURI",
       value: "recordURI",
       align: "center",
       show: true,
-      fixed: false
+      fixed: false,
     },
-    { text: "url", value: "url", align: "center", show: true, fixed: false }
+    { text: "url", value: "url", align: "center", show: true, fixed: false },
   ],
-  isTableHeaderFixed: false
+  isTableHeaderFixed: false,
 };
 
 export default {
@@ -246,5 +246,5 @@ export default {
   state,
   actions,
   mutations,
-  getters
+  getters,
 };

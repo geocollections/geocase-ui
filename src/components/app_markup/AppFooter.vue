@@ -58,25 +58,25 @@ export default {
           alt: "footer.cetafLogoAltText",
           src: this.getImageUrl(
             "https://files.geocollections.info/img/geocase/footer_logos/cetaf_logo.png"
-          )
+          ),
         },
         {
           href: "https://taltech.ee/en/department-geology",
           alt: "footer.taltechLogoAltText",
           src: this.getImageUrl(
             "https://files.geocollections.info/img/geocase/footer_logos/taltech1.png"
-          )
+          ),
         },
         {
           href: "https://www.museumfuernaturkunde.berlin/",
           alt: "footer.mfnLogoAltText",
           src: this.getImageUrl(
             "https://files.geocollections.info/img/geocase/footer_logos/mfn1.png"
-          )
-        }
+          ),
+        },
       ];
-    }
-  }
+    },
+  },
 };
 </script>
 

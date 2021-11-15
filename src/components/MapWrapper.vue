@@ -2,7 +2,7 @@
   <div
     :id="mapId"
     :style="{
-      height: `${height}`
+      height: `${height}`,
     }"
   ></div>
 </template>
@@ -20,28 +20,28 @@ export default {
   props: {
     mapId: {
       type: String,
-      default: "map"
+      default: "map",
     },
     height: {
       type: String,
-      default: "500px"
+      default: "500px",
     },
     open: {
       type: Boolean,
       default: false,
-      required: false
+      required: false,
     },
     responseResults: {
       type: Array,
-      required: true
+      required: true,
     },
     responseResultsCount: {
       type: Number,
       required: false,
-      default: 1
+      default: 1,
     },
     activateSearch: Boolean,
-    isDetailView: Boolean
+    isDetailView: Boolean,
   },
   data: () => {
     return {
@@ -51,9 +51,8 @@ export default {
       markers: [],
       markerLayer: null,
       markerIcon: new L.divIcon({
-        html:
-          "<i class='v-icon notranslate fas fa-circle theme--light primary--text searchMap-marker-icon' style='font-size: 0.75rem; opacity: 0.5;'/>",
-        className: "map-marker"
+        html: "<i class='v-icon notranslate fas fa-circle theme--light primary--text searchMap-marker-icon' style='font-size: 0.75rem; opacity: 0.5;'/>",
+        className: "map-marker",
       }),
       baseMaps: [
         {
@@ -62,11 +61,11 @@ export default {
             "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
             {
               attribution:
-                '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
+                '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
             }
           ),
           minZoom: 1,
-          maxZoom: 18
+          maxZoom: 18,
         },
         {
           name: "OpenStreetMap",
@@ -74,11 +73,11 @@ export default {
             "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
             {
               attribution:
-                '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+                '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
             }
           ),
           minZoom: 1,
-          maxZoom: 18
+          maxZoom: 18,
         },
         {
           name: "OpenTopoMap",
@@ -86,11 +85,11 @@ export default {
             "https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png",
             {
               attribution:
-                'Map data: &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
+                'Map data: &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)',
             }
           ),
           minZoom: 1,
-          maxZoom: 18
+          maxZoom: 18,
         },
         {
           name: "Estonian satellite",
@@ -104,11 +103,11 @@ export default {
               detectRetina: true,
               zIndex: 1,
               updateWhenIdle: true,
-              continuousWorld: true
+              continuousWorld: true,
             }
           ),
           minZoom: 6,
-          maxZoom: 18
+          maxZoom: 18,
         },
         {
           name: "Estonian map",
@@ -122,12 +121,12 @@ export default {
               detectRetina: true,
               zIndex: 1,
               updateWhenIdle: true,
-              continuousWorld: true
+              continuousWorld: true,
             }
           ),
           minZoom: 6,
-          maxZoom: 18
-        }
+          maxZoom: 18,
+        },
       ],
       overlayMaps: [
         {
@@ -142,33 +141,33 @@ export default {
               detectRetina: true,
               zIndex: 2,
               updateWhenIdle: true,
-              continuousWorld: true
+              continuousWorld: true,
             }
           ),
           minZoom: 6,
-          maxZoom: 18
-        }
-      ]
+          maxZoom: 18,
+        },
+      ],
     };
   },
 
   computed: {
     ...mapFields("search", {
-      geoJSON: "search.map.value"
+      geoJSON: "search.map.value",
     }),
 
     localities() {
       if (this.responseResultsCount > 0) {
-        return this.responseResults.filter(locality => !!locality.has_map);
+        return this.responseResults.filter((locality) => !!locality.has_map);
       } else return [];
     },
 
     responseResultsHasEstonia() {
-      return this.localities.some(item => item.country === "Estonia");
+      return this.localities.some((item) => item.country === "Estonia");
     },
 
     filteredBaseMaps() {
-      return this.baseMaps.filter(item => {
+      return this.baseMaps.filter((item) => {
         if (item.name.includes("Estonia")) {
           return this.responseResultsHasEstonia;
         } else return item;
@@ -176,12 +175,12 @@ export default {
     },
 
     filteredOverlayMaps() {
-      return this.overlayMaps.filter(item => {
+      return this.overlayMaps.filter((item) => {
         if (item.name.includes("Estonia")) {
           return this.responseResultsHasEstonia;
         } else return item;
       });
-    }
+    },
   },
 
   watch: {
@@ -195,7 +194,7 @@ export default {
           });
         }
       },
-      deep: true
+      deep: true,
     },
 
     open(newVal) {
@@ -220,7 +219,7 @@ export default {
 
     geoJSON(newVal) {
       if (!newVal) this.removeAllGeomanLayers();
-    }
+    },
   },
 
   mounted() {
@@ -241,16 +240,16 @@ export default {
       if (this.map === null) {
         this.map = L.map(this.mapId, {
           layers: [this.baseMaps[0].leafletObject],
-          scrollWheelZoom: true
+          scrollWheelZoom: true,
         }).setView(L.latLng(58.5, 25.5), 6);
 
         let baseMaps = {};
         this.filteredBaseMaps.forEach(
-          provider => (baseMaps[provider.name] = provider.leafletObject)
+          (provider) => (baseMaps[provider.name] = provider.leafletObject)
         );
         let overlayMaps = {};
         this.filteredOverlayMaps.forEach(
-          provider => (overlayMaps[provider.name] = provider.leafletObject)
+          (provider) => (overlayMaps[provider.name] = provider.leafletObject)
         );
         L.control.layers(baseMaps, overlayMaps).addTo(this.map);
 
@@ -281,12 +280,12 @@ export default {
         if (this.markerLayer !== null) this.map.removeLayer(this.markerLayer);
         this.markers = [];
 
-        localities.forEach(item => {
+        localities.forEach((item) => {
           if (item.latitude && item.longitude) {
             let marker = L.marker(
               {
                 lat: parseFloat(item.latitude),
-                lng: parseFloat(item.longitude)
+                lng: parseFloat(item.longitude),
               },
               { icon: this.markerIcon }
             );
@@ -302,7 +301,7 @@ export default {
             if (item.locality) {
               marker.bindTooltip(item.locality, {
                 permanent: false,
-                direction: "right"
+                direction: "right",
               });
             }
 
@@ -317,7 +316,7 @@ export default {
           let bounds = new L.featureGroup(this.markers).getBounds();
           this.map.fitBounds(bounds, {
             maxZoom: this.mapId === "tab-map" ? 4 : 6,
-            padding: this.mapId === "tab-map" ? [0] : [15, 15]
+            padding: this.mapId === "tab-map" ? [0] : [15, 15],
           });
         }
       } else {
@@ -337,13 +336,13 @@ export default {
           editMode: false,
           dragMode: false,
           cutPolygon: false,
-          rotateMode: false
+          rotateMode: false,
         });
 
         this.map.pm.setGlobalOptions({
           allowSelfIntersection: false,
           finishOn: "dblclick",
-          snappable: false
+          snappable: false,
         });
 
         this.allGeomanLayers = L.layerGroup();
@@ -374,9 +373,9 @@ export default {
 
     removeAllGeomanLayers() {
       if (this.allGeomanLayers)
-        this.allGeomanLayers.eachLayer(layer => layer.remove());
-    }
-  }
+        this.allGeomanLayers.eachLayer((layer) => layer.remove());
+    },
+  },
 };
 </script>
 

@@ -13,7 +13,7 @@ const imageMixin = {
         "recordbasis",
         "fullscientificname",
         "locality",
-        "datasetowner"
+        "datasetowner",
       ];
       if (imageObject) {
         fields.forEach((item, index) => {
@@ -24,8 +24,8 @@ const imageMixin = {
         });
       }
       return altText;
-    }
-  }
+    },
+  },
 };
 
 export default imageMixin;

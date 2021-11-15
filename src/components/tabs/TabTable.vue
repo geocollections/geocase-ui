@@ -21,7 +21,7 @@
     >
       <template v-slot:no-data>
         <v-row no-gutters class="my-4" justify="center">
-          <v-col cols="12" style="max-width: 500px;">
+          <v-col cols="12" style="max-width: 500px">
             <v-alert
               class="mb-0"
               text
@@ -47,7 +47,7 @@
       <template v-slot:item.icon="{ item }">
         <router-link
           class="icon-link"
-          style="text-decoration: unset;"
+          style="text-decoration: unset"
           :to="{ path: `specimen/${item.id}` }"
           :title="$t('search.goToDetailView')"
         >
@@ -74,7 +74,7 @@
 
       <template v-slot:item.unitid="{ item }">
         <router-link
-          style="text-decoration: unset;"
+          style="text-decoration: unset"
           :to="{ path: `specimen/${item.id}` }"
           :title="$t('search.goToDetailView')"
         >
@@ -85,7 +85,7 @@
       <template v-slot:item.fullscientificname="{ item }">
         <div v-if="item.mindat_id">
           <a
-            style="text-decoration: unset; white-space: nowrap;"
+            style="text-decoration: unset; white-space: nowrap"
             target="MindatWindow"
             :title="$t('search.mindatLink')"
             @click="openUrlInNewWindow(item.mindat_url)"
@@ -97,7 +97,7 @@
         </div>
         <div v-else-if="item.meteorite_id">
           <a
-            style="text-decoration: unset; white-space: nowrap;"
+            style="text-decoration: unset; white-space: nowrap"
             target="MeteoriteWindow"
             :title="$t('search.mindatLink')"
             @click="
@@ -169,39 +169,39 @@ export default {
   props: {
     responseResults: {
       type: Array,
-      required: true
+      required: true,
     },
     responseResultsCount: {
       type: Number,
-      required: true
+      required: true,
     },
     page: {
       type: Number,
-      required: true
+      required: true,
     },
     paginateBy: {
       type: Number,
-      required: true
+      required: true,
     },
     sortBy: {
       type: Array,
-      required: true
+      required: true,
     },
     sortDesc: {
       type: Array,
-      required: true
+      required: true,
     },
     isLoading: {
       type: Boolean,
-      default: false
+      default: false,
     },
     tabIndex: {
-      type: Number
-    }
+      type: Number,
+    },
   },
 
   data: () => ({
-    tableHeight: "100%"
+    tableHeight: "100%",
   }),
 
   beforeDestroy() {
@@ -216,19 +216,19 @@ export default {
           this.calculateTableHeight();
         } else window.removeEventListener("resize", this.calculateTableHeight);
       },
-      immediate: true
-    }
+      immediate: true,
+    },
   },
 
   computed: {
     ...mapState("search", ["isTableHeaderFixed"]),
-    ...mapGetters("search", ["getAllShownTableHeaders"])
+    ...mapGetters("search", ["getAllShownTableHeaders"]),
   },
 
   methods: {
     ...mapActions("search", ["resetSearch"]),
 
-    calculateTableHeight: throttle(function() {
+    calculateTableHeight: throttle(function () {
       let innerHeight = window?.innerHeight;
       let paddingTotal = 24;
       let appTop =
@@ -239,13 +239,12 @@ export default {
         this.$vuetify.application.footer !== 0
           ? this.$vuetify.application.footer
           : 192;
-      let recordsFoundHeight = document.getElementsByClassName(
-        "records-found"
-      )?.[0]?.clientHeight;
-      let tabsHeight = document.getElementsByClassName("v-tabs")?.[0]
-        ?.clientHeight;
-      let paginationHeight = document.getElementsByClassName("pagination")?.[0]
-        ?.clientHeight;
+      let recordsFoundHeight =
+        document.getElementsByClassName("records-found")?.[0]?.clientHeight;
+      let tabsHeight =
+        document.getElementsByClassName("v-tabs")?.[0]?.clientHeight;
+      let paginationHeight =
+        document.getElementsByClassName("pagination")?.[0]?.clientHeight;
 
       // Defaults
       if (!recordsFoundHeight) recordsFoundHeight = 48;
@@ -296,8 +295,8 @@ export default {
       } else if (type === "Meteorite") {
         return "meteorite";
       } else "none";
-    }
-  }
+    },
+  },
 };
 </script>
 

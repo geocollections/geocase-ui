@@ -7,8 +7,8 @@ export default {
   name: "Efg",
 
   metaInfo: {
-    title: "About EFG"
-  }
+    title: "About EFG",
+  },
 };
 </script>
 

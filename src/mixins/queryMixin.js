@@ -3,7 +3,7 @@ import { isEqual } from "lodash";
 
 const queryMixin = {
   computed: {
-    ...mapState("search", ["searchParamsList", "lookUpTypes", "searchIds"])
+    ...mapState("search", ["searchParamsList", "lookUpTypes", "searchIds"]),
   },
 
   methods: {
@@ -14,12 +14,12 @@ const queryMixin = {
 
       if (search) {
         this.searchIds
-          .filter(item => item !== "map") // Skipping map because of geoJSON object
-          .forEach(item => {
+          .filter((item) => item !== "map") // Skipping map because of geoJSON object
+          .forEach((item) => {
             let queryKey = item;
 
             // Clearing previous keys
-            Object.keys(appendableQuery).forEach(entity => {
+            Object.keys(appendableQuery).forEach((entity) => {
               let appendableQueryKey = entity;
               if (entity.includes("__"))
                 appendableQueryKey = entity.split("__")[0];
@@ -37,7 +37,7 @@ const queryMixin = {
 
       if (searchParams) {
         let params = { ...searchParams };
-        Object.entries(params).forEach(item => {
+        Object.entries(params).forEach((item) => {
           if (item[0] === "sort_by" || item[0] === "sort_desc") {
             let value = item[1].join(",");
             if (value && value.trim().length > 0) {
@@ -54,12 +54,12 @@ const queryMixin = {
           name: "Search",
           params:
             this.$i18n.locale !== "en" ? { locale: this.$i18n.locale } : {},
-          query: { ...newQueryParams }
+          query: { ...newQueryParams },
         });
     },
 
     deconstructQueryParams(queryParams) {
-      Object.entries(queryParams).forEach(item => {
+      Object.entries(queryParams).forEach((item) => {
         let splitItem = item[0].split("__");
         let field = splitItem[0];
 
@@ -74,7 +74,7 @@ const queryMixin = {
             this.updateSearchField({
               id: field,
               lookUpType: lookUpType,
-              value: value
+              value: value,
             });
           }
         } else if (this.searchParamsList.includes(field)) {
@@ -82,8 +82,8 @@ const queryMixin = {
           this.updateSearchParam({ field: field, value: value });
         }
       });
-    }
-  }
+    },
+  },
 };
 
 function replaceField(field, spaceToUnderscore = true) {

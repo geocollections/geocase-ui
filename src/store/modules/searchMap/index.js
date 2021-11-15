@@ -6,7 +6,7 @@ const state = {
   map: null,
   isLoading: false,
   mapResults: [],
-  mapResultsCount: 0
+  mapResultsCount: 0,
 };
 
 export default {
@@ -14,5 +14,5 @@ export default {
   state,
   actions,
   mutations,
-  getters
+  getters,
 };

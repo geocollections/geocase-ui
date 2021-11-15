@@ -9,7 +9,7 @@ const mutations = {
 
   UPDATE_IS_LOADING(state, payload) {
     state.isLoading = payload;
-  }
+  },
 };
 
 export default mutations;

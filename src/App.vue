@@ -5,7 +5,7 @@
     <v-main
       :class="{
         'pt-2': $route.name === 'FrontPage',
-        'custom-pb': $vuetify.breakpoint.smAndDown
+        'custom-pb': $vuetify.breakpoint.smAndDown,
       }"
     >
       <router-view />
@@ -30,7 +30,7 @@ export default {
   components: {
     CookieLaw,
     AppFooter,
-    AppHeader
+    AppHeader,
   },
 
   mixins: [toastMixin],
@@ -51,56 +51,56 @@ export default {
         {
           vmid: "description",
           name: "description",
-          content: description
+          content: description,
         },
         // Essential
         {
           vmid: "og:title",
           property: "og:title",
-          content: ogTitle
+          content: ogTitle,
         },
         {
           vmid: "og:description",
           property: "og:description",
-          content: description
+          content: description,
         },
         {
           vmid: "og:image",
           property: "og:image",
-          content: image
+          content: image,
         },
         {
           vmid: "og:url",
           property: "og:url",
-          content: ogUrl
+          content: ogUrl,
         },
         {
           vmid: "twitter:card",
           name: "twitter:card",
-          content: "summary_large_image"
+          content: "summary_large_image",
         },
         // Non-Essential
         {
           vmid: "og:site_name",
           property: "og:site_name",
-          content: "GeoCASe"
+          content: "GeoCASe",
         },
         {
           vmid: "og:image:alt",
           name: "og:image:alt",
-          content: imageAlt
+          content: imageAlt,
         },
         {
           vmid: "twitter:image:alt",
           name: "twitter:image:alt",
-          content: imageAlt
-        }
-      ]
+          content: imageAlt,
+        },
+      ],
     };
   },
 
   computed: {
-    ...mapState("cookie", ["cookieLaw"])
+    ...mapState("cookie", ["cookieLaw"]),
   },
 
   created() {
@@ -111,8 +111,8 @@ export default {
   methods: {
     ...mapActions("frontpage", ["getStats"]),
     ...mapActions("search", ["getAllFieldNames"]),
-    ...mapActions("cookie", ["closeCookieLaw"])
-  }
+    ...mapActions("cookie", ["closeCookieLaw"]),
+  },
 };
 </script>
 

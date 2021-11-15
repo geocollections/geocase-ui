@@ -1,6 +1,13 @@
 <template>
   <div
-    class="pa-2 d-flex flex-column flex-lg-row flex-nowrap justify-space-between align-center pagination"
+    class="
+      pa-2
+      d-flex
+      flex-column flex-lg-row flex-nowrap
+      justify-space-between
+      align-center
+      pagination
+    "
     v-if="numberOfResults >= 0"
   >
     <div>
@@ -21,7 +28,7 @@
         :value="page"
         :class="{
           'justify-end font-small': $vuetify.breakpoint.smAndUp,
-          'font-smaller': $vuetify.breakpoint.xsOnly
+          'font-smaller': $vuetify.breakpoint.xsOnly,
         }"
         style="font-size: 0.75rem"
         circle
@@ -52,27 +59,27 @@ export default {
     paginateBy: {
       type: Number,
       required: true,
-      default: 25
+      default: 25,
     },
     paginateByItems: {
       type: Array,
-      required: true
+      required: true,
     },
     page: {
       type: Number,
       required: true,
-      default: 1
+      default: 1,
     },
     numberOfResults: {
       type: Number,
       required: true,
-      default: 0
+      default: 0,
     },
     results: {
       type: Array,
-      required: true
-    }
-  }
+      required: true,
+    },
+  },
 };
 </script>
 

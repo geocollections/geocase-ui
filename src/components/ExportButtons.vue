@@ -34,14 +34,14 @@ export default {
   props: {
     filename: {
       type: String,
-      default: "GeoCASe"
+      default: "GeoCASe",
     },
     tableData: {
-      type: Array
-    }
+      type: Array,
+    },
   },
   computed: {
-    ...mapGetters("search", ["getAllFieldNamesForExport"])
+    ...mapGetters("search", ["getAllFieldNamesForExport"]),
   },
   methods: {
     exportToCSV() {
@@ -67,14 +67,14 @@ export default {
             a.download = this.filename + ".csv";
             document.body.appendChild(a);
             a.click();
-            setTimeout(function() {
+            setTimeout(function () {
               document.body.removeChild(a);
               window.URL.revokeObjectURL(url);
             }, 0);
           }
 
           this.toastSuccess({
-            text: this.$t("search.export.exportSuccessful", { type: "CSV" })
+            text: this.$t("search.export.exportSuccessful", { type: "CSV" }),
           });
         } else
           this.toastError({ text: this.$t("search.export.downloadFailed") });
@@ -128,8 +128,8 @@ export default {
       } else {
         this.toastError({ text: this.$t("search.export.copyFailed") });
       }
-    }
-  }
+    },
+  },
 };
 </script>
 

@@ -11,7 +11,7 @@
             text
             @input="hideAlert"
           >
-            <div class="font-weight-bold" style="font-size: 1.25rem;">
+            <div class="font-weight-bold" style="font-size: 1.25rem">
               {{ $t("frontPage.prototype_alert.title") }}
             </div>
             <div v-html="$t('frontPage.prototype_alert.text')" />
@@ -68,12 +68,12 @@ export default {
 
   computed: {
     ...mapState("frontpage", ["showAlert", "cardIds"]),
-    ...mapGetters("frontpage", ["stats", "getCards"])
+    ...mapGetters("frontpage", ["stats", "getCards"]),
   },
 
   methods: {
-    ...mapActions("frontpage", ["hideAlert", "updateCardIsLeaving"])
-  }
+    ...mapActions("frontpage", ["hideAlert", "updateCardIsLeaving"]),
+  },
 };
 </script>
 

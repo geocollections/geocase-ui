@@ -8,7 +8,7 @@ const state = {
   info: false,
   infoMessage: "",
   searchDrawer: false,
-  language: "en"
+  language: "en",
 };
 
 export default {
@@ -16,5 +16,5 @@ export default {
   state,
   actions,
   mutations,
-  getters
+  getters,
 };

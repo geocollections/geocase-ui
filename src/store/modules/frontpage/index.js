@@ -13,29 +13,28 @@ const state = {
       url: '/search?recordbasis="Fossil"',
       image:
         "https://files.geocollections.info/img/geocase/front_page/fossil1.jpg",
-      isLeaving: false
+      isLeaving: false,
     },
     mineral: {
       url: '/search?recordbasis="Mineral"',
       image:
         "https://files.geocollections.info/img/geocase/front_page/mineral1.jpg",
-      isLeaving: false
+      isLeaving: false,
     },
     rock: {
-      url:
-        '/search?recordbasis=("Rock" "Sediment sample" "Technological sample")',
+      url: '/search?recordbasis=("Rock" "Sediment sample" "Technological sample")',
       image:
         "https://files.geocollections.info/img/geocase/front_page/rock1.jpg",
-      isLeaving: false
+      isLeaving: false,
     },
     meteorite: {
       url: '/search?recordbasis="Meteorite"',
       image:
         "https://files.geocollections.info/img/geocase/front_page/meteorite1.jpg",
-      isLeaving: false
-    }
+      isLeaving: false,
+    },
   },
-  mapResults: {}
+  mapResults: {},
 };
 
 export default {
@@ -43,5 +42,5 @@ export default {
   state,
   actions,
   mutations,
-  getters
+  getters,
 };

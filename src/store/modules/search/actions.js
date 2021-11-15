@@ -47,7 +47,7 @@ const actions = {
         sortBy: state.sortBy,
         sortDesc: state.sortDesc,
         searchIds: state.searchIds,
-        search: state.search
+        search: state.search,
       };
       let response = await SearchService.search(params);
 
@@ -115,7 +115,7 @@ const actions = {
       []
     );
     commit("UPDATE_TABLE_HEADERS", headersWithoutStratigraphy);
-  }
+  },
 };
 
 export default actions;
