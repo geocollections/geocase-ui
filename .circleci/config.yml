@@ -1,7 +1,7 @@
 version: 2.1
 
 orbs:
-  node: circleci/node@4.1.0
+  node: circleci/node@4.7.0
 
 parameters:
   package-version:
@@ -14,7 +14,7 @@ executors:
       IMAGE_NAME: geocollections/geocase-ui
       IMAGE_NAME_DEV: geocollections/geocase-ui-dev
     docker:
-      - image: circleci/buildpack-deps:stretch
+      - image: cimg/node:lts
 
 jobs:
   checkout_code:
