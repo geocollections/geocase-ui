@@ -77,9 +77,14 @@ export default {
 
   methods: {
     ...mapActions("search", ["resetSearch"]),
+    ...mapActions("search", ["removeStratigraphyFromTableHeaders"]),
 
     // Resetting search fields before redirecting to search route
     goToSearchView(url) {
+      console.log(url);
+      // Special case for clicking on meteorites card (removes stratigraphy header from table)
+      if (url.endsWith('recordbasis="Meteorite"'))
+        this.removeStratigraphyFromTableHeaders();
       this.resetSearch();
       this.$router.push({ path: url });
     },

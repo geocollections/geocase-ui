@@ -93,11 +93,28 @@ const actions = {
   },
 
   updateTableHeaders({ commit }, payload) {
+    console.log(payload);
     commit("UPDATE_TABLE_HEADERS", payload);
   },
 
   updateTableHeaderFixedState({ commit }, payload) {
     commit("UPDATE_TABLE_HEADER_FIXED_STATE", payload);
+  },
+
+  removeStratigraphyFromTableHeaders({ commit, state }) {
+    const headersWithoutStratigraphy = state.tableHeaders.reduce(
+      (prev, curr) => {
+        if (
+          curr.value !== "stratigraphy" &&
+          curr.show &&
+          !prev.includes(curr.value)
+        )
+          prev.push(curr.value);
+        return prev;
+      },
+      []
+    );
+    commit("UPDATE_TABLE_HEADERS", headersWithoutStratigraphy);
   }
 };
 

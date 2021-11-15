@@ -88,7 +88,23 @@
             style="text-decoration: unset; white-space: nowrap;"
             target="MindatWindow"
             :title="$t('search.mindatLink')"
-            @click="openMindatInNewWindow(item.mindat_url)"
+            @click="openUrlInNewWindow(item.mindat_url)"
+            >{{ item.fullscientificname }}
+            <v-icon small color="primary"
+              >fas fa-external-link-square-alt</v-icon
+            >
+          </a>
+        </div>
+        <div v-else-if="item.meteorite_id">
+          <a
+            style="text-decoration: unset; white-space: nowrap;"
+            target="MeteoriteWindow"
+            :title="$t('search.mindatLink')"
+            @click="
+              openUrlInNewWindow(
+                `https://www.lpi.usra.edu/meteor/metbull.php?code=${item.meteorite_id}`
+              )
+            "
             >{{ item.fullscientificname }}
             <v-icon small color="primary"
               >fas fa-external-link-square-alt</v-icon
@@ -256,7 +272,7 @@ export default {
       } else this.tableHeight = "100%";
     }, 400),
 
-    openMindatInNewWindow(url) {
+    openUrlInNewWindow(url) {
       window.open(url, "MindatWindow", "width=800,height=750");
     },
 
