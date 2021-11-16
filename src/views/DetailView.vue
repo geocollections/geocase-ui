@@ -147,8 +147,6 @@
 
           <!-- TABLE -->
           <v-card v-if="itemExists" class="mt-6 item-card">
-            {{ filteredItemHeaders }}
-            {{ item }}
             <v-data-table
               class="detail-view-table"
               :mobile-breakpoint="9000"
