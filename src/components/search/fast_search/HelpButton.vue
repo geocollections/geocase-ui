@@ -3,7 +3,7 @@
     :value="showHelp"
     @click:outside="$emit('close')"
     scrollable
-    style="z-index: 2000;"
+    style="z-index: 2000"
     :max-width="$vuetify.breakpoint.mdAndUp ? '960px' : ''"
   >
     <v-card>
@@ -32,7 +32,7 @@
                   class="help-link"
                   :to="{
                     path: 'search',
-                    query: { q: '+bryozoa -germany +tub*' }
+                    query: { q: '+bryozoa -germany +tub*' },
                   }"
                   >+bryozoa -germany +tub*</router-link
                 >.
@@ -53,7 +53,7 @@
                   class="help-link"
                   :to="{
                     path: 'search',
-                    query: { q: 'stratigraphy:Burtnieki*' }
+                    query: { q: 'stratigraphy:Burtnieki*' },
                   }"
                   >stratigraphy:Burtnieki*</router-link
                 >
@@ -83,9 +83,9 @@ export default {
   props: {
     showHelp: {
       type: Boolean,
-      required: true
-    }
-  }
+      required: true,
+    },
+  },
 };
 </script>
 

@@ -44,7 +44,7 @@ export default {
   name: "FastSearch",
 
   props: {
-    inAppHeader: Boolean
+    inAppHeader: Boolean,
   },
 
   components: { HelpButton, TextFieldWrapper },
@@ -52,7 +52,7 @@ export default {
   mixins: [queryMixin],
 
   data: () => ({
-    showHelp: false
+    showHelp: false,
   }),
 
   computed: {
@@ -63,15 +63,15 @@ export default {
         return this.search.q.value;
       },
 
-      set: debounce(function(value) {
+      set: debounce(function (value) {
         this.updateSearchField({ id: "q", value: value });
         // #113 removing sorting
         this.updateSortBy([]);
         this.updateSortDesc([]);
         // #112
         if (this.search.page !== 1) this.updatePage(1);
-      }, 250)
-    }
+      }, 250),
+    },
   },
 
   methods: {
@@ -79,7 +79,7 @@ export default {
       "updateSearchField",
       "updatePage",
       "updateSortBy",
-      "updateSortDesc"
+      "updateSortDesc",
     ]),
 
     doFastSearch(event) {
@@ -93,7 +93,7 @@ export default {
             name: "Search",
             params:
               this.$i18n.locale !== "en" ? { locale: this.$i18n.locale } : {},
-            query: { ...this.$route.query, q: this.fastSearch, page: 1 }
+            query: { ...this.$route.query, q: this.fastSearch, page: 1 },
           });
         }, 250);
       }
@@ -101,8 +101,8 @@ export default {
 
     handleHelpButtonClick() {
       this.showHelp = !this.showHelp;
-    }
-  }
+    },
+  },
 };
 </script>
 

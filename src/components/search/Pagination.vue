@@ -1,6 +1,13 @@
 <template>
   <div
-    class="pa-2 d-flex flex-column flex-lg-row flex-nowrap justify-space-between align-center pagination"
+    class="
+      pa-2
+      d-flex
+      flex-column flex-lg-row flex-nowrap
+      justify-space-between
+      align-center
+      pagination
+    "
     v-if="numberOfResults >= 0"
   >
     <div>
@@ -12,16 +19,12 @@
       />
     </div>
 
-    <div class="mx-3 my-2 my-lg-0 flex-lg-grow-1">
-      <ExportButtons :table-data="results" />
-    </div>
-
     <div>
       <v-pagination
         :value="page"
         :class="{
           'justify-end font-small': $vuetify.breakpoint.smAndUp,
-          'font-smaller': $vuetify.breakpoint.xsOnly
+          'font-smaller': $vuetify.breakpoint.xsOnly,
         }"
         style="font-size: 0.75rem"
         circle
@@ -42,37 +45,36 @@
 </template>
 
 <script>
-import ExportButtons from "@/components/ExportButtons";
 import SelectWrapper from "@/components/input_wrappers/SelectWrapper";
 
 export default {
   name: "Pagination",
-  components: { ExportButtons, SelectWrapper },
+  components: { SelectWrapper },
   props: {
     paginateBy: {
       type: Number,
       required: true,
-      default: 25
+      default: 25,
     },
     paginateByItems: {
       type: Array,
-      required: true
+      required: true,
     },
     page: {
       type: Number,
       required: true,
-      default: 1
+      default: 1,
     },
     numberOfResults: {
       type: Number,
       required: true,
-      default: 0
+      default: 0,
     },
     results: {
       type: Array,
-      required: true
-    }
-  }
+      required: true,
+    },
+  },
 };
 </script>
 

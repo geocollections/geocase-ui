@@ -30,7 +30,7 @@ describe("DetailViewGetters", () => {
           { text: "taxonInTreeOfLife", value: "taxon_id_tol" },
           { text: "TaxonInFossiilidInfo", value: "taxon_id" },
           { text: "recordUri", value: "recordURI" },
-          { text: "relatedResource", value: "relatedResource" }
+          { text: "relatedResource", value: "relatedResource" },
         ],
         itemHeadersSecondary: [
           { text: "institution", value: "institutionHomepage" },
@@ -50,9 +50,9 @@ describe("DetailViewGetters", () => {
           { text: "providerName", value: "providername" },
           { text: "specimenVerifier", value: "specimenVerifier" },
           { text: "geocaseId", value: "id" },
-          { text: "unitGuid", value: "unitGuid" }
+          { text: "unitGuid", value: "unitGuid" },
         ],
-        isLoading: false
+        isLoading: false,
       },
       expected: [
         false,
@@ -112,7 +112,7 @@ describe("DetailViewGetters", () => {
           { text: "Taxon in Tree of Life", value: "taxon_id_tol" },
           { text: "Taxon in fossiilid.info", value: "taxon_id" },
           { text: "Record URI", value: "recordURI" },
-          { text: "Related resource", value: "relatedResource" }
+          { text: "Related resource", value: "relatedResource" },
         ],
         [
           { text: "Institution", value: "institutionHomepage" },
@@ -132,11 +132,11 @@ describe("DetailViewGetters", () => {
           { text: "Provider name", value: "providername" },
           { text: "Specimen verifier", value: "specimenVerifier" },
           { text: "GeoCASe ID", value: "id" },
-          { text: "UnitGUID", value: "unitGuid" }
+          { text: "UnitGUID", value: "unitGuid" },
         ],
         [],
-        []
-      ]
+        [],
+      ],
     },
     // ID 306087 FOSSIL NHMW-GEO
     {
@@ -169,8 +169,8 @@ describe("DetailViewGetters", () => {
             has_image: false,
             providername: "NHM Vienna, Geology and Palaeontology",
             unitid: "2011/0034/0002",
-            _version_: 1685065940392214500
-          }
+            _version_: 1685065940392214500,
+          },
         ],
         responseFromSource: {
           "abcd:DataSets": {
@@ -178,30 +178,30 @@ describe("DetailViewGetters", () => {
               "abcd:TechnicalContacts": {
                 "abcd:TechnicalContact": {
                   "abcd:Name": "Andreas Kroh",
-                  "abcd:Email": "andreas.kroh@nhm-wien.ac.at"
-                }
+                  "abcd:Email": "andreas.kroh@nhm-wien.ac.at",
+                },
               },
               "abcd:ContentContacts": {
                 "abcd:ContentContact": {
                   "abcd:Name": "Andreas Kroh",
                   "abcd:Email": "andreas.kroh@nhm-wien.ac.at",
                   "abcd:Phone": "+43 (1) 52 177-576",
-                  "abcd:Address": "Burgring 7, A-1010 Vienna, Austria"
-                }
+                  "abcd:Address": "Burgring 7, A-1010 Vienna, Austria",
+                },
               },
               "abcd:Metadata": {
                 "abcd:Description": {
                   "abcd:Representation": {
                     "abcd:Title": "NHM Vienna, Geology and Palaeontology",
                     "abcd:Coverage":
-                      "The database contains information on specimens kept in the collection of the Department of Geology & Palaeontology at the Natural History Museum Vienna. Database content focuses on type, figured and reference specimens, but does not represent the entire collection, which holds approximately 3.5 million of fossil specimens. New data is added continuously as new specimens are registered and old registers digitised."
-                  }
+                      "The database contains information on specimens kept in the collection of the Department of Geology & Palaeontology at the Natural History Museum Vienna. Database content focuses on type, figured and reference specimens, but does not represent the entire collection, which holds approximately 3.5 million of fossil specimens. New data is added continuously as new specimens are registered and old registers digitised.",
+                  },
                 },
                 "abcd:IconURI":
                   "http://www2.nhm-wien.ac.at/public/NHM_Logo_Geocase.gif",
                 "abcd:RevisionData": {
                   "abcd:DateCreated": "2011-03-17T09:01:40",
-                  "abcd:DateModified": "2011-03-17T09:00:24"
+                  "abcd:DateModified": "2011-03-17T09:00:24",
                 },
                 "abcd:Owners": {
                   "abcd:Owner": {
@@ -210,56 +210,56 @@ describe("DetailViewGetters", () => {
                         "abcd:Representation": {
                           "abcd:Text":
                             "Naturhistorisches Museum Wien, Geologisch-Paläontologische Abteilung",
-                          "abcd:Abbreviation": "NHMW-Geo"
-                        }
-                      }
+                          "abcd:Abbreviation": "NHMW-Geo",
+                        },
+                      },
                     },
                     "abcd:Person": { "abcd:FullName": "Andreas Kroh" },
                     "abcd:Addresses": {
-                      "abcd:Address": "Burgring 7, A-1010 Vienna, Austria"
+                      "abcd:Address": "Burgring 7, A-1010 Vienna, Austria",
                     },
                     "abcd:TelephoneNumbers": {
                       "abcd:TelephoneNumber": {
-                        "abcd:Number": "+43 (1) 52 177-576"
-                      }
+                        "abcd:Number": "+43 (1) 52 177-576",
+                      },
                     },
                     "abcd:EmailAddresses": {
-                      "abcd:EmailAddress": "andreas.kroh@nhm-wien.ac.at"
+                      "abcd:EmailAddress": "andreas.kroh@nhm-wien.ac.at",
                     },
                     "abcd:URIs": {
                       "abcd:URL":
-                        "http://www.nhm-wien.ac.at/forschung/geologie__palaeontologie"
+                        "http://www.nhm-wien.ac.at/forschung/geologie__palaeontologie",
                     },
                     "abcd:LogoURI":
-                      "http://www2.nhm-wien.ac.at/public/NHM_Logo_Geocase_Geo.gif"
-                  }
+                      "http://www2.nhm-wien.ac.at/public/NHM_Logo_Geocase_Geo.gif",
+                  },
                 },
                 "abcd:IPRStatements": {
                   "abcd:Copyrights": {
                     "abcd:Copyright": {
                       "abcd:Text":
-                        "Restrictions of use apply to conditions explained in the terms-of-use section. Distribution of data to a third party must be assured to be in compliance with the terms-of-use, and must include full information on legal-owner, supplier, description, and disclaimer."
-                    }
+                        "Restrictions of use apply to conditions explained in the terms-of-use section. Distribution of data to a third party must be assured to be in compliance with the terms-of-use, and must include full information on legal-owner, supplier, description, and disclaimer.",
+                    },
                   },
                   "abcd:TermsOfUseStatements": {
                     "abcd:TermsOfUse": {
                       "abcd:Text":
-                        "For scientific and non-commercial purposes, the database can be consulted freely. Source of the data must always be specified appropriately. If scientific publications are (partly) based on these data, authors are kindly requested to inform the legal owner. Commercial use is not granted without prior written permission by the legal owner."
-                    }
+                        "For scientific and non-commercial purposes, the database can be consulted freely. Source of the data must always be specified appropriately. If scientific publications are (partly) based on these data, authors are kindly requested to inform the legal owner. Commercial use is not granted without prior written permission by the legal owner.",
+                    },
                   },
                   "abcd:Disclaimers": {
                     "abcd:Disclaimer": {
                       "abcd:Text":
-                        'We guarantee the data to be checked to our best knowledge. Nevertheless errors can not be excluded, and data are provided "as is" with no warranties of any kind.'
-                    }
+                        'We guarantee the data to be checked to our best knowledge. Nevertheless errors can not be excluded, and data are provided "as is" with no warranties of any kind.',
+                    },
                   },
                   "abcd:Acknowledgements": {
                     "abcd:Acknowledgement": {
                       "abcd:Text":
-                        "The help and efforts by staff members and volunteers who are assisting in data revision and digitalisation of old registers are herewith gratefully acknowledged."
-                    }
-                  }
-                }
+                        "The help and efforts by staff members and volunteers who are assisting in data revision and digitalisation of old registers are herewith gratefully acknowledged.",
+                    },
+                  },
+                },
               },
               "abcd:Units": {
                 "abcd:Unit": {
@@ -276,15 +276,15 @@ describe("DetailViewGetters", () => {
                         "abcd:NomenclaturalReference": {
                           "abcd:TitleCitation":
                             "Sovis,W.1998. Beiträge zur Paläontologie, 23",
-                          "abcd:CitationDetail": "p. 41"
+                          "abcd:CitationDetail": "p. 41",
                         },
-                        "abcd:TypeStatus": "reference specimen"
-                      }
-                    }
+                        "abcd:TypeStatus": "reference specimen",
+                      },
+                    },
                   },
                   "abcd:NamedCollectionsOrSurveys": {
                     "abcd:NamedCollectionOrSurvey":
-                      "NHM Vienna Geology & Palaeontology"
+                      "NHM Vienna Geology & Palaeontology",
                   },
                   "abcd:Gathering": {
                     "abcd:LocalityText": "Teiritzberg, bei Korneuburg",
@@ -292,9 +292,9 @@ describe("DetailViewGetters", () => {
                     "abcd:NamedAreas": {
                       "abcd:NamedArea": {
                         "abcd:AreaClass": "province",
-                        "abcd:AreaName": "Niederösterreich"
-                      }
-                    }
+                        "abcd:AreaName": "Niederösterreich",
+                      },
+                    },
                   },
                   "abcd:UnitExtension": {
                     "efg:EarthScienceSpecimen": {
@@ -303,29 +303,29 @@ describe("DetailViewGetters", () => {
                           "efg:ChronostratigraphicAttribution": [
                             {
                               "efg:ChronoStratigraphicDivision": "Era",
-                              "efg:ChronostratigraphicName": "Cenozoic"
+                              "efg:ChronostratigraphicName": "Cenozoic",
                             },
                             {
                               "efg:ChronoStratigraphicDivision": "Epoch",
-                              "efg:ChronostratigraphicName": "Miocene"
+                              "efg:ChronostratigraphicName": "Miocene",
                             },
                             {
                               "efg:ChronoStratigraphicDivision": "Period",
-                              "efg:ChronostratigraphicName": "Neogene"
+                              "efg:ChronostratigraphicName": "Neogene",
                             },
                             {
                               "efg:ChronoStratigraphicDivision": "Stage",
-                              "efg:ChronostratigraphicName": "Burdigalian"
-                            }
-                          ]
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
+                              "efg:ChronostratigraphicName": "Burdigalian",
+                            },
+                          ],
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
         },
         itemHeaders: [
           { text: "type", value: "typestatus" },
@@ -347,7 +347,7 @@ describe("DetailViewGetters", () => {
           { text: "taxonInTreeOfLife", value: "taxon_id_tol" },
           { text: "TaxonInFossiilidInfo", value: "taxon_id" },
           { text: "recordUri", value: "recordURI" },
-          { text: "relatedResource", value: "relatedResource" }
+          { text: "relatedResource", value: "relatedResource" },
         ],
         itemHeadersSecondary: [
           { text: "institution", value: "institutionHomepage" },
@@ -367,9 +367,9 @@ describe("DetailViewGetters", () => {
           { text: "providerName", value: "providername" },
           { text: "specimenVerifier", value: "specimenVerifier" },
           { text: "geocaseId", value: "id" },
-          { text: "unitGuid", value: "unitGuid" }
+          { text: "unitGuid", value: "unitGuid" },
         ],
-        isLoading: false
+        isLoading: false,
       },
       expected: [
         true,
@@ -400,7 +400,7 @@ describe("DetailViewGetters", () => {
           has_image: false,
           providername: "NHM Vienna, Geology and Palaeontology",
           unitid: "2011/0034/0002",
-          _version_: 1685065940392214500
+          _version_: 1685065940392214500,
         },
         false,
         false,
@@ -409,16 +409,16 @@ describe("DetailViewGetters", () => {
         false,
         false,
         [
-          "Era: Cenozoic",
-          "Epoch: Miocene",
-          "Period: Neogene",
-          "Stage: Burdigalian"
+          { division: "Era", name: "Cenozoic" },
+          { division: "Epoch", name: "Miocene" },
+          { division: "Period", name: "Neogene" },
+          { division: "Stage", name: "Burdigalian" },
         ],
         {
           "abcd:Address": "Burgring 7, A-1010 Vienna, Austria",
           "abcd:Email": "andreas.kroh@nhm-wien.ac.at",
           "abcd:Name": "Andreas Kroh",
-          "abcd:Phone": "+43 (1) 52 177-576"
+          "abcd:Phone": "+43 (1) 52 177-576",
         },
         "Andreas Kroh",
         "andreas.kroh@nhm-wien.ac.at",
@@ -467,7 +467,7 @@ describe("DetailViewGetters", () => {
           { text: "Taxon in Tree of Life", value: "taxon_id_tol" },
           { text: "Taxon in fossiilid.info", value: "taxon_id" },
           { text: "Record URI", value: "recordURI" },
-          { text: "Related resource", value: "relatedResource" }
+          { text: "Related resource", value: "relatedResource" },
         ],
         [
           { text: "Institution", value: "institutionHomepage" },
@@ -487,7 +487,7 @@ describe("DetailViewGetters", () => {
           { text: "Provider name", value: "providername" },
           { text: "Specimen verifier", value: "specimenVerifier" },
           { text: "GeoCASe ID", value: "id" },
-          { text: "UnitGUID", value: "unitGuid" }
+          { text: "UnitGUID", value: "unitGuid" },
         ],
         [
           { text: "Collection", value: "collectioncode" },
@@ -496,7 +496,7 @@ describe("DetailViewGetters", () => {
           { text: "Country", value: "country" },
           { text: "Area", value: "area" },
           { text: "Locality", value: "locality" },
-          { text: "Stratigraphy", value: "stratigraphy" }
+          { text: "Stratigraphy", value: "stratigraphy" },
         ],
         [
           { text: "Institution", value: "institutionHomepage" },
@@ -513,9 +513,9 @@ describe("DetailViewGetters", () => {
           { text: "Last Edited", value: "dateLastEdited" },
           { text: "Last harvested", value: "last_harvested_processing" },
           { text: "Provider name", value: "providername" },
-          { text: "GeoCASe ID", value: "id" }
-        ]
-      ]
+          { text: "GeoCASe ID", value: "id" },
+        ],
+      ],
     },
     // ID 432565 OTHER MFN
     {
@@ -548,8 +548,8 @@ describe("DetailViewGetters", () => {
             providername: "Museum für Naturkunde",
             names: ["Quarz"],
             unitid: "MFN_MIN_2008_12996",
-            _version_: 1685065958846103600
-          }
+            _version_: 1685065958846103600,
+          },
         ],
         responseFromSource: {
           "abcd:DataSets": {
@@ -560,8 +560,8 @@ describe("DetailViewGetters", () => {
                   "abcd:Email": "geocase@mfn-berlin.de",
                   "abcd:Phone": "+49 30 2093 8842",
                   "abcd:Address":
-                    "Museum für Naturkunde Invaliden Str. 43  10115 Berlin Deutschland"
-                }
+                    "Museum für Naturkunde Invaliden Str. 43  10115 Berlin Deutschland",
+                },
               },
               "abcd:ContentContacts": {
                 "abcd:ContentContact": {
@@ -569,14 +569,14 @@ describe("DetailViewGetters", () => {
                   "abcd:Email": "Ralf-Thomas.Schmitt@museum.hu-berlin.de",
                   "abcd:Phone": "+49 30 2093 8842",
                   "abcd:Address":
-                    "Museum für Naturkunde Invaliden Str. 43  10115 Berlin Deutschland"
-                }
+                    "Museum für Naturkunde Invaliden Str. 43  10115 Berlin Deutschland",
+                },
               },
               "abcd:Metadata": {
                 "abcd:Description": {
                   "abcd:Representation": {
-                    "abcd:Title": "MfN Mineralogical Collections"
-                  }
+                    "abcd:Title": "MfN Mineralogical Collections",
+                  },
                 },
                 "abcd:RevisionData": { "abcd:DateModified": "2014-09-12" },
                 "abcd:Owners": {
@@ -585,26 +585,26 @@ describe("DetailViewGetters", () => {
                       "abcd:Name": {
                         "abcd:Representation": {
                           "abcd:Text": "Museum für Naturkunde Berlin",
-                          "abcd:Abbreviation": "MfN"
-                        }
-                      }
+                          "abcd:Abbreviation": "MfN",
+                        },
+                      },
                     },
                     "abcd:Person": { "abcd:FullName": "Ralf-Thomas Schmitt" },
                     "abcd:Addresses": {
                       "abcd:Address":
-                        "Museum für Naturkunde Invaliden Str. 43  10115 Berlin Deutschland"
+                        "Museum für Naturkunde Invaliden Str. 43  10115 Berlin Deutschland",
                     },
                     "abcd:TelephoneNumbers": {
                       "abcd:TelephoneNumber": {
                         "abcd:Number": "+49 30 2093 8842",
-                        "abcd:Device": "voice"
-                      }
+                        "abcd:Device": "voice",
+                      },
                     },
                     "abcd:EmailAddresses": {
                       "abcd:EmailAddress":
-                        "Ralf-Thomas.Schmitt@museum.hu-berlin.de"
-                    }
-                  }
+                        "Ralf-Thomas.Schmitt@museum.hu-berlin.de",
+                    },
+                  },
                 },
                 "abcd:IPRStatements": {
                   "abcd:IPRDeclarations": {
@@ -612,18 +612,18 @@ describe("DetailViewGetters", () => {
                       "abcd:Text": "Creative Commons (CC-by-SA)",
                       "abcd:Details": "Creative Commons (CC-by-SA)",
                       "abcd:URI":
-                        "http://creativecommons.org/licenses/by-sa/3.0/"
-                    }
+                        "http://creativecommons.org/licenses/by-sa/3.0/",
+                    },
                   },
                   "abcd:Licenses": {
                     "abcd:License": {
                       "abcd:Text": "Creative Commons (CC-by-SA)",
                       "abcd:Details": "Creative Commons (CC-by-SA)",
                       "abcd:URI":
-                        "http://creativecommons.org/licenses/by-sa/3.0/"
-                    }
-                  }
-                }
+                        "http://creativecommons.org/licenses/by-sa/3.0/",
+                    },
+                  },
+                },
               },
               "abcd:Units": {
                 "abcd:Unit": {
@@ -635,10 +635,10 @@ describe("DetailViewGetters", () => {
                       "abcd:Name": {
                         "abcd:Representation": {
                           "abcd:Text": "Museum für Naturkunde Berlin",
-                          "abcd:Abbreviation": "MfN"
-                        }
-                      }
-                    }
+                          "abcd:Abbreviation": "MfN",
+                        },
+                      },
+                    },
                   },
                   "abcd:Identifications": {
                     "abcd:Identification": {
@@ -646,17 +646,17 @@ describe("DetailViewGetters", () => {
                         "abcd:Extension": {
                           "efg:MineralRockIdentified": {
                             "efg:MineralRockGroup": {
-                              "efg:MineralRockGroupName": "Quarz"
+                              "efg:MineralRockGroupName": "Quarz",
                             },
                             "efg:ClassifiedName": {
-                              "efg:FullScientificNameString": "Quarz"
+                              "efg:FullScientificNameString": "Quarz",
                             },
                             "efg:VarietalNameString": "Chalcedon",
-                            "efg:NameAddendum": "Feuerstein"
-                          }
-                        }
-                      }
-                    }
+                            "efg:NameAddendum": "Feuerstein",
+                          },
+                        },
+                      },
+                    },
                   },
                   "abcd:RecordBasis": "OtherSpecimen",
                   "abcd:KindOfUnit": "Mineral",
@@ -665,18 +665,18 @@ describe("DetailViewGetters", () => {
                     "abcd:Country": { "abcd:Name": "Schweden" },
                     "abcd:NearNamedPlaces": {
                       "abcd:NamedPlaceRelation": {
-                        "abcd:NearNamedPlace": "bei Västra"
-                      }
+                        "abcd:NearNamedPlace": "bei Västra",
+                      },
                     },
-                    "abcd:AreaDetail": "Värmland Västra Götalands län"
+                    "abcd:AreaDetail": "Värmland Västra Götalands län",
                   },
                   "abcd:UnitExtension": {
-                    "efg:EarthScienceSpecimen": { "efg:UnitWeight": "43.2 g" }
-                  }
-                }
-              }
-            }
-          }
+                    "efg:EarthScienceSpecimen": { "efg:UnitWeight": "43.2 g" },
+                  },
+                },
+              },
+            },
+          },
         },
         itemHeaders: [
           { text: "type", value: "typestatus" },
@@ -699,7 +699,7 @@ describe("DetailViewGetters", () => {
           { text: "taxonInTreeOfLife", value: "taxon_id_tol" },
           { text: "TaxonInFossiilidInfo", value: "taxon_id" },
           { text: "recordUri", value: "recordURI" },
-          { text: "relatedResource", value: "relatedResource" }
+          { text: "relatedResource", value: "relatedResource" },
         ],
         itemHeadersSecondary: [
           { text: "institution", value: "institutionHomepage" },
@@ -719,9 +719,9 @@ describe("DetailViewGetters", () => {
           { text: "providerName", value: "providername" },
           { text: "specimenVerifier", value: "specimenVerifier" },
           { text: "geocaseId", value: "id" },
-          { text: "unitGuid", value: "unitGuid" }
+          { text: "unitGuid", value: "unitGuid" },
         ],
-        isLoading: false
+        isLoading: false,
       },
       expected: [
         true,
@@ -752,7 +752,7 @@ describe("DetailViewGetters", () => {
           providername: "Museum für Naturkunde",
           names: ["Quarz"],
           unitid: "MFN_MIN_2008_12996",
-          _version_: 1685065958846103600
+          _version_: 1685065958846103600,
         },
         false,
         false,
@@ -766,7 +766,7 @@ describe("DetailViewGetters", () => {
             "Museum für Naturkunde Invaliden Str. 43  10115 Berlin Deutschland",
           "abcd:Email": "Ralf-Thomas.Schmitt@museum.hu-berlin.de",
           "abcd:Name": "Ralf-Thomas Schmitt",
-          "abcd:Phone": "+49 30 2093 8842"
+          "abcd:Phone": "+49 30 2093 8842",
         },
         "Ralf-Thomas Schmitt",
         "Ralf-Thomas.Schmitt@museum.hu-berlin.de",
@@ -816,7 +816,7 @@ describe("DetailViewGetters", () => {
           { text: "Taxon in Tree of Life", value: "taxon_id_tol" },
           { text: "Taxon in fossiilid.info", value: "taxon_id" },
           { text: "Record URI", value: "recordURI" },
-          { text: "Related resource", value: "relatedResource" }
+          { text: "Related resource", value: "relatedResource" },
         ],
         [
           { text: "Institution", value: "institutionHomepage" },
@@ -836,7 +836,7 @@ describe("DetailViewGetters", () => {
           { text: "Provider name", value: "providername" },
           { text: "Specimen verifier", value: "specimenVerifier" },
           { text: "GeoCASe ID", value: "id" },
-          { text: "UnitGUID", value: "unitGuid" }
+          { text: "UnitGUID", value: "unitGuid" },
         ],
         [
           { text: "Collection", value: "collectioncode" },
@@ -845,7 +845,7 @@ describe("DetailViewGetters", () => {
           { text: "Area detail", value: "areaDetail" },
           { text: "Locality", value: "locality" },
           { text: "Mindat", value: "mindat_url" },
-          { text: "Weight", value: "unitWeight" }
+          { text: "Weight", value: "unitWeight" },
         ],
         [
           { text: "Institution", value: "institutionHomepage" },
@@ -858,9 +858,9 @@ describe("DetailViewGetters", () => {
           { text: "Last Edited", value: "dateLastEdited" },
           { text: "Last harvested", value: "last_harvested_processing" },
           { text: "Provider name", value: "providername" },
-          { text: "GeoCASe ID", value: "id" }
-        ]
-      ]
+          { text: "GeoCASe ID", value: "id" },
+        ],
+      ],
     },
     // 180237 FOSSIL GIT
     {
@@ -880,7 +880,7 @@ describe("DetailViewGetters", () => {
               "https://files.geocollections.info/medium/86/fb/86fbf311-a665-47f6-826b-524c1c9b4fa7.jpg",
               "https://files.geocollections.info/medium/b7/34/b734e8df-735f-4a68-9879-b8e35c8ac385.jpg",
               "https://files.geocollections.info/medium/e3/20/e320a3ba-a591-482a-97ee-a3cce8d95c60.jpg",
-              "https://files.geocollections.info/medium/ea/79/ea79cb97-7163-49d3-a9c9-031a903c937b.jpg"
+              "https://files.geocollections.info/medium/ea/79/ea79cb97-7163-49d3-a9c9-031a903c937b.jpg",
             ],
             recordbasis: "Fossil",
             higherrank: "Superclass",
@@ -906,17 +906,16 @@ describe("DetailViewGetters", () => {
             image_date: "2008-10-16",
             collectorname: "Kurik",
             providername: "SARV",
-            url:
-              "https://files.geocollections.info/medium/e3/20/e320a3ba-a591-482a-97ee-a3cce8d95c60.jpg",
+            url: "https://files.geocollections.info/medium/e3/20/e320a3ba-a591-482a-97ee-a3cce8d95c60.jpg",
             relatedResource: "https://geocollections.info/file/33637",
             names: [
               "Panderichthys rhombolepis",
-              "Panderichthys rhombolepis (Gross, 1930)"
+              "Panderichthys rhombolepis (Gross, 1930)",
             ],
             unitid: "434-1",
             _version_: 1685065918809374700,
-            highertaxon_facet: "Osteichthyes"
-          }
+            highertaxon_facet: "Osteichthyes",
+          },
         ],
         responseFromSource: {
           "abcd:DataSets": {
@@ -925,16 +924,16 @@ describe("DetailViewGetters", () => {
                 "abcd:TechnicalContact": {
                   "abcd:Name": "Olle Hints",
                   "abcd:Email": "olle.hints@taltech.ee",
-                  "abcd:Phone": "+3726203027"
-                }
+                  "abcd:Phone": "+3726203027",
+                },
               },
               "abcd:ContentContacts": {
                 "abcd:ContentContact": {
                   "abcd:Name": "Ursula Toom",
                   "abcd:Email": "ursula.toom@taltech.ee",
                   "abcd:Phone": "+3726203009",
-                  "abcd:Address": "Ehitajate 5, 19086 Tallinn, Estonia"
-                }
+                  "abcd:Address": "Ehitajate 5, 19086 Tallinn, Estonia",
+                },
               },
               "abcd:Metadata": {
                 "abcd:Description": {
@@ -944,11 +943,11 @@ describe("DetailViewGetters", () => {
                       "Geological and paleontological collections housed at the Institute of Geology at Tallinn University of Technology (formerly an institute of the Estonian Academy of Sciences) are the largest of their kind in Estonia. The particular strength of the collection lies in Ordovician and Silurian invertebrates and Devonian fish fossils of the Baltica paleocontinent. Most of the ca 300000 specimens are collected since the mid 20th century, few collections date back to 1850s.",
                     "abcd:Coverage":
                       "Invertebrate and early vertebrate fossils, and sedimentary rocks primarily from the Paleozoic strata of Baltic Region and former Soviet Union; Quaternary sediments and fossils from Estonia; minerals and meteorites of worldwide coverage.",
-                    "abcd:URI": "https://geocollections.info"
-                  }
+                    "abcd:URI": "https://geocollections.info",
+                  },
                 },
                 "abcd:RevisionData": {
-                  "abcd:DateModified": "2020-11-04T23:29:19"
+                  "abcd:DateModified": "2020-11-04T23:29:19",
                 },
                 "abcd:Owners": {
                   "abcd:Owner": {
@@ -956,27 +955,27 @@ describe("DetailViewGetters", () => {
                       "abcd:Name": {
                         "abcd:Representation": {
                           "abcd:Text": "Department of Geology, TalTech",
-                          "abcd:Abbreviation": "GIT"
-                        }
-                      }
+                          "abcd:Abbreviation": "GIT",
+                        },
+                      },
                     },
                     "abcd:Person": { "abcd:FullName": "Ursula Toom" },
                     "abcd:Roles": { "abcd:Role": "Chief Curator" },
                     "abcd:Addresses": {
-                      "abcd:Address": "Ehitajate 5, 19086 Tallinn, Estonia"
+                      "abcd:Address": "Ehitajate 5, 19086 Tallinn, Estonia",
                     },
                     "abcd:EmailAddresses": {
-                      "abcd:EmailAddress": "ursula.toom@taltech.ee"
+                      "abcd:EmailAddress": "ursula.toom@taltech.ee",
                     },
                     "abcd:LogoURI":
-                      "https://files.geocollections.info/img/geocase/taltech1.png"
-                  }
+                      "https://files.geocollections.info/img/geocase/taltech1.png",
+                  },
                 },
                 "abcd:IPRStatements": {
                   "abcd:Copyrights": {
                     "abcd:Copyright": {
-                      "abcd:Text": "© Department of Geology, TalTech"
-                    }
+                      "abcd:Text": "© Department of Geology, TalTech",
+                    },
                   },
                   "abcd:Licenses": {
                     "abcd:License": {
@@ -984,34 +983,34 @@ describe("DetailViewGetters", () => {
                       "abcd:Details":
                         "Creative Commons Attribution-NonCommercial 4.0 Unported License",
                       "abcd:URI":
-                        "http://creativecommons.org/licenses/by-nc/4.0/"
-                    }
+                        "http://creativecommons.org/licenses/by-nc/4.0/",
+                    },
                   },
                   "abcd:TermsOfUseStatements": {
                     "abcd:TermsOfUse": {
                       "abcd:Text":
-                        "Free for non-commercial usage, provided that Department of Geology at TalTech and https://geocollections.info are acknowledged."
-                    }
+                        "Free for non-commercial usage, provided that Department of Geology at TalTech and https://geocollections.info are acknowledged.",
+                    },
                   },
                   "abcd:Disclaimers": {
                     "abcd:Disclaimer": {
                       "abcd:Text":
-                        "We make efforts to ensure that the data we serve are accurate. However, quality and completeness of every data record cannot be guaranteed. Use the data at your own responsibility."
-                    }
+                        "We make efforts to ensure that the data we serve are accurate. However, quality and completeness of every data record cannot be guaranteed. Use the data at your own responsibility.",
+                    },
                   },
                   "abcd:Acknowledgements": {
                     "abcd:Acknowledgement": {
                       "abcd:Text":
-                        "National geological collection of Estonia; Department of Geology, TalTech"
-                    }
+                        "National geological collection of Estonia; Department of Geology, TalTech",
+                    },
                   },
                   "abcd:Citations": {
                     "abcd:Citation": {
                       "abcd:Text":
-                        "National geological collection of Estonia; Department of Geology, TalTech"
-                    }
-                  }
-                }
+                        "National geological collection of Estonia; Department of Geology, TalTech",
+                    },
+                  },
+                },
               },
               "abcd:Units": {
                 "abcd:Unit": {
@@ -1024,41 +1023,41 @@ describe("DetailViewGetters", () => {
                     "abcd:UnitReference": [
                       {
                         "abcd:TitleCitation": "Boisvert, 2009a",
-                        "abcd:CitationDetail": "Une pêche miraculese"
+                        "abcd:CitationDetail": "Une pêche miraculese",
                       },
                       {
                         "abcd:TitleCitation": "Boisvert, 2009b",
                         "abcd:CitationDetail":
-                          "The origin of tertrapod limbs and girdles: fossil and developmental evidence"
+                          "The origin of tertrapod limbs and girdles: fossil and developmental evidence",
                       },
                       {
                         "abcd:TitleCitation": "Boisvert, 2009",
                         "abcd:CitationDetail":
                           "The humerus of Panderichthys in three dimensions and its significance in the context of the fish-tetrapod transition",
-                        "abcd:URI": "10.1111/j.1463-6395.2008.00389.x"
+                        "abcd:URI": "10.1111/j.1463-6395.2008.00389.x",
                       },
                       {
                         "abcd:TitleCitation": "Vorobyeva & Kuznetsov, 1992",
                         "abcd:CitationDetail":
-                          "The locomotor apparatus of Panderichthys rhombolepis (Gross), a supplement to the problem of fish-tetrapod transition"
+                          "The locomotor apparatus of Panderichthys rhombolepis (Gross), a supplement to the problem of fish-tetrapod transition",
                       },
                       {
                         "abcd:TitleCitation": "Boisvert et al., 2008",
                         "abcd:CitationDetail":
                           "The pectoral fin of Panderichthys and the origin of digits",
-                        "abcd:URI": "10.1038/nature07339"
+                        "abcd:URI": "10.1038/nature07339",
                       },
                       {
                         "abcd:TitleCitation": "Boisvert, 2005",
                         "abcd:CitationDetail":
                           "The pelvic fin and girdle of Panderichthys and the origin of tetrapod locomotion",
-                        "abcd:URI": "10.1038/nature04119"
+                        "abcd:URI": "10.1038/nature04119",
                       },
                       {
                         "abcd:TitleCitation": "Steyer, 2009",
-                        "abcd:CitationDetail": "La Terre avant les dinosaures"
-                      }
-                    ]
+                        "abcd:CitationDetail": "La Terre avant les dinosaures",
+                      },
+                    ],
                   },
                   "abcd:Identifications": {
                     "abcd:Identification": [
@@ -1068,21 +1067,21 @@ describe("DetailViewGetters", () => {
                             "abcd:HigherTaxa": {
                               "abcd:HigherTaxon": {
                                 "abcd:HigherTaxonName": "Osteichthyes",
-                                "abcd:HigherTaxonRank": "Superclass"
-                              }
+                                "abcd:HigherTaxonRank": "Superclass",
+                              },
                             },
                             "abcd:ScientificName": {
                               "abcd:FullScientificNameString":
                                 "Panderichthys rhombolepis (Gross, 1930)",
                               "abcd:NameAtomised": {
                                 "abcd:Zoological": {
-                                  "abcd:SpeciesEpithet": "rhombolepis"
-                                }
-                              }
-                            }
-                          }
+                                  "abcd:SpeciesEpithet": "rhombolepis",
+                                },
+                              },
+                            },
+                          },
                         },
-                        "abcd:PreferredFlag": "1"
+                        "abcd:PreferredFlag": "1",
                       },
                       {
                         "abcd:Result": {
@@ -1090,23 +1089,23 @@ describe("DetailViewGetters", () => {
                             "abcd:HigherTaxa": {
                               "abcd:HigherTaxon": {
                                 "abcd:HigherTaxonName": "Osteichthyes",
-                                "abcd:HigherTaxonRank": "Superclass"
-                              }
+                                "abcd:HigherTaxonRank": "Superclass",
+                              },
                             },
                             "abcd:ScientificName": {
                               "abcd:FullScientificNameString":
                                 "Panderichthys rhombolepis",
                               "abcd:NameAtomised": {
                                 "abcd:Zoological": {
-                                  "abcd:SpeciesEpithet": "rhombolepis"
-                                }
-                              }
-                            }
-                          }
+                                  "abcd:SpeciesEpithet": "rhombolepis",
+                                },
+                              },
+                            },
+                          },
                         },
-                        "abcd:PreferredFlag": "1"
-                      }
-                    ]
+                        "abcd:PreferredFlag": "1",
+                      },
+                    ],
                   },
                   "abcd:RecordBasis": "FossilSpecimen",
                   "abcd:KindOfUnit": "specimen in parts",
@@ -1125,12 +1124,12 @@ describe("DetailViewGetters", () => {
                             "abcd:License": {
                               "abcd:Text": "CC BY-NC",
                               "abcd:URI":
-                                "http://creativecommons.org/licenses/by-nc/3.0/"
-                            }
-                          }
+                                "http://creativecommons.org/licenses/by-nc/3.0/",
+                            },
+                          },
                         },
                         "abcd:CreatedDate": "2008-10-16",
-                        "abcd:Creator": "Baranov, G."
+                        "abcd:Creator": "Baranov, G.",
                       },
                       {
                         "abcd:ID": "33966",
@@ -1145,12 +1144,12 @@ describe("DetailViewGetters", () => {
                             "abcd:License": {
                               "abcd:Text": "CC BY-NC",
                               "abcd:URI":
-                                "http://creativecommons.org/licenses/by-nc/3.0/"
-                            }
-                          }
+                                "http://creativecommons.org/licenses/by-nc/3.0/",
+                            },
+                          },
                         },
                         "abcd:CreatedDate": "2008-10-16",
-                        "abcd:Creator": "Baranov, G."
+                        "abcd:Creator": "Baranov, G.",
                       },
                       {
                         "abcd:ID": "33967",
@@ -1165,12 +1164,12 @@ describe("DetailViewGetters", () => {
                             "abcd:License": {
                               "abcd:Text": "CC BY-NC",
                               "abcd:URI":
-                                "http://creativecommons.org/licenses/by-nc/3.0/"
-                            }
-                          }
+                                "http://creativecommons.org/licenses/by-nc/3.0/",
+                            },
+                          },
                         },
                         "abcd:CreatedDate": "2008-10-16",
-                        "abcd:Creator": "Baranov, G."
+                        "abcd:Creator": "Baranov, G.",
                       },
                       {
                         "abcd:ID": "33968",
@@ -1185,14 +1184,14 @@ describe("DetailViewGetters", () => {
                             "abcd:License": {
                               "abcd:Text": "CC BY-NC",
                               "abcd:URI":
-                                "http://creativecommons.org/licenses/by-nc/3.0/"
-                            }
-                          }
+                                "http://creativecommons.org/licenses/by-nc/3.0/",
+                            },
+                          },
                         },
                         "abcd:CreatedDate": "2008-10-16",
-                        "abcd:Creator": "Baranov, G."
-                      }
-                    ]
+                        "abcd:Creator": "Baranov, G.",
+                      },
+                    ],
                   },
                   "abcd:Gathering": {
                     "abcd:DateTime": { "abcd:DateText": "1972" },
@@ -1203,10 +1202,10 @@ describe("DetailViewGetters", () => {
                           "abcd:FullName": "Kurik",
                           "abcd:AtomisedName": {
                             "abcd:InheritedName": "Kurik",
-                            "abcd:GivenNames": "Elga"
-                          }
-                        }
-                      }
+                            "abcd:GivenNames": "Elga",
+                          },
+                        },
+                      },
                     },
                     "abcd:LocalityText": "Lode quarry",
                     "abcd:Country": { "abcd:Name": "Latvia" },
@@ -1218,18 +1217,18 @@ describe("DetailViewGetters", () => {
                           "abcd:LatitudeDecimal": "57.390606",
                           "abcd:SpatialDatum": "WGS84",
                           "abcd:AccuracyStatement": "10-100 m",
-                          "abcd:CoordinateErrorDistanceInMeters": "100"
-                        }
-                      }
+                          "abcd:CoordinateErrorDistanceInMeters": "100",
+                        },
+                      },
                     },
                     "abcd:Stratigraphy": {
                       "abcd:ChronostratigraphicTerms": {
                         "abcd:ChronostratigraphicTerm": [
                           { "abcd:Term": "Gauja Stage" },
-                          { "abcd:Term": "Givetian" }
-                        ]
-                      }
-                    }
+                          { "abcd:Term": "Givetian" },
+                        ],
+                      },
+                    },
                   },
                   "abcd:RecordURI":
                     "https://geocollections.info/specimen/102680",
@@ -1239,16 +1238,16 @@ describe("DetailViewGetters", () => {
                         "efg:ChronostratigraphicAttributions": {
                           "efg:ChronostratigraphicAttribution": {
                             "efg:ChronoStratigraphicDivision": "Stage",
-                            "efg:ChronostratigraphicName": "Gauja Stage"
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
+                            "efg:ChronostratigraphicName": "Gauja Stage",
+                          },
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
         },
         itemHeaders: [
           { text: "type", value: "typestatus" },
@@ -1278,7 +1277,7 @@ describe("DetailViewGetters", () => {
           { text: "taxonInTreeOfLife", value: "taxon_id_tol" },
           { text: "TaxonInFossiilidInfo", value: "taxon_id" },
           { text: "recordUri", value: "recordURI" },
-          { text: "relatedResource", value: "relatedResource" }
+          { text: "relatedResource", value: "relatedResource" },
         ],
         itemHeadersSecondary: [
           { text: "institution", value: "institutionHomepage" },
@@ -1298,9 +1297,9 @@ describe("DetailViewGetters", () => {
           { text: "providerName", value: "providername" },
           { text: "specimenVerifier", value: "specimenVerifier" },
           { text: "geocaseId", value: "id" },
-          { text: "unitGuid", value: "unitGuid" }
+          { text: "unitGuid", value: "unitGuid" },
         ],
-        isLoading: false
+        isLoading: false,
       },
       expected: [
         true,
@@ -1318,7 +1317,7 @@ describe("DetailViewGetters", () => {
             "https://files.geocollections.info/medium/86/fb/86fbf311-a665-47f6-826b-524c1c9b4fa7.jpg",
             "https://files.geocollections.info/medium/b7/34/b734e8df-735f-4a68-9879-b8e35c8ac385.jpg",
             "https://files.geocollections.info/medium/e3/20/e320a3ba-a591-482a-97ee-a3cce8d95c60.jpg",
-            "https://files.geocollections.info/medium/ea/79/ea79cb97-7163-49d3-a9c9-031a903c937b.jpg"
+            "https://files.geocollections.info/medium/ea/79/ea79cb97-7163-49d3-a9c9-031a903c937b.jpg",
           ],
           recordbasis: "Fossil",
           higherrank: "Superclass",
@@ -1344,16 +1343,15 @@ describe("DetailViewGetters", () => {
           image_date: "2008-10-16",
           collectorname: "Kurik",
           providername: "SARV",
-          url:
-            "https://files.geocollections.info/medium/e3/20/e320a3ba-a591-482a-97ee-a3cce8d95c60.jpg",
+          url: "https://files.geocollections.info/medium/e3/20/e320a3ba-a591-482a-97ee-a3cce8d95c60.jpg",
           relatedResource: "https://geocollections.info/file/33637",
           names: [
             "Panderichthys rhombolepis",
-            "Panderichthys rhombolepis (Gross, 1930)"
+            "Panderichthys rhombolepis (Gross, 1930)",
           ],
           unitid: "434-1",
           _version_: 1685065918809374700,
-          highertaxon_facet: "Osteichthyes"
+          highertaxon_facet: "Osteichthyes",
         },
         true,
         true,
@@ -1361,12 +1359,12 @@ describe("DetailViewGetters", () => {
         false,
         false,
         false,
-        ["Stage: Gauja Stage"],
+        [{ division: "Stage", name: "Gauja Stage" }, { name: "Givetian" }],
         {
           "abcd:Address": "Ehitajate 5, 19086 Tallinn, Estonia",
           "abcd:Email": "ursula.toom@taltech.ee",
           "abcd:Name": "Ursula Toom",
-          "abcd:Phone": "+3726203009"
+          "abcd:Phone": "+3726203009",
         },
         "Ursula Toom",
         "ursula.toom@taltech.ee",
@@ -1392,7 +1390,7 @@ describe("DetailViewGetters", () => {
           "Vorobyeva & Kuznetsov, 1992 The locomotor apparatus of Panderichthys rhombolepis (Gross), a supplement to the problem of fish-tetrapod transition",
           'Boisvert et al., 2008 The pectoral fin of Panderichthys and the origin of digits (<a href="https://doi.org/10.1038/nature07339" target="ReferenceWindow" style="text-decoration: none;">https://doi.org/10.1038/nature07339</a>)',
           'Boisvert, 2005 The pelvic fin and girdle of Panderichthys and the origin of tetrapod locomotion (<a href="https://doi.org/10.1038/nature04119" target="ReferenceWindow" style="text-decoration: none;">https://doi.org/10.1038/nature04119</a>)',
-          "Steyer, 2009 La Terre avant les dinosaures"
+          "Steyer, 2009 La Terre avant les dinosaures",
         ],
         undefined,
         undefined,
@@ -1431,7 +1429,7 @@ describe("DetailViewGetters", () => {
           { text: "Taxon in Tree of Life", value: "taxon_id_tol" },
           { text: "Taxon in fossiilid.info", value: "taxon_id" },
           { text: "Record URI", value: "recordURI" },
-          { text: "Related resource", value: "relatedResource" }
+          { text: "Related resource", value: "relatedResource" },
         ],
         [
           { text: "Institution", value: "institutionHomepage" },
@@ -1451,7 +1449,7 @@ describe("DetailViewGetters", () => {
           { text: "Provider name", value: "providername" },
           { text: "Specimen verifier", value: "specimenVerifier" },
           { text: "GeoCASe ID", value: "id" },
-          { text: "UnitGUID", value: "unitGuid" }
+          { text: "UnitGUID", value: "unitGuid" },
         ],
         [
           { text: "Collection", value: "collectioncode" },
@@ -1467,7 +1465,7 @@ describe("DetailViewGetters", () => {
           { text: "Date collected", value: "unitDateText" },
           { text: "Kind of unit", value: "kindOfUnit" },
           { text: "Record URI", value: "recordURI" },
-          { text: "Related resource", value: "relatedResource" }
+          { text: "Related resource", value: "relatedResource" },
         ],
         [
           { text: "Institution", value: "institutionHomepage" },
@@ -1484,9 +1482,9 @@ describe("DetailViewGetters", () => {
           { text: "Last Edited", value: "dateLastEdited" },
           { text: "Last harvested", value: "last_harvested_processing" },
           { text: "Provider name", value: "providername" },
-          { text: "GeoCASe ID", value: "id" }
-        ]
-      ]
+          { text: "GeoCASe ID", value: "id" },
+        ],
+      ],
     },
     //  36394 ROCK TUG
     {
@@ -1504,7 +1502,7 @@ describe("DetailViewGetters", () => {
             longitude: 24.816658,
             highertaxon: "Plantae",
             images: [
-              "https://files.geocollections.info/medium/6d/c3/6dc377f1-d112-48c3-b19a-c971a5ece63c.jpg"
+              "https://files.geocollections.info/medium/6d/c3/6dc377f1-d112-48c3-b19a-c971a5ece63c.jpg",
             ],
             recordbasis: "Rock",
             higherrank: "Kingdom",
@@ -1532,14 +1530,13 @@ describe("DetailViewGetters", () => {
             image_date: "2014-04-04",
             collectorname: "Kalamees-Pani",
             providername: "SARV",
-            url:
-              "https://files.geocollections.info/medium/6d/c3/6dc377f1-d112-48c3-b19a-c971a5ece63c.jpg",
+            url: "https://files.geocollections.info/medium/6d/c3/6dc377f1-d112-48c3-b19a-c971a5ece63c.jpg",
             relatedResource: "https://geocollections.info/file/84733",
             names: ["Plantae"],
             unitid: "1667-99",
             _version_: 1685065887861702700,
-            highertaxon_facet: "Plantae"
-          }
+            highertaxon_facet: "Plantae",
+          },
         ],
         responseFromSource: {
           "abcd:DataSets": {
@@ -1548,16 +1545,16 @@ describe("DetailViewGetters", () => {
                 "abcd:TechnicalContact": {
                   "abcd:Name": "Olle Hints",
                   "abcd:Email": "olle.hints@taltech.ee",
-                  "abcd:Phone": "+3726203027"
-                }
+                  "abcd:Phone": "+3726203027",
+                },
               },
               "abcd:ContentContacts": {
                 "abcd:ContentContact": {
                   "abcd:Name": "Mare Isakar",
                   "abcd:Email": "mare.isakar@ut.ee",
                   "abcd:Phone": "+3727375839",
-                  "abcd:Address": "Vanemuise 46, Tartu, Estonia"
-                }
+                  "abcd:Address": "Vanemuise 46, Tartu, Estonia",
+                },
               },
               "abcd:Metadata": {
                 "abcd:Description": {
@@ -1565,11 +1562,11 @@ describe("DetailViewGetters", () => {
                     "abcd:Title": "TUG geological collections",
                     "abcd:Details": "...",
                     "abcd:Coverage": "fossils, mineral, rocks",
-                    "abcd:URI": "https://geocollections.info/about_tug"
-                  }
+                    "abcd:URI": "https://geocollections.info/about_tug",
+                  },
                 },
                 "abcd:RevisionData": {
-                  "abcd:DateModified": "2020-11-04T23:35:07"
+                  "abcd:DateModified": "2020-11-04T23:35:07",
                 },
                 "abcd:Owners": {
                   "abcd:Owner": {
@@ -1578,28 +1575,28 @@ describe("DetailViewGetters", () => {
                         "abcd:Representation": {
                           "abcd:Text":
                             "University of Tartu, Natural History Museum",
-                          "abcd:Abbreviation": "TUG"
-                        }
-                      }
+                          "abcd:Abbreviation": "TUG",
+                        },
+                      },
                     },
                     "abcd:Person": { "abcd:FullName": "Mare Isakar" },
                     "abcd:Roles": { "abcd:Role": "Chief Curator" },
                     "abcd:Addresses": {
-                      "abcd:Address": "Vanemuise 46, Tartu, Estonia"
+                      "abcd:Address": "Vanemuise 46, Tartu, Estonia",
                     },
                     "abcd:EmailAddresses": {
-                      "abcd:EmailAddress": "mare.isakar@ut.ee"
+                      "abcd:EmailAddress": "mare.isakar@ut.ee",
                     },
                     "abcd:LogoURI":
-                      "https://files.geocollections.info/img/UT_logo.png"
-                  }
+                      "https://files.geocollections.info/img/UT_logo.png",
+                  },
                 },
                 "abcd:IPRStatements": {
                   "abcd:Copyrights": {
                     "abcd:Copyright": {
                       "abcd:Text":
-                        "© University of Tartu, Natural History Museum"
-                    }
+                        "© University of Tartu, Natural History Museum",
+                    },
                   },
                   "abcd:Licenses": {
                     "abcd:License": {
@@ -1607,34 +1604,34 @@ describe("DetailViewGetters", () => {
                       "abcd:Details":
                         "Creative Commons Attribution-NonCommercial 4.0 Unported License",
                       "abcd:URI":
-                        "http://creativecommons.org/licenses/by-nc/4.0/"
-                    }
+                        "http://creativecommons.org/licenses/by-nc/4.0/",
+                    },
                   },
                   "abcd:TermsOfUseStatements": {
                     "abcd:TermsOfUse": {
                       "abcd:Text":
-                        "Free for non-commercial usage, provided that University of Tartu, Natural History Museum, and https://geocollections.info are acknowledged."
-                    }
+                        "Free for non-commercial usage, provided that University of Tartu, Natural History Museum, and https://geocollections.info are acknowledged.",
+                    },
                   },
                   "abcd:Disclaimers": {
                     "abcd:Disclaimer": {
                       "abcd:Text":
-                        "We make efforts to ensure that the data we serve are accurate. However, quality and completeness of every data record cannot be guaranteed. Use the data at your own responsibility."
-                    }
+                        "We make efforts to ensure that the data we serve are accurate. However, quality and completeness of every data record cannot be guaranteed. Use the data at your own responsibility.",
+                    },
                   },
                   "abcd:Acknowledgements": {
                     "abcd:Acknowledgement": {
                       "abcd:Text":
-                        "National geological collection of Estonia: www.geocollections.info; University of Tartu, Natural History Museum"
-                    }
+                        "National geological collection of Estonia: www.geocollections.info; University of Tartu, Natural History Museum",
+                    },
                   },
                   "abcd:Citations": {
                     "abcd:Citation": {
                       "abcd:Text":
-                        "National geological collection of Estonia: https://geocollections.info;  University of Tartu, Natural History Museum"
-                    }
-                  }
-                }
+                        "National geological collection of Estonia: https://geocollections.info;  University of Tartu, Natural History Museum",
+                    },
+                  },
+                },
               },
               "abcd:Units": {
                 "abcd:Unit": {
@@ -1650,21 +1647,21 @@ describe("DetailViewGetters", () => {
                           "abcd:HigherTaxa": {
                             "abcd:HigherTaxon": {
                               "abcd:HigherTaxonName": "Plantae",
-                              "abcd:HigherTaxonRank": "Kingdom"
-                            }
+                              "abcd:HigherTaxonRank": "Kingdom",
+                            },
                           },
                           "abcd:ScientificName": {
-                            "abcd:FullScientificNameString": "Plantae"
-                          }
-                        }
+                            "abcd:FullScientificNameString": "Plantae",
+                          },
+                        },
                       },
-                      "abcd:PreferredFlag": "1"
-                    }
+                      "abcd:PreferredFlag": "1",
+                    },
                   },
                   "abcd:RecordBasis": "RockSpecimen",
                   "abcd:KindOfUnit": "part of specimen",
                   "abcd:PalaeontologicalUnit": {
-                    "abcd:Preservation": { "abcd:Completeness": "soomus" }
+                    "abcd:Preservation": { "abcd:Completeness": "soomus" },
                   },
                   "abcd:MultiMediaObjects": {
                     "abcd:MultiMediaObject": {
@@ -1680,13 +1677,13 @@ describe("DetailViewGetters", () => {
                           "abcd:License": {
                             "abcd:Text": "CC BY-NC",
                             "abcd:URI":
-                              "http://creativecommons.org/licenses/by-nc/3.0/"
-                          }
-                        }
+                              "http://creativecommons.org/licenses/by-nc/3.0/",
+                          },
+                        },
                       },
                       "abcd:CreatedDate": "2014-04-04",
-                      "abcd:Creator": "Paalits, I."
-                    }
+                      "abcd:Creator": "Paalits, I.",
+                    },
                   },
                   "abcd:Gathering": {
                     "abcd:DateTime": { "abcd:ISODateTimeBegin": "1982-08-05" },
@@ -1697,15 +1694,15 @@ describe("DetailViewGetters", () => {
                           "abcd:FullName": "Kalamees-Pani",
                           "abcd:AtomisedName": {
                             "abcd:InheritedName": "Kalamees",
-                            "abcd:GivenNames": "Külli"
-                          }
-                        }
-                      }
+                            "abcd:GivenNames": "Külli",
+                          },
+                        },
+                      },
                     },
                     "abcd:LocalityText": "Tori Põrgu outcrop",
                     "abcd:Country": {
                       "abcd:Name": "Estonia",
-                      "abcd:ISO3166Code": "EE"
+                      "abcd:ISO3166Code": "EE",
                     },
                     "abcd:SiteCoordinateSets": {
                       "abcd:SiteCoordinates": {
@@ -1715,19 +1712,19 @@ describe("DetailViewGetters", () => {
                           "abcd:LatitudeDecimal": "58.483589",
                           "abcd:SpatialDatum": "WGS84",
                           "abcd:AccuracyStatement": "1-10 m",
-                          "abcd:CoordinateErrorDistanceInMeters": "10"
-                        }
-                      }
+                          "abcd:CoordinateErrorDistanceInMeters": "10",
+                        },
+                      },
                     },
                     "abcd:Stratigraphy": {
                       "abcd:ChronostratigraphicTerms": {
                         "abcd:ChronostratigraphicTerm": [
                           { "abcd:Term": "Pärnu Stage" },
-                          { "abcd:Term": "Eifelian" }
-                        ]
-                      }
+                          { "abcd:Term": "Eifelian" },
+                        ],
+                      },
                     },
-                    "abcd:Notes": "?profiil 2"
+                    "abcd:Notes": "?profiil 2",
                   },
                   "abcd:RecordURI":
                     "https://geocollections.info/specimen/249840",
@@ -1737,19 +1734,19 @@ describe("DetailViewGetters", () => {
                         "efg:ChronostratigraphicAttributions": {
                           "efg:ChronostratigraphicAttribution": {
                             "efg:ChronoStratigraphicDivision": "Stage",
-                            "efg:ChronostratigraphicName": "Pärnu Stage"
-                          }
-                        }
-                      }
+                            "efg:ChronostratigraphicName": "Pärnu Stage",
+                          },
+                        },
+                      },
                     },
                     "efg:PalaeontologicalUnit": {
-                      "efg:PartOfOrganism": "soomus"
-                    }
-                  }
-                }
-              }
-            }
-          }
+                      "efg:PartOfOrganism": "soomus",
+                    },
+                  },
+                },
+              },
+            },
+          },
         },
         itemHeaders: [
           { text: "type", value: "typestatus" },
@@ -1779,7 +1776,7 @@ describe("DetailViewGetters", () => {
           { text: "taxonInTreeOfLife", value: "taxon_id_tol" },
           { text: "TaxonInFossiilidInfo", value: "taxon_id" },
           { text: "recordUri", value: "recordURI" },
-          { text: "relatedResource", value: "relatedResource" }
+          { text: "relatedResource", value: "relatedResource" },
         ],
         itemHeadersSecondary: [
           { text: "institution", value: "institutionHomepage" },
@@ -1799,9 +1796,9 @@ describe("DetailViewGetters", () => {
           { text: "providerName", value: "providername" },
           { text: "specimenVerifier", value: "specimenVerifier" },
           { text: "geocaseId", value: "id" },
-          { text: "unitGuid", value: "unitGuid" }
+          { text: "unitGuid", value: "unitGuid" },
         ],
-        isLoading: false
+        isLoading: false,
       },
       expected: [
         true,
@@ -1817,7 +1814,7 @@ describe("DetailViewGetters", () => {
           longitude: 24.816658,
           highertaxon: "Plantae",
           images: [
-            "https://files.geocollections.info/medium/6d/c3/6dc377f1-d112-48c3-b19a-c971a5ece63c.jpg"
+            "https://files.geocollections.info/medium/6d/c3/6dc377f1-d112-48c3-b19a-c971a5ece63c.jpg",
           ],
           recordbasis: "Rock",
           higherrank: "Kingdom",
@@ -1845,13 +1842,12 @@ describe("DetailViewGetters", () => {
           image_date: "2014-04-04",
           collectorname: "Kalamees-Pani",
           providername: "SARV",
-          url:
-            "https://files.geocollections.info/medium/6d/c3/6dc377f1-d112-48c3-b19a-c971a5ece63c.jpg",
+          url: "https://files.geocollections.info/medium/6d/c3/6dc377f1-d112-48c3-b19a-c971a5ece63c.jpg",
           relatedResource: "https://geocollections.info/file/84733",
           names: ["Plantae"],
           unitid: "1667-99",
           _version_: 1685065887861702700,
-          highertaxon_facet: "Plantae"
+          highertaxon_facet: "Plantae",
         },
         true,
         true,
@@ -1859,12 +1855,12 @@ describe("DetailViewGetters", () => {
         false,
         true,
         false,
-        ["Stage: Pärnu Stage"],
+        [{ division: "Stage", name: "Pärnu Stage" }, { name: "Eifelian" }],
         {
           "abcd:Address": "Vanemuise 46, Tartu, Estonia",
           "abcd:Email": "mare.isakar@ut.ee",
           "abcd:Name": "Mare Isakar",
-          "abcd:Phone": "+3727375839"
+          "abcd:Phone": "+3727375839",
         },
         "Mare Isakar",
         "mare.isakar@ut.ee",
@@ -1921,7 +1917,7 @@ describe("DetailViewGetters", () => {
           { text: "Taxon in Tree of Life", value: "taxon_id_tol" },
           { text: "Taxon in fossiilid.info", value: "taxon_id" },
           { text: "Record URI", value: "recordURI" },
-          { text: "Related resource", value: "relatedResource" }
+          { text: "Related resource", value: "relatedResource" },
         ],
         [
           { text: "Institution", value: "institutionHomepage" },
@@ -1941,7 +1937,7 @@ describe("DetailViewGetters", () => {
           { text: "Provider name", value: "providername" },
           { text: "Specimen verifier", value: "specimenVerifier" },
           { text: "GeoCASe ID", value: "id" },
-          { text: "UnitGUID", value: "unitGuid" }
+          { text: "UnitGUID", value: "unitGuid" },
         ],
         [
           { text: "Collection", value: "collectioncode" },
@@ -1957,7 +1953,7 @@ describe("DetailViewGetters", () => {
           { text: "Taxon record in PBDB", value: "taxon_id_pbdb" },
           { text: "Taxon in fossiilid.info", value: "taxon_id" },
           { text: "Record URI", value: "recordURI" },
-          { text: "Related resource", value: "relatedResource" }
+          { text: "Related resource", value: "relatedResource" },
         ],
         [
           { text: "Institution", value: "institutionHomepage" },
@@ -1974,9 +1970,9 @@ describe("DetailViewGetters", () => {
           { text: "Last Edited", value: "dateLastEdited" },
           { text: "Last harvested", value: "last_harvested_processing" },
           { text: "Provider name", value: "providername" },
-          { text: "GeoCASe ID", value: "id" }
-        ]
-      ]
+          { text: "GeoCASe ID", value: "id" },
+        ],
+      ],
     },
     //  63262 METEORITE TUG
     {
@@ -2006,8 +2002,8 @@ describe("DetailViewGetters", () => {
             providername: "SARV",
             names: ["Tektite"],
             unitid: "526-2",
-            _version_: 1685065892776378400
-          }
+            _version_: 1685065892776378400,
+          },
         ],
         responseFromSource: {
           "abcd:DataSets": {
@@ -2016,16 +2012,16 @@ describe("DetailViewGetters", () => {
                 "abcd:TechnicalContact": {
                   "abcd:Name": "Olle Hints",
                   "abcd:Email": "olle.hints@taltech.ee",
-                  "abcd:Phone": "+3726203027"
-                }
+                  "abcd:Phone": "+3726203027",
+                },
               },
               "abcd:ContentContacts": {
                 "abcd:ContentContact": {
                   "abcd:Name": "Mare Isakar",
                   "abcd:Email": "mare.isakar@ut.ee",
                   "abcd:Phone": "+3727375839",
-                  "abcd:Address": "Vanemuise 46, Tartu, Estonia"
-                }
+                  "abcd:Address": "Vanemuise 46, Tartu, Estonia",
+                },
               },
               "abcd:Metadata": {
                 "abcd:Description": {
@@ -2033,11 +2029,11 @@ describe("DetailViewGetters", () => {
                     "abcd:Title": "TUG geological collections",
                     "abcd:Details": "...",
                     "abcd:Coverage": "fossils, mineral, rocks",
-                    "abcd:URI": "https://geocollections.info/about_tug"
-                  }
+                    "abcd:URI": "https://geocollections.info/about_tug",
+                  },
                 },
                 "abcd:RevisionData": {
-                  "abcd:DateModified": "2020-11-04T23:35:07"
+                  "abcd:DateModified": "2020-11-04T23:35:07",
                 },
                 "abcd:Owners": {
                   "abcd:Owner": {
@@ -2046,28 +2042,28 @@ describe("DetailViewGetters", () => {
                         "abcd:Representation": {
                           "abcd:Text":
                             "University of Tartu, Natural History Museum",
-                          "abcd:Abbreviation": "TUG"
-                        }
-                      }
+                          "abcd:Abbreviation": "TUG",
+                        },
+                      },
                     },
                     "abcd:Person": { "abcd:FullName": "Mare Isakar" },
                     "abcd:Roles": { "abcd:Role": "Chief Curator" },
                     "abcd:Addresses": {
-                      "abcd:Address": "Vanemuise 46, Tartu, Estonia"
+                      "abcd:Address": "Vanemuise 46, Tartu, Estonia",
                     },
                     "abcd:EmailAddresses": {
-                      "abcd:EmailAddress": "mare.isakar@ut.ee"
+                      "abcd:EmailAddress": "mare.isakar@ut.ee",
                     },
                     "abcd:LogoURI":
-                      "https://files.geocollections.info/img/UT_logo.png"
-                  }
+                      "https://files.geocollections.info/img/UT_logo.png",
+                  },
                 },
                 "abcd:IPRStatements": {
                   "abcd:Copyrights": {
                     "abcd:Copyright": {
                       "abcd:Text":
-                        "© University of Tartu, Natural History Museum"
-                    }
+                        "© University of Tartu, Natural History Museum",
+                    },
                   },
                   "abcd:Licenses": {
                     "abcd:License": {
@@ -2075,34 +2071,34 @@ describe("DetailViewGetters", () => {
                       "abcd:Details":
                         "Creative Commons Attribution-NonCommercial 4.0 Unported License",
                       "abcd:URI":
-                        "http://creativecommons.org/licenses/by-nc/4.0/"
-                    }
+                        "http://creativecommons.org/licenses/by-nc/4.0/",
+                    },
                   },
                   "abcd:TermsOfUseStatements": {
                     "abcd:TermsOfUse": {
                       "abcd:Text":
-                        "Free for non-commercial usage, provided that University of Tartu, Natural History Museum, and https://geocollections.info are acknowledged."
-                    }
+                        "Free for non-commercial usage, provided that University of Tartu, Natural History Museum, and https://geocollections.info are acknowledged.",
+                    },
                   },
                   "abcd:Disclaimers": {
                     "abcd:Disclaimer": {
                       "abcd:Text":
-                        "We make efforts to ensure that the data we serve are accurate. However, quality and completeness of every data record cannot be guaranteed. Use the data at your own responsibility."
-                    }
+                        "We make efforts to ensure that the data we serve are accurate. However, quality and completeness of every data record cannot be guaranteed. Use the data at your own responsibility.",
+                    },
                   },
                   "abcd:Acknowledgements": {
                     "abcd:Acknowledgement": {
                       "abcd:Text":
-                        "National geological collection of Estonia: www.geocollections.info; University of Tartu, Natural History Museum"
-                    }
+                        "National geological collection of Estonia: www.geocollections.info; University of Tartu, Natural History Museum",
+                    },
                   },
                   "abcd:Citations": {
                     "abcd:Citation": {
                       "abcd:Text":
-                        "National geological collection of Estonia: https://geocollections.info;  University of Tartu, Natural History Museum"
-                    }
-                  }
-                }
+                        "National geological collection of Estonia: https://geocollections.info;  University of Tartu, Natural History Museum",
+                    },
+                  },
+                },
               },
               "abcd:Units": {
                 "abcd:Unit": {
@@ -2117,26 +2113,26 @@ describe("DetailViewGetters", () => {
                         "abcd:TitleCitation": "Grewingk & Schmidt, 1864a",
                         "abcd:CitationDetail":
                           "Ueber die Meteoriten-Fälle von Pillistfer, Buschhof und Igast in Liv- und Kurland",
-                        "abcd:URI": "https://dspace.ut.ee/handle/10062/45460"
+                        "abcd:URI": "https://dspace.ut.ee/handle/10062/45460",
                       },
                       {
                         "abcd:TitleCitation": "Grewingk, 1867b",
                         "abcd:CitationDetail":
                           "Die Meteoriten des mineralogischen Cabinets der Universität Dorpat am 1. Mai 1865",
-                        "abcd:URI": "http://dspace.ut.ee/handle/10062/45458"
+                        "abcd:URI": "http://dspace.ut.ee/handle/10062/45458",
                       },
                       {
                         "abcd:TitleCitation": "Loewinson-Lessing, 1897",
                         "abcd:CitationDetail":
-                          "Catalogue de la collection de Météorites de l'Université Impériale de Jourieff (Dorpat) (Musée Minéralogique)"
+                          "Catalogue de la collection de Météorites de l'Université Impériale de Jourieff (Dorpat) (Musée Minéralogique)",
                       },
                       {
                         "abcd:TitleCitation": "Tiirmaa, 1996",
                         "abcd:CitationDetail":
                           "Catalogue of meteorites in the Estonian collection",
-                        "abcd:URI": "https://www.etera.ee/s/HxLA3rGivA"
-                      }
-                    ]
+                        "abcd:URI": "https://www.etera.ee/s/HxLA3rGivA",
+                      },
+                    ],
                   },
                   "abcd:Identifications": {
                     "abcd:Identification": [
@@ -2147,13 +2143,13 @@ describe("DetailViewGetters", () => {
                               "efg:ClassifiedName": {
                                 "efg:FullScientificNameString": "Tektite",
                                 "efg:MineralRockNameAtomised": {
-                                  "efg:ScientificNameString": "Tektite"
-                                }
+                                  "efg:ScientificNameString": "Tektite",
+                                },
                               },
-                              "efg:InformalNameString": "Tektite"
-                            }
-                          }
-                        }
+                              "efg:InformalNameString": "Tektite",
+                            },
+                          },
+                        },
                       },
                       {
                         "abcd:Result": {
@@ -2161,13 +2157,13 @@ describe("DetailViewGetters", () => {
                             "efg:MineralRockIdentified": {
                               "efg:ClassifiedName": {
                                 "efg:FullScientificNameString":
-                                  "Stone meteorites"
-                              }
-                            }
-                          }
-                        }
-                      }
-                    ]
+                                  "Stone meteorites",
+                              },
+                            },
+                          },
+                        },
+                      },
+                    ],
                   },
                   "abcd:RecordBasis": "MeteoriteSpecimen",
                   "abcd:KindOfUnit": "part of specimen",
@@ -2176,7 +2172,7 @@ describe("DetailViewGetters", () => {
                     "abcd:LocalityText": "Igast",
                     "abcd:Country": {
                       "abcd:Name": "Estonia",
-                      "abcd:ISO3166Code": "EE"
+                      "abcd:ISO3166Code": "EE",
                     },
                     "abcd:SiteCoordinateSets": {
                       "abcd:SiteCoordinates": {
@@ -2185,11 +2181,11 @@ describe("DetailViewGetters", () => {
                           "abcd:LatitudeDecimal": "57.833333",
                           "abcd:SpatialDatum": "WGS84",
                           "abcd:AccuracyStatement": "1-10 km",
-                          "abcd:CoordinateErrorDistanceInMeters": "10000"
-                        }
-                      }
+                          "abcd:CoordinateErrorDistanceInMeters": "10000",
+                        },
+                      },
                     },
-                    "abcd:Notes": "Igast, Livland"
+                    "abcd:Notes": "Igast, Livland",
                   },
                   "abcd:UnitExtension": {
                     "efg:EarthScienceSpecimen": {
@@ -2197,16 +2193,16 @@ describe("DetailViewGetters", () => {
                         "efg:ChronostratigraphicAttributions": {
                           "efg:ChronostratigraphicAttribution": [
                             {
-                              "efg:ChronostratigraphicAttribution": "test"
-                            }
-                          ]
-                        }
-                      }
+                              "efg:ChronostratigraphicAttribution": "test",
+                            },
+                          ],
+                        },
+                      },
                     },
                     "abcd:LocalityText": "Igast",
                     "abcd:Country": {
                       "abcd:Name": "Estonia",
-                      "abcd:ISO3166Code": "EE"
+                      "abcd:ISO3166Code": "EE",
                     },
                     "abcd:SiteCoordinateSets": {
                       "abcd:SiteCoordinates": {
@@ -2215,18 +2211,18 @@ describe("DetailViewGetters", () => {
                           "abcd:LatitudeDecimal": "57.833333",
                           "abcd:SpatialDatum": "WGS84",
                           "abcd:AccuracyStatement": "1-10 km",
-                          "abcd:CoordinateErrorDistanceInMeters": "10000"
-                        }
-                      }
+                          "abcd:CoordinateErrorDistanceInMeters": "10000",
+                        },
+                      },
                     },
-                    "abcd:Notes": "Igast, Livland"
+                    "abcd:Notes": "Igast, Livland",
                   },
                   "abcd:RecordURI":
-                    "https://geocollections.info/specimen/256530"
-                }
-              }
-            }
-          }
+                    "https://geocollections.info/specimen/256530",
+                },
+              },
+            },
+          },
         },
         itemHeaders: [
           { text: "type", value: "typestatus" },
@@ -2256,7 +2252,7 @@ describe("DetailViewGetters", () => {
           { text: "taxonInTreeOfLife", value: "taxon_id_tol" },
           { text: "TaxonInFossiilidInfo", value: "taxon_id" },
           { text: "recordUri", value: "recordURI" },
-          { text: "relatedResource", value: "relatedResource" }
+          { text: "relatedResource", value: "relatedResource" },
         ],
         itemHeadersSecondary: [
           { text: "institution", value: "institutionHomepage" },
@@ -2276,9 +2272,9 @@ describe("DetailViewGetters", () => {
           { text: "providerName", value: "providername" },
           { text: "specimenVerifier", value: "specimenVerifier" },
           { text: "geocaseId", value: "id" },
-          { text: "unitGuid", value: "unitGuid" }
+          { text: "unitGuid", value: "unitGuid" },
         ],
-        isLoading: false
+        isLoading: false,
       },
       expected: [
         true,
@@ -2306,7 +2302,7 @@ describe("DetailViewGetters", () => {
           providername: "SARV",
           names: ["Tektite"],
           unitid: "526-2",
-          _version_: 1685065892776378400
+          _version_: 1685065892776378400,
         },
         false,
         false,
@@ -2319,7 +2315,7 @@ describe("DetailViewGetters", () => {
           "abcd:Address": "Vanemuise 46, Tartu, Estonia",
           "abcd:Email": "mare.isakar@ut.ee",
           "abcd:Name": "Mare Isakar",
-          "abcd:Phone": "+3727375839"
+          "abcd:Phone": "+3727375839",
         },
         "Mare Isakar",
         "mare.isakar@ut.ee",
@@ -2342,7 +2338,7 @@ describe("DetailViewGetters", () => {
           'Grewingk & Schmidt, 1864a Ueber die Meteoriten-Fälle von Pillistfer, Buschhof und Igast in Liv- und Kurland (<a href="https://dspace.ut.ee/handle/10062/45460" target="ReferenceWindow" style="text-decoration: none;">https://dspace.ut.ee/handle/10062/45460</a>)',
           'Grewingk, 1867b Die Meteoriten des mineralogischen Cabinets der Universität Dorpat am 1. Mai 1865 (<a href="http://dspace.ut.ee/handle/10062/45458" target="ReferenceWindow" style="text-decoration: none;">http://dspace.ut.ee/handle/10062/45458</a>)',
           "Loewinson-Lessing, 1897 Catalogue de la collection de Météorites de l'Université Impériale de Jourieff (Dorpat) (Musée Minéralogique)",
-          'Tiirmaa, 1996 Catalogue of meteorites in the Estonian collection (<a href="https://www.etera.ee/s/HxLA3rGivA" target="ReferenceWindow" style="text-decoration: none;">https://www.etera.ee/s/HxLA3rGivA</a>)'
+          'Tiirmaa, 1996 Catalogue of meteorites in the Estonian collection (<a href="https://www.etera.ee/s/HxLA3rGivA" target="ReferenceWindow" style="text-decoration: none;">https://www.etera.ee/s/HxLA3rGivA</a>)',
         ],
         undefined,
         undefined,
@@ -2381,7 +2377,7 @@ describe("DetailViewGetters", () => {
           { text: "Taxon in Tree of Life", value: "taxon_id_tol" },
           { text: "Taxon in fossiilid.info", value: "taxon_id" },
           { text: "Record URI", value: "recordURI" },
-          { text: "Related resource", value: "relatedResource" }
+          { text: "Related resource", value: "relatedResource" },
         ],
         [
           { text: "Institution", value: "institutionHomepage" },
@@ -2401,7 +2397,7 @@ describe("DetailViewGetters", () => {
           { text: "Provider name", value: "providername" },
           { text: "Specimen verifier", value: "specimenVerifier" },
           { text: "GeoCASe ID", value: "id" },
-          { text: "UnitGUID", value: "unitGuid" }
+          { text: "UnitGUID", value: "unitGuid" },
         ],
         [
           { text: "Collection", value: "collectioncode" },
@@ -2409,7 +2405,7 @@ describe("DetailViewGetters", () => {
           { text: "Reference", value: "reference" },
           { text: "Mindat", value: "mindat_url" },
           { text: "Kind of unit", value: "kindOfUnit" },
-          { text: "Record URI", value: "recordURI" }
+          { text: "Record URI", value: "recordURI" },
         ],
         [
           { text: "Institution", value: "institutionHomepage" },
@@ -2426,9 +2422,9 @@ describe("DetailViewGetters", () => {
           { text: "Last Edited", value: "dateLastEdited" },
           { text: "Last harvested", value: "last_harvested_processing" },
           { text: "Provider name", value: "providername" },
-          { text: "GeoCASe ID", value: "id" }
-        ]
-      ]
+          { text: "GeoCASe ID", value: "id" },
+        ],
+      ],
     },
     //  107043 MINERAL TUG
     {
@@ -2470,8 +2466,8 @@ describe("DetailViewGetters", () => {
             names: ["Echinoidea"],
             unitid: "1649-10",
             _version_: 1685065904593830000,
-            highertaxon_facet: "Echinodermata"
-          }
+            highertaxon_facet: "Echinodermata",
+          },
         ],
         responseFromSource: {
           "abcd:DataSets": {
@@ -2480,16 +2476,16 @@ describe("DetailViewGetters", () => {
                 "abcd:TechnicalContact": {
                   "abcd:Name": "Olle Hints",
                   "abcd:Email": "olle.hints@taltech.ee",
-                  "abcd:Phone": "+3726203027"
-                }
+                  "abcd:Phone": "+3726203027",
+                },
               },
               "abcd:ContentContacts": {
                 "abcd:ContentContact": {
                   "abcd:Name": "Mare Isakar",
                   "abcd:Email": "mare.isakar@ut.ee",
                   "abcd:Phone": "+3727375839",
-                  "abcd:Address": "Vanemuise 46, Tartu, Estonia"
-                }
+                  "abcd:Address": "Vanemuise 46, Tartu, Estonia",
+                },
               },
               "abcd:Metadata": {
                 "abcd:Description": {
@@ -2497,11 +2493,11 @@ describe("DetailViewGetters", () => {
                     "abcd:Title": "TUG geological collections",
                     "abcd:Details": "...",
                     "abcd:Coverage": "fossils, mineral, rocks",
-                    "abcd:URI": "https://geocollections.info/about_tug"
-                  }
+                    "abcd:URI": "https://geocollections.info/about_tug",
+                  },
                 },
                 "abcd:RevisionData": {
-                  "abcd:DateModified": "2020-11-04T23:35:07"
+                  "abcd:DateModified": "2020-11-04T23:35:07",
                 },
                 "abcd:Owners": {
                   "abcd:Owner": {
@@ -2510,28 +2506,28 @@ describe("DetailViewGetters", () => {
                         "abcd:Representation": {
                           "abcd:Text":
                             "University of Tartu, Natural History Museum",
-                          "abcd:Abbreviation": "TUG"
-                        }
-                      }
+                          "abcd:Abbreviation": "TUG",
+                        },
+                      },
                     },
                     "abcd:Person": { "abcd:FullName": "Mare Isakar" },
                     "abcd:Roles": { "abcd:Role": "Chief Curator" },
                     "abcd:Addresses": {
-                      "abcd:Address": "Vanemuise 46, Tartu, Estonia"
+                      "abcd:Address": "Vanemuise 46, Tartu, Estonia",
                     },
                     "abcd:EmailAddresses": {
-                      "abcd:EmailAddress": "mare.isakar@ut.ee"
+                      "abcd:EmailAddress": "mare.isakar@ut.ee",
                     },
                     "abcd:LogoURI":
-                      "https://files.geocollections.info/img/UT_logo.png"
-                  }
+                      "https://files.geocollections.info/img/UT_logo.png",
+                  },
                 },
                 "abcd:IPRStatements": {
                   "abcd:Copyrights": {
                     "abcd:Copyright": {
                       "abcd:Text":
-                        "© University of Tartu, Natural History Museum"
-                    }
+                        "© University of Tartu, Natural History Museum",
+                    },
                   },
                   "abcd:Licenses": {
                     "abcd:License": {
@@ -2539,34 +2535,34 @@ describe("DetailViewGetters", () => {
                       "abcd:Details":
                         "Creative Commons Attribution-NonCommercial 4.0 Unported License",
                       "abcd:URI":
-                        "http://creativecommons.org/licenses/by-nc/4.0/"
-                    }
+                        "http://creativecommons.org/licenses/by-nc/4.0/",
+                    },
                   },
                   "abcd:TermsOfUseStatements": {
                     "abcd:TermsOfUse": {
                       "abcd:Text":
-                        "Free for non-commercial usage, provided that University of Tartu, Natural History Museum, and https://geocollections.info are acknowledged."
-                    }
+                        "Free for non-commercial usage, provided that University of Tartu, Natural History Museum, and https://geocollections.info are acknowledged.",
+                    },
                   },
                   "abcd:Disclaimers": {
                     "abcd:Disclaimer": {
                       "abcd:Text":
-                        "We make efforts to ensure that the data we serve are accurate. However, quality and completeness of every data record cannot be guaranteed. Use the data at your own responsibility."
-                    }
+                        "We make efforts to ensure that the data we serve are accurate. However, quality and completeness of every data record cannot be guaranteed. Use the data at your own responsibility.",
+                    },
                   },
                   "abcd:Acknowledgements": {
                     "abcd:Acknowledgement": {
                       "abcd:Text":
-                        "National geological collection of Estonia: www.geocollections.info; University of Tartu, Natural History Museum"
-                    }
+                        "National geological collection of Estonia: www.geocollections.info; University of Tartu, Natural History Museum",
+                    },
                   },
                   "abcd:Citations": {
                     "abcd:Citation": {
                       "abcd:Text":
-                        "National geological collection of Estonia: https://geocollections.info;  University of Tartu, Natural History Museum"
-                    }
-                  }
-                }
+                        "National geological collection of Estonia: https://geocollections.info;  University of Tartu, Natural History Museum",
+                    },
+                  },
+                },
               },
               "abcd:Units": {
                 "abcd:Unit": {
@@ -2584,21 +2580,21 @@ describe("DetailViewGetters", () => {
                             "abcd:HigherTaxon": [
                               {
                                 "abcd:HigherTaxonName": "Echinodermata",
-                                "abcd:HigherTaxonRank": "Phylum"
+                                "abcd:HigherTaxonRank": "Phylum",
                               },
                               {
                                 "abcd:HigherTaxonName": "test name",
-                                "abcd:HigherTaxonRank": "test rank"
-                              }
-                            ]
+                                "abcd:HigherTaxonRank": "test rank",
+                              },
+                            ],
                           },
                           "abcd:ScientificName": {
-                            "abcd:FullScientificNameString": "Echinoidea"
-                          }
-                        }
+                            "abcd:FullScientificNameString": "Echinoidea",
+                          },
+                        },
                       },
-                      "abcd:PreferredFlag": "1"
-                    }
+                      "abcd:PreferredFlag": "1",
+                    },
                   },
                   "abcd:RecordBasis": "MineralSpecimen",
                   "abcd:KindOfUnit": "part of specimen",
@@ -2606,8 +2602,8 @@ describe("DetailViewGetters", () => {
                     "abcd:DateTime": { "abcd:ISODateTimeBegin": "2013-09-12" },
                     "abcd:NearNamedPlaces": {
                       "abcd:NamedPlaceRelation": {
-                        "abcd:NearNamedPlace": "test place"
-                      }
+                        "abcd:NearNamedPlace": "test place",
+                      },
                     },
                     "abcd:Agents": {
                       "abcd:GatheringAgent": {
@@ -2616,10 +2612,10 @@ describe("DetailViewGetters", () => {
                           "abcd:FullName": "Isakar, M.",
                           "abcd:AtomisedName": {
                             "abcd:InheritedName": "Isakar",
-                            "abcd:GivenNames": "Mare"
-                          }
-                        }
-                      }
+                            "abcd:GivenNames": "Mare",
+                          },
+                        },
+                      },
                     },
                     "abcd:LocalityText": "Culver Down",
                     "abcd:Country": { "abcd:Name": "United Kingdom" },
@@ -2629,32 +2625,32 @@ describe("DetailViewGetters", () => {
                         "abcd:CoordinatesLatLong": {
                           "abcd:LongitudeDecimal": "-1.10851",
                           "abcd:LatitudeDecimal": "50.66666",
-                          "abcd:SpatialDatum": "WGS84"
-                        }
-                      }
+                          "abcd:SpatialDatum": "WGS84",
+                        },
+                      },
                     },
                     "abcd:Stratigraphy": {
                       "abcd:ChronostratigraphicTerms": {
                         "abcd:ChronostratigraphicTerm": {
-                          "abcd:Term": "Cretaceous"
-                        }
+                          "abcd:Term": "Cretaceous",
+                        },
                       },
-                      "abcd:StratigraphyText": "Ülem-Kriit"
+                      "abcd:StratigraphyText": "Ülem-Kriit",
                     },
                     "abcd:NamedAreas": [
                       {
                         "abcd:NamedArea": {
                           "abcd:AreaClass": "province",
-                          "abcd:AreaName": "Niederösterreich"
-                        }
+                          "abcd:AreaName": "Niederösterreich",
+                        },
                       },
                       {
                         "abcd:NamedArea": {
                           "abcd:AreaClass": "test class",
-                          "abcd:AreaName": "test name"
-                        }
-                      }
-                    ]
+                          "abcd:AreaName": "test name",
+                        },
+                      },
+                    ],
                   },
                   "abcd:RecordURI":
                     "https://geocollections.info/specimen/247063",
@@ -2664,28 +2660,28 @@ describe("DetailViewGetters", () => {
                         "efg:ChronostratigraphicAttributions": {
                           "efg:ChronostratigraphicAttribution": {
                             "efg:ChronoStratigraphicDivision": "System",
-                            "efg:ChronostratigraphicName": "Cretaceous"
-                          }
-                        }
-                      }
-                    }
+                            "efg:ChronostratigraphicName": "Cretaceous",
+                          },
+                        },
+                      },
+                    },
                   },
                   "abcd:SpecimenUnit": {
                     "abcd:Acquisition": {
-                      "abcd:AcquisitionDate": "test date"
+                      "abcd:AcquisitionDate": "test date",
                     },
                     "abcd:NomenclaturalTypeDesignations": {
                       "abcd:NomenclaturalTypeDesignation": {
                         "abcd:Verifier": {
-                          "abcd:FullName": "Test fullname"
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
+                          "abcd:FullName": "Test fullname",
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
         },
         itemHeaders: [
           { text: "type", value: "typestatus" },
@@ -2715,7 +2711,7 @@ describe("DetailViewGetters", () => {
           { text: "taxonInTreeOfLife", value: "taxon_id_tol" },
           { text: "TaxonInFossiilidInfo", value: "taxon_id" },
           { text: "recordUri", value: "recordURI" },
-          { text: "relatedResource", value: "relatedResource" }
+          { text: "relatedResource", value: "relatedResource" },
         ],
         itemHeadersSecondary: [
           { text: "institution", value: "institutionHomepage" },
@@ -2735,9 +2731,9 @@ describe("DetailViewGetters", () => {
           { text: "providerName", value: "providername" },
           { text: "specimenVerifier", value: "specimenVerifier" },
           { text: "geocaseId", value: "id" },
-          { text: "unitGuid", value: "unitGuid" }
+          { text: "unitGuid", value: "unitGuid" },
         ],
-        isLoading: false
+        isLoading: false,
       },
       expected: [
         true,
@@ -2777,7 +2773,7 @@ describe("DetailViewGetters", () => {
           names: ["Echinoidea"],
           unitid: "1649-10",
           _version_: 1685065904593830000,
-          highertaxon_facet: "Echinodermata"
+          highertaxon_facet: "Echinodermata",
         },
         false,
         true,
@@ -2785,12 +2781,17 @@ describe("DetailViewGetters", () => {
         true,
         false,
         false,
-        ["System: Cretaceous"],
+        [
+          {
+            division: "System",
+            name: "Cretaceous",
+          },
+        ],
         {
           "abcd:Address": "Vanemuise 46, Tartu, Estonia",
           "abcd:Email": "mare.isakar@ut.ee",
           "abcd:Name": "Mare Isakar",
-          "abcd:Phone": "+3727375839"
+          "abcd:Phone": "+3727375839",
         },
         "Mare Isakar",
         "mare.isakar@ut.ee",
@@ -2847,7 +2848,7 @@ describe("DetailViewGetters", () => {
           { text: "Taxon in Tree of Life", value: "taxon_id_tol" },
           { text: "Taxon in fossiilid.info", value: "taxon_id" },
           { text: "Record URI", value: "recordURI" },
-          { text: "Related resource", value: "relatedResource" }
+          { text: "Related resource", value: "relatedResource" },
         ],
         [
           { text: "Institution", value: "institutionHomepage" },
@@ -2867,7 +2868,7 @@ describe("DetailViewGetters", () => {
           { text: "Provider name", value: "providername" },
           { text: "Specimen verifier", value: "specimenVerifier" },
           { text: "GeoCASe ID", value: "id" },
-          { text: "UnitGUID", value: "unitGuid" }
+          { text: "UnitGUID", value: "unitGuid" },
         ],
         [
           { text: "Collection", value: "collectioncode" },
@@ -2884,7 +2885,7 @@ describe("DetailViewGetters", () => {
           { text: "Kind of unit", value: "kindOfUnit" },
           { text: "Taxon record in PBDB", value: "taxon_id_pbdb" },
           { text: "Taxon in fossiilid.info", value: "taxon_id" },
-          { text: "Record URI", value: "recordURI" }
+          { text: "Record URI", value: "recordURI" },
         ],
         [
           { text: "Institution", value: "institutionHomepage" },
@@ -2903,13 +2904,13 @@ describe("DetailViewGetters", () => {
           { text: "Provider name", value: "providername" },
           { text: "Specimen verifier", value: "specimenVerifier" },
           { text: "GeoCASe ID", value: "id" },
-          { text: "UnitGUID", value: "unitGuid" }
-        ]
-      ]
-    }
+          { text: "UnitGUID", value: "unitGuid" },
+        ],
+      ],
+    },
   ];
 
-  testCases.forEach(testCase => {
+  testCases.forEach((testCase) => {
     it("itemExists", () => {
       const result = getters.itemExists(testCase.state);
 
@@ -2936,7 +2937,7 @@ describe("DetailViewGetters", () => {
       const item = testCase.expected[1];
       const result = getters.localityExists(testCase.state, {
         itemExists,
-        item
+        item,
       });
 
       expect(result).toEqual(testCase.expected[3]);
@@ -2945,7 +2946,7 @@ describe("DetailViewGetters", () => {
     it("isItemFossil", () => {
       const item = testCase.expected[1];
       const result = getters.isItemFossil(testCase.state, {
-        item
+        item,
       });
 
       expect(result).toEqual(testCase.expected[4]);
@@ -2954,7 +2955,7 @@ describe("DetailViewGetters", () => {
     it("isItemMineral", () => {
       const item = testCase.expected[1];
       const result = getters.isItemMineral(testCase.state, {
-        item
+        item,
       });
 
       expect(result).toEqual(testCase.expected[5]);
@@ -2963,7 +2964,7 @@ describe("DetailViewGetters", () => {
     it("isItemRock", () => {
       const item = testCase.expected[1];
       const result = getters.isItemRock(testCase.state, {
-        item
+        item,
       });
 
       expect(result).toEqual(testCase.expected[6]);
@@ -2972,7 +2973,7 @@ describe("DetailViewGetters", () => {
     it("isItemMeteorite", () => {
       const item = testCase.expected[1];
       const result = getters.isItemMeteorite(testCase.state, {
-        item
+        item,
       });
 
       expect(result).toEqual(testCase.expected[7]);
@@ -2993,7 +2994,7 @@ describe("DetailViewGetters", () => {
     it("contentContactName", () => {
       const contentContact = testCase.expected[9];
       const result = getters.contentContactName(testCase.state, {
-        contentContact
+        contentContact,
       });
 
       expect(result).toEqual(testCase.expected[10]);
@@ -3002,7 +3003,7 @@ describe("DetailViewGetters", () => {
     it("contentContactEmail", () => {
       const contentContact = testCase.expected[9];
       const result = getters.contentContactEmail(testCase.state, {
-        contentContact
+        contentContact,
       });
 
       expect(result).toEqual(testCase.expected[11]);
@@ -3011,7 +3012,7 @@ describe("DetailViewGetters", () => {
     it("contentContactPhone", () => {
       const contentContact = testCase.expected[9];
       const result = getters.contentContactPhone(testCase.state, {
-        contentContact
+        contentContact,
       });
 
       expect(result).toEqual(testCase.expected[12]);
@@ -3020,7 +3021,7 @@ describe("DetailViewGetters", () => {
     it("contentContactAddress", () => {
       const contentContact = testCase.expected[9];
       const result = getters.contentContactAddress(testCase.state, {
-        contentContact
+        contentContact,
       });
 
       expect(result).toEqual(testCase.expected[13]);
@@ -3195,7 +3196,7 @@ describe("DetailViewGetters", () => {
         acquisitionDate: testCase.expected[31],
         unitDateText: testCase.expected[33],
         gatheringAgent: testCase.expected[32],
-        kindOfUnit: testCase.expected[34]
+        kindOfUnit: testCase.expected[34],
       };
       const result = getters.filteredItemHeaders(testCase.state, stubs);
 
@@ -3217,7 +3218,7 @@ describe("DetailViewGetters", () => {
         acknowledgements: testCase.expected[20],
         dateLastEdited: testCase.expected[21],
         specimenVerifier: testCase.expected[24],
-        unitGuid: testCase.expected[25]
+        unitGuid: testCase.expected[25],
       };
       const result = getters.filteredItemHeadersSecondary(
         testCase.state,

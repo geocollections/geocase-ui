@@ -25,29 +25,29 @@ export default {
   props: {
     imageSrc: {
       type: String,
-      required: true
+      required: true,
     },
     maxHeight: {
       type: String,
-      default: "400"
+      default: "400",
     },
     width: {
       type: String,
-      default: "unset"
+      default: "unset",
     },
     contain: {
       type: Boolean,
-      default: true
+      default: true,
     },
     backgroundSizeUnset: {
       type: Boolean,
-      default: false
+      default: false,
     },
     altText: {
       type: String,
-      default: ""
-    }
-  }
+      default: "",
+    },
+  },
 };
 </script>
 

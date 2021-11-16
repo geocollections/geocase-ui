@@ -6,14 +6,14 @@ Vue.use(VueI18n);
 const messages = {
   en: require("./translations/en"),
   ee: require("./translations/ee"),
-  de: require("./translations/de")
+  de: require("./translations/de"),
 };
 
 // Translation settings
 const i18n = new VueI18n({
   fallbackLocale: "en",
   silentTranslationWarn: process.env.NODE_ENV === "production",
-  messages
+  messages,
 });
 
 export default i18n;

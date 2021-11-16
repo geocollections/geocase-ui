@@ -3,14 +3,11 @@
     :alt="$t('header.landingPageAltText')"
     class="landing-image"
     :src="landingImage"
-    style="height: 37vh;"
+    style="height: 37vh"
   >
     <v-row class="fill-height" align="center" justify="center">
       <v-col class="text-center" cols="12">
-        <h1
-          class="mb-2 font-weight-bold page-header"
-          style="font-size: 2.5rem;"
-        >
+        <h1 class="mb-2 font-weight-bold page-header" style="font-size: 2.5rem">
           GeoCASe 2.0
           <div
             class="hidden-sm-and-down"
@@ -36,14 +33,14 @@ export default {
   computed: {
     titleStyleObject() {
       return {
-        fontSize: this.$vuetify.breakpoint.xlOnly ? "4rem" : "3.125rem"
+        fontSize: this.$vuetify.breakpoint.xlOnly ? "4rem" : "3.125rem",
       };
     },
 
     landingImage() {
       return "https://files.geocollections.info/img/geocase/front_page/geocase_landing.jpg";
-    }
-  }
+    },
+  },
 };
 </script>
 

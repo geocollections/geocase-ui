@@ -38,7 +38,7 @@ import {
   MglNavigationControl,
   MglGeolocateControl,
   MglFullscreenControl,
-  MglScaleControl
+  MglScaleControl,
 } from "v-mapbox";
 import { mapActions, mapState } from "vuex";
 import MglPopupWrapper from "@/components/front_page/MglPopupWrapper";
@@ -53,7 +53,7 @@ export default {
     MglNavigationControl,
     MglGeolocateControl,
     MglFullscreenControl,
-    MglScaleControl
+    MglScaleControl,
   },
 
   data() {
@@ -70,14 +70,14 @@ export default {
         coordinates: [15, 45],
         anchor: "left",
         // offset: [7, 0],
-        maxWidth: "400px"
+        maxWidth: "400px",
       },
       activePopupData: {
         id: null,
         lat: null,
         lng: null,
-        locality: null
-      }
+        locality: null,
+      },
     };
   },
   computed: {
@@ -85,7 +85,7 @@ export default {
 
     popupMaxWidth() {
       return this.$vuetify.breakpoint.smAndDown ? "250px" : "400px";
-    }
+    },
   },
   created() {
     // We need to set mapbox-gl library here in order to use it in template
@@ -137,7 +137,7 @@ export default {
         id: pointProperties?.id,
         lat: pointProperties?.latitude,
         lng: pointProperties?.longitude,
-        locality: pointProperties?.locality
+        locality: pointProperties?.locality,
       };
 
       this.$refs.popup.$children[0].open = true;
@@ -152,8 +152,8 @@ export default {
       ) {
         await this.getLocalitySpecimens(this.activePopupData);
       }
-    }
-  }
+    },
+  },
 };
 </script>
 

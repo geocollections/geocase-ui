@@ -34,12 +34,12 @@ export default {
   props: {
     drawer: {
       type: Boolean,
-      required: true
-    }
+      required: true,
+    },
   },
   computed: {
-    ...mapGetters("settings", ["routes"])
-  }
+    ...mapGetters("settings", ["routes"]),
+  },
 };
 </script>
 

@@ -89,7 +89,7 @@
     </v-row>
 
     <v-row no-gutters class="my-4" justify="center" v-else>
-      <v-col cols="12" style="max-width: 500px;">
+      <v-col cols="12" style="max-width: 500px">
         <v-alert
           class="mb-0"
           text
@@ -131,22 +131,22 @@ export default {
   props: {
     responseResults: {
       type: Array,
-      required: true
+      required: true,
     },
     responseResultsCount: {
       type: Number,
-      required: true
-    }
+      required: true,
+    },
   },
 
   data: () => ({
     dialog: false,
-    currentIndex: 0
+    currentIndex: 0,
   }),
 
   computed: {
     ...mapState("search", ["search", "isLoading"]),
-    ...mapState("settings", ["searchDrawer"])
+    ...mapState("settings", ["searchDrawer"]),
   },
 
   methods: {
@@ -160,11 +160,11 @@ export default {
     openDialogUsingImage(image) {
       this.dialog = true;
       let index = this.searchResultImages.findIndex(
-        item => item.originalImage === image
+        (item) => item.originalImage === image
       );
       this.currentIndex = index ? index : 0;
-    }
-  }
+    },
+  },
 };
 </script>
 

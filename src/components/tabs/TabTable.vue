@@ -4,6 +4,7 @@
       :fixed-header="isTableHeaderFixed"
       :height="isTableHeaderFixed ? tableHeight : '100%'"
       class="table"
+      id="table"
       mobile-breakpoint="0"
       dense
       hide-default-footer
@@ -18,10 +19,11 @@
       @update:sort-desc="$emit('sortDesc:changed', $event)"
       :server-items-length="responseResultsCount"
       :loading="isLoading"
+      @update:options="updateTableOptions"
     >
       <template v-slot:no-data>
         <v-row no-gutters class="my-4" justify="center">
-          <v-col cols="12" style="max-width: 500px;">
+          <v-col cols="12" style="max-width: 500px">
             <v-alert
               class="mb-0"
               text
@@ -44,10 +46,74 @@
         </v-row>
       </template>
 
+      <template #top="{ pagination, updateOptions, options }">
+        <div class="table-top">
+          <v-row no-gutters>
+            <v-col
+              cols="12"
+              sm="auto"
+              class="px-3 my-1 my-sm-3"
+              align-self="center"
+            >
+              <export-controls />
+              <header-controls
+                :headers="translatedTableHeaders"
+                :visible-headers="getAllShownTableHeaders"
+                :sort-by="options.sortBy"
+                :is-table-header-fixed="isTableHeaderFixed"
+                @change="handleHeadersChange"
+                @reset="resetTableHeaders"
+                @toggle="updateTableHeaderFixedState(!$event)"
+              />
+            </v-col>
+            <v-col>
+              <pagination-controls
+                :options="options"
+                :pagination="pagination"
+                :items-per-page-options="footerProps['items-per-page-options']"
+                :items-per-page-text="footerProps['items-per-page-text']"
+                :page-select-text="
+                  $t('search.table.pageSelect', {
+                    current: options.page,
+                    count: pagination.pageCount,
+                  })
+                "
+                :go-to-text="$t('search.table.goTo')"
+                :go-to-button-text="$t('search.table.goToBtn')"
+                select-page-id="header-select-btn"
+                @update:options="updateOptions"
+              />
+            </v-col>
+          </v-row>
+        </div>
+      </template>
+
+      <template #footer="{ props }">
+        <div class="table-footer">
+          <pagination-controls
+            class="py-3"
+            :options="props.options"
+            :pagination="props.pagination"
+            :items-per-page-options="footerProps['items-per-page-options']"
+            :items-per-page-text="footerProps['items-per-page-text']"
+            :page-select-text="
+              $t('search.table.pageSelect', {
+                current: props.options.page,
+                count: props.pagination.pageCount,
+              })
+            "
+            :go-to-text="$t('search.table.goTo')"
+            :go-to-button-text="$t('search.table.goToBtn')"
+            select-page-id="footer-select-btn"
+            @update:options="updateTableOptions($event)"
+          />
+        </div>
+      </template>
+
       <template v-slot:item.icon="{ item }">
         <router-link
           class="icon-link"
-          style="text-decoration: unset;"
+          style="text-decoration: unset"
           :to="{ path: `specimen/${item.id}` }"
           :title="$t('search.goToDetailView')"
         >
@@ -74,7 +140,7 @@
 
       <template v-slot:item.unitid="{ item }">
         <router-link
-          style="text-decoration: unset;"
+          style="text-decoration: unset"
           :to="{ path: `specimen/${item.id}` }"
           :title="$t('search.goToDetailView')"
         >
@@ -85,10 +151,26 @@
       <template v-slot:item.fullscientificname="{ item }">
         <div v-if="item.mindat_id">
           <a
-            style="text-decoration: unset; white-space: nowrap;"
+            style="text-decoration: unset; white-space: nowrap"
             target="MindatWindow"
             :title="$t('search.mindatLink')"
-            @click="openMindatInNewWindow(item.mindat_url)"
+            @click="openUrlInNewWindow(item.mindat_url)"
+            >{{ item.fullscientificname }}
+            <v-icon small color="primary"
+              >fas fa-external-link-square-alt</v-icon
+            >
+          </a>
+        </div>
+        <div v-else-if="item.meteorite_id">
+          <a
+            style="text-decoration: unset; white-space: nowrap"
+            target="MeteoriteWindow"
+            :title="$t('search.mindatLink')"
+            @click="
+              openUrlInNewWindow(
+                `https://www.lpi.usra.edu/meteor/metbull.php?code=${item.meteorite_id}`
+              )
+            "
             >{{ item.fullscientificname }}
             <v-icon small color="primary"
               >fas fa-external-link-square-alt</v-icon
@@ -135,6 +217,7 @@
           icon
           :title="$t('search.openGallery')"
           small
+          color="primary"
           @click="$emit('open:gallery', item.images[0])"
         >
           <v-icon small>far fa-image</v-icon>
@@ -147,46 +230,58 @@
 <script>
 import { throttle } from "lodash";
 import { mapActions, mapGetters, mapState } from "vuex";
+import HeaderControls from "@/components/tables/HeaderControls";
+import PaginationControls from "@/components/tables/PaginationControls";
+import ExportControls from "@/components/tables/ExportControls";
 
 export default {
   name: "TabTable",
+  components: { ExportControls, PaginationControls, HeaderControls },
   props: {
     responseResults: {
       type: Array,
-      required: true
+      required: true,
     },
     responseResultsCount: {
       type: Number,
-      required: true
+      required: true,
     },
     page: {
       type: Number,
-      required: true
+      required: true,
     },
     paginateBy: {
       type: Number,
-      required: true
+      required: true,
     },
     sortBy: {
       type: Array,
-      required: true
+      required: true,
     },
     sortDesc: {
       type: Array,
-      required: true
+      required: true,
     },
     isLoading: {
       type: Boolean,
-      default: false
+      default: false,
     },
     tabIndex: {
-      type: Number
-    }
+      type: Number,
+    },
   },
 
-  data: () => ({
-    tableHeight: "100%"
-  }),
+  data() {
+    return {
+      tableHeight: "100%",
+      footerProps: {
+        showFirstLastPage: true,
+        "items-per-page-options": [10, 25, 50, 100, 250, 500, 1000],
+        // Todo: Translation is updated only on reload, fix that, add it to computed or sth
+        "items-per-page-text": this.$t("frontPage.map.itemsPerPageText"),
+      },
+    };
+  },
 
   beforeDestroy() {
     window.removeEventListener("resize", this.calculateTableHeight);
@@ -200,19 +295,27 @@ export default {
           this.calculateTableHeight();
         } else window.removeEventListener("resize", this.calculateTableHeight);
       },
-      immediate: true
-    }
+      immediate: true,
+    },
   },
 
   computed: {
     ...mapState("search", ["isTableHeaderFixed"]),
-    ...mapGetters("search", ["getAllShownTableHeaders"])
+    ...mapGetters("search", [
+      "getAllShownTableHeaders",
+      "translatedTableHeaders",
+    ]),
   },
 
   methods: {
-    ...mapActions("search", ["resetSearch"]),
+    ...mapActions("search", [
+      "resetSearch",
+      "updateTableHeaders",
+      "resetTableHeaders",
+      "updateTableHeaderFixedState",
+    ]),
 
-    calculateTableHeight: throttle(function() {
+    calculateTableHeight: throttle(function () {
       let innerHeight = window?.innerHeight;
       let paddingTotal = 24;
       let appTop =
@@ -223,22 +326,20 @@ export default {
         this.$vuetify.application.footer !== 0
           ? this.$vuetify.application.footer
           : 192;
-      let recordsFoundHeight = document.getElementsByClassName(
-        "records-found"
-      )?.[0]?.clientHeight;
-      let tabsHeight = document.getElementsByClassName("v-tabs")?.[0]
-        ?.clientHeight;
-      let paginationHeight = document.getElementsByClassName("pagination")?.[0]
-        ?.clientHeight;
+      let recordsFoundHeight =
+        document.getElementsByClassName("records-found")?.[0]?.clientHeight;
+      let tabsHeight =
+        document.getElementsByClassName("v-tabs")?.[0]?.clientHeight;
+      let tableTop =
+        document.getElementsByClassName("table-top")?.[0]?.clientHeight;
+      let tableFooter =
+          document.getElementsByClassName("table-footer")?.[0]?.clientHeight;
 
       // Defaults
       if (!recordsFoundHeight) recordsFoundHeight = 48;
       if (!tabsHeight) tabsHeight = 42;
-      if (!paginationHeight) {
-        if (this.$vuetify.breakpoint.lgAndUp) paginationHeight = 60;
-        else paginationHeight = 142;
-      }
-
+      if (!tableTop) tableTop = 60;
+      if (!tableFooter) tableFooter = 68;
       if (this.$vuetify.breakpoint.mdAndUp) {
         // 2 is for any rounding errors
         let height =
@@ -247,7 +348,8 @@ export default {
           paddingTotal -
           recordsFoundHeight -
           tabsHeight -
-          paginationHeight -
+          tableTop -
+          tableFooter -
           appBottom -
           2;
 
@@ -256,7 +358,7 @@ export default {
       } else this.tableHeight = "100%";
     }, 400),
 
-    openMindatInNewWindow(url) {
+    openUrlInNewWindow(url) {
       window.open(url, "MindatWindow", "width=800,height=750");
     },
 
@@ -267,21 +369,37 @@ export default {
      */
     getItemType(item) {
       let type = item.recordbasis;
-      if (type === "Fossil" || type === "Recent preserved") {
+      if (type === "Fossil") {
         return "fossil";
       } else if (type === "Mineral") {
         return "mineral";
-      } else if (
-        type === "Rock" ||
-        type === "Sediment sample" ||
-        type === "Technologicals ample"
-      ) {
+      } else if (type === "Rock") {
         return "rock";
       } else if (type === "Meteorite") {
         return "meteorite";
       } else "none";
-    }
-  }
+    },
+
+    handleHeadersChange(event) {
+      let listOfAllShownTableHeaders = this.getAllShownTableHeaders.map(
+        (item) => item.value
+      );
+
+      if (listOfAllShownTableHeaders.includes(event.value))
+        listOfAllShownTableHeaders = listOfAllShownTableHeaders.filter(
+          (item) => item !== event.value
+        );
+      else listOfAllShownTableHeaders.push(event.value);
+
+      this.updateTableHeaders(listOfAllShownTableHeaders);
+    },
+
+    updateTableOptions(options) {
+      if (this.page !== options.page) this.$emit("update:page", options.page);
+      if (this.paginateBy !== options.itemsPerPage)
+        this.$emit("update:paginateBy", options.itemsPerPage);
+    },
+  },
 };
 </script>
 
@@ -319,6 +437,6 @@ export default {
 }
 
 .table >>> .sorting-disabled {
-  background-color: #eceff1;
+  background-color: #eceff1 !important;
 }
 </style>

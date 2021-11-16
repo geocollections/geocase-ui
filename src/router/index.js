@@ -18,23 +18,23 @@ const router = new Router({
   routes: [
     {
       path: "*",
-      redirect: "/"
+      redirect: "/",
     },
     {
       path: `/:locale${LANGUAGE_REGEX}?`,
       name: "FrontPage",
-      component: FrontPage
+      component: FrontPage,
     },
     {
       path: `/:locale${LANGUAGE_REGEX}?/search`,
       name: "Search",
-      component: Search
+      component: Search,
     },
     {
       // path: "/specimen/:id(\\d+)",
       path: "/:locale(en|ee|de)?/specimen/:id",
       name: "Detail",
-      component: DetailView
+      component: DetailView,
     },
     {
       path: `/:locale${LANGUAGE_REGEX}?/`,
@@ -44,36 +44,36 @@ const router = new Router({
         {
           path: `partners_and_providers`,
           name: "Partners and providers",
-          component: PartnersAndProviders
+          component: PartnersAndProviders,
         },
         {
           path: `about`,
           name: "About",
-          component: About
+          component: About,
         },
         {
           path: `access`,
           name: "Access",
-          component: Access
+          component: Access,
         },
         {
           path: `tutorial`,
           name: "Tutorial",
-          component: Tutorial
+          component: Tutorial,
         },
         {
           path: `links`,
           name: "Links",
-          component: Links
+          component: Links,
         },
         {
           path: `efg`,
           name: "Efg",
-          component: Efg
-        }
-      ]
-    }
-  ]
+          component: Efg,
+        },
+      ],
+    },
+  ],
 });
 
 import store from "@/store/index";

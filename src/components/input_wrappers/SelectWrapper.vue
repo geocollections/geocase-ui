@@ -15,17 +15,17 @@ export default {
   props: {
     useCustomPrependInner: {
       type: String,
-      default: ""
+      default: "",
     },
-    isPagination: Boolean
+    isPagination: Boolean,
   },
   computed: {
     style() {
       let style = "z-index: 2020;";
       if (this.isPagination) style = "z-index: 2005";
       return style;
-    }
-  }
+    },
+  },
 };
 </script>
 

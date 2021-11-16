@@ -8,7 +8,7 @@ const actions = {
       if (response)
         commit("SET_STATS", {
           records: response?.response?.numFound,
-          facet_fields: response?.facet_counts?.facet_fields
+          facet_fields: response?.facet_counts?.facet_fields,
         });
     } catch (err) {
       dispatch(
@@ -43,11 +43,11 @@ const actions = {
       if (response) {
         commit("UPDATE_MAP_RESPONSE_RESULTS", {
           docs: response?.response?.docs || [],
-          id: localityData.id
+          id: localityData.id,
         });
         commit("UPDATE_MAP_RESPONSE_RESULTS_COUNT", {
           numFound: response?.response?.numFound || 0,
-          id: localityData.id
+          id: localityData.id,
         });
       }
     } catch (err) {
@@ -59,7 +59,7 @@ const actions = {
       if (!rootState.settings.error)
         dispatch("settings/updateErrorState", true, { root: true });
     }
-  }
+  },
 };
 
 export default actions;

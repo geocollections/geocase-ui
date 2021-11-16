@@ -8,8 +8,9 @@ import i18n from "@/i18n";
 import VueMeta from "vue-meta";
 
 import "izitoast/dist/css/iziToast.min.css";
-import "@fortawesome/fontawesome-free/css/all.css";
+import "@fortawesome/fontawesome-free/css/all.min.css";
 import "animate.css";
+import "@mdi/font/css/materialdesignicons.min.css";
 
 Vue.use(VueIziToast);
 Vue.use(VueMeta);
@@ -24,5 +25,5 @@ new Vue({
   router,
   store,
   vuetify,
-  render: h => h(App)
+  render: (h) => h(App),
 }).$mount("#app");

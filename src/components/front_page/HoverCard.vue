@@ -7,29 +7,38 @@
       height="300"
       hover
       class="d-flex flex-column HoverCard"
-      :style="
-        `background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.1), rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.7)), url(&quot;${card.image}&quot;);`
-      "
+      :style="`background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.1), rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.7)), url(&quot;${card.image}&quot;);`"
       :aria-label="card.imageAltText"
       @click="goToSearchView(card.url)"
     >
       <v-overlay absolute :value="hover">
         <div class="d-flex flex-column text-center">
           <div
-            class="v-card__title justify-center text-uppercase font-weight-bold animate__animated"
+            class="
+              v-card__title
+              justify-center
+              text-uppercase
+              font-weight-bold
+              animate__animated
+            "
             :class="{
               animate__fadeInUp: hover,
-              animate__fadeOutDown: card.isLeaving
+              animate__fadeOutDown: card.isLeaving,
             }"
           >
             {{ card.title }}
           </div>
 
           <div
-            class="v-card__text text-center animate__animated font-weight-medium"
+            class="
+              v-card__text
+              text-center
+              animate__animated
+              font-weight-medium
+            "
             :class="{
               animate__fadeInUp: hover,
-              animate__fadeOutDown: card.isLeaving
+              animate__fadeOutDown: card.isLeaving,
             }"
           >
             {{ card.text }}
@@ -39,7 +48,7 @@
             class="v-card__actions justify-center animate__animated"
             :class="{
               animate__fadeInUp: hover,
-              animate__fadeOutDown: card.isLeaving
+              animate__fadeOutDown: card.isLeaving,
             }"
           >
             <v-btn
@@ -56,10 +65,16 @@
       <v-spacer />
 
       <v-card-title
-        class="justify-center text-uppercase font-weight-bold animate__animated animate__faster white--text"
+        class="
+          justify-center
+          text-uppercase
+          font-weight-bold
+          animate__animated animate__faster
+          white--text
+        "
         :class="{
           animate__fadeOutUp: !card.isLeaving && hover,
-          animate__fadeInDown: card.isLeaving
+          animate__fadeInDown: card.isLeaving,
         }"
         >{{ card.title }}</v-card-title
       >
@@ -77,9 +92,14 @@ export default {
 
   methods: {
     ...mapActions("search", ["resetSearch"]),
+    ...mapActions("search", ["removeStratigraphyFromTableHeaders"]),
 
     // Resetting search fields before redirecting to search route
     goToSearchView(url) {
+      console.log(url);
+      // Special case for clicking on meteorites card (removes stratigraphy header from table)
+      if (url.endsWith('recordbasis="Meteorite"'))
+        this.removeStratigraphyFromTableHeaders();
       this.resetSearch();
       this.$router.push({ path: url });
     },
@@ -91,8 +111,8 @@ export default {
 
     handleMouseEnter() {
       if (this.card.isLeaving) this.$emit("update:isLeaving", false);
-    }
-  }
+    },
+  },
 };
 </script>
 

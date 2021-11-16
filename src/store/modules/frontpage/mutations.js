@@ -2,8 +2,10 @@ const mutations = {
   SET_STATS(state, payload) {
     if (payload?.records) state.records = payload.records;
     if (payload?.facet_fields) {
-      Object.entries(payload.facet_fields).forEach(item => {
-        state[item[0]] = item[1].filter(val => typeof val !== "string").length;
+      Object.entries(payload.facet_fields).forEach((item) => {
+        state[item[0]] = item[1].filter(
+          (val) => typeof val !== "string"
+        ).length;
       });
     }
   },
@@ -26,7 +28,7 @@ const mutations = {
 
   UPDATE_MAP_RESPONSE_RESULTS_COUNT(state, payload) {
     state.mapResults[payload.id].numFound = payload.numFound;
-  }
+  },
 };
 
 export default mutations;

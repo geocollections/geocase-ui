@@ -9,10 +9,10 @@ module.exports = {
         changeOrigin: true,
         pathRewrite: {
           "^/api/repeat": "/v1/repeat",
-          "^/api": "/v1/solr"
-        }
-      }
-    }
+          "^/api": "/v1/solr",
+        },
+      },
+    },
   },
   pluginOptions: {
     sitemap: {
@@ -23,9 +23,9 @@ module.exports = {
       defaults: {
         lastmod: new Date().toISOString().split("T")[0],
         changefreq: "daily",
-        priority: 0.5
+        priority: 0.5,
       },
-      routes
-    }
-  }
+      routes,
+    },
+  },
 };

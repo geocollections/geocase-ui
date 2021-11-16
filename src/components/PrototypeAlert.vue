@@ -18,7 +18,7 @@
 
 <script>
 export default {
-  name: "PrototypeAlert"
+  name: "PrototypeAlert",
 };
 </script>
 

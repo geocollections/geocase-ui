@@ -12,7 +12,7 @@
         'app-bar-fossil': appBarFossil,
         'app-bar-mineral': appBarMineral,
         'app-bar-rock': appBarRock,
-        'app-bar-meteorite': appBarMeteorite
+        'app-bar-meteorite': appBarMeteorite,
       }"
     >
       <v-tooltip bottom z-index="3000">
@@ -83,8 +83,8 @@
         style="max-width: 300px"
         v-show="
           $route.name !== 'FrontPage' &&
-            $route.name !== 'Search' &&
-            $vuetify.breakpoint.mdAndUp
+          $route.name !== 'Search' &&
+          $vuetify.breakpoint.mdAndUp
         "
         in-app-header
       />
@@ -149,7 +149,7 @@ export default {
   components: { LangButtons, FastSearch },
 
   data: () => ({
-    externalResourcesDropdown: false
+    externalResourcesDropdown: false,
   }),
 
   computed: {
@@ -159,7 +159,7 @@ export default {
       "isItemFossil",
       "isItemMineral",
       "isItemRock",
-      "isItemMeteorite"
+      "isItemMeteorite",
     ]),
 
     appBarFossil() {
@@ -180,7 +180,7 @@ export default {
 
     isProductionUrl() {
       return document.location.origin.includes("geocase.eu");
-    }
+    },
   },
 
   methods: {
@@ -188,8 +188,8 @@ export default {
       if (window.location.pathname === "/") {
         window.location.assign(window.location.origin);
       } else this.$router.push({ path: "/" });
-    }
-  }
+    },
+  },
 };
 </script>
 

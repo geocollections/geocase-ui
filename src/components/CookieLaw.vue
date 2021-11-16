@@ -4,7 +4,7 @@
       <div
         class="align-self-center pr-3"
         :class="{
-          'text-sm': $vuetify.breakpoint.smAndDown
+          'text-sm': $vuetify.breakpoint.smAndDown,
         }"
       >
         {{ $t("cookiePolicy.introduction") }}
@@ -33,7 +33,7 @@
 
 <script>
 export default {
-  name: "CookieLaw"
+  name: "CookieLaw",
 };
 </script>
 

@@ -30,7 +30,7 @@
       >
         <v-tab
           class="font-weight-bold"
-          style="color: #000; font-size: 1rem;"
+          style="color: #000; font-size: 1rem"
           v-for="item in tabItems"
           :key="item"
         >
@@ -60,6 +60,8 @@
               :tabIndex="tab"
               v-on:sortBy:changed="updateSortBy($event)"
               v-on:sortDesc:changed="updateSortDesc($event)"
+              @update:page="updatePage($event)"
+              @update:paginateBy="updatePaginateBy($event)"
               @open:gallery="openGallery"
             />
 
@@ -82,7 +84,7 @@
 
       <!-- PAGINATION -->
       <pagination
-        v-if="responseResultsCount > 10"
+        v-if="tab === 1 && responseResultsCount > 10"
         :paginate-by="paginateBy"
         :paginate-by-items="paginateByItemsTranslated"
         @update:paginateBy="updatePaginateBy($event)"
@@ -113,18 +115,18 @@ export default {
     TabMap,
     TabImages,
     Pagination,
-    ScrollToTop
+    ScrollToTop,
   },
 
   mixins: [queryMixin],
 
   metaInfo: {
-    title: "Search"
+    title: "Search",
   },
 
   data: () => ({
     tab: null,
-    tabItems: ["table", "images", "map"]
+    tabItems: ["table", "images", "map"],
   }),
 
   computed: {
@@ -135,10 +137,10 @@ export default {
       "paginateBy",
       "sortBy",
       "sortDesc",
-      "isLoading"
+      "isLoading",
     ]),
     // ...mapState("searchMap", ["mapResults", "mapResultsCount"]),
-    ...mapGetters("search", ["paginateByItemsTranslated"])
+    ...mapGetters("search", ["paginateByItemsTranslated"]),
   },
 
   created() {
@@ -154,16 +156,16 @@ export default {
       if (newVal[0] || JSON.stringify(newVal) !== JSON.stringify(oldVal))
         this.search();
     },
-    page: debounce(function(newVal) {
+    page: debounce(function (newVal) {
       this.constructQueryParams(null, { page: newVal.toString() });
     }, 300),
-    paginateBy: debounce(function(newVal) {
+    paginateBy: debounce(function (newVal) {
       this.constructQueryParams(null, { paginate_by: newVal.toString() });
     }, 300),
-    sortDesc: debounce(function(newVal) {
+    sortDesc: debounce(function (newVal) {
       this.constructQueryParams(null, {
         sort_desc: newVal,
-        sort_by: this.sortBy
+        sort_by: this.sortBy,
       });
     }, 300),
     tab(newVal) {
@@ -172,7 +174,7 @@ export default {
           this.$refs.map[0].map.invalidateSize();
         }, 100);
       }
-    }
+    },
   },
 
   methods: {
@@ -181,21 +183,21 @@ export default {
       "updatePaginateBy",
       "updateSortBy",
       "updateSortDesc",
-      "search"
+      "search",
     ]),
 
     // ...mapActions("searchMap", ["searchMapCoordinates"]),
 
     async openGallery(image) {
       this.tab = 1;
-      await new Promise(resolve => setTimeout(resolve, 200));
+      await new Promise((resolve) => setTimeout(resolve, 200));
       this.$refs.imageTab[0].openDialogUsingImage(image);
     },
 
-    updateSearchParamDebounced: debounce(function(action, value) {
+    updateSearchParamDebounced: debounce(function (action, value) {
       action(value);
-    }, 300)
-  }
+    }, 300),
+  },
 };
 </script>
 

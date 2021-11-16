@@ -48,7 +48,7 @@ const mutations = {
     } else if (field === "sortBy" || field === "sortDesc") {
       if (payload.value && payload.value.trim().length > 0) {
         let value = payload.value.split(",");
-        if (field === "sortDesc") value = value.map(item => item === "true");
+        if (field === "sortDesc") value = value.map((item) => item === "true");
         if (JSON.stringify(state[field]) !== JSON.stringify(value))
           state[field] = value;
       } else state[field] = [];
@@ -57,16 +57,18 @@ const mutations = {
 
   UPDATE_FACETS(state, payload) {
     if (payload) {
-      Object.entries(payload).forEach(item => {
+      Object.entries(payload).forEach((item) => {
         let key = item[0];
-        state[key] = item[1].filter(val => typeof val === "string");
-        state[`${key}_count`] = item[1].filter(val => typeof val !== "string");
+        state[key] = item[1].filter((val) => typeof val === "string");
+        state[`${key}_count`] = item[1].filter(
+          (val) => typeof val !== "string"
+        );
       });
     }
   },
 
   RESET_SEARCH(state) {
-    state.searchIds.forEach(item => {
+    state.searchIds.forEach((item) => {
       if (state.search[item].lookUpType !== "")
         state.search[item].lookUpType = "contains";
       if (state.search[item].value !== null) state.search[item].value = null;
@@ -84,15 +86,15 @@ const mutations = {
 
   SET_ALL_TABLE_HEADERS(state, payload) {
     let defaultNonFixedTableHeaders = state.tableHeaders
-      .filter(item => !item.fixed)
-      .map(item => item.value);
-    payload.fields.forEach(item => {
+      .filter((item) => !item.fixed)
+      .map((item) => item.value);
+    payload.fields.forEach((item) => {
       if (!defaultNonFixedTableHeaders.includes(item))
         state.tableHeaders.push({
           text: item,
           value: item,
           show: false,
-          fixed: false
+          fixed: false,
         });
     });
   },
@@ -109,7 +111,7 @@ const mutations = {
 
   UPDATE_TABLE_HEADER_FIXED_STATE(state, bool) {
     state.isTableHeaderFixed = bool;
-  }
+  },
 };
 
 export default mutations;

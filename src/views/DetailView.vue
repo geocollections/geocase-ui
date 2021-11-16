@@ -3,7 +3,7 @@
     <GoBackButton />
 
     <v-row class="mx-0" justify="center" v-if="!itemExists">
-      <v-col cols="12" style="max-width: 500px;">
+      <v-col cols="12" style="max-width: 500px">
         <v-alert
           class="mb-0"
           text
@@ -16,7 +16,7 @@
             v-else
             v-html="
               $t('detail.noResults', {
-                id: encodeURIComponent($route.params.id)
+                id: encodeURIComponent($route.params.id),
               })
             "
           />
@@ -30,18 +30,23 @@
         <v-col cols="12" :sm="imageExists || localityExists ? 6 : 12">
           <!-- TITLE -->
           <v-card>
-            <v-card-title class="primary--text" style="word-break: break-word;">
+            <v-card-title class="primary--text" style="word-break: break-word">
               <div
-                class="d-flex justify-start flex-wrap flex-grow-1 justify-space-between"
+                class="
+                  d-flex
+                  justify-start
+                  flex-wrap flex-grow-1
+                  justify-space-between
+                "
               >
                 <div class="d-flex flex-column flex-nowrap">
                   <div class="mb-1">
                     <span
                       v-if="
                         isItemFossil ||
-                          isItemMineral ||
-                          isItemRock ||
-                          isItemMeteorite
+                        isItemMineral ||
+                        isItemRock ||
+                        isItemMeteorite
                       "
                     >
                       <span class="mr-2">
@@ -73,7 +78,7 @@
                           isItemMineral ||
                           isItemRock ||
                           isItemMeteorite) &&
-                          (item.collectioncode || item.unitid)
+                        (item.collectioncode || item.unitid)
                       "
                     >
                       -
@@ -93,14 +98,14 @@
                   <h1
                     :class="{ 'font-italic': isItemFossil }"
                     class="font-weight-bold mb-1"
-                    style="font-size: 2rem;"
+                    style="font-size: 2rem"
                     v-if="item.fullscientificname"
                   >
                     {{ item.fullscientificname }}
                   </h1>
 
                   <h2
-                    style="font-size: 1.25rem;"
+                    style="font-size: 1.25rem"
                     v-if="filteredNames.length > 0"
                   >
                     <span class="font-weight-regular"
@@ -142,6 +147,8 @@
 
           <!-- TABLE -->
           <v-card v-if="itemExists" class="mt-6 item-card">
+            {{ filteredItemHeaders }}
+            {{ item }}
             <v-data-table
               class="detail-view-table"
               :mobile-breakpoint="9000"
@@ -157,9 +164,9 @@
                   <span
                     v-if="
                       value === 'holotype' ||
-                        value === 'neotype' ||
-                        value === 'Holotypus' ||
-                        value === 'Neotypus'
+                      value === 'neotype' ||
+                      value === 'Holotypus' ||
+                      value === 'Neotypus'
                     "
                     class="font-weight-bold"
                   >
@@ -173,7 +180,6 @@
               </template>
 
               <template v-slot:item.stratigraphy>
-
                 <!-- Currently uncommented stratigraphy directly from source as all the cases haven't been handled yet  -->
                 <!-- For example currently only handling Chronostratigraphic terms but there's also Lithostratigraphic terms -->
                 <!-- That means itemStratigraphy getter needs to be updated -->
@@ -301,7 +307,7 @@
 
               <template v-slot:item.mindat_url="{ item }">
                 <a
-                  style="text-decoration: unset;"
+                  style="text-decoration: unset"
                   title="Link to Mindat.org"
                   @click="openMindatInNewWindow(item.mindat_url)"
                   >{{ item.mindat_url }}
@@ -313,7 +319,7 @@
 
               <template v-slot:item.taxon_id_pbdb="{ item }">
                 <a
-                  style="text-decoration: unset;"
+                  style="text-decoration: unset"
                   title="Link to taxon record in PBDB"
                   @click="openPaleobiodbInNewWindow(item.taxon_id_pbdb)"
                   >Link to taxon record in PBDB<v-icon
@@ -327,7 +333,7 @@
 
               <template v-slot:item.taxon_id_eol="{ item }">
                 <a
-                  style="text-decoration: unset;"
+                  style="text-decoration: unset"
                   title="Link to taxon record in Encyclopedia of Life"
                   @click="openEolInNewWindow(item.taxon_id_eol)"
                   >Link to taxon record in Encyclopedia of Life<v-icon
@@ -341,7 +347,7 @@
 
               <template v-slot:item.taxon_id_tol="{ item }">
                 <a
-                  style="text-decoration: unset;"
+                  style="text-decoration: unset"
                   title="Link to taxon record in Tree of life"
                   @click="openTolwebInNewWindow(item.taxon_id_tol)"
                   >Link to taxon record in Tree of life<v-icon
@@ -355,7 +361,7 @@
 
               <template v-slot:item.taxon_id="{ item }">
                 <a
-                  style="text-decoration: unset;"
+                  style="text-decoration: unset"
                   title="Link to taxon record in fossiilid.info"
                   @click="openFossiilidInNewWindow(item.taxon_id)"
                   >Link to taxon record in fossiilid.info<v-icon
@@ -371,7 +377,7 @@
                 <a
                   :href="item.recordURI"
                   target="RecordUriWindow"
-                  style="text-decoration: unset;"
+                  style="text-decoration: unset"
                   >{{ item.recordURI }}</a
                 >
               </template>
@@ -380,7 +386,7 @@
                 <a
                   :href="item.relatedResource"
                   target="RelatedResourceWindow"
-                  style="text-decoration: unset;"
+                  style="text-decoration: unset"
                   >{{ item.relatedResource }}</a
                 >
               </template>
@@ -392,7 +398,7 @@
             class="mt-6 item-card item-card--secondary"
             v-if="
               filteredItemHeadersSecondary &&
-                filteredItemHeadersSecondary.length > 0
+              filteredItemHeadersSecondary.length > 0
             "
           >
             <v-data-table
@@ -461,9 +467,7 @@
               <template v-slot:item.contentContactAddress>
                 <div v-if="contentContactAddress">
                   <a
-                    :href="
-                      `https://www.google.com/maps/search/?api=1&query=${contentContactAddress}`
-                    "
+                    :href="`https://www.google.com/maps/search/?api=1&query=${contentContactAddress}`"
                     target="GoogleMapsWindow"
                     class="text-decoration-none"
                     ><v-icon x-small class="mr-1" color="primary"
@@ -502,7 +506,7 @@
                   class=""
                   :href="item.providerurl"
                   target="ProviderWindow"
-                  style="text-decoration: unset;"
+                  style="text-decoration: unset"
                   >{{ item.providerurl }}</a
                 >
               </template>
@@ -524,7 +528,7 @@
                     )
                   "
                   target="CetafIdentifierWindow"
-                  style="text-decoration: unset;"
+                  style="text-decoration: unset"
                   >{{
                     getCetafIdentifierUrl(
                       item.datasourcecountry,
@@ -645,7 +649,7 @@ export default {
       "recordbasis",
       "fullscientificname",
       "locality",
-      "datasetowner"
+      "datasetowner",
     ];
     if (this.item) {
       fields.forEach((item, index) => {
@@ -668,51 +672,51 @@ export default {
         {
           vmid: "description",
           name: "description",
-          content: description
+          content: description,
         },
         {
           vmid: "og:title",
           property: "og:title",
-          content: title
+          content: title,
         },
         {
           vmid: "og:description",
           property: "og:description",
-          content: description
+          content: description,
         },
         {
           vmid: "og:image",
           property: "og:image",
-          content: ogImage
+          content: ogImage,
         },
         {
           vmid: "og:url",
           property: "og:url",
-          content: ogUrl
+          content: ogUrl,
         },
         {
           vmid: "og:image:alt",
           name: "og:image:alt",
-          content: ogImageAlt
+          content: ogImageAlt,
         },
         {
           vmid: "twitter:image:alt",
           name: "twitter:image:alt",
-          content: ogImageAlt
-        }
-      ]
+          content: ogImageAlt,
+        },
+      ],
     };
   },
 
   props: {
     id: {
       type: String,
-      required: false
-    }
+      required: false,
+    },
   },
 
   data: () => ({
-    showResponseFromSource: false
+    showResponseFromSource: false,
   }),
 
   computed: {
@@ -722,7 +726,7 @@ export default {
       "error",
       "showError",
       "itemHeaders",
-      "isLoading"
+      "isLoading",
     ]),
 
     ...mapGetters("detail", [
@@ -765,7 +769,7 @@ export default {
       "specimenVerifier",
       "unitGuid",
       "translatedItemHeaders",
-      "translatedItemHeadersSecondary"
+      "translatedItemHeadersSecondary",
     ]),
 
     getSpecimenType() {
@@ -779,7 +783,7 @@ export default {
     filteredNames() {
       if (this.item.names) {
         return this.item.names.filter(
-          name => name !== this.item.fullscientificname
+          (name) => name !== this.item.fullscientificname
         );
       } else return [];
     },
@@ -799,23 +803,23 @@ export default {
         else return this.item.last_harvested_processing;
       }
       return null;
-    }
+    },
   },
 
   watch: {
     "$route.params.id": {
-      handler: async function(id) {
+      handler: async function (id) {
         if (typeof this.id === "undefined" || this.id === null) {
           this.resetResponseFromSource();
           await this.getDetailViewData(id);
           this.getDetailViewDataDirectly();
         }
       },
-      immediate: true
+      immediate: true,
     },
     item(newVal) {
       this.handleColorChange(newVal);
-    }
+    },
   },
 
   beforeRouteLeave(to, from, next) {
@@ -828,7 +832,7 @@ export default {
     ...mapActions("detail", [
       "getDetailView",
       "getDetailViewDataFromSource",
-      "resetResponseFromSource"
+      "resetResponseFromSource",
     ]),
 
     async getDetailViewData(id) {
@@ -894,17 +898,23 @@ export default {
     handleColorChange(item) {
       if (item) {
         if (this.isItemFossil) {
-          this.$vuetify.theme.themes.light.primary = this.$vuetify.theme.themes.light.fossil;
+          this.$vuetify.theme.themes.light.primary =
+            this.$vuetify.theme.themes.light.fossil;
         } else if (this.isItemMineral) {
-          this.$vuetify.theme.themes.light.primary = this.$vuetify.theme.themes.light.mineral;
+          this.$vuetify.theme.themes.light.primary =
+            this.$vuetify.theme.themes.light.mineral;
         } else if (this.isItemRock) {
-          this.$vuetify.theme.themes.light.primary = this.$vuetify.theme.themes.light.rock;
+          this.$vuetify.theme.themes.light.primary =
+            this.$vuetify.theme.themes.light.rock;
         } else if (this.isItemMeteorite) {
-          this.$vuetify.theme.themes.light.primary = this.$vuetify.theme.themes.light.meteorite;
+          this.$vuetify.theme.themes.light.primary =
+            this.$vuetify.theme.themes.light.meteorite;
         } else
-          this.$vuetify.theme.themes.light.primary = this.$vuetify.theme.themes.light.main;
+          this.$vuetify.theme.themes.light.primary =
+            this.$vuetify.theme.themes.light.main;
       } else
-        this.$vuetify.theme.themes.light.primary = this.$vuetify.theme.themes.light.main;
+        this.$vuetify.theme.themes.light.primary =
+          this.$vuetify.theme.themes.light.main;
     },
 
     buildTreeview(data, depth) {
@@ -916,7 +926,7 @@ export default {
             id: Math.floor(Math.random() * Math.floor(index + 314159 * depth)),
             name:
               typeof item[1] === "string" ? `${item[0]}: ${item[1]}` : item[0],
-            children: this.buildTreeview(item[1], depth)
+            children: this.buildTreeview(item[1], depth),
           };
         });
       } else return [];
@@ -927,8 +937,8 @@ export default {
         country = country === "UK" ? "united-kingdom" : country.toLowerCase();
         return `https://collections.naturalsciences.be/cpb/nh-collections/countries/${country}/${identifier}`;
       }
-    }
-  }
+    },
+  },
 };
 </script>
 

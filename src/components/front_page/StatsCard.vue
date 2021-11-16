@@ -7,17 +7,17 @@
       :class="{ 'hover-enter primary--text': hover, 'hover-leave': !hover }"
     >
       <div
-        style="font-size: 1.25rem;"
+        style="font-size: 1.25rem"
         class="animate__animated"
         :class="{
-          animate__headShake: hover
+          animate__headShake: hover,
         }"
       >
         {{ text }}
       </div>
       <div
         :class="{
-          animate__headShake: hover
+          animate__headShake: hover,
         }"
         class="font-weight-bold animate__animated"
         style="font-size: 1.75rem"
@@ -35,7 +35,7 @@ export default {
   name: "StatsCard",
   props: ["text", "count", "id"],
   computed: {
-    ...mapState("search", ["search"])
+    ...mapState("search", ["search"]),
   },
   methods: {
     ...mapActions("search", ["updateSearchField"]),
@@ -47,8 +47,8 @@ export default {
           this.updateSearchField({ id: "country", showCheckboxes: true });
         this.$router.push("search");
       } else this.$router.push("search");
-    }
-  }
+    },
+  },
 };
 </script>
 

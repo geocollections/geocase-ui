@@ -1,12 +1,12 @@
 version: 2.1
 
 orbs:
-  node: circleci/node@4.1.0
+  node: circleci/node@4.7.0
 
 parameters:
   package-version:
     type: string
-    default: "1.2.3"
+    default: "2.0.0"
 
 executors:
   docker-publisher:
@@ -14,12 +14,12 @@ executors:
       IMAGE_NAME: geocollections/geocase-ui
       IMAGE_NAME_DEV: geocollections/geocase-ui-dev
     docker:
-      - image: circleci/buildpack-deps:stretch
+      - image: cimg/node:lts
 
 jobs:
   checkout_code:
     docker:
-      - image: circleci/node:lts
+      - image: cimg/node:lts
     working_directory: ~/geocase/geocase-ui
     steps:
       - checkout
@@ -30,7 +30,7 @@ jobs:
 
   bundle_dependencies:
     docker:
-      - image: circleci/node:lts
+      - image: cimg/node:lts
     working_directory: ~/geocase/geocase-ui
     steps:
       - restore_cache:
@@ -51,7 +51,7 @@ jobs:
 
   unit_test_application:
     docker:
-      - image: circleci/node:lts
+      - image: cimg/node:lts
     working_directory: ~/geocase/geocase-ui
     steps:
       - restore_cache:

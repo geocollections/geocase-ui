@@ -7,8 +7,8 @@ export default {
   name: "Access",
 
   metaInfo: {
-    title: "Data Access"
-  }
+    title: "Data Access",
+  },
 };
 </script>
 

@@ -6,7 +6,7 @@
       justify="center"
       v-if="localities.length === 0"
     >
-      <v-col cols="12" style="max-width: 500px;">
+      <v-col cols="12" style="max-width: 500px">
         <v-alert
           class="mb-0"
           text
@@ -52,17 +52,17 @@ export default {
   props: {
     responseResults: {
       type: Array,
-      required: true
+      required: true,
     },
     responseResultsCount: {
       type: Number,
       required: false,
-      default: 1
+      default: 1,
     },
     isDetailView: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
 
   computed: {
@@ -70,14 +70,14 @@ export default {
 
     localities() {
       if (this.responseResultsCount > 0) {
-        return this.responseResults.filter(locality => !!locality.has_map);
+        return this.responseResults.filter((locality) => !!locality.has_map);
       } else return [];
-    }
+    },
   },
 
   methods: {
-    ...mapActions("search", ["updateSearchField"])
-  }
+    ...mapActions("search", ["updateSearchField"]),
+  },
 };
 </script>
 

@@ -1,7 +1,7 @@
 module.exports = [
   {
     path: "*",
-    redirect: "/"
+    redirect: "/",
   },
   {
     path: "/:locale",
@@ -10,9 +10,9 @@ module.exports = [
       sitemap: {
         slugs: ["", "ee", "en", "de"],
         priority: 1.0,
-        changefreq: "daily"
-      }
-    }
+        changefreq: "daily",
+      },
+    },
   },
   {
     path: "/:locale/search",
@@ -21,9 +21,9 @@ module.exports = [
       sitemap: {
         slugs: ["", "ee", "en", "de"],
         priority: 1.0,
-        changefreq: "daily"
-      }
-    }
+        changefreq: "daily",
+      },
+    },
   },
   {
     path: "/:locale/specimen/:id",
@@ -31,9 +31,9 @@ module.exports = [
     meta: {
       sitemap: {
         slugs: ["", "ee", "en", "de"],
-        ignoreRoute: true
-      }
-    }
+        ignoreRoute: true,
+      },
+    },
   },
   {
     path: "/:locale/partners_and_providers",
@@ -42,9 +42,9 @@ module.exports = [
       sitemap: {
         slugs: ["", "ee", "en", "de"],
         priority: 0.7,
-        changefreq: "monthly"
-      }
-    }
+        changefreq: "monthly",
+      },
+    },
   },
   {
     path: "/:locale/about",
@@ -53,9 +53,9 @@ module.exports = [
       sitemap: {
         slugs: ["", "ee", "en", "de"],
         priority: 0.7,
-        changefreq: "monthly"
-      }
-    }
+        changefreq: "monthly",
+      },
+    },
   },
   {
     path: "/:locale/access",
@@ -64,9 +64,9 @@ module.exports = [
       sitemap: {
         slugs: ["", "ee", "en", "de"],
         priority: 0.5,
-        changefreq: "monthly"
-      }
-    }
+        changefreq: "monthly",
+      },
+    },
   },
   {
     path: `/:locale/tutorial`,
@@ -75,9 +75,9 @@ module.exports = [
       sitemap: {
         slugs: ["", "ee", "en", "de"],
         priority: 0.5,
-        changefreq: "monthly"
-      }
-    }
+        changefreq: "monthly",
+      },
+    },
   },
   {
     path: `/:locale/links`,
@@ -86,9 +86,9 @@ module.exports = [
       sitemap: {
         slugs: ["", "ee", "en", "de"],
         priority: 0.5,
-        changefreq: "monthly"
-      }
-    }
+        changefreq: "monthly",
+      },
+    },
   },
   {
     path: `/:locale/efg`,
@@ -97,8 +97,8 @@ module.exports = [
       sitemap: {
         slugs: ["", "ee", "en", "de"],
         priority: 0.5,
-        changefreq: "monthly"
-      }
-    }
-  }
+        changefreq: "monthly",
+      },
+    },
+  },
 ];

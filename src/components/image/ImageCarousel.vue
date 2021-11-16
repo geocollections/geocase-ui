@@ -77,8 +77,8 @@ export default {
   props: {
     images: {
       type: Array,
-      required: true
-    }
+      required: true,
+    },
   },
 
   data: () => ({
@@ -87,7 +87,7 @@ export default {
     date: null,
     licence: null,
     carouselItem: 0,
-    imageMaxHeight: "500"
+    imageMaxHeight: "500",
   }),
 
   methods: {
@@ -103,8 +103,8 @@ export default {
       if (imageHeight && imageHeight < this.imageMaxHeight)
         return imageHeight.toString();
       else return this.imageMaxHeight;
-    }
-  }
+    },
+  },
 };
 </script>
 
