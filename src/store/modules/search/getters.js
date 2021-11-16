@@ -40,14 +40,14 @@ const getters = {
   },
 
   getAllNonFixedTableHeaders: (state, getters) => {
-    return getters.translatedtableHeaders.filter((item) => !item.fixed);
+    return getters.translatedTableHeaders.filter((item) => !item.fixed);
   },
 
   getAllShownTableHeaders: (state, getters) => {
-    return getters.translatedtableHeaders.filter((item) => item.show);
+    return getters.translatedTableHeaders.filter((item) => item.show);
   },
 
-  translatedtableHeaders: (state) => {
+  translatedTableHeaders: (state) => {
     return state.tableHeaders.map((header) => {
       return {
         ...header,

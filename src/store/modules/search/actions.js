@@ -93,7 +93,6 @@ const actions = {
   },
 
   updateTableHeaders({ commit }, payload) {
-    console.log(payload);
     commit("UPDATE_TABLE_HEADERS", payload);
   },
 
@@ -115,6 +114,22 @@ const actions = {
       []
     );
     commit("UPDATE_TABLE_HEADERS", headersWithoutStratigraphy);
+  },
+
+  resetTableHeaders({ commit }) {
+    const initialTableHeaders = [
+      "icon",
+      "collectioncode",
+      "unitid",
+      "highertaxon",
+      "fullscientificname",
+      "country",
+      "locality",
+      "stratigraphy",
+      "recordURI",
+      "url",
+    ];
+    commit("UPDATE_TABLE_HEADERS", initialTableHeaders);
   },
 };
 

@@ -19,10 +19,6 @@
       />
     </div>
 
-    <div class="mx-3 my-2 my-lg-0 flex-lg-grow-1">
-      <ExportButtons :table-data="results" />
-    </div>
-
     <div>
       <v-pagination
         :value="page"
@@ -49,12 +45,11 @@
 </template>
 
 <script>
-import ExportButtons from "@/components/ExportButtons";
 import SelectWrapper from "@/components/input_wrappers/SelectWrapper";
 
 export default {
   name: "Pagination",
-  components: { ExportButtons, SelectWrapper },
+  components: { SelectWrapper },
   props: {
     paginateBy: {
       type: Number,

@@ -326,56 +326,6 @@
       </v-list-group>
 
       <v-divider />
-
-      <!-- EXTRA OPTIONS -->
-      <v-list-group
-        :value="showExtraOptions"
-        active-class="blue-grey lighten-3"
-        color="black"
-      >
-        <template v-slot:activator>
-          <v-list-item-title
-            class="font-weight-bold text-center text-uppercase"
-            style="font-size: 1.15rem"
-            >{{ $t("search.drawer.extraOptions") }}</v-list-item-title
-          >
-        </template>
-
-        <v-divider />
-
-        <!-- TABLE HEADERS -->
-        <!-- Todo: Debounce it! -->
-        <v-list-item class="py-2 px-4">
-          <v-row no-gutters>
-            <v-col cols="12" class="py-1 mb-2">
-              <v-checkbox
-                color="blue-grey darken-3"
-                class="mt-0 mb-2"
-                :input-value="isTableHeaderFixed"
-                :label="$t('search.drawer.fixedHeaders')"
-                @change="updateTableHeaderFixedState($event)"
-                hide-details
-                dense
-              />
-            </v-col>
-
-            <v-col cols="12" class="py-1">
-              <SelectWrapper
-                :items="getAllNonFixedTableHeaders"
-                :value="getAllShownTableHeaders"
-                chips
-                small-chips
-                deletable-chips
-                multiple
-                :label="$t('search.drawer.tableHeaders')"
-                @change="updateTableHeaders($event)"
-                class="chips-select"
-              />
-            </v-col>
-          </v-row>
-        </v-list-item>
-      </v-list-group>
-      <v-divider />
     </v-list>
 
     <v-row no-gutters class="px-3 pb-5 mt-1">
@@ -435,8 +385,6 @@ export default {
       "getCheckboxesCount",
       "getCheckboxesLength",
       "getActiveCheckboxesCount",
-      "getAllNonFixedTableHeaders",
-      "getAllShownTableHeaders",
     ]),
 
     isSmAndDown() {
@@ -464,8 +412,6 @@ export default {
     ...mapActions("search", [
       "updateSearchField",
       "resetSearch",
-      "updateTableHeaders",
-      "updateTableHeaderFixedState",
       "updatePage",
       "updateSortBy",
       "updateSortDesc",

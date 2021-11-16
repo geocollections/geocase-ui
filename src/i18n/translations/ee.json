@@ -224,7 +224,21 @@
       "coordinates": "Koordinaadid",
       "coordinatesReadOnly": "Koordinaadid - LOE AINULT",
       "map": "Kaart",
-      "cetaf_identifier": "CETAF id"
+      "cetaf_identifier": "CETAF id",
+      "stratigraphytexts": "Stratigraafia free",
+      "stratigraphies": "Stratigraphy komaga eraldatud",
+      "tooltipExport": "Faili eksport",
+      "tooltipConfig": "Tabeli konfiguratsioon",
+      "tooltipResetHeaders": "Lähtesta päised",
+      "tooltipShowActiveHeaders": "Vaata aktiveeritud päiseid",
+      "tooltipShowAllHeaders": "Vaata kõiki päiseid",
+      "headerSelectDisabled": "Veergu sorteeritakse",
+      "headers": "Päised",
+      "filter": "Filter",
+      "closeMap": "Sulge kaart",
+      "goTo": "Leheküljele",
+      "goToBtn": "Mine",
+      "clipboard": "Kopeeri lõikelauale"
     },
     "pagination": "Kuva {value} kaupa",
     "export": {

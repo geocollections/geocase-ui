@@ -4,6 +4,7 @@
       :fixed-header="isTableHeaderFixed"
       :height="isTableHeaderFixed ? tableHeight : '100%'"
       class="table"
+      id="table"
       mobile-breakpoint="0"
       dense
       hide-default-footer
@@ -18,6 +19,7 @@
       @update:sort-desc="$emit('sortDesc:changed', $event)"
       :server-items-length="responseResultsCount"
       :loading="isLoading"
+      @update:options="updateTableOptions"
     >
       <template v-slot:no-data>
         <v-row no-gutters class="my-4" justify="center">
@@ -42,6 +44,70 @@
             </v-alert>
           </v-col>
         </v-row>
+      </template>
+
+      <template #top="{ pagination, updateOptions, options }">
+        <div class="table-top">
+          <v-row no-gutters>
+            <v-col
+              cols="12"
+              sm="auto"
+              class="px-3 my-1 my-sm-3"
+              align-self="center"
+            >
+              <export-controls />
+              <header-controls
+                :headers="translatedTableHeaders"
+                :visible-headers="getAllShownTableHeaders"
+                :sort-by="options.sortBy"
+                :is-table-header-fixed="isTableHeaderFixed"
+                @change="handleHeadersChange"
+                @reset="resetTableHeaders"
+                @toggle="updateTableHeaderFixedState(!$event)"
+              />
+            </v-col>
+            <v-col>
+              <pagination-controls
+                :options="options"
+                :pagination="pagination"
+                :items-per-page-options="footerProps['items-per-page-options']"
+                :items-per-page-text="footerProps['items-per-page-text']"
+                :page-select-text="
+                  $t('search.table.pageSelect', {
+                    current: options.page,
+                    count: pagination.pageCount,
+                  })
+                "
+                :go-to-text="$t('search.table.goTo')"
+                :go-to-button-text="$t('search.table.goToBtn')"
+                select-page-id="header-select-btn"
+                @update:options="updateOptions"
+              />
+            </v-col>
+          </v-row>
+        </div>
+      </template>
+
+      <template #footer="{ props }">
+        <div class="table-footer">
+          <pagination-controls
+            class="py-3"
+            :options="props.options"
+            :pagination="props.pagination"
+            :items-per-page-options="footerProps['items-per-page-options']"
+            :items-per-page-text="footerProps['items-per-page-text']"
+            :page-select-text="
+              $t('search.table.pageSelect', {
+                current: props.options.page,
+                count: props.pagination.pageCount,
+              })
+            "
+            :go-to-text="$t('search.table.goTo')"
+            :go-to-button-text="$t('search.table.goToBtn')"
+            select-page-id="footer-select-btn"
+            @update:options="updateTableOptions($event)"
+          />
+        </div>
       </template>
 
       <template v-slot:item.icon="{ item }">
@@ -151,6 +217,7 @@
           icon
           :title="$t('search.openGallery')"
           small
+          color="primary"
           @click="$emit('open:gallery', item.images[0])"
         >
           <v-icon small>far fa-image</v-icon>
@@ -163,9 +230,13 @@
 <script>
 import { throttle } from "lodash";
 import { mapActions, mapGetters, mapState } from "vuex";
+import HeaderControls from "@/components/tables/HeaderControls";
+import PaginationControls from "@/components/tables/PaginationControls";
+import ExportControls from "@/components/tables/ExportControls";
 
 export default {
   name: "TabTable",
+  components: { ExportControls, PaginationControls, HeaderControls },
   props: {
     responseResults: {
       type: Array,
@@ -200,9 +271,17 @@ export default {
     },
   },
 
-  data: () => ({
-    tableHeight: "100%",
-  }),
+  data() {
+    return {
+      tableHeight: "100%",
+      footerProps: {
+        showFirstLastPage: true,
+        "items-per-page-options": [10, 25, 50, 100, 250, 500, 1000],
+        // Todo: Translation is updated only on reload, fix that, add it to computed or sth
+        "items-per-page-text": this.$t("frontPage.map.itemsPerPageText"),
+      },
+    };
+  },
 
   beforeDestroy() {
     window.removeEventListener("resize", this.calculateTableHeight);
@@ -222,11 +301,19 @@ export default {
 
   computed: {
     ...mapState("search", ["isTableHeaderFixed"]),
-    ...mapGetters("search", ["getAllShownTableHeaders"]),
+    ...mapGetters("search", [
+      "getAllShownTableHeaders",
+      "translatedTableHeaders",
+    ]),
   },
 
   methods: {
-    ...mapActions("search", ["resetSearch"]),
+    ...mapActions("search", [
+      "resetSearch",
+      "updateTableHeaders",
+      "resetTableHeaders",
+      "updateTableHeaderFixedState",
+    ]),
 
     calculateTableHeight: throttle(function () {
       let innerHeight = window?.innerHeight;
@@ -243,17 +330,16 @@ export default {
         document.getElementsByClassName("records-found")?.[0]?.clientHeight;
       let tabsHeight =
         document.getElementsByClassName("v-tabs")?.[0]?.clientHeight;
-      let paginationHeight =
-        document.getElementsByClassName("pagination")?.[0]?.clientHeight;
+      let tableTop =
+        document.getElementsByClassName("table-top")?.[0]?.clientHeight;
+      let tableFooter =
+          document.getElementsByClassName("table-footer")?.[0]?.clientHeight;
 
       // Defaults
       if (!recordsFoundHeight) recordsFoundHeight = 48;
       if (!tabsHeight) tabsHeight = 42;
-      if (!paginationHeight) {
-        if (this.$vuetify.breakpoint.lgAndUp) paginationHeight = 60;
-        else paginationHeight = 142;
-      }
-
+      if (!tableTop) tableTop = 60;
+      if (!tableFooter) tableFooter = 68;
       if (this.$vuetify.breakpoint.mdAndUp) {
         // 2 is for any rounding errors
         let height =
@@ -262,7 +348,8 @@ export default {
           paddingTotal -
           recordsFoundHeight -
           tabsHeight -
-          paginationHeight -
+          tableTop -
+          tableFooter -
           appBottom -
           2;
 
@@ -291,6 +378,26 @@ export default {
       } else if (type === "Meteorite") {
         return "meteorite";
       } else "none";
+    },
+
+    handleHeadersChange(event) {
+      let listOfAllShownTableHeaders = this.getAllShownTableHeaders.map(
+        (item) => item.value
+      );
+
+      if (listOfAllShownTableHeaders.includes(event.value))
+        listOfAllShownTableHeaders = listOfAllShownTableHeaders.filter(
+          (item) => item !== event.value
+        );
+      else listOfAllShownTableHeaders.push(event.value);
+
+      this.updateTableHeaders(listOfAllShownTableHeaders);
+    },
+
+    updateTableOptions(options) {
+      if (this.page !== options.page) this.$emit("update:page", options.page);
+      if (this.paginateBy !== options.itemsPerPage)
+        this.$emit("update:paginateBy", options.itemsPerPage);
     },
   },
 };
@@ -330,6 +437,6 @@ export default {
 }
 
 .table >>> .sorting-disabled {
-  background-color: #eceff1;
+  background-color: #eceff1 !important;
 }
 </style>

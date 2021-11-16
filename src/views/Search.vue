@@ -60,6 +60,8 @@
               :tabIndex="tab"
               v-on:sortBy:changed="updateSortBy($event)"
               v-on:sortDesc:changed="updateSortDesc($event)"
+              @update:page="updatePage($event)"
+              @update:paginateBy="updatePaginateBy($event)"
               @open:gallery="openGallery"
             />
 
@@ -82,7 +84,7 @@
 
       <!-- PAGINATION -->
       <pagination
-        v-if="responseResultsCount > 10"
+        v-if="tab === 1 && responseResultsCount > 10"
         :paginate-by="paginateBy"
         :paginate-by-items="paginateByItemsTranslated"
         @update:paginateBy="updatePaginateBy($event)"
