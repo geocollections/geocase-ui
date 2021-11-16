@@ -22,7 +22,7 @@ const state = {
       isLeaving: false,
     },
     rock: {
-      url: '/search?recordbasis=("Rock" "Sediment sample" "Technological sample")',
+      url: '/search?recordbasis="Rock"',
       image:
         "https://files.geocollections.info/img/geocase/front_page/rock1.jpg",
       isLeaving: false,

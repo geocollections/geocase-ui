@@ -35,7 +35,7 @@ const getters = {
   isItemFossil: (state, getters) => {
     if (getters.item) {
       let type = getters.item.recordbasis;
-      return type === "Fossil" || type === "Recent preserved";
+      return type === "Fossil";
     } else return false;
   },
 
@@ -49,11 +49,7 @@ const getters = {
   isItemRock: (state, getters) => {
     if (getters.item) {
       let type = getters.item.recordbasis;
-      return (
-        type === "Rock" ||
-        type === "Sediment sample" ||
-        type === "Technological sample"
-      );
+      return type === "Rock";
     } else return false;
   },
 

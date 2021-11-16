@@ -282,15 +282,11 @@ export default {
      */
     getItemType(item) {
       let type = item.recordbasis;
-      if (type === "Fossil" || type === "Recent preserved") {
+      if (type === "Fossil") {
         return "fossil";
       } else if (type === "Mineral") {
         return "mineral";
-      } else if (
-        type === "Rock" ||
-        type === "Sediment sample" ||
-        type === "Technologicals ample"
-      ) {
+      } else if (type === "Rock") {
         return "rock";
       } else if (type === "Meteorite") {
         return "meteorite";
