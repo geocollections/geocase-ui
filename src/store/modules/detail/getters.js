@@ -463,7 +463,14 @@ const getters = {
         (getters.item?.highertaxon || getters.itemHighertaxon)
       )
         return header;
-      else if (header.value === "itemMineralGroup" && getters.itemMineralGroup)
+      else if (
+        header.value === "itemMineralGroup" &&
+        getters.itemMineralGroup &&
+        JSON.stringify(getters.itemMineralGroup) !==
+          JSON.stringify(getters.itemHighertaxon) &&
+        JSON.stringify(getters.item?.highertaxon) !==
+          JSON.stringify(getters.itemMineralGroup)
+      )
         return header;
       else if (
         header.value === "mineralNameDetail" &&
