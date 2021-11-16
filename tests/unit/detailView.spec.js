@@ -409,10 +409,10 @@ describe("DetailViewGetters", () => {
         false,
         false,
         [
-          "Era: Cenozoic",
-          "Epoch: Miocene",
-          "Period: Neogene",
-          "Stage: Burdigalian",
+          { division: "Era", name: "Cenozoic" },
+          { division: "Epoch", name: "Miocene" },
+          { division: "Period", name: "Neogene" },
+          { division: "Stage", name: "Burdigalian" },
         ],
         {
           "abcd:Address": "Burgring 7, A-1010 Vienna, Austria",
@@ -1359,7 +1359,7 @@ describe("DetailViewGetters", () => {
         false,
         false,
         false,
-        ["Stage: Gauja Stage"],
+        [{ division: "Stage", name: "Gauja Stage" }, { name: "Givetian" }],
         {
           "abcd:Address": "Ehitajate 5, 19086 Tallinn, Estonia",
           "abcd:Email": "ursula.toom@taltech.ee",
@@ -1855,7 +1855,7 @@ describe("DetailViewGetters", () => {
         false,
         true,
         false,
-        ["Stage: Pärnu Stage"],
+        [{ division: "Stage", name: "Pärnu Stage" }, { name: "Eifelian" }],
         {
           "abcd:Address": "Vanemuise 46, Tartu, Estonia",
           "abcd:Email": "mare.isakar@ut.ee",
@@ -2781,7 +2781,12 @@ describe("DetailViewGetters", () => {
         true,
         false,
         false,
-        ["System: Cretaceous"],
+        [
+          {
+            division: "System",
+            name: "Cretaceous",
+          },
+        ],
         {
           "abcd:Address": "Vanemuise 46, Tartu, Estonia",
           "abcd:Email": "mare.isakar@ut.ee",

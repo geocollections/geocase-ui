@@ -19,7 +19,7 @@ executors:
 jobs:
   checkout_code:
     docker:
-      - image: circleci/node:lts
+      - image: cimg/node:lts
     working_directory: ~/geocase/geocase-ui
     steps:
       - checkout
@@ -30,7 +30,7 @@ jobs:
 
   bundle_dependencies:
     docker:
-      - image: circleci/node:lts
+      - image: cimg/node:lts
     working_directory: ~/geocase/geocase-ui
     steps:
       - restore_cache:
@@ -51,7 +51,7 @@ jobs:
 
   unit_test_application:
     docker:
-      - image: circleci/node:lts
+      - image: cimg/node:lts
     working_directory: ~/geocase/geocase-ui
     steps:
       - restore_cache:
