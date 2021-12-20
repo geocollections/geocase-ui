@@ -2,7 +2,8 @@ const imageMixin = {
   methods: {
     getImageUrl(url) {
       if (url) {
-        const IMAGE_URL = "https://geocase.eu/thumbnail/?url=";
+        // const IMAGE_URL = "https://geocase.eu/thumbnail/?url=";
+        const IMAGE_URL = "https://geocase.eu/thumbnails/";
         return IMAGE_URL + encodeURIComponent(url);
       } else return "";
     },

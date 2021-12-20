@@ -932,7 +932,10 @@ export default {
 
     getCetafIdentifierUrl(country, identifier) {
       if (country && identifier) {
-        country = country === "UK" ? "united-kingdom" : country.toLowerCase();
+        if (country === "UK") country = "united-kingdom";
+        if (country === "The Netherlands") country = "netherlands-the";
+
+        country = country.toLowerCase();
         return `https://collections.naturalsciences.be/cpb/nh-collections/countries/${country}/${identifier}`;
       }
     },
