@@ -35,7 +35,7 @@ class SearchService {
 
   static async getDetailView(id) {
     try {
-      let url = `${API_URL}?q=id:${decodeURIComponent(id)}`;
+      let url = `${API_URL}?q=geocase_id:${decodeURIComponent(id)}`;
 
       const res = await axios.get(url);
       return res.data;

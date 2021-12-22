@@ -114,7 +114,7 @@
         <router-link
           class="icon-link"
           style="text-decoration: unset"
-          :to="{ path: `specimen/${item.id}` }"
+          :to="{ path: `specimen/${encodeURIComponent(item.geocase_id)}` }"
           :title="$t('search.goToDetailView')"
         >
           <v-icon small color="primary" v-if="getItemType(item) === 'fossil'"
@@ -141,7 +141,7 @@
       <template v-slot:item.unitid="{ item }">
         <router-link
           style="text-decoration: unset"
-          :to="{ path: `specimen/${item.id}` }"
+          :to="{ path: `specimen/${encodeURIComponent(item.geocase_id)}` }"
           :title="$t('search.goToDetailView')"
         >
           {{ item.unitid }}

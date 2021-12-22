@@ -295,7 +295,7 @@ export default {
                 marker.on("click", () => {
                   if (this.isDetailView)
                     window.open(item.recordURI, "RecordUriWindow");
-                  else this.$router.push({ path: `specimen/${item.id}` });
+                  else this.$router.push({ path: `specimen/${encodeURIComponent(item.geocase_id)}` });
                 });
             }
             if (item.locality) {

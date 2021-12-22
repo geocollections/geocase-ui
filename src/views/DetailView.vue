@@ -125,7 +125,7 @@
                   </h2>
 
                   <div v-if="!item.fullscientificname && !filteredNames">
-                    GeoCASe ID: {{ item.id }}
+                    GeoCASe ID: {{ item.geocase_id }}
                   </div>
                 </div>
 
