@@ -113,7 +113,9 @@
                 <div>
                   <router-link
                     class="text-decoration-none"
-                    :to="{ path: `specimen/${images[currentIndex].geocase_id}` }"
+                    :to="{
+                      path: `specimen/${images[currentIndex].geocase_id}`,
+                    }"
                     >{{ $t("imageGallery.goToSpecimenView") }}</router-link
                   >
                 </div>
