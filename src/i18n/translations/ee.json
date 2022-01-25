@@ -14,7 +14,7 @@
   },
   "frontPage": {
     "prototype_alert": {
-      "title": "This is GeoCASe 2.0 beta interface.",
+      "title": "This is GeoCASe 2.0 interface.",
       "text": "Please report problems in <a href=\"https://github.com/geocollections/geocase-ui\" target=\"_blank\">GitHub</a>. The old portal is accessible at: <a href=\"http://old.geocase.eu\" target=\"_blank\">http://old.geocase.eu</a>."
     },
     "title": "Euroopa Geokogude Portaal",
