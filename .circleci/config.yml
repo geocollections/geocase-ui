@@ -14,12 +14,12 @@ executors:
       IMAGE_NAME: geocollections/geocase-ui
       IMAGE_NAME_DEV: geocollections/geocase-ui-dev
     docker:
-      - image: cimg/node:lts
+      - image: cimg/node:16.17.0
 
 jobs:
   checkout_code:
     docker:
-      - image: cimg/node:lts
+      - image: cimg/node:16.17.0
     working_directory: ~/geocase/geocase-ui
     steps:
       - checkout
@@ -30,7 +30,7 @@ jobs:
 
   bundle_dependencies:
     docker:
-      - image: cimg/node:lts
+      - image: cimg/node:16.17.0
     working_directory: ~/geocase/geocase-ui
     steps:
       - restore_cache:
@@ -51,7 +51,7 @@ jobs:
 
   unit_test_application:
     docker:
-      - image: cimg/node:lts
+      - image: cimg/node:16.17.0
     working_directory: ~/geocase/geocase-ui
     steps:
       - restore_cache:
