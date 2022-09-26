@@ -1,13 +1,13 @@
 <template>
   <v-img
-    v-if="imageSrc"
+    v-if="computedImageSrc"
     :max-height="maxHeight"
     :width="width"
     min-width="72"
     :contain="contain"
     aspect-ratio="1"
-    :src="imageSrc"
-    :lazy-src="imageSrc"
+    :src="computedImageSrc"
+    :lazy-src="computedImageSrc"
     :class="{ 'background-size-unset': backgroundSizeUnset }"
     :alt="altText"
   >
@@ -46,6 +46,13 @@ export default {
     altText: {
       type: String,
       default: "",
+    },
+  },
+  computed: {
+    computedImageSrc() {
+      if (this.imageSrc && !this.imageSrc.startsWith("http")) {
+        return `https://${this.imageSrc}`;
+      } else return this.imageSrc;
     },
   },
 };
