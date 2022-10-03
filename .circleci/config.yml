@@ -14,54 +14,9 @@ executors:
       IMAGE_NAME: geocollections/geocase-ui
       IMAGE_NAME_DEV: geocollections/geocase-ui-dev
     docker:
-      - image: cimg/node:lts
+      - image: cimg/node:16.17.0
 
 jobs:
-  checkout_code:
-    docker:
-      - image: cimg/node:lts
-    working_directory: ~/geocase/geocase-ui
-    steps:
-      - checkout
-      - save_cache:
-          key: << pipeline.parameters.package-version >>-repo-{{ .Environment.CIRCLE_SHA1 }}
-          paths:
-            - ~/geocase/geocase-ui
-
-  bundle_dependencies:
-    docker:
-      - image: cimg/node:lts
-    working_directory: ~/geocase/geocase-ui
-    steps:
-      - restore_cache:
-          key: << pipeline.parameters.package-version >>-repo-{{ .Environment.CIRCLE_SHA1 }}
-      - restore_cache:
-          key: << pipeline.parameters.package-version >>-bundle-{{ .Environment.CIRCLE_SHA1 }}
-      - run:
-          name: Npm disabling progress bar and adding depth 0
-          command: npm set progress=false && npm config set depth 0
-      - run:
-          name: Installing packages
-          command: npm install
-      - save_cache:
-          key: << pipeline.parameters.package-version >>-bundle-{{ .Environment.CIRCLE_SHA1 }}
-          paths:
-            - ./node_modules
-            - ./package-lock.json
-
-  unit_test_application:
-    docker:
-      - image: cimg/node:lts
-    working_directory: ~/geocase/geocase-ui
-    steps:
-      - restore_cache:
-          key: << pipeline.parameters.package-version >>-repo-{{ .Environment.CIRCLE_SHA1 }}
-      - restore_cache:
-          key: << pipeline.parameters.package-version >>-bundle-{{ .Environment.CIRCLE_SHA1 }}
-      - run:
-          name: Unit testing application
-          command: npm run test:unit
-
   build_docker_image:
     executor: docker-publisher
     steps:
@@ -139,23 +94,10 @@ jobs:
 workflows:
   build:
     jobs:
-      - build_docker_image
-      - checkout_code:
+      - build_docker_image:
           filters:
             branches:
-              only: development
-      - bundle_dependencies:
-          requires:
-            - checkout_code
-          filters:
-            branches:
-              only: development
-      - unit_test_application:
-          requires:
-            - bundle_dependencies
-          filters:
-            branches:
-              only: development
+              only: [development, production]
       - publish_docker_image:
           requires:
             - build_docker_image
@@ -168,7 +110,6 @@ workflows:
       - run_docker_image_dev:
           requires:
             - publish_docker_image
-            - unit_test_application
           filters:
             branches:
               only: development
