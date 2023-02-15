@@ -114,7 +114,7 @@
                   <router-link
                     class="text-decoration-none"
                     :to="{
-                      path: `specimen/${images[currentIndex].geocase_id}`,
+                      path: `specimen/${images[currentIndex].id}`,
                     }"
                     >{{ $t("imageGallery.goToSpecimenView") }}</router-link
                   >

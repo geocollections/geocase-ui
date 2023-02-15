@@ -3,6 +3,7 @@ const routes = require("./src/router/sitemapRoutes");
 module.exports = {
   transpileDependencies: ["vuetify"],
   devServer: {
+    disableHostCheck: process.env.NODE_ENV === 'development',
     proxy: {
       "/api": {
         target: "http://api.geocase.eu/",
