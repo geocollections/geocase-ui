@@ -13,6 +13,10 @@ const getters = {
     return getters.itemExists ? state.response[0] : [];
   },
 
+  items: (state, getters) => {
+    return state.response ?? [];
+  },
+
   imageExists: (state, getters) => {
     return !!(getters.itemExists && getters.item && getters.item.images);
   },
