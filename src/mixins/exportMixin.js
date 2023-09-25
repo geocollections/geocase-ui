@@ -1,4 +1,4 @@
-import XLSX from "xlsx";
+import { utils, writeFile } from "xlsx";
 
 export default {
   methods: {
@@ -27,14 +27,14 @@ export default {
     },
     createWorkbook(table) {
       const tableCopy = this.removeSortIndicators(table);
-      const wb = XLSX.utils.table_to_book(tableCopy);
+      const wb = utils.table_to_book(tableCopy);
       return wb;
     },
     handleExportCsv() {
       try {
         const wb = this.createWorkbook(document.querySelector("#table table"));
 
-        XLSX.writeFile(wb, "GeoCASe.csv", { bookType: "csv" });
+        writeFile(wb, "GeoCASe.csv", { bookType: "csv" });
         this.toastSuccess({
           text: this.$t("search.export.exportSuccessful", { type: "CSV" }),
         });
@@ -47,7 +47,7 @@ export default {
       try {
         const wb = this.createWorkbook(document.querySelector("#table table"));
 
-        XLSX.writeFile(wb, "GeoCASe.xlsx", { bookType: "xlsx" });
+        writeFile(wb, "GeoCASe.xlsx", { bookType: "xlsx" });
         this.toastSuccess({
           text: this.$t("search.export.exportSuccessful", { type: "XLSX" }),
         });
