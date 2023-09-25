@@ -122,10 +122,9 @@
                         />
                       </v-list-item-action>
                       <v-list-item-content>
-                        <v-list-item-title
-                          v-if="item.text !== ''"
-                          v-text="item.text"
-                        />
+                        <v-list-item-title v-if="item.text !== ''">{{
+                          item.text
+                        }}</v-list-item-title>
                         <v-list-item-title v-else>Icon</v-list-item-title>
                       </v-list-item-content>
                     </v-list-item>
@@ -147,7 +146,7 @@ export default {
   filters: {
     filterHeaders(headers, filter) {
       return headers.filter((header) =>
-        header.text.toLowerCase().includes(filter.toLowerCase())
+        header.text.toLowerCase().includes(filter.toLowerCase()),
       );
     },
   },

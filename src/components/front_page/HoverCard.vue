@@ -96,7 +96,6 @@ export default {
 
     // Resetting search fields before redirecting to search route
     goToSearchView(url) {
-      console.log(url);
       // Special case for clicking on meteorites card (removes stratigraphy header from table)
       if (url.endsWith('recordbasis="Meteorite"'))
         this.removeStratigraphyFromTableHeaders();

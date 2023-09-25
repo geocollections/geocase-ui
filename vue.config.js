@@ -1,11 +1,12 @@
 const routes = require("./src/router/sitemapRoutes");
+const config = require("./src/config");
 
 module.exports = {
   transpileDependencies: ["vuetify"],
   devServer: {
     proxy: {
       "/api": {
-        target: "http://api.geocase.eu/",
+        target: config.app.apiUrl,
         changeOrigin: true,
         pathRewrite: {
           "^/api/repeat": "/v1/repeat",
