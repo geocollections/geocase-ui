@@ -14,7 +14,7 @@ executors:
       IMAGE_NAME: geocollections/geocase-ui
       IMAGE_NAME_DEV: geocollections/geocase-ui-dev
     docker:
-      - image: cimg/node:16.17.0
+      - image: cimg/node:18.17.1
 
 jobs:
   build_docker_image:
