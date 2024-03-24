@@ -6,6 +6,7 @@ import DetailView from "@/views/DetailView";
 import PartnersAndProviders from "@/views/PartnersAndProviders";
 import About from "@/views/About";
 import Access from "@/views/Access";
+import Help from "@/views/Help";
 import i18n from "@/i18n";
 
 Vue.use(Router);
@@ -70,6 +71,11 @@ const router = new Router({
           path: `efg`,
           name: "Efg",
           component: Efg,
+        },
+        {
+          path: `help`,
+          name: "Help",
+          component: Help,
         },
       ],
     },

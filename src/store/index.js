@@ -11,7 +11,7 @@ import cookie from "./modules/cookie";
 Vue.use(Vuex);
 
 const vuexLocal = new VuexPersistence({
-  key: "GeoCASE_v1.1.0",
+  key: "GeoCASE_v1.1.1",
   storage: window.localStorage,
   reducer: (state) => ({
     cookie: state.cookie,
