@@ -98,6 +98,13 @@ const getters = {
         isStatic: true,
       },
       {
+        text: i18n.t("header.help"),
+        to: "/help",
+        name: "Help",
+        icon: "far fa-question-circle",
+        isStatic: true,
+      },
+      {
         text: i18n.t("header.links"),
         to: "/links",
         name: "Links",
