@@ -6,7 +6,6 @@ const state = {
   records: "",
   datasetowner: "",
   country: "",
-  showAlert: true,
   cardIds: ["fossil", "mineral", "rock", "meteorite"],
   cards: {
     fossil: {

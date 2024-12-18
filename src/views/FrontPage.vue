@@ -1,24 +1,6 @@
 <template>
   <div>
     <v-container class="FrontPage">
-      <v-row no-gutters>
-        <v-col cols="12">
-          <v-alert
-            v-if="showAlert"
-            dismissible
-            prominent
-            type="info"
-            text
-            @input="hideAlert"
-          >
-            <div class="font-weight-bold" style="font-size: 1.25rem">
-              {{ $t("frontPage.prototype_alert.title") }}
-            </div>
-            <div v-html="$t('frontPage.prototype_alert.text')" />
-          </v-alert>
-        </v-col>
-      </v-row>
-
       <!-- STATS -->
       <v-row no-gutters>
         <v-col cols="12" sm="4" v-for="item in stats" :key="item.text">
@@ -67,12 +49,12 @@ export default {
   components: { StatsCard, HoverCard, MapCard },
 
   computed: {
-    ...mapState("frontpage", ["showAlert", "cardIds"]),
+    ...mapState("frontpage", ["cardIds"]),
     ...mapGetters("frontpage", ["stats", "getCards"]),
   },
 
   methods: {
-    ...mapActions("frontpage", ["hideAlert", "updateCardIsLeaving"]),
+    ...mapActions("frontpage", ["updateCardIsLeaving"]),
   },
 };
 </script>
