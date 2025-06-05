@@ -10,10 +10,6 @@ const mutations = {
     }
   },
 
-  HIDE_ALERT(state) {
-    state.showAlert = false;
-  },
-
   UPDATE_CARD_IS_LEAVING(state, payload) {
     state.cards[payload.id].isLeaving = payload.isLeaving;
   },

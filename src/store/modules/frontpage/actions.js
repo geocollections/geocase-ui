@@ -21,10 +21,6 @@ const actions = {
     }
   },
 
-  hideAlert({ commit }) {
-    commit("HIDE_ALERT");
-  },
-
   updateCardIsLeaving({ commit }, payload) {
     commit("UPDATE_CARD_IS_LEAVING", payload);
   },
