@@ -9,9 +9,9 @@
       <v-col cols="12" style="max-width: 500px">
         <v-alert
           class="mb-0"
-          text
-          border="left"
-          icon="fas fa-search"
+          variant="tonal"
+          border="start"
+          icon="fa:fas fa-search"
           color="secondary"
         >
           <div>
@@ -21,7 +21,7 @@
           <div v-if="!search.has_map.value">
             {{ $t("search.mapNoResultsFilterInfo") }}
             <v-btn
-              x-small
+              size="x-small"
               color="secondary"
               @click="updateSearchField({ id: 'has_map', value: 'true' })"
               >{{ $t("search.addFilter") }}</v-btn
@@ -43,8 +43,10 @@
 </template>
 
 <script>
-import { mapActions, mapState } from "vuex";
-import MapWrapper from "@/components/MapWrapper";
+import { useSearchStore } from "@/stores/search";
+
+import { mapActions, mapState } from "pinia";
+import MapWrapper from "@/components/MapWrapper.vue";
 
 export default {
   name: "TabMap",
@@ -66,7 +68,7 @@ export default {
   },
 
   computed: {
-    ...mapState("search", ["search"]),
+    ...mapState(useSearchStore, ["search"]),
 
     localities() {
       if (this.responseResultsCount > 0) {
@@ -76,7 +78,7 @@ export default {
   },
 
   methods: {
-    ...mapActions("search", ["updateSearchField"]),
+    ...mapActions(useSearchStore, ["updateSearchField"]),
   },
 };
 </script>

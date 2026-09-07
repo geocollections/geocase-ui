@@ -1,6 +1,6 @@
 <template>
   <v-dialog
-    :value="dialog"
+    :model-value="dialog"
     persistent
     fullscreen
     hide-overlay
@@ -8,12 +8,17 @@
     style="z-index: 3000"
     no-click-animation
   >
-    <v-card tile>
-      <v-toolbar dark color="primary" height="64">
-        <v-tooltip bottom>
-          <template v-slot:activator="{ on }">
-            <v-btn v-on="on" dark icon @click="$emit('close:dialog')">
-              <v-icon>fas fa-times</v-icon>
+    <v-card rounded="0">
+      <v-toolbar theme="dark" color="primary" height="64">
+        <v-tooltip location="bottom">
+          <template v-slot:activator="{ props }">
+            <v-btn
+              v-bind="props"
+              theme="dark"
+              icon
+              @click="$emit('close:dialog')"
+            >
+              <v-icon>fa:fas fa-times</v-icon>
             </v-btn>
           </template>
           <span>{{ $t("imageGallery.closeGallery") }}</span>
@@ -23,10 +28,15 @@
 
         <v-spacer></v-spacer>
 
-        <v-tooltip bottom>
-          <template v-slot:activator="{ on }">
-            <v-btn v-on="on" dark icon @click="showGallery = !showGallery">
-              <v-icon small>fas fa-th</v-icon>
+        <v-tooltip location="bottom">
+          <template v-slot:activator="{ props }">
+            <v-btn
+              v-bind="props"
+              theme="dark"
+              icon
+              @click="showGallery = !showGallery"
+            >
+              <v-icon size="small">fa:fas fa-th</v-icon>
             </v-btn>
           </template>
           <span>{{
@@ -34,10 +44,15 @@
           }}</span>
         </v-tooltip>
 
-        <v-tooltip bottom>
-          <template v-slot:activator="{ on }">
-            <v-btn v-on="on" dark icon @click="$emit('close:dialog')">
-              <v-icon>fas fa-times</v-icon>
+        <v-tooltip location="bottom">
+          <template v-slot:activator="{ props }">
+            <v-btn
+              v-bind="props"
+              theme="dark"
+              icon
+              @click="$emit('close:dialog')"
+            >
+              <v-icon>fa:fas fa-times</v-icon>
             </v-btn>
           </template>
           <span>{{ $t("imageGallery.closeGallery") }}</span>
@@ -45,48 +60,46 @@
       </v-toolbar>
 
       <v-row no-gutters>
-        <!-- IMAGE COL -->
         <v-col
           :cols="showGallery ? 8 : 12"
           :sm="showGallery ? 9 : 12"
           :xl="showGallery ? 10 : 12"
         >
           <div
-            class="
-              d-flex
-              flex-column flex-nowrap
-              fill-height
-              justify-space-between
-            "
+            class="d-flex flex-column flex-nowrap fill-height justify-space-between"
           >
-            <!-- CONTROL (absolute) -->
             <div
-              class="
-                d-flex
-                flex-row
-                justify-space-between
-                align-center
-                image-overflow--control
-              "
+              class="d-flex flex-row justify-space-between align-center image-overflow--control"
               :style="`height: calc(100vh - ${
                 decreaseImageContainerHeightBy - 32
               }px)`"
               :class="{
-                'image-control-66': showGallery && $vuetify.breakpoint.xsOnly,
-                'image-control-75': showGallery && $vuetify.breakpoint.smAndUp,
-                'image-control-83': showGallery && $vuetify.breakpoint.xlOnly,
+                'image-control-66': showGallery && $vuetify.display.xs,
+                'image-control-75': showGallery && $vuetify.display.smAndUp,
+                'image-control-83': showGallery && $vuetify.display.xl,
               }"
             >
-              <v-btn class="ma-3" color="primary" fab small @click="showPrev">
-                <v-icon>fas fa-angle-left</v-icon>
+              <v-btn
+                class="ma-3"
+                color="primary"
+                icon
+                size="small"
+                @click="showPrev"
+              >
+                <v-icon>fa:fas fa-angle-left</v-icon>
               </v-btn>
 
-              <v-btn class="ma-3" color="primary" fab small @click="showNext">
-                <v-icon>fas fa-angle-right</v-icon>
+              <v-btn
+                class="ma-3"
+                color="primary"
+                icon
+                size="small"
+                @click="showNext"
+              >
+                <v-icon>fa:fas fa-angle-right</v-icon>
               </v-btn>
             </div>
 
-            <!-- IMAGE -->
             <div class="pa-4">
               <image-wrapper
                 :style="`height: calc(100vh - ${decreaseImageContainerHeightBy}px)`"
@@ -96,10 +109,9 @@
               />
             </div>
 
-            <!-- IMAGE INFO -->
             <div class="image-info">
               <v-card-text
-                class="pa-6 font-weight-bold black--text"
+                class="pa-6 font-weight-bold text-black"
                 style="font-size: 1.125rem; line-height: 1.5"
               >
                 <div v-if="images[currentIndex].image_date">
@@ -111,12 +123,12 @@
                   {{ images[currentIndex].image_licence }}
                 </div>
                 <div>
-                  <router-link
+                  <NuxtLink
                     class="text-decoration-none"
                     :to="{
                       path: `specimen/${images[currentIndex].geocase_id}`,
                     }"
-                    >{{ $t("imageGallery.goToSpecimenView") }}</router-link
+                    >{{ $t("imageGallery.goToSpecimenView") }}</NuxtLink
                   >
                 </div>
                 <div v-if="images[currentIndex].originalImage">
@@ -125,8 +137,8 @@
                     target="UrlWindow"
                     class="link text-decoration-none"
                     >{{ $t("imageGallery.linkToImage") }}
-                    <v-icon color="primary" x-small
-                      >fas fa-external-link-alt</v-icon
+                    <v-icon color="primary" size="x-small"
+                      >fa:fas fa-external-link-alt</v-icon
                     >
                   </a>
                 </div>
@@ -135,9 +147,8 @@
           </div>
         </v-col>
 
-        <!-- IMAGE GALLERY COL -->
         <v-col
-          class="image-overflow--gallery white black--text pa-1"
+          class="image-overflow--gallery white text-black pa-1"
           v-if="showGallery"
           cols="4"
           sm="3"
@@ -154,11 +165,11 @@
             >
               <v-card
                 class="image-hover"
-                light
+                theme="light"
                 flat
-                tile
+                rounded="0"
                 @click="$emit('update:index', index)"
-                :style="`outline-color: ${$vuetify.theme.themes.light.primary}`"
+                :style="`outline-color: ${$vuetify.theme.themes.light.colors.primary}`"
                 :class="{ 'active-outline': currentIndex === index }"
               >
                 <image-wrapper
@@ -177,7 +188,7 @@
 </template>
 
 <script>
-import ImageWrapper from "@/components/image/ImageWrapper";
+import ImageWrapper from "@/components/image/ImageWrapper.vue";
 import { throttle } from "lodash";
 
 export default {
@@ -208,9 +219,9 @@ export default {
   data: () => ({
     showGallery: true,
     imageHeight: 400,
-    decreaseImageContainerHeightBy: 193, // Toolbar 64px + image-info 129px default
+    decreaseImageContainerHeightBy: 193,
   }),
-  beforeDestroy() {
+  beforeUnmount() {
     window.removeEventListener("keyup", this.handleKeyup);
     window.removeEventListener("resize", this.calculateImageHeight);
   },
@@ -252,7 +263,6 @@ export default {
       let imageInfoHeight =
         document.getElementsByClassName("image-info")?.[0]?.clientHeight;
 
-      // Defaults
       if (!imageInfoHeight) imageInfoHeight = 129;
 
       let imageHeight = innerHeight - toolbarHeight - imageInfoHeight;
@@ -293,12 +303,10 @@ export default {
 }
 
 .image-overflow--gallery {
-  /*box-shadow: -3px 0 1px -2px rgba(255, 255, 255, 0.2),*/
-  /*  -2px 0 2px 0 rgba(255, 255, 255, 0.14),*/
-  /*  -1px 0 5px 0 rgba(255, 255, 255, 0.12);*/
-  box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2), 0 4px 5px 0 rgba(0, 0, 0, 0.14),
+  box-shadow:
+    0 2px 4px -1px rgba(0, 0, 0, 0.2),
+    0 4px 5px 0 rgba(0, 0, 0, 0.14),
     0 1px 10px 0 rgba(0, 0, 0, 0.12);
-  /*box-shadow: 0 2px 4px -1px rgba(0,0,0,.2), 0 4px 5px 0 rgba(0,0,0,.14), 0 1px 10px 0 rgba(0,0,0,.12);*/
 }
 
 .active-outline {
@@ -306,7 +314,9 @@ export default {
 }
 
 .image-info {
-  box-shadow: 0 1px 4px -1px rgba(0, 0, 0, 0.2),
-    0 -1px 5px 0 rgba(0, 0, 0, 0.14), 0 2px 10px 0 rgba(0, 0, 0, 0.12) !important;
+  box-shadow:
+    0 1px 4px -1px rgba(0, 0, 0, 0.2),
+    0 -1px 5px 0 rgba(0, 0, 0, 0.14),
+    0 2px 10px 0 rgba(0, 0, 0, 0.12) !important;
 }
 </style>

@@ -15,13 +15,18 @@
         md="3"
         lg="2"
       >
-        <v-tooltip bottom color="secondary" z-index="51000" max-width="250">
-          <template v-slot:activator="{ on }">
+        <v-tooltip
+          location="bottom"
+          color="secondary"
+          z-index="51000"
+          max-width="250"
+        >
+          <template v-slot:activator="{ props }">
             <v-card
               flat
               class="d-flex image-hover"
               color="transparent"
-              v-on="on"
+              v-bind="props"
               hover
               @click="openDialog(index)"
             >
@@ -34,8 +39,8 @@
               <v-row align="center" v-else>
                 <v-col class="text-center">
                   <div class="py-3">
-                    <v-icon style="font-size: 6rem" class="grey--text"
-                      >far fa-image</v-icon
+                    <v-icon style="font-size: 6rem" class="text-grey"
+                      >fa:far fa-image</v-icon
                     >
                   </div>
                 </v-col>
@@ -92,9 +97,9 @@
       <v-col cols="12" style="max-width: 500px">
         <v-alert
           class="mb-0"
-          text
-          border="left"
-          icon="fas fa-search"
+          variant="tonal"
+          border="start"
+          icon="fa:fas fa-search"
           color="secondary"
         >
           <div>
@@ -104,7 +109,7 @@
           <div v-if="!search.has_image.value">
             {{ $t("search.imageNoResultsFilterInfo") }}
             <v-btn
-              x-small
+              size="x-small"
               color="secondary"
               @click="updateSearchField({ id: 'has_image', value: 'true' })"
             >
@@ -118,10 +123,13 @@
 </template>
 
 <script>
+import { useSearchStore } from "@/stores/search";
+import { useSettingsStore } from "@/stores/settings";
+
 import helperMixin from "@/mixins/helperMixin";
-import ImageWrapper from "@/components/image/ImageWrapper";
+import ImageWrapper from "@/components/image/ImageWrapper.vue";
 import ImageOverflow from "../image/ImageOverflow";
-import { mapActions, mapState } from "vuex";
+import { mapActions, mapState } from "pinia";
 
 export default {
   name: "TabImages",
@@ -145,12 +153,12 @@ export default {
   }),
 
   computed: {
-    ...mapState("search", ["search", "isLoading"]),
-    ...mapState("settings", ["searchDrawer"]),
+    ...mapState(useSearchStore, ["search", "isLoading"]),
+    ...mapState(useSettingsStore, ["searchDrawer"]),
   },
 
   methods: {
-    ...mapActions("search", ["updateSearchField"]),
+    ...mapActions(useSearchStore, ["updateSearchField"]),
 
     openDialog(imageIndex) {
       this.dialog = true;
@@ -160,7 +168,7 @@ export default {
     openDialogUsingImage(image) {
       this.dialog = true;
       let index = this.searchResultImages.findIndex(
-        (item) => item.originalImage === image
+        (item) => item.originalImage === image,
       );
       this.currentIndex = index ? index : 0;
     },

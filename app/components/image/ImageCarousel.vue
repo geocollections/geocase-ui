@@ -1,37 +1,42 @@
 <template>
   <v-card class="mb-6">
     <v-carousel
-      height="unset"
-      prev-icon="fas fa-angle-left"
-      next-icon="fas fa-angle-right"
-      delimiter-icon="fas fa-minus"
+      height="500"
+      prev-icon="fa:fas fa-angle-left"
+      next-icon="fa:fas fa-angle-right"
+      delimiter-icon="fa:fas fa-minus"
       :cycle="cycleImages"
       interval="3000"
-      @change="activeImage"
+      @update:model-value="activeImage"
       :hide-delimiters="images.length < 2"
       :show-arrows="images.length > 1"
     >
       <v-carousel-item
         class="pa-2"
-        :href="entity.originalImage"
-        target="UrlWindow"
         v-for="(entity, index) in images"
         :key="index"
+        :value="index"
       >
-        <image-wrapper
-          class="mx-auto"
-          :image-src="entity.thumbnailImage"
-          :max-height="calculateImageMaxHeight(entity.imageHeight)"
-          :value="carouselItem"
-          :alt-text="entity.altText"
-        />
+        <a
+          :href="entity.originalImage"
+          target="UrlWindow"
+          :aria-label="entity.altText"
+        >
+          <image-wrapper
+            class="mx-auto"
+            :image-src="entity.thumbnailImage"
+            :max-height="calculateImageMaxHeight(entity.imageHeight)"
+            :value="carouselItem"
+            :alt-text="entity.altText"
+          />
+        </a>
       </v-carousel-item>
     </v-carousel>
 
     <v-card flat>
       <v-list class="py-0" :three-line="!!(date || licence)">
         <v-list-item>
-          <v-list-item-content>
+          <div>
             <v-list-item-subtitle v-if="date"
               >{{ $t("imageGallery.date") }}: {{ date }}</v-list-item-subtitle
             >
@@ -45,12 +50,12 @@
                 target="UrlWindow"
                 class="link text-decoration-none"
                 >{{ $t("imageGallery.linkToImage") }}
-                <v-icon color="primary" x-small
-                  >fas fa-external-link-alt</v-icon
+                <v-icon color="primary" size="x-small"
+                  >fa:fas fa-external-link-alt</v-icon
                 >
               </a></v-list-item-subtitle
             >
-          </v-list-item-content>
+          </div>
 
           <v-list-item-action
             class="align-self-center"
@@ -70,7 +75,7 @@
 </template>
 
 <script>
-import ImageWrapper from "@/components/image/ImageWrapper";
+import ImageWrapper from "@/components/image/ImageWrapper.vue";
 export default {
   name: "ImageCarousel",
   components: { ImageWrapper },
@@ -92,14 +97,14 @@ export default {
 
   methods: {
     activeImage(index) {
-      this.url = this.images[index].extractedImage;
+      if (!this.images[index]) return;
+      this.url = this.images[index].originalImage;
       this.licence = this.images[index].image_licence;
       this.date = this.images[index].image_date;
       this.licence = this.images[index].image_licence;
     },
 
     calculateImageMaxHeight(imageHeight) {
-      // return this.imageMaxHeight;
       if (imageHeight && imageHeight < this.imageMaxHeight)
         return imageHeight.toString();
       else return this.imageMaxHeight;
