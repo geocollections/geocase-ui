@@ -1,9 +1,7 @@
 <template>
-  <v-img
-    :alt="$t('header.landingPageAltText')"
+  <section
     class="landing-image"
-    :src="landingImage"
-    style="height: 37vh"
+    :style="{ backgroundImage: `url(${landingImage})` }"
   >
     <v-row class="fill-height" align="center" justify="center">
       <v-col class="text-center" cols="12">
@@ -11,7 +9,7 @@
           GeoCASe 2.0
           <div
             class="hidden-sm-and-down"
-            :class="$vuetify.breakpoint.xlOnly ? 'mt-8' : 'mt-4'"
+            :class="$vuetify.display.xl ? 'mt-8' : 'mt-4'"
             :style="titleStyleObject"
           >
             {{ $t("frontPage.title") }}
@@ -21,11 +19,11 @@
         <FastSearch />
       </v-col>
     </v-row>
-  </v-img>
+  </section>
 </template>
 
 <script>
-import FastSearch from "@/components/search/FastSearch";
+import FastSearch from "@/components/search/FastSearch.vue";
 
 export default {
   name: "LandingImage",
@@ -33,7 +31,7 @@ export default {
   computed: {
     titleStyleObject() {
       return {
-        fontSize: this.$vuetify.breakpoint.xlOnly ? "4rem" : "3.125rem",
+        fontSize: this.$vuetify.display.xl ? "4rem" : "3.125rem",
       };
     },
 
@@ -46,12 +44,19 @@ export default {
 
 <style scoped>
 .landing-image {
+  background-size: cover;
+  background-position: center;
+  min-height: 37vh;
   /*margin-top: 64px;*/
-  padding-top: 64px;
+  padding: 32px 0;
   min-height: 275px;
-  -webkit-box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2),
-    0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
-  box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14),
+  -webkit-box-shadow:
+    0 3px 1px -2px rgba(0, 0, 0, 0.2),
+    0 2px 2px 0 rgba(0, 0, 0, 0.14),
+    0 1px 5px 0 rgba(0, 0, 0, 0.12);
+  box-shadow:
+    0 3px 1px -2px rgba(0, 0, 0, 0.2),
+    0 2px 2px 0 rgba(0, 0, 0, 0.14),
     0 1px 5px 0 rgba(0, 0, 0, 0.12);
 }
 

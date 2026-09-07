@@ -1,24 +1,18 @@
 <template>
-  <v-footer
-    class="footer"
-    absolute
-    app
-    dark
-    :style="`padding-left: ${$vuetify.application.left}px;`"
-  >
-    <v-card flat tile width="100%" class="transparent">
-      <v-card-text class="pt-1 px-1 pb-0 text-center white--text">
+  <v-footer class="footer" theme="dark">
+    <v-card flat rounded="0" width="100%" class="transparent">
+      <v-card-text class="pt-1 px-1 pb-0 text-center text-white">
         {{ new Date().getFullYear() }} |
         <strong>{{ $t("footer.title") }}</strong>
       </v-card-text>
 
-      <v-card-text class="pt-0 px-1 pb-0 text-center white--text">
+      <v-card-text class="pt-0 px-1 pb-0 text-center text-white">
         <span v-html="$t('footer.collab_html')" />
         <br />
         {{ $t("footer.dataBy") }}
-        <router-link to="/partners_and_providers">{{
+        <NuxtLink to="/partners_and_providers">{{
           $t("footer.partnerInstitutions")
-        }}</router-link>
+        }}</NuxtLink>
         |
         <span v-html="$t('footer.created_html')" />
         <br />
@@ -34,6 +28,7 @@
               :alt="$t(item.alt)"
               :src="item.src"
               height="90"
+              width="175"
               max-width="175"
               contain
             ></v-img>
@@ -76,9 +71,13 @@ export default {
 
 <style scoped>
 .footer {
-  -webkit-box-shadow: 0 -2px 4px -1px rgba(0, 0, 0, 0.2),
-    0 -4px 5px 0 rgba(0, 0, 0, 0.14), 0 -1px 10px 0 rgba(0, 0, 0, 0.12) !important;
-  box-shadow: 0 -2px 4px -1px rgba(0, 0, 0, 0.2),
-    0 -4px 5px 0 rgba(0, 0, 0, 0.14), 0 -1px 10px 0 rgba(0, 0, 0, 0.12) !important;
+  -webkit-box-shadow:
+    0 -2px 4px -1px rgba(0, 0, 0, 0.2),
+    0 -4px 5px 0 rgba(0, 0, 0, 0.14),
+    0 -1px 10px 0 rgba(0, 0, 0, 0.12) !important;
+  box-shadow:
+    0 -2px 4px -1px rgba(0, 0, 0, 0.2),
+    0 -4px 5px 0 rgba(0, 0, 0, 0.14),
+    0 -1px 10px 0 rgba(0, 0, 0, 0.12) !important;
 }
 </style>

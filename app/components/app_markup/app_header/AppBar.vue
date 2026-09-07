@@ -1,0 +1,286 @@
+<template>
+  <v-app-bar
+    theme="dark"
+    app
+    clipped-left
+    height="64"
+    style="z-index: 2020"
+    elevation="12"
+    class="app-bar-primary"
+    :class="{
+      'app-bar-fossil': appBarFossil,
+      'app-bar-mineral': appBarMineral,
+      'app-bar-rock': appBarRock,
+      'app-bar-meteorite': appBarMeteorite,
+    }"
+  >
+    <v-tooltip location="bottom" z-index="3000">
+      <template v-slot:activator="{ props }">
+        <v-btn
+          v-bind="props"
+          v-show="$route.name === 'Search'"
+          @click.stop="$emit('toggle:searchDrawer')"
+          aria-label="Toggle navigation drawer"
+          class="mr-2"
+          icon
+        >
+          <v-icon>fa:fas fa-sliders-h</v-icon>
+        </v-btn>
+      </template>
+      <span>{{ $t("header.showSearch") }}</span>
+    </v-tooltip>
+
+    <v-toolbar-items>
+      <v-tooltip location="bottom" z-index="3000">
+        <template v-slot:activator="{ props }">
+          <v-toolbar-title
+            v-bind="props"
+            class="font-weight-bold link mr-3 text-white align-self-center"
+            style="letter-spacing: 1px"
+          >
+            <NuxtLink to="/" class="text-white text-decoration-none">
+              <span
+                class="hidden-xs-only"
+                :class="{ 'small-font': $vuetify.display.sm }"
+                >GeoCASe
+                <span v-if="!isProductionUrl">DEV</span>
+              </span>
+              <span class="hidden-sm-and-up">
+                <v-icon>fa:fas fa-home</v-icon>
+              </span>
+            </NuxtLink>
+          </v-toolbar-title>
+        </template>
+        <span>{{ $t("header.titleTooltip") }}</span>
+      </v-tooltip>
+
+      <v-btn class="hidden-xs-only" variant="text" to="/search">{{
+        $t("header.search")
+      }}</v-btn>
+      <v-btn class="hidden-md-and-down" variant="text" to="/about">{{
+        $t("header.about")
+      }}</v-btn>
+      <v-btn class="hidden-md-and-down" variant="text" to="/access">{{
+        $t("header.access")
+      }}</v-btn>
+      <v-btn
+        class="hidden-md-and-down"
+        variant="text"
+        to="/partners_and_providers"
+        exact
+        >{{ $t("header.partners") }}</v-btn
+      >
+      <v-btn class="hidden-xs-only" variant="text" to="/help">{{
+        $t("header.help")
+      }}</v-btn>
+    </v-toolbar-items>
+
+    <v-spacer />
+
+    <fast-search
+      style="max-width: 300px"
+      v-show="
+        $route.name !== 'FrontPage' &&
+        $route.name !== 'Search' &&
+        $vuetify.display.mdAndUp
+      "
+      in-app-header
+    />
+
+    <v-toolbar-items>
+      <LangButtons />
+
+      <v-menu
+        transition="slide-y-transition"
+        v-model="externalResourcesDropdown"
+        offset="8"
+        z-index="2101"
+      >
+        <template v-slot:activator="{ props }">
+          <v-btn variant="text" v-bind="props">
+            {{ $t("header.resources") }}
+            <v-icon end>{{
+              externalResourcesDropdown
+                ? "fa:fas fa-caret-up"
+                : "fa:fas fa-caret-down"
+            }}</v-icon>
+          </v-btn>
+        </template>
+
+        <v-list color="primary" theme="dark" density="compact">
+          <v-list-item
+            v-for="item in externalResources"
+            :key="item.text"
+            :href="item.url"
+            target="ExternalResourceskWindow"
+          >
+            <div>
+              <v-icon>{{ item.icon }}</v-icon>
+              <v-icon>{{ item.icon }}</v-icon>
+            </div>
+            <v-list-item-title>{{ item.text }}</v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
+    </v-toolbar-items>
+
+    <v-tooltip location="bottom">
+      <template v-slot:activator="{ props }">
+        <v-app-bar-nav-icon
+          v-bind="props"
+          @click.stop="$emit('toggle:navigationDrawer')"
+          aria-label="Open navigation drawer"
+        />
+      </template>
+      <span>{{ $t("header.showMenu") }}</span>
+    </v-tooltip>
+  </v-app-bar>
+</template>
+
+<script>
+import { useDetailStore } from "@/stores/detail";
+import { useSettingsStore } from "@/stores/settings";
+
+import { mapState } from "pinia";
+import FastSearch from "@/components/search/FastSearch.vue";
+import LangButtons from "@/components/LangButtons.vue";
+export default {
+  name: "AppBar",
+
+  components: { LangButtons, FastSearch },
+
+  data: () => ({
+    externalResourcesDropdown: false,
+  }),
+
+  computed: {
+    ...mapState(useSettingsStore, ["externalResources"]),
+    ...mapState(useDetailStore, [
+      "item",
+      "isItemFossil",
+      "isItemMineral",
+      "isItemRock",
+      "isItemMeteorite",
+    ]),
+
+    appBarFossil() {
+      return this.$route.name === "Detail" && this.isItemFossil;
+    },
+
+    appBarMineral() {
+      return this.$route.name === "Detail" && this.isItemMineral;
+    },
+
+    appBarRock() {
+      return this.$route.name === "Detail" && this.isItemRock;
+    },
+
+    appBarMeteorite() {
+      return this.$route.name === "Detail" && this.isItemMeteorite;
+    },
+
+    isProductionUrl() {
+      return document.location.origin.includes("geocase.eu");
+    },
+  },
+
+  methods: {
+    goToFrontPage() {
+      if (window.location.pathname === "/") {
+        window.location.assign(window.location.origin);
+      } else this.$router.push({ path: "/" });
+    },
+  },
+};
+</script>
+
+<style scoped>
+.app-bar-primary {
+  background: linear-gradient(
+    320deg,
+    rgba(255, 160, 0, 0.9) 0%,
+    rgba(0, 0, 0, 0.9) 100%
+  ) !important;
+}
+
+/*.app-bar-primary:hover {*/
+/*  background: linear-gradient(*/
+/*    320deg,*/
+/*    rgba(255, 160, 0, 0.9) 0%,*/
+/*    rgba(0, 0, 0, 0.9) 100%*/
+/*  ) !important;*/
+/*}*/
+
+.app-bar-fossil {
+  background: linear-gradient(
+    320deg,
+    rgba(139, 195, 74, 0.9) 0%,
+    rgba(0, 0, 0, 0.9) 100%
+  ) !important;
+}
+
+/*.app-bar-fossil:hover {*/
+/*  background: linear-gradient(*/
+/*    320deg,*/
+/*    rgba(139, 195, 74, 0.9) 0%,*/
+/*    rgba(0, 0, 0, 0.9) 100%*/
+/*  ) !important;*/
+/*}*/
+
+.app-bar-mineral {
+  background: linear-gradient(
+    320deg,
+    rgba(233, 30, 99, 0.9) 0%,
+    rgba(0, 0, 0, 0.9) 100%
+  ) !important;
+}
+
+/*.app-bar-mineral:hover {*/
+/*  background: linear-gradient(*/
+/*    320deg,*/
+/*    rgba(233, 30, 99, 0.9) 0%,*/
+/*    rgba(0, 0, 0, 0.9) 100%*/
+/*  ) !important;*/
+/*}*/
+
+.app-bar-rock {
+  background: linear-gradient(
+    320deg,
+    rgba(3, 169, 244, 0.9) 0%,
+    rgba(0, 0, 0, 0.9) 100%
+  ) !important;
+}
+
+/*.app-bar-rock:hover {*/
+/*  background: linear-gradient(*/
+/*    320deg,*/
+/*    rgba(3, 169, 244, 0.9) 0%,*/
+/*    rgba(0, 0, 0, 0.9) 100%*/
+/*  ) !important;*/
+/*}*/
+
+.app-bar-meteorite {
+  background: linear-gradient(
+    320deg,
+    rgba(96, 125, 139, 0.9) 0%,
+    rgba(0, 0, 0, 0.9) 100%
+  ) !important;
+}
+
+/*.app-bar-meteorite:hover {*/
+/*  background: linear-gradient(*/
+/*    320deg,*/
+/*    rgba(96, 125, 139, 0.9) 0%,*/
+/*    rgba(0, 0, 0, 0.9) 100%*/
+/*  ) !important;*/
+/*}*/
+
+.link:hover {
+  cursor: pointer;
+  opacity: 0.7;
+}
+
+.small-font {
+  font-size: 0.9em;
+}
+</style>
