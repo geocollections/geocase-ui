@@ -1,51 +1,40 @@
 <template>
   <div
-    class="
-      pa-2
-      d-flex
-      flex-column flex-lg-row flex-nowrap
-      justify-space-between
-      align-center
-      pagination
-    "
+    class="pa-2 d-flex flex-column flex-lg-row flex-nowrap justify-space-between align-center pagination"
     v-if="numberOfResults >= 0"
   >
     <div>
       <SelectWrapper
-        :value="paginateBy"
+        :model-value="paginateBy"
         :items="paginateByItems"
-        @change="$emit('update:paginateBy', $event)"
+        @update:model-value="$emit('update:paginateBy', $event)"
         is-pagination
       />
     </div>
 
     <div>
       <v-pagination
-        :value="page"
+        :model-value="page"
         :class="{
-          'justify-end font-small': $vuetify.breakpoint.smAndUp,
-          'font-smaller': $vuetify.breakpoint.xsOnly,
+          'justify-end font-small': $vuetify.display.smAndUp,
+          'font-smaller': $vuetify.display.xs,
         }"
         style="font-size: 0.75rem"
         circle
-        prev-icon="fas fa-angle-left"
-        next-icon="fas fa-angle-right"
+        prev-icon="fa:fas fa-angle-left"
+        next-icon="fa:fas fa-angle-right"
         :length="Math.ceil(numberOfResults / paginateBy)"
         :total-visible="
-          $vuetify.breakpoint.smAndDown
-            ? $vuetify.breakpoint.xsOnly
-              ? 4
-              : 5
-            : 7
+          $vuetify.display.smAndDown ? ($vuetify.display.xs ? 4 : 5) : 7
         "
-        @input="$emit('update:page', $event)"
+        @update:model-value="$emit('update:page', $event)"
       />
     </div>
   </div>
 </template>
 
 <script>
-import SelectWrapper from "@/components/input_wrappers/SelectWrapper";
+import SelectWrapper from "@/components/input_wrappers/SelectWrapper.vue";
 
 export default {
   name: "Pagination",
@@ -79,11 +68,11 @@ export default {
 </script>
 
 <style scoped>
-.font-small >>> .v-pagination__item {
+.font-small :deep(.v-pagination__item) {
   font-size: 0.875rem;
 }
 
-.font-smaller >>> .v-pagination__item {
+.font-smaller :deep(.v-pagination__item) {
   font-size: 0.75rem;
 }
 </style>

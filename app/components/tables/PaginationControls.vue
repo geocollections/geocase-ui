@@ -2,7 +2,7 @@
   <div class="align-center justify-space-around fill-height d-flex mr-sm-3">
     <div class="d-flex align-center ml-sm-auto mr-sm-7" style="flex: 0 0 0">
       <div
-        v-show="$vuetify.breakpoint.smAndUp"
+        v-show="$vuetify.display.smAndUp"
         class="mr-3 text-no-wrap text-caption"
       >
         {{ itemsPerPageText }}
@@ -10,12 +10,12 @@
       <v-select
         class="mt-0 text-caption"
         style="max-width: 100px"
-        dense
+        density="compact"
         hide-details
         :items="itemsPerPageOptions"
-        :value="options.itemsPerPage"
+        :model-value="options.itemsPerPage"
         :menu-props="{ bottom: true, offsetY: true }"
-        @change="changeRowsPerPage"
+        @update:model-value="changeRowsPerPage"
       />
     </div>
     <div class="justify-end my-1 d-flex align-center">
@@ -25,15 +25,13 @@
       <v-btn :disabled="options.page === 1" icon @click="previous">
         <v-icon>mdi-chevron-left</v-icon>
       </v-btn>
-      <!-- NOTE: Template activator based menu is not visible on page load. For more info look at note in HeaderControls.vue -->
-      <v-menu offset-y :close-on-content-click="false">
-        <template #activator="{ on, attrs }">
+      <v-menu offset="8" :close-on-content-click="false">
+        <template #activator="{ props }">
           <v-btn
-            v-bind="attrs"
-            small
-            text
+            v-bind="props"
+            size="small"
+            variant="text"
             class="text-no-wrap text-caption"
-            v-on="on"
           >
             {{ pageSelectText }}
           </v-btn>
@@ -44,23 +42,23 @@
             ref="go-to-field"
             class="mt-0 text-caption"
             style="width: 64px"
-            dense
+            density="compact"
             hide-details
-            :value="goToValue"
+            :model-value="goToValue"
             type="number"
             :rules="[pageLimitRule]"
             @keyup.enter="selectPage"
-            @input="setGoToValue"
+            @update:model-value="setGoToValue"
           >
           </v-text-field>
           <v-btn
             :disabled="!pageLimitRule(goToValue)"
             class="px-2 ml-2"
-            small
-            text
+            size="small"
+            variant="text"
             @click="selectPage"
           >
-            {{ goToButtonText }} <v-icon small>mdi-chevron-right</v-icon>
+            {{ goToButtonText }} <v-icon size="small">mdi-chevron-right</v-icon>
           </v-btn>
         </v-card>
       </v-menu>
@@ -83,7 +81,7 @@
 </template>
 <script>
 export default {
-  name: 'PaginationControls',
+  name: "PaginationControls",
   props: {
     options: {
       type: Object,
@@ -97,7 +95,7 @@ export default {
           groupDesc: [],
           multiSort: false,
           mustSort: false,
-        }
+        };
       },
     },
     pagination: {
@@ -110,7 +108,7 @@ export default {
           pageCount: 1,
           pageStart: 0,
           pageStop: 0,
-        }
+        };
       },
     },
     itemsPerPageOptions: {
@@ -119,7 +117,7 @@ export default {
     },
     itemsPerPageText: {
       type: String,
-      default: 'Rows per page',
+      default: "Rows per page",
     },
     pageSelectText: {
       type: String,
@@ -127,93 +125,90 @@ export default {
     },
     goToText: {
       type: String,
-      default: 'Go to page',
+      default: "Go to page",
     },
     goToButtonText: {
       type: String,
-      default: 'Go',
+      default: "Go",
     },
     selectPageId: {
       type: String,
-      default: 'page-select-btn',
+      default: "page-select-btn",
     },
   },
   data() {
     return {
       goToValue: NaN,
-    }
+    };
   },
   computed: {
     pages() {
-      return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+      return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
     },
   },
   methods: {
     setGoToValue(e) {
-      if (isNaN(e)) this.goToValue = e
-      else this.goToValue = parseInt(e)
+      if (isNaN(e)) this.goToValue = e;
+      else this.goToValue = parseInt(e);
     },
     selectPage() {
-      if (this.$refs['go-to-field'].validate(true)) {
-        this.$emit('update:options', {
+      if (this.pageLimitRule(this.goToValue)) {
+        this.$emit("update:options", {
           ...this.options,
           page: this.goToValue,
-        })
-        this.goToValue = NaN
+        });
+        this.goToValue = NaN;
       }
     },
     next() {
-      this.$emit('update:options', {
+      this.$emit("update:options", {
         ...this.options,
         page: this.options.page + 1,
-      })
+      });
     },
     previous() {
-      this.$emit('update:options', {
+      this.$emit("update:options", {
         ...this.options,
         page: this.options.page - 1,
-      })
+      });
     },
     first() {
-      this.$emit('update:options', {
+      this.$emit("update:options", {
         ...this.options,
         page: 1,
-      })
+      });
     },
     last() {
-      this.$emit('update:options', {
+      this.$emit("update:options", {
         ...this.options,
         page: this.pagination.pageCount,
-      })
+      });
     },
     changeRowsPerPage(e) {
-      this.$emit('update:options', {
+      this.$emit("update:options", {
         ...this.options,
         itemsPerPage: e,
         page: 1,
-      })
+      });
     },
     pageLimitRule(value) {
-      if (isNaN(value)) return false
-      if (parseInt(value) < 1) return false
-      if (parseInt(value) > this.pagination.pageCount) return false
-      return true
+      if (isNaN(value)) return false;
+      if (parseInt(value) < 1) return false;
+      if (parseInt(value) > this.pagination.pageCount) return false;
+      return true;
     },
   },
-}
+};
 </script>
 
-<style lang="scss" scoped>
-// Removes arrows from number input
-/* Chrome, Safari, Edge, Opera */
-::v-deep input::-webkit-outer-spin-button,
-::v-deep input::-webkit-inner-spin-button {
+<style scoped>
+:deep(input::-webkit-outer-spin-button),
+:deep(input::-webkit-inner-spin-button) {
   -webkit-appearance: none;
   margin: 0;
 }
 
-/* Firefox */
-::v-deep input[type='number'] {
+:deep(input[type="number"]) {
   -moz-appearance: textfield;
 }
 </style>

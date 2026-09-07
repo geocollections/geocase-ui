@@ -1,15 +1,14 @@
 <template>
-  <v-menu transition="slide-y-transition" offset-y bottom right>
+  <v-menu transition="slide-y-transition" offset="8" location="bottom end">
     <template #activator="menu">
-      <v-tooltip bottom open-delay="500" z-index="5000">
+      <v-tooltip location="bottom" open-delay="500" z-index="5000">
         <template #activator="tooltip">
           <v-btn
             color="primary"
             aria-label="export table"
             class="montserrat"
-            v-bind="{ ...menu.attrs, ...tooltip.attrs }"
+            v-bind="mergeProps(menu.props, tooltip.props)"
             icon
-            v-on="{ ...menu.on, ...tooltip.on }"
           >
             <v-icon>mdi-file-export-outline</v-icon>
           </v-btn>
@@ -34,11 +33,13 @@
 </template>
 
 <script>
+import { mergeProps } from "vue";
 import exportMixin from "@/mixins/exportMixin";
 import toastMixin from "@/mixins/toastMixin";
 
 export default {
   name: "ExportControls",
+  methods: { mergeProps },
   mixins: [exportMixin, toastMixin],
 };
 </script>

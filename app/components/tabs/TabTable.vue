@@ -1,23 +1,21 @@
 <template>
   <v-card flat>
-    <v-data-table
+    <v-data-table-server
       :fixed-header="isTableHeaderFixed"
       :height="isTableHeaderFixed ? tableHeight : '100%'"
       class="table"
       id="table"
       mobile-breakpoint="0"
-      dense
+      density="compact"
       hide-default-footer
       :headers="getAllShownTableHeaders"
       :items="responseResults"
       :items-per-page="paginateBy"
       multi-sort
       :page="page"
-      :sort-by="sortBy"
-      :sort-desc="sortDesc"
-      @update:sort-by="$emit('sortBy:changed', $event)"
-      @update:sort-desc="$emit('sortDesc:changed', $event)"
-      :server-items-length="responseResultsCount"
+      :sort-by="tableSort"
+      @update:sort-by="updateTableSort"
+      :items-length="responseResultsCount"
       :loading="isLoading"
       @update:options="updateTableOptions"
     >
@@ -26,9 +24,9 @@
           <v-col cols="12" style="max-width: 500px">
             <v-alert
               class="mb-0"
-              text
-              border="left"
-              icon="fas fa-search"
+              variant="tonal"
+              border="start"
+              icon="fa:fas fa-search"
               color="secondary"
             >
               <div>
@@ -36,9 +34,9 @@
               </div>
 
               <div>
-                <v-btn x-small color="error" @click="resetSearch">
+                <v-btn size="x-small" color="error" @click="resetSearch">
                   {{ $t("search.drawer.resetSearch") }}
-                  <v-icon x-small right>far fa-trash-alt</v-icon>
+                  <v-icon size="x-small" end>fa:far fa-trash-alt</v-icon>
                 </v-btn>
               </div>
             </v-alert>
@@ -46,7 +44,7 @@
         </v-row>
       </template>
 
-      <template #top="{ pagination, updateOptions, options }">
+      <template #top>
         <div class="table-top">
           <v-row no-gutters>
             <v-col
@@ -59,7 +57,7 @@
               <header-controls
                 :headers="translatedTableHeaders"
                 :visible-headers="getAllShownTableHeaders"
-                :sort-by="options.sortBy"
+                :sort-by="sortBy"
                 :is-table-header-fixed="isTableHeaderFixed"
                 @change="handleHeadersChange"
                 @reset="resetTableHeaders"
@@ -68,38 +66,38 @@
             </v-col>
             <v-col>
               <pagination-controls
-                :options="options"
-                :pagination="pagination"
+                :options="tableOptions"
+                :pagination="tablePagination"
                 :items-per-page-options="footerProps['items-per-page-options']"
                 :items-per-page-text="footerProps['items-per-page-text']"
                 :page-select-text="
                   $t('search.table.pageSelect', {
-                    current: options.page,
-                    count: pagination.pageCount,
+                    current: page,
+                    count: tablePagination.pageCount,
                   })
                 "
                 :go-to-text="$t('search.table.goTo')"
                 :go-to-button-text="$t('search.table.goToBtn')"
                 select-page-id="header-select-btn"
-                @update:options="updateOptions"
+                @update:options="updateTableOptions"
               />
             </v-col>
           </v-row>
         </div>
       </template>
 
-      <template #footer="{ props }">
+      <template #bottom>
         <div class="table-footer">
           <pagination-controls
             class="py-3"
-            :options="props.options"
-            :pagination="props.pagination"
+            :options="tableOptions"
+            :pagination="tablePagination"
             :items-per-page-options="footerProps['items-per-page-options']"
             :items-per-page-text="footerProps['items-per-page-text']"
             :page-select-text="
               $t('search.table.pageSelect', {
-                current: props.options.page,
-                count: props.pagination.pageCount,
+                current: page,
+                count: tablePagination.pageCount,
               })
             "
             :go-to-text="$t('search.table.goTo')"
@@ -111,41 +109,47 @@
       </template>
 
       <template v-slot:item.icon="{ item }">
-        <router-link
+        <NuxtLink
           class="icon-link"
           style="text-decoration: unset"
           :to="{ path: `specimen/${encodeURIComponent(item.geocase_id)}` }"
           :title="$t('search.goToDetailView')"
         >
-          <v-icon small color="primary" v-if="getItemType(item) === 'fossil'"
-            >fas fa-fish</v-icon
+          <v-icon
+            size="small"
+            color="primary"
+            v-if="getItemType(item) === 'fossil'"
+            >fa:fas fa-fish</v-icon
           >
           <v-icon
-            small
+            size="small"
             color="primary"
             v-else-if="getItemType(item) === 'mineral'"
-            >far fa-gem</v-icon
-          >
-          <v-icon small color="primary" v-else-if="getItemType(item) === 'rock'"
-            >fas fa-mountain</v-icon
+            >fa:far fa-gem</v-icon
           >
           <v-icon
-            small
+            size="small"
+            color="primary"
+            v-else-if="getItemType(item) === 'rock'"
+            >fa:fas fa-mountain</v-icon
+          >
+          <v-icon
+            size="small"
             color="primary"
             v-else-if="getItemType(item) === 'meteorite'"
-            >fas fa-meteor</v-icon
+            >fa:fas fa-meteor</v-icon
           >
-        </router-link>
+        </NuxtLink>
       </template>
 
       <template v-slot:item.unitid="{ item }">
-        <router-link
+        <NuxtLink
           style="text-decoration: unset"
           :to="{ path: `specimen/${encodeURIComponent(item.geocase_id)}` }"
           :title="$t('search.goToDetailView')"
         >
           {{ item.unitid }}
-        </router-link>
+        </NuxtLink>
       </template>
 
       <template v-slot:item.fullscientificname="{ item }">
@@ -156,8 +160,8 @@
             :title="$t('search.mindatLink')"
             @click="openUrlInNewWindow(item.mindat_url)"
             >{{ item.fullscientificname }}
-            <v-icon small color="primary"
-              >fas fa-external-link-square-alt</v-icon
+            <v-icon size="small" color="primary"
+              >fa:fas fa-external-link-square-alt</v-icon
             >
           </a>
         </div>
@@ -168,12 +172,12 @@
             :title="$t('search.mindatLink')"
             @click="
               openUrlInNewWindow(
-                `https://www.lpi.usra.edu/meteor/metbull.php?code=${item.meteorite_id}`
+                `https://www.lpi.usra.edu/meteor/metbull.php?code=${item.meteorite_id}`,
               )
             "
             >{{ item.fullscientificname }}
-            <v-icon small color="primary"
-              >fas fa-external-link-square-alt</v-icon
+            <v-icon size="small" color="primary"
+              >fa:fas fa-external-link-square-alt</v-icon
             >
           </a>
         </div>
@@ -188,9 +192,9 @@
           :href="item.recordURI"
           target="RecordWindow"
           color="primary"
-          small
+          size="small"
         >
-          <v-icon small>fas fa-external-link-alt</v-icon>
+          <v-icon size="small">fa:fas fa-external-link-alt</v-icon>
         </v-btn>
       </template>
 
@@ -216,23 +220,25 @@
           v-if="item.has_image"
           icon
           :title="$t('search.openGallery')"
-          small
+          size="small"
           color="primary"
           @click="$emit('open:gallery', item.images[0])"
         >
-          <v-icon small>far fa-image</v-icon>
+          <v-icon size="small">fa:far fa-image</v-icon>
         </v-btn>
       </template>
-    </v-data-table>
+    </v-data-table-server>
   </v-card>
 </template>
 
 <script>
+import { useSearchStore } from "@/stores/search";
+
 import { throttle } from "lodash";
-import { mapActions, mapGetters, mapState } from "vuex";
-import HeaderControls from "@/components/tables/HeaderControls";
-import PaginationControls from "@/components/tables/PaginationControls";
-import ExportControls from "@/components/tables/ExportControls";
+import { mapActions, mapState } from "pinia";
+import HeaderControls from "@/components/tables/HeaderControls.vue";
+import PaginationControls from "@/components/tables/PaginationControls.vue";
+import ExportControls from "@/components/tables/ExportControls.vue";
 
 export default {
   name: "TabTable",
@@ -277,13 +283,12 @@ export default {
       footerProps: {
         showFirstLastPage: true,
         "items-per-page-options": [10, 25, 50, 100, 250, 500, 1000],
-        // Todo: Translation is updated only on reload, fix that, add it to computed or sth
         "items-per-page-text": this.$t("frontPage.map.itemsPerPageText"),
       },
     };
   },
 
-  beforeDestroy() {
+  beforeUnmount() {
     window.removeEventListener("resize", this.calculateTableHeight);
   },
 
@@ -300,15 +305,49 @@ export default {
   },
 
   computed: {
-    ...mapState("search", ["isTableHeaderFixed"]),
-    ...mapGetters("search", [
+    tableSort() {
+      return this.sortBy.map((key, index) => ({
+        key,
+        order: this.sortDesc[index] ? "desc" : "asc",
+      }));
+    },
+    tableOptions() {
+      return { page: this.page, itemsPerPage: this.paginateBy };
+    },
+    tablePagination() {
+      return {
+        page: this.page,
+        itemsLength: this.responseResultsCount,
+        pageCount: Math.max(
+          1,
+          Math.ceil(this.responseResultsCount / this.paginateBy),
+        ),
+        pageStart: (this.page - 1) * this.paginateBy,
+        pageStop: Math.min(
+          this.page * this.paginateBy,
+          this.responseResultsCount,
+        ),
+      };
+    },
+    ...mapState(useSearchStore, ["isTableHeaderFixed"]),
+    ...mapState(useSearchStore, [
       "getAllShownTableHeaders",
       "translatedTableHeaders",
     ]),
   },
 
   methods: {
-    ...mapActions("search", [
+    updateTableSort(sort) {
+      this.$emit(
+        "sortBy:changed",
+        sort.map((item) => item.key),
+      );
+      this.$emit(
+        "sortDesc:changed",
+        sort.map((item) => item.order === "desc"),
+      );
+    },
+    ...mapActions(useSearchStore, [
       "resetSearch",
       "updateTableHeaders",
       "resetTableHeaders",
@@ -318,14 +357,8 @@ export default {
     calculateTableHeight: throttle(function () {
       let innerHeight = window?.innerHeight;
       let paddingTotal = 24;
-      let appTop =
-        this.$vuetify.application.top !== 0
-          ? this.$vuetify.application.top
-          : 64;
-      let appBottom =
-        this.$vuetify.application.footer !== 0
-          ? this.$vuetify.application.footer
-          : 192;
+      const appTop = 64;
+      const appBottom = 192;
       let recordsFoundHeight =
         document.getElementsByClassName("records-found")?.[0]?.clientHeight;
       let tabsHeight =
@@ -333,15 +366,13 @@ export default {
       let tableTop =
         document.getElementsByClassName("table-top")?.[0]?.clientHeight;
       let tableFooter =
-          document.getElementsByClassName("table-footer")?.[0]?.clientHeight;
+        document.getElementsByClassName("table-footer")?.[0]?.clientHeight;
 
-      // Defaults
       if (!recordsFoundHeight) recordsFoundHeight = 48;
       if (!tabsHeight) tabsHeight = 42;
       if (!tableTop) tableTop = 60;
       if (!tableFooter) tableFooter = 68;
-      if (this.$vuetify.breakpoint.mdAndUp) {
-        // 2 is for any rounding errors
+      if (this.$vuetify.display.mdAndUp) {
         let height =
           innerHeight -
           appTop -
@@ -362,11 +393,6 @@ export default {
       window.open(url, "MindatWindow", "width=800,height=750");
     },
 
-    /* Currently unused types aka unspecified
-     * OtherSpecimen
-     * Unspecified
-     * specimen
-     */
     getItemType(item) {
       let type = item.recordbasis;
       if (type === "Fossil") {
@@ -377,17 +403,17 @@ export default {
         return "rock";
       } else if (type === "Meteorite") {
         return "meteorite";
-      } else "none";
+      } else return "none";
     },
 
     handleHeadersChange(event) {
       let listOfAllShownTableHeaders = this.getAllShownTableHeaders.map(
-        (item) => item.value
+        (item) => item.value,
       );
 
       if (listOfAllShownTableHeaders.includes(event.value))
         listOfAllShownTableHeaders = listOfAllShownTableHeaders.filter(
-          (item) => item !== event.value
+          (item) => item !== event.value,
         );
       else listOfAllShownTableHeaders.push(event.value);
 
@@ -416,27 +442,27 @@ export default {
   opacity: 0.7;
 }
 
-.table >>> tbody tr:nth-child(even) {
+.table :deep(tbody tr:nth-child(even)) {
   background-color: #eceff1;
 }
 
-.table >>> th.sortable {
+.table :deep(th.sortable) {
   white-space: nowrap;
 }
-.table >>> th.sortable > span:after {
+.table :deep(th.sortable > span:after) {
   content: "\00a0";
 }
 
-.table >>> tbody > tr > td:first-child {
+.table :deep(tbody > tr > td:first-child) {
   padding: 4px;
 }
 
-.table >>> tbody > tr > td:first-child,
-.table >>> thead > tr > th:first-child {
+.table :deep(tbody > tr > td:first-child),
+.table :deep(thead > tr > th:first-child) {
   padding: 0 8px;
 }
 
-.table >>> .sorting-disabled {
+.table :deep(.sorting-disabled) {
   background-color: #eceff1 !important;
 }
 </style>
