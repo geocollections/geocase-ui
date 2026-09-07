@@ -1,5 +1,5 @@
 <template>
-  <v-text-field v-bind="$attrs" v-on="$listeners" hide-details />
+  <v-text-field v-bind="$attrs" hide-details />
 </template>
 
 <script>

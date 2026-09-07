@@ -15,18 +15,17 @@
         :class="{ 'in-app-header': inAppHeader }"
         v-model="fastSearch"
         :label="$t('frontPage.quickSearch')"
-        :append-outer-icon="!inAppHeader ? 'far fa-question-circle' : ''"
-        @click:append-outer="handleHelpButtonClick"
-        append-icon="fas fa-search"
-        @click:append="doFastSearch"
-        @keyup.native="doFastSearch"
+        :append-icon="!inAppHeader ? 'fa:far fa-question-circle' : ''"
+        @click:append="handleHelpButtonClick"
+        append-inner-icon="fa:fas fa-search"
+        @click:append-inner="doFastSearch"
+        @keyup="doFastSearch"
         :autofocus="$route.name === 'FrontPage'"
-        light
-        clear-icon="fas fa-times"
+        theme="light"
+        clear-icon="fa:fas fa-times"
         :height="!inAppHeader ? '60' : ''"
         autocomplete="off"
-        :solo="!inAppHeader"
-        :solo-inverted="inAppHeader"
+        :variant="inAppHeader ? 'solo-filled' : 'solo'"
       />
     </v-col>
 
@@ -35,10 +34,12 @@
 </template>
 
 <script>
-import { mapActions, mapState } from "vuex";
+import { useSearchStore } from "@/stores/search";
+
+import { mapActions, mapState } from "pinia";
 import { debounce } from "lodash";
-import TextFieldWrapper from "@/components/input_wrappers/TextFieldWrapper";
-import HelpButton from "@/components/search/fast_search/HelpButton";
+import TextFieldWrapper from "@/components/input_wrappers/TextFieldWrapper.vue";
+import HelpButton from "@/components/search/fast_search/HelpButton.vue";
 import queryMixin from "@/mixins/queryMixin";
 export default {
   name: "FastSearch",
@@ -56,7 +57,7 @@ export default {
   }),
 
   computed: {
-    ...mapState("search", ["search"]),
+    ...mapState(useSearchStore, ["search"]),
 
     fastSearch: {
       get() {
@@ -65,17 +66,15 @@ export default {
 
       set: debounce(function (value) {
         this.updateSearchField({ id: "q", value: value });
-        // #113 removing sorting
         this.updateSortBy([]);
         this.updateSortDesc([]);
-        // #112
         if (this.search.page !== 1) this.updatePage(1);
       }, 250),
     },
   },
 
   methods: {
-    ...mapActions("search", [
+    ...mapActions(useSearchStore, [
       "updateSearchField",
       "updatePage",
       "updateSortBy",
@@ -116,34 +115,32 @@ export default {
   font-size: 1rem;
 }
 
-.fast-search-input >>> .v-input__icon--clear > .v-icon--link {
+.fast-search-input :deep(.v-input__icon--clear > .v-icon--link) {
   font-size: 1.75rem !important;
 }
 
-.fast-search-input >>> .v-input__append-outer {
+.fast-search-input :deep(.v-input__append) {
   margin-top: 4px !important;
   margin-left: 12px !important;
   align-self: center;
 }
 
-.fast-search-input >>> .v-input__icon--append-outer > .v-icon--link {
+.fast-search-input :deep(.v-input__icon--append > .v-icon--link) {
   color: white !important;
   text-shadow: 2px 2px 4px #000000;
-  /*font-size: 30px;*/
   font-size: 2rem;
 }
 
-.fast-search-input >>> .v-input__icon--append-outer > .v-icon--link:hover {
+.fast-search-input :deep(.v-input__icon--append > .v-icon--link:hover) {
   text-shadow: 1px 1px 2px #000000;
-  /*text-shadow: unset;*/
   opacity: 0.9;
 }
 
-.fast-search-input >>> .v-label {
+.fast-search-input :deep(.v-label) {
   font-size: 1.25rem;
 }
 
-.fast-search-input.in-app-header >>> .v-label {
+.fast-search-input.in-app-header :deep(.v-label) {
   font-size: 1rem;
 }
 </style>

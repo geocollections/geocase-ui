@@ -1,8 +1,8 @@
 <template>
   <v-navigation-drawer
     app
-    :value="drawer"
-    @input="$emit('update:drawer', $event)"
+    :model-value="drawer"
+    @update:model-value="$emit('update:drawer', $event)"
     :style="footerStyle"
     clipped
     fixed
@@ -10,12 +10,12 @@
     disable-route-watcher
     mobile-breakpoint="960"
     class="elevation-4"
-    color="blue-grey lighten-4"
+    color="blue-grey-lighten-4"
   >
-    <v-list expand>
+    <v-list v-model:opened="openedGroups">
       <!-- QUICK SEARCH -->
       <v-list-item>
-        <v-list-item-content>
+        <div>
           <v-list-item-title
             class="font-weight-bold text-center text-uppercase mb-2"
             style="font-size: 1.15rem"
@@ -24,29 +24,33 @@
 
           <TextFieldWrapper
             class="search-drawer-text-field"
-            :value="search.q.value"
-            @input="updateSearchFieldDebounced({ id: 'q', value: $event })"
+            :model-value="search.q.value"
+            @update:model-value="
+              updateSearchFieldDebounced({ id: 'q', value: $event })
+            "
             clearable
-            solo
+            variant="solo"
             :placeholder="$t('frontPage.quickSearch')"
-            clear-icon="fas fa-times"
+            clear-icon="fa:fas fa-times"
           />
-        </v-list-item-content>
+        </div>
       </v-list-item>
 
       <v-divider />
 
       <!-- ADDITIONAL FILTERS -->
       <v-list-group
-        :value="showAdditionalFilters"
-        active-class="blue-grey lighten-3"
+        value="additional"
+        active-class="blue-grey-lighten-3"
         color="black"
       >
-        <template v-slot:activator>
-          <v-list-item-title
-            class="font-weight-bold text-center text-uppercase"
-            style="font-size: 1.15rem"
-            >{{ $t("search.drawer.additionalFilters") }}</v-list-item-title
+        <template #activator="{ props }">
+          <v-list-item v-bind="props"
+            ><v-list-item-title
+              class="font-weight-bold text-center text-uppercase"
+              style="font-size: 1.15rem"
+              >{{ $t("search.drawer.additionalFilters") }}</v-list-item-title
+            ></v-list-item
           >
         </template>
 
@@ -59,8 +63,10 @@
               <SelectWrapper
                 :use-custom-prepend-inner="$t(`search.table.${id}`)"
                 :items="lookUpTypes"
-                :value="search[id].lookUpType"
-                @input="updateSearchField({ id: id, lookUpType: $event })"
+                :model-value="search[id].lookUpType"
+                @update:model-value="
+                  updateSearchField({ id: id, lookUpType: $event })
+                "
                 :readonly="id === 'coordinates'"
               />
             </v-col>
@@ -68,20 +74,22 @@
             <v-col cols="12" class="py-1">
               <TextFieldWrapper
                 class="search-drawer-text-field"
-                :value="search[id].value"
-                @input="updateSearchFieldDebounced({ id: id, value: $event })"
-                dense
+                :model-value="search[id].value"
+                @update:model-value="
+                  updateSearchFieldDebounced({ id: id, value: $event })
+                "
+                density="compact"
                 clearable
-                solo
+                variant="solo"
                 :readonly="id === 'coordinates'"
                 :placeholder="
                   $t(
                     `search.table.${id}${
                       id === 'coordinates' ? 'ReadOnly' : ''
-                    }`
+                    }`,
                   )
                 "
-                clear-icon="fas fa-times"
+                clear-icon="fa:fas fa-times"
               />
             </v-col>
           </v-row>
@@ -92,20 +100,15 @@
         <v-divider />
 
         <!-- MAP -->
-        <v-card class="checkboxes" flat tile color="transparent" hover>
-          <v-hover v-slot:default="{ hover }">
+        <v-card class="checkboxes" flat rounded="0" color="transparent" hover>
+          <v-hover v-slot="{ isHovering: hover, props: hoverProps }">
             <v-card-title
-              class="
-                checkboxes--title
-                font-weight-bold
-                text-uppercase
-                py-2
-                px-6
-              "
+              v-bind="hoverProps"
+              class="checkboxes--title font-weight-bold text-uppercase py-2 px-6"
               style="font-size: 0.875rem"
               :class="{
-                'blue-grey lighten-3': search.map.showCheckboxes,
-                'blue-grey lighten-2': search.map.showCheckboxes && hover,
+                'blue-grey-lighten-3': search.map.showCheckboxes,
+                'blue-grey-lighten-2': search.map.showCheckboxes && hover,
               }"
               @click="
                 updateSearchField({
@@ -117,19 +120,18 @@
               {{ $t(`search.table.map`) }}
               <v-spacer />
 
-              <v-tooltip v-if="search.map.value" top>
-                <template v-slot:activator="{ on, attrs }">
+              <v-tooltip v-if="search.map.value" location="top">
+                <template v-slot:activator="{ props }">
                   <v-btn
                     class="mr-6"
-                    v-bind="attrs"
-                    v-on="on"
-                    small
+                    v-bind="props"
+                    size="small"
                     color="error"
                     icon
                     @click.stop="resetFacet('map')"
                   >
                     <v-badge color="transparent" bottom overlap
-                      ><v-icon small>fas fa-trash</v-icon>
+                      ><v-icon size="small">fa:fas fa-trash</v-icon>
                     </v-badge>
                   </v-btn>
                 </template>
@@ -140,8 +142,10 @@
                 }}</span>
               </v-tooltip>
 
-              <v-icon v-if="search.map.showCheckboxes">fas fa-angle-up</v-icon>
-              <v-icon v-else>fas fa-angle-down</v-icon>
+              <v-icon v-if="search.map.showCheckboxes"
+                >fa:fas fa-angle-up</v-icon
+              >
+              <v-icon v-else>fa:fas fa-angle-down</v-icon>
             </v-card-title>
           </v-hover>
           <v-divider />
@@ -149,7 +153,7 @@
           <v-expand-transition>
             <v-card-text
               class="transition-fast-in-fast-out pa-0"
-              :class="{ 'blue-grey lighten-5': search.map.showCheckboxes }"
+              :class="{ 'blue-grey-lighten-5': search.map.showCheckboxes }"
               v-show="search.map.showCheckboxes"
             >
               <map-wrapper
@@ -168,25 +172,20 @@
         <v-card
           class="checkboxes"
           flat
-          tile
+          rounded="0"
           color="transparent"
           v-for="id in searchCheckboxIds"
           :key="id"
           hover
         >
-          <v-hover v-slot:default="{ hover }">
+          <v-hover v-slot="{ isHovering: hover, props: hoverProps }">
             <v-card-title
-              class="
-                checkboxes--title
-                font-weight-bold
-                text-uppercase
-                py-2
-                px-6
-              "
+              v-bind="hoverProps"
+              class="checkboxes--title font-weight-bold text-uppercase py-2 px-6"
               style="font-size: 0.875rem"
               :class="{
-                'blue-grey lighten-3': search[id].showCheckboxes,
-                'blue-grey lighten-2': search[id].showCheckboxes && hover,
+                'blue-grey-lighten-3': search[id].showCheckboxes,
+                'blue-grey-lighten-2': search[id].showCheckboxes && hover,
               }"
               @click="
                 updateSearchField({
@@ -198,21 +197,20 @@
               {{ $t(`search.table.${id}`) }}
               <v-spacer />
 
-              <v-tooltip v-if="getActiveCheckboxesCount(id) > 0" top>
-                <template v-slot:activator="{ on, attrs }">
+              <v-tooltip v-if="getActiveCheckboxesCount(id) > 0" location="top">
+                <template v-slot:activator="{ props }">
                   <v-btn
                     class="mr-6"
-                    v-bind="attrs"
-                    v-on="on"
-                    small
+                    v-bind="props"
+                    size="small"
                     color="error"
                     icon
                     @click.stop="resetFacet(id)"
                   >
                     <v-badge color="transparent" bottom overlap
-                      ><v-icon small>fas fa-trash</v-icon>
+                      ><v-icon size="small">fa:fas fa-trash</v-icon>
                       <template v-slot:badge>
-                        <span class="black--text font-weight-bold">{{
+                        <span class="text-black font-weight-bold">{{
                           getActiveCheckboxesCount(id)
                         }}</span>
                       </template>
@@ -226,8 +224,10 @@
                 }}</span>
               </v-tooltip>
 
-              <v-icon v-if="search[id].showCheckboxes">fas fa-angle-up</v-icon>
-              <v-icon v-else>fas fa-angle-down</v-icon>
+              <v-icon v-if="search[id].showCheckboxes"
+                >fa:fas fa-angle-up</v-icon
+              >
+              <v-icon v-else>fa:fas fa-angle-down</v-icon>
             </v-card-title>
           </v-hover>
           <v-divider />
@@ -235,7 +235,7 @@
           <v-expand-transition>
             <v-card-text
               class="transition-fast-in-fast-out pb-0"
-              :class="{ 'blue-grey lighten-5': search[id].showCheckboxes }"
+              :class="{ 'blue-grey-lighten-5': search[id].showCheckboxes }"
               v-if="search[id].showCheckboxes"
             >
               <v-row no-gutters>
@@ -245,18 +245,18 @@
                   v-for="(entity, key) in getCheckboxes(
                     id,
                     search[id].showCheckboxes,
-                    search[id].showMore
+                    search[id].showMore,
                   )"
                   :key="key"
                 >
                   <v-checkbox
                     class="mt-0 mb-2"
-                    color="blue-grey darken-3"
-                    :input-value="
+                    color="blue-grey-darken-3"
+                    :model-value="
                       search[id].value &&
                       search[id].value.includes(`&quot;${entity}&quot;`)
                     "
-                    @change="
+                    @update:model-value="
                       updateCheckbox({
                         id: id,
                         bool: $event,
@@ -265,7 +265,7 @@
                       })
                     "
                     hide-details
-                    dense
+                    density="compact"
                   >
                     <template v-slot:label>
                       <div>
@@ -283,8 +283,8 @@
                 <v-col cols="12">
                   <v-btn
                     v-if="getCheckboxesLength(id) > 4"
-                    small
-                    text
+                    size="small"
+                    variant="text"
                     class="mx-4 mb-2 font-weight-bold"
                     v-show="search[id].showCheckboxes"
                     @click="
@@ -295,11 +295,11 @@
                     "
                   >
                     <span v-if="search[id].showMore">
-                      <v-icon x-small>fas fa-minus</v-icon>
+                      <v-icon size="x-small">fa:fas fa-minus</v-icon>
                       {{ $t("search.drawer.less") }}</span
                     >
                     <span v-else
-                      ><v-icon x-small>fas fa-plus</v-icon>
+                      ><v-icon size="x-small">fa:fas fa-plus</v-icon>
                       {{ $t("search.drawer.more") }}</span
                     >
                   </v-btn>
@@ -312,15 +312,17 @@
         <!-- SINGLE CHECKBOXES -->
         <v-list-item v-for="id in searchSingleCheckboxIds" :key="id">
           <v-checkbox
-            color="blue-grey darken-3"
+            color="blue-grey-darken-3"
             class="mt-0 mb-2"
-            :input-value="search[id].value"
+            :model-value="search[id].value"
             :label="$t(`search.drawer.${id}`)"
             true-value="true"
             :false-value="null"
-            @change="updateSearchFieldDebounced({ id: id, value: $event })"
+            @update:model-value="
+              updateSearchFieldDebounced({ id: id, value: $event })
+            "
             hide-details
-            dense
+            density="compact"
           />
         </v-list-item>
       </v-list-group>
@@ -332,7 +334,7 @@
       <v-col cols="12" class="d-flex justify-end">
         <v-btn color="error" @click="reset">
           {{ $t("search.drawer.resetSearch") }}
-          <v-icon right>far fa-trash-alt</v-icon>
+          <v-icon end>fa:far fa-trash-alt</v-icon>
         </v-btn>
       </v-col>
     </v-row>
@@ -340,12 +342,14 @@
 </template>
 
 <script>
-import { mapActions, mapGetters, mapState } from "vuex";
-import TextFieldWrapper from "@/components/input_wrappers/TextFieldWrapper";
-import SelectWrapper from "@/components/input_wrappers/SelectWrapper";
+import { useSearchStore } from "@/stores/search";
+
+import { mapActions, mapState } from "pinia";
+import TextFieldWrapper from "@/components/input_wrappers/TextFieldWrapper.vue";
+import SelectWrapper from "@/components/input_wrappers/SelectWrapper.vue";
 import queryMixin from "@/mixins/queryMixin";
 import { debounce } from "lodash";
-import MapWrapper from "@/components/MapWrapper";
+import MapWrapper from "@/components/MapWrapper.vue";
 
 export default {
   name: "SearchDrawer",
@@ -362,6 +366,7 @@ export default {
   },
 
   data: () => ({
+    openedGroups: ["additional"],
     showAdditionalFilters: true,
     showTextFields: true,
     showCheckboxes: true,
@@ -370,7 +375,7 @@ export default {
   }),
 
   computed: {
-    ...mapState("search", [
+    ...mapState(useSearchStore, [
       "lookUpTypes",
       "search",
       "searchTextIds",
@@ -380,7 +385,7 @@ export default {
       "responseResults",
       "responseResultsCount",
     ]),
-    ...mapGetters("search", [
+    ...mapState(useSearchStore, [
       "getCheckboxes",
       "getCheckboxesCount",
       "getCheckboxesLength",
@@ -388,13 +393,12 @@ export default {
     ]),
 
     isSmAndDown() {
-      return this.$vuetify.breakpoint.smAndDown;
+      return this.$vuetify.display.smAndDown;
     },
 
     footerStyle() {
-      let style = `z-index: 2010; max-height: calc(100% - ${this.$vuetify.application.top}px);`;
-      if (this.isSmAndDown)
-        style += `margin-top: ${this.$vuetify.application.top}px; `;
+      let style = "z-index: 2010;";
+      if (this.isSmAndDown) style += "";
       return style;
     },
   },
@@ -409,7 +413,7 @@ export default {
   },
 
   methods: {
-    ...mapActions("search", [
+    ...mapActions(useSearchStore, [
       "updateSearchField",
       "resetSearch",
       "updatePage",
@@ -417,7 +421,7 @@ export default {
       "updateSortDesc",
     ]),
 
-    ...mapActions("search", { doSearch: "search" }),
+    ...mapActions(useSearchStore, { doSearch: "fetchResults" }),
 
     updateSearchFieldDebounced: debounce(function (value) {
       this.updateSearchField(value);
@@ -439,7 +443,7 @@ export default {
         if (e.value) {
           let valueList = e.value.replaceAll('" "', '"|-|"').split("|-|");
           let filteredValues = valueList.filter(
-            (val) => val !== `"${e.fieldName}"`
+            (val) => val !== `"${e.fieldName}"`,
           );
           e.value = filteredValues.join(" ");
         }
@@ -483,7 +487,7 @@ export default {
 }
 
 /* solo-inverted override */
-.search-drawer-text-field >>> .v-input__slot {
+.search-drawer-text-field :deep(.v-input__slot) {
   background: #eceff1 !important;
 }
 

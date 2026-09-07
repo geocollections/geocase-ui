@@ -1,5 +1,12 @@
 <template>
-  <v-select v-bind="$attrs" v-on="$listeners" hide-details dense :style="style">
+  <v-select
+    v-bind="$attrs"
+    hide-details
+    density="compact"
+    item-title="text"
+    item-value="value"
+    :style="style"
+  >
     <template
       v-slot:prepend-inner
       v-if="useCustomPrependInner && useCustomPrependInner.length > 0"
@@ -37,15 +44,15 @@ export default {
   white-space: nowrap;
 }
 
-.chips-select >>> .v-select__selections {
+.chips-select :deep(.v-select__selections) {
   padding: 8px 0;
 }
 
-.chips-select >>> .v-chip {
+.chips-select :deep(.v-chip) {
   margin: 3px !important;
 }
 
-.chips-select >>> .v-label {
+.chips-select :deep(.v-label) {
   font-weight: bold;
 }
 </style>

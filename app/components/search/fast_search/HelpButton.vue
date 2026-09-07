@@ -1,10 +1,10 @@
 <template>
   <v-dialog
-    :value="showHelp"
+    :model-value="showHelp"
     @click:outside="$emit('close')"
     scrollable
     style="z-index: 2000"
-    :max-width="$vuetify.breakpoint.mdAndUp ? '960px' : ''"
+    :max-width="$vuetify.display.mdAndUp ? '960px' : ''"
   >
     <v-card>
       <v-card-title class="font-weight-medium pb-3" style="font-size: 2rem">{{
@@ -19,43 +19,33 @@
           <v-col cols="12" md="10" lg="9">
             <ul>
               <li>
-                {{ $t("searchHelp.help1") }} (<router-link
+                {{ $t("searchHelp.help1") }} (<NuxtLink
                   class="help-link"
                   :to="{ path: 'search', query: { q: '*oa' } }"
-                  >*</router-link
+                  >*</NuxtLink
                 >).
               </li>
 
               <li>
                 <span v-html="$t('searchHelp.help2')" />
-                <router-link
+                <NuxtLink
                   class="help-link"
                   :to="{
                     path: 'search',
                     query: { q: '+bryozoa -germany +tub*' },
                   }"
-                  >+bryozoa -germany +tub*</router-link
+                  >+bryozoa -germany +tub*</NuxtLink
                 >.
               </li>
-
-              <!--              <li>-->
-              <!--                <span v-html="$t('searchHelp.help3')" />-->
-              <!--                <router-link-->
-              <!--                  class="help-link"-->
-              <!--                  :to="{ path: 'search', query: { q: '&quot;160-12&quot;' } }"-->
-              <!--                  >"160-12"</router-link-->
-              <!--                >.-->
-              <!--              </li>-->
-
               <li>
                 {{ $t("searchHelp.help4.prepend") }}
-                <router-link
+                <NuxtLink
                   class="help-link"
                   :to="{
                     path: 'search',
                     query: { q: 'stratigraphy:Burtnieki*' },
                   }"
-                  >stratigraphy:Burtnieki*</router-link
+                  >stratigraphy:Burtnieki*</NuxtLink
                 >
 
                 {{ $t("searchHelp.help4.append") }}
@@ -69,7 +59,12 @@
       <v-card-actions>
         <v-spacer></v-spacer>
 
-        <v-btn color="green darken-1" large text @click="$emit('close')">
+        <v-btn
+          color="green-darken-1"
+          size="large"
+          variant="text"
+          @click="$emit('close')"
+        >
           OK
         </v-btn>
       </v-card-actions>
