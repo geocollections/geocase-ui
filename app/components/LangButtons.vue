@@ -1,12 +1,17 @@
 <template>
-  <v-menu transition="slide-y-transition" offset-y z-index="2101">
-    <template v-slot:activator="{ on }">
-      <v-btn aria-label="select language" text x-small v-on="on">
+  <v-menu transition="slide-y-transition" offset="8" z-index="2101">
+    <template v-slot:activator="{ props }">
+      <v-btn
+        aria-label="select language"
+        variant="text"
+        size="x-small"
+        v-bind="props"
+      >
         <span :class="[flagCommonStyles, flagStyles()]" />
       </v-btn>
     </template>
 
-    <v-list color="primary" dark dense>
+    <v-list color="primary" theme="dark" density="compact">
       <v-list-item
         v-for="item in languages"
         :key="item.text"
@@ -25,7 +30,9 @@
 </template>
 
 <script>
-import { mapActions, mapState } from "vuex";
+import { useSettingsStore } from "@/stores/settings";
+
+import { mapActions, mapState } from "pinia";
 import toastMixin from "@/mixins/toastMixin";
 
 export default {
@@ -42,7 +49,7 @@ export default {
   }),
 
   computed: {
-    ...mapState("settings", ["language"]),
+    ...mapState(useSettingsStore, ["language"]),
 
     flagCommonStyles() {
       return {
@@ -60,7 +67,7 @@ export default {
   },
 
   methods: {
-    ...mapActions("settings", ["updateLanguage"]),
+    ...mapActions(useSettingsStore, ["updateLanguage"]),
 
     flagStyles(lang) {
       if (!lang) lang = this.language;
@@ -77,7 +84,10 @@ export default {
       this.updateLanguage(newLang);
       this.$router.replace({
         name: this.$route.name,
-        params: newLang !== "en" ? { locale: newLang } : {},
+        params: {
+          ...this.$route.params,
+          locale: newLang === "en" ? "" : newLang,
+        },
         query: { ...this.$route.query },
       });
       this.toastInfo({ text: this.$t("messages.languageChange") });

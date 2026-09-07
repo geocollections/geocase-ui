@@ -1,21 +1,21 @@
 <template>
-  <v-card tile class="CookieLaw py-3 px-6" elevation="12">
+  <v-card rounded="0" class="CookieLaw py-3 px-6" elevation="12">
     <div class="d-flex flex-row justify-center">
       <div
         class="align-self-center pr-3"
         :class="{
-          'text-sm': $vuetify.breakpoint.smAndDown,
+          'text-sm': $vuetify.display.smAndDown,
         }"
       >
         {{ $t("cookiePolicy.introduction") }}
 
-        <router-link
+        <NuxtLink
           to="/access"
           class="table-link text-decoration-none"
           :title="$t('cookiePolicy.readMoreButton')"
           >{{ $t("cookiePolicy.readMoreButton") }}
-          <v-icon small color="primary">fas fa-cookie-bite</v-icon>
-        </router-link>
+          <v-icon size="small" color="primary">fa:fas fa-cookie-bite</v-icon>
+        </NuxtLink>
       </div>
 
       <div class="align-self-center">

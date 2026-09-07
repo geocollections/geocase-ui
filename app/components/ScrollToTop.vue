@@ -3,16 +3,16 @@
     <v-btn
       v-scroll="onScroll"
       v-show="showFab"
-      fab
+      icon
       fixed
       bottom
       right
       color="amber"
-      dark
+      theme="dark"
       @click="toTop"
       :style="style"
     >
-      <v-icon large>fas fa-angle-up</v-icon>
+      <v-icon size="large">fa:fas fa-angle-up</v-icon>
     </v-btn>
   </v-fab-transition>
 </template>
@@ -27,7 +27,7 @@ export default {
 
   computed: {
     style() {
-      return "z-index: 51600;";
+      return "position: fixed; bottom: 24px; right: 24px; z-index: 51600;";
     },
   },
 
@@ -40,7 +40,12 @@ export default {
     },
 
     toTop() {
-      this.$vuetify.goTo(0);
+      window.scrollTo({
+        top: 0,
+        behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
+          ? "auto"
+          : "smooth",
+      });
     },
   },
 };
