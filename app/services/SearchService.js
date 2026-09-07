@@ -17,7 +17,7 @@ class SearchService {
 
       let searchFields = buildSearchFieldsQuery(
         params.search,
-        params.searchIds
+        params.searchIds,
       );
 
       let url = `${API_URL}?start=${start}&rows=${params.paginateBy}&sort=${sort}&defType=edismax&${FACET_QUERY}`;
@@ -164,7 +164,7 @@ function buildSearchFieldsQuery(search, searchIds) {
               }
               return prev;
             },
-            []
+            [],
           );
 
           // Creating WKT string for query
@@ -176,7 +176,7 @@ function buildSearchFieldsQuery(search, searchIds) {
                   ? [triangleCoordinates]
                   : triangleCoordinates,
               type: triangleCoordinates.length > 1 ? "MultiPolygon" : "Polygon",
-            })
+            }),
           );
           let wktString = wkt.write();
           wktString = wktString.replaceAll("),(", ")),((");
@@ -195,11 +195,11 @@ function buildSearchFieldsQuery(search, searchIds) {
           // NOTE:  Might cause trouble when multiple fields in fields array.
           // Right now there is always one field in the fields array
           const solrFilter = fields.map(
-            (field) => `{!geofilt sfield=${field}}`
+            (field) => `{!geofilt sfield=${field}}`,
           );
 
           encodedData.push(
-            `fq=${solrFilter}&d=${radius}&pt=${reversedCoordinates[0]},${reversedCoordinates[1]}`
+            `fq=${solrFilter}&d=${radius}&pt=${reversedCoordinates[0]},${reversedCoordinates[1]}`,
           );
         }
       } else if (value && value.trim().length > 0) {
@@ -219,7 +219,7 @@ function buildSearchFieldsQuery(search, searchIds) {
             filterQuery = `fq=${createSolrFieldQuery(
               name,
               encodedValue,
-              lookUpType
+              lookUpType,
             )}`;
         }
 
