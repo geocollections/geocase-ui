@@ -1,3 +1,8 @@
+<script setup>
+definePageMeta({ name: "Search", path: "/:locale(en|ee|de)?/search" });
+useHead({ title: "Search" });
+</script>
+
 <template>
   <v-container fluid class="px-4">
     <ScrollToTop />
@@ -12,7 +17,7 @@
           responseResultsCount ? responseResultsCount.toLocaleString() : 0
         }}</span>
         <span class="mr-1">{{
-          $tc("search.recordsFound", responseResultsCount)
+          $t("search.recordsFound", responseResultsCount)
         }}</span>
         <span class="hidden-sm-and-up">{{ `(page: ${page})` }}</span>
       </v-card-title>
@@ -24,29 +29,34 @@
         show-arrows
         slider-size="3"
         color="black"
-        active-class="amber lighten-3 border-bottom"
-        background-color="amber lighten-5"
+        active-class="amber-lighten-3 border-bottom"
+        background-color="amber-lighten-5"
         hide-slider
       >
         <v-tab
           class="font-weight-bold"
           style="color: #000; font-size: 1rem"
-          v-for="item in tabItems"
+          v-for="(item, index) in tabItems"
           :key="item"
+          :value="index"
         >
           {{ $t(`search.tab.${item}`) }}
-          <v-icon color="black" right small v-if="item === 'table'"
-            >fas fa-table</v-icon
+          <v-icon color="black" end size="small" v-if="item === 'table'"
+            >fa:fas fa-table</v-icon
           >
-          <v-icon color="black" right small v-else-if="item === 'images'"
-            >far fa-image</v-icon
+          <v-icon color="black" end size="small" v-else-if="item === 'images'"
+            >fa:far fa-image</v-icon
           >
-          <v-icon color="black" right small v-else>far fa-map</v-icon>
+          <v-icon color="black" end size="small" v-else>fa:far fa-map</v-icon>
         </v-tab>
       </v-tabs>
 
-      <v-tabs-items v-model="tab" touchless>
-        <v-tab-item v-for="item in tabItems" :key="item">
+      <v-window v-model="tab" touchless>
+        <v-window-item
+          v-for="(item, index) in tabItems"
+          :key="item"
+          :value="index"
+        >
           <v-card flat>
             <tab-table
               v-if="item === 'table'"
@@ -58,8 +68,8 @@
               :sort-desc="sortDesc"
               :is-loading="isLoading"
               :tabIndex="tab"
-              v-on:sortBy:changed="updateSortBy($event)"
-              v-on:sortDesc:changed="updateSortDesc($event)"
+              @sortBy:changed="updateSortBy($event)"
+              @sortDesc:changed="updateSortDesc($event)"
               @update:page="updatePage($event)"
               @update:paginateBy="updatePaginateBy($event)"
               @open:gallery="openGallery"
@@ -79,8 +89,8 @@
               :response-results-count="responseResultsCount"
             />
           </v-card>
-        </v-tab-item>
-      </v-tabs-items>
+        </v-window-item>
+      </v-window>
 
       <!-- PAGINATION -->
       <pagination
@@ -98,17 +108,19 @@
 </template>
 
 <script>
-import ScrollToTop from "@/components/ScrollToTop";
-import { mapActions, mapGetters, mapState } from "vuex";
+import { useSearchStore } from "@/stores/search";
+
+import ScrollToTop from "@/components/ScrollToTop.vue";
+import { mapActions, mapState } from "pinia";
 import queryMixin from "@/mixins/queryMixin";
-import Pagination from "@/components/search/Pagination";
-import TabImages from "@/components/tabs/TabImages";
-import TabMap from "@/components/tabs/TabMap";
-import TabTable from "@/components/tabs/TabTable";
+import Pagination from "@/components/search/Pagination.vue";
+import TabImages from "@/components/tabs/TabImages.vue";
+import TabMap from "@/components/tabs/TabMap.vue";
+import TabTable from "@/components/tabs/TabTable.vue";
 import { debounce } from "lodash";
 
 export default {
-  name: "Search",
+  name: "SearchPage",
 
   components: {
     TabTable,
@@ -120,17 +132,13 @@ export default {
 
   mixins: [queryMixin],
 
-  metaInfo: {
-    title: "Search",
-  },
-
   data: () => ({
-    tab: null,
+    tab: 0,
     tabItems: ["table", "images", "map"],
   }),
 
   computed: {
-    ...mapState("search", [
+    ...mapState(useSearchStore, [
       "responseResults",
       "responseResultsCount",
       "page",
@@ -140,21 +148,27 @@ export default {
       "isLoading",
     ]),
     // ...mapState("searchMap", ["mapResults", "mapResultsCount"]),
-    ...mapGetters("search", ["paginateByItemsTranslated"]),
+    ...mapState(useSearchStore, ["paginateByItemsTranslated"]),
   },
 
   created() {
     if (this.$route.query) {
       this.deconstructQueryParams(this.$route.query);
-      this.search();
+      this.fetchResults();
       // if (this.mapResultsCount === 0) this.searchMapCoordinates();
     }
   },
 
   watch: {
     "$route.query"(newVal, oldVal) {
-      if (newVal[0] || JSON.stringify(newVal) !== JSON.stringify(oldVal))
-        this.search();
+      if (JSON.stringify(newVal) !== JSON.stringify(oldVal)) {
+        const store = useSearchStore();
+        const geometry = store.search.map.value;
+        store.resetSearch();
+        store.updateSearchField({ id: "map", value: geometry });
+        this.deconstructQueryParams(newVal);
+        this.fetchResults();
+      }
     },
     page: debounce(function (newVal) {
       this.constructQueryParams(null, { page: newVal.toString() });
@@ -178,12 +192,12 @@ export default {
   },
 
   methods: {
-    ...mapActions("search", [
+    ...mapActions(useSearchStore, [
       "updatePage",
       "updatePaginateBy",
       "updateSortBy",
       "updateSortDesc",
-      "search",
+      "fetchResults",
     ]),
 
     // ...mapActions("searchMap", ["searchMapCoordinates"]),

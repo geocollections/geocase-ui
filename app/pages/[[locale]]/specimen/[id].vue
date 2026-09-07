@@ -1,3 +1,26 @@
+<script setup>
+import { useDetailStore as useDetailSeoStore } from "@/stores/detail";
+
+definePageMeta({ name: "Detail", path: "/:locale(en|ee|de)?/specimen/:id" });
+const detailSeo = useDetailSeoStore();
+useHead(() => ({
+  title:
+    detailSeo.item.fullscientificname ||
+    `${detailSeo.item.recordbasis || "Geoscience"} Specimen`,
+}));
+useSeoMeta({
+  description: () =>
+    [
+      detailSeo.item.fullscientificname,
+      detailSeo.item.locality,
+      detailSeo.item.datasetowner,
+    ]
+      .filter(Boolean)
+      .join(" — "),
+  ogTitle: () => detailSeo.item.fullscientificname || "Specimen",
+});
+</script>
+
 <template>
   <v-container class="detail-view" v-if="!isLoading">
     <GoBackButton />
@@ -6,9 +29,9 @@
       <v-col cols="12" style="max-width: 500px">
         <v-alert
           class="mb-0"
-          text
-          border="left"
-          icon="fas fa-search"
+          variant="tonal"
+          border="start"
+          icon="fa:fas fa-search"
           color="error"
         >
           <span v-if="showError" v-html="error" />
@@ -24,20 +47,13 @@
       </v-col>
     </v-row>
 
-    <v-card class="px-6 py-4" shaped v-if="itemExists">
+    <v-card class="px-6 py-4" rounded="lg" v-if="itemExists">
       <v-row>
-        <!-- TITLE, TABLE and TABLE SECONDARY -->
         <v-col cols="12" :sm="imageExists || localityExists ? 6 : 12">
-          <!-- TITLE -->
           <v-card>
-            <v-card-title class="primary--text" style="word-break: break-word">
+            <v-card-title class="text-primary" style="word-break: break-word">
               <div
-                class="
-                  d-flex
-                  justify-start
-                  flex-wrap flex-grow-1
-                  justify-space-between
-                "
+                class="d-flex justify-start flex-wrap flex-grow-1 justify-space-between"
               >
                 <div class="d-flex flex-column flex-nowrap">
                   <div class="mb-1">
@@ -50,20 +66,26 @@
                       "
                     >
                       <span class="mr-2">
-                        <v-icon small color="primary" v-if="isItemFossil"
-                          >fas fa-fish</v-icon
-                        >
-                        <v-icon small color="primary" v-else-if="isItemMineral"
-                          >far fa-gem</v-icon
-                        >
-                        <v-icon small color="primary" v-else-if="isItemRock"
-                          >fas fa-mountain</v-icon
+                        <v-icon size="small" color="primary" v-if="isItemFossil"
+                          >fa:fas fa-fish</v-icon
                         >
                         <v-icon
-                          small
+                          size="small"
+                          color="primary"
+                          v-else-if="isItemMineral"
+                          >fa:far fa-gem</v-icon
+                        >
+                        <v-icon
+                          size="small"
+                          color="primary"
+                          v-else-if="isItemRock"
+                          >fa:fas fa-mountain</v-icon
+                        >
+                        <v-icon
+                          size="small"
                           color="primary"
                           v-else-if="isItemMeteorite"
-                          >fas fa-meteor</v-icon
+                          >fa:fas fa-meteor</v-icon
                         >
                       </span>
 
@@ -135,8 +157,8 @@
                 >
                   <v-img
                     :src="logoURI"
-                    :max-height="$vuetify.breakpoint.mdAndDown ? '75' : '100'"
-                    :max-width="$vuetify.breakpoint.mdAndDown ? '75' : '100'"
+                    :max-height="$vuetify.display.mdAndDown ? '75' : '100'"
+                    :max-width="$vuetify.display.mdAndDown ? '75' : '100'"
                     contain
                     :alt="`${item.datasetowner} logo`"
                   ></v-img>
@@ -145,9 +167,8 @@
             </v-card-title>
           </v-card>
 
-          <!-- TABLE -->
           <v-card v-if="itemExists" class="mt-6 item-card">
-            <v-data-table
+            <SpecimenTable
               class="detail-view-table"
               :mobile-breakpoint="9000"
               disable-sort
@@ -178,17 +199,6 @@
               </template>
 
               <template v-slot:item.stratigraphy>
-                <!-- Currently uncommented stratigraphy directly from source as all the cases haven't been handled yet  -->
-                <!-- For example currently only handling Chronostratigraphic terms but there's also Lithostratigraphic terms -->
-                <!-- That means itemStratigraphy getter needs to be updated -->
-                <!--                <div v-if="itemStratigraphy && itemStratigraphy.length > 0">-->
-                <!--                  <ul class="circle-list">-->
-                <!--                    <li v-for="(item, index) in itemStratigraphy" :key="index">-->
-                <!--                      <span v-if="item.division">{{ item.division }}: </span>-->
-                <!--                      <span v-if="item.name">{{ item.name }}</span>-->
-                <!--                    </li>-->
-                <!--                  </ul>-->
-                <!--                </div>-->
                 <div v-if="item.stratigraphies">
                   <ul style="list-style-type: circle">
                     <li
@@ -244,26 +254,19 @@
                 <div v-else>{{ item.highertaxon }}</div>
               </template>
 
-              <template v-slot:item.itemMineralGroup="{ item }">
-                <!--                <div v-if="itemMineralGroup && itemMineralGroup.length > 0">-->
-                <!--                  <ul class="circle-list">-->
-                <!--                    <li v-for="(item, index) in itemMineralGroup" :key="index">-->
-                <!--                      {{ item }}-->
-                <!--                    </li>-->
-                <!--                  </ul>-->
-                <!--                </div>-->
+              <template v-slot:item.itemMineralGroup>
                 <div v-if="itemMineralGroup">
                   {{ itemMineralGroup }}
                 </div>
               </template>
 
-              <template v-slot:item.mineralNameDetail="{ item }">
+              <template v-slot:item.mineralNameDetail>
                 <div v-if="mineralNameDetail">
                   {{ mineralNameDetail }}
                 </div>
               </template>
 
-              <template v-slot:item.reference="{ item }">
+              <template v-slot:item.reference>
                 <div v-if="itemReference && itemReference.length > 0">
                   <ul class="circle-list">
                     <li v-for="(item, index) in itemReference" :key="index">
@@ -273,31 +276,31 @@
                 </div>
               </template>
 
-              <template v-slot:item.unitWeight="{ item }">
+              <template v-slot:item.unitWeight>
                 <div v-if="unitWeight">
                   {{ unitWeight }}
                 </div>
               </template>
 
-              <template v-slot:item.acquisitionDate="{ item }">
+              <template v-slot:item.acquisitionDate>
                 <div v-if="acquisitionDate">
                   {{ acquisitionDate }}
                 </div>
               </template>
 
-              <template v-slot:item.gatheringAgent="{ item }">
+              <template v-slot:item.gatheringAgent>
                 <div v-if="gatheringAgent">
                   {{ gatheringAgent }}
                 </div>
               </template>
 
-              <template v-slot:item.unitDateText="{ item }">
+              <template v-slot:item.unitDateText>
                 <div v-if="unitDateText">
                   {{ unitDateText }}
                 </div>
               </template>
 
-              <template v-slot:item.kindOfUnit="{ item }">
+              <template v-slot:item.kindOfUnit>
                 <div v-if="kindOfUnit">
                   {{ kindOfUnit }}
                 </div>
@@ -309,8 +312,8 @@
                   title="Link to Mindat.org"
                   @click="openMindatInNewWindow(item.mindat_url)"
                   >{{ item.mindat_url }}
-                  <v-icon small color="primary"
-                    >fas fa-external-link-square-alt</v-icon
+                  <v-icon size="small" color="primary"
+                    >fa:fas fa-external-link-square-alt</v-icon
                   >
                 </a>
               </template>
@@ -321,10 +324,10 @@
                   title="Link to taxon record in PBDB"
                   @click="openPaleobiodbInNewWindow(item.taxon_id_pbdb)"
                   >Link to taxon record in PBDB<v-icon
-                    right
-                    small
+                    end
+                    size="small"
                     color="primary"
-                    >fas fa-external-link-square-alt</v-icon
+                    >fa:fas fa-external-link-square-alt</v-icon
                   >
                 </a>
               </template>
@@ -335,10 +338,10 @@
                   title="Link to taxon record in Encyclopedia of Life"
                   @click="openEolInNewWindow(item.taxon_id_eol)"
                   >Link to taxon record in Encyclopedia of Life<v-icon
-                    right
-                    small
+                    end
+                    size="small"
                     color="primary"
-                    >fas fa-external-link-square-alt</v-icon
+                    >fa:fas fa-external-link-square-alt</v-icon
                   >
                 </a>
               </template>
@@ -349,10 +352,10 @@
                   title="Link to taxon record in Tree of life"
                   @click="openTolwebInNewWindow(item.taxon_id_tol)"
                   >Link to taxon record in Tree of life<v-icon
-                    right
-                    small
+                    end
+                    size="small"
                     color="primary"
-                    >fas fa-external-link-square-alt</v-icon
+                    >fa:fas fa-external-link-square-alt</v-icon
                   >
                 </a>
               </template>
@@ -363,10 +366,10 @@
                   title="Link to taxon record in fossiilid.info"
                   @click="openFossiilidInNewWindow(item.taxon_id)"
                   >Link to taxon record in fossiilid.info<v-icon
-                    right
-                    small
+                    end
+                    size="small"
                     color="primary"
-                    >fas fa-external-link-square-alt</v-icon
+                    >fa:fas fa-external-link-square-alt</v-icon
                   >
                 </a>
               </template>
@@ -388,10 +391,9 @@
                   >{{ item.relatedResource }}</a
                 >
               </template>
-            </v-data-table>
+            </SpecimenTable>
           </v-card>
 
-          <!-- TABLE SECONDARY -->
           <v-card
             class="mt-6 item-card item-card--secondary"
             v-if="
@@ -399,9 +401,9 @@
               filteredItemHeadersSecondary.length > 0
             "
           >
-            <v-data-table
-              dense
-              class="detail-view-table-secondary secondary--text"
+            <SpecimenTable
+              density="compact"
+              class="detail-view-table-secondary text-secondary"
               :mobile-breakpoint="9000"
               disable-sort
               disable-filtering
@@ -443,8 +445,8 @@
                   <a
                     :href="`mailto:${contentContactEmail}`"
                     class="text-decoration-none"
-                    ><v-icon x-small class="mr-1" color="primary"
-                      >far fa-envelope</v-icon
+                    ><v-icon size="x-small" class="mr-1" color="primary"
+                      >fa:far fa-envelope</v-icon
                     >{{ contentContactEmail }}</a
                   >
                 </div>
@@ -455,8 +457,8 @@
                   <a
                     :href="`tel:${contentContactPhone}`"
                     class="text-decoration-none"
-                    ><v-icon x-small class="mr-1" color="primary"
-                      >fas fa-phone</v-icon
+                    ><v-icon size="x-small" class="mr-1" color="primary"
+                      >fa:fas fa-phone</v-icon
                     >{{ contentContactPhone }}</a
                   >
                 </div>
@@ -468,8 +470,8 @@
                     :href="`https://www.google.com/maps/search/?api=1&query=${contentContactAddress}`"
                     target="GoogleMapsWindow"
                     class="text-decoration-none"
-                    ><v-icon x-small class="mr-1" color="primary"
-                      >fas fa-map-marker-alt</v-icon
+                    ><v-icon size="x-small" class="mr-1" color="primary"
+                      >fa:fas fa-map-marker-alt</v-icon
                     >{{ contentContactAddress }}</a
                   >
                 </div>
@@ -522,7 +524,7 @@
                   :href="
                     getCetafIdentifierUrl(
                       item.datasourcecountry,
-                      item.cetaf_identifier
+                      item.cetaf_identifier,
                     )
                   "
                   target="CetafIdentifierWindow"
@@ -530,24 +532,21 @@
                   >{{
                     getCetafIdentifierUrl(
                       item.datasourcecountry,
-                      item.cetaf_identifier
+                      item.cetaf_identifier,
                     )
                   }}</a
                 >
               </template>
-            </v-data-table>
+            </SpecimenTable>
           </v-card>
         </v-col>
 
-        <!-- IMAGES and MAP -->
         <v-col cols="12" sm="6">
           <v-row no-gutters>
-            <!-- IMAGES -->
             <v-col cols="12" v-if="imageExists && detailViewImages.length > 0">
               <image-carousel :images="detailViewImages" />
             </v-col>
 
-            <!-- MAP -->
             <v-col cols="12">
               <v-card v-if="localityExists" class="mt-3">
                 <tab-map
@@ -560,7 +559,6 @@
           </v-row>
         </v-col>
 
-        <!-- DATA FROM SOURCE -->
         <v-col cols="12" v-show="responseFromSource">
           <v-card>
             <v-card-title
@@ -569,16 +567,19 @@
               >{{ $t("detail.dataFromProvider") }}
               <v-spacer />
               <v-btn icon
-                ><v-icon v-if="showResponseFromSource">fas fa-angle-up</v-icon
-                ><v-icon v-else>fas fa-angle-down</v-icon></v-btn
+                ><v-icon v-if="showResponseFromSource"
+                  >fa:fas fa-angle-up</v-icon
+                ><v-icon v-else>fa:fas fa-angle-down</v-icon></v-btn
               >
             </v-card-title>
 
             <v-expand-transition v-show="showResponseFromSource">
               <v-card-text>
                 <v-treeview
-                  shaped
-                  dense
+                  item-title="name"
+                  item-value="id"
+                  rounded="lg"
+                  density="compact"
                   open-all
                   hoverable
                   open-on-click
@@ -613,11 +614,13 @@
 </template>
 
 <script>
-import { mapActions, mapGetters, mapState } from "vuex";
-import ImageCarousel from "@/components/image/ImageCarousel";
-import TabMap from "@/components/tabs/TabMap";
+import { useDetailStore } from "@/stores/detail";
+
+import { mapActions, mapState } from "pinia";
+import ImageCarousel from "@/components/image/ImageCarousel.vue";
+import TabMap from "@/components/tabs/TabMap.vue";
 import helperMixin from "@/mixins/helperMixin";
-import GoBackButton from "@/components/GoBackButton";
+import GoBackButton from "@/components/GoBackButton.vue";
 
 export default {
   name: "DetailView",
@@ -625,86 +628,6 @@ export default {
   components: { GoBackButton, ImageCarousel, TabMap },
 
   mixins: [helperMixin],
-
-  metaInfo() {
-    // TITLE
-    const type =
-      this.getSpecimenType.charAt(0).toUpperCase() +
-      this.getSpecimenType.substring(1);
-    const collectioncode = this.item.collectioncode;
-    const unitid = this.item.unitid;
-    const fullscientificname = this.item.fullscientificname;
-
-    let title = `${type} Specimen`;
-
-    if (fullscientificname) title = fullscientificname;
-    else if (collectioncode || unitid)
-      title += ` - ${collectioncode} ${unitid}`;
-
-    // DESCRIPTION
-    let description = "";
-    const fields = [
-      "recordbasis",
-      "fullscientificname",
-      "locality",
-      "datasetowner",
-    ];
-    if (this.item) {
-      fields.forEach((item, index) => {
-        if (this.item[item])
-          description += ` ${this.$t(`search.table.${item}`)}: ${
-            this.item[item]
-          }${index < fields.length - 1 ? "," : ""}`;
-      });
-    }
-
-    const ogImage =
-      this.detailViewImages?.[0]?.thumbnailImage ??
-      "https://files.geocollections.info/img/geocase/front_page/geocase_landing.jpg";
-    const ogImageAlt = this.detailViewImages?.[0]?.altText ?? description;
-    const ogUrl = document.location.href;
-
-    return {
-      title: title,
-      meta: [
-        {
-          vmid: "description",
-          name: "description",
-          content: description,
-        },
-        {
-          vmid: "og:title",
-          property: "og:title",
-          content: title,
-        },
-        {
-          vmid: "og:description",
-          property: "og:description",
-          content: description,
-        },
-        {
-          vmid: "og:image",
-          property: "og:image",
-          content: ogImage,
-        },
-        {
-          vmid: "og:url",
-          property: "og:url",
-          content: ogUrl,
-        },
-        {
-          vmid: "og:image:alt",
-          name: "og:image:alt",
-          content: ogImageAlt,
-        },
-        {
-          vmid: "twitter:image:alt",
-          name: "twitter:image:alt",
-          content: ogImageAlt,
-        },
-      ],
-    };
-  },
 
   props: {
     id: {
@@ -718,7 +641,7 @@ export default {
   }),
 
   computed: {
-    ...mapState("detail", [
+    ...mapState(useDetailStore, [
       "response",
       "responseFromSource",
       "error",
@@ -727,7 +650,7 @@ export default {
       "isLoading",
     ]),
 
-    ...mapGetters("detail", [
+    ...mapState(useDetailStore, [
       "itemExists",
       "imageExists",
       "localityExists",
@@ -781,7 +704,7 @@ export default {
     filteredNames() {
       if (this.item.names) {
         return this.item.names.filter(
-          (name) => name !== this.item.fullscientificname
+          (name) => name !== this.item.fullscientificname,
         );
       } else return [];
     },
@@ -789,7 +712,7 @@ export default {
     computedResponseFromSource() {
       let treeview = this.buildTreeview(
         this.responseFromSource?.["abcd:DataSets"],
-        0
+        0,
       );
       return treeview;
     },
@@ -821,13 +744,13 @@ export default {
   },
 
   beforeRouteLeave(to, from, next) {
-    this.$vuetify.theme.themes.light.primary = "#FFA000";
+    this.$vuetify.theme.themes.light.colors.primary = "#FFA000";
     this.resetResponseFromSource();
     next();
   },
 
   methods: {
-    ...mapActions("detail", [
+    ...mapActions(useDetailStore, [
       "getDetailView",
       "getDetailViewDataFromSource",
       "resetResponseFromSource",
@@ -865,7 +788,7 @@ export default {
       window.open(
         `https://paleobiodb.org/classic/basicTaxonInfo?taxon_no=${id}`,
         "PaleobiodbWindow",
-        "width=800,height=750"
+        "width=800,height=750",
       );
     },
 
@@ -873,7 +796,7 @@ export default {
       window.open(
         `https://eol.org/pages/${id}`,
         "EolWindow",
-        "width=800,height=750"
+        "width=800,height=750",
       );
     },
 
@@ -881,7 +804,7 @@ export default {
       window.open(
         `http://tolweb.org/${id}`,
         "TolwebWindow",
-        "width=800,height=750"
+        "width=800,height=750",
       );
     },
 
@@ -889,30 +812,30 @@ export default {
       window.open(
         `https://fossiilid.info/${id}`,
         "FossiilidWindow",
-        "width=800,height=750"
+        "width=800,height=750",
       );
     },
 
     handleColorChange(item) {
       if (item) {
         if (this.isItemFossil) {
-          this.$vuetify.theme.themes.light.primary =
-            this.$vuetify.theme.themes.light.fossil;
+          this.$vuetify.theme.themes.light.colors.primary =
+            this.$vuetify.theme.themes.light.colors.fossil;
         } else if (this.isItemMineral) {
-          this.$vuetify.theme.themes.light.primary =
-            this.$vuetify.theme.themes.light.mineral;
+          this.$vuetify.theme.themes.light.colors.primary =
+            this.$vuetify.theme.themes.light.colors.mineral;
         } else if (this.isItemRock) {
-          this.$vuetify.theme.themes.light.primary =
-            this.$vuetify.theme.themes.light.rock;
+          this.$vuetify.theme.themes.light.colors.primary =
+            this.$vuetify.theme.themes.light.colors.rock;
         } else if (this.isItemMeteorite) {
-          this.$vuetify.theme.themes.light.primary =
-            this.$vuetify.theme.themes.light.meteorite;
+          this.$vuetify.theme.themes.light.colors.primary =
+            this.$vuetify.theme.themes.light.colors.meteorite;
         } else
-          this.$vuetify.theme.themes.light.primary =
-            this.$vuetify.theme.themes.light.main;
+          this.$vuetify.theme.themes.light.colors.primary =
+            this.$vuetify.theme.themes.light.colors.main;
       } else
-        this.$vuetify.theme.themes.light.primary =
-          this.$vuetify.theme.themes.light.main;
+        this.$vuetify.theme.themes.light.colors.primary =
+          this.$vuetify.theme.themes.light.colors.main;
     },
 
     buildTreeview(data, depth) {
@@ -944,47 +867,46 @@ export default {
 </script>
 
 <style scoped>
-.detail-view-table >>> .v-data-table__mobile-row {
+.detail-view-table :deep(.SpecimenTable__mobile-row) {
   font-size: 1rem;
 }
-.item-card >>> tr:hover {
+.item-card :deep(tr:hover) {
   background-color: unset !important;
 }
 
-.item-card >>> .v-data-table__mobile-row:hover {
-  /*background: #eee;*/
+.item-card :deep(.SpecimenTable__mobile-row:hover) {
 }
 
-.item-card >>> .v-data-table__mobile-row {
+.item-card :deep(.SpecimenTable__mobile-row) {
   border-bottom: 1px solid rgba(0, 0, 0, 0.12);
 }
 
-.item-card >>> .v-data-table__mobile-row:last-child {
+.item-card :deep(.SpecimenTable__mobile-row:last-child) {
   border-bottom: unset;
 }
 
-.item-card >>> .v-data-table__mobile-row__header {
+.item-card :deep(.SpecimenTable__mobile-row__header) {
   min-width: 140px;
 }
 
-.item-card >>> .v-data-table td {
+.item-card :deep(.SpecimenTable td) {
   height: unset;
   min-height: 48px;
 }
 
-.item-card >>> .v-data-table__mobile-row__cell {
+.item-card :deep(.SpecimenTable__mobile-row__cell) {
   text-align: left;
   width: 100%;
   padding-left: 10px;
 }
 
-.item-card--secondary >>> .v-data-table td {
+.item-card--secondary :deep(.SpecimenTable td) {
   height: unset;
   min-height: 36px;
 }
 
-.detail-view-table >>> thead,
-.detail-view-table-secondary >>> thead {
+.detail-view-table :deep(thead),
+.detail-view-table-secondary :deep(thead) {
   display: none;
 }
 

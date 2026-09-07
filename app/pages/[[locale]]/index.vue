@@ -1,3 +1,8 @@
+<script setup>
+definePageMeta({ name: "FrontPage", path: "/:locale(en|ee|de)?" });
+useHead({ title: "Welcome" });
+</script>
+
 <template>
   <div>
     <v-container class="FrontPage">
@@ -30,7 +35,7 @@
     <!-- teaser-map-container -->
     <v-container
       class="teaser-map"
-      :class="{ 'height-50vh': $vuetify.breakpoint.mdAndDown }"
+      :class="{ 'height-50vh': $vuetify.display.mdAndDown }"
       fluid
     >
       <MapCard />
@@ -39,22 +44,24 @@
 </template>
 
 <script>
-import HoverCard from "@/components/front_page/HoverCard";
-import { mapActions, mapGetters, mapState } from "vuex";
-import StatsCard from "@/components/front_page/StatsCard";
-import MapCard from "@/components/front_page/MapCard";
+import { useFrontpageStore } from "@/stores/frontpage";
+
+import HoverCard from "@/components/front_page/HoverCard.vue";
+import { mapActions, mapState } from "pinia";
+import StatsCard from "@/components/front_page/StatsCard.vue";
+import MapCard from "@/components/front_page/MapCard.vue";
 export default {
   name: "FrontPage",
 
   components: { StatsCard, HoverCard, MapCard },
 
   computed: {
-    ...mapState("frontpage", ["cardIds"]),
-    ...mapGetters("frontpage", ["stats", "getCards"]),
+    ...mapState(useFrontpageStore, ["cardIds"]),
+    ...mapState(useFrontpageStore, ["stats", "getCards"]),
   },
 
   methods: {
-    ...mapActions("frontpage", ["updateCardIsLeaving"]),
+    ...mapActions(useFrontpageStore, ["updateCardIsLeaving"]),
   },
 };
 </script>
