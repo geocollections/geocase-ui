@@ -4,7 +4,7 @@
 
     <v-main
       :class="{
-        'pt-2': $route.name === 'FrontPage',
+        'pt-0': $route.name === 'FrontPage',
         'custom-pb': $vuetify.breakpoint.smAndDown,
       }"
     >

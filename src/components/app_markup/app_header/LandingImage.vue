@@ -1,64 +1,86 @@
 <template>
-  <v-img
-    :alt="$t('header.landingPageAltText')"
-    class="landing-image"
-    :src="landingImage"
-    style="height: 37vh"
-  >
-    <v-row class="fill-height" align="center" justify="center">
-      <v-col class="text-center" cols="12">
-        <h1 class="mb-2 font-weight-bold page-header" style="font-size: 2.5rem">
-          GeoCASe 2.0
-          <div
-            class="hidden-sm-and-down"
-            :class="$vuetify.breakpoint.xlOnly ? 'mt-8' : 'mt-4'"
-            :style="titleStyleObject"
-          >
-            {{ $t("frontPage.title") }}
-          </div>
-        </h1>
-
-        <FastSearch />
-      </v-col>
-    </v-row>
-  </v-img>
+  <section class="landing-image">
+    <v-container class="hero-content">
+      <p class="hero-eyebrow">GeoCASe / {{ $t("frontPage.heroEyebrow") }}</p>
+      <h1>{{ $t("frontPage.title") }}</h1>
+      <p class="hero-description">{{ $t("frontPage.heroDescription") }}</p>
+      <FastSearch hero />
+      <router-link class="hero-link" to="search">
+        {{ $t("frontPage.browseAll") }}
+        <v-icon small color="white" aria-hidden="true">mdi-arrow-right</v-icon>
+      </router-link>
+    </v-container>
+  </section>
 </template>
 
 <script>
 import FastSearch from "@/components/search/FastSearch";
-
 export default {
   name: "LandingImage",
   components: { FastSearch },
-  computed: {
-    titleStyleObject() {
-      return {
-        fontSize: this.$vuetify.breakpoint.xlOnly ? "4rem" : "3.125rem",
-      };
-    },
-
-    landingImage() {
-      return "https://files.geocollections.info/img/geocase/front_page/geocase_landing.jpg";
-    },
-  },
 };
 </script>
 
 <style scoped>
 .landing-image {
-  /*margin-top: 64px;*/
-  padding-top: 64px;
-  min-height: 275px;
-  -webkit-box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2),
-    0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
-  box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14),
-    0 1px 5px 0 rgba(0, 0, 0, 0.12);
+  background:
+    linear-gradient(
+      90deg,
+      rgba(19, 32, 31, 0.96),
+      rgba(19, 32, 31, 0.7) 55%,
+      rgba(19, 32, 31, 0.28)
+    ),
+    url("https://files.geocollections.info/img/geocase/front_page/geocase_landing.jpg")
+      center / cover;
+  color: #fff;
+  padding: 132px 24px 76px;
 }
-
-.page-header {
-  font-size: 3rem;
-  color: #ffffff;
-  text-shadow: 4px 4px 14px #000000;
-  line-height: 90%;
+.hero-content {
+  max-width: 1200px;
+}
+.hero-eyebrow {
+  color: #e4bd7a;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  margin-bottom: 24px;
+}
+h1 {
+  max-width: 820px;
+  font-size: clamp(2.3rem, 4.6vw, 4.4rem);
+  font-weight: 800;
+  line-height: 1.08;
+  letter-spacing: -0.045em;
+}
+.hero-description {
+  max-width: 680px;
+  color: #dbe3df;
+  font-size: 24px;
+  line-height: 1.55;
+  margin: 24px 0 8px;
+}
+.hero-link {
+  display: inline-flex;
+  gap: 12px;
+  align-items: center;
+  color: #fff;
+  text-decoration: none;
+  font-weight: 700;
+}
+.hero-link:hover {
+  color: #e4bd7a;
+}
+.hero-link:focus-visible {
+  outline: 2px solid #e4bd7a;
+  outline-offset: 6px;
+}
+@media (max-width: 600px) {
+  .landing-image {
+    padding: 108px 12px 48px;
+  }
+  .hero-description {
+    font-size: 20px;
+  }
 }
 </style>
