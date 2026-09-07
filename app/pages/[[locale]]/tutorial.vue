@@ -1,3 +1,12 @@
+<script setup>
+definePageMeta({
+  name: "Tutorial",
+  path: "/:locale(en|ee|de)?/tutorial",
+  layout: "static",
+});
+useHead({ title: "Tutorial" });
+</script>
+
 <template>
   <div v-html="$t('tutorial.html')" />
 </template>
