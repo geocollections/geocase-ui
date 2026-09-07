@@ -1,35 +1,14 @@
-
-#
-# ---- Base ----
-FROM node:18.17.1-alpine AS base
+FROM node:24-alpine AS build
 WORKDIR /app
-COPY package.json .
-
-#
-# ---- Dependencies ----
-FROM base AS dependencies
-# install node packages
-RUN npm set progress=false && npm config set depth 0
-RUN npm install --only=production
-# copy production node_modules aside
-RUN cp -R node_modules prod_node_modules
-# install ALL node_modules, including 'devDependencies'
-RUN npm install
-
-#
-# ---- Production ----
-FROM dependencies AS build
-# copy production node_modules
-COPY --from=dependencies /app/prod_node_modules ./node_modules
-# copy app source
+COPY package*.json ./
+RUN npm ci --ignore-scripts
 COPY . .
-# build files for production
 RUN npm run build
 
-#
-# ---- Serve using nginx ----
-FROM nginx:alpine AS production
-COPY --from=build /app/dist /usr/share/nginx/html
-COPY --from=build /app/nginx/default.conf /etc/nginx/conf.d/
+FROM node:24-alpine AS production
+WORKDIR /app
+ENV NODE_ENV=production HOST=0.0.0.0 PORT=80
+COPY --from=build --chown=node:node /app/.output ./.output
+USER node
 EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["node", ".output/server/index.mjs"]

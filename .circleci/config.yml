@@ -1,8 +1,5 @@
 version: 2.1
 
-orbs:
-  node: circleci/node@4.7.0
-
 parameters:
   package-version:
     type: string
@@ -14,9 +11,28 @@ executors:
       IMAGE_NAME: geocollections/geocase-ui
       IMAGE_NAME_DEV: geocollections/geocase-ui-dev
     docker:
-      - image: cimg/node:18.17.1
+      - image: cimg/node:24.11
 
 jobs:
+  validate:
+    docker:
+      - image: cimg/node:24.11-browsers
+    steps:
+      - checkout
+      - run: npm ci
+      - run: npm run lint
+      - run: npm test
+      - run: npm run typecheck
+      - run: npm run build
+      - run: npx playwright install --with-deps chromium
+      - run:
+          name: Test production build
+          command: npm run test:e2e
+          environment:
+            PLAYWRIGHT_SERVER_COMMAND: node .output/server/index.mjs
+      - store_artifacts:
+          path: test-results
+
   build_docker_image:
     executor: docker-publisher
     steps:
@@ -24,7 +40,7 @@ jobs:
       - setup_remote_docker
       - when:
           condition:
-            equal: [ "production", << pipeline.git.branch >> ]
+            equal: ["production", << pipeline.git.branch >>]
           steps:
             - run:
                 name: Build Docker image
@@ -35,7 +51,7 @@ jobs:
                 command: docker save -o image.tar $IMAGE_NAME
       - when:
           condition:
-            equal: [ "development", << pipeline.git.branch >> ]
+            equal: ["development", << pipeline.git.branch >>]
           steps:
             - run:
                 name: Build Docker dev image
@@ -60,7 +76,7 @@ jobs:
           command: docker load -i /tmp/workspace/image.tar
       - when:
           condition:
-            equal: [ "production", << pipeline.git.branch >> ]
+            equal: ["production", << pipeline.git.branch >>]
           steps:
             - run:
                 name: Publish Docker image to Docker Hub
@@ -69,7 +85,7 @@ jobs:
                   docker push $IMAGE_NAME
       - when:
           condition:
-            equal: [ "development", << pipeline.git.branch >> ]
+            equal: ["development", << pipeline.git.branch >>]
           steps:
             - run:
                 name: Publish Docker dev image to Docker Hub
@@ -94,7 +110,10 @@ jobs:
 workflows:
   build:
     jobs:
+      - validate
       - build_docker_image:
+          requires:
+            - validate
           filters:
             branches:
               only: [development, production]
@@ -113,4 +132,3 @@ workflows:
           filters:
             branches:
               only: development
-
