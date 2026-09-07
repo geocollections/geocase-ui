@@ -1,0 +1,15 @@
+@import url("https://fonts.googleapis.com/css?family=Nunito:200,300,400,600,700,800,900&display=swap");
+
+html {
+  overflow-y: auto !important;
+}
+
+.v-application {
+  font-family: "Nunito", sans-serif !important;
+  -webkit-font-smoothing: antialiased;
+}
+
+.custom-pb {
+  /* Main padding is calculated on refresh, no need to add custom 200px */
+  /*padding-bottom: 200px !important;*/
+}
