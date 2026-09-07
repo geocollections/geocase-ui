@@ -23,3 +23,10 @@ yarn-error.log*
 *.sw*
 .editorconfig
 *.sh
+
+.nuxt
+.output
+.data
+test-results
+playwright-report
+.nuxt-migration-backup/
