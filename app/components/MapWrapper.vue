@@ -12,7 +12,8 @@ import * as L from "leaflet";
 import "@geoman-io/leaflet-geoman-free";
 import "leaflet/dist/leaflet.css";
 import "@geoman-io/leaflet-geoman-free/dist/leaflet-geoman.css";
-import { mapFields } from "vuex-map-fields";
+import { useSearchStore } from "@/stores/search";
+import { markRaw } from "vue";
 import { debounce } from "lodash";
 
 export default {
@@ -50,11 +51,13 @@ export default {
       map: null,
       markers: [],
       markerLayer: null,
-      markerIcon: new L.divIcon({
-        html: "<i class='v-icon notranslate fas fa-circle theme--light primary--text searchMap-marker-icon' style='font-size: 0.75rem; opacity: 0.5;'/>",
-        className: "map-marker",
-      }),
-      baseMaps: [
+      markerIcon: markRaw(
+        new L.divIcon({
+          html: "<i class='v-icon notranslate fas fa-circle theme--light text-primary searchMap-marker-icon' style='font-size: 0.75rem; opacity: 0.5;'/>",
+          className: "map-marker",
+        }),
+      ),
+      baseMaps: markRaw([
         {
           name: "ArcGIS Light Gray",
           leafletObject: L.tileLayer(
@@ -127,8 +130,8 @@ export default {
           minZoom: 6,
           maxZoom: 18,
         },
-      ],
-      overlayMaps: [
+      ]),
+      overlayMaps: markRaw([
         {
           name: "Estonian hybrid",
           leafletObject: L.tileLayer(
@@ -147,14 +150,19 @@ export default {
           minZoom: 6,
           maxZoom: 18,
         },
-      ],
+      ]),
     };
   },
 
   computed: {
-    ...mapFields("search", {
-      geoJSON: "search.map.value",
-    }),
+    geoJSON: {
+      get() {
+        return useSearchStore().search.map.value;
+      },
+      set(value) {
+        useSearchStore().updateSearchField({ id: "map", value });
+      },
+    },
 
     localities() {
       if (this.responseResultsCount > 0) {
@@ -187,7 +195,6 @@ export default {
     localities: {
       handler(newVal) {
         this.setMarkers(newVal);
-        // Todo: Fix Zoom after invalidatingSize
         if (this.map) {
           this.$nextTick(() => {
             this.map.invalidateSize();
@@ -205,7 +212,6 @@ export default {
       if (newVal) {
         const json = newVal.toGeoJSON();
 
-        // Adding radius if Circle
         if (newVal instanceof L.Circle) {
           json.properties.radius = newVal.getRadius();
         }
@@ -213,7 +219,6 @@ export default {
         if (json) this.geoJSON = json;
       } else this.geoJSON = null;
 
-      // Updating activeG"updaeomanLayer triggers search update
       this.$emit("update");
     },
 
@@ -228,20 +233,23 @@ export default {
     this.setMarkers(this.localities);
   },
 
-  beforeDestroy() {
+  beforeUnmount() {
     if (this.map) {
       this.map.off("baselayerchange", this.handleLayerChange);
       if (this.activateSearch) this.terminateLeafletGeoman();
+      this.map.remove();
     }
   },
 
   methods: {
     initMap() {
       if (this.map === null) {
-        this.map = L.map(this.mapId, {
-          layers: [this.baseMaps[0].leafletObject],
-          scrollWheelZoom: true,
-        }).setView(L.latLng(58.5, 25.5), 6);
+        this.map = markRaw(
+          L.map(this.mapId, {
+            layers: [this.baseMaps[0].leafletObject],
+            scrollWheelZoom: true,
+          }).setView(L.latLng(58.5, 25.5), 6),
+        );
 
         let baseMaps = {};
         this.filteredBaseMaps.forEach(
@@ -255,7 +263,6 @@ export default {
 
         L.control.scale({ imperial: false }).addTo(this.map);
 
-        //LAYERS CHANGED
         this.map.on("baselayerchange", this.handleLayerChange);
       }
     },
@@ -276,7 +283,6 @@ export default {
 
     setMarkers(localities) {
       if (localities && localities.length > 0) {
-        // Resetting markers before adding new ones
         if (this.markerLayer !== null) this.map.removeLayer(this.markerLayer);
         this.markers = [];
 
@@ -308,11 +314,10 @@ export default {
               });
             }
 
-            this.markers.push(marker);
+            this.markers.push(markRaw(marker));
           }
         });
-        // Adding marker layer to searchMap
-        this.markerLayer = L.layerGroup(this.markers);
+        this.markerLayer = markRaw(L.layerGroup(this.markers));
         this.map.addLayer(this.markerLayer);
 
         if (this.markers.length > 0) {
@@ -323,7 +328,6 @@ export default {
           });
         }
       } else {
-        // If response is empty then remove markers
         if (this.markerLayer !== null) this.map.removeLayer(this.markerLayer);
         this.markers = [];
       }
@@ -348,7 +352,7 @@ export default {
           snappable: false,
         });
 
-        this.allGeomanLayers = L.layerGroup();
+        this.allGeomanLayers = markRaw(L.layerGroup());
         this.allGeomanLayers.addTo(this.map);
 
         this.map.on("pm:create", this.handlePmCreate);
@@ -364,7 +368,7 @@ export default {
     handlePmCreate({ layer }) {
       this.removeAllGeomanLayers();
       layer.addTo(this.allGeomanLayers);
-      this.activeGeomanLayer = layer;
+      this.activeGeomanLayer = markRaw(layer);
     },
 
     handlePmRemove() {

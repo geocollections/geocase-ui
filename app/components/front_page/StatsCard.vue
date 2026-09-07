@@ -1,10 +1,11 @@
 <template>
-  <v-hover v-slot:default="{ hover }">
+  <v-hover v-slot="{ isHovering: hover, props: hoverProps }">
     <v-card
+      v-bind="hoverProps"
       @click="viewInfo"
       flat
       class="StatsCard pa-4 text-center"
-      :class="{ 'hover-enter primary--text': hover, 'hover-leave': !hover }"
+      :class="{ 'hover-enter text-primary': hover, 'hover-leave': !hover }"
     >
       <div
         style="font-size: 1.25rem"
@@ -29,20 +30,22 @@
 </template>
 
 <script>
-import { mapActions, mapState } from "vuex";
+import { useSearchStore } from "@/stores/search";
+
+import { mapActions, mapState } from "pinia";
 
 export default {
   name: "StatsCard",
   props: ["text", "count", "id"],
   computed: {
-    ...mapState("search", ["search"]),
+    ...mapState(useSearchStore, ["search"]),
   },
   methods: {
-    ...mapActions("search", ["updateSearchField"]),
+    ...mapActions(useSearchStore, ["updateSearchField"]),
     viewInfo() {
       if (this.id === 2) {
         this.$router.push("partners_and_providers");
-      } else if (this.text === 3) {
+      } else if (this.id === 3) {
         if (!this.search["country"].showCheckboxes)
           this.updateSearchField({ id: "country", showCheckboxes: true });
         this.$router.push("search");

@@ -1,6 +1,7 @@
 <template>
-  <v-hover v-slot="{ hover }" close-delay="1600">
+  <v-hover v-slot="{ isHovering: hover, props: hoverProps }" close-delay="1600">
     <v-card
+      v-bind="hoverProps"
       :elevation="hover ? 12 : 6"
       @mouseleave="handleMouseLeave"
       @mouseenter="handleMouseEnter"
@@ -11,16 +12,10 @@
       :aria-label="card.imageAltText"
       @click="goToSearchView(card.url)"
     >
-      <v-overlay absolute :value="hover">
+      <v-overlay absolute :model-value="hover">
         <div class="d-flex flex-column text-center">
           <div
-            class="
-              v-card__title
-              justify-center
-              text-uppercase
-              font-weight-bold
-              animate__animated
-            "
+            class="v-card__title justify-center text-uppercase font-weight-bold animate__animated"
             :class="{
               animate__fadeInUp: hover,
               animate__fadeOutDown: card.isLeaving,
@@ -30,12 +25,7 @@
           </div>
 
           <div
-            class="
-              v-card__text
-              text-center
-              animate__animated
-              font-weight-medium
-            "
+            class="v-card__text text-center animate__animated font-weight-medium"
             :class="{
               animate__fadeInUp: hover,
               animate__fadeOutDown: card.isLeaving,
@@ -52,7 +42,7 @@
             }"
           >
             <v-btn
-              class="font-weight-bold white--text"
+              class="font-weight-bold text-white"
               color="black"
               elevation="6"
               :to="card.url"
@@ -65,13 +55,7 @@
       <v-spacer />
 
       <v-card-title
-        class="
-          justify-center
-          text-uppercase
-          font-weight-bold
-          animate__animated animate__faster
-          white--text
-        "
+        class="justify-center text-uppercase font-weight-bold animate__animated animate__faster text-white"
         :class="{
           animate__fadeOutUp: !card.isLeaving && hover,
           animate__fadeInDown: card.isLeaving,
@@ -83,7 +67,9 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { useSearchStore } from "@/stores/search";
+
+import { mapActions } from "pinia";
 
 export default {
   name: "HoverCard",
@@ -91,12 +77,10 @@ export default {
   props: ["card"],
 
   methods: {
-    ...mapActions("search", ["resetSearch"]),
-    ...mapActions("search", ["removeStratigraphyFromTableHeaders"]),
+    ...mapActions(useSearchStore, ["resetSearch"]),
+    ...mapActions(useSearchStore, ["removeStratigraphyFromTableHeaders"]),
 
-    // Resetting search fields before redirecting to search route
     goToSearchView(url) {
-      // Special case for clicking on meteorites card (removes stratigraphy header from table)
       if (url.endsWith('recordbasis="Meteorite"'))
         this.removeStratigraphyFromTableHeaders();
       this.resetSearch();
