@@ -1,8 +1,14 @@
-import { mapActions, mapState } from "vuex";
+import { useSettingsStore } from "@/stores/settings";
+import { mapActions, mapState } from "pinia";
 
 const toastMixin = {
   computed: {
-    ...mapState("settings", ["error", "errorMessage", "info", "infoMessage"]),
+    ...mapState(useSettingsStore, [
+      "error",
+      "errorMessage",
+      "info",
+      "infoMessage",
+    ]),
   },
 
   watch: {
@@ -22,7 +28,7 @@ const toastMixin = {
   },
 
   methods: {
-    ...mapActions("settings", ["updateErrorState", "updateInfoState"]),
+    ...mapActions(useSettingsStore, ["updateErrorState", "updateInfoState"]),
 
     toastSuccess(data) {
       if (!data.timeout) data.timeout = 5000;

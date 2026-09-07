@@ -18,7 +18,7 @@ export default {
     removeSortIndicators(table) {
       const tableCopy = table.cloneNode(true);
       const sortIndicators = tableCopy.querySelectorAll(
-        "thead > tr > th > .v-data-table-header__sort-badge"
+        "thead > tr > th > .v-data-table-header__sort-badge",
       );
       sortIndicators.forEach((indicator) => {
         indicator.parentElement.removeChild(indicator);

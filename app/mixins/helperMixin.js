@@ -30,7 +30,7 @@ const helperMixin = {
               imageHeight: img.height ? img.height : null,
               altText: this.getImageAltText(this.item),
             };
-          })
+          }),
         );
         if (asyncRes) this.detailViewImages = asyncRes;
         else this.detailViewImages = [];
@@ -42,7 +42,7 @@ const helperMixin = {
     searchResultImages() {
       if (this.responseResultsCount > 0) {
         let responsesWithImages = this.responseResults.filter(
-          (image) => !!image.images
+          (image) => !!image.images,
         );
         let allImages = [];
 
@@ -54,7 +54,7 @@ const helperMixin = {
               originalImage: image,
               altText: this.getImageAltText(item),
             });
-          })
+          }),
         );
 
         return allImages;

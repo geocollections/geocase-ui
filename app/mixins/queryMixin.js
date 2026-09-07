@@ -1,24 +1,28 @@
-import { mapActions, mapState } from "vuex";
+import { useSearchStore } from "@/stores/search";
+import { mapActions, mapState } from "pinia";
 import { isEqual } from "lodash";
 
 const queryMixin = {
   computed: {
-    ...mapState("search", ["searchParamsList", "lookUpTypes", "searchIds"]),
+    ...mapState(useSearchStore, [
+      "searchParamsList",
+      "lookUpTypes",
+      "searchIds",
+    ]),
   },
 
   methods: {
-    ...mapActions("search", ["updateSearchField", "updateSearchParam"]),
+    ...mapActions(useSearchStore, ["updateSearchField", "updateSearchParam"]),
 
     constructQueryParams(search, searchParams) {
       let appendableQuery = { ...this.$route.query };
 
       if (search) {
         this.searchIds
-          .filter((item) => item !== "map") // Skipping map because of geoJSON object
+          .filter((item) => item !== "map")
           .forEach((item) => {
             let queryKey = item;
 
-            // Clearing previous keys
             Object.keys(appendableQuery).forEach((entity) => {
               let appendableQueryKey = entity;
               if (entity.includes("__"))
