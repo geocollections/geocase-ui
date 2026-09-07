@@ -6,9 +6,10 @@
       clipped-left
       height="64"
       style="z-index: 2020"
-      elevation="12"
+      :elevation="$route.name === 'FrontPage' ? undefined : 12"
       class="app-bar-primary"
       :class="{
+        'app-bar-home': $route.name === 'FrontPage',
         'app-bar-fossil': appBarFossil,
         'app-bar-mineral': appBarMineral,
         'app-bar-rock': appBarRock,
@@ -194,85 +195,49 @@ export default {
 </script>
 
 <style scoped>
-.app-bar-primary {
+.v-app-bar.v-sheet.app-bar-primary {
   background: linear-gradient(
     320deg,
     rgba(255, 160, 0, 0.9) 0%,
     rgba(0, 0, 0, 0.9) 100%
-  ) !important;
+  );
 }
 
-/*.app-bar-primary:hover {*/
-/*  background: linear-gradient(*/
-/*    320deg,*/
-/*    rgba(255, 160, 0, 0.9) 0%,*/
-/*    rgba(0, 0, 0, 0.9) 100%*/
-/*  ) !important;*/
-/*}*/
-
-.app-bar-fossil {
+.v-app-bar.v-sheet.app-bar-fossil {
   background: linear-gradient(
     320deg,
     rgba(139, 195, 74, 0.9) 0%,
     rgba(0, 0, 0, 0.9) 100%
-  ) !important;
+  );
 }
 
-/*.app-bar-fossil:hover {*/
-/*  background: linear-gradient(*/
-/*    320deg,*/
-/*    rgba(139, 195, 74, 0.9) 0%,*/
-/*    rgba(0, 0, 0, 0.9) 100%*/
-/*  ) !important;*/
-/*}*/
-
-.app-bar-mineral {
+.v-app-bar.v-sheet.app-bar-mineral {
   background: linear-gradient(
     320deg,
     rgba(233, 30, 99, 0.9) 0%,
     rgba(0, 0, 0, 0.9) 100%
-  ) !important;
+  );
 }
 
-/*.app-bar-mineral:hover {*/
-/*  background: linear-gradient(*/
-/*    320deg,*/
-/*    rgba(233, 30, 99, 0.9) 0%,*/
-/*    rgba(0, 0, 0, 0.9) 100%*/
-/*  ) !important;*/
-/*}*/
-
-.app-bar-rock {
+.v-app-bar.v-sheet.app-bar-rock {
   background: linear-gradient(
     320deg,
     rgba(3, 169, 244, 0.9) 0%,
     rgba(0, 0, 0, 0.9) 100%
-  ) !important;
+  );
 }
 
-/*.app-bar-rock:hover {*/
-/*  background: linear-gradient(*/
-/*    320deg,*/
-/*    rgba(3, 169, 244, 0.9) 0%,*/
-/*    rgba(0, 0, 0, 0.9) 100%*/
-/*  ) !important;*/
-/*}*/
-
-.app-bar-meteorite {
+.v-app-bar.v-sheet.app-bar-meteorite {
   background: linear-gradient(
     320deg,
     rgba(96, 125, 139, 0.9) 0%,
     rgba(0, 0, 0, 0.9) 100%
-  ) !important;
+  );
 }
 
-/*.app-bar-meteorite:hover {*/
-/*  background: linear-gradient(*/
-/*    320deg,*/
-/*    rgba(96, 125, 139, 0.9) 0%,*/
-/*    rgba(0, 0, 0, 0.9) 100%*/
-/*  ) !important;*/
-/*}*/
+.v-app-bar.v-sheet.app-bar-home {
+  box-shadow: 0 1px 0 #ffffff20;
+}
 
 .link:hover {
   cursor: pointer;
@@ -281,5 +246,12 @@ export default {
 
 .small-font {
   font-size: 0.9em;
+}
+</style>
+
+<style>
+.app-bar-home .v-btn {
+  text-transform: none;
+  letter-spacing: 0;
 }
 </style>
