@@ -1,5 +1,43 @@
 <template>
+  <div v-if="hero" class="hero-quick-search">
+    <form class="hero-search-form" role="search" @submit.prevent="doFastSearch">
+      <text-field-wrapper
+        v-model="fastSearch"
+        class="hero-search-field"
+        :label="$t('frontPage.quickSearch')"
+        prepend-inner-icon="mdi-magnify"
+        autocomplete="off"
+        solo
+        flat
+        light
+        height="52"
+      />
+      <v-btn
+        type="submit"
+        class="hero-search-submit"
+        color="#264e40"
+        dark
+        depressed
+        height="40"
+      >
+        {{ $t("header.search") }}
+      </v-btn>
+    </form>
+    <button
+      type="button"
+      class="hero-search-help"
+      :aria-label="$t('header.help')"
+      :title="$t('header.help')"
+      @click="handleHelpButtonClick"
+    >
+      <v-icon size="22" color="white" aria-hidden="true"
+        >mdi-help-circle-outline</v-icon
+      >
+    </button>
+    <help-button :show-help="showHelp" @close="showHelp = false" />
+  </div>
   <v-row
+    v-else
     no-gutters
     :class="{ 'py-6': !inAppHeader, 'justify-center': !inAppHeader }"
   >
@@ -45,6 +83,7 @@ export default {
 
   props: {
     inAppHeader: Boolean,
+    hero: Boolean,
   },
 
   components: { HelpButton, TextFieldWrapper },
@@ -85,6 +124,7 @@ export default {
     doFastSearch(event) {
       if (
         event.type === "click" ||
+        event.type === "submit" ||
         event.keyCode === 13 ||
         event.key === "Enter"
       ) {
@@ -107,6 +147,67 @@ export default {
 </script>
 
 <style scoped>
+.hero-quick-search {
+  width: 100%;
+  max-width: 540px;
+  padding: 20px 0 18px;
+}
+.hero-search-form {
+  display: flex;
+  align-items: center;
+  padding: 0 6px 0 2px;
+  background: #fff;
+  border: 1px solid #dbe3df;
+  border-radius: 10px;
+}
+.hero-search-form:focus-within {
+  outline: 2px solid #e4bd7a;
+  outline-offset: 3px;
+}
+.hero-search-field {
+  min-width: 0;
+}
+.hero-search-field >>> .v-input__slot {
+  min-height: 52px;
+  margin: 0;
+  background: transparent !important;
+}
+.hero-search-field >>> input,
+.hero-search-field >>> .v-label {
+  font-size: 16px;
+  font-weight: 400;
+}
+.hero-search-field >>> .v-input__prepend-inner {
+  padding-right: 10px;
+}
+.hero-search-field >>> .v-icon {
+  font-size: 20px;
+}
+.hero-search-submit {
+  flex-shrink: 0;
+  border-radius: 7px;
+  text-transform: none;
+  letter-spacing: 0;
+  font-weight: 700;
+}
+.hero-search-help {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  min-height: 32px;
+  margin-top: 6px;
+  color: #dbe3df;
+  font-size: 13px;
+}
+.hero-search-help:hover {
+  opacity: 0.8;
+}
+.hero-search-help:focus-visible {
+  outline: 2px solid #e4bd7a;
+  outline-offset: 2px;
+}
+
 .fast-search-input {
   font-size: 1.25rem;
   font-weight: 600;
