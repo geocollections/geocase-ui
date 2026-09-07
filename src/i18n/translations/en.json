@@ -13,6 +13,14 @@
     }
   },
   "frontPage": {
+    "heroEyebrow": "Geoscience collections",
+    "heroDescription": "Discover fossils, minerals, rocks and meteorites from museums and research collections around the world.",
+    "browseAll": "Browse all specimens",
+    "collectionsEyebrow": "Explore the collections",
+    "collectionsTitle": "A world of natural history",
+    "mapEyebrow": "Explore by location",
+    "mapTitle": "Discover the world beneath your feet",
+    "mapDescription": "Explore specimen localities on the map and find records from across the globe.",
     "prototype_alert": {
       "title": "This is GeoCASe 2.0 interface.",
       "text": "Please report problems in <a href=\"https://github.com/geocollections/geocase-ui\" target=\"_blank\">GitHub</a>. The old portal is accessible at: <a href=\"http://old.geocase.eu\" target=\"_blank\">http://old.geocase.eu</a>."
