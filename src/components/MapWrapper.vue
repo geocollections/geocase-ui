@@ -56,13 +56,13 @@ export default {
       }),
       baseMaps: [
         {
-          name: "CartoDB",
+          name: "ArcGIS Light Gray",
           leafletObject: L.tileLayer(
-            "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
+            "https://services.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}",
             {
               attribution:
-                '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
-            }
+                'Tiles &copy; <a href="https://www.esri.com/">Esri</a>, HERE, Garmin, (c) <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>, and the GIS user community',
+            },
           ),
           minZoom: 1,
           maxZoom: 18,
@@ -74,7 +74,7 @@ export default {
             {
               attribution:
                 '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-            }
+            },
           ),
           minZoom: 1,
           maxZoom: 18,
@@ -86,7 +86,7 @@ export default {
             {
               attribution:
                 'Map data: &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)',
-            }
+            },
           ),
           minZoom: 1,
           maxZoom: 18,
@@ -104,7 +104,7 @@ export default {
               zIndex: 1,
               updateWhenIdle: true,
               continuousWorld: true,
-            }
+            },
           ),
           minZoom: 6,
           maxZoom: 18,
@@ -122,7 +122,7 @@ export default {
               zIndex: 1,
               updateWhenIdle: true,
               continuousWorld: true,
-            }
+            },
           ),
           minZoom: 6,
           maxZoom: 18,
@@ -142,7 +142,7 @@ export default {
               zIndex: 2,
               updateWhenIdle: true,
               continuousWorld: true,
-            }
+            },
           ),
           minZoom: 6,
           maxZoom: 18,
@@ -245,11 +245,11 @@ export default {
 
         let baseMaps = {};
         this.filteredBaseMaps.forEach(
-          (provider) => (baseMaps[provider.name] = provider.leafletObject)
+          (provider) => (baseMaps[provider.name] = provider.leafletObject),
         );
         let overlayMaps = {};
         this.filteredOverlayMaps.forEach(
-          (provider) => (overlayMaps[provider.name] = provider.leafletObject)
+          (provider) => (overlayMaps[provider.name] = provider.leafletObject),
         );
         L.control.layers(baseMaps, overlayMaps).addTo(this.map);
 
@@ -264,12 +264,12 @@ export default {
       if (event.name && event.name === "Estonian satellite") {
         this.map.addLayer(this.overlayMaps[0].leafletObject);
         document.querySelector(
-          "#map > div.leaflet-control-container > div.leaflet-top.leaflet-right > div > section > div.leaflet-control-layers-overlays > label > div > input"
+          "#map > div.leaflet-control-container > div.leaflet-top.leaflet-right > div > section > div.leaflet-control-layers-overlays > label > div > input",
         ).checked = true;
       } else {
         this.map.removeLayer(this.overlayMaps[0].leafletObject);
         document.querySelector(
-          "#map > div.leaflet-control-container > div.leaflet-top.leaflet-right > div > section > div.leaflet-control-layers-overlays > label > div > input"
+          "#map > div.leaflet-control-container > div.leaflet-top.leaflet-right > div > section > div.leaflet-control-layers-overlays > label > div > input",
         ).checked = false;
       }
     },
@@ -287,7 +287,7 @@ export default {
                 lat: parseFloat(item.latitude),
                 lng: parseFloat(item.longitude),
               },
-              { icon: this.markerIcon }
+              { icon: this.markerIcon },
             );
 
             if (item.recordURI) {
@@ -295,7 +295,10 @@ export default {
                 marker.on("click", () => {
                   if (this.isDetailView)
                     window.open(item.recordURI, "RecordUriWindow");
-                  else this.$router.push({ path: `specimen/${encodeURIComponent(item.geocase_id)}` });
+                  else
+                    this.$router.push({
+                      path: `specimen/${encodeURIComponent(item.geocase_id)}`,
+                    });
                 });
             }
             if (item.locality) {
