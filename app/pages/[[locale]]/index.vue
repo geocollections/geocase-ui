@@ -6,14 +6,12 @@ useHead({ title: "Welcome" });
 <template>
   <div>
     <v-container class="FrontPage">
-      <!-- STATS -->
       <v-row no-gutters>
         <v-col cols="12" sm="4" v-for="item in stats" :key="item.text">
           <StatsCard :text="item.text" :count="item.count" :id="item.id" />
         </v-col>
       </v-row>
 
-      <!-- 4 HOVER CARDS -->
       <v-row no-gutters>
         <v-col
           class="pa-3"
@@ -32,7 +30,6 @@ useHead({ title: "Welcome" });
         </v-col>
       </v-row>
     </v-container>
-    <!-- teaser-map-container -->
     <v-container
       class="teaser-map"
       :class="{ 'height-50vh': $vuetify.display.mdAndDown }"

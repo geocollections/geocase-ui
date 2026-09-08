@@ -8,7 +8,6 @@ useHead({ title: "Search" });
     <ScrollToTop />
 
     <v-card flat>
-      <!-- NUM OF ITEMS -->
       <v-card-title
         class="py-2 font-weight-bold records-found"
         style="font-size: 1.5rem"
@@ -92,7 +91,6 @@ useHead({ title: "Search" });
         </v-window-item>
       </v-window>
 
-      <!-- PAGINATION -->
       <pagination
         v-if="tab === 1 && responseResultsCount > 10"
         :paginate-by="paginateBy"
@@ -147,7 +145,6 @@ export default {
       "sortDesc",
       "isLoading",
     ]),
-    // ...mapState("searchMap", ["mapResults", "mapResultsCount"]),
     ...mapState(useSearchStore, ["paginateByItemsTranslated"]),
   },
 
@@ -155,7 +152,6 @@ export default {
     if (this.$route.query) {
       this.deconstructQueryParams(this.$route.query);
       this.fetchResults();
-      // if (this.mapResultsCount === 0) this.searchMapCoordinates();
     }
   },
 
@@ -200,7 +196,6 @@ export default {
       "fetchResults",
     ]),
 
-    // ...mapActions("searchMap", ["searchMapCoordinates"]),
 
     async openGallery(image) {
       this.tab = 1;

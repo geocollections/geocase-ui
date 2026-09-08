@@ -98,7 +98,6 @@ function buildSort(sortBy, sortDesc, search) {
   let sort = "";
   if (sortBy && sortDesc && sortBy.length > 0 && sortDesc.length > 0) {
     sortBy.forEach((field, index) => {
-      // Added support for multivalue fields
       if (search?.[field]?.fields?.length > 0) {
         search?.[field]?.fields.forEach((item) => {
           sort += item + (sortDesc[index] ? " desc" : " asc") + ",";
@@ -123,7 +122,6 @@ function buildSearchFieldsQuery(search, searchIds) {
     let fields = search[id]?.fields;
     let isExcluded = false;
 
-    // Support for multiple search fields
     if (fields?.length > 1) {
       if (value && value.trim().length > 0) {
         let filterQueryValue = fields.map((field) => {
@@ -140,14 +138,11 @@ function buildSearchFieldsQuery(search, searchIds) {
     } else {
       if (value && type === "map") {
         if (value.geometry.type === "Polygon") {
-          // LON LAT
           const clonedValue = cloneDeep(value);
 
-          // Polygon triangulation
           const data = earcut.flatten(clonedValue.geometry.coordinates);
           const triangles = earcut(data.vertices, data.holes, data.dimensions);
 
-          // Reversing triangles to geo coordinates
           const coordinates = triangles.map((item) => {
             const startIndex = item * 2;
             return [data.vertices[startIndex], data.vertices[startIndex + 1]];
@@ -167,7 +162,6 @@ function buildSearchFieldsQuery(search, searchIds) {
             [],
           );
 
-          // Creating WKT string for query
           const wkt = new Wkt.Wkt();
           wkt.read(
             JSON.stringify({
@@ -187,13 +181,9 @@ function buildSearchFieldsQuery(search, searchIds) {
 
           encodedData.push(`fq=${solrFilter}`);
         } else {
-          // CIRCLE
           const reversedCoordinates = [...value.geometry.coordinates].reverse();
-          // convert to km (from m) and round to 1 decimal place
           const radius = Math.round((value.properties.radius / 1000) * 10) / 10;
 
-          // NOTE:  Might cause trouble when multiple fields in fields array.
-          // Right now there is always one field in the fields array
           const solrFilter = fields.map(
             (field) => `{!geofilt sfield=${field}}`,
           );

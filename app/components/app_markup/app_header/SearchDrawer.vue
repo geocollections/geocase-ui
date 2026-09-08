@@ -13,7 +13,6 @@
     color="blue-grey-lighten-4"
   >
     <v-list v-model:opened="openedGroups">
-      <!-- QUICK SEARCH -->
       <v-list-item>
         <div>
           <v-list-item-title
@@ -38,7 +37,6 @@
 
       <v-divider />
 
-      <!-- ADDITIONAL FILTERS -->
       <v-list-group
         value="additional"
         active-class="blue-grey-lighten-3"
@@ -56,7 +54,6 @@
 
         <v-divider />
 
-        <!-- TEXT FIELDS -->
         <v-list-item v-for="id in searchTextIds" :key="id">
           <v-row no-gutters>
             <v-col cols="12" class="py-1">
@@ -99,7 +96,6 @@
 
         <v-divider />
 
-        <!-- MAP -->
         <v-card class="checkboxes" flat rounded="0" color="transparent" hover>
           <v-hover v-slot="{ isHovering: hover, props: hoverProps }">
             <v-card-title
@@ -168,7 +164,6 @@
           </v-expand-transition>
         </v-card>
 
-        <!-- CHECKBOXES -->
         <v-card
           class="checkboxes"
           flat
@@ -309,7 +304,6 @@
           </v-expand-transition>
         </v-card>
 
-        <!-- SINGLE CHECKBOXES -->
         <v-list-item v-for="id in searchSingleCheckboxIds" :key="id">
           <v-checkbox
             color="blue-grey-darken-3"
@@ -425,12 +419,10 @@ export default {
 
     updateSearchFieldDebounced: debounce(function (value) {
       this.updateSearchField(value);
-      // #113 removing sorting
       if (value?.id === "q") {
         this.updateSortBy([]);
         this.updateSortDesc([]);
       }
-      // #112
       if (this.search.page !== 1) this.updatePage(1);
     }, 300),
 
@@ -449,7 +441,6 @@ export default {
         }
       }
       this.updateSearchField({ id: e.id, value: e.value });
-      // #112
       if (this.search.page !== 1) this.updatePage(1);
     },
 
@@ -462,7 +453,6 @@ export default {
         id: id,
         value: null,
       });
-      // #112
       if (this.search.page !== 1) this.updatePage(1);
     },
   },
@@ -472,7 +462,7 @@ export default {
 <style scoped>
 .search--checkbox-label {
   margin: 5px 4px 3px 0;
-  /*font-weight: bold;*/
+
   color: black;
   white-space: nowrap;
 }
@@ -486,7 +476,6 @@ export default {
   width: 100%;
 }
 
-/* solo-inverted override */
 .search-drawer-text-field :deep(.v-input__slot) {
   background: #eceff1 !important;
 }

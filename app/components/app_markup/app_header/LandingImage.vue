@@ -47,7 +47,7 @@ export default {
   background-size: cover;
   background-position: center;
   min-height: 37vh;
-  /*margin-top: 64px;*/
+
   padding: 32px 0;
   min-height: 275px;
   -webkit-box-shadow:

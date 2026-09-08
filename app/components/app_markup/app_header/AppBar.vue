@@ -203,14 +203,6 @@ export default {
   ) !important;
 }
 
-/*.app-bar-primary:hover {*/
-/*  background: linear-gradient(*/
-/*    320deg,*/
-/*    rgba(255, 160, 0, 0.9) 0%,*/
-/*    rgba(0, 0, 0, 0.9) 100%*/
-/*  ) !important;*/
-/*}*/
-
 .app-bar-fossil {
   background: linear-gradient(
     320deg,
@@ -218,14 +210,6 @@ export default {
     rgba(0, 0, 0, 0.9) 100%
   ) !important;
 }
-
-/*.app-bar-fossil:hover {*/
-/*  background: linear-gradient(*/
-/*    320deg,*/
-/*    rgba(139, 195, 74, 0.9) 0%,*/
-/*    rgba(0, 0, 0, 0.9) 100%*/
-/*  ) !important;*/
-/*}*/
 
 .app-bar-mineral {
   background: linear-gradient(
@@ -235,14 +219,6 @@ export default {
   ) !important;
 }
 
-/*.app-bar-mineral:hover {*/
-/*  background: linear-gradient(*/
-/*    320deg,*/
-/*    rgba(233, 30, 99, 0.9) 0%,*/
-/*    rgba(0, 0, 0, 0.9) 100%*/
-/*  ) !important;*/
-/*}*/
-
 .app-bar-rock {
   background: linear-gradient(
     320deg,
@@ -251,14 +227,6 @@ export default {
   ) !important;
 }
 
-/*.app-bar-rock:hover {*/
-/*  background: linear-gradient(*/
-/*    320deg,*/
-/*    rgba(3, 169, 244, 0.9) 0%,*/
-/*    rgba(0, 0, 0, 0.9) 100%*/
-/*  ) !important;*/
-/*}*/
-
 .app-bar-meteorite {
   background: linear-gradient(
     320deg,
@@ -266,14 +234,6 @@ export default {
     rgba(0, 0, 0, 0.9) 100%
   ) !important;
 }
-
-/*.app-bar-meteorite:hover {*/
-/*  background: linear-gradient(*/
-/*    320deg,*/
-/*    rgba(96, 125, 139, 0.9) 0%,*/
-/*    rgba(0, 0, 0, 0.9) 100%*/
-/*  ) !important;*/
-/*}*/
 
 .link:hover {
   cursor: pointer;

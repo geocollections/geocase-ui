@@ -88,11 +88,6 @@ export const useDetailStore = defineStore("detail", {
       );
     },
 
-    /* Currently unused types aka unspecified:
-     * OtherSpecimen
-     * Unspecified
-     * specimen
-     */
     isItemFossil: (state) => {
       if (state.item) {
         let type = state.item.recordbasis;
@@ -121,10 +116,7 @@ export const useDetailStore = defineStore("detail", {
       } else return false;
     },
 
-    // There is a problem that currently stratigraphy is coming from both standards
-    // which one should we use, both??
     itemStratigraphy: (state) => {
-      // As an array of objects [{ name: '', division: '' }, ...]
       let stratigraphyList = [];
       let stratigraphyEFG =
         state?.responseFromSource?.["abcd:DataSets"]?.["abcd:DataSet"]?.[
@@ -450,7 +442,6 @@ export const useDetailStore = defineStore("detail", {
       ]?.["abcd:Unit"]?.["abcd:KindOfUnit"];
     },
 
-    // Is it possible there are multiple?
     itemMineralGroup: (state) => {
       const mineralGroup =
         state?.responseFromSource?.["abcd:DataSets"]?.["abcd:DataSet"]?.[
@@ -461,20 +452,6 @@ export const useDetailStore = defineStore("detail", {
           "efg:MineralRockGroup"
         ]?.["efg:MineralRockGroupName"];
       return mineralGroup;
-      // if (mineralGroup) {
-      //   if (Array.isArray(mineralGroup)) {
-      //     let mineralGroupList = mineralGroup
-      //       .map(item => {
-      //         if (item["efg:MineralRockGroupName"])
-      //           return item["efg:MineralRockGroupName"];
-      //       })
-      //       .filter(item => item);
-      //     if (mineralGroupList && mineralGroupList.length > 0)
-      //       return mineralGroupList;
-      //   } else if (mineralGroup?.["efg:MineralRockGroupName"])
-      //     return [`${mineralGroup?.["efg:MineralRockGroupName"]}`];
-      //   else return null;
-      // } else return null;
     },
 
     mineralNameDetail: (state) => {

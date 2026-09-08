@@ -149,7 +149,7 @@ export const useSearchStore = defineStore("search", {
       "stratigraphy",
       "locality",
       "unitid",
-      "map", // Map is a special case
+      "map",
       "recordbasis",
       "highertaxon_facet",
       "type_status",
@@ -384,7 +384,6 @@ export const useSearchStore = defineStore("search", {
           this.search[item].lookUpType = "contains";
         if (this.search[item].value !== null) this.search[item].value = null;
       });
-      // Also resetting search params
       this.page = 1;
       this.paginateBy = 25;
       this.sortBy = [];
@@ -442,8 +441,6 @@ export const useSearchStore = defineStore("search", {
 
     updateSearchField(payload) {
       if (payload.id) {
-        // #112 resetting page number after facet (search field) change
-        // if ("value" in payload && this.page !== 1) this.updatePage(1);
         this.UPDATE_SEARCH_FIELD(payload);
       }
     },
