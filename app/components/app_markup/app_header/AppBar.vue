@@ -1,246 +1,177 @@
-<template>
-  <v-app-bar
-    theme="dark"
-    app
-    clipped-left
-    height="64"
-    style="z-index: 2020"
-    elevation="12"
-    class="app-bar-primary"
-    :class="{
-      'app-bar-fossil': appBarFossil,
-      'app-bar-mineral': appBarMineral,
-      'app-bar-rock': appBarRock,
-      'app-bar-meteorite': appBarMeteorite,
-    }"
-  >
-    <v-tooltip location="bottom" z-index="3000">
-      <template v-slot:activator="{ props }">
-        <v-btn
-          v-bind="props"
-          v-show="$route.name === 'Search'"
-          @click.stop="$emit('toggle:searchDrawer')"
-          aria-label="Toggle navigation drawer"
-          class="mr-2"
-          icon
-        >
-          <v-icon>fa:fas fa-sliders-h</v-icon>
-        </v-btn>
-      </template>
-      <span>{{ $t("header.showSearch") }}</span>
-    </v-tooltip>
-
-    <v-toolbar-items>
-      <v-tooltip location="bottom" z-index="3000">
-        <template v-slot:activator="{ props }">
-          <v-toolbar-title
-            v-bind="props"
-            class="font-weight-bold link mr-3 text-white align-self-center"
-            style="letter-spacing: 1px"
-          >
-            <NuxtLink to="/" class="text-white text-decoration-none">
-              <span
-                class="hidden-xs-only"
-                :class="{ 'small-font': $vuetify.display.sm }"
-                >GeoCASe
-                <span v-if="!isProductionUrl">DEV</span>
-              </span>
-              <span class="hidden-sm-and-up">
-                <v-icon>fa:fas fa-home</v-icon>
-              </span>
-            </NuxtLink>
-          </v-toolbar-title>
-        </template>
-        <span>{{ $t("header.titleTooltip") }}</span>
-      </v-tooltip>
-
-      <v-btn class="hidden-xs-only" variant="text" to="/search">{{
-        $t("header.search")
-      }}</v-btn>
-      <v-btn class="hidden-md-and-down" variant="text" to="/about">{{
-        $t("header.about")
-      }}</v-btn>
-      <v-btn class="hidden-md-and-down" variant="text" to="/access">{{
-        $t("header.access")
-      }}</v-btn>
-      <v-btn
-        class="hidden-md-and-down"
-        variant="text"
-        to="/partners_and_providers"
-        exact
-        >{{ $t("header.partners") }}</v-btn
-      >
-      <v-btn class="hidden-xs-only" variant="text" to="/help">{{
-        $t("header.help")
-      }}</v-btn>
-    </v-toolbar-items>
-
-    <v-spacer />
-
-    <fast-search
-      style="max-width: 300px"
-      v-show="
-        $route.name !== 'FrontPage' &&
-        $route.name !== 'Search' &&
-        $vuetify.display.mdAndUp
-      "
-      in-app-header
-    />
-
-    <v-toolbar-items>
-      <LangButtons />
-
-      <v-menu
-        transition="slide-y-transition"
-        v-model="externalResourcesDropdown"
-        offset="8"
-        z-index="2101"
-      >
-        <template v-slot:activator="{ props }">
-          <v-btn variant="text" v-bind="props">
-            {{ $t("header.resources") }}
-            <v-icon end>{{
-              externalResourcesDropdown
-                ? "fa:fas fa-caret-up"
-                : "fa:fas fa-caret-down"
-            }}</v-icon>
-          </v-btn>
-        </template>
-
-        <v-list color="primary" theme="dark" density="compact">
-          <v-list-item
-            v-for="item in externalResources"
-            :key="item.text"
-            :href="item.url"
-            target="ExternalResourceskWindow"
-          >
-            <div>
-              <v-icon>{{ item.icon }}</v-icon>
-              <v-icon>{{ item.icon }}</v-icon>
-            </div>
-            <v-list-item-title>{{ item.text }}</v-list-item-title>
-          </v-list-item>
-        </v-list>
-      </v-menu>
-    </v-toolbar-items>
-
-    <v-tooltip location="bottom">
-      <template v-slot:activator="{ props }">
-        <v-app-bar-nav-icon
-          v-bind="props"
-          @click.stop="$emit('toggle:navigationDrawer')"
-          aria-label="Open navigation drawer"
-        />
-      </template>
-      <span>{{ $t("header.showMenu") }}</span>
-    </v-tooltip>
-  </v-app-bar>
-</template>
-
-<script>
+<script setup lang="ts">
+import { computed, ref } from "vue";
+import { useRoute, useRouter } from "#imports";
+import { useI18n } from "vue-i18n";
 import { useDetailStore } from "@/stores/detail";
 import { useSettingsStore } from "@/stores/settings";
+import { useAppNavigation } from "@/composables/useAppNavigation";
 
-import { mapState } from "pinia";
-import FastSearch from "@/components/search/FastSearch.vue";
-import LangButtons from "@/components/LangButtons.vue";
-export default {
-  name: "AppBar",
-
-  components: { LangButtons, FastSearch },
-
-  data: () => ({
-    externalResourcesDropdown: false,
-  }),
-
-  computed: {
-    ...mapState(useSettingsStore, ["externalResources"]),
-    ...mapState(useDetailStore, [
-      "item",
-      "isItemFossil",
-      "isItemMineral",
-      "isItemRock",
-      "isItemMeteorite",
-    ]),
-
-    appBarFossil() {
-      return this.$route.name === "Detail" && this.isItemFossil;
-    },
-
-    appBarMineral() {
-      return this.$route.name === "Detail" && this.isItemMineral;
-    },
-
-    appBarRock() {
-      return this.$route.name === "Detail" && this.isItemRock;
-    },
-
-    appBarMeteorite() {
-      return this.$route.name === "Detail" && this.isItemMeteorite;
-    },
-
-    isProductionUrl() {
-      return document.location.origin.includes("geocase.eu");
-    },
+const emit = defineEmits<{
+  "toggle:searchDrawer": [];
+  "toggle:navigationDrawer": [];
+}>();
+const route = useRoute();
+const router = useRouter();
+const { t } = useI18n();
+const detail = useDetailStore();
+const settings = useSettingsStore();
+const { language, localePath, changeLanguage } = useAppNavigation();
+const quickSearch = ref("");
+const isProduction =
+  import.meta.client && /(^|\.)geocase\.eu$/.test(window.location.hostname);
+const barGradientClass = computed(() => {
+  if (route.name === "Detail") {
+    if (detail.isItemFossil) return "tw:from-fossil";
+    if (detail.isItemMineral) return "tw:from-mineral";
+    if (detail.isItemRock) return "tw:from-rock";
+    if (detail.isItemMeteorite) return "tw:from-meteorite";
+  }
+  return "tw:from-geocase";
+});
+const links = computed(() => [
+  {
+    label: t("header.search"),
+    to: "/search",
+    class: "tw:hidden tw:min-[600px]:inline-flex",
   },
-
-  methods: {
-    goToFrontPage() {
-      if (window.location.pathname === "/") {
-        window.location.assign(window.location.origin);
-      } else this.$router.push({ path: "/" });
-    },
+  {
+    label: t("header.about"),
+    to: "/about",
+    class: "tw:hidden tw:min-[1280px]:inline-flex",
   },
-};
+  {
+    label: t("header.access"),
+    to: "/access",
+    class: "tw:hidden tw:min-[1280px]:inline-flex",
+  },
+  {
+    label: t("header.partners"),
+    to: "/partners_and_providers",
+    class: "tw:hidden tw:min-[1280px]:inline-flex",
+  },
+  {
+    label: t("header.help"),
+    to: "/help",
+    class: "tw:hidden tw:min-[600px]:inline-flex",
+  },
+]);
+const languages = computed(() =>
+  (["en", "ee", "de"] as const).map((value, index) => ({
+    label: ["ENG", "EST", "GER"][index],
+    onSelect: () => changeLanguage(value),
+  })),
+);
+const resources = computed(() =>
+  settings.externalResources.map((item) => ({
+    label: item.text,
+    to: item.url,
+    target: "_blank",
+    icon: "i-lucide-external-link",
+  })),
+);
+function submitSearch() {
+  router.push({
+    path: localePath("/search"),
+    query: { q: quickSearch.value || undefined, page: 1 },
+  });
+}
 </script>
 
-<style scoped>
-.app-bar-primary {
-  background: linear-gradient(
-    320deg,
-    rgba(255, 160, 0, 0.9) 0%,
-    rgba(0, 0, 0, 0.9) 100%
-  ) !important;
-}
-
-.app-bar-fossil {
-  background: linear-gradient(
-    320deg,
-    rgba(139, 195, 74, 0.9) 0%,
-    rgba(0, 0, 0, 0.9) 100%
-  ) !important;
-}
-
-.app-bar-mineral {
-  background: linear-gradient(
-    320deg,
-    rgba(233, 30, 99, 0.9) 0%,
-    rgba(0, 0, 0, 0.9) 100%
-  ) !important;
-}
-
-.app-bar-rock {
-  background: linear-gradient(
-    320deg,
-    rgba(3, 169, 244, 0.9) 0%,
-    rgba(0, 0, 0, 0.9) 100%
-  ) !important;
-}
-
-.app-bar-meteorite {
-  background: linear-gradient(
-    320deg,
-    rgba(96, 125, 139, 0.9) 0%,
-    rgba(0, 0, 0, 0.9) 100%
-  ) !important;
-}
-
-.link:hover {
-  cursor: pointer;
-  opacity: 0.7;
-}
-
-.small-font {
-  font-size: 0.9em;
-}
-</style>
+<template>
+  <header
+    class="tw:fixed tw:inset-x-0 tw:top-0 tw:z-2020 tw:h-16 tw:bg-linear-320/srgb tw:to-header-dark tw:text-white tw:shadow-xl"
+    :class="barGradientClass"
+  >
+    <nav
+      aria-label="Main navigation"
+      class="tw:flex tw:h-full tw:items-center tw:gap-1 tw:px-3 tw:sm:gap-2 tw:sm:px-4"
+    >
+      <UTooltip
+        v-if="route.name === 'Search'"
+        :text="t('header.showSearch')"
+        :ui="{ content: 'tw:z-[3400]' }"
+      >
+        <UButton
+          icon="i-lucide-sliders-horizontal"
+          color="neutral"
+          variant="ghost"
+          class="tw:shrink-0 tw:text-white"
+          aria-label="Toggle navigation drawer"
+          @click="emit('toggle:searchDrawer')"
+        />
+      </UTooltip>
+      <NuxtLink
+        :to="localePath('/')"
+        :title="t('header.titleTooltip')"
+        class="tw:shrink-0 tw:whitespace-nowrap tw:text-lg tw:font-bold tw:tracking-wide tw:text-white tw:no-underline tw:sm:mr-2 tw:sm:text-xl"
+      >
+        GeoCASe
+        <span
+          v-if="!isProduction"
+          class="tw:hidden tw:text-xs tw:min-[600px]:inline"
+          >DEV</span
+        >
+      </NuxtLink>
+      <UButton
+        v-for="link in links"
+        :key="link.to"
+        :to="localePath(link.to)"
+        :label="link.label"
+        color="neutral"
+        variant="ghost"
+        :class="[link.class, 'tw:shrink-0 tw:text-white']"
+      />
+      <div class="tw:flex-1" />
+      <form
+        v-if="route.name !== 'FrontPage' && route.name !== 'Search'"
+        class="tw:hidden tw:w-52 tw:shrink tw:min-[960px]:block"
+        @submit.prevent="submitSearch"
+      >
+        <UInput
+          v-model="quickSearch"
+          :placeholder="t('frontPage.quickSearch')"
+          :aria-label="t('frontPage.quickSearch')"
+          icon="i-lucide-search"
+          class="tw:w-full"
+        />
+      </form>
+      <UDropdownMenu :items="languages" :ui="{ content: 'tw:z-[3300]' }">
+        <UButton
+          aria-label="select language"
+          color="neutral"
+          variant="ghost"
+          class="tw:shrink-0 tw:text-white"
+        >
+          <img
+            :src="`https://files.geocollections.info/img/geocase/flags/${language}.svg`"
+            :alt="language"
+            class="tw:size-6 tw:rounded-full tw:object-cover"
+          />
+        </UButton>
+      </UDropdownMenu>
+      <UDropdownMenu :items="resources" :ui="{ content: 'tw:z-[3300]' }">
+        <UButton
+          :aria-label="t('header.resources')"
+          icon="i-lucide-library"
+          color="neutral"
+          variant="ghost"
+          class="tw:shrink-0 tw:text-white"
+        >
+          <span class="tw:hidden tw:min-[600px]:inline">{{
+            t("header.resources")
+          }}</span>
+        </UButton>
+      </UDropdownMenu>
+      <UTooltip :text="t('header.showMenu')" :ui="{ content: 'tw:z-[3400]' }">
+        <UButton
+          icon="i-lucide-menu"
+          color="neutral"
+          variant="ghost"
+          class="tw:shrink-0 tw:text-white"
+          aria-label="Open navigation drawer"
+          @click="emit('toggle:navigationDrawer')"
+        />
+      </UTooltip>
+    </nav>
+  </header>
+</template>
