@@ -1,7 +1,12 @@
+import tailwindcss from "@tailwindcss/vite";
+
 export default defineNuxtConfig({
   compatibilityDate: "2026-09-07",
   ssr: false,
-  vite: { optimizeDeps: { exclude: ["maplibre-gl"] } },
+  vite: {
+    plugins: [tailwindcss()],
+    optimizeDeps: { exclude: ["maplibre-gl"] },
+  },
   modules: ["@pinia/nuxt"],
   components: [{ path: "~/components", pathPrefix: false }],
   css: [
@@ -10,7 +15,7 @@ export default defineNuxtConfig({
     "@fortawesome/fontawesome-free/css/all.min.css",
     "animate.css",
     "izitoast/dist/css/iziToast.min.css",
-    "~/assets/css/main.css",
+    "~/assets/css/tailwind.css",
   ],
   runtimeConfig: { apiBase: "https://api.geocase.eu" },
   app: {

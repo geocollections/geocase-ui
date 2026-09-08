@@ -8,8 +8,7 @@
       :class="{ 'hover-enter text-primary': hover, 'hover-leave': !hover }"
     >
       <div
-        style="font-size: 1.25rem"
-        class="animate__animated"
+        class="tw:text-[1.25rem] animate__animated"
         :class="{
           animate__headShake: hover,
         }"
@@ -20,8 +19,7 @@
         :class="{
           animate__headShake: hover,
         }"
-        class="font-weight-bold animate__animated"
-        style="font-size: 1.75rem"
+        class="tw:text-[1.75rem] tw:font-bold animate__animated"
       >
         {{ count }}
       </div>

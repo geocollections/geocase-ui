@@ -14,7 +14,23 @@ cp .env.example .env
 npm run dev
 ```
 
-The application uses Nuxt 4, Vue 3, Vuetify 4 and Pinia. Existing English, Estonian (`/ee`) and German (`/de`) URLs are preserved.
+The application uses Nuxt 4, Vue 3, Vuetify 4, Tailwind CSS 4 and Pinia. Existing English, Estonian (`/ee`) and German (`/de`) URLs are preserved.
+
+## Tailwind CSS
+
+Tailwind is integrated through `@tailwindcss/vite` and loaded globally from
+`app/assets/css/tailwind.css`. Classes use the `tw:` prefix to avoid collisions
+with Vuetify utilities. Preflight is disabled because Vuetify supplies the reset.
+
+```vue
+<div class="tw:flex tw:items-center tw:gap-4 tw:md:gap-6">
+  <span class="tw:font-bold">GeoCASe</span>
+</div>
+```
+
+Source detection covers `app/`. Keep class names complete in templates so Tailwind
+can detect them. `StatsCard.vue` uses Tailwind for its typography.
+Restart `npm run dev` after installing dependencies or changing the Vite config.
 
 ## Structure
 
