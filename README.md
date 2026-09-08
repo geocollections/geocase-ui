@@ -37,6 +37,7 @@ Restart `npm run dev` after installing dependencies or changing the Vite config.
 - `app/pages/[[locale]]/`: file-based routes, including specimen detail pages.
 - `app/layouts/`: shared application shell and static-page layout.
 - `app/components/`: interface, tables, search and map components.
+- `app/composables/`: shared Vue Composition API logic in TypeScript (`use*.ts`), for example `useToggle.ts` for menu and dialog visibility.
 - `app/stores/`: Pinia stores for search, specimens, statistics and preferences.
 - `app/plugins/`: Vuetify, translations, notifications and browser preference persistence.
 - `app/middleware/`: locale selection and redirects.
