@@ -3,22 +3,19 @@
     <ScrollToTop />
 
     <v-card flat>
-      <!-- NUM OF ITEMS AND SEARCH CONTEXT -->
-      <div class="records-found">
-        <v-card-title class="py-2 font-weight-bold" style="font-size: 1.5rem">
-          <span class="mr-1">{{
-            responseResultsCount ? responseResultsCount.toLocaleString() : 0
-          }}</span>
-          <span class="mr-1">{{
-            $tc("search.recordsFound", responseResultsCount)
-          }}</span>
-          <span class="hidden-sm-and-up">{{ `(page: ${page})` }}</span>
-        </v-card-title>
-
-        <v-card-subtitle class="pt-0 pb-3 search-context" aria-live="polite">
-          {{ searchDescription }}
-        </v-card-subtitle>
-      </div>
+      <!-- NUM OF ITEMS -->
+      <v-card-title
+        class="py-2 font-weight-bold records-found"
+        style="font-size: 1.5rem"
+      >
+        <span class="mr-1">{{
+          responseResultsCount ? responseResultsCount.toLocaleString() : 0
+        }}</span>
+        <span class="mr-1">{{
+          $tc("search.recordsFound", responseResultsCount)
+        }}</span>
+        <span class="hidden-sm-and-up">{{ `(page: ${page})` }}</span>
+      </v-card-title>
 
       <v-tabs
         v-model="tab"
@@ -133,30 +130,17 @@ export default {
   }),
 
   computed: {
-    ...mapState("search", {
-      responseResults: "responseResults",
-      responseResultsCount: "responseResultsCount",
-      page: "page",
-      paginateBy: "paginateBy",
-      sortBy: "sortBy",
-      sortDesc: "sortDesc",
-      isLoading: "isLoading",
-      searchFields: "search",
-    }),
+    ...mapState("search", [
+      "responseResults",
+      "responseResultsCount",
+      "page",
+      "paginateBy",
+      "sortBy",
+      "sortDesc",
+      "isLoading",
+    ]),
     // ...mapState("searchMap", ["mapResults", "mapResultsCount"]),
     ...mapGetters("search", ["paginateByItemsTranslated"]),
-
-    searchDescription() {
-      const filters = this.searchIds
-        .map((id) => this.describeSearchField(id))
-        .filter(Boolean);
-
-      if (filters.length === 0) return this.$t("search.allRecords");
-
-      return this.$t("search.resultDescription", {
-        filters: filters.join(this.$t("search.filterSeparator")),
-      });
-    },
   },
 
   created() {
@@ -202,49 +186,6 @@ export default {
       "search",
     ]),
 
-    describeSearchField(id) {
-      const field = this.searchFields[id];
-
-      if (!field || !hasSearchValue(field)) return null;
-      if (id === "q") return this.describeQuickSearch(field);
-      if (id === "map") return this.$t("search.mapFilterDescription");
-      if (field.type === "checkbox") return this.describeFacet(id, field);
-      if (field.type === "single_checkbox") {
-        return this.$t("search.singleFilterDescription", {
-          filter: this.$t(`search.drawer.${id}`),
-        });
-      }
-
-      return this.describeTextFilter(id, field);
-    },
-
-    describeQuickSearch(field) {
-      return this.$t("search.quickSearchDescription", {
-        value: formatSearchValue(field.value, true),
-      });
-    },
-
-    describeFacet(id, field) {
-      return this.$t("search.facetFilterDescription", {
-        field: this.$t(`search.table.${id}`),
-        value: formatSearchValue(field.value),
-      });
-    },
-
-    describeTextFilter(id, field) {
-      const operator = field.lookUpType
-        ? this.$t(
-            `search.filterOperators.${field.lookUpType.replace(/ /g, "_")}`,
-          )
-        : this.$t("search.matches");
-
-      return this.$t("search.fieldFilterDescription", {
-        field: this.$t(`search.table.${id}`),
-        operator,
-        value: formatSearchValue(field.value),
-      });
-    },
-
     // ...mapActions("searchMap", ["searchMapCoordinates"]),
 
     async openGallery(image) {
@@ -258,36 +199,11 @@ export default {
     }, 300),
   },
 };
-
-function hasSearchValue(field) {
-  if (field.type === "map") return !!field.value;
-
-  return (
-    field.value !== null &&
-    field.value !== undefined &&
-    String(field.value).trim().length > 0
-  );
-}
-
-function formatSearchValue(value, preserveQuotes = false) {
-  if (Array.isArray(value)) return value.join(", ");
-  if (typeof value !== "string") return String(value);
-
-  const decodedValue = value.replaceAll("&quot;", '"').trim();
-  if (preserveQuotes) return decodedValue;
-
-  return decodedValue.replace(/"\s+"/g, ", ").replaceAll('"', "");
-}
 </script>
 
 <style scoped>
 .v-tab.border-bottom.v-tab--active {
   border: none !important;
   border-bottom: solid 3px black !important;
-}
-
-.search-context {
-  color: rgba(0, 0, 0, 0.7) !important;
-  font-size: 1rem;
 }
 </style>
