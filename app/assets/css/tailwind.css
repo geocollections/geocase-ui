@@ -1,0 +1,14 @@
+@import url("https://fonts.googleapis.com/css?family=Nunito:200,300,400,600,700,800,900&display=swap");
+
+@layer theme, base, components, utilities;
+@import "tailwindcss/theme.css" layer(theme) prefix(tw);
+@import "tailwindcss/utilities.css" layer(utilities) prefix(tw) source("../../");
+
+html {
+  overflow-y: auto !important;
+}
+
+.v-application {
+  font-family: "Nunito", sans-serif !important;
+  -webkit-font-smoothing: antialiased;
+}

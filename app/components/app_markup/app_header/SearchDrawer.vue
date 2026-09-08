@@ -1,0 +1,492 @@
+<template>
+  <v-navigation-drawer
+    app
+    :model-value="drawer"
+    @update:model-value="$emit('update:drawer', $event)"
+    :style="footerStyle"
+    clipped
+    fixed
+    width="350"
+    disable-route-watcher
+    mobile-breakpoint="960"
+    class="elevation-4"
+    color="blue-grey-lighten-4"
+  >
+    <v-list v-model:opened="openedGroups">
+      <v-list-item>
+        <div>
+          <v-list-item-title
+            class="font-weight-bold text-center text-uppercase mb-2"
+            style="font-size: 1.15rem"
+            >{{ $t("frontPage.quickSearch") }}</v-list-item-title
+          >
+
+          <TextFieldWrapper
+            class="search-drawer-text-field"
+            :model-value="search.q.value"
+            @update:model-value="
+              updateSearchFieldDebounced({ id: 'q', value: $event })
+            "
+            clearable
+            variant="solo"
+            :placeholder="$t('frontPage.quickSearch')"
+            clear-icon="fa:fas fa-times"
+          />
+        </div>
+      </v-list-item>
+
+      <v-divider />
+
+      <v-list-group
+        value="additional"
+        active-class="blue-grey-lighten-3"
+        color="black"
+      >
+        <template #activator="{ props }">
+          <v-list-item v-bind="props"
+            ><v-list-item-title
+              class="font-weight-bold text-center text-uppercase"
+              style="font-size: 1.15rem"
+              >{{ $t("search.drawer.additionalFilters") }}</v-list-item-title
+            ></v-list-item
+          >
+        </template>
+
+        <v-divider />
+
+        <v-list-item v-for="id in searchTextIds" :key="id">
+          <v-row no-gutters>
+            <v-col cols="12" class="py-1">
+              <SelectWrapper
+                :use-custom-prepend-inner="$t(`search.table.${id}`)"
+                :items="lookUpTypes"
+                :model-value="search[id].lookUpType"
+                @update:model-value="
+                  updateSearchField({ id: id, lookUpType: $event })
+                "
+                :readonly="id === 'coordinates'"
+              />
+            </v-col>
+
+            <v-col cols="12" class="py-1">
+              <TextFieldWrapper
+                class="search-drawer-text-field"
+                :model-value="search[id].value"
+                @update:model-value="
+                  updateSearchFieldDebounced({ id: id, value: $event })
+                "
+                density="compact"
+                clearable
+                variant="solo"
+                :readonly="id === 'coordinates'"
+                :placeholder="
+                  $t(
+                    `search.table.${id}${
+                      id === 'coordinates' ? 'ReadOnly' : ''
+                    }`,
+                  )
+                "
+                clear-icon="fa:fas fa-times"
+              />
+            </v-col>
+          </v-row>
+        </v-list-item>
+
+        <div class="my-2"></div>
+
+        <v-divider />
+
+        <v-card class="checkboxes" flat rounded="0" color="transparent" hover>
+          <v-hover v-slot="{ isHovering: hover, props: hoverProps }">
+            <v-card-title
+              v-bind="hoverProps"
+              class="checkboxes--title font-weight-bold text-uppercase py-2 px-6"
+              style="font-size: 0.875rem"
+              :class="{
+                'blue-grey-lighten-3': search.map.showCheckboxes,
+                'blue-grey-lighten-2': search.map.showCheckboxes && hover,
+              }"
+              @click="
+                updateSearchField({
+                  id: 'map',
+                  showCheckboxes: !search.map.showCheckboxes,
+                })
+              "
+            >
+              {{ $t(`search.table.map`) }}
+              <v-spacer />
+
+              <v-tooltip v-if="search.map.value" location="top">
+                <template v-slot:activator="{ props }">
+                  <v-btn
+                    class="mr-6"
+                    v-bind="props"
+                    size="small"
+                    color="error"
+                    icon
+                    @click.stop="resetFacet('map')"
+                  >
+                    <v-badge color="transparent" bottom overlap
+                      ><v-icon size="small">fa:fas fa-trash</v-icon>
+                    </v-badge>
+                  </v-btn>
+                </template>
+                <span>{{
+                  $t("search.drawer.clearFilters", {
+                    field: $t(`search.table.map`),
+                  })
+                }}</span>
+              </v-tooltip>
+
+              <v-icon v-if="search.map.showCheckboxes"
+                >fa:fas fa-angle-up</v-icon
+              >
+              <v-icon v-else>fa:fas fa-angle-down</v-icon>
+            </v-card-title>
+          </v-hover>
+          <v-divider />
+
+          <v-expand-transition>
+            <v-card-text
+              class="transition-fast-in-fast-out pa-0"
+              :class="{ 'blue-grey-lighten-5': search.map.showCheckboxes }"
+              v-show="search.map.showCheckboxes"
+            >
+              <map-wrapper
+                map-id="search-map"
+                :open="search.map.showCheckboxes"
+                :response-results="responseResults"
+                :response-results-count="responseResultsCount"
+                activate-search
+                @update="doSearch"
+              />
+            </v-card-text>
+          </v-expand-transition>
+        </v-card>
+
+        <v-card
+          class="checkboxes"
+          flat
+          rounded="0"
+          color="transparent"
+          v-for="id in searchCheckboxIds"
+          :key="id"
+          hover
+        >
+          <v-hover v-slot="{ isHovering: hover, props: hoverProps }">
+            <v-card-title
+              v-bind="hoverProps"
+              class="checkboxes--title font-weight-bold text-uppercase py-2 px-6"
+              style="font-size: 0.875rem"
+              :class="{
+                'blue-grey-lighten-3': search[id].showCheckboxes,
+                'blue-grey-lighten-2': search[id].showCheckboxes && hover,
+              }"
+              @click="
+                updateSearchField({
+                  id: id,
+                  showCheckboxes: !search[id].showCheckboxes,
+                })
+              "
+            >
+              {{ $t(`search.table.${id}`) }}
+              <v-spacer />
+
+              <v-tooltip v-if="getActiveCheckboxesCount(id) > 0" location="top">
+                <template v-slot:activator="{ props }">
+                  <v-btn
+                    class="mr-6"
+                    v-bind="props"
+                    size="small"
+                    color="error"
+                    icon
+                    @click.stop="resetFacet(id)"
+                  >
+                    <v-badge color="transparent" bottom overlap
+                      ><v-icon size="small">fa:fas fa-trash</v-icon>
+                      <template v-slot:badge>
+                        <span class="text-black font-weight-bold">{{
+                          getActiveCheckboxesCount(id)
+                        }}</span>
+                      </template>
+                    </v-badge>
+                  </v-btn>
+                </template>
+                <span>{{
+                  $t("search.drawer.clearFilters", {
+                    field: $t(`search.table.${id}`),
+                  })
+                }}</span>
+              </v-tooltip>
+
+              <v-icon v-if="search[id].showCheckboxes"
+                >fa:fas fa-angle-up</v-icon
+              >
+              <v-icon v-else>fa:fas fa-angle-down</v-icon>
+            </v-card-title>
+          </v-hover>
+          <v-divider />
+
+          <v-expand-transition>
+            <v-card-text
+              class="transition-fast-in-fast-out pb-0"
+              :class="{ 'blue-grey-lighten-5': search[id].showCheckboxes }"
+              v-if="search[id].showCheckboxes"
+            >
+              <v-row no-gutters>
+                <v-col
+                  cols="12"
+                  class="px-1 pb-1"
+                  v-for="(entity, key) in getCheckboxes(
+                    id,
+                    search[id].showCheckboxes,
+                    search[id].showMore,
+                  )"
+                  :key="key"
+                >
+                  <v-checkbox
+                    class="mt-0 mb-2"
+                    color="blue-grey-darken-3"
+                    :model-value="
+                      search[id].value &&
+                      search[id].value.includes(`&quot;${entity}&quot;`)
+                    "
+                    @update:model-value="
+                      updateCheckbox({
+                        id: id,
+                        bool: $event,
+                        value: search[id].value,
+                        fieldName: entity,
+                      })
+                    "
+                    hide-details
+                    density="compact"
+                  >
+                    <template v-slot:label>
+                      <div>
+                        {{ entity }}
+                        <span
+                          class="font-italic font-weight-light"
+                          style="font-size: 0.875rem"
+                          >({{ getCheckboxesCount(id)[key] }})</span
+                        >
+                      </div>
+                    </template>
+                  </v-checkbox>
+                </v-col>
+
+                <v-col cols="12">
+                  <v-btn
+                    v-if="getCheckboxesLength(id) > 4"
+                    size="small"
+                    variant="text"
+                    class="mx-4 mb-2 font-weight-bold"
+                    v-show="search[id].showCheckboxes"
+                    @click="
+                      updateSearchField({
+                        id: id,
+                        showMore: !search[id].showMore,
+                      })
+                    "
+                  >
+                    <span v-if="search[id].showMore">
+                      <v-icon size="x-small">fa:fas fa-minus</v-icon>
+                      {{ $t("search.drawer.less") }}</span
+                    >
+                    <span v-else
+                      ><v-icon size="x-small">fa:fas fa-plus</v-icon>
+                      {{ $t("search.drawer.more") }}</span
+                    >
+                  </v-btn>
+                </v-col>
+              </v-row>
+            </v-card-text>
+          </v-expand-transition>
+        </v-card>
+
+        <v-list-item v-for="id in searchSingleCheckboxIds" :key="id">
+          <v-checkbox
+            color="blue-grey-darken-3"
+            class="mt-0 mb-2"
+            :model-value="search[id].value"
+            :label="$t(`search.drawer.${id}`)"
+            true-value="true"
+            :false-value="null"
+            @update:model-value="
+              updateSearchFieldDebounced({ id: id, value: $event })
+            "
+            hide-details
+            density="compact"
+          />
+        </v-list-item>
+      </v-list-group>
+
+      <v-divider />
+    </v-list>
+
+    <v-row no-gutters class="px-3 pb-5 mt-1">
+      <v-col cols="12" class="d-flex justify-end">
+        <v-btn color="error" @click="reset">
+          {{ $t("search.drawer.resetSearch") }}
+          <v-icon end>fa:far fa-trash-alt</v-icon>
+        </v-btn>
+      </v-col>
+    </v-row>
+  </v-navigation-drawer>
+</template>
+
+<script>
+import { useSearchStore } from "@/stores/search";
+
+import { mapActions, mapState } from "pinia";
+import TextFieldWrapper from "@/components/input_wrappers/TextFieldWrapper.vue";
+import SelectWrapper from "@/components/input_wrappers/SelectWrapper.vue";
+import queryMixin from "@/mixins/queryMixin";
+import { debounce } from "lodash";
+import MapWrapper from "@/components/MapWrapper.vue";
+
+export default {
+  name: "SearchDrawer",
+
+  components: { TextFieldWrapper, SelectWrapper, MapWrapper },
+
+  mixins: [queryMixin],
+
+  props: {
+    drawer: {
+      type: Boolean,
+      required: true,
+    },
+  },
+
+  data: () => ({
+    openedGroups: ["additional"],
+    showAdditionalFilters: true,
+    showTextFields: true,
+    showCheckboxes: true,
+    showSingleCheckboxes: true,
+    showExtraOptions: false,
+  }),
+
+  computed: {
+    ...mapState(useSearchStore, [
+      "lookUpTypes",
+      "search",
+      "searchTextIds",
+      "searchCheckboxIds",
+      "searchSingleCheckboxIds",
+      "isTableHeaderFixed",
+      "responseResults",
+      "responseResultsCount",
+    ]),
+    ...mapState(useSearchStore, [
+      "getCheckboxes",
+      "getCheckboxesCount",
+      "getCheckboxesLength",
+      "getActiveCheckboxesCount",
+    ]),
+
+    isSmAndDown() {
+      return this.$vuetify.display.smAndDown;
+    },
+
+    footerStyle() {
+      let style = "z-index: 2010;";
+      if (this.isSmAndDown) style += "";
+      return style;
+    },
+  },
+
+  watch: {
+    search: {
+      handler(newVal) {
+        this.constructQueryParams(newVal);
+      },
+      deep: true,
+    },
+  },
+
+  methods: {
+    ...mapActions(useSearchStore, [
+      "updateSearchField",
+      "resetSearch",
+      "updatePage",
+      "updateSortBy",
+      "updateSortDesc",
+    ]),
+
+    ...mapActions(useSearchStore, { doSearch: "fetchResults" }),
+
+    updateSearchFieldDebounced: debounce(function (value) {
+      this.updateSearchField(value);
+      if (value?.id === "q") {
+        this.updateSortBy([]);
+        this.updateSortDesc([]);
+      }
+      if (this.search.page !== 1) this.updatePage(1);
+    }, 300),
+
+    updateCheckbox(event) {
+      let e = { ...event };
+      if (e.bool) {
+        if (e.value) e.value += ` "${e.fieldName}"`;
+        else e.value = `"${e.fieldName}"`;
+      } else {
+        if (e.value) {
+          let valueList = e.value.replaceAll('" "', '"|-|"').split("|-|");
+          let filteredValues = valueList.filter(
+            (val) => val !== `"${e.fieldName}"`,
+          );
+          e.value = filteredValues.join(" ");
+        }
+      }
+      this.updateSearchField({ id: e.id, value: e.value });
+      if (this.search.page !== 1) this.updatePage(1);
+    },
+
+    reset() {
+      this.resetSearch();
+    },
+
+    resetFacet(id) {
+      this.updateSearchField({
+        id: id,
+        value: null,
+      });
+      if (this.search.page !== 1) this.updatePage(1);
+    },
+  },
+};
+</script>
+
+<style scoped>
+.search--checkbox-label {
+  margin: 5px 4px 3px 0;
+
+  color: black;
+  white-space: nowrap;
+}
+
+.search--checkbox-label:hover {
+  cursor: pointer;
+  opacity: 0.7;
+}
+
+.search--checkbox-active {
+  width: 100%;
+}
+
+.search-drawer-text-field :deep(.v-input__slot) {
+  background: #eceff1 !important;
+}
+
+.checkboxes > .checkboxes--title:hover {
+  background-color: rgba(0, 0, 0, 0.04);
+  transition: background-color 100ms ease-in;
+}
+
+.checkboxes > .checkboxes--title {
+  background-color: unset;
+  transition: background-color 100ms ease-out;
+}
+</style>
