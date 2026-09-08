@@ -12,7 +12,11 @@
       :aria-label="card.imageAltText"
       @click="goToSearchView(card.url)"
     >
-      <v-overlay absolute :model-value="hover">
+      <v-overlay
+        contained
+        :model-value="hover"
+        class="align-center justify-center text-white"
+      >
         <div class="d-flex flex-column text-center">
           <div
             class="v-card__title justify-center text-uppercase font-weight-bold animate__animated"
