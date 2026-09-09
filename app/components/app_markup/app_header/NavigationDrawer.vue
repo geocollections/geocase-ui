@@ -11,7 +11,7 @@ const { localePath } = useAppNavigation();
 <template>
   <USlideover
     v-model:open="drawer"
-    :title="t('header.showMenu')"
+    :title="t('header.menu')"
     :ui="{ overlay: 'tw:z-[3290]', content: 'tw:z-[3300] tw:max-w-sm' }"
   >
     <template #body>

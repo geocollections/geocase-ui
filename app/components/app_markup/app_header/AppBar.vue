@@ -161,13 +161,13 @@ function submitSearch() {
           }}</span>
         </UButton>
       </UDropdownMenu>
-      <UTooltip :text="t('header.showMenu')" :ui="{ content: 'tw:z-[3400]' }">
+      <UTooltip :text="t('header.menu')" :ui="{ content: 'tw:z-[3400]' }">
         <UButton
           icon="i-lucide-menu"
           color="neutral"
           variant="ghost"
           class="header-button"
-          aria-label="Open navigation drawer"
+          :aria-label="t('header.menu')"
           @click="emit('toggle:navigationDrawer')"
         />
       </UTooltip>
