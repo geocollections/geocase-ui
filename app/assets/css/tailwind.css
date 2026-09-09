@@ -31,3 +31,21 @@ html {
     background-color: transparent;
   }
 }
+
+.header-button {
+  @apply tw:shrink-0 tw:text-white tw:bg-transparent tw:no-underline;
+}
+
+.header-button:hover,
+.header-button:focus-visible,
+.header-button[data-state="open"] {
+  @apply tw:text-white tw:bg-white/12 tw:no-underline;
+}
+
+.header-button:active {
+  @apply tw:bg-white/20;
+}
+
+.header-button:focus-visible {
+  @apply tw:outline-2 tw:outline-solid tw:outline-white tw:outline-offset-2;
+}

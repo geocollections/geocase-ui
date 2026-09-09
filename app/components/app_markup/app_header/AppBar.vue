@@ -95,7 +95,7 @@ function submitSearch() {
           icon="i-lucide-sliders-horizontal"
           color="neutral"
           variant="ghost"
-          class="tw:shrink-0 tw:text-white"
+          class="header-button"
           aria-label="Toggle navigation drawer"
           @click="emit('toggle:searchDrawer')"
         />
@@ -119,7 +119,8 @@ function submitSearch() {
         :label="link.label"
         color="neutral"
         variant="ghost"
-        :class="[link.class, 'tw:shrink-0 tw:text-white']"
+        class="header-button"
+        :class="link.class"
       />
       <div class="tw:flex-1" />
       <form
@@ -140,7 +141,7 @@ function submitSearch() {
           aria-label="select language"
           color="neutral"
           variant="ghost"
-          class="tw:shrink-0 tw:text-white"
+          class="header-button"
         >
           <img
             :src="`https://files.geocollections.info/img/geocase/flags/${language}.svg`"
@@ -155,7 +156,7 @@ function submitSearch() {
           icon="i-lucide-library"
           color="neutral"
           variant="ghost"
-          class="tw:shrink-0 tw:text-white"
+          class="header-button"
         >
           <span class="tw:hidden tw:min-[600px]:inline">{{
             t("header.resources")
@@ -167,7 +168,7 @@ function submitSearch() {
           icon="i-lucide-menu"
           color="neutral"
           variant="ghost"
-          class="tw:shrink-0 tw:text-white"
+          class="header-button"
           aria-label="Open navigation drawer"
           @click="emit('toggle:navigationDrawer')"
         />
