@@ -4,7 +4,10 @@ import { useRoute, useRouter } from "#imports";
 import { useI18n } from "vue-i18n";
 import { useDetailStore } from "@/stores/detail";
 import { useSettingsStore } from "@/stores/settings";
-import { useAppNavigation } from "@/composables/useAppNavigation";
+import {
+  navigationVisibility,
+  useAppNavigation,
+} from "@/composables/useAppNavigation";
 
 const emit = defineEmits<{
   "toggle:searchDrawer": [];
@@ -32,27 +35,22 @@ const links = computed(() => [
   {
     label: t("header.search"),
     to: "/search",
-    class: "tw:hidden tw:min-[600px]:inline-flex",
   },
   {
     label: t("header.about"),
     to: "/about",
-    class: "tw:hidden tw:min-[1280px]:inline-flex",
   },
   {
     label: t("header.access"),
     to: "/access",
-    class: "tw:hidden tw:min-[1280px]:inline-flex",
   },
   {
     label: t("header.partners"),
     to: "/partners_and_providers",
-    class: "tw:hidden tw:min-[1280px]:inline-flex",
   },
   {
     label: t("header.help"),
     to: "/help",
-    class: "tw:hidden tw:min-[600px]:inline-flex",
   },
 ]);
 const languages = computed(() =>
@@ -120,7 +118,7 @@ function submitSearch() {
         color="neutral"
         variant="ghost"
         class="header-button"
-        :class="link.class"
+        :class="navigationVisibility[link.to]?.header"
       />
       <div class="tw:flex-1" />
       <form

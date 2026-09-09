@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useI18n } from "vue-i18n";
 import { useSettingsStore } from "@/stores/settings";
-import { useAppNavigation } from "@/composables/useAppNavigation";
+import { navigationVisibility, useAppNavigation } from "@/composables/useAppNavigation";
 const drawer = defineModel<boolean>("drawer", { required: true });
 const settings = useSettingsStore();
 const { t } = useI18n();
@@ -24,7 +24,8 @@ const { localePath } = useAppNavigation();
           color="neutral"
           variant="ghost"
           size="lg"
-          class="tw:justify-start"
+          class="tw:justify-start tw:no-underline"
+          :class="navigationVisibility[item.to]?.drawer"
           @click="drawer = false"
         />
       </nav>
