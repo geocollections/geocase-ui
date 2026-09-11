@@ -1,100 +1,81 @@
-<template>
-  <v-dialog
-    :model-value="showHelp"
-    @click:outside="$emit('close')"
-    scrollable
-    style="z-index: 2000"
-    :max-width="$vuetify.display.mdAndUp ? '960px' : ''"
-  >
-    <v-card>
-      <v-card-title class="font-weight-medium pb-3" style="font-size: 2rem">{{
-        $t("searchHelp.title")
-      }}</v-card-title>
-      <v-divider></v-divider>
+<script setup lang="ts">
+import { useI18n } from "vue-i18n";
 
-      <v-card-text
-        style="max-height: 350px; padding: 20px 24px 20px; font-size: 1.125rem"
-      >
-        <v-row no-gutters justify="center">
-          <v-col cols="12" md="10" lg="9">
-            <ul>
-              <li>
-                {{ $t("searchHelp.help1") }} (<NuxtLink
-                  class="help-link"
-                  :to="{ path: 'search', query: { q: '*oa' } }"
-                  >*</NuxtLink
-                >).
-              </li>
+defineProps<{
+  showHelp: boolean;
+}>();
 
-              <li>
-                <span v-html="$t('searchHelp.help2')" />
-                <NuxtLink
-                  class="help-link"
-                  :to="{
-                    path: 'search',
-                    query: { q: '+bryozoa -germany +tub*' },
-                  }"
-                  >+bryozoa -germany +tub*</NuxtLink
-                >.
-              </li>
-              <li>
-                {{ $t("searchHelp.help4.prepend") }}
-                <NuxtLink
-                  class="help-link"
-                  :to="{
-                    path: 'search',
-                    query: { q: 'stratigraphy:Burtnieki*' },
-                  }"
-                  >stratigraphy:Burtnieki*</NuxtLink
-                >
+const emit = defineEmits<{
+  close: [];
+}>();
+const { t } = useI18n();
 
-                {{ $t("searchHelp.help4.append") }}
-              </li>
-            </ul>
-          </v-col>
-        </v-row>
-      </v-card-text>
-
-      <v-divider></v-divider>
-      <v-card-actions>
-        <v-spacer></v-spacer>
-
-        <v-btn
-          color="green-darken-1"
-          size="large"
-          variant="text"
-          @click="$emit('close')"
-        >
-          OK
-        </v-btn>
-      </v-card-actions>
-    </v-card>
-  </v-dialog>
-</template>
-
-<script>
-export default {
-  name: "HelpButton",
-  props: {
-    showHelp: {
-      type: Boolean,
-      required: true,
-    },
-  },
-};
+function updateOpen(open: boolean) {
+  if (!open) emit("close");
+}
 </script>
 
-<style scoped>
-.help-link {
-  font-weight: bold;
-  text-decoration: none;
-}
+<template>
+  <UModal
+    :open="showHelp"
+    :title="t('searchHelp.title')"
+    scrollable
+    :ui="{
+      overlay: 'tw:z-[3290]',
+      content: 'tw:z-[3300] tw:max-w-[960px]',
+      title: 'tw:text-2xl tw:font-semibold tw:sm:text-3xl',
+      body: 'tw:max-h-[350px] tw:text-lg',
+      footer: 'tw:justify-end',
+    }"
+    @update:open="updateOpen"
+  >
+    <template #body>
+      <div class="tw:mx-auto tw:max-w-3xl">
+        <ul class="tw:list-disc tw:space-y-2 tw:pl-6">
+          <li>
+            {{ t("searchHelp.help1") }} (<NuxtLink
+              class="tw:font-bold tw:no-underline tw:hover:opacity-70"
+              :to="{ path: 'search', query: { q: '*oa' } }"
+              >*</NuxtLink
+            >).
+          </li>
+          <li>
+            <!-- The localized copy contains emphasis markup for the operators. -->
+            <!-- eslint-disable-next-line vue/no-v-html -->
+            <span v-html="t('searchHelp.help2')" />
+            <NuxtLink
+              class="tw:font-bold tw:no-underline tw:hover:opacity-70"
+              :to="{
+                path: 'search',
+                query: { q: '+bryozoa -germany +tub*' },
+              }"
+              >+bryozoa -germany +tub*</NuxtLink
+            >.
+          </li>
+          <li>
+            {{ t("searchHelp.help4.prepend") }}
+            <NuxtLink
+              class="tw:font-bold tw:no-underline tw:hover:opacity-70"
+              :to="{
+                path: 'search',
+                query: { q: 'stratigraphy:Burtnieki*' },
+              }"
+              >stratigraphy:Burtnieki*</NuxtLink
+            >
+            {{ t("searchHelp.help4.append") }}
+          </li>
+        </ul>
+      </div>
+    </template>
 
-.help-link:hover {
-  opacity: 0.7;
-}
-
-ul > li {
-  padding: 4px 0;
-}
-</style>
+    <template #footer>
+      <UButton
+        label="OK"
+        color="primary"
+        variant="ghost"
+        size="lg"
+        @click="emit('close')"
+      />
+    </template>
+  </UModal>
+</template>
