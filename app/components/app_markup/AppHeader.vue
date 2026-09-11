@@ -1,46 +1,37 @@
-<template>
-  <div class="app-header">
-    <search-drawer
-      :drawer="searchDrawer"
-      @update:drawer="updateSearchDrawerState($event)"
-      v-if="$route.name === 'Search'"
-    />
-
-    <app-bar
-      @toggle:navigationDrawer="drawer = !drawer"
-      @toggle:searchDrawer="updateSearchDrawerState(!searchDrawer)"
-    />
-
-    <NavigationDrawer
-      :drawer="drawer"
-      @update:navigationDrawer="drawer = $event"
-    />
-  </div>
-</template>
-
-<script>
+<script setup lang="ts">
+import { watch } from "vue";
+import { useRoute } from "#imports";
 import { useSettingsStore } from "@/stores/settings";
+import { useToggle } from "@/composables/useToggle";
+import { useDesktopLayout } from "@/composables/useDesktopLayout";
+import AppBar from "./app_header/AppBar.vue";
+import NavigationDrawer from "./app_header/NavigationDrawer.vue";
+import SearchDrawer from "./app_header/SearchDrawer.vue";
 
-import { mapActions, mapState } from "pinia";
-import SearchDrawer from "@/components/app_markup/app_header/SearchDrawer.vue";
-import AppBar from "@/components/app_markup/app_header/AppBar.vue";
-import NavigationDrawer from "@/components/app_markup/app_header/NavigationDrawer.vue";
-export default {
-  name: "AppHeader",
-  components: { NavigationDrawer, SearchDrawer, AppBar },
-  data: () => ({
-    drawer: false,
-  }),
-  mounted() {
-    if (this.$vuetify.display.mdAndUp) this.updateSearchDrawerState(true);
+const route = useRoute();
+const settings = useSettingsStore();
+const { isOpen: drawer, toggle, close } = useToggle();
+const { isDesktop } = useDesktopLayout();
+watch(isDesktop, (value) => settings.updateSearchDrawerState(value));
+watch(
+  () => route.path,
+  () => {
+    close();
+    if (!isDesktop.value) settings.updateSearchDrawerState(false);
   },
-  computed: {
-    ...mapState(useSettingsStore, ["searchDrawer"]),
-  },
-  methods: {
-    ...mapActions(useSettingsStore, ["updateSearchDrawerState"]),
-  },
-};
+);
 </script>
 
-<style scoped></style>
+<template>
+  <AppBar
+    @toggle:navigation-drawer="toggle"
+    @toggle:search-drawer="
+      settings.updateSearchDrawerState(!settings.searchDrawer)
+    "
+  />
+  <SearchDrawer
+    v-if="route.name === 'Search'"
+    v-model:drawer="settings.searchDrawer"
+  />
+  <NavigationDrawer v-model:drawer="drawer" />
+</template>

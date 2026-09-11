@@ -3,6 +3,16 @@
 @layer theme, base, components, utilities;
 @import "tailwindcss/theme.css" layer(theme) prefix(tw);
 @import "tailwindcss/utilities.css" layer(utilities) prefix(tw) source("../../");
+@import "@nuxt/ui";
+
+@theme {
+  --color-geocase: #ffa000;
+  --color-fossil: #8bc34a;
+  --color-mineral: #e91e63;
+  --color-rock: #03a9f4;
+  --color-meteorite: #607d8b;
+  --color-header-dark: #191919;
+}
 
 html {
   overflow-y: auto !important;
@@ -11,4 +21,31 @@ html {
 .v-application {
   font-family: "Nunito", sans-serif !important;
   -webkit-font-smoothing: antialiased;
+}
+
+@layer base {
+  :where(button, input, select, textarea)[data-slot] {
+    font: inherit;
+    color: inherit;
+    border: 0 solid;
+    background-color: transparent;
+  }
+}
+
+.header-button {
+  @apply tw:shrink-0 tw:text-white tw:bg-transparent tw:no-underline;
+}
+
+.header-button:hover,
+.header-button:focus-visible,
+.header-button[data-state="open"] {
+  @apply tw:text-white tw:bg-white/12 tw:no-underline;
+}
+
+.header-button:active {
+  @apply tw:bg-white/20;
+}
+
+.header-button:focus-visible {
+  @apply tw:outline-2 tw:outline-solid tw:outline-white tw:outline-offset-2;
 }

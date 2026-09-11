@@ -158,8 +158,16 @@ test("static pages and mobile navigation render without runtime errors", async (
   await page.goto("/ee/about");
   await expect(page.locator(".static-page")).toContainText("GeoCASe");
   await page.getByRole("button", { name: "OK", exact: true }).click();
-  await page.getByRole("button", { name: "Open navigation drawer" }).click();
-  await expect(page.locator(".v-navigation-drawer--active")).toBeVisible();
+  await page.getByRole("button", { name: "Menüü", exact: true }).click();
+  await expect(page.getByRole("dialog")).toBeVisible();
+  await expect(
+    page.getByRole("navigation", { name: "Site navigation" }),
+  ).toBeVisible();
+  await page.keyboard.press("Escape");
+  await expect(page.getByRole("dialog")).not.toBeVisible();
+  await expect(
+    page.getByRole("button", { name: "Menüü", exact: true }),
+  ).toBeFocused();
   await page.screenshot({
     path: "test-results/navigation-mobile.png",
     fullPage: true,
@@ -217,4 +225,83 @@ test("homepage map loads its worker and opens locality specimens", async ({
     fullPage: true,
   });
   expect(errors).toEqual([]);
+});
+
+test("Nuxt UI header keeps the brand visible and exposes external resources", async ({
+  page,
+}) => {
+  await page.goto("/");
+  await page.getByRole("button", { name: "OK", exact: true }).click();
+  const header = page.getByRole("banner");
+  for (const width of [390, 768, 1024, 1440]) {
+    await page.setViewportSize({ width, height: 900 });
+    const brand = header.getByRole("link", { name: /GeoCASe/ });
+    await expect(brand).toBeVisible();
+    expect(await brand.evaluate((el) => el.scrollWidth <= el.clientWidth)).toBe(
+      true,
+    );
+    expect(
+      await page.evaluate(
+        () => document.documentElement.scrollWidth <= window.innerWidth,
+      ),
+    ).toBe(true);
+  }
+  await page.mouse.move(0, 200);
+  await expect(
+    header.getByRole("button", { name: "Menu", exact: true }),
+  ).toHaveCSS("background-color", "rgba(0, 0, 0, 0)");
+  await header.getByRole("button", { name: /resources/i }).click();
+  await expect(page.getByRole("menuitem", { name: /github/i })).toHaveAttribute(
+    "href",
+    "https://github.com/geocollections/geocase-ui",
+  );
+});
+
+test("Nuxt UI filters select, clear and reset facets", async ({ page }) => {
+  await page.goto("/search?q=quartz");
+  await page.getByRole("button", { name: "OK", exact: true }).click();
+  const filters = page.getByRole("complementary", { name: "Search filters" });
+  await filters.getByRole("button", { name: "Country", exact: true }).click();
+  await filters.getByRole("checkbox", { name: /Estonia/ }).check();
+  await expect(page).toHaveURL(/country=/);
+  await filters.getByRole("checkbox", { name: /Estonia/ }).uncheck();
+  await expect(page).not.toHaveURL(/country=/);
+  await filters.getByRole("button", { name: /reset search/i }).click();
+  await expect(page).not.toHaveURL(/q=quartz/);
+});
+
+test("mobile search filters close with Escape and preserve navigation", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/ee/search?q=quartz");
+  await page.getByRole("button", { name: "OK", exact: true }).click();
+  await page.getByRole("button", { name: "Toggle navigation drawer" }).click();
+  await expect(page.getByRole("dialog")).toBeVisible();
+  await page.keyboard.press("Escape");
+  await expect(page.getByRole("dialog")).not.toBeVisible();
+  await page.getByRole("button", { name: "Menüü", exact: true }).click();
+  await page
+    .getByRole("navigation", { name: "Site navigation" })
+    .getByRole("link")
+    .first()
+    .click();
+  await expect(page).toHaveURL(/\/ee$/);
+  await expect(page.getByRole("dialog")).not.toBeVisible();
+});
+
+test("editing a filter returns to page one and clears quick-search sorting", async ({
+  page,
+}) => {
+  await page.goto("/search?q=quartz&page=2&sort_by=unitid&sort_desc=true");
+  await page.getByRole("button", { name: "OK", exact: true }).click();
+  const input = page.locator(".search-drawer-text-field input").first();
+  await input.fill("calcite");
+  await expect(page).toHaveURL(/q=calcite/);
+  await expect
+    .poll(() => new URL(page.url()).searchParams.get("page"))
+    .toBe("1");
+  await expect(page).not.toHaveURL(/sort_by|sort_desc/);
+  await page.reload();
+  await expect(input).toHaveValue("calcite");
 });

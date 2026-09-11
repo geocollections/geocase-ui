@@ -1,7 +1,15 @@
 <template>
   <v-app>
     <AppHeader />
-    <v-main><LandingImage v-if="$route.name === 'FrontPage'" /><slot /></v-main>
+    <main
+      class="tw:flex-1 tw:pt-16"
+      :class="{
+        'tw:min-[960px]:pl-[350px]':
+          route.name === 'Search' && settings.searchDrawer,
+      }"
+    >
+      <LandingImage v-if="route.name === 'FrontPage'" /><slot />
+    </main>
     <CookieLaw v-if="cookie.cookieLaw" @accept="cookie.closeCookieLaw()" />
     <AppFooter />
   </v-app>
@@ -15,6 +23,7 @@ import AppHeader from "@/components/app_markup/AppHeader.vue";
 import AppFooter from "@/components/app_markup/AppFooter.vue";
 import LandingImage from "@/components/app_markup/app_header/LandingImage.vue";
 import CookieLaw from "@/components/CookieLaw.vue";
+const route = useRoute();
 const cookie = useCookieStore();
 const settings = useSettingsStore();
 const { $toast } = useNuxtApp();

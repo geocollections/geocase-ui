@@ -1,5 +1,7 @@
 <template>
-  <NuxtLayout><NuxtPage /></NuxtLayout>
+  <UApp
+    ><NuxtLayout><NuxtPage /></NuxtLayout
+  ></UApp>
 </template>
 <script setup>
 import i18n from "@/i18n";

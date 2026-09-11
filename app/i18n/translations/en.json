@@ -79,7 +79,7 @@
     "resources": "Resources",
     "titleTooltip": "Go to front page",
     "showSearch": "Show/hide search filters",
-    "showMenu": "Show menu",
+    "menu": "Menu",
     "landingPageAltText": "White baryte crystals"
   },
   "resources": {
