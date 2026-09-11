@@ -1,13 +1,11 @@
-import tailwindcss from "@tailwindcss/vite";
-
 export default defineNuxtConfig({
   compatibilityDate: "2026-09-07",
   ssr: false,
   vite: {
-    plugins: [tailwindcss()],
     optimizeDeps: { exclude: ["maplibre-gl"] },
   },
-  modules: ["@pinia/nuxt"],
+  modules: ["@pinia/nuxt", "@nuxt/ui"],
+  ui: { theme: { prefix: "tw" }, colorMode: false, fonts: false },
   components: [{ path: "~/components", pathPrefix: false }],
   css: [
     "vuetify/styles",
