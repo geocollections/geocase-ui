@@ -125,9 +125,8 @@ test("server table sorting, pagination, export and specimen navigation", async (
   await page.locator("#table th").filter({ hasText: "Object ID" }).click();
   await expect(page).toHaveURL(/sort_by=unitid/);
   await page
-    .locator(".table-top button")
-    .filter({ has: page.locator(".mdi-chevron-right") })
-    .last()
+    .locator(".table-top")
+    .getByRole("button", { name: "Next page" })
     .click();
   await expect(page).toHaveURL(/page=2/);
   await page.getByRole("button", { name: "export table" }).click();
