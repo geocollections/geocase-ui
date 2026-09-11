@@ -3,6 +3,7 @@
 @layer theme, base, components, utilities;
 @import "tailwindcss/theme.css" layer(theme) prefix(tw);
 @import "tailwindcss/utilities.css" layer(utilities) prefix(tw) source("../../");
+@import "@nuxt/ui";
 
 html {
   overflow-y: auto !important;
@@ -11,4 +12,13 @@ html {
 .v-application {
   font-family: "Nunito", sans-serif !important;
   -webkit-font-smoothing: antialiased;
+}
+
+@layer base {
+  :where(button, input, select, textarea)[data-slot] {
+    font: inherit;
+    color: inherit;
+    border: 0 solid;
+    background-color: transparent;
+  }
 }
