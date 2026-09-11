@@ -1,146 +1,125 @@
-<template>
-  <v-row
-    no-gutters
-    :class="{ 'py-6': !inAppHeader, 'justify-center': !inAppHeader }"
-  >
-    <v-col
-      :cols="!inAppHeader ? 10 : 12"
-      :sm="!inAppHeader ? 6 : 12"
-      :md="!inAppHeader ? 5 : 12"
-      :lg="!inAppHeader ? 4 : 12"
-      :class="!inAppHeader ? 'px-2' : 'px-4'"
-    >
-      <text-field-wrapper
-        class="fast-search-input"
-        :class="{ 'in-app-header': inAppHeader }"
-        v-model="fastSearch"
-        :label="$t('frontPage.quickSearch')"
-        :append-icon="!inAppHeader ? 'fa:far fa-question-circle' : ''"
-        @click:append="handleHelpButtonClick"
-        append-inner-icon="fa:fas fa-search"
-        @click:append-inner="doFastSearch"
-        @keyup="doFastSearch"
-        :autofocus="$route.name === 'FrontPage'"
-        theme="light"
-        clear-icon="fa:fas fa-times"
-        :height="!inAppHeader ? '60' : ''"
-        autocomplete="off"
-        :variant="inAppHeader ? 'solo-filled' : 'solo'"
-      />
-    </v-col>
-
-    <help-button :show-help="showHelp" @close="showHelp = false" />
-  </v-row>
-</template>
-
-<script>
+<script setup lang="ts">
+import { computed, onBeforeUnmount, ref, watch } from "vue";
+import { useRoute, useRouter } from "#imports";
+import { storeToRefs } from "pinia";
+import { useI18n } from "vue-i18n";
 import { useSearchStore } from "@/stores/search";
-
-import { mapActions, mapState } from "pinia";
-import { debounce } from "lodash";
-import TextFieldWrapper from "@/components/input_wrappers/TextFieldWrapper.vue";
 import HelpButton from "@/components/search/fast_search/HelpButton.vue";
-import queryMixin from "@/mixins/queryMixin";
-export default {
-  name: "FastSearch",
 
-  props: {
-    inAppHeader: Boolean,
+withDefaults(
+  defineProps<{
+    inAppHeader?: boolean;
+  }>(),
+  { inAppHeader: false },
+);
+
+const route = useRoute();
+const router = useRouter();
+const { locale, t } = useI18n();
+const searchStore = useSearchStore();
+const { search } = storeToRefs(searchStore);
+const showHelp = ref(false);
+const fastSearch = ref(String(search.value.q.value ?? ""));
+let updateTimer: ReturnType<typeof setTimeout> | undefined;
+
+function updateStore(value: string) {
+  searchStore.updateSearchField({ id: "q", value });
+  searchStore.updateSortBy([]);
+  searchStore.updateSortDesc([]);
+  if (searchStore.page !== 1) searchStore.updatePage(1);
+}
+
+function scheduleStoreUpdate(value: string) {
+  clearTimeout(updateTimer);
+  updateTimer = setTimeout(() => updateStore(value), 250);
+}
+
+function cancelStoreUpdate() {
+  clearTimeout(updateTimer);
+  updateTimer = undefined;
+}
+
+watch(fastSearch, scheduleStoreUpdate);
+watch(
+  () => search.value.q.value,
+  (value) => {
+    const normalizedValue = String(value ?? "");
+    if (normalizedValue !== fastSearch.value) fastSearch.value = normalizedValue;
   },
+);
 
-  components: { HelpButton, TextFieldWrapper },
+onBeforeUnmount(cancelStoreUpdate);
 
-  mixins: [queryMixin],
+const searchRoute = computed(() => ({
+  name: "Search",
+  params: locale.value !== "en" ? { locale: locale.value } : {},
+  query: { ...route.query, q: fastSearch.value || undefined, page: 1 },
+}));
 
-  data: () => ({
-    showHelp: false,
-  }),
-
-  computed: {
-    ...mapState(useSearchStore, ["search"]),
-
-    fastSearch: {
-      get() {
-        return this.search.q.value;
-      },
-
-      set: debounce(function (value) {
-        this.updateSearchField({ id: "q", value: value });
-        this.updateSortBy([]);
-        this.updateSortDesc([]);
-        if (this.search.page !== 1) this.updatePage(1);
-      }, 250),
-    },
-  },
-
-  methods: {
-    ...mapActions(useSearchStore, [
-      "updateSearchField",
-      "updatePage",
-      "updateSortBy",
-      "updateSortDesc",
-    ]),
-
-    doFastSearch(event) {
-      if (
-        event.type === "click" ||
-        event.keyCode === 13 ||
-        event.key === "Enter"
-      ) {
-        setTimeout(() => {
-          this.$router.push({
-            name: "Search",
-            params:
-              this.$i18n.locale !== "en" ? { locale: this.$i18n.locale } : {},
-            query: { ...this.$route.query, q: this.fastSearch, page: 1 },
-          });
-        }, 250);
-      }
-    },
-
-    handleHelpButtonClick() {
-      this.showHelp = !this.showHelp;
-    },
-  },
-};
+async function submitSearch() {
+  cancelStoreUpdate();
+  updateStore(fastSearch.value);
+  await router.push(searchRoute.value);
+}
 </script>
 
-<style scoped>
-.fast-search-input {
-  font-size: 1.25rem;
-  font-weight: 600;
-}
+<template>
+  <div
+    class="tw:flex tw:w-full tw:justify-center"
+    :class="inAppHeader ? 'tw:px-4' : 'tw:py-6'"
+  >
+    <form
+      class="tw:w-full"
+      :class="
+        inAppHeader
+          ? 'tw:max-w-none'
+          : 'tw:px-2 tw:sm:max-w-3/4 tw:md:max-w-5/12 tw:lg:max-w-1/3'
+      "
+      role="search"
+      @submit.prevent="submitSearch"
+    >
+      <UInput
+        v-model="fastSearch"
+        :placeholder="t('frontPage.quickSearch')"
+        :aria-label="t('frontPage.quickSearch')"
+        :autofocus="route.name === 'FrontPage'"
+        autocomplete="off"
+        color="neutral"
+        variant="outline"
+        :size="inAppHeader ? 'md' : 'xl'"
+        class="tw:w-full tw:font-semibold"
+        :ui="{
+          base: inAppHeader
+            ? 'tw:bg-white tw:text-base tw:text-slate-950'
+            : 'tw:min-h-15 tw:bg-white tw:text-xl tw:text-slate-950',
+          trailing: 'tw:pe-1',
+        }"
+      >
+        <template #trailing>
+          <div class="tw:flex tw:items-center tw:gap-1">
+            <UButton
+              v-if="!inAppHeader"
+              type="button"
+              icon="i-lucide-circle-help"
+              color="neutral"
+              variant="ghost"
+              size="lg"
+              :aria-label="t('searchHelp.title')"
+              @click="showHelp = true"
+            />
+            <UButton
+              type="submit"
+              icon="i-lucide-search"
+              color="primary"
+              variant="ghost"
+              :size="inAppHeader ? 'md' : 'lg'"
+              :aria-label="t('frontPage.quickSearch')"
+            />
+          </div>
+        </template>
+      </UInput>
+    </form>
 
-.fast-search-input.in-app-header {
-  font-size: 1rem;
-}
-
-.fast-search-input :deep(.v-input__icon--clear > .v-icon--link) {
-  font-size: 1.75rem !important;
-}
-
-.fast-search-input :deep(.v-input__append) {
-  margin-top: 4px !important;
-  margin-left: 12px !important;
-  align-self: center;
-}
-
-.fast-search-input :deep(.v-input__icon--append > .v-icon--link) {
-  color: white !important;
-  text-shadow: 2px 2px 4px #000000;
-  font-size: 2rem;
-}
-
-.fast-search-input :deep(.v-input__icon--append > .v-icon--link:hover) {
-  text-shadow: 1px 1px 2px #000000;
-  opacity: 0.9;
-}
-
-.fast-search-input :deep(.v-label) {
-  font-size: 1.25rem;
-}
-
-.fast-search-input.in-app-header :deep(.v-label) {
-  font-size: 1rem;
-}
-</style>
+    <HelpButton :show-help="showHelp" @close="showHelp = false" />
+  </div>
+</template>

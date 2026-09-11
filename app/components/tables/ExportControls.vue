@@ -1,45 +1,92 @@
-<template>
-  <v-menu transition="slide-y-transition" offset="8" location="bottom end">
-    <template #activator="menu">
-      <v-tooltip location="bottom" open-delay="500" z-index="5000">
-        <template #activator="tooltip">
-          <v-btn
-            color="primary"
-            aria-label="export table"
-            class="montserrat"
-            v-bind="mergeProps(menu.props, tooltip.props)"
-            icon
-          >
-            <v-icon>mdi-file-export-outline</v-icon>
-          </v-btn>
-        </template>
-        <span>{{ $t("search.table.tooltipExport") }}</span>
-      </v-tooltip>
-    </template>
-    <v-list>
-      <v-list-item @click="handleExportCsv()">
-        <v-list-item-title>CSV</v-list-item-title>
-      </v-list-item>
-      <v-list-item @click="handleExportExcel()">
-        <v-list-item-title>XLSX (Excel)</v-list-item-title>
-      </v-list-item>
-      <v-list-item @click="handleClipboard()">
-        <v-list-item-title>
-          {{ $t("search.table.clipboard") }}
-        </v-list-item-title>
-      </v-list-item>
-    </v-list>
-  </v-menu>
-</template>
+<script setup lang="ts">
+import { computed } from "vue";
+import { useNuxtApp } from "#imports";
+import { useI18n } from "vue-i18n";
+import { utils, writeFile } from "xlsx";
 
-<script>
-import { mergeProps } from "vue";
-import exportMixin from "@/mixins/exportMixin";
-import toastMixin from "@/mixins/toastMixin";
+const { t } = useI18n();
+const { $toast } = useNuxtApp();
 
-export default {
-  name: "ExportControls",
-  methods: { mergeProps },
-  mixins: [exportMixin, toastMixin],
-};
+function getTable() {
+  const table = document.querySelector<HTMLTableElement>("#table table");
+  if (!table) throw new Error("Results table not found");
+  return table;
+}
+
+function createWorkbook() {
+  const table = getTable().cloneNode(true) as HTMLTableElement;
+  table
+    .querySelectorAll(".v-data-table-header__sort-badge")
+    .forEach((indicator) => indicator.remove());
+  return utils.table_to_book(table);
+}
+
+function toastSuccess(text: string) {
+  $toast.success?.(text, "OK", {
+    position: "topCenter",
+    timeout: 5000,
+    pauseOnHover: false,
+  });
+}
+
+function toastError(error: unknown) {
+  console.error(error);
+  $toast.error?.(t("search.export.downloadFailed"), "Error", {
+    position: "topCenter",
+    timeout: 5000,
+    closeOnEscape: true,
+    pauseOnHover: false,
+    displayMode: "replace",
+  });
+}
+
+function handleExportCsv() {
+  try {
+    writeFile(createWorkbook(), "GeoCASe.csv", { bookType: "csv" });
+    toastSuccess(t("search.export.exportSuccessful", { type: "CSV" }));
+  } catch (error) {
+    toastError(error);
+  }
+}
+
+function handleExportExcel() {
+  try {
+    writeFile(createWorkbook(), "GeoCASe.xlsx", { bookType: "xlsx" });
+    toastSuccess(t("search.export.exportSuccessful", { type: "XLSX" }));
+  } catch (error) {
+    toastError(error);
+  }
+}
+
+async function handleClipboard() {
+  try {
+    await navigator.clipboard.writeText(getTable().innerText);
+    toastSuccess(t("search.export.copySuccessful"));
+  } catch (error) {
+    toastError(error);
+  }
+}
+
+const exportItems = computed(() => [
+  { label: "CSV", onSelect: handleExportCsv },
+  { label: "XLSX (Excel)", onSelect: handleExportExcel },
+  { label: t("search.table.clipboard"), onSelect: handleClipboard },
+]);
 </script>
+
+<template>
+  <UDropdownMenu
+    :items="exportItems"
+    :content="{ align: 'end', side: 'bottom', sideOffset: 8 }"
+    :ui="{ content: 'tw:z-[5000]' }"
+  >
+    <UButton
+      icon="i-lucide-file-output"
+      color="primary"
+      variant="solid"
+      size="lg"
+      aria-label="export table"
+      :title="t('search.table.tooltipExport')"
+    />
+  </UDropdownMenu>
+</template>
