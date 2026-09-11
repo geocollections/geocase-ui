@@ -158,7 +158,7 @@ test("static pages and mobile navigation render without runtime errors", async (
   await page.goto("/ee/about");
   await expect(page.locator(".static-page")).toContainText("GeoCASe");
   await page.getByRole("button", { name: "OK", exact: true }).click();
-  await page.getByRole("button", { name: "Open navigation drawer" }).click();
+  await page.getByRole("button", { name: "Menüü", exact: true }).click();
   await expect(page.getByRole("dialog")).toBeVisible();
   await expect(
     page.getByRole("navigation", { name: "Site navigation" }),
@@ -166,7 +166,7 @@ test("static pages and mobile navigation render without runtime errors", async (
   await page.keyboard.press("Escape");
   await expect(page.getByRole("dialog")).not.toBeVisible();
   await expect(
-    page.getByRole("button", { name: "Open navigation drawer" }),
+    page.getByRole("button", { name: "Menüü", exact: true }),
   ).toBeFocused();
   await page.screenshot({
     path: "test-results/navigation-mobile.png",
@@ -248,7 +248,7 @@ test("Nuxt UI header keeps the brand visible and exposes external resources", as
   }
   await page.mouse.move(0, 200);
   await expect(
-    header.getByRole("button", { name: "Open navigation drawer" }),
+    header.getByRole("button", { name: "Menu", exact: true }),
   ).toHaveCSS("background-color", "rgba(0, 0, 0, 0)");
   await header.getByRole("button", { name: /resources/i }).click();
   await expect(page.getByRole("menuitem", { name: /github/i })).toHaveAttribute(
@@ -280,7 +280,7 @@ test("mobile search filters close with Escape and preserve navigation", async ({
   await expect(page.getByRole("dialog")).toBeVisible();
   await page.keyboard.press("Escape");
   await expect(page.getByRole("dialog")).not.toBeVisible();
-  await page.getByRole("button", { name: "Open navigation drawer" }).click();
+  await page.getByRole("button", { name: "Menüü", exact: true }).click();
   await page
     .getByRole("navigation", { name: "Site navigation" })
     .getByRole("link")
