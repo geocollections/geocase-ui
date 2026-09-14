@@ -18,7 +18,7 @@ The application uses Nuxt 4, Vue 3, Vuetify 4, Tailwind CSS 4 and Pinia. Existin
 
 ## Tailwind CSS
 
-Tailwind is integrated through `@tailwindcss/vite` and loaded globally from
+Tailwind is integrated through the `@nuxt/ui` module and loaded globally from
 `app/assets/css/tailwind.css`. Classes use the `tw:` prefix to avoid collisions
 with Vuetify utilities. Preflight is disabled because Vuetify supplies the reset.
 
@@ -31,6 +31,9 @@ with Vuetify utilities. Preflight is disabled because Vuetify supplies the reset
 Source detection covers `app/`. Keep class names complete in templates so Tailwind
 can detect them. `StatsCard.vue` uses Tailwind for its typography.
 Restart `npm run dev` after installing dependencies or changing the Vite config.
+
+The `app/components/app_markup/` shell uses Nuxt UI and `<script setup lang="ts">`.
+Vuetify remains available for the other views and shared map/search components.
 
 ## Structure
 

@@ -79,7 +79,7 @@
     "resources": "Ressursid",
     "titleTooltip": "Liigu esilehele",
     "showSearch": "Näita/peida otsingu filtreid",
-    "showMenu": "Näita menüüd",
+    "menu": "Menüü",
     "landingPageAltText": "Valged barüüdikristallid"
   },
   "resources": {
