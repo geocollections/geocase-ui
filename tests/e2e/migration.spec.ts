@@ -95,16 +95,17 @@ test("homepage quick search, help and localized routes", async ({ page }) => {
     "GeoCASe",
   );
   await page.getByRole("button", { name: "OK", exact: true }).click();
-  await page
-    .locator('.fast-search-input .v-input__append [role="button"]')
-    .click();
+  await page.getByRole("button", { name: "Search help", exact: true }).click();
   await expect(page.getByRole("dialog")).toBeVisible();
   await page
     .getByRole("dialog")
     .getByRole("button", { name: "OK", exact: true })
     .click();
-  await page.locator(".fast-search-input input:visible").fill("quartz");
-  await page.locator(".fast-search-input input:visible").press("Enter");
+  const quickSearch = page
+    .getByRole("search")
+    .getByRole("textbox", { name: "Quick search...", exact: true });
+  await quickSearch.fill("quartz");
+  await quickSearch.press("Enter");
   await expect(page).toHaveURL(/search.*q=quartz/);
   await expect(page.locator("#table")).toContainText("DEMO-1");
   await page.getByRole("button", { name: "select language" }).click();
@@ -125,9 +126,8 @@ test("server table sorting, pagination, export and specimen navigation", async (
   await page.locator("#table th").filter({ hasText: "Object ID" }).click();
   await expect(page).toHaveURL(/sort_by=unitid/);
   await page
-    .locator(".table-top button")
-    .filter({ has: page.locator(".mdi-chevron-right") })
-    .last()
+    .locator(".table-top")
+    .getByRole("button", { name: "Next page" })
     .click();
   await expect(page).toHaveURL(/page=2/);
   await page.getByRole("button", { name: "export table" }).click();

@@ -1,78 +1,63 @@
-<template>
-  <div
-    class="pa-2 d-flex flex-column flex-lg-row flex-nowrap justify-space-between align-center pagination"
-    v-if="numberOfResults >= 0"
-  >
-    <div>
-      <SelectWrapper
-        :model-value="paginateBy"
-        :items="paginateByItems"
-        @update:model-value="$emit('update:paginateBy', $event)"
-        is-pagination
-      />
-    </div>
+<script setup lang="ts">
+interface PaginationItem {
+  text: string;
+  value: number;
+}
 
-    <div>
-      <v-pagination
-        :model-value="page"
-        :class="{
-          'justify-end font-small': $vuetify.display.smAndUp,
-          'font-smaller': $vuetify.display.xs,
-        }"
-        style="font-size: 0.75rem"
-        circle
-        prev-icon="fa:fas fa-angle-left"
-        next-icon="fa:fas fa-angle-right"
-        :length="Math.ceil(numberOfResults / paginateBy)"
-        :total-visible="
-          $vuetify.display.smAndDown ? ($vuetify.display.xs ? 4 : 5) : 7
-        "
-        @update:model-value="$emit('update:page', $event)"
-      />
-    </div>
-  </div>
-</template>
-
-<script>
-import SelectWrapper from "@/components/input_wrappers/SelectWrapper.vue";
-
-export default {
-  name: "Pagination",
-  components: { SelectWrapper },
-  props: {
-    paginateBy: {
-      type: Number,
-      required: true,
-      default: 25,
-    },
-    paginateByItems: {
-      type: Array,
-      required: true,
-    },
-    page: {
-      type: Number,
-      required: true,
-      default: 1,
-    },
-    numberOfResults: {
-      type: Number,
-      required: true,
-      default: 0,
-    },
-    results: {
-      type: Array,
-      required: true,
-    },
+const props = withDefaults(
+  defineProps<{
+    paginateBy: number;
+    paginateByItems: PaginationItem[];
+    page: number;
+    numberOfResults: number;
+    results: unknown[];
+  }>(),
+  {
+    paginateBy: 25,
+    page: 1,
+    numberOfResults: 0,
+    paginateByItems: () => [],
+    results: () => [],
   },
-};
+);
+
+const emit = defineEmits<{
+  "update:paginateBy": [value: number];
+  "update:page": [value: number];
+}>();
+
+function updatePaginateBy(value: unknown) {
+  if (typeof value === "number") emit("update:paginateBy", value);
+}
 </script>
 
-<style scoped>
-.font-small :deep(.v-pagination__item) {
-  font-size: 0.875rem;
-}
+<template>
+  <nav
+    v-if="numberOfResults >= 0"
+    aria-label="Pagination"
+    class="tw:flex tw:flex-col tw:items-center tw:justify-between tw:gap-3 tw:p-2 tw:lg:flex-row"
+  >
+    <USelect
+      :model-value="props.paginateBy"
+      :items="props.paginateByItems"
+      value-key="value"
+      label-key="text"
+      color="neutral"
+      class="tw:w-44"
+      :ui="{ content: 'tw:z-[2005]' }"
+      @update:model-value="updatePaginateBy"
+    />
 
-.font-smaller :deep(.v-pagination__item) {
-  font-size: 0.75rem;
-}
-</style>
+    <UPagination
+      :page="props.page"
+      :total="props.numberOfResults"
+      :items-per-page="props.paginateBy"
+      :sibling-count="1"
+      color="neutral"
+      active-color="primary"
+      variant="ghost"
+      active-variant="solid"
+      @update:page="emit('update:page', $event)"
+    />
+  </nav>
+</template>
