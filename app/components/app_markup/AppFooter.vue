@@ -1,83 +1,61 @@
-<template>
-  <v-footer class="footer" theme="dark">
-    <v-card flat rounded="0" width="100%" class="transparent">
-      <v-card-text class="pt-1 px-1 pb-0 text-center text-white">
-        {{ new Date().getFullYear() }} |
-        <strong>{{ $t("footer.title") }}</strong>
-      </v-card-text>
-
-      <v-card-text class="pt-0 px-1 pb-0 text-center text-white">
-        <span v-html="$t('footer.collab_html')" />
-        <br />
-        {{ $t("footer.dataBy") }}
-        <NuxtLink to="/partners_and_providers">{{
-          $t("footer.partnerInstitutions")
-        }}</NuxtLink>
-        |
-        <span v-html="$t('footer.created_html')" />
-        <br />
-        <div class="d-flex flex-column flex-sm-row justify-center">
-          <a
-            v-for="(item, index) in footerLogos"
-            :key="index"
-            :href="item.href"
-            target="FooterWindow"
-            class="align-self-center"
-          >
-            <v-img
-              :alt="$t(item.alt)"
-              :src="item.src"
-              height="90"
-              width="175"
-              max-width="175"
-              contain
-            ></v-img>
-          </a>
-        </div>
-      </v-card-text>
-    </v-card>
-  </v-footer>
-</template>
-
-<script>
-import imageMixin from "@/mixins/imageMixin";
-
-export default {
-  name: "AppFooter",
-  mixins: [imageMixin],
-  computed: {
-    footerLogos() {
-      return [
-        {
-          href: "https://cetaf.org/",
-          alt: "footer.cetafLogoAltText",
-          src: this.getImageUrl("cetaf_logo.png"),
-        },
-        {
-          href: "https://taltech.ee/en/department-geology",
-          alt: "footer.taltechLogoAltText",
-          src: this.getImageUrl("taltech1.png"),
-        },
-        {
-          href: "https://www.museumfuernaturkunde.berlin/",
-          alt: "footer.mfnLogoAltText",
-          src: this.getImageUrl("mfn1.png"),
-        },
-      ];
-    },
+<script setup lang="ts">
+import { useI18n } from "vue-i18n";
+import { useAppNavigation } from "@/composables/useAppNavigation";
+const { t } = useI18n();
+const { localePath } = useAppNavigation();
+const logos = [
+  {
+    href: "https://cetaf.org/",
+    alt: "footer.cetafLogoAltText",
+    image: "cetaf_logo.png",
   },
-};
+  {
+    href: "https://taltech.ee/en/department-geology",
+    alt: "footer.taltechLogoAltText",
+    image: "taltech1.png",
+  },
+  {
+    href: "https://www.museumfuernaturkunde.berlin/",
+    alt: "footer.mfnLogoAltText",
+    image: "mfn1.png",
+  },
+];
 </script>
 
-<style scoped>
-.footer {
-  -webkit-box-shadow:
-    0 -2px 4px -1px rgba(0, 0, 0, 0.2),
-    0 -4px 5px 0 rgba(0, 0, 0, 0.14),
-    0 -1px 10px 0 rgba(0, 0, 0, 0.12) !important;
-  box-shadow:
-    0 -2px 4px -1px rgba(0, 0, 0, 0.2),
-    0 -4px 5px 0 rgba(0, 0, 0, 0.14),
-    0 -1px 10px 0 rgba(0, 0, 0, 0.12) !important;
-}
-</style>
+<template>
+  <footer
+    class="tw:bg-neutral-900 tw:px-4 tw:py-5 tw:text-center tw:text-sm tw:text-white tw:shadow-lg tw:[&_a]:text-amber-300 tw:[&_a:hover]:underline"
+  >
+    <p class="tw:mb-1">
+      {{ new Date().getFullYear() }} | <strong>{{ t("footer.title") }}</strong>
+    </p>
+    <p v-html="t('footer.collab_html')" />
+    <p>
+      {{ t("footer.dataBy") }}
+      <NuxtLink :to="localePath('/partners_and_providers')">{{
+        t("footer.partnerInstitutions")
+      }}</NuxtLink>
+      | <span v-html="t('footer.created_html')" />
+    </p>
+    <div
+      class="tw:mt-3 tw:flex tw:flex-col tw:items-center tw:justify-center tw:gap-3 tw:sm:flex-row"
+    >
+      <a
+        v-for="logo in logos"
+        :key="logo.image"
+        :href="logo.href"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <img
+          :src="`https://geocase.eu/thumbnails/${logo.image}`"
+          :alt="t(logo.alt)"
+          width="175"
+          height="90"
+          loading="lazy"
+          class="tw:h-22.5 tw:w-43.75 tw:object-contain"
+        />
+      </a>
+    </div>
+  </footer>
+</template>
