@@ -95,16 +95,17 @@ test("homepage quick search, help and localized routes", async ({ page }) => {
     "GeoCASe",
   );
   await page.getByRole("button", { name: "OK", exact: true }).click();
-  await page
-    .locator('.fast-search-input .v-input__append [role="button"]')
-    .click();
+  await page.getByRole("button", { name: "Search help", exact: true }).click();
   await expect(page.getByRole("dialog")).toBeVisible();
   await page
     .getByRole("dialog")
     .getByRole("button", { name: "OK", exact: true })
     .click();
-  await page.locator(".fast-search-input input:visible").fill("quartz");
-  await page.locator(".fast-search-input input:visible").press("Enter");
+  const quickSearch = page
+    .getByRole("search")
+    .getByRole("textbox", { name: "Quick search...", exact: true });
+  await quickSearch.fill("quartz");
+  await quickSearch.press("Enter");
   await expect(page).toHaveURL(/search.*q=quartz/);
   await expect(page.locator("#table")).toContainText("DEMO-1");
   await page.getByRole("button", { name: "select language" }).click();
