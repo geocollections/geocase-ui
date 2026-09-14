@@ -283,8 +283,7 @@ test("mobile search filters close with Escape and preserve navigation", async ({
   await page.getByRole("button", { name: "Menüü", exact: true }).click();
   await page
     .getByRole("navigation", { name: "Site navigation" })
-    .getByRole("link")
-    .first()
+    .getByRole("link", { name: "Pealeht", exact: true })
     .click();
   await expect(page).toHaveURL(/\/ee$/);
   await expect(page.getByRole("dialog")).not.toBeVisible();

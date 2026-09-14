@@ -4,7 +4,7 @@ import i18n from "@/i18n";
 import { useSettingsStore } from "@/stores/settings";
 
 export const navigationVisibility: Record<string, { header: string; drawer: string }> = {
-  "/": { header: "", drawer: "tw:hidden" },
+  "/": { header: "", drawer: "" },
   "/search": {
     header: "tw:hidden tw:min-[600px]:inline-flex",
     drawer: "tw:min-[600px]:hidden",
