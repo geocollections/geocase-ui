@@ -20,38 +20,47 @@ const clearLabel = (id: string) =>
 </script>
 
 <template>
-  <div class="tw:space-y-4 tw:text-slate-900">
-    <UFormField :label="t('frontPage.quickSearch')">
-      <UInput
-        :model-value="fields.q?.value ?? ''"
-        :placeholder="t('frontPage.quickSearch')"
-        :aria-label="t('frontPage.quickSearch')"
-        class="search-drawer-text-field tw:w-full"
-        @update:model-value="updateText('q', $event)"
-      >
-        <template v-if="fields.q?.value" #trailing
-          ><UButton
-            icon="i-lucide-x"
-            color="neutral"
-            variant="link"
-            :aria-label="clearLabel('q')"
-            @click="clearField('q')"
-        /></template>
-      </UInput>
-    </UFormField>
+  <div class="tw:text-default tw:space-y-5">
+    <UCard variant="subtle" :ui="{ body: 'tw:p-4 tw:sm:p-4' }">
+      <UFormField :label="t('frontPage.quickSearch')">
+        <UInput
+          :model-value="fields.q?.value ?? ''"
+          :placeholder="t('frontPage.quickSearch')"
+          :aria-label="t('frontPage.quickSearch')"
+          icon="i-lucide-search"
+          size="lg"
+          class="search-drawer-text-field tw:w-full"
+          @update:model-value="updateText('q', $event)"
+        >
+          <template v-if="fields.q?.value" #trailing
+            ><UButton
+              icon="i-lucide-x"
+              color="neutral"
+              variant="link"
+              :aria-label="clearLabel('q')"
+              @click="clearField('q')"
+          /></template>
+        </UInput>
+      </UFormField>
+    </UCard>
     <UCollapsible v-model:open="additional" class="tw:space-y-3">
       <UButton
         :label="t('search.drawer.additionalFilters')"
+        icon="i-lucide-sliders-horizontal"
         :trailing-icon="
           additional ? 'i-lucide-chevron-up' : 'i-lucide-chevron-down'
         "
         color="neutral"
-        variant="soft"
+        variant="outline"
         block
         class="tw:justify-between"
       />
       <template #content>
-        <div class="tw:space-y-4 tw:pt-3">
+        <UCard
+          variant="subtle"
+          class="tw:mt-3"
+          :ui="{ body: 'tw:space-y-5 tw:p-4 tw:sm:p-4' }"
+        >
           <UFormField
             v-for="id in store.searchTextIds"
             :key="id"
@@ -94,7 +103,7 @@ const clearLabel = (id: string) =>
               </UInput>
             </div>
           </UFormField>
-          <section>
+          <section class="tw:space-y-2">
             <div class="tw:flex tw:items-center tw:gap-2">
               <UButton
                 :label="t('search.table.map')"
@@ -106,7 +115,7 @@ const clearLabel = (id: string) =>
                     : 'i-lucide-chevron-down'
                 "
                 color="neutral"
-                variant="soft"
+                variant="outline"
                 class="tw:flex-1 tw:justify-between"
                 @click="
                   store.updateSearchField({
@@ -127,7 +136,7 @@ const clearLabel = (id: string) =>
             <div
               id="search-map-filter"
               v-show="fields.map?.showCheckboxes"
-              class="tw:mt-2"
+              class="tw:border-default tw:overflow-hidden tw:rounded-lg tw:border"
             >
               <MapWrapper
                 map-id="search-map"
@@ -139,7 +148,11 @@ const clearLabel = (id: string) =>
               />
             </div>
           </section>
-          <section v-for="id in store.searchCheckboxIds" :key="id">
+          <section
+            v-for="id in store.searchCheckboxIds"
+            :key="id"
+            class="tw:space-y-2"
+          >
             <div class="tw:flex tw:items-center tw:gap-2">
               <UButton
                 :label="t(`search.table.${id}`)"
@@ -151,7 +164,7 @@ const clearLabel = (id: string) =>
                     : 'i-lucide-chevron-down'
                 "
                 color="neutral"
-                variant="soft"
+                variant="outline"
                 class="tw:flex-1 tw:justify-between"
                 @click="
                   store.updateSearchField({
@@ -173,7 +186,7 @@ const clearLabel = (id: string) =>
             <div
               v-if="fields[id]?.showCheckboxes"
               :id="`facet-${id}`"
-              class="tw:space-y-2 tw:px-2 tw:py-3"
+              class="tw:bg-elevated/50 tw:border-default tw:space-y-2 tw:rounded-lg tw:border tw:p-3"
             >
               <UCheckbox
                 v-for="(entity, index) in store.getCheckboxes(
@@ -214,11 +227,12 @@ const clearLabel = (id: string) =>
             :key="id"
             :model-value="fields[id]?.value === 'true'"
             :label="t(`search.drawer.${id}`)"
+            class="tw:bg-default tw:border-default tw:rounded-lg tw:border tw:p-3"
             @update:model-value="
               updateValue(id, $event === true ? 'true' : null)
             "
           />
-        </div>
+        </UCard>
       </template>
     </UCollapsible>
     <UButton
