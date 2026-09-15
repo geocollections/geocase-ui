@@ -70,6 +70,9 @@ describe("migrated search state and API contract", () => {
     expect(front.getCards.fossil.url).toBe(
       '/search?recordbasis="Fossil" "FossilSpecimen"',
     );
+    expect(front.getCards.mineral.url).toBe(
+      '/search?recordbasis="Mineral" "MineralSpecimen"',
+    );
     axios.get.mockResolvedValue({
       data: { response: { docs: [{ unitid: "42" }], numFound: 1 } },
     });

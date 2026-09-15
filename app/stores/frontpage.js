@@ -17,7 +17,7 @@ export const useFrontpageStore = defineStore("frontpage", {
         isLeaving: false,
       },
       mineral: {
-        url: '/search?recordbasis="Mineral"',
+        url: '/search?recordbasis="Mineral" "MineralSpecimen"',
         image:
           "https://files.geocollections.info/img/geocase/front_page/mineral1.jpg",
         isLeaving: false,
