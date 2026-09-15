@@ -11,7 +11,7 @@ const { t } = useI18n();
   <aside
     v-if="isDesktop"
     v-show="drawer"
-    :aria-label="t('search.drawer.additionalFilters')"
+    :aria-label="t('search.drawer.filters')"
     class="tw:bg-default tw:border-default tw:fixed tw:bottom-0 tw:left-0 tw:top-16 tw:z-2010 tw:flex tw:w-87.5 tw:flex-col tw:border-r tw:shadow-xl"
   >
     <header
