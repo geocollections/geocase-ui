@@ -157,6 +157,7 @@
     }
   },
   "search": {
+    "page": "Page",
     "recordsFound": "records found | record found | records found",
     "openGallery": "Open gallery",
     "mindatLink": "Link to mindat.org",
