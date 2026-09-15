@@ -12,12 +12,14 @@ const { t } = useI18n();
     v-if="isDesktop"
     v-show="drawer"
     :aria-label="t('search.drawer.filters')"
-    class="tw:bg-default tw:border-default tw:fixed tw:bottom-0 tw:left-0 tw:top-16 tw:z-2010 tw:flex tw:w-87.5 tw:flex-col tw:border-r tw:shadow-xl"
+    class="tw:bg-default tw:border-accented tw:fixed tw:bottom-0 tw:left-0 tw:top-16 tw:z-2010 tw:flex tw:w-87.5 tw:flex-col tw:border-r tw:shadow-xl"
   >
     <header
-      class="tw:bg-default/95 tw:border-default tw:border-b tw:px-4 tw:py-4 tw:backdrop-blur"
+      class="tw:bg-default/95 tw:border-accented tw:border-b tw:px-5 tw:py-5 tw:backdrop-blur"
     >
-      <h2 class="tw:text-highlighted tw:text-base tw:font-semibold">
+      <h2
+        class="tw:text-highlighted tw:text-xl tw:font-extrabold tw:tracking-tight"
+      >
         {{ t("search.drawer.filters") }}
       </h2>
     </header>
@@ -34,6 +36,8 @@ const { t } = useI18n();
       overlay: 'tw:z-[3290]',
       content: 'tw:z-[3300] tw:max-w-87.5',
       header: 'tw:bg-default/95 tw:backdrop-blur',
+      title:
+        'tw:text-highlighted tw:text-xl tw:font-extrabold tw:tracking-tight',
       body: 'tw:bg-default tw:p-4 tw:sm:p-4',
     }"
   >

@@ -18,9 +18,17 @@ const clearLabel = (id: string) =>
 </script>
 
 <template>
-  <div class="tw:text-default tw:space-y-5">
-    <UCard variant="subtle" :ui="{ body: 'tw:p-4 tw:sm:p-4' }">
-      <UFormField :label="t('frontPage.quickSearch')">
+  <div class="tw:text-highlighted tw:space-y-5">
+    <UCard
+      variant="outline"
+      class="tw:ring-accented"
+      :ui="{ body: 'tw:p-4 tw:sm:p-4' }"
+    >
+      <UFormField
+        :label="t('frontPage.quickSearch')"
+        size="lg"
+        :ui="{ label: 'tw:text-highlighted tw:font-semibold' }"
+      >
         <UInput
           :model-value="fields.q?.value ?? ''"
           :aria-label="t('frontPage.quickSearch')"
@@ -40,11 +48,16 @@ const clearLabel = (id: string) =>
         </UInput>
       </UFormField>
     </UCard>
-    <UCard variant="subtle" :ui="{ body: 'tw:space-y-5 tw:p-4 tw:sm:p-4' }">
+    <UCard
+      variant="outline"
+      class="tw:ring-accented"
+      :ui="{ body: 'tw:space-y-5 tw:p-4 tw:sm:p-4' }"
+    >
       <UFormField
         v-for="id in store.searchTextIds"
         :key="id"
         :label="t(`search.table.${id}`)"
+        :ui="{ label: 'tw:text-highlighted tw:font-semibold' }"
       >
         <div class="tw:space-y-2">
           <USelect
@@ -92,7 +105,7 @@ const clearLabel = (id: string) =>
             "
             color="neutral"
             variant="outline"
-            class="tw:flex-1 tw:justify-between"
+            class="tw:text-highlighted tw:flex-1 tw:justify-between tw:font-semibold"
             @click="
               store.updateSearchField({
                 id: 'map',
@@ -141,7 +154,7 @@ const clearLabel = (id: string) =>
             "
             color="neutral"
             variant="outline"
-            class="tw:flex-1 tw:justify-between"
+            class="tw:text-highlighted tw:flex-1 tw:justify-between tw:font-semibold"
             @click="
               store.updateSearchField({
                 id,
@@ -162,7 +175,7 @@ const clearLabel = (id: string) =>
         <div
           v-if="fields[id]?.showCheckboxes"
           :id="`facet-${id}`"
-          class="tw:bg-elevated/50 tw:border-default tw:space-y-2 tw:rounded-lg tw:border tw:p-3"
+          class="tw:bg-default tw:border-accented tw:space-y-2 tw:rounded-lg tw:border tw:p-3"
         >
           <UCheckbox
             v-for="(entity, index) in store.getCheckboxes(
@@ -173,6 +186,7 @@ const clearLabel = (id: string) =>
             :key="entity"
             :model-value="isSelected(id, entity)"
             :label="`${entity} (${store.getCheckboxesCount(id)[index]})`"
+            :ui="{ label: 'tw:text-highlighted' }"
             @update:model-value="toggleFacet(id, entity, $event === true)"
           />
           <UButton
@@ -187,6 +201,7 @@ const clearLabel = (id: string) =>
             :icon="fields[id]?.showMore ? 'i-lucide-minus' : 'i-lucide-plus'"
             color="neutral"
             variant="link"
+            class="tw:text-highlighted tw:font-semibold"
             @click="
               store.updateSearchField({
                 id,
@@ -201,7 +216,9 @@ const clearLabel = (id: string) =>
         :key="id"
         :model-value="fields[id]?.value === 'true'"
         :label="t(`search.drawer.${id}`)"
-        class="tw:bg-default tw:border-default tw:rounded-lg tw:border tw:p-3"
+        variant="card"
+        color="neutral"
+        :ui="{ label: 'tw:text-highlighted tw:font-semibold' }"
         @update:model-value="updateValue(id, $event === true ? 'true' : null)"
       />
     </UCard>
