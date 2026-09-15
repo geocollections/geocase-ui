@@ -37,6 +37,14 @@ describe("migrated search state and API contract", () => {
   });
   it("resets filters and pagination and preserves translated column identities", () => {
     const store = useSearchStore();
+    expect(
+      ["map", ...store.searchCheckboxIds].every(
+        (id) => store.search[id].showCheckboxes,
+      ),
+    ).toBe(true);
+    expect(
+      store.searchCheckboxIds.every((id) => !store.search[id].showMore),
+    ).toBe(true);
     store.updateSearchParam({ field: "page", value: "4" });
     store.updateSearchParam({ field: "sort_desc", value: "true,false" });
     store.updateSearchField({ id: "country", value: '"Estonia"' });

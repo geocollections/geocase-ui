@@ -61,7 +61,7 @@ export const useSearchStore = defineStore("search", {
         lookUpType: "",
         value: null,
         label: "Map",
-        showCheckboxes: false,
+        showCheckboxes: true,
         fields: ["coordinates"],
       },
       recordbasis: {
@@ -70,7 +70,7 @@ export const useSearchStore = defineStore("search", {
         lookUpType: "",
         value: null,
         label: "Specimen type",
-        showCheckboxes: false,
+        showCheckboxes: true,
         showMore: false,
       },
       highertaxon_facet: {
@@ -79,7 +79,7 @@ export const useSearchStore = defineStore("search", {
         lookUpType: "",
         value: null,
         label: "Group",
-        showCheckboxes: false,
+        showCheckboxes: true,
         showMore: false,
       },
       type_status: {
@@ -88,7 +88,7 @@ export const useSearchStore = defineStore("search", {
         lookUpType: "",
         value: null,
         label: "Type status",
-        showCheckboxes: false,
+        showCheckboxes: true,
         showMore: false,
       },
       country: {
@@ -97,7 +97,7 @@ export const useSearchStore = defineStore("search", {
         lookUpType: "",
         value: null,
         label: "Country",
-        showCheckboxes: false,
+        showCheckboxes: true,
         showMore: false,
       },
       datasetowner: {
@@ -106,7 +106,7 @@ export const useSearchStore = defineStore("search", {
         lookUpType: "",
         value: null,
         label: "Dataset owner",
-        showCheckboxes: false,
+        showCheckboxes: true,
         showMore: false,
       },
       providername: {
@@ -115,7 +115,7 @@ export const useSearchStore = defineStore("search", {
         lookUpType: "",
         value: null,
         label: "Provider",
-        showCheckboxes: false,
+        showCheckboxes: true,
         showMore: false,
       },
       providercountry: {
@@ -124,7 +124,7 @@ export const useSearchStore = defineStore("search", {
         lookUpType: "",
         value: null,
         label: "Provider country",
-        showCheckboxes: false,
+        showCheckboxes: true,
         showMore: false,
       },
       has_image: {
