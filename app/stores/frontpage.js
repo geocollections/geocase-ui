@@ -23,7 +23,7 @@ export const useFrontpageStore = defineStore("frontpage", {
         isLeaving: false,
       },
       rock: {
-        url: '/search?recordbasis="Rock"',
+        url: '/search?recordbasis="Rock" "RockSpecimen"',
         image:
           "https://files.geocollections.info/img/geocase/front_page/rock1.jpg",
         isLeaving: false,
