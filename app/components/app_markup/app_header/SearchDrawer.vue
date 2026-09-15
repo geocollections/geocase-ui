@@ -27,7 +27,7 @@ const { t } = useI18n();
         />
       </span>
       <h2 class="tw:text-highlighted tw:text-base tw:font-semibold">
-        {{ t("search.drawer.additionalFilters") }}
+        {{ t("search.drawer.filters") }}
       </h2>
     </header>
     <div class="tw:flex-1 tw:overflow-y-auto tw:p-4">
@@ -38,7 +38,7 @@ const { t } = useI18n();
     v-else
     v-model:open="drawer"
     side="left"
-    :title="t('search.drawer.additionalFilters')"
+    :title="t('search.drawer.filters')"
     :ui="{
       overlay: 'tw:z-[3290]',
       content: 'tw:z-[3300] tw:max-w-87.5',
