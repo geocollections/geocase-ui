@@ -31,9 +31,11 @@ async function openCollection() {
 </script>
 
 <template>
-  <button
+  <UButton
     type="button"
-    class="tw:border-home-border tw:text-home-ink tw:focus-visible:outline-home-focus tw:group tw:flex tw:h-full tw:w-full tw:flex-col tw:overflow-hidden tw:rounded-2xl tw:border tw:bg-white tw:text-left tw:shadow-sm tw:transition tw:duration-200 tw:hover:-translate-y-1 tw:hover:shadow-xl tw:focus-visible:outline-3 tw:focus-visible:outline-offset-4 tw:motion-reduce:transform-none tw:motion-reduce:transition-none"
+    color="neutral"
+    variant="ghost"
+    class="tw:border-home-border tw:text-home-ink tw:focus-visible:outline-home-focus tw:group tw:flex tw:h-full tw:w-full tw:flex-col tw:overflow-hidden tw:rounded-2xl tw:border tw:bg-white tw:p-0 tw:text-left tw:shadow-sm tw:transition tw:duration-200 tw:hover:-translate-y-1 tw:hover:bg-white tw:hover:shadow-xl tw:focus-visible:outline-3 tw:focus-visible:outline-offset-4 tw:motion-reduce:transform-none tw:motion-reduce:transition-none"
     @click="openCollection"
   >
     <img
@@ -55,5 +57,5 @@ async function openCollection() {
         <UIcon name="i-lucide-arrow-up-right" aria-hidden="true" />
       </span>
     </span>
-  </button>
+  </UButton>
 </template>
