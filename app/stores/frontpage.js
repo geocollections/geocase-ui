@@ -29,7 +29,7 @@ export const useFrontpageStore = defineStore("frontpage", {
         isLeaving: false,
       },
       meteorite: {
-        url: '/search?recordbasis="Meteorite"',
+        url: '/search?recordbasis="Meteorite" "MeteoriteSpecimen"',
         image:
           "https://files.geocollections.info/img/geocase/front_page/meteorite1.jpg",
         isLeaving: false,
