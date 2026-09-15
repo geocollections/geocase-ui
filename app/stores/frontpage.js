@@ -11,25 +11,25 @@ export const useFrontpageStore = defineStore("frontpage", {
     cardIds: ["fossil", "mineral", "rock", "meteorite"],
     cards: {
       fossil: {
-        url: '/search?recordbasis="Fossil"',
+        url: '/search?recordbasis="Fossil" "FossilSpecimen"',
         image:
           "https://files.geocollections.info/img/geocase/front_page/fossil1.jpg",
         isLeaving: false,
       },
       mineral: {
-        url: '/search?recordbasis="Mineral"',
+        url: '/search?recordbasis="Mineral" "MineralSpecimen"',
         image:
           "https://files.geocollections.info/img/geocase/front_page/mineral1.jpg",
         isLeaving: false,
       },
       rock: {
-        url: '/search?recordbasis="Rock"',
+        url: '/search?recordbasis="Rock" "RockSpecimen"',
         image:
           "https://files.geocollections.info/img/geocase/front_page/rock1.jpg",
         isLeaving: false,
       },
       meteorite: {
-        url: '/search?recordbasis="Meteorite"',
+        url: '/search?recordbasis="Meteorite" "MeteoriteSpecimen"',
         image:
           "https://files.geocollections.info/img/geocase/front_page/meteorite1.jpg",
         isLeaving: false,

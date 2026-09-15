@@ -13,6 +13,14 @@
     }
   },
   "frontPage": {
+    "heroEyebrow": "Geoteaduslikud kogud",
+    "heroDescription": "Avasta fossiile, mineraale, kivimeid ja meteoriite maailma muuseumide ja teadusasutuste kogudest.",
+    "browseAll": "Vaata kõiki eksemplare",
+    "collectionsEyebrow": "Tutvu kogudega",
+    "collectionsTitle": "Loodusloo mitmekesine maailm",
+    "mapEyebrow": "Avasta asukoha järgi",
+    "mapTitle": "Avasta maailma oma jalge all",
+    "mapDescription": "Uuri leiukohti kaardil ja leia eksemplare kõikjalt maailmast.",
     "prototype_alert": {
       "title": "This is GeoCASe 2.0 interface.",
       "text": "Please report problems in <a href=\"https://github.com/geocollections/geocase-ui\" target=\"_blank\">GitHub</a>. The old portal is accessible at: <a href=\"http://old.geocase.eu\" target=\"_blank\">http://old.geocase.eu</a>."

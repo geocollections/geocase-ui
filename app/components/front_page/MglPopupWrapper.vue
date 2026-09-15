@@ -1,163 +1,188 @@
-<template>
-  <v-card :max-width="popupMaxWidth">
-    <v-card-title>{{ activePopupData.locality }}</v-card-title>
-    <v-card-text class="pb-0">
-      <div>Lat: {{ activePopupData.lat }}</div>
-      <div>Long: {{ activePopupData.lng }}</div>
-    </v-card-text>
+<script setup lang="ts">
+import { computed, ref, watch } from "vue";
+import { useI18n } from "vue-i18n";
+import { useAppNavigation } from "@/composables/useAppNavigation";
 
-    <v-card :max-width="popupMaxWidth" flat v-if="activeNumFound">
-      <v-card-title class="text-subtitle-1 pb-2 text-no-wrap">
-        {{ $t("frontPage.map.numFound") }}
-        <b class="ml-1">{{ activeNumFound }}</b>
-      </v-card-title>
-
-      <v-data-table
-        disable-filtering
-        :hide-default-footer="activeNumFound <= 10"
-        disable-sort
-        fixed-header
-        height="200"
-        density="compact"
-        mobile-breakpoint="100"
-        :headers="[
-          { title: '', key: 'icon' },
-          { title: $t('search.table.unitid'), key: 'unitid' },
-          {
-            title: $t('search.table.fullscientificname'),
-            key: 'fullscientificname',
-          },
-        ]"
-        :items="activeDocs"
-        :footer-props="{
-          itemsPerPageOptions: [10, 25, 50, -1],
-          itemsPerPageText: $t('frontPage.map.itemsPerPageText'),
-          showFirstLastPage: true,
-        }"
-      >
-        <template v-slot:item.icon="{ item }">
-          <NuxtLink
-            class="icon-link"
-            style="text-decoration: unset"
-            :to="{ path: `specimen/${encodeURIComponent(item.geocase_id)}` }"
-            :title="$t('search.goToDetailView')"
-          >
-            <v-icon
-              size="small"
-              color="primary"
-              v-if="getItemType(item) === 'fossil'"
-              >fa:fas fa-fish</v-icon
-            >
-            <v-icon
-              size="small"
-              color="primary"
-              v-else-if="getItemType(item) === 'mineral'"
-              >fa:far fa-gem</v-icon
-            >
-            <v-icon
-              size="small"
-              color="primary"
-              v-else-if="getItemType(item) === 'rock'"
-              >fa:fas fa-mountain</v-icon
-            >
-            <v-icon
-              size="small"
-              color="primary"
-              v-else-if="getItemType(item) === 'meteorite'"
-              >fa:fas fa-meteor</v-icon
-            >
-          </NuxtLink>
-        </template>
-
-        <template v-slot:item.unitid="{ item }">
-          <NuxtLink
-            style="text-decoration: unset"
-            :to="{ path: `specimen/${encodeURIComponent(item.geocase_id)}` }"
-            :title="$t('search.goToDetailView')"
-          >
-            {{ item.unitid }}
-          </NuxtLink>
-        </template>
-
-        <template v-slot:item.fullscientificname="{ item }">
-          <div v-if="item.mindat_id">
-            <a
-              style="text-decoration: unset; white-space: nowrap"
-              target="MindatWindow"
-              :title="$t('search.mindatLink')"
-              @click="openMindatInNewWindow(item.mindat_url)"
-              >{{ item.fullscientificname }}
-              <v-icon size="small" color="primary"
-                >fa:fas fa-external-link-square-alt</v-icon
-              >
-            </a>
-          </div>
-          <div v-else>{{ item.fullscientificname }}</div>
-        </template>
-      </v-data-table>
-    </v-card>
-
-    <v-card-actions class="justify-end" v-if="activeNumFound === 0">
-      <v-btn
-        size="small"
-        variant="text"
-        color="primary"
-        @click="$emit('clicked:searchButton')"
-        ><v-icon size="x-small" class="mr-1">fa:fas fa-search</v-icon
-        >{{ $t("frontPage.map.search") }}</v-btn
-      >
-    </v-card-actions>
-  </v-card>
-</template>
-<script>
-export default {
-  name: "MglPopupWrapper",
-  props: {
-    popup: {
-      type: Object,
-      required: true,
-    },
-    activePopupData: {
-      type: Object,
-      required: true,
-    },
-    mapResults: {
-      type: Object,
-      required: true,
-    },
-    popupMaxWidth: {
-      type: String,
-      required: false,
-      default: "400px",
-    },
-  },
-  computed: {
-    activeNumFound() {
-      return this.mapResults?.[this.activePopupData?.id]?.numFound || 0;
-    },
-
-    activeDocs() {
-      return this.mapResults?.[this.activePopupData?.id]?.docs || [];
-    },
-  },
-  methods: {
-    openMindatInNewWindow(url) {
-      window.open(url, "MindatWindow", "width=800,height=750");
-    },
-
-    getItemType(item) {
-      let type = item.recordbasis;
-      if (type === "Fossil") {
-        return "fossil";
-      } else if (type === "Mineral") {
-        return "mineral";
-      } else if (type === "Rock") {
-        return "rock";
-      } else if (type === "Meteorite") {
-        return "meteorite";
-      } else return "none";
-    },
-  },
+type PopupData = {
+  id: string | number | null;
+  locality: string;
+  lat: string | number | null;
+  lng: string | number | null;
 };
+
+type Specimen = {
+  geocase_id: string;
+  unitid?: string;
+  fullscientificname?: string;
+  recordbasis?: string;
+  mindat_id?: string | number;
+  mindat_url?: string;
+};
+
+type MapResult = {
+  numFound: number;
+  docs: Specimen[];
+};
+
+const props = withDefaults(
+  defineProps<{
+    activePopupData: PopupData;
+    mapResults: Record<string | number, MapResult>;
+    popupMaxWidth?: string;
+  }>(),
+  { popupMaxWidth: "400px" },
+);
+
+defineEmits<{ "clicked:searchButton": [] }>();
+
+const { t } = useI18n();
+const { localePath } = useAppNavigation();
+const page = ref(1);
+const pageSize = 10;
+const activeResult = computed(() =>
+  props.activePopupData.id == null
+    ? undefined
+    : props.mapResults[props.activePopupData.id],
+);
+const activeNumFound = computed(() => activeResult.value?.numFound ?? 0);
+const activeDocs = computed(() => activeResult.value?.docs ?? []);
+const visibleDocs = computed(() =>
+  activeDocs.value.slice((page.value - 1) * pageSize, page.value * pageSize),
+);
+
+watch(
+  () => props.activePopupData.id,
+  () => {
+    page.value = 1;
+  },
+);
+
+function specimenIcon(recordbasis?: string) {
+  return (
+    {
+      Fossil: "i-lucide-fish",
+      Mineral: "i-lucide-gem",
+      Rock: "i-lucide-mountain",
+      Meteorite: "i-lucide-orbit",
+    }[recordbasis ?? ""] ?? "i-lucide-circle"
+  );
+}
+
+function openMindat(url?: string) {
+  if (url) window.open(url, "MindatWindow", "width=800,height=750");
+}
 </script>
-<style scoped></style>
+
+<template>
+  <UCard
+    class="tw:text-home-ink tw:overflow-hidden tw:rounded-2xl"
+    :style="{ width: popupMaxWidth, maxWidth: 'calc(100vw - 48px)' }"
+    :ui="{ body: 'tw:p-0 tw:sm:p-0' }"
+  >
+    <div class="tw:border-b tw:border-slate-200 tw:p-4">
+      <h3 class="tw:text-lg tw:font-extrabold">
+        {{ activePopupData.locality }}
+      </h3>
+      <p class="tw:mt-1 tw:text-xs tw:text-slate-600">
+        Lat: {{ activePopupData.lat }} · Long: {{ activePopupData.lng }}
+      </p>
+    </div>
+
+    <template v-if="activeNumFound">
+      <div class="tw:flex tw:items-center tw:justify-between tw:px-4 tw:py-3">
+        <span class="tw:text-sm tw:font-semibold">
+          {{ t("frontPage.map.numFound") }}
+        </span>
+        <UBadge color="neutral" variant="soft">{{ activeNumFound }}</UBadge>
+      </div>
+      <div class="tw:max-h-56 tw:overflow-auto tw:border-y tw:border-slate-200">
+        <table class="tw:w-full tw:border-collapse tw:text-left tw:text-xs">
+          <thead class="tw:sticky tw:top-0 tw:bg-white">
+            <tr class="tw:border-b tw:border-slate-200">
+              <th class="tw:w-8 tw:p-2">
+                <span class="tw:sr-only">Type</span>
+              </th>
+              <th class="tw:p-2 tw:font-bold">
+                {{ t("search.table.unitid") }}
+              </th>
+              <th class="tw:p-2 tw:font-bold">
+                {{ t("search.table.fullscientificname") }}
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              v-for="item in visibleDocs"
+              :key="item.geocase_id"
+              class="tw:border-b tw:border-slate-100 tw:last:border-0"
+            >
+              <td class="tw:p-2">
+                <NuxtLink
+                  :to="
+                    localePath(
+                      `/specimen/${encodeURIComponent(item.geocase_id)}`,
+                    )
+                  "
+                  :title="t('search.goToDetailView')"
+                  class="tw:text-primary"
+                >
+                  <UIcon
+                    :name="specimenIcon(item.recordbasis)"
+                    aria-hidden="true"
+                  />
+                </NuxtLink>
+              </td>
+              <td class="tw:p-2">
+                <NuxtLink
+                  :to="
+                    localePath(
+                      `/specimen/${encodeURIComponent(item.geocase_id)}`,
+                    )
+                  "
+                  :title="t('search.goToDetailView')"
+                  class="tw:font-semibold tw:text-primary tw:no-underline tw:hover:underline"
+                >
+                  {{ item.unitid }}
+                </NuxtLink>
+              </td>
+              <td class="tw:p-2">
+                <button
+                  v-if="item.mindat_id"
+                  type="button"
+                  class="tw:inline-flex tw:items-center tw:gap-1 tw:text-left tw:text-primary tw:hover:underline"
+                  :title="t('search.mindatLink')"
+                  @click="openMindat(item.mindat_url)"
+                >
+                  {{ item.fullscientificname }}
+                  <UIcon name="i-lucide-external-link" aria-hidden="true" />
+                </button>
+                <span v-else>{{ item.fullscientificname }}</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div
+        v-if="activeNumFound > pageSize"
+        class="tw:flex tw:justify-center tw:p-2"
+      >
+        <UPagination
+          v-model:page="page"
+          :total="activeNumFound"
+          :items-per-page="pageSize"
+          size="xs"
+        />
+      </div>
+    </template>
+
+    <div v-else class="tw:flex tw:justify-end tw:p-3">
+      <UButton
+        size="sm"
+        variant="ghost"
+        icon="i-lucide-search"
+        :label="t('frontPage.map.search')"
+        @click="$emit('clicked:searchButton')"
+      />
+    </div>
+  </UCard>
+</template>
