@@ -1,125 +1,59 @@
-<template>
-  <v-hover v-slot="{ isHovering: hover, props: hoverProps }" close-delay="1600">
-    <v-card
-      v-bind="hoverProps"
-      :elevation="hover ? 12 : 6"
-      @mouseleave="handleMouseLeave"
-      @mouseenter="handleMouseEnter"
-      height="300"
-      hover
-      class="d-flex flex-column HoverCard"
-      :style="`background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.1), rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.7)), url(&quot;${card.image}&quot;);`"
-      :aria-label="card.imageAltText"
-      @click="goToSearchView(card.url)"
-    >
-      <v-overlay
-        contained
-        :model-value="hover"
-        class="align-center justify-center text-white"
-      >
-        <div class="d-flex flex-column text-center">
-          <div
-            class="v-card__title justify-center text-uppercase font-weight-bold animate__animated"
-            :class="{
-              animate__fadeInUp: hover,
-              animate__fadeOutDown: card.isLeaving,
-            }"
-          >
-            {{ card.title }}
-          </div>
-
-          <div
-            class="v-card__text text-center animate__animated font-weight-medium"
-            :class="{
-              animate__fadeInUp: hover,
-              animate__fadeOutDown: card.isLeaving,
-            }"
-          >
-            {{ card.text }}
-          </div>
-
-          <div
-            class="v-card__actions justify-center animate__animated"
-            :class="{
-              animate__fadeInUp: hover,
-              animate__fadeOutDown: card.isLeaving,
-            }"
-          >
-            <v-btn
-              class="font-weight-bold text-white"
-              color="black"
-              elevation="6"
-              :to="card.url"
-              >{{ card.button }}</v-btn
-            >
-          </div>
-        </div>
-      </v-overlay>
-
-      <v-spacer />
-
-      <v-card-title
-        class="justify-center text-uppercase font-weight-bold animate__animated animate__faster text-white"
-        :class="{
-          animate__fadeOutUp: !card.isLeaving && hover,
-          animate__fadeInDown: card.isLeaving,
-        }"
-        >{{ card.title }}</v-card-title
-      >
-    </v-card>
-  </v-hover>
-</template>
-
-<script>
+<script setup lang="ts">
+import { useRouter } from "#imports";
 import { useSearchStore } from "@/stores/search";
+import { useAppNavigation } from "@/composables/useAppNavigation";
 
-import { mapActions } from "pinia";
-
-export default {
-  name: "HoverCard",
-
-  props: ["card"],
-
-  methods: {
-    ...mapActions(useSearchStore, ["resetSearch"]),
-    ...mapActions(useSearchStore, ["removeStratigraphyFromTableHeaders"]),
-
-    goToSearchView(url) {
-      if (url.endsWith('recordbasis="Meteorite"'))
-        this.removeStratigraphyFromTableHeaders();
-      this.resetSearch();
-      this.$router.push({ path: url });
-    },
-
-    handleMouseLeave() {
-      if (!this.card.isLeaving)
-        setTimeout(() => this.$emit("update:isLeaving", true), 800);
-    },
-
-    handleMouseEnter() {
-      if (this.card.isLeaving) this.$emit("update:isLeaving", false);
-    },
-  },
+type CollectionCard = {
+  title: string;
+  text: string;
+  button: string;
+  image: string;
+  imageAltText: string;
+  url: string;
 };
+
+const props = defineProps<{ card: CollectionCard }>();
+const router = useRouter();
+const searchStore = useSearchStore();
+const { localePath } = useAppNavigation();
+
+async function openCollection() {
+  if (props.card.url.endsWith('recordbasis="Meteorite"'))
+    searchStore.removeStratigraphyFromTableHeaders();
+  searchStore.resetSearch();
+
+  const target = new URL(props.card.url, "https://geocase.eu");
+  await router.push({
+    path: localePath(target.pathname),
+    query: Object.fromEntries(target.searchParams),
+  });
+}
 </script>
 
-<style scoped>
-.HoverCard {
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-}
-
-.v-card__title,
-.v-card__text {
-  text-shadow: 2px 2px 4px #000;
-}
-
-.v-card__title {
-  font-size: 1.5rem;
-}
-
-.v-card__text {
-  font-size: 1rem;
-}
-</style>
+<template>
+  <button
+    type="button"
+    class="tw:border-home-border tw:text-home-ink tw:focus-visible:outline-home-focus tw:group tw:flex tw:h-full tw:w-full tw:flex-col tw:overflow-hidden tw:rounded-2xl tw:border tw:bg-white tw:text-left tw:shadow-sm tw:transition tw:duration-200 tw:hover:-translate-y-1 tw:hover:shadow-xl tw:focus-visible:outline-3 tw:focus-visible:outline-offset-4 tw:motion-reduce:transform-none tw:motion-reduce:transition-none"
+    @click="openCollection"
+  >
+    <img
+      :src="card.image"
+      :alt="card.imageAltText"
+      class="tw:h-52 tw:w-full tw:rounded-t-2xl tw:object-cover tw:transition tw:duration-300 tw:group-hover:scale-[1.03] tw:motion-reduce:transform-none tw:motion-reduce:transition-none"
+    />
+    <span class="tw:flex tw:flex-1 tw:flex-col tw:rounded-b-2xl tw:p-6">
+      <span class="tw:text-2xl tw:font-extrabold tw:tracking-tight">
+        {{ card.title }}
+      </span>
+      <span class="tw:text-home-muted tw:my-3 tw:text-sm tw:leading-relaxed">
+        {{ card.text }}
+      </span>
+      <span
+        class="tw:mt-auto tw:flex tw:items-center tw:justify-between tw:gap-2 tw:text-sm tw:font-extrabold"
+      >
+        {{ card.button }}
+        <UIcon name="i-lucide-arrow-up-right" aria-hidden="true" />
+      </span>
+    </span>
+  </button>
+</template>
