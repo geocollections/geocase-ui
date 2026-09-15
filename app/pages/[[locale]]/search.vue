@@ -1,108 +1,105 @@
 <script setup>
+import { useI18n } from "vue-i18n";
+
 definePageMeta({ name: "Search", path: "/:locale(en|ee|de)?/search" });
-useHead({ title: "Search" });
+const { t } = useI18n();
+useHead(() => ({ title: t("header.search") }));
 </script>
 
 <template>
-  <v-container fluid class="px-4">
+  <div class="tw:bg-muted/30 tw:min-h-full tw:p-3 tw:sm:p-5">
     <ScrollToTop />
 
-    <v-card flat>
-      <v-card-title
-        class="py-2 font-weight-bold records-found"
-        style="font-size: 1.5rem"
+    <UCard
+      variant="outline"
+      class="tw:overflow-hidden"
+      :ui="{ body: 'tw:p-0 tw:sm:p-0' }"
+    >
+      <header
+        class="tw:flex tw:items-center tw:justify-between tw:gap-4 tw:px-4 tw:py-5 tw:sm:px-6"
       >
-        <span class="mr-1">{{
-          responseResultsCount ? responseResultsCount.toLocaleString() : 0
-        }}</span>
-        <span class="mr-1">{{
-          $t("search.recordsFound", responseResultsCount)
-        }}</span>
-        <span class="hidden-sm-and-up">{{ `(page: ${page})` }}</span>
-      </v-card-title>
+        <div aria-live="polite">
+          <h1
+            class="tw:text-highlighted tw:text-2xl tw:font-bold tw:tracking-tight tw:sm:text-3xl"
+          >
+            {{ responseResultsCount.toLocaleString() }}
+            {{ $t("search.recordsFound", responseResultsCount) }}
+          </h1>
+        </div>
+        <UBadge
+          color="neutral"
+          variant="soft"
+          size="lg"
+          class="tw:sm:hidden"
+        >
+          {{ `${$t("search.page")} ${page}` }}
+        </UBadge>
+      </header>
 
-      <v-tabs
+      <USeparator />
+
+      <UTabs
         v-model="tab"
-        class="search-tabs"
-        grow
-        show-arrows
-        slider-size="3"
-        color="black"
-        active-class="amber-lighten-3 border-bottom"
-        background-color="amber-lighten-5"
-        hide-slider
+        :items="viewTabs"
+        :unmount-on-hide="false"
+        color="primary"
+        variant="link"
+        size="lg"
+        :ui="{
+          root: 'tw:gap-0',
+          list: 'tw:overflow-x-auto tw:border-b tw:border-default tw:px-2 tw:sm:px-4',
+          trigger: 'tw:min-w-32 tw:flex-none tw:sm:flex-1',
+          content: 'tw:rounded-none tw:p-0',
+        }"
       >
-        <v-tab
-          class="font-weight-bold"
-          style="color: #000; font-size: 1rem"
-          v-for="(item, index) in tabItems"
-          :key="item"
-          :value="index"
-        >
-          {{ $t(`search.tab.${item}`) }}
-          <v-icon color="black" end size="small" v-if="item === 'table'"
-            >fa:fas fa-table</v-icon
-          >
-          <v-icon color="black" end size="small" v-else-if="item === 'images'"
-            >fa:far fa-image</v-icon
-          >
-          <v-icon color="black" end size="small" v-else>fa:far fa-map</v-icon>
-        </v-tab>
-      </v-tabs>
+        <template #table>
+          <TabTable
+            :response-results="responseResults"
+            :response-results-count="responseResultsCount"
+            :page="page"
+            :paginate-by="paginateBy"
+            :sort-by="sortBy"
+            :sort-desc="sortDesc"
+            :is-loading="isLoading"
+            :tab-index="tab"
+            @sort-by:changed="updateSortBy($event)"
+            @sort-desc:changed="updateSortDesc($event)"
+            @update:page="updatePage($event)"
+            @update:paginate-by="updatePaginateBy($event)"
+            @open:gallery="openGallery"
+          />
+        </template>
 
-      <v-window v-model="tab" touchless>
-        <v-window-item
-          v-for="(item, index) in tabItems"
-          :key="item"
-          :value="index"
-        >
-          <v-card flat>
-            <tab-table
-              v-if="item === 'table'"
-              :response-results="responseResults"
-              :response-results-count="responseResultsCount"
-              :page="page"
-              :paginate-by="paginateBy"
-              :sort-by="sortBy"
-              :sort-desc="sortDesc"
-              :is-loading="isLoading"
-              :tabIndex="tab"
-              @sortBy:changed="updateSortBy($event)"
-              @sortDesc:changed="updateSortDesc($event)"
-              @update:page="updatePage($event)"
-              @update:paginateBy="updatePaginateBy($event)"
-              @open:gallery="openGallery"
-            />
+        <template #images>
+          <TabImages
+            ref="imageTab"
+            :response-results="responseResults"
+            :response-results-count="responseResultsCount"
+          />
+        </template>
 
-            <tab-images
-              ref="imageTab"
-              v-if="item === 'images'"
-              :response-results="responseResults"
-              :response-results-count="responseResultsCount"
-            />
+        <template #map>
+          <TabMap
+            ref="map"
+            :response-results="responseResults"
+            :response-results-count="responseResultsCount"
+          />
+        </template>
+      </UTabs>
 
-            <tab-map
-              ref="map"
-              v-if="item === 'map'"
-              :response-results="responseResults"
-              :response-results-count="responseResultsCount"
-            />
-          </v-card>
-        </v-window-item>
-      </v-window>
-
-      <pagination
+      <Pagination
         v-if="tab === 1 && responseResultsCount > 10"
         :paginate-by="paginateBy"
         :paginate-by-items="paginateByItemsTranslated"
-        @update:paginateBy="updatePaginateBy($event)"
         :results="responseResults"
         :page="page"
         :number-of-results="responseResultsCount"
+        class="tw:border-t tw:border-default tw:px-4 tw:py-3"
+        @update:paginate-by="updatePaginateBy($event)"
         @update:page="updatePage($event)"
       />
-    </v-card>
-  </v-container>
+    </UCard>
+  </div>
 </template>
 
 <script>
@@ -132,7 +129,6 @@ export default {
 
   data: () => ({
     tab: 0,
-    tabItems: ["table", "images", "map"],
   }),
 
   computed: {
@@ -146,6 +142,28 @@ export default {
       "isLoading",
     ]),
     ...mapState(useSearchStore, ["paginateByItemsTranslated"]),
+    viewTabs() {
+      return [
+        {
+          label: this.$t("search.tab.table"),
+          icon: "i-lucide-table-2",
+          value: 0,
+          slot: "table",
+        },
+        {
+          label: this.$t("search.tab.images"),
+          icon: "i-lucide-images",
+          value: 1,
+          slot: "images",
+        },
+        {
+          label: this.$t("search.tab.map"),
+          icon: "i-lucide-map",
+          value: 2,
+          slot: "map",
+        },
+      ];
+    },
   },
 
   created() {
@@ -179,9 +197,9 @@ export default {
       });
     }, 300),
     tab(newVal) {
-      if (newVal === 2 && !!this.$refs?.map?.[0]?.map) {
+      if (newVal === 2 && this.$refs?.map?.map) {
         setTimeout(() => {
-          this.$refs.map[0].map.invalidateSize();
+          this.$refs.map.map.invalidateSize();
         }, 100);
       }
     },
@@ -200,7 +218,7 @@ export default {
     async openGallery(image) {
       this.tab = 1;
       await new Promise((resolve) => setTimeout(resolve, 200));
-      this.$refs.imageTab[0].openDialogUsingImage(image);
+      this.$refs.imageTab.openDialogUsingImage(image);
     },
 
     updateSearchParamDebounced: debounce(function (action, value) {
@@ -209,10 +227,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-.v-tab.border-bottom.v-tab--active {
-  border: none !important;
-  border-bottom: solid 3px black !important;
-}
-</style>

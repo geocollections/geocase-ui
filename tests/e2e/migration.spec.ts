@@ -187,7 +187,9 @@ test("image gallery, filter changes and map tab", async ({ page }) => {
   await expect(page.getByRole("dialog")).not.toBeVisible();
   await page.getByRole("tab", { name: /map/i }).click();
   await expect(
-    page.locator(".v-window-item--active .leaflet-container"),
+    page
+      .getByRole("tabpanel", { name: /map/i })
+      .locator(".leaflet-container"),
   ).toBeVisible();
   await page.getByRole("tab", { name: /table/i }).click();
   const quick = page.locator(".search-drawer-text-field input").first();
