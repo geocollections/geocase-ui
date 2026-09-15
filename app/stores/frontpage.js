@@ -11,7 +11,7 @@ export const useFrontpageStore = defineStore("frontpage", {
     cardIds: ["fossil", "mineral", "rock", "meteorite"],
     cards: {
       fossil: {
-        url: '/search?recordbasis="Fossil"',
+        url: '/search?recordbasis="Fossil" "FossilSpecimen"',
         image:
           "https://files.geocollections.info/img/geocase/front_page/fossil1.jpg",
         isLeaving: false,
