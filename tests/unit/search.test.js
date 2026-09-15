@@ -37,8 +37,9 @@ describe("migrated search state and API contract", () => {
   });
   it("resets filters and pagination and preserves translated column identities", () => {
     const store = useSearchStore();
+    expect(store.search.map.showCheckboxes).toBe(false);
     expect(
-      ["map", ...store.searchCheckboxIds].every(
+      store.searchCheckboxIds.every(
         (id) => store.search[id].showCheckboxes,
       ),
     ).toBe(true);

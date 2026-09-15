@@ -61,7 +61,7 @@ export const useSearchStore = defineStore("search", {
         lookUpType: "",
         value: null,
         label: "Map",
-        showCheckboxes: true,
+        showCheckboxes: false,
         fields: ["coordinates"],
       },
       recordbasis: {

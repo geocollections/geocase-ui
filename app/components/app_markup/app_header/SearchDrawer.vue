@@ -15,17 +15,8 @@ const { t } = useI18n();
     class="tw:bg-default tw:border-default tw:fixed tw:bottom-0 tw:left-0 tw:top-16 tw:z-2010 tw:flex tw:w-87.5 tw:flex-col tw:border-r tw:shadow-xl"
   >
     <header
-      class="tw:bg-default/95 tw:border-default tw:flex tw:items-center tw:gap-3 tw:border-b tw:px-4 tw:py-4 tw:backdrop-blur"
+      class="tw:bg-default/95 tw:border-default tw:border-b tw:px-4 tw:py-4 tw:backdrop-blur"
     >
-      <span
-        class="tw:bg-primary/10 tw:text-primary tw:flex tw:size-10 tw:shrink-0 tw:items-center tw:justify-center tw:rounded-lg"
-      >
-        <UIcon
-          name="i-lucide-list-filter"
-          class="tw:size-5"
-          aria-hidden="true"
-        />
-      </span>
       <h2 class="tw:text-highlighted tw:text-base tw:font-semibold">
         {{ t("search.drawer.filters") }}
       </h2>
