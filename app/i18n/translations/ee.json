@@ -255,6 +255,7 @@
       "copyFailed": "Kopeerimine ebaõnnestus: Pole midagi koperida!"
     },
     "drawer": {
+      "filters": "Otsingufiltrid",
       "additionalFilters": "Täiendavad filtrid",
       "extraOptions": "Lisavõimalused",
       "resetSearch": "Taasta otsing",

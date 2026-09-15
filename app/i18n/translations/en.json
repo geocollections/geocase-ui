@@ -257,6 +257,7 @@
       "copyFailed": "Copying failed: Nothing to copy!"
     },
     "drawer": {
+      "filters": "Search filters",
       "additionalFilters": "Additional filters",
       "extraOptions": "Extra options",
       "resetSearch": "Reset search",
