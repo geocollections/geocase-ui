@@ -1,6 +1,5 @@
 <script setup>
-import { computed, ref } from "vue";
-import { storeToRefs } from "pinia";
+import { computed, reactive } from "vue";
 import { useI18n } from "vue-i18n";
 import { useSearchStore } from "@/stores/search";
 import ImageWrapper from "@/components/image/ImageWrapper.vue";
@@ -19,9 +18,7 @@ const props = defineProps({
 
 const { t } = useI18n();
 const searchStore = useSearchStore();
-const { search, isLoading } = storeToRefs(searchStore);
-const dialog = ref(false);
-const currentIndex = ref(0);
+const gallery = reactive({ open: false, currentIndex: 0 });
 
 const searchResultImages = computed(() => {
   if (props.responseResultsCount <= 0) return [];
@@ -31,42 +28,26 @@ const searchResultImages = computed(() => {
     .flatMap((result) =>
       result.images.map((image) => ({
         ...result,
-        thumbnailImage: getImageUrl(image),
+        thumbnailImage: image
+          ? `https://geocase.eu/thumbnails/${encodeURIComponent(image)}`
+          : "",
         originalImage: image,
-        altText: getImageAltText(result),
+        altText: ["recordbasis", "fullscientificname", "locality", "datasetowner"]
+          .filter((field) => result[field])
+          .map((field) => `${t(`search.table.${field}`)}: ${result[field]}`)
+          .join(", "),
       })),
     );
 });
 
-function getImageUrl(url) {
-  return url
-    ? `https://geocase.eu/thumbnails/${encodeURIComponent(url)}`
-    : "";
-}
-
-function getImageAltText(image) {
-  return [
-    "recordbasis",
-    "fullscientificname",
-    "locality",
-    "datasetowner",
-  ]
-    .filter((field) => image[field])
-    .map((field) => `${t(`search.table.${field}`)}: ${image[field]}`)
-    .join(", ");
-}
-
-function openDialog(imageIndex) {
-  currentIndex.value = imageIndex;
-  dialog.value = true;
-}
-
 function openDialogUsingImage(image) {
-  const imageIndex = searchResultImages.value.findIndex(
-    (item) => item.originalImage === image,
+  gallery.currentIndex = Math.max(
+    searchResultImages.value.findIndex(
+      (item) => item.originalImage === image,
+    ),
+    0,
   );
-
-  openDialog(imageIndex >= 0 ? imageIndex : 0);
+  gallery.open = true;
 }
 
 defineExpose({ openDialogUsingImage });
@@ -75,11 +56,11 @@ defineExpose({ openDialogUsingImage });
 <template>
   <section
     class="tw:relative tw:min-h-32"
-    :aria-busy="isLoading"
+    :aria-busy="searchStore.isLoading"
     aria-live="polite"
   >
     <UProgress
-      v-if="isLoading"
+      v-if="searchStore.isLoading"
       color="primary"
       size="xs"
       animation="carousel"
@@ -101,7 +82,10 @@ defineExpose({ openDialogUsingImage });
           variant="ghost"
           class="tw:bg-muted/30 tw:ring-default tw:group tw:aspect-square tw:h-auto tw:w-full tw:overflow-hidden tw:rounded-xl tw:p-0 tw:ring-1 tw:transition tw:duration-200 tw:hover:-translate-y-0.5 tw:hover:bg-muted tw:hover:shadow-lg tw:focus-visible:ring-2 tw:focus-visible:ring-primary tw:motion-reduce:transform-none tw:motion-reduce:transition-none"
           :aria-label="`${t('search.openGallery')}: ${image.unitid || image.id}`"
-          @click="openDialog(index)"
+          @click="
+            gallery.currentIndex = index;
+            gallery.open = true;
+          "
         >
           <ImageWrapper
             v-if="image.thumbnailImage"
@@ -175,7 +159,7 @@ defineExpose({ openDialogUsingImage });
     </div>
 
     <div
-      v-else-if="!isLoading"
+      v-else-if="!searchStore.isLoading"
       class="tw:mx-auto tw:max-w-2xl tw:px-4 tw:py-10"
     >
       <UAlert
@@ -186,7 +170,7 @@ defineExpose({ openDialogUsingImage });
       >
         <template #description>
           <div
-            v-if="!search.has_image.value"
+            v-if="!searchStore.search.has_image.value"
             class="tw:flex tw:flex-col tw:items-start tw:gap-3 tw:sm:flex-row tw:sm:items-center"
           >
             <span>{{ t("search.imageNoResultsFilterInfo") }}</span>
@@ -212,10 +196,10 @@ defineExpose({ openDialogUsingImage });
     <ImageOverflow
       v-if="searchResultImages.length"
       :images="searchResultImages"
-      :dialog="dialog"
-      :current-index="currentIndex"
-      @close:dialog="dialog = false"
-      @update:index="currentIndex = $event"
+      :dialog="gallery.open"
+      :current-index="gallery.currentIndex"
+      @close:dialog="gallery.open = false"
+      @update:index="gallery.currentIndex = $event"
     />
   </section>
 </template>
