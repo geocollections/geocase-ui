@@ -181,7 +181,7 @@ test("image gallery, filter changes and map tab", async ({ page }) => {
   await page.goto("/search?q=quartz");
   await page.getByRole("button", { name: "OK", exact: true }).click();
   await page.getByRole("tab", { name: /images/i }).click();
-  await page.getByRole("button", { name: /open gallery/i }).first().click();
+  await page.getByRole("button", { name: /^open gallery:/i }).first().click();
   await expect(page.getByRole("dialog")).toContainText("Image gallery");
   await page.keyboard.press("Escape");
   await expect(page.getByRole("dialog")).not.toBeVisible();
