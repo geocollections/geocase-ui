@@ -14,8 +14,8 @@
   --color-header-dark: #191919;
 }
 
-html {
-  overflow-y: auto !important;
+html.image-gallery-scroll-locked {
+  overflow: hidden !important;
 }
 
 .v-application {

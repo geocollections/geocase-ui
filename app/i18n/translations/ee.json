@@ -280,8 +280,12 @@
     "cycleImages": "Slaidiseannss",
     "closeGallery": "Sulge galerii",
     "imageGallery": "Pildigalerii",
-    "hideThumbnails": "Kuva pisipildid",
-    "showThumbnails": "Peida pisipildid",
+    "hideThumbnails": "Peida pisipildid",
+    "showThumbnails": "Kuva pisipildid",
+    "thumbnails": "Piltide pisipildid",
+    "previousImage": "Eelmine pilt",
+    "nextImage": "Järgmine pilt",
+    "previewsPerRow": "Eelvaateid reas",
     "goToSpecimenView": "Mine detailvaatesse"
   },
   "tutorial": {

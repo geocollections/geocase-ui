@@ -282,8 +282,12 @@
     "cycleImages": "Cycle Images",
     "closeGallery": "Close gallery",
     "imageGallery": "Image gallery",
-    "hideThumbnails": "Show thumbnails",
-    "showThumbnails": "Hide thumbnails",
+    "hideThumbnails": "Hide thumbnails",
+    "showThumbnails": "Show thumbnails",
+    "thumbnails": "Image thumbnails",
+    "previousImage": "Previous image",
+    "nextImage": "Next image",
+    "previewsPerRow": "Previews per row",
     "goToSpecimenView": "Go to specimen view"
   },
   "tutorial": {
