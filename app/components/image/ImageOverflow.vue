@@ -1,6 +1,5 @@
 <script setup>
 import { computed, onBeforeUnmount, ref, watch } from "vue";
-import { useI18n } from "vue-i18n";
 
 const props = defineProps({
   images: { type: Array, required: true },
@@ -11,32 +10,14 @@ const props = defineProps({
 });
 
 const emit = defineEmits(["close:dialog", "update:index"]);
-const { t } = useI18n();
 const showGallery = ref(true);
 const previewColumns = ref(2);
 
-const previewColumnOptions = [
-  { label: "1 ×", value: 1 },
-  { label: "2 ×", value: 2 },
-  { label: "3 ×", value: 3 },
-];
-
 const currentImage = computed(() => props.images[props.currentIndex]);
-const previewGridClass = computed(
-  () =>
-    ({
-      1: "tw:grid-cols-1",
-      2: "tw:grid-cols-2",
-      3: "tw:grid-cols-3",
-    })[previewColumns.value],
-);
-const thumbnailToggleLabel = computed(() =>
-  t(`imageGallery.${showGallery.value ? "hide" : "show"}Thumbnails`),
-);
 
 useHead(() => ({
   htmlAttrs: {
-    class: props.dialog ? "image-gallery-scroll-locked" : undefined,
+    style: props.dialog ? "overflow: hidden;" : undefined,
   },
 }));
 
@@ -116,7 +97,15 @@ onBeforeUnmount(() => window.removeEventListener("keyup", handleKeyup));
             </div>
 
             <div class="tw:flex tw:shrink-0 tw:items-center tw:gap-1">
-              <UTooltip :text="thumbnailToggleLabel">
+              <UTooltip
+                :text="
+                  $t(
+                    showGallery
+                      ? 'imageGallery.hideThumbnails'
+                      : 'imageGallery.showThumbnails',
+                  )
+                "
+              >
                 <UButton
                   :icon="
                     showGallery
@@ -125,7 +114,13 @@ onBeforeUnmount(() => window.removeEventListener("keyup", handleKeyup));
                   "
                   color="neutral"
                   variant="ghost"
-                  :aria-label="thumbnailToggleLabel"
+                  :aria-label="
+                    $t(
+                      showGallery
+                        ? 'imageGallery.hideThumbnails'
+                        : 'imageGallery.showThumbnails',
+                    )
+                  "
                   @click="showGallery = !showGallery"
                 />
               </UTooltip>
@@ -238,9 +233,7 @@ onBeforeUnmount(() => window.removeEventListener("keyup", handleKeyup));
           >
             <USelect
               v-model="previewColumns"
-              :items="previewColumnOptions"
-              value-key="value"
-              label-key="label"
+              :items="[1, 2, 3]"
               icon="i-lucide-grid-2x-2"
               color="neutral"
               size="sm"
@@ -255,7 +248,14 @@ onBeforeUnmount(() => window.removeEventListener("keyup", handleKeyup));
               class="thumbnail-scroll tw:border-default tw:bg-default tw:min-h-0 tw:flex-1 tw:rounded-xl tw:border tw:shadow-sm"
               :ui="{ viewport: 'tw:p-2' }"
             >
-              <div class="tw:grid tw:gap-2" :class="previewGridClass">
+              <div
+                class="tw:grid tw:gap-2"
+                :class="{
+                  'tw:grid-cols-1': previewColumns === 1,
+                  'tw:grid-cols-2': previewColumns === 2,
+                  'tw:grid-cols-3': previewColumns === 3,
+                }"
+              >
                 <UButton
                   v-for="(image, index) in images"
                   :key="`${image.originalImage}-${index}`"

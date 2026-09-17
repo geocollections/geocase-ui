@@ -14,10 +14,6 @@
   --color-header-dark: #191919;
 }
 
-html.image-gallery-scroll-locked {
-  overflow: hidden !important;
-}
-
 .v-application {
   font-family: "Nunito", sans-serif !important;
   -webkit-font-smoothing: antialiased;
