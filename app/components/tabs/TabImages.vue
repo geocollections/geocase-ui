@@ -1,191 +1,221 @@
-<template>
-  <v-card flat>
-    <v-progress-linear
-      v-if="isLoading"
-      indeterminate
-      color="primary"
-    ></v-progress-linear>
-    <v-row class="mx-0" v-if="searchResultImages.length > 0">
-      <v-col
-        v-for="(image, index) in searchResultImages"
-        :key="index"
-        class="d-flex child-flex"
-        cols="6"
-        sm="4"
-        md="3"
-        lg="2"
-      >
-        <v-tooltip
-          location="bottom"
-          color="secondary"
-          z-index="51000"
-          max-width="250"
-        >
-          <template v-slot:activator="{ props }">
-            <v-card
-              flat
-              class="d-flex image-hover"
-              color="transparent"
-              v-bind="props"
-              hover
-              @click="openDialog(index)"
-            >
-              <image-wrapper
-                v-if="image.thumbnailImage"
-                :image-src="image.thumbnailImage"
-                :alt-text="image.altText"
-              />
-
-              <v-row align="center" v-else>
-                <v-col class="text-center">
-                  <div class="py-3">
-                    <v-icon style="font-size: 6rem" class="text-grey"
-                      >fa:far fa-image</v-icon
-                    >
-                  </div>
-                </v-col>
-              </v-row>
-            </v-card>
-          </template>
-
-          <span>
-            <b>ID:</b> {{ image.id }}<br />
-            <span v-if="image.collectioncode">
-              <b>{{ $t("search.table.collectioncode") }}:</b>
-              {{ image.collectioncode }}
-              <br />
-            </span>
-            <span v-if="image.unitid">
-              <b>{{ $t("search.table.unitid") }}:</b>
-              {{ image.unitid }}
-              <br />
-            </span>
-            <span v-if="image.fullscientificname">
-              <b>{{ $t("search.table.fullscientificname") }}:</b>
-              {{ image.fullscientificname }}
-              <br />
-            </span>
-            <span v-if="image.country">
-              <b>{{ $t("search.table.country") }}:</b>
-              {{ image.country }}
-              <br />
-            </span>
-            <span v-if="image.locality">
-              <b>{{ $t("search.table.locality") }}:</b>
-              {{ image.locality }}
-              <br />
-            </span>
-            <span v-if="image.stratigraphy">
-              <b>{{ $t("search.table.stratigraphy") }}:</b>
-              {{ image.stratigraphy }}
-              <br />
-            </span>
-          </span>
-        </v-tooltip>
-      </v-col>
-
-      <image-overflow
-        :images="searchResultImages"
-        :dialog="dialog"
-        :current-index="currentIndex"
-        @close:dialog="dialog = false"
-        @update:index="currentIndex = $event"
-      />
-    </v-row>
-
-    <v-row no-gutters class="my-4" justify="center" v-else>
-      <v-col cols="12" style="max-width: 500px">
-        <v-alert
-          class="mb-0"
-          variant="tonal"
-          border="start"
-          icon="fa:fas fa-search"
-          color="secondary"
-        >
-          <div>
-            {{ $t("search.imageNoResults") }}
-          </div>
-
-          <div v-if="!search.has_image.value">
-            {{ $t("search.imageNoResultsFilterInfo") }}
-            <v-btn
-              size="x-small"
-              color="secondary"
-              @click="updateSearchField({ id: 'has_image', value: 'true' })"
-            >
-              {{ $t("search.addFilter") }}</v-btn
-            >
-          </div>
-        </v-alert>
-      </v-col>
-    </v-row>
-  </v-card>
-</template>
-
-<script>
+<script setup>
+import { computed, ref } from "vue";
+import { storeToRefs } from "pinia";
+import { useI18n } from "vue-i18n";
 import { useSearchStore } from "@/stores/search";
-import { useSettingsStore } from "@/stores/settings";
-
-import helperMixin from "@/mixins/helperMixin";
 import ImageWrapper from "@/components/image/ImageWrapper.vue";
-import ImageOverflow from "../image/ImageOverflow";
-import { mapActions, mapState } from "pinia";
+import ImageOverflow from "@/components/image/ImageOverflow.vue";
 
-export default {
-  name: "TabImages",
-  components: { ImageOverflow, ImageWrapper },
-  mixins: [helperMixin],
-
-  props: {
-    responseResults: {
-      type: Array,
-      required: true,
-    },
-    responseResultsCount: {
-      type: Number,
-      required: true,
-    },
+const props = defineProps({
+  responseResults: {
+    type: Array,
+    required: true,
   },
-
-  data: () => ({
-    dialog: false,
-    currentIndex: 0,
-  }),
-
-  computed: {
-    ...mapState(useSearchStore, ["search", "isLoading"]),
-    ...mapState(useSettingsStore, ["searchDrawer"]),
+  responseResultsCount: {
+    type: Number,
+    required: true,
   },
+});
 
-  methods: {
-    ...mapActions(useSearchStore, ["updateSearchField"]),
+const { t } = useI18n();
+const searchStore = useSearchStore();
+const { search, isLoading } = storeToRefs(searchStore);
+const dialog = ref(false);
+const currentIndex = ref(0);
 
-    openDialog(imageIndex) {
-      this.dialog = true;
-      this.currentIndex = imageIndex;
-    },
+const searchResultImages = computed(() => {
+  if (props.responseResultsCount <= 0) return [];
 
-    openDialogUsingImage(image) {
-      this.dialog = true;
-      let index = this.searchResultImages.findIndex(
-        (item) => item.originalImage === image,
-      );
-      this.currentIndex = index ? index : 0;
-    },
-  },
-};
+  return props.responseResults
+    .filter((result) => Array.isArray(result.images))
+    .flatMap((result) =>
+      result.images.map((image) => ({
+        ...result,
+        thumbnailImage: getImageUrl(image),
+        originalImage: image,
+        altText: getImageAltText(result),
+      })),
+    );
+});
+
+function getImageUrl(url) {
+  return url
+    ? `https://geocase.eu/thumbnails/${encodeURIComponent(url)}`
+    : "";
+}
+
+function getImageAltText(image) {
+  return [
+    "recordbasis",
+    "fullscientificname",
+    "locality",
+    "datasetowner",
+  ]
+    .filter((field) => image[field])
+    .map((field) => `${t(`search.table.${field}`)}: ${image[field]}`)
+    .join(", ");
+}
+
+function openDialog(imageIndex) {
+  currentIndex.value = imageIndex;
+  dialog.value = true;
+}
+
+function openDialogUsingImage(image) {
+  const imageIndex = searchResultImages.value.findIndex(
+    (item) => item.originalImage === image,
+  );
+
+  openDialog(imageIndex >= 0 ? imageIndex : 0);
+}
+
+defineExpose({ openDialogUsingImage });
 </script>
 
-<style scoped>
-.image-hover:hover {
-  opacity: 0.6;
-  transition: opacity 150ms ease-in;
-}
-.image-hover {
-  transition: opacity 150ms ease-in;
-}
+<template>
+  <section
+    class="tw:relative tw:min-h-32"
+    :aria-busy="isLoading"
+    aria-live="polite"
+  >
+    <UProgress
+      v-if="isLoading"
+      color="primary"
+      size="xs"
+      animation="carousel"
+      class="tw:absolute tw:inset-x-0 tw:top-0 tw:z-10"
+    />
 
-.map-progress-circular {
-  transition: margin-left 200ms ease-in-out;
-}
-</style>
+    <div
+      v-if="searchResultImages.length"
+      class="tw:grid tw:grid-cols-2 tw:gap-3 tw:p-3 tw:sm:grid-cols-3 tw:sm:p-4 tw:md:grid-cols-4 tw:lg:grid-cols-6"
+    >
+      <UTooltip
+        v-for="(image, index) in searchResultImages"
+        :key="`${image.originalImage}-${index}`"
+        :content="{ side: 'bottom' }"
+        :ui="{ content: 'tw:z-[2100] tw:max-w-72' }"
+      >
+        <UButton
+          color="neutral"
+          variant="ghost"
+          class="tw:bg-muted/30 tw:ring-default tw:group tw:aspect-square tw:h-auto tw:w-full tw:overflow-hidden tw:rounded-xl tw:p-0 tw:ring-1 tw:transition tw:duration-200 tw:hover:-translate-y-0.5 tw:hover:bg-muted tw:hover:shadow-lg tw:focus-visible:ring-2 tw:focus-visible:ring-primary tw:motion-reduce:transform-none tw:motion-reduce:transition-none"
+          :aria-label="`${t('search.openGallery')}: ${image.unitid || image.id}`"
+          @click="openDialog(index)"
+        >
+          <ImageWrapper
+            v-if="image.thumbnailImage"
+            :image-src="image.thumbnailImage"
+            :alt-text="image.altText"
+            :contain="false"
+            max-height="100%"
+            width="100%"
+            class="tw:h-full tw:w-full tw:transition tw:duration-300 tw:group-hover:scale-[1.03] tw:motion-reduce:transform-none tw:motion-reduce:transition-none"
+          />
+
+          <span
+            v-else
+            class="tw:text-dimmed tw:flex tw:h-full tw:w-full tw:items-center tw:justify-center"
+          >
+            <UIcon name="i-lucide-image-off" class="tw:size-16" />
+          </span>
+        </UButton>
+
+        <template #content>
+          <dl
+            class="tw:grid tw:grid-cols-[auto_minmax(0,1fr)] tw:gap-x-2 tw:gap-y-1"
+          >
+            <dt class="tw:font-bold">ID:</dt>
+            <dd class="tw:min-w-0 tw:break-words">{{ image.id }}</dd>
+
+            <template v-if="image.collectioncode">
+              <dt class="tw:font-bold">
+                {{ t("search.table.collectioncode") }}:
+              </dt>
+              <dd class="tw:min-w-0 tw:break-words">
+                {{ image.collectioncode }}
+              </dd>
+            </template>
+
+            <template v-if="image.unitid">
+              <dt class="tw:font-bold">{{ t("search.table.unitid") }}:</dt>
+              <dd class="tw:min-w-0 tw:break-words">{{ image.unitid }}</dd>
+            </template>
+
+            <template v-if="image.fullscientificname">
+              <dt class="tw:font-bold">
+                {{ t("search.table.fullscientificname") }}:
+              </dt>
+              <dd class="tw:min-w-0 tw:break-words">
+                {{ image.fullscientificname }}
+              </dd>
+            </template>
+
+            <template v-if="image.country">
+              <dt class="tw:font-bold">{{ t("search.table.country") }}:</dt>
+              <dd class="tw:min-w-0 tw:break-words">{{ image.country }}</dd>
+            </template>
+
+            <template v-if="image.locality">
+              <dt class="tw:font-bold">{{ t("search.table.locality") }}:</dt>
+              <dd class="tw:min-w-0 tw:break-words">{{ image.locality }}</dd>
+            </template>
+
+            <template v-if="image.stratigraphy">
+              <dt class="tw:font-bold">
+                {{ t("search.table.stratigraphy") }}:
+              </dt>
+              <dd class="tw:min-w-0 tw:break-words">
+                {{ image.stratigraphy }}
+              </dd>
+            </template>
+          </dl>
+        </template>
+      </UTooltip>
+    </div>
+
+    <div
+      v-else-if="!isLoading"
+      class="tw:mx-auto tw:max-w-2xl tw:px-4 tw:py-10"
+    >
+      <UAlert
+        color="neutral"
+        variant="soft"
+        icon="i-lucide-search-x"
+        :title="t('search.imageNoResults')"
+      >
+        <template #description>
+          <div
+            v-if="!search.has_image.value"
+            class="tw:flex tw:flex-col tw:items-start tw:gap-3 tw:sm:flex-row tw:sm:items-center"
+          >
+            <span>{{ t("search.imageNoResultsFilterInfo") }}</span>
+            <UButton
+              size="sm"
+              color="primary"
+              variant="soft"
+              icon="i-lucide-list-filter-plus"
+              @click="
+                searchStore.updateSearchField({
+                  id: 'has_image',
+                  value: 'true',
+                })
+              "
+            >
+              {{ t("search.addFilter") }}
+            </UButton>
+          </div>
+        </template>
+      </UAlert>
+    </div>
+
+    <ImageOverflow
+      v-if="searchResultImages.length"
+      :images="searchResultImages"
+      :dialog="dialog"
+      :current-index="currentIndex"
+      @close:dialog="dialog = false"
+      @update:index="currentIndex = $event"
+    />
+  </section>
+</template>
