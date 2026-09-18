@@ -123,7 +123,10 @@ test("server table sorting, pagination, export and specimen navigation", async (
   await page.goto("/search?q=quartz");
   await page.getByRole("button", { name: "OK", exact: true }).click();
   await expect(page.locator("#table")).toContainText("DEMO-1");
-  await page.locator("#table th").filter({ hasText: "Object ID" }).click();
+  await page
+    .locator("#table")
+    .getByRole("button", { name: "Object ID", exact: true })
+    .click();
   await expect(page).toHaveURL(/sort_by=unitid/);
   await page
     .locator(".table-top")
