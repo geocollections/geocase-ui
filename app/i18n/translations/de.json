@@ -164,6 +164,7 @@
     }
   },
   "search": {
+    "page": "Seite",
     "recordsFound": "Einträge gefunden | Einträge gefunden | Einträge gefunden",
     "openGallery": "Galerie öffnen",
     "mindatLink": "Link zu mindat.org",

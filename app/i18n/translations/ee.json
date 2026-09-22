@@ -165,6 +165,7 @@
     }
   },
   "search": {
+    "page": "Lehekülg",
     "recordsFound": "kirjet | kirje | kirjet",
     "openGallery": "Ava galerii",
     "mindatLink": "Link mindat.org lehele",
