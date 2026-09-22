@@ -25,10 +25,6 @@
   --shadow-header-home: 0 1px 0 rgb(255 255 255 / 12.5%);
 }
 
-html {
-  overflow-y: auto !important;
-}
-
 .v-application {
   font-family: "Nunito", sans-serif !important;
   -webkit-font-smoothing: antialiased;

@@ -291,8 +291,12 @@
     "cycleImages": "Bilder drehen",
     "closeGallery": "Galerie schließen",
     "imageGallery": "Bilder-Galerie",
-    "hideThumbnails": "Zeige Voransichten",
-    "showThumbnails": "Verberge Voransichten",
+    "hideThumbnails": "Miniaturansichten ausblenden",
+    "showThumbnails": "Miniaturansichten anzeigen",
+    "thumbnails": "Miniaturansichten",
+    "previousImage": "Vorheriges Bild",
+    "nextImage": "Nächstes Bild",
+    "previewsPerRow": "Vorschauen pro Zeile",
     "goToSpecimenView": "Gehe zur Specimen-Ansicht"
   },
   "tutorial": {

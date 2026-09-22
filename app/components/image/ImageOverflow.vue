@@ -1,322 +1,316 @@
-<template>
-  <v-dialog
-    :model-value="dialog"
-    persistent
-    fullscreen
-    hide-overlay
-    transition="dialog-bottom-transition"
-    style="z-index: 3000"
-    no-click-animation
-  >
-    <v-card rounded="0">
-      <v-toolbar theme="dark" color="primary" height="64">
-        <v-tooltip location="bottom">
-          <template v-slot:activator="{ props }">
-            <v-btn
-              v-bind="props"
-              theme="dark"
-              icon
-              @click="$emit('close:dialog')"
-            >
-              <v-icon>fa:fas fa-times</v-icon>
-            </v-btn>
-          </template>
-          <span>{{ $t("imageGallery.closeGallery") }}</span>
-        </v-tooltip>
+<script setup>
+import { computed, onBeforeUnmount, ref, watch } from "vue";
 
-        <v-toolbar-title>{{ $t("imageGallery.imageGallery") }}</v-toolbar-title>
+const props = defineProps({
+  images: { type: Array, required: true },
+  overflowY: { type: Boolean, default: true },
+  overflowX: { type: Boolean, default: false },
+  dialog: { type: Boolean, default: false },
+  currentIndex: { type: Number, default: 0 },
+});
 
-        <v-spacer></v-spacer>
+const emit = defineEmits(["close:dialog", "update:index"]);
+const showGallery = ref(true);
+const previewColumns = ref(2);
 
-        <v-tooltip location="bottom">
-          <template v-slot:activator="{ props }">
-            <v-btn
-              v-bind="props"
-              theme="dark"
-              icon
-              @click="showGallery = !showGallery"
-            >
-              <v-icon size="small">fa:fas fa-th</v-icon>
-            </v-btn>
-          </template>
-          <span>{{
-            $t(`imageGallery.${showGallery ? "hide" : "show"}Thumbnails`)
-          }}</span>
-        </v-tooltip>
+const currentImage = computed(() => props.images[props.currentIndex]);
 
-        <v-tooltip location="bottom">
-          <template v-slot:activator="{ props }">
-            <v-btn
-              v-bind="props"
-              theme="dark"
-              icon
-              @click="$emit('close:dialog')"
-            >
-              <v-icon>fa:fas fa-times</v-icon>
-            </v-btn>
-          </template>
-          <span>{{ $t("imageGallery.closeGallery") }}</span>
-        </v-tooltip>
-      </v-toolbar>
-
-      <v-row no-gutters>
-        <v-col
-          :cols="showGallery ? 8 : 12"
-          :sm="showGallery ? 9 : 12"
-          :xl="showGallery ? 10 : 12"
-        >
-          <div
-            class="d-flex flex-column flex-nowrap fill-height justify-space-between"
-          >
-            <div
-              class="d-flex flex-row justify-space-between align-center image-overflow--control"
-              :style="`height: calc(100vh - ${
-                decreaseImageContainerHeightBy - 32
-              }px)`"
-              :class="{
-                'image-control-66': showGallery && $vuetify.display.xs,
-                'image-control-75': showGallery && $vuetify.display.smAndUp,
-                'image-control-83': showGallery && $vuetify.display.xl,
-              }"
-            >
-              <v-btn
-                class="ma-3"
-                color="primary"
-                icon
-                size="small"
-                @click="showPrev"
-              >
-                <v-icon>fa:fas fa-angle-left</v-icon>
-              </v-btn>
-
-              <v-btn
-                class="ma-3"
-                color="primary"
-                icon
-                size="small"
-                @click="showNext"
-              >
-                <v-icon>fa:fas fa-angle-right</v-icon>
-              </v-btn>
-            </div>
-
-            <div class="pa-4">
-              <image-wrapper
-                :style="`height: calc(100vh - ${decreaseImageContainerHeightBy}px)`"
-                :max-height="imageHeight.toString()"
-                :image-src="images[currentIndex].originalImage"
-                :alt-text="images[currentIndex].altText"
-              />
-            </div>
-
-            <div class="image-info">
-              <v-card-text
-                class="pa-6 font-weight-bold text-black"
-                style="font-size: 1.125rem; line-height: 1.5"
-              >
-                <div v-if="images[currentIndex].image_date">
-                  {{ $t("imageGallery.date") }}:
-                  {{ images[currentIndex].image_date }}
-                </div>
-                <div v-if="images[currentIndex].image_licence">
-                  {{ $t("imageGallery.licence") }}:
-                  {{ images[currentIndex].image_licence }}
-                </div>
-                <div>
-                  <NuxtLink
-                    class="text-decoration-none"
-                    :to="{
-                      path: `specimen/${images[currentIndex].geocase_id}`,
-                    }"
-                    >{{ $t("imageGallery.goToSpecimenView") }}</NuxtLink
-                  >
-                </div>
-                <div v-if="images[currentIndex].originalImage">
-                  <a
-                    :href="images[currentIndex].originalImage"
-                    target="UrlWindow"
-                    class="link text-decoration-none"
-                    >{{ $t("imageGallery.linkToImage") }}
-                    <v-icon color="primary" size="x-small"
-                      >fa:fas fa-external-link-alt</v-icon
-                    >
-                  </a>
-                </div>
-              </v-card-text>
-            </div>
-          </div>
-        </v-col>
-
-        <v-col
-          class="image-overflow--gallery white text-black pa-1"
-          v-if="showGallery"
-          cols="4"
-          sm="3"
-          xl="2"
-          style="height: calc(100vh - 64px); overflow-y: auto"
-        >
-          <v-row no-gutters>
-            <v-col
-              cols="12"
-              md="6"
-              v-for="(entity, index) in images"
-              :key="index"
-              class="pa-1"
-            >
-              <v-card
-                class="image-hover"
-                theme="light"
-                flat
-                rounded="0"
-                @click="$emit('update:index', index)"
-                :style="`outline-color: ${$vuetify.theme.themes.light.colors.primary}`"
-                :class="{ 'active-outline': currentIndex === index }"
-              >
-                <image-wrapper
-                  :contain="false"
-                  max-height="100"
-                  :image-src="entity.thumbnailImage"
-                  :alt-text="entity.altText"
-                />
-              </v-card>
-            </v-col>
-          </v-row>
-        </v-col>
-      </v-row>
-    </v-card>
-  </v-dialog>
-</template>
-
-<script>
-import ImageWrapper from "@/components/image/ImageWrapper.vue";
-import { throttle } from "lodash";
-
-export default {
-  name: "ImageOverflow",
-  components: { ImageWrapper },
-  props: {
-    images: {
-      type: Array,
-      required: true,
-    },
-    overflowY: {
-      type: Boolean,
-      default: true,
-    },
-    overflowX: {
-      type: Boolean,
-      default: false,
-    },
-    dialog: {
-      type: Boolean,
-      default: false,
-    },
-    currentIndex: {
-      type: Number,
-      default: 0,
-    },
+useHead(() => ({
+  htmlAttrs: {
+    style: props.dialog ? "overflow: hidden;" : undefined,
   },
-  data: () => ({
-    showGallery: true,
-    imageHeight: 400,
-    decreaseImageContainerHeightBy: 193,
-  }),
-  beforeUnmount() {
-    window.removeEventListener("keyup", this.handleKeyup);
-    window.removeEventListener("resize", this.calculateImageHeight);
+}));
+
+function showPrevious() {
+  const previousIndex =
+    props.currentIndex > 0 ? props.currentIndex - 1 : props.images.length - 1;
+  emit("update:index", previousIndex);
+}
+
+function showNext() {
+  const nextIndex =
+    props.currentIndex < props.images.length - 1 ? props.currentIndex + 1 : 0;
+  emit("update:index", nextIndex);
+}
+
+function handleKeyup(event) {
+  if (event.key === "ArrowRight") showNext();
+  if (event.key === "ArrowLeft") showPrevious();
+  if (event.key === "Escape") emit("close:dialog");
+}
+
+function handleOpenChange(open) {
+  if (!open) emit("close:dialog");
+}
+
+watch(
+  () => props.dialog,
+  (open) => {
+    if (open) window.addEventListener("keyup", handleKeyup);
+    else window.removeEventListener("keyup", handleKeyup);
   },
-  watch: {
-    dialog(newVal) {
-      if (newVal) {
-        window.addEventListener("keyup", this.handleKeyup);
-        window.addEventListener("resize", this.calculateImageHeight);
-        this.calculateImageHeight();
-      } else {
-        window.removeEventListener("keyup", this.handleKeyup);
-        window.removeEventListener("resize", this.calculateImageHeight);
-      }
-    },
-  },
-  methods: {
-    showPrev() {
-      if (this.currentIndex > 0)
-        this.$emit("update:index", this.currentIndex - 1);
-      else this.$emit("update:index", this.images.length - 1);
-    },
+);
 
-    showNext() {
-      if (this.currentIndex < this.images.length - 1)
-        this.$emit("update:index", this.currentIndex + 1);
-      else this.$emit("update:index", 0);
-    },
-
-    handleKeyup(event) {
-      if (event?.keyCode === 39) this.showNext();
-      if (event?.keyCode === 37) this.showPrev();
-      if (event?.keyCode === 27) this.$emit("close:dialog");
-    },
-
-    calculateImageHeight: throttle(function () {
-      let innerHeight = window?.innerHeight;
-      let paddingHeight = 32;
-      let toolbarHeight = 64;
-      let imageInfoHeight =
-        document.getElementsByClassName("image-info")?.[0]?.clientHeight;
-
-      if (!imageInfoHeight) imageInfoHeight = 129;
-
-      let imageHeight = innerHeight - toolbarHeight - imageInfoHeight;
-
-      if (imageHeight > 400) this.imageHeight = imageHeight;
-      this.decreaseImageContainerHeightBy =
-        toolbarHeight + imageInfoHeight + paddingHeight;
-    }, 400),
-  },
-};
+onBeforeUnmount(() => window.removeEventListener("keyup", handleKeyup));
 </script>
 
+<template>
+  <UModal
+    :open="dialog"
+    fullscreen
+    :modal="false"
+    :overlay="false"
+    :dismissible="false"
+    :close="false"
+    :title="$t('imageGallery.imageGallery')"
+    :content="{
+      style: {
+        inset: '4rem 0 0',
+        height: 'auto',
+        maxHeight: 'none',
+      },
+    }"
+    :ui="{
+      content: 'tw:overflow-hidden tw:rounded-none tw:ring-0',
+    }"
+    @update:open="handleOpenChange"
+  >
+    <template #content>
+      <div
+        class="tw:grid tw:h-full tw:min-h-0 tw:grid-rows-[4rem_minmax(0,1fr)] tw:overflow-hidden"
+      >
+        <header
+          class="tw:border-default tw:bg-default tw:flex tw:min-h-16 tw:items-center tw:border-b tw:px-3 tw:sm:px-5"
+        >
+          <div
+            class="tw:flex tw:w-full tw:items-center tw:justify-between tw:gap-3"
+          >
+            <div class="tw:flex tw:min-w-0 tw:items-center tw:gap-3">
+              <h2
+                class="tw:text-highlighted tw:truncate tw:text-lg tw:font-bold"
+              >
+                {{ $t("imageGallery.imageGallery") }}
+              </h2>
+              <UBadge v-if="images.length" color="neutral" variant="soft">
+                {{ currentIndex + 1 }} / {{ images.length }}
+              </UBadge>
+            </div>
+
+            <div class="tw:flex tw:shrink-0 tw:items-center tw:gap-1">
+              <UTooltip
+                :text="
+                  $t(
+                    showGallery
+                      ? 'imageGallery.hideThumbnails'
+                      : 'imageGallery.showThumbnails',
+                  )
+                "
+              >
+                <UButton
+                  :icon="
+                    showGallery
+                      ? 'i-lucide-panel-right-close'
+                      : 'i-lucide-images'
+                  "
+                  color="neutral"
+                  variant="ghost"
+                  :aria-label="
+                    $t(
+                      showGallery
+                        ? 'imageGallery.hideThumbnails'
+                        : 'imageGallery.showThumbnails',
+                    )
+                  "
+                  @click="showGallery = !showGallery"
+                />
+              </UTooltip>
+              <UTooltip :text="$t('imageGallery.closeGallery')">
+                <UButton
+                  icon="i-lucide-x"
+                  color="neutral"
+                  variant="ghost"
+                  :aria-label="$t('imageGallery.closeGallery')"
+                  @click="emit('close:dialog')"
+                />
+              </UTooltip>
+            </div>
+          </div>
+        </header>
+
+        <div
+          class="tw:grid tw:min-h-0 tw:overflow-hidden tw:bg-default"
+          :class="
+            showGallery
+              ? 'tw:grid-cols-[minmax(0,1fr)_7rem] tw:sm:grid-cols-[minmax(0,1fr)_14rem] tw:xl:grid-cols-[minmax(0,1fr)_18rem]'
+              : 'tw:grid-cols-1'
+          "
+        >
+          <main
+            class="tw:flex tw:min-h-0 tw:min-w-0 tw:overflow-hidden tw:flex-col"
+          >
+            <div
+              class="tw:bg-muted/40 tw:relative tw:flex tw:min-h-0 tw:flex-1 tw:items-center tw:justify-center tw:overflow-hidden tw:p-3 tw:sm:p-6"
+            >
+              <ImageWrapper
+                v-if="currentImage"
+                class="tw:h-full tw:w-full"
+                max-height="100%"
+                width="100%"
+                aspect-ratio="auto"
+                :image-src="currentImage.originalImage"
+                :fallback-src="currentImage.thumbnailImage"
+                :alt-text="currentImage.altText"
+              />
+
+              <UTooltip :text="$t('imageGallery.previousImage')">
+                <UButton
+                  color="neutral"
+                  variant="ghost"
+                  size="xl"
+                  class="tw:bg-default/95 tw:text-highlighted tw:ring-default tw:absolute tw:left-3 tw:top-1/2 tw:-translate-y-1/2 tw:rounded-full tw:shadow-xl tw:ring-1 tw:backdrop-blur-sm tw:hover:bg-muted"
+                  :aria-label="$t('imageGallery.previousImage')"
+                  @click="showPrevious"
+                >
+                  <UIcon name="i-lucide-chevron-left" class="tw:size-7" />
+                </UButton>
+              </UTooltip>
+
+              <UTooltip :text="$t('imageGallery.nextImage')">
+                <UButton
+                  color="neutral"
+                  variant="ghost"
+                  size="xl"
+                  class="tw:bg-default/95 tw:text-highlighted tw:ring-default tw:absolute tw:right-3 tw:top-1/2 tw:-translate-y-1/2 tw:rounded-full tw:shadow-xl tw:ring-1 tw:backdrop-blur-sm tw:hover:bg-muted"
+                  :aria-label="$t('imageGallery.nextImage')"
+                  @click="showNext"
+                >
+                  <UIcon name="i-lucide-chevron-right" class="tw:size-7" />
+                </UButton>
+              </UTooltip>
+            </div>
+
+            <footer
+              v-if="currentImage"
+              class="tw:border-default tw:bg-default tw:flex tw:flex-wrap tw:items-center tw:gap-x-5 tw:gap-y-2 tw:border-t tw:px-4 tw:py-3 tw:text-sm tw:sm:px-6"
+            >
+              <span v-if="currentImage.image_date" class="tw:text-toned">
+                <strong class="tw:text-highlighted">
+                  {{ $t("imageGallery.date") }}:
+                </strong>
+                {{ currentImage.image_date }}
+              </span>
+              <span v-if="currentImage.image_licence" class="tw:text-toned">
+                <strong class="tw:text-highlighted">
+                  {{ $t("imageGallery.licence") }}:
+                </strong>
+                {{ currentImage.image_licence }}
+              </span>
+              <UButton
+                :to="{ path: `specimen/${currentImage.geocase_id}` }"
+                variant="link"
+                trailing-icon="i-lucide-arrow-right"
+                class="tw:p-0"
+              >
+                {{ $t("imageGallery.goToSpecimenView") }}
+              </UButton>
+              <UButton
+                v-if="currentImage.originalImage"
+                :href="currentImage.originalImage"
+                target="_blank"
+                variant="link"
+                trailing-icon="i-lucide-external-link"
+                class="tw:p-0"
+              >
+                {{ $t("imageGallery.linkToImage") }}
+              </UButton>
+            </footer>
+          </main>
+
+          <aside
+            v-if="showGallery"
+            class="tw:border-default tw:bg-muted/30 tw:flex tw:min-h-0 tw:flex-col tw:border-l tw:p-2 tw:sm:p-3"
+            :aria-label="$t('imageGallery.thumbnails')"
+          >
+            <USelect
+              v-model="previewColumns"
+              :items="[1, 2, 3]"
+              icon="i-lucide-grid-2x-2"
+              color="neutral"
+              size="sm"
+              class="tw:mb-2 tw:w-full tw:shrink-0"
+              :aria-label="$t('imageGallery.previewsPerRow')"
+              :ui="{ content: 'tw:z-[4000]' }"
+            />
+
+            <UScrollArea
+              orientation="vertical"
+              shadow
+              class="thumbnail-scroll tw:border-default tw:bg-default tw:min-h-0 tw:flex-1 tw:rounded-xl tw:border tw:shadow-sm"
+              :ui="{ viewport: 'tw:p-2' }"
+            >
+              <div
+                class="tw:grid tw:gap-2"
+                :class="{
+                  'tw:grid-cols-1': previewColumns === 1,
+                  'tw:grid-cols-2': previewColumns === 2,
+                  'tw:grid-cols-3': previewColumns === 3,
+                }"
+              >
+                <UButton
+                  v-for="(image, index) in images"
+                  :key="`${image.originalImage}-${index}`"
+                  color="neutral"
+                  variant="ghost"
+                  class="tw:aspect-square tw:h-auto tw:w-full tw:overflow-hidden tw:rounded-lg tw:p-0 tw:transition tw:duration-150 tw:hover:-translate-y-0.5 tw:hover:shadow-md"
+                  :class="{
+                    'tw:ring-primary tw:ring-2 tw:ring-offset-2':
+                      currentIndex === index,
+                  }"
+                  :aria-label="
+                    image.altText || `${index + 1} / ${images.length}`
+                  "
+                  :aria-current="currentIndex === index ? 'true' : undefined"
+                  @click="emit('update:index', index)"
+                >
+                  <ImageWrapper
+                    :contain="false"
+                    max-height="100%"
+                    width="100%"
+                    :image-src="image.thumbnailImage"
+                    :alt-text="image.altText"
+                  />
+                </UButton>
+              </div>
+            </UScrollArea>
+          </aside>
+        </div>
+      </div>
+    </template>
+  </UModal>
+</template>
+
 <style scoped>
-.image-hover:hover {
-  opacity: 0.8;
-  transition: opacity 150ms ease-in;
-}
-.image-hover {
-  transition: opacity 150ms ease-out;
+.thumbnail-scroll {
+  scrollbar-color: var(--ui-border-accented) transparent;
+  scrollbar-gutter: stable;
+  scrollbar-width: thin;
 }
 
-.image-overflow--control {
-  position: absolute;
-  z-index: 1;
-  width: 100%;
+.thumbnail-scroll::-webkit-scrollbar {
+  width: 0.5rem;
 }
 
-.image-control-66 {
-  width: 66.6666666667%;
+.thumbnail-scroll::-webkit-scrollbar-track {
+  background: transparent;
 }
 
-.image-control-75 {
-  width: 75%;
+.thumbnail-scroll::-webkit-scrollbar-thumb {
+  background: var(--ui-border-accented);
+  border: 2px solid var(--ui-bg);
+  border-radius: 999px;
 }
 
-.image-control-83 {
-  width: 83.3333333333%;
-}
-
-.image-overflow--gallery {
-  box-shadow:
-    0 2px 4px -1px rgba(0, 0, 0, 0.2),
-    0 4px 5px 0 rgba(0, 0, 0, 0.14),
-    0 1px 10px 0 rgba(0, 0, 0, 0.12);
-}
-
-.active-outline {
-  outline: 4px solid;
-}
-
-.image-info {
-  box-shadow:
-    0 1px 4px -1px rgba(0, 0, 0, 0.2),
-    0 -1px 5px 0 rgba(0, 0, 0, 0.14),
-    0 2px 10px 0 rgba(0, 0, 0, 0.12) !important;
+.thumbnail-scroll::-webkit-scrollbar-thumb:hover {
+  background: var(--ui-text-muted);
 }
 </style>
