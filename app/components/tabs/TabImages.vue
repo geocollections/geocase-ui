@@ -1,125 +1,94 @@
 <template>
-  <v-card flat>
-    <v-progress-linear
+  <section class="tw:relative tw:min-h-64" aria-live="polite">
+    <UProgress
       v-if="isLoading"
-      indeterminate
+      animation="carousel"
       color="primary"
-    ></v-progress-linear>
-    <v-row class="mx-0" v-if="searchResultImages.length > 0">
-      <v-col
+      size="sm"
+      class="tw:absolute tw:inset-x-0 tw:top-0 tw:z-10"
+    />
+
+    <div
+      v-if="searchResultImages.length > 0"
+      class="tw:grid tw:grid-cols-2 tw:gap-3 tw:p-3 tw:sm:grid-cols-3 tw:sm:p-4 tw:md:grid-cols-4 tw:lg:grid-cols-6"
+    >
+      <UTooltip
         v-for="(image, index) in searchResultImages"
         :key="index"
-        class="d-flex child-flex"
-        cols="6"
-        sm="4"
-        md="3"
-        lg="2"
+        :delay-duration="250"
+        :ui="{ content: 'tw:z-[5100] tw:max-w-64 tw:p-3' }"
       >
-        <v-tooltip
-          location="bottom"
-          color="secondary"
-          z-index="51000"
-          max-width="250"
+        <UButton
+          color="neutral"
+          variant="outline"
+          class="image-hover tw:aspect-square tw:h-auto tw:w-full tw:overflow-hidden tw:rounded-lg tw:p-0"
+          :aria-label="
+            image.altText || `${$t('search.openGallery')} ${index + 1}`
+          "
+          @click="openDialog(index)"
         >
-          <template v-slot:activator="{ props }">
-            <v-card
-              flat
-              class="d-flex image-hover"
-              color="transparent"
-              v-bind="props"
-              hover
-              @click="openDialog(index)"
-            >
-              <image-wrapper
-                v-if="image.thumbnailImage"
-                :image-src="image.thumbnailImage"
-                :alt-text="image.altText"
-              />
-
-              <v-row align="center" v-else>
-                <v-col class="text-center">
-                  <div class="py-3">
-                    <v-icon style="font-size: 6rem" class="text-grey"
-                      >fa:far fa-image</v-icon
-                    >
-                  </div>
-                </v-col>
-              </v-row>
-            </v-card>
-          </template>
-
-          <span>
-            <b>ID:</b> {{ image.id }}<br />
-            <span v-if="image.collectioncode">
-              <b>{{ $t("search.table.collectioncode") }}:</b>
-              {{ image.collectioncode }}
-              <br />
-            </span>
-            <span v-if="image.unitid">
-              <b>{{ $t("search.table.unitid") }}:</b>
-              {{ image.unitid }}
-              <br />
-            </span>
-            <span v-if="image.fullscientificname">
-              <b>{{ $t("search.table.fullscientificname") }}:</b>
-              {{ image.fullscientificname }}
-              <br />
-            </span>
-            <span v-if="image.country">
-              <b>{{ $t("search.table.country") }}:</b>
-              {{ image.country }}
-              <br />
-            </span>
-            <span v-if="image.locality">
-              <b>{{ $t("search.table.locality") }}:</b>
-              {{ image.locality }}
-              <br />
-            </span>
-            <span v-if="image.stratigraphy">
-              <b>{{ $t("search.table.stratigraphy") }}:</b>
-              {{ image.stratigraphy }}
-              <br />
-            </span>
+          <ImageWrapper
+            v-if="image.thumbnailImage"
+            :image-src="image.thumbnailImage"
+            :alt-text="image.altText"
+            :contain="false"
+            width="100%"
+          />
+          <span
+            v-else
+            class="tw:bg-muted tw:text-muted tw:flex tw:h-full tw:w-full tw:items-center tw:justify-center"
+          >
+            <UIcon name="i-lucide-image" class="tw:size-16" />
           </span>
-        </v-tooltip>
-      </v-col>
+        </UButton>
 
-      <image-overflow
+        <template #content>
+          <dl class="tw:grid tw:grid-cols-[auto_1fr] tw:gap-x-2 tw:gap-y-1">
+            <template v-for="detail in imageDetails(image)" :key="detail.label">
+              <dt class="tw:font-semibold">{{ detail.label }}:</dt>
+              <dd>{{ detail.value }}</dd>
+            </template>
+          </dl>
+        </template>
+      </UTooltip>
+
+      <ImageOverflow
         :images="searchResultImages"
         :dialog="dialog"
         :current-index="currentIndex"
         @close:dialog="dialog = false"
         @update:index="currentIndex = $event"
       />
-    </v-row>
+    </div>
 
-    <v-row no-gutters class="my-4" justify="center" v-else>
-      <v-col cols="12" style="max-width: 500px">
-        <v-alert
-          class="mb-0"
-          variant="tonal"
-          border="start"
-          icon="fa:fas fa-search"
-          color="secondary"
-        >
-          <div>
+    <div v-else class="tw:flex tw:justify-center tw:p-4 tw:sm:p-8">
+      <UCard variant="subtle" class="tw:w-full tw:max-w-xl tw:text-center">
+        <div class="tw:flex tw:flex-col tw:items-center tw:gap-3">
+          <span
+            class="tw:bg-muted tw:text-highlighted tw:flex tw:size-12 tw:items-center tw:justify-center tw:rounded-full"
+            aria-hidden="true"
+          >
+            <UIcon name="i-lucide-image-off" class="tw:size-6" />
+          </span>
+          <p class="tw:text-highlighted tw:text-base tw:font-semibold">
             {{ $t("search.imageNoResults") }}
-          </div>
-
-          <div v-if="!search.has_image.value">
+          </p>
+          <p v-if="!search.has_image.value" class="tw:text-muted tw:text-sm">
             {{ $t("search.imageNoResultsFilterInfo") }}
-            <v-btn
-              size="x-small"
-              color="secondary"
-              @click="updateSearchField({ id: 'has_image', value: 'true' })"
-            >
-              {{ $t("search.addFilter") }}</v-btn
-            >
-          </div>
-        </v-alert>
-      </v-col>
-    </v-row>
-  </v-card>
+          </p>
+          <UButton
+            v-if="!search.has_image.value"
+            icon="i-lucide-filter-plus"
+            color="neutral"
+            variant="solid"
+            @click="updateSearchField({ id: 'has_image', value: 'true' })"
+          >
+            {{ $t("search.addFilter") }}
+          </UButton>
+        </div>
+      </UCard>
+    </div>
+  </section>
 </template>
 
 <script>
@@ -160,6 +129,27 @@ export default {
   methods: {
     ...mapActions(useSearchStore, ["updateSearchField"]),
 
+    imageDetails(image) {
+      return [
+        { label: "ID", value: image.id },
+        {
+          label: this.$t("search.table.collectioncode"),
+          value: image.collectioncode,
+        },
+        { label: this.$t("search.table.unitid"), value: image.unitid },
+        {
+          label: this.$t("search.table.fullscientificname"),
+          value: image.fullscientificname,
+        },
+        { label: this.$t("search.table.country"), value: image.country },
+        { label: this.$t("search.table.locality"), value: image.locality },
+        {
+          label: this.$t("search.table.stratigraphy"),
+          value: image.stratigraphy,
+        },
+      ].filter((detail) => detail.value);
+    },
+
     openDialog(imageIndex) {
       this.dialog = true;
       this.currentIndex = imageIndex;
@@ -178,14 +168,12 @@ export default {
 
 <style scoped>
 .image-hover:hover {
-  opacity: 0.6;
-  transition: opacity 150ms ease-in;
-}
-.image-hover {
-  transition: opacity 150ms ease-in;
+  transform: translateY(-2px);
 }
 
-.map-progress-circular {
-  transition: margin-left 200ms ease-in-out;
+.image-hover {
+  transition:
+    transform 150ms ease-in-out,
+    box-shadow 150ms ease-in-out;
 }
 </style>
