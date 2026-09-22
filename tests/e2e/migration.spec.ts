@@ -263,7 +263,9 @@ test("Nuxt UI filters select, clear and reset facets", async ({ page }) => {
   await page.goto("/search?q=quartz");
   await page.getByRole("button", { name: "OK", exact: true }).click();
   const filters = page.getByRole("complementary", { name: "Search filters" });
-  await filters.getByRole("button", { name: "Country", exact: true }).click();
+  await expect(
+    filters.getByRole("checkbox", { name: /Estonia/ }),
+  ).toBeVisible();
   await filters.getByRole("checkbox", { name: /Estonia/ }).check();
   await expect(page).toHaveURL(/country=/);
   await filters.getByRole("checkbox", { name: /Estonia/ }).uncheck();

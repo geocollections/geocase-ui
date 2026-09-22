@@ -265,6 +265,7 @@
       "copyFailed": "Kopieren fehlgeschlagen: Nicht zum Kopieren vorhanden!"
     },
     "drawer": {
+      "filters": "Suchfilter",
       "additionalFilters": "Zusätzliche Filter",
       "extraOptions": "Extra-Optionen",
       "resetSearch": "Suche zurücksetzen",
