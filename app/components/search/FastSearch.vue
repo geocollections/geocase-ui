@@ -6,11 +6,12 @@ import { useI18n } from "vue-i18n";
 import { useSearchStore } from "@/stores/search";
 import HelpButton from "@/components/search/fast_search/HelpButton.vue";
 
-withDefaults(
+const props = withDefaults(
   defineProps<{
     inAppHeader?: boolean;
+    hero?: boolean;
   }>(),
-  { inAppHeader: false },
+  { inAppHeader: false, hero: false },
 );
 
 const route = useRoute();
@@ -44,7 +45,8 @@ watch(
   () => search.value.q.value,
   (value) => {
     const normalizedValue = String(value ?? "");
-    if (normalizedValue !== fastSearch.value) fastSearch.value = normalizedValue;
+    if (normalizedValue !== fastSearch.value)
+      fastSearch.value = normalizedValue;
   },
 );
 
@@ -65,15 +67,20 @@ async function submitSearch() {
 
 <template>
   <div
-    class="tw:flex tw:w-full tw:justify-center"
-    :class="inAppHeader ? 'tw:px-4' : 'tw:py-6'"
+    class="tw:flex tw:w-full"
+    :class="[
+      inAppHeader ? 'tw:px-4' : 'tw:py-6',
+      hero ? 'tw:justify-start' : 'tw:justify-center',
+    ]"
   >
     <form
       class="tw:w-full"
       :class="
-        inAppHeader
-          ? 'tw:max-w-none'
-          : 'tw:px-2 tw:sm:max-w-3/4 tw:md:max-w-5/12 tw:lg:max-w-1/3'
+        hero
+          ? 'tw:max-w-135 tw:overflow-hidden tw:rounded-2xl'
+          : inAppHeader
+            ? 'tw:max-w-none'
+            : 'tw:px-2 tw:sm:max-w-3/4 tw:md:max-w-5/12 tw:lg:max-w-1/3'
       "
       role="search"
       @submit.prevent="submitSearch"
@@ -89,10 +96,12 @@ async function submitSearch() {
         :size="inAppHeader ? 'md' : 'xl'"
         class="tw:w-full tw:font-semibold"
         :ui="{
-          base: inAppHeader
-            ? 'tw:bg-white tw:text-base tw:text-slate-950'
-            : 'tw:min-h-15 tw:bg-white tw:text-xl tw:text-slate-950',
-          trailing: 'tw:pe-1',
+          base: hero
+            ? 'tw:min-h-14 tw:rounded-2xl tw:bg-white tw:text-base tw:text-slate-950 tw:ring-white/70'
+            : inAppHeader
+              ? 'tw:bg-white tw:text-base tw:text-slate-950'
+              : 'tw:min-h-15 tw:bg-white tw:text-xl tw:text-slate-950',
+          trailing: hero ? 'tw:pe-2' : 'tw:pe-1',
         }"
       >
         <template #trailing>
@@ -104,6 +113,7 @@ async function submitSearch() {
               color="neutral"
               variant="ghost"
               size="lg"
+              :class="hero ? 'tw:rounded-2xl' : undefined"
               :aria-label="t('searchHelp.title')"
               @click="showHelp = true"
             />
@@ -111,9 +121,11 @@ async function submitSearch() {
               type="submit"
               icon="i-lucide-search"
               color="primary"
-              variant="ghost"
+              :variant="hero ? 'solid' : 'ghost'"
               :size="inAppHeader ? 'md' : 'lg'"
+              :label="hero ? t('header.search') : undefined"
               :aria-label="t('frontPage.quickSearch')"
+              :class="hero ? 'tw:rounded-2xl' : undefined"
             />
           </div>
         </template>
