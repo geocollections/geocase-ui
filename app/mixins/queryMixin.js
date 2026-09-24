@@ -15,6 +15,8 @@ const queryMixin = {
     ...mapActions(useSearchStore, ["updateSearchField", "updateSearchParam"]),
 
     constructQueryParams(search, searchParams) {
+      if (this.$route.name !== "Search") return;
+
       let appendableQuery = { ...this.$route.query };
 
       if (search) {
