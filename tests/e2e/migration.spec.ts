@@ -123,17 +123,20 @@ test("server table sorting, pagination, export and specimen navigation", async (
   await page.goto("/search?q=quartz");
   await page.getByRole("button", { name: "OK", exact: true }).click();
   await expect(page.locator("#table")).toContainText("DEMO-1");
-  await page.locator("#table th").filter({ hasText: "Object ID" }).click();
+  await page
+    .locator("#table")
+    .getByRole("button", { name: "Object ID", exact: true })
+    .click();
   await expect(page).toHaveURL(/sort_by=unitid/);
+  await page.getByRole("button", { name: "export table" }).click();
+  const download = page.waitForEvent("download");
+  await page.getByText("CSV", { exact: true }).click();
+  expect((await download).suggestedFilename()).toBe("GeoCASe.csv");
   await page
     .locator(".table-top")
     .getByRole("button", { name: "Next page" })
     .click();
   await expect(page).toHaveURL(/page=2/);
-  await page.getByRole("button", { name: "export table" }).click();
-  const download = page.waitForEvent("download");
-  await page.getByText("CSV", { exact: true }).click();
-  expect((await download).suggestedFilename()).toBe("GeoCASe.csv");
   await page.getByRole("link", { name: "DEMO-1" }).click();
   await expect(page).toHaveURL(/specimen\/demo/);
   await expect(page.getByRole("heading", { level: 1 })).toHaveText("Quartz");
