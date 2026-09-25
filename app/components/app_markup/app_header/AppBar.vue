@@ -77,8 +77,11 @@ function submitSearch() {
 
 <template>
   <header
-    class="tw:fixed tw:inset-x-0 tw:top-0 tw:z-2020 tw:h-16 tw:bg-linear-320/srgb tw:to-header-dark tw:text-white tw:shadow-xl"
-    :class="barGradientClass"
+    class="tw:fixed tw:inset-x-0 tw:top-0 tw:z-2020 tw:h-16 tw:bg-linear-320/srgb tw:to-header-dark tw:text-white"
+    :class="[
+      barGradientClass,
+      route.name === 'FrontPage' ? 'tw:shadow-header-home' : 'tw:shadow-xl',
+    ]"
   >
     <nav
       aria-label="Main navigation"

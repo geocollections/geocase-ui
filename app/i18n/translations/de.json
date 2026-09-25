@@ -13,6 +13,14 @@
     }
   },
   "frontPage": {
+    "heroEyebrow": "Geowissenschaftliche Sammlungen",
+    "heroDescription": "Entdecken Sie Fossilien, Minerale, Gesteine, Meteoriten und Materialproben aus Museen und Forschungssammlungen weltweit.",
+    "browseAll": "Alle Exemplare ansehen",
+    "collectionsEyebrow": "Sammlungen entdecken",
+    "collectionsTitle": "Die Vielfalt der Erdgeschichte",
+    "mapEyebrow": "Nach Standort entdecken",
+    "mapTitle": "Entdecken Sie die Welt unter Ihren Füßen",
+    "mapDescription": "Erkunden Sie Fundorte auf der Karte und finden Sie Exemplare aus aller Welt.",
     "prototype_alert": {
       "title": "This is GeoCASe 2.0 interface.",
       "text": "Please report problems in <a href=\"https://github.com/geocollections/geocase-ui\" target=\"_blank\">GitHub</a>. The old portal is accessible at: <a href=\"http://old.geocase.eu\" target=\"_blank\">http://old.geocase.eu</a>."
@@ -24,27 +32,33 @@
     "institutionCount": "Anzahl der Institutionen",
     "countryCount": "Anzahl der Länder",
     "cards": {
+      "materialSamples": {
+        "title": "Materialproben",
+        "text": "Gesteine, Sedimente und weitere Materialien für die Forschung.",
+        "button": "Materialproben ansehen",
+        "imageAltText": "Materialprobe"
+      },
       "fossils": {
         "title": "Fossilien",
-        "text": "Fossilien sind Überreste oder Spuren von einst lebenden Organismen. Sie umfassen Knochen, Muscheln, Höhlen und gelegentlich mineralisierte Weichkörper.",
+        "text": "Spuren vergangenen Lebens, bewahrt über geologische Zeiträume.",
         "button": "Fossilien ansehen",
         "imageAltText": "Fossil"
       },
       "minerals": {
         "title": "Minerale",
-        "text": "Minerale haben eine bestimmte chemische Zusammensetzung und Kristallstruktur. Sie sind die Grundbausteine aller Gesteine.",
+        "text": "Natürliche Kristalle und die vielfältige Welt der Minerale.",
         "button": "Minerale ansehen",
         "imageAltText": "Mineral"
       },
       "rocks": {
         "title": "Gesteine",
-        "text": "Gesteine und Sedimente bilden die feste Erde. Sie können magmatisch, sedimentär oder metamorph sein.",
+        "text": "Die Geschichte der Erde, aufgezeichnet in Gesteinen und Sedimenten.",
         "button": "Gesteine ansehen",
         "imageAltText": "Rock"
       },
       "meteorites": {
         "title": "Meteoriten",
-        "text": "Meteoriten sind Weltraumgestein, das auf die Erde gefallen ist. Sie bestehen aus den gleichen Mineralen wie irdische Gesteine.",
+        "text": "Fragmente unseres Sonnensystems, die die Erde erreicht haben.",
         "button": "Meteoriten ansehen",
         "imageAltText": "Meteorite"
       }
@@ -156,6 +170,7 @@
     }
   },
   "search": {
+    "page": "Seite",
     "recordsFound": "Einträge gefunden | Einträge gefunden | Einträge gefunden",
     "openGallery": "Galerie öffnen",
     "mindatLink": "Link zu mindat.org",
@@ -256,6 +271,7 @@
       "copyFailed": "Kopieren fehlgeschlagen: Nicht zum Kopieren vorhanden!"
     },
     "drawer": {
+      "filters": "Suchfilter",
       "additionalFilters": "Zusätzliche Filter",
       "extraOptions": "Extra-Optionen",
       "resetSearch": "Suche zurücksetzen",
@@ -281,8 +297,12 @@
     "cycleImages": "Bilder drehen",
     "closeGallery": "Galerie schließen",
     "imageGallery": "Bilder-Galerie",
-    "hideThumbnails": "Zeige Voransichten",
-    "showThumbnails": "Verberge Voransichten",
+    "hideThumbnails": "Miniaturansichten ausblenden",
+    "showThumbnails": "Miniaturansichten anzeigen",
+    "thumbnails": "Miniaturansichten",
+    "previousImage": "Vorheriges Bild",
+    "nextImage": "Nächstes Bild",
+    "previewsPerRow": "Vorschauen pro Zeile",
     "goToSpecimenView": "Gehe zur Specimen-Ansicht"
   },
   "tutorial": {

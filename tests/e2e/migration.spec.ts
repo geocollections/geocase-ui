@@ -123,17 +123,20 @@ test("server table sorting, pagination, export and specimen navigation", async (
   await page.goto("/search?q=quartz");
   await page.getByRole("button", { name: "OK", exact: true }).click();
   await expect(page.locator("#table")).toContainText("DEMO-1");
-  await page.locator("#table th").filter({ hasText: "Object ID" }).click();
+  await page
+    .locator("#table")
+    .getByRole("button", { name: "Object ID", exact: true })
+    .click();
   await expect(page).toHaveURL(/sort_by=unitid/);
+  await page.getByRole("button", { name: "export table" }).click();
+  const download = page.waitForEvent("download");
+  await page.getByText("CSV", { exact: true }).click();
+  expect((await download).suggestedFilename()).toBe("GeoCASe.csv");
   await page
     .locator(".table-top")
     .getByRole("button", { name: "Next page" })
     .click();
   await expect(page).toHaveURL(/page=2/);
-  await page.getByRole("button", { name: "export table" }).click();
-  const download = page.waitForEvent("download");
-  await page.getByText("CSV", { exact: true }).click();
-  expect((await download).suggestedFilename()).toBe("GeoCASe.csv");
   await page.getByRole("link", { name: "DEMO-1" }).click();
   await expect(page).toHaveURL(/specimen\/demo/);
   await expect(page.getByRole("heading", { level: 1 })).toHaveText("Quartz");
@@ -181,13 +184,14 @@ test("image gallery, filter changes and map tab", async ({ page }) => {
   await page.goto("/search?q=quartz");
   await page.getByRole("button", { name: "OK", exact: true }).click();
   await page.getByRole("tab", { name: /images/i }).click();
-  await page.locator(".image-hover").first().click();
+  await page.getByRole("button", { name: /^open gallery:/i }).first().click();
   await expect(page.getByRole("dialog")).toContainText("Image gallery");
   await page.keyboard.press("Escape");
   await expect(page.getByRole("dialog")).not.toBeVisible();
   await page.getByRole("tab", { name: /map/i }).click();
   await expect(
     page
+      .getByRole("tabpanel", { name: /map/i })
       .getByRole("region", { name: "Map", exact: true })
       .locator(".leaflet-container"),
   ).toBeVisible();
@@ -263,7 +267,9 @@ test("Nuxt UI filters select, clear and reset facets", async ({ page }) => {
   await page.goto("/search?q=quartz");
   await page.getByRole("button", { name: "OK", exact: true }).click();
   const filters = page.getByRole("complementary", { name: "Search filters" });
-  await filters.getByRole("button", { name: "Country", exact: true }).click();
+  await expect(
+    filters.getByRole("checkbox", { name: /Estonia/ }),
+  ).toBeVisible();
   await filters.getByRole("checkbox", { name: /Estonia/ }).check();
   await expect(page).toHaveURL(/country=/);
   await filters.getByRole("checkbox", { name: /Estonia/ }).uncheck();

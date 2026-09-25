@@ -37,6 +37,15 @@ describe("migrated search state and API contract", () => {
   });
   it("resets filters and pagination and preserves translated column identities", () => {
     const store = useSearchStore();
+    expect(store.search.map.showCheckboxes).toBe(false);
+    expect(
+      store.searchCheckboxIds.every(
+        (id) => store.search[id].showCheckboxes,
+      ),
+    ).toBe(true);
+    expect(
+      store.searchCheckboxIds.every((id) => !store.search[id].showMore),
+    ).toBe(true);
     store.updateSearchParam({ field: "page", value: "4" });
     store.updateSearchParam({ field: "sort_desc", value: "true,false" });
     store.updateSearchField({ id: "country", value: '"Estonia"' });
@@ -67,6 +76,18 @@ describe("migrated search state and API contract", () => {
     expect(detail.isItemMineral).toBe(true);
     expect(detail.filteredItemHeaders.length).toBeGreaterThanOrEqual(0);
     const front = useFrontpageStore();
+    expect(front.getCards.fossil.url).toBe(
+      '/search?recordbasis="Fossil" "FossilSpecimen"',
+    );
+    expect(front.getCards.mineral.url).toBe(
+      '/search?recordbasis="Mineral" "MineralSpecimen"',
+    );
+    expect(front.getCards.rock.url).toBe(
+      '/search?recordbasis="Rock" "RockSpecimen"',
+    );
+    expect(front.getCards.meteorite.url).toBe(
+      '/search?recordbasis="Meteorite" "MeteoriteSpecimen"',
+    );
     axios.get.mockResolvedValue({
       data: { response: { docs: [{ unitid: "42" }], numFound: 1 } },
     });
@@ -82,5 +103,29 @@ describe("migrated search state and API contract", () => {
         "url",
       ),
     ).toBe(source);
+  });
+});
+
+
+describe("homepage material samples navigation", () => {
+  it("only filters material samples when the unfiltered statistics contain them", async () => {
+    const store = useFrontpageStore();
+    expect(store.getCards.materialSample.url).toBe("/search");
+    for (const [types, expected] of [
+      [["Mineral", 12], "/search"],
+      [["MaterialSample", 0], "/search"],
+      [["MaterialSample", 3], '/search?recordbasis="MaterialSample"'],
+      [[], "/search"],
+    ]) {
+      axios.get.mockResolvedValue({ data: {
+        response: { numFound: 12 },
+        facet_counts: { facet_fields: { recordbasis: types, country: ["Estonia", 12] } },
+      } });
+      await store.getStats();
+      expect(store.getCards.materialSample.url).toBe(expected);
+      expect(store.country).toBe(1);
+    }
+    const url = new URL(axios.get.mock.calls[0][0], "http://localhost");
+    expect(url.searchParams.getAll("facet.field")).toContain("recordbasis");
   });
 });

@@ -1,21 +1,28 @@
 @import url("https://fonts.googleapis.com/css?family=Nunito:200,300,400,600,700,800,900&display=swap");
 
 @layer theme, base, components, utilities;
-@import "tailwindcss/theme.css" layer(theme) prefix(tw);
-@import "tailwindcss/utilities.css" layer(utilities) prefix(tw) source("../../");
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css" layer(utilities);
 @import "@nuxt/ui";
 
-@theme {
+@theme prefix(tw) {
   --color-geocase: #ffa000;
   --color-fossil: #8bc34a;
   --color-mineral: #e91e63;
   --color-rock: #03a9f4;
   --color-meteorite: #607d8b;
   --color-header-dark: #191919;
-}
-
-html {
-  overflow-y: auto !important;
+  --color-home-hero: #13201f;
+  --color-home-accent: #e4bd7a;
+  --color-home-hero-muted: #dbe3df;
+  --color-home-surface: #f6f5f1;
+  --color-home-ink: #203932;
+  --color-home-link: #264e40;
+  --color-home-muted: #617068;
+  --color-home-border: #dedfd6;
+  --color-home-hover: #eaece3;
+  --color-home-focus: #916421;
+  --shadow-header-home: 0 1px 0 rgb(255 255 255 / 12.5%);
 }
 
 .v-application {

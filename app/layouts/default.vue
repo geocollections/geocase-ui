@@ -2,9 +2,10 @@
   <v-app>
     <AppHeader />
     <main
-      class="tw:flex-1 tw:pt-16"
+      class="tw:flex-1"
       :class="{
-        'tw:min-[960px]:pl-[350px]':
+        'tw:pt-16': route.name !== 'FrontPage',
+        'tw:min-[960px]:pl-87.5':
           route.name === 'Search' && settings.searchDrawer,
       }"
     >

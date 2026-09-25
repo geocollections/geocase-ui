@@ -33,6 +33,7 @@ const localities = computed(() =>
   <section
     class="tw:relative tw:min-h-32"
     :aria-busy="searchStore.isLoading"
+    aria-live="polite"
   >
     <UProgress
       v-if="searchStore.isLoading"
