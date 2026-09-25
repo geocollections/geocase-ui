@@ -105,3 +105,27 @@ describe("migrated search state and API contract", () => {
     ).toBe(source);
   });
 });
+
+
+describe("homepage material samples navigation", () => {
+  it("only filters material samples when the unfiltered statistics contain them", async () => {
+    const store = useFrontpageStore();
+    expect(store.getCards.materialSample.url).toBe("/search");
+    for (const [types, expected] of [
+      [["Mineral", 12], "/search"],
+      [["MaterialSample", 0], "/search"],
+      [["MaterialSample", 3], '/search?recordbasis="MaterialSample"'],
+      [[], "/search"],
+    ]) {
+      axios.get.mockResolvedValue({ data: {
+        response: { numFound: 12 },
+        facet_counts: { facet_fields: { recordbasis: types, country: ["Estonia", 12] } },
+      } });
+      await store.getStats();
+      expect(store.getCards.materialSample.url).toBe(expected);
+      expect(store.country).toBe(1);
+    }
+    const url = new URL(axios.get.mock.calls[0][0], "http://localhost");
+    expect(url.searchParams.getAll("facet.field")).toContain("recordbasis");
+  });
+});
