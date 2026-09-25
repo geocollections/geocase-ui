@@ -2,14 +2,18 @@
   <v-app>
     <AppHeader />
     <main
-      class="tw:flex-1"
+      class="tw:flex tw:flex-1"
       :class="{
         'tw:pt-16': route.name !== 'FrontPage',
-        'tw:min-[960px]:pl-87.5':
-          route.name === 'Search' && settings.searchDrawer,
       }"
     >
-      <LandingImage v-if="route.name === 'FrontPage'" /><slot />
+      <SearchDrawer
+        v-if="route.name === 'Search'"
+        v-model:drawer="settings.searchDrawer"
+      />
+      <div class="tw:min-w-0 tw:flex-1">
+        <LandingImage v-if="route.name === 'FrontPage'" /><slot />
+      </div>
     </main>
     <CookieLaw v-if="cookie.cookieLaw" @accept="cookie.closeCookieLaw()" />
     <AppFooter />
@@ -20,6 +24,7 @@ import { useCookieStore } from "@/stores/cookie";
 import { useFrontpageStore } from "@/stores/frontpage";
 import { useSearchStore } from "@/stores/search";
 import { useSettingsStore } from "@/stores/settings";
+import SearchDrawer from "@/components/app_markup/app_header/SearchDrawer.vue";
 import AppHeader from "@/components/app_markup/AppHeader.vue";
 import AppFooter from "@/components/app_markup/AppFooter.vue";
 import LandingImage from "@/components/app_markup/app_header/LandingImage.vue";

@@ -312,3 +312,27 @@ test("editing a filter returns to page one and clears quick-search sorting", asy
   await page.reload();
   await expect(input).toHaveValue("calcite");
 });
+
+test("desktop search filters stop before the footer", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto("/search?q=quartz");
+  await page.getByRole("button", { name: "OK", exact: true }).click();
+  const filters = page.getByRole("complementary", { name: "Search filters" });
+  const footer = page.getByRole("contentinfo");
+  await expect(filters).toBeVisible();
+  await expect(page.locator("#table")).toContainText("DEMO-1");
+  await footer.scrollIntoViewIfNeeded();
+  await expect(async () => {
+    const panelBounds = await filters.boundingBox();
+    const footerBounds = await footer.boundingBox();
+    expect(panelBounds).not.toBeNull();
+    expect(footerBounds).not.toBeNull();
+    expect(panelBounds!.y + panelBounds!.height).toBeLessThanOrEqual(
+      footerBounds!.y + 1,
+    );
+  }).toPass();
+  await page.evaluate(() => window.scrollTo(0, 0));
+  await expect(async () => {
+    expect((await filters.boundingBox())!.y).toBeCloseTo(64, 0);
+  }).toPass();
+});
