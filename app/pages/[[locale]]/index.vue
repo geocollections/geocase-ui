@@ -38,7 +38,7 @@ useHead(() => ({ title: t("frontPage.title") }));
         aria-labelledby="collections-title"
       >
         <div
-          class="tw:mb-7 tw:flex tw:items-end tw:justify-between tw:gap-6 tw:max-[600px]:items-start"
+          class="tw:mb-7 tw:flex tw:items-end tw:justify-between tw:gap-6 tw:max-[600px]:flex-col tw:max-[600px]:items-start"
         >
           <div>
             <p
@@ -48,7 +48,7 @@ useHead(() => ({ title: t("frontPage.title") }));
             </p>
             <h2
               id="collections-title"
-              class="tw:text-[clamp(1.75rem,3vw,2.5rem)] tw:leading-tight tw:font-extrabold tw:tracking-[-0.035em]"
+              class="tw:text-[clamp(1.75rem,3vw,2.5rem)] tw:leading-tight tw:font-semibold tw:tracking-[-0.035em]"
             >
               {{ t("frontPage.collectionsTitle") }}
             </h2>
@@ -63,9 +63,14 @@ useHead(() => ({ title: t("frontPage.title") }));
         </div>
 
         <div
-          class="tw:grid tw:grid-cols-4 tw:gap-5 tw:max-[960px]:grid-cols-2 tw:max-[600px]:grid-cols-1"
+          class="tw:grid tw:grid-cols-6 tw:auto-rows-fr tw:gap-x-7 tw:gap-y-10 tw:[@media(600px<width<=960px)]:grid-cols-4 tw:[@media(width<=600px)]:grid-cols-1 tw:[@media(width<=600px)]:gap-4"
         >
-          <HoverCard v-for="card in cards" :key="card.title" :card="card" />
+          <HoverCard
+            v-for="card in cards"
+            :key="card.title"
+            :card="card"
+            class="tw:col-span-2 tw:min-w-0 tw:[@media(width>960px)]:nth-[4]:col-start-2 tw:[@media(600px<width<=960px)]:last:col-start-2 tw:[@media(width<=600px)]:col-span-1"
+          />
         </div>
       </section>
 
@@ -84,7 +89,7 @@ useHead(() => ({ title: t("frontPage.title") }));
             </p>
             <h2
               id="map-title"
-              class="tw:text-[clamp(1.75rem,3vw,2.5rem)] tw:leading-tight tw:font-extrabold tw:tracking-[-0.035em]"
+              class="tw:text-[clamp(1.75rem,3vw,2.5rem)] tw:leading-tight tw:font-semibold tw:tracking-[-0.035em]"
             >
               {{ t("frontPage.mapTitle") }}
             </h2>

@@ -7,7 +7,8 @@ type CollectionCard = {
   title: string;
   text: string;
   button: string;
-  image: string;
+  image?: string;
+  icon?: string;
   imageAltText: string;
   url: string;
 };
@@ -35,27 +36,36 @@ async function openCollection() {
     type="button"
     color="neutral"
     variant="ghost"
-    class="tw:border-home-border tw:text-home-ink tw:focus-visible:outline-home-focus tw:group tw:flex tw:h-full tw:w-full tw:flex-col tw:overflow-hidden tw:rounded-2xl tw:border tw:bg-white tw:p-0 tw:text-left tw:shadow-sm tw:transition tw:duration-200 tw:hover:-translate-y-1 tw:hover:bg-white tw:hover:shadow-xl tw:focus-visible:outline-3 tw:focus-visible:outline-offset-4 tw:motion-reduce:transform-none tw:motion-reduce:transition-none"
+    class="tw:group tw:flex tw:h-full tw:w-full tw:cursor-pointer tw:flex-col tw:items-stretch tw:gap-0 tw:rounded-xl tw:border-0 tw:bg-transparent tw:p-0 tw:text-left tw:font-normal tw:text-base tw:leading-normal tw:text-home-ink tw:hover:bg-transparent tw:active:bg-transparent tw:focus-visible:outline-2 tw:focus-visible:outline-home-focus tw:focus-visible:outline-offset-6"
     @click="openCollection"
   >
-    <img
-      :src="card.image"
-      :alt="card.imageAltText"
-      class="tw:h-52 tw:w-full tw:rounded-t-2xl tw:object-cover tw:transition tw:duration-300 tw:group-hover:scale-[1.03] tw:motion-reduce:transform-none tw:motion-reduce:transition-none"
-    />
-    <span class="tw:flex tw:flex-1 tw:flex-col tw:rounded-b-2xl tw:p-6">
-      <span class="tw:text-2xl tw:font-extrabold tw:tracking-tight">
-        {{ card.title }}
-      </span>
-      <span class="tw:text-home-muted tw:my-3 tw:text-sm tw:leading-relaxed">
-        {{ card.text }}
-      </span>
+    <span class="tw:block tw:aspect-[16/10] tw:w-full tw:shrink-0 tw:overflow-hidden tw:rounded-xl tw:bg-home-hero">
+      <img
+        v-if="card.image"
+        :src="card.image"
+        :alt="card.imageAltText"
+        class="tw:block tw:h-full tw:w-full tw:object-cover tw:transition-transform tw:duration-350 tw:ease-[ease] tw:motion-safe:group-hover:scale-[1.035] tw:motion-safe:group-focus-visible:scale-[1.035] tw:motion-reduce:transition-none"
+      />
       <span
-        class="tw:mt-auto tw:flex tw:items-center tw:justify-between tw:gap-2 tw:text-sm tw:font-extrabold"
+        v-else
+        class="tw:flex tw:h-full tw:items-center tw:justify-center tw:bg-[radial-gradient(ellipse_at_30%_20%,#38584b,#13201f_80%)] tw:text-home-accent"
+        aria-hidden="true"
       >
-        {{ card.button }}
-        <UIcon name="i-lucide-arrow-up-right" aria-hidden="true" />
+        <UIcon :name="card.icon" class="tw:size-20" />
       </span>
+    </span>
+    <span class="tw:flex tw:w-full tw:flex-1 tw:flex-col tw:px-0.5 tw:pt-5">
+      <span class="tw:flex tw:items-center tw:justify-between tw:gap-3">
+        <span class="tw:text-2xl tw:font-bold tw:leading-[1.2] tw:tracking-[-0.035em]">{{ card.title }}</span>
+        <span
+          class="tw:flex tw:size-8.5 tw:shrink-0 tw:items-center tw:justify-center tw:rounded-full tw:border tw:border-home-border tw:transition-[background,border-color,transform] tw:duration-200 tw:ease-[ease] tw:group-hover:border-home-accent tw:group-hover:bg-home-accent tw:group-focus-visible:border-home-accent tw:group-focus-visible:bg-home-accent tw:motion-safe:group-hover:translate-x-0.5 tw:motion-safe:group-hover:-translate-y-0.5 tw:motion-safe:group-focus-visible:translate-x-0.5 tw:motion-safe:group-focus-visible:-translate-y-0.5 tw:motion-reduce:transition-none"
+          aria-hidden="true"
+        >
+          <UIcon name="i-lucide-arrow-up-right" />
+        </span>
+      </span>
+      <span class="tw:mt-2.5 tw:mb-4.5 tw:text-[0.9375rem] tw:leading-[1.6] tw:text-home-muted">{{ card.text }}</span>
+      <span class="tw:mt-auto tw:text-[0.8125rem] tw:font-bold tw:text-home-link">{{ card.button }}</span>
     </span>
   </UButton>
 </template>

@@ -14,10 +14,10 @@
   },
   "frontPage": {
     "heroEyebrow": "Geoscience collections",
-    "heroDescription": "Discover fossils, minerals, rocks and meteorites from museums and research collections around the world.",
+    "heroDescription": "Discover fossils, minerals, rocks, meteorites and material samples from museums and research collections around the world.",
     "browseAll": "Browse all specimens",
     "collectionsEyebrow": "Explore the collections",
-    "collectionsTitle": "A world of natural history",
+    "collectionsTitle": "A world of geological history",
     "mapEyebrow": "Explore by location",
     "mapTitle": "Discover the world beneath your feet",
     "mapDescription": "Explore specimen localities on the map and find records from across the globe.",
@@ -32,27 +32,33 @@
     "institutionCount": "Number of Institutions",
     "countryCount": "Countries with data",
     "cards": {
+      "materialSamples": {
+        "title": "Material samples",
+        "text": "Rocks, sediments and other materials collected for scientific research.",
+        "button": "View material samples",
+        "imageAltText": "Material sample"
+      },
       "fossils": {
         "title": "Fossils",
-        "text": "Fossils are remains or traces of once lived organisms. They include bones, shells, burrows, and occasionally mineralised soft bodies.",
+        "text": "Traces of ancient life preserved through geological time.",
         "button": "View Fossils",
         "imageAltText": "Fossil"
       },
       "minerals": {
         "title": "Minerals",
-        "text": "Minerals have certain chemical composition and crystal structure. They are the basic building blocks of all rocks.",
+        "text": "Natural crystals and the diverse world of minerals.",
         "button": "View Minerals",
         "imageAltText": "Mineral"
       },
       "rocks": {
         "title": "Rocks",
-        "text": "Rocks and sediments make up solid Earth. They may be magmatic, sedimentary or metamorphic.",
+        "text": "The story of Earth recorded in rocks and sediments.",
         "button": "View Rocks",
         "imageAltText": "Rock"
       },
       "meteorites": {
         "title": "Meteorites",
-        "text": "Meteorites are space rocks that have fallen on Earth. They are composed of the same minerals as earthly rocks.",
+        "text": "Fragments of our Solar System that have reached Earth.",
         "button": "View Meteorites",
         "imageAltText": "Meteorite"
       }
