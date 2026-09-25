@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { computed } from "vue";
 import { useI18n } from "vue-i18n";
 import { useSearchFilters } from "@/composables/useSearchFilters";
 import MapWrapper from "@/components/MapWrapper.vue";
@@ -13,12 +14,32 @@ const {
   toggleFacet,
   reset,
 } = useSearchFilters();
+const hasActiveFilters = computed(() =>
+  store.searchIds.some((id) => {
+    const value = fields.value[id]?.value;
+    return typeof value === "string" ? value.trim().length > 0 : !!value;
+  }),
+);
 const clearLabel = (id: string) =>
   t("search.drawer.clearFilters", { field: t(`search.table.${id}`) });
 </script>
 
 <template>
   <div class="tw:text-highlighted tw:space-y-5">
+    <div
+      v-if="hasActiveFilters"
+      class="tw:sticky tw:-top-4 tw:z-20 tw:-mx-4 tw:-mt-4 tw:bg-white tw:px-4 tw:py-3"
+    >
+      <UButton
+        :label="t('search.drawer.resetSearch')"
+        icon="i-lucide-trash-2"
+        color="error"
+        variant="outline"
+        block
+        class="tw:bg-white tw:text-red-600 tw:ring-red-200 tw:hover:bg-white tw:hover:ring-red-400 tw:active:bg-red-600 tw:active:text-white"
+        @click="reset"
+      />
+    </div>
     <UCard
       variant="outline"
       class="tw:ring-accented"
@@ -222,13 +243,5 @@ const clearLabel = (id: string) =>
         @update:model-value="updateValue(id, $event === true ? 'true' : null)"
       />
     </UCard>
-    <UButton
-      :label="t('search.drawer.resetSearch')"
-      icon="i-lucide-trash-2"
-      color="error"
-      variant="soft"
-      block
-      @click="reset"
-    />
   </div>
 </template>
