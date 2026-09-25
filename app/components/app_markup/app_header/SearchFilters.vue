@@ -81,6 +81,7 @@ const clearLabel = (id: string) =>
       >
         <div class="tw:space-y-2">
           <USelect
+            :ui="{ content: 'tw:z-[3400]' }"
             :items="store.lookUpTypes"
             :model-value="fields[id]?.lookUpType"
             :disabled="id === 'coordinates'"

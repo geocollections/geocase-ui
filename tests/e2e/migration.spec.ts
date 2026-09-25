@@ -497,3 +497,26 @@ for (const locale of ["", "/ee"]) {
     await expect(page.getByRole("heading", { level: 1 })).toHaveText("Quartz");
   });
 }
+
+
+for (const width of [390, 768]) {
+  test(`search filters are selectable in the ${width}px drawer`, async ({ page }) => {
+    await page.setViewportSize({ width, height: 1000 });
+    await page.goto("/search");
+    await page.getByRole("button", { name: "OK", exact: true }).click();
+    await page.getByRole("button", { name: "Toggle navigation drawer" }).click();
+    const drawer = page.getByRole("dialog");
+    await drawer.getByRole("combobox").first().click();
+    await page.getByRole("option", { name: "equals", exact: true }).click();
+    await expect(drawer).toBeVisible();
+    await drawer.locator('.search-drawer-text-field input').nth(1).fill("Quartz");
+    await expect(page).toHaveURL(/fullscientificname__equals=Quartz/);
+    await drawer.getByRole("checkbox", { name: /Estonia/ }).check();
+    await expect(page).toHaveURL(/country=/);
+    await expect(drawer.getByRole("checkbox", { name: /Estonia/ })).toBeChecked();
+    await drawer.getByRole("button", { name: "Reset search", exact: true }).click();
+    await expect(page).not.toHaveURL(/fullscientificname|country=/);
+    await page.keyboard.press("Escape");
+    await expect(drawer).not.toBeVisible();
+  });
+}
