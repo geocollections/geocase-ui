@@ -299,19 +299,34 @@ export default {
                 lat: parseFloat(item.latitude),
                 lng: parseFloat(item.longitude),
               },
-              { icon: this.markerIcon },
+              {
+                icon: this.markerIcon,
+                pmIgnore: true,
+                title: item.fullscientificname || item.unitid || item.locality || "",
+              },
             );
 
-            if (item.recordURI) {
-              if (this.mapId !== "search-map")
-                marker.on("click", () => {
-                  if (this.isDetailView)
-                    window.open(item.recordURI, "RecordUriWindow");
-                  else
-                    this.$router.push({
-                      path: `specimen/${encodeURIComponent(item.geocase_id)}`,
-                    });
-                });
+            if (this.isDetailView ? item.recordURI : item.geocase_id) {
+              marker.on("click", () => {
+                if (
+                  this.activateSearch &&
+                  (this.map.pm.globalDrawModeEnabled() ||
+                    this.map.pm.globalRemovalModeEnabled())
+                ) return;
+                if (this.isDetailView) {
+                  window.open(item.recordURI, "RecordUriWindow");
+                } else {
+                  this.$router.push({
+                    name: "Detail",
+                    params: {
+                      id: item.geocase_id,
+                      ...(this.$route.params.locale
+                        ? { locale: this.$route.params.locale }
+                        : {}),
+                    },
+                  });
+                }
+              });
             }
             if (item.locality) {
               marker.bindTooltip(item.locality, {

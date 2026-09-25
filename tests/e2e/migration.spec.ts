@@ -484,3 +484,16 @@ test("search combines the map with table previews and image view", async ({
   ).toBe(true);
   expect(errors).toEqual([]);
 });
+
+
+for (const locale of ["", "/ee"]) {
+  test(`map marker opens the specimen detail in ${locale || "English"}`, async ({ page }) => {
+    await page.goto(`${locale}/search?q=quartz`);
+    await page.getByRole("button", { name: "OK", exact: true }).click();
+    const marker = page.locator("#search-map .leaflet-marker-icon").first();
+    await expect(marker).toBeVisible();
+    await marker.click();
+    await expect(page).toHaveURL(new RegExp(`${locale}/specimen/demo`));
+    await expect(page.getByRole("heading", { level: 1 })).toHaveText("Quartz");
+  });
+}
