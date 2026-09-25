@@ -336,3 +336,43 @@ test("desktop search filters stop before the footer", async ({ page }) => {
     expect((await filters.boundingBox())!.y).toBeCloseTo(64, 0);
   }).toPass();
 });
+
+
+test("filter map fills its container after opening and resizing", async ({ page }) => {
+  await page.route("https://services.arcgisonline.com/**", (route) =>
+    route.fulfill({
+      contentType: "image/svg+xml",
+      body: '<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256"><rect width="256" height="256" fill="#dae5d0"/></svg>',
+    }),
+  );
+  await page.goto("/search?q=quartz");
+  await page.getByRole("button", { name: "OK", exact: true }).click();
+  const filters = page.getByRole("complementary", { name: "Search filters" });
+  const toggle = filters.getByRole("button", { name: "Map", exact: true });
+  const map = filters.locator("#search-map");
+  await toggle.click();
+  await expect(map).toBeVisible();
+  const expectTilesToFillMap = async () => {
+    await expect(async () => {
+      const covered = await map.evaluate((element) => {
+        const bounds = element.getBoundingClientRect();
+        const tiles = Array.from(element.querySelectorAll<HTMLImageElement>(".leaflet-tile-loaded"))
+          .filter((tile) => tile.complete && tile.naturalWidth > 0)
+          .map((tile) => tile.getBoundingClientRect());
+        return [10, bounds.width - 10].every((x) =>
+          [10, bounds.height - 10].every((y) =>
+            tiles.some((tile) => tile.left <= bounds.left + x && tile.right >= bounds.left + x
+              && tile.top <= bounds.top + y && tile.bottom >= bounds.top + y),
+          ),
+        );
+      });
+      expect(covered).toBe(true);
+    }).toPass();
+  };
+  await expectTilesToFillMap();
+  await toggle.click();
+  await toggle.click();
+  await expectTilesToFillMap();
+  await page.setViewportSize({ width: 1440, height: 1000 });
+  await expectTilesToFillMap();
+});
