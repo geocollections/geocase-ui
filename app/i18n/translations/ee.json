@@ -171,6 +171,7 @@
     }
   },
   "search": {
+    "imagesOnlyNotice": "Selles vaates kuvatakse ainult piltidega tulemusi.",
     "activeFilters": {
       "keyword": "Otsing",
       "title": "Valitud filtrid",

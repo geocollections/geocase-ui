@@ -26,6 +26,10 @@ useHead(() => ({ title: t("header.search") }));
             {{ responseResultsCount.toLocaleString() }}
             {{ $t("search.recordsFound", responseResultsCount) }}
           </h1>
+          <p v-if="tab === 1" class="tw:mt-2 tw:flex tw:items-center tw:gap-2 tw:text-sm tw:text-muted">
+            <UIcon name="i-lucide-images" class="tw:size-4 tw:shrink-0" aria-hidden="true" />
+            {{ $t("search.imagesOnlyNotice") }}
+          </p>
         </div>
         <UBadge
           color="neutral"
@@ -132,6 +136,8 @@ export default {
 
   data: () => ({
     tab: 0,
+    previousImageFilter: undefined,
+    imageFilterAddedByTab: false,
   }),
 
   computed: {
@@ -199,7 +205,24 @@ export default {
         sort_by: this.sortBy,
       });
     }, 300),
-    tab(newVal) {
+    tab(newVal, oldVal) {
+      if (newVal === 1) {
+        this.previousImageFilter = this.$route.query.has_image;
+        this.imageFilterAddedByTab = this.previousImageFilter !== "true";
+        if (this.imageFilterAddedByTab) {
+          this.$router.push({
+            path: this.$route.path,
+            query: { ...this.$route.query, has_image: "true", page: "1" },
+            hash: this.$route.hash,
+          });
+        }
+      } else if (oldVal === 1 && this.imageFilterAddedByTab) {
+        const query = { ...this.$route.query, page: "1" };
+        if (this.previousImageFilter === undefined) delete query.has_image;
+        else query.has_image = this.previousImageFilter;
+        this.imageFilterAddedByTab = false;
+        this.$router.push({ path: this.$route.path, query, hash: this.$route.hash });
+      }
       if (newVal === 2 && this.$refs?.map?.map) {
         setTimeout(() => {
           this.$refs.map.map.invalidateSize();

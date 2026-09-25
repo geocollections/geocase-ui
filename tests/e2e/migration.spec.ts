@@ -376,3 +376,44 @@ test("filter map fills its container after opening and resizing", async ({ page 
   await page.setViewportSize({ width: 1440, height: 1000 });
   await expectTilesToFillMap();
 });
+
+
+test("images tab automatically searches for records with images", async ({ page }) => {
+  await page.route("**/api?**", async (route) => {
+    const url = new URL(route.request().url());
+    if (url.searchParams.get("wt") === "csv" || url.searchParams.get("rows") === "0")
+      return route.fallback();
+    const hasImageFilter = url.searchParams.getAll("fq").includes('has_image:true');
+    await route.fulfill({ json: {
+      response: {
+        numFound: hasImageFilter ? 1 : 75,
+        docs: hasImageFilter ? [specimen] : [{ ...specimen, images: [], has_image: false }],
+      },
+      facet_counts: { facet_fields: {} },
+    } });
+  });
+  await page.goto('/search?q=quartz&page=2&country=%22Estonia%22');
+  await page.getByRole("button", { name: "OK", exact: true }).click();
+  await page.getByRole("tab", { name: /images/i }).click();
+  await expect(page).toHaveURL(/has_image=true/);
+  await expect(page).toHaveURL(/page=1/);
+  const images = page.getByRole("tabpanel", { name: /images/i });
+  await expect(images.getByRole("button", { name: /^open gallery:/i })).toBeVisible();
+  expect(new URL(page.url()).searchParams.get("q")).toBe("quartz");
+  expect(new URL(page.url()).searchParams.get("country")).toBe('"Estonia"');
+  await expect(images.getByRole("button", { name: /add filter/i })).toHaveCount(0);
+  await expect(page.getByText("Only results with images are shown in this view.")).toBeVisible();
+  await page.getByRole("tab", { name: /table/i }).click();
+  await expect(page).not.toHaveURL(/has_image=/);
+  await expect(page.getByText("Only results with images are shown in this view.")).toHaveCount(0);
+  expect(new URL(page.url()).searchParams.get("q")).toBe("quartz");
+  expect(new URL(page.url()).searchParams.get("country")).toBe('"Estonia"');
+});
+
+test("images tab preserves an explicitly selected image filter", async ({ page }) => {
+  await page.goto("/search?q=quartz&has_image=true");
+  await page.getByRole("button", { name: "OK", exact: true }).click();
+  await page.getByRole("tab", { name: /images/i }).click();
+  await page.getByRole("tab", { name: /table/i }).click();
+  await expect(page).toHaveURL(/has_image=true/);
+});

@@ -170,6 +170,7 @@
     }
   },
   "search": {
+    "imagesOnlyNotice": "In dieser Ansicht werden nur Ergebnisse mit Bildern angezeigt.",
     "activeFilters": {
       "keyword": "Suche",
       "title": "Aktive Filter",
