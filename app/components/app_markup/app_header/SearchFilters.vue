@@ -2,7 +2,6 @@
 import { computed } from "vue";
 import { useI18n } from "vue-i18n";
 import { useSearchFilters } from "@/composables/useSearchFilters";
-import MapWrapper from "@/components/MapWrapper.vue";
 const { t } = useI18n();
 const {
   store,
@@ -82,6 +81,7 @@ const clearLabel = (id: string) =>
       >
         <div class="tw:space-y-2">
           <USelect
+            :ui="{ content: 'tw:z-[3400]' }"
             :items="store.lookUpTypes"
             :model-value="fields[id]?.lookUpType"
             :disabled="id === 'coordinates'"
@@ -113,51 +113,6 @@ const clearLabel = (id: string) =>
           </UInput>
         </div>
       </UFormField>
-      <section class="tw:space-y-2">
-        <div class="tw:flex tw:items-center tw:gap-2">
-          <UButton
-            :label="t('search.table.map')"
-            :aria-expanded="!!fields.map?.showCheckboxes"
-            aria-controls="search-map-filter"
-            :trailing-icon="
-              fields.map?.showCheckboxes
-                ? 'i-lucide-chevron-up'
-                : 'i-lucide-chevron-down'
-            "
-            color="neutral"
-            variant="outline"
-            class="tw:text-highlighted tw:flex-1 tw:justify-between tw:font-semibold"
-            @click="
-              store.updateSearchField({
-                id: 'map',
-                showCheckboxes: !fields.map?.showCheckboxes,
-              })
-            "
-          />
-          <UButton
-            v-if="fields.map?.value"
-            icon="i-lucide-trash-2"
-            color="error"
-            variant="ghost"
-            :aria-label="clearLabel('map')"
-            @click="clearField('map')"
-          />
-        </div>
-        <div
-          id="search-map-filter"
-          v-show="fields.map?.showCheckboxes"
-          class="tw:border-default tw:overflow-hidden tw:rounded-lg tw:border"
-        >
-          <MapWrapper
-            map-id="search-map"
-            :open="fields.map?.showCheckboxes"
-            :response-results="store.responseResults"
-            :response-results-count="store.responseResultsCount"
-            activate-search
-            @update="store.fetchResults()"
-          />
-        </div>
-      </section>
       <section
         v-for="id in store.searchCheckboxIds"
         :key="id"

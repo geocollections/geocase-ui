@@ -171,6 +171,15 @@
     }
   },
   "search": {
+    "layout": {
+      "results": "Results",
+      "mapNote": "Locations from this results page. Draw an area to filter.",
+      "hideMap": "Hide map",
+      "showMap": "Show map",
+      "expandMap": "Expand map",
+      "reduceMap": "Reduce map",
+      "clearArea": "Clear area"
+    },
     "imagesOnlyNotice": "Only results with images are shown in this view.",
     "activeFilters": {
       "keyword": "Search",

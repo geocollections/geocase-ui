@@ -46,9 +46,11 @@ function handleOpenChange(open) {
 watch(
   () => props.dialog,
   (open) => {
+    if (typeof window === "undefined") return;
     if (open) window.addEventListener("keyup", handleKeyup);
     else window.removeEventListener("keyup", handleKeyup);
   },
+  { immediate: true },
 );
 
 onBeforeUnmount(() => window.removeEventListener("keyup", handleKeyup));

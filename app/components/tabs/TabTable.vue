@@ -86,6 +86,31 @@
           <span v-else>{{ header.header }}</span>
         </template>
 
+        <template #preview-cell="{ row: { original: item } }">
+          <UButton
+            v-if="item.images?.[0]"
+            color="neutral"
+            variant="ghost"
+            class="tw:size-14 tw:overflow-hidden tw:rounded-lg tw:p-0"
+            :aria-label="`${$t('search.openGallery')}: ${item.unitid || item.id}`"
+            @click="$emit('open:gallery', item.images[0])"
+          >
+            <ImageWrapper
+              :image-src="`https://geocase.eu/thumbnails/${encodeURIComponent(item.images[0])}`"
+              :alt-text="item.fullscientificname || item.unitid || ''"
+              width="56px"
+              max-height="56px"
+              :contain="false"
+            />
+          </UButton>
+          <span
+            v-else
+            class="tw:flex tw:size-14 tw:items-center tw:justify-center tw:rounded-lg tw:bg-muted/40 tw:text-dimmed"
+            :aria-label="$t('search.imageNoResults')"
+            ><UIcon name="i-lucide-image-off" aria-hidden="true"
+          /></span>
+        </template>
+
         <template #icon-cell="{ row: { original: item } }">
           <NuxtLink
             :to="{ path: `specimen/${encodeURIComponent(item.geocase_id)}` }"
@@ -125,9 +150,7 @@
           </NuxtLink>
         </template>
 
-        <template
-          #fullscientificname-cell="{ row: { original: item } }"
-        >
+        <template #fullscientificname-cell="{ row: { original: item } }">
           <UButton
             v-if="item.mindat_id"
             :href="item.mindat_url"
@@ -205,7 +228,11 @@
 
         <template #loading>
           <div class="tw:space-y-2 tw:p-4">
-            <USkeleton v-for="index in 3" :key="index" class="tw:h-8 tw:w-full" />
+            <USkeleton
+              v-for="index in 3"
+              :key="index"
+              class="tw:h-8 tw:w-full"
+            />
           </div>
         </template>
 
@@ -258,13 +285,19 @@
 <script>
 import { mapActions, mapState } from "pinia";
 import { useSearchStore } from "@/stores/search";
+import ImageWrapper from "@/components/image/ImageWrapper.vue";
 import HeaderControls from "@/components/tables/HeaderControls.vue";
 import PaginationControls from "@/components/tables/PaginationControls.vue";
 import ExportControls from "@/components/tables/ExportControls.vue";
 
 export default {
   name: "TabTable",
-  components: { ExportControls, PaginationControls, HeaderControls },
+  components: {
+    ImageWrapper,
+    ExportControls,
+    PaginationControls,
+    HeaderControls,
+  },
   emits: [
     "sortBy:changed",
     "sortDesc:changed",
@@ -284,22 +317,31 @@ export default {
   },
   computed: {
     tableColumns() {
-      return this.getAllShownTableHeaders.map((header) => ({
-        accessorKey: header.value,
-        header: header.text,
-        enableSorting: header.sortable !== false,
-        meta: {
-          class: {
-            th: header.align === "center" ? "tw:text-center" : "",
-            td: [
-              header.align === "center" ? "tw:text-center" : "",
-              header.value === "stratigraphy"
-                ? "tw:min-w-56 tw:whitespace-normal"
-                : "tw:whitespace-nowrap",
-            ].join(" "),
-          },
+      return [
+        {
+          accessorKey: "preview",
+          header: this.$t("search.tab.images"),
+          enableSorting: false,
         },
-      }));
+        ...this.getAllShownTableHeaders
+          .filter((header) => header.value !== "url")
+          .map((header) => ({
+            accessorKey: header.value,
+            header: header.text,
+            enableSorting: header.sortable !== false,
+            meta: {
+              class: {
+                th: header.align === "center" ? "tw:text-center" : "",
+                td: [
+                  header.align === "center" ? "tw:text-center" : "",
+                  header.value === "stratigraphy"
+                    ? "tw:min-w-56 tw:whitespace-normal"
+                    : "tw:whitespace-nowrap",
+                ].join(" "),
+              },
+            },
+          })),
+      ];
     },
     tableSort() {
       return this.sortBy.map((id, index) => ({
