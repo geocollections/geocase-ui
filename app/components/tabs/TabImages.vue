@@ -168,28 +168,6 @@ defineExpose({ openDialogUsingImage });
         icon="i-lucide-search-x"
         :title="t('search.imageNoResults')"
       >
-        <template #description>
-          <div
-            v-if="!searchStore.search.has_image.value"
-            class="tw:flex tw:flex-col tw:items-start tw:gap-3 tw:sm:flex-row tw:sm:items-center"
-          >
-            <span>{{ t("search.imageNoResultsFilterInfo") }}</span>
-            <UButton
-              size="sm"
-              color="primary"
-              variant="soft"
-              icon="i-lucide-list-filter-plus"
-              @click="
-                searchStore.updateSearchField({
-                  id: 'has_image',
-                  value: 'true',
-                })
-              "
-            >
-              {{ t("search.addFilter") }}
-            </UButton>
-          </div>
-        </template>
       </UAlert>
     </div>
 

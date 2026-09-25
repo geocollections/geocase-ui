@@ -171,6 +171,24 @@
     }
   },
   "search": {
+    "imagesOnlyNotice": "Only results with images are shown in this view.",
+    "activeFilters": {
+      "keyword": "Search",
+      "title": "Active filters",
+      "remove": "Remove {field} filter",
+      "mapArea": "Selected map area",
+      "yes": "Yes",
+      "no": "No",
+      "operators": {
+        "contains": "contains",
+        "equals": "equals",
+        "starts_with": "starts with",
+        "ends_with": "ends with",
+        "does_not_contain": "does not contain",
+        "greater_than": "greater than",
+        "smaller_than": "smaller than"
+      }
+    },
     "page": "Page",
     "recordsFound": "records found | record found | records found",
     "openGallery": "Open gallery",

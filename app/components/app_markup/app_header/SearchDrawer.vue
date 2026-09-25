@@ -12,7 +12,7 @@ const { t } = useI18n();
     v-if="isDesktop"
     v-show="drawer"
     :aria-label="t('search.drawer.filters')"
-    class="tw:bg-default tw:border-accented tw:fixed tw:bottom-0 tw:left-0 tw:top-16 tw:z-2010 tw:flex tw:w-87.5 tw:flex-col tw:border-r tw:shadow-xl"
+    class="tw:bg-default tw:border-accented tw:sticky tw:top-16 tw:z-10 tw:flex tw:h-[calc(100dvh-4rem)] tw:w-87.5 tw:shrink-0 tw:flex-col tw:self-start tw:border-r tw:shadow-xl"
   >
     <header
       class="tw:bg-default/95 tw:border-accented tw:border-b tw:px-5 tw:py-5 tw:backdrop-blur"
@@ -23,7 +23,7 @@ const { t } = useI18n();
         {{ t("search.drawer.filters") }}
       </h2>
     </header>
-    <div class="tw:flex-1 tw:overflow-y-auto tw:p-4">
+    <div class="tw:min-h-0 tw:flex-1 tw:overflow-y-auto tw:p-4">
       <SearchFilters />
     </div>
   </aside>

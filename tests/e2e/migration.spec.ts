@@ -312,3 +312,108 @@ test("editing a filter returns to page one and clears quick-search sorting", asy
   await page.reload();
   await expect(input).toHaveValue("calcite");
 });
+
+test("desktop search filters stop before the footer", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto("/search?q=quartz");
+  await page.getByRole("button", { name: "OK", exact: true }).click();
+  const filters = page.getByRole("complementary", { name: "Search filters" });
+  const footer = page.getByRole("contentinfo");
+  await expect(filters).toBeVisible();
+  await expect(page.locator("#table")).toContainText("DEMO-1");
+  await footer.scrollIntoViewIfNeeded();
+  await expect(async () => {
+    const panelBounds = await filters.boundingBox();
+    const footerBounds = await footer.boundingBox();
+    expect(panelBounds).not.toBeNull();
+    expect(footerBounds).not.toBeNull();
+    expect(panelBounds!.y + panelBounds!.height).toBeLessThanOrEqual(
+      footerBounds!.y + 1,
+    );
+  }).toPass();
+  await page.evaluate(() => window.scrollTo(0, 0));
+  await expect(async () => {
+    expect((await filters.boundingBox())!.y).toBeCloseTo(64, 0);
+  }).toPass();
+});
+
+
+test("filter map fills its container after opening and resizing", async ({ page }) => {
+  await page.route("https://services.arcgisonline.com/**", (route) =>
+    route.fulfill({
+      contentType: "image/svg+xml",
+      body: '<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256"><rect width="256" height="256" fill="#dae5d0"/></svg>',
+    }),
+  );
+  await page.goto("/search?q=quartz");
+  await page.getByRole("button", { name: "OK", exact: true }).click();
+  const filters = page.getByRole("complementary", { name: "Search filters" });
+  const toggle = filters.getByRole("button", { name: "Map", exact: true });
+  const map = filters.locator("#search-map");
+  await toggle.click();
+  await expect(map).toBeVisible();
+  const expectTilesToFillMap = async () => {
+    await expect(async () => {
+      const covered = await map.evaluate((element) => {
+        const bounds = element.getBoundingClientRect();
+        const tiles = Array.from(element.querySelectorAll<HTMLImageElement>(".leaflet-tile-loaded"))
+          .filter((tile) => tile.complete && tile.naturalWidth > 0)
+          .map((tile) => tile.getBoundingClientRect());
+        return [10, bounds.width - 10].every((x) =>
+          [10, bounds.height - 10].every((y) =>
+            tiles.some((tile) => tile.left <= bounds.left + x && tile.right >= bounds.left + x
+              && tile.top <= bounds.top + y && tile.bottom >= bounds.top + y),
+          ),
+        );
+      });
+      expect(covered).toBe(true);
+    }).toPass();
+  };
+  await expectTilesToFillMap();
+  await toggle.click();
+  await toggle.click();
+  await expectTilesToFillMap();
+  await page.setViewportSize({ width: 1440, height: 1000 });
+  await expectTilesToFillMap();
+});
+
+
+test("images tab automatically searches for records with images", async ({ page }) => {
+  await page.route("**/api?**", async (route) => {
+    const url = new URL(route.request().url());
+    if (url.searchParams.get("wt") === "csv" || url.searchParams.get("rows") === "0")
+      return route.fallback();
+    const hasImageFilter = url.searchParams.getAll("fq").includes('has_image:true');
+    await route.fulfill({ json: {
+      response: {
+        numFound: hasImageFilter ? 1 : 75,
+        docs: hasImageFilter ? [specimen] : [{ ...specimen, images: [], has_image: false }],
+      },
+      facet_counts: { facet_fields: {} },
+    } });
+  });
+  await page.goto('/search?q=quartz&page=2&country=%22Estonia%22');
+  await page.getByRole("button", { name: "OK", exact: true }).click();
+  await page.getByRole("tab", { name: /images/i }).click();
+  await expect(page).toHaveURL(/has_image=true/);
+  await expect(page).toHaveURL(/page=1/);
+  const images = page.getByRole("tabpanel", { name: /images/i });
+  await expect(images.getByRole("button", { name: /^open gallery:/i })).toBeVisible();
+  expect(new URL(page.url()).searchParams.get("q")).toBe("quartz");
+  expect(new URL(page.url()).searchParams.get("country")).toBe('"Estonia"');
+  await expect(images.getByRole("button", { name: /add filter/i })).toHaveCount(0);
+  await expect(page.getByText("Only results with images are shown in this view.")).toBeVisible();
+  await page.getByRole("tab", { name: /table/i }).click();
+  await expect(page).not.toHaveURL(/has_image=/);
+  await expect(page.getByText("Only results with images are shown in this view.")).toHaveCount(0);
+  expect(new URL(page.url()).searchParams.get("q")).toBe("quartz");
+  expect(new URL(page.url()).searchParams.get("country")).toBe('"Estonia"');
+});
+
+test("images tab preserves an explicitly selected image filter", async ({ page }) => {
+  await page.goto("/search?q=quartz&has_image=true");
+  await page.getByRole("button", { name: "OK", exact: true }).click();
+  await page.getByRole("tab", { name: /images/i }).click();
+  await page.getByRole("tab", { name: /table/i }).click();
+  await expect(page).toHaveURL(/has_image=true/);
+});

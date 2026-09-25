@@ -6,7 +6,6 @@ import { useToggle } from "@/composables/useToggle";
 import { useDesktopLayout } from "@/composables/useDesktopLayout";
 import AppBar from "./app_header/AppBar.vue";
 import NavigationDrawer from "./app_header/NavigationDrawer.vue";
-import SearchDrawer from "./app_header/SearchDrawer.vue";
 
 const route = useRoute();
 const settings = useSettingsStore();
@@ -28,10 +27,6 @@ watch(
     @toggle:search-drawer="
       settings.updateSearchDrawerState(!settings.searchDrawer)
     "
-  />
-  <SearchDrawer
-    v-if="route.name === 'Search'"
-    v-model:drawer="settings.searchDrawer"
   />
   <NavigationDrawer v-model:drawer="drawer" />
 </template>

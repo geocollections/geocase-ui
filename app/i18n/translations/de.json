@@ -170,6 +170,24 @@
     }
   },
   "search": {
+    "imagesOnlyNotice": "In dieser Ansicht werden nur Ergebnisse mit Bildern angezeigt.",
+    "activeFilters": {
+      "keyword": "Suche",
+      "title": "Aktive Filter",
+      "remove": "Filter entfernen: {field}",
+      "mapArea": "Ausgewählter Kartenbereich",
+      "yes": "Ja",
+      "no": "Nein",
+      "operators": {
+        "contains": "enthält",
+        "equals": "ist gleich",
+        "starts_with": "beginnt mit",
+        "ends_with": "endet mit",
+        "does_not_contain": "enthält nicht",
+        "greater_than": "größer als",
+        "smaller_than": "kleiner als"
+      }
+    },
     "page": "Seite",
     "recordsFound": "Einträge gefunden | Einträge gefunden | Einträge gefunden",
     "openGallery": "Galerie öffnen",

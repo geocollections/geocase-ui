@@ -14,7 +14,6 @@ import "leaflet/dist/leaflet.css";
 import "@geoman-io/leaflet-geoman-free/dist/leaflet-geoman.css";
 import { useSearchStore } from "@/stores/search";
 import { markRaw } from "vue";
-import { debounce } from "lodash";
 
 export default {
   name: "MapWrapper",
@@ -49,6 +48,7 @@ export default {
       allGeomanLayers: null,
       activeGeomanLayer: null,
       map: null,
+      resizeObserver: null,
       markers: [],
       markerLayer: null,
       markerIcon: markRaw(
@@ -204,8 +204,11 @@ export default {
       deep: true,
     },
 
-    open(newVal) {
-      if (newVal && this.map) this.map.invalidateSize();
+    open: {
+      handler(newVal) {
+        if (newVal) this.updateMapSize();
+      },
+      flush: "post",
     },
 
     activeGeomanLayer(newVal) {
@@ -231,9 +234,12 @@ export default {
     this.initMap();
     if (this.activateSearch) this.initLeafletGeoman();
     this.setMarkers(this.localities);
+    this.resizeObserver = markRaw(new ResizeObserver(this.updateMapSize));
+    this.resizeObserver.observe(this.$el);
   },
 
   beforeUnmount() {
+    this.resizeObserver?.disconnect();
     if (this.map) {
       this.map.off("baselayerchange", this.handleLayerChange);
       if (this.activateSearch) this.terminateLeafletGeoman();
@@ -242,6 +248,12 @@ export default {
   },
 
   methods: {
+    updateMapSize() {
+      if (this.map && this.$el.clientWidth > 0 && this.$el.clientHeight > 0) {
+        this.map.invalidateSize({ pan: false });
+      }
+    },
+
     initMap() {
       if (this.map === null) {
         this.map = markRaw(
