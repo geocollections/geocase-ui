@@ -170,6 +170,15 @@
     }
   },
   "search": {
+    "layout": {
+      "results": "Ergebnisse",
+      "mapNote": "Standorte dieser Ergebnisseite. Zeichnen Sie einen Bereich zum Filtern.",
+      "hideMap": "Karte ausblenden",
+      "showMap": "Karte anzeigen",
+      "expandMap": "Karte vergrößern",
+      "reduceMap": "Karte verkleinern",
+      "clearArea": "Bereich entfernen"
+    },
     "imagesOnlyNotice": "In dieser Ansicht werden nur Ergebnisse mit Bildern angezeigt.",
     "activeFilters": {
       "keyword": "Suche",

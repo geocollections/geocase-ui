@@ -1,5 +1,7 @@
 <script setup>
 import { useI18n } from "vue-i18n";
+import SearchResultsMap from "@/components/search/SearchResultsMap.vue";
+import ImageOverflow from "@/components/image/ImageOverflow.vue";
 import ActiveSearchFilters from "@/components/search/ActiveSearchFilters.vue";
 
 definePageMeta({ name: "Search", path: "/:locale(en|ee|de)?/search" });
@@ -26,73 +28,85 @@ useHead(() => ({ title: t("header.search") }));
             {{ responseResultsCount.toLocaleString() }}
             {{ $t("search.recordsFound", responseResultsCount) }}
           </h1>
-          <p v-if="tab === 1" class="tw:mt-2 tw:flex tw:items-center tw:gap-2 tw:text-sm tw:text-muted">
-            <UIcon name="i-lucide-images" class="tw:size-4 tw:shrink-0" aria-hidden="true" />
+          <p
+            v-if="tab === 1"
+            class="tw:mt-2 tw:flex tw:items-center tw:gap-2 tw:text-sm tw:text-muted"
+          >
+            <UIcon
+              name="i-lucide-images"
+              class="tw:size-4 tw:shrink-0"
+              aria-hidden="true"
+            />
             {{ $t("search.imagesOnlyNotice") }}
           </p>
         </div>
-        <UBadge
-          color="neutral"
-          variant="soft"
-          size="lg"
-          class="tw:sm:hidden"
-        >
+        <UBadge color="neutral" variant="soft" size="lg" class="tw:sm:hidden">
           {{ `${$t("search.page")} ${page}` }}
         </UBadge>
       </header>
 
       <ActiveSearchFilters />
 
-      <USeparator />
+      <SearchResultsMap />
 
-      <UTabs
-        v-model="tab"
-        :items="viewTabs"
-        :unmount-on-hide="false"
-        color="primary"
-        variant="link"
-        size="lg"
-        :ui="{
-          root: 'tw:gap-0',
-          list: 'tw:overflow-x-auto tw:border-b tw:border-default tw:px-2 tw:sm:px-4',
-          trigger: 'tw:min-w-32 tw:flex-none tw:sm:flex-1',
-          content: 'tw:rounded-none tw:p-0',
-        }"
+      <div
+        class="tw:flex tw:flex-wrap tw:items-center tw:justify-between tw:gap-3 tw:border-t tw:border-default tw:px-4 tw:py-3 tw:sm:px-6"
       >
-        <template #table>
-          <TabTable
-            :response-results="responseResults"
-            :response-results-count="responseResultsCount"
-            :page="page"
-            :paginate-by="paginateBy"
-            :sort-by="sortBy"
-            :sort-desc="sortDesc"
-            :is-loading="isLoading"
-            :tab-index="tab"
-            @sort-by:changed="updateSortBy($event)"
-            @sort-desc:changed="updateSortDesc($event)"
-            @update:page="updatePage($event)"
-            @update:paginate-by="updatePaginateBy($event)"
-            @open:gallery="openGallery"
-          />
-        </template>
+        <h2 class="tw:text-base tw:font-semibold">
+          {{ $t("search.layout.results") }}
+        </h2>
+        <UTabs
+          v-model="tab"
+          :items="viewTabs"
+          :content="false"
+          size="sm"
+          color="neutral"
+          variant="pill"
+          :ui="{ trigger: 'tw:data-[state=active]:text-white!' }"
+        />
+      </div>
 
-        <template #images>
-          <TabImages
-            ref="imageTab"
-            :response-results="responseResults"
-            :response-results-count="responseResultsCount"
-          />
-        </template>
+      <div
+        v-show="tab === 0"
+        role="tabpanel"
+        :aria-label="$t('search.tab.table')"
+      >
+        <TabTable
+          :response-results="responseResults"
+          :response-results-count="responseResultsCount"
+          :page="page"
+          :paginate-by="paginateBy"
+          :sort-by="sortBy"
+          :sort-desc="sortDesc"
+          :is-loading="isLoading"
+          :tab-index="tab"
+          @sort-by:changed="updateSortBy($event)"
+          @sort-desc:changed="updateSortDesc($event)"
+          @update:page="updatePage($event)"
+          @update:paginate-by="updatePaginateBy($event)"
+          @open:gallery="openGallery"
+        />
+      </div>
 
-        <template #map>
-          <TabMap
-            ref="map"
-            :response-results="responseResults"
-            :response-results-count="responseResultsCount"
-          />
-        </template>
-      </UTabs>
+      <div
+        v-show="tab === 1"
+        role="tabpanel"
+        :aria-label="$t('search.tab.images')"
+      >
+        <TabImages
+          ref="imageTab"
+          :response-results="responseResults"
+          :response-results-count="responseResultsCount"
+        />
+      </div>
+      <ImageOverflow
+        v-if="tableGalleryOpen"
+        :images="tableGalleryImages"
+        :dialog="tableGalleryOpen"
+        :current-index="tableGalleryIndex"
+        @close:dialog="tableGalleryOpen = false"
+        @update:index="tableGalleryIndex = $event"
+      />
 
       <Pagination
         v-if="tab === 1 && responseResultsCount > 10"
@@ -117,7 +131,6 @@ import { mapActions, mapState } from "pinia";
 import queryMixin from "@/mixins/queryMixin";
 import Pagination from "@/components/search/Pagination.vue";
 import TabImages from "@/components/tabs/TabImages.vue";
-import TabMap from "@/components/tabs/TabMap.vue";
 import TabTable from "@/components/tabs/TabTable.vue";
 import { debounce } from "lodash";
 
@@ -126,7 +139,6 @@ export default {
 
   components: {
     TabTable,
-    TabMap,
     TabImages,
     Pagination,
     ScrollToTop,
@@ -136,6 +148,8 @@ export default {
 
   data: () => ({
     tab: 0,
+    tableGalleryOpen: false,
+    tableGalleryIndex: 0,
     previousImageFilter: undefined,
     imageFilterAddedByTab: false,
   }),
@@ -151,6 +165,16 @@ export default {
       "isLoading",
     ]),
     ...mapState(useSearchStore, ["paginateByItemsTranslated"]),
+    tableGalleryImages() {
+      return this.responseResults.flatMap((item) =>
+        (item.images || []).filter(Boolean).map((image) => ({
+          ...item,
+          originalImage: image,
+          thumbnailImage: `https://geocase.eu/thumbnails/${encodeURIComponent(image)}`,
+          altText: item.fullscientificname || item.unitid || "",
+        })),
+      );
+    },
     viewTabs() {
       return [
         {
@@ -164,12 +188,6 @@ export default {
           icon: "i-lucide-images",
           value: 1,
           slot: "images",
-        },
-        {
-          label: this.$t("search.tab.map"),
-          icon: "i-lucide-map",
-          value: 2,
-          slot: "map",
         },
       ];
     },
@@ -221,12 +239,11 @@ export default {
         if (this.previousImageFilter === undefined) delete query.has_image;
         else query.has_image = this.previousImageFilter;
         this.imageFilterAddedByTab = false;
-        this.$router.push({ path: this.$route.path, query, hash: this.$route.hash });
-      }
-      if (newVal === 2 && this.$refs?.map?.map) {
-        setTimeout(() => {
-          this.$refs.map.map.invalidateSize();
-        }, 100);
+        this.$router.push({
+          path: this.$route.path,
+          query,
+          hash: this.$route.hash,
+        });
       }
     },
   },
@@ -240,11 +257,14 @@ export default {
       "fetchResults",
     ]),
 
-
-    async openGallery(image) {
-      this.tab = 1;
-      await new Promise((resolve) => setTimeout(resolve, 200));
-      this.$refs.imageTab.openDialogUsingImage(image);
+    openGallery(image) {
+      this.tableGalleryIndex = Math.max(
+        0,
+        this.tableGalleryImages.findIndex(
+          (item) => item.originalImage === image,
+        ),
+      );
+      this.tableGalleryOpen = true;
     },
 
     updateSearchParamDebounced: debounce(function (action, value) {

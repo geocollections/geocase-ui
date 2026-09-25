@@ -171,6 +171,15 @@
     }
   },
   "search": {
+    "layout": {
+      "results": "Tulemused",
+      "mapNote": "Selle tulemuste lehe asukohad. Filtreerimiseks joonista ala.",
+      "hideMap": "Peida kaart",
+      "showMap": "Näita kaarti",
+      "expandMap": "Suurenda kaarti",
+      "reduceMap": "Vähenda kaarti",
+      "clearArea": "Eemalda ala"
+    },
     "imagesOnlyNotice": "Selles vaates kuvatakse ainult piltidega tulemusi.",
     "activeFilters": {
       "keyword": "Otsing",

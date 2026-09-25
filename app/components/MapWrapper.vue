@@ -282,14 +282,8 @@ export default {
     handleLayerChange(event) {
       if (event.name && event.name === "Estonian satellite") {
         this.map.addLayer(this.overlayMaps[0].leafletObject);
-        document.querySelector(
-          "#map > div.leaflet-control-container > div.leaflet-top.leaflet-right > div > section > div.leaflet-control-layers-overlays > label > div > input",
-        ).checked = true;
       } else {
         this.map.removeLayer(this.overlayMaps[0].leafletObject);
-        document.querySelector(
-          "#map > div.leaflet-control-container > div.leaflet-top.leaflet-right > div > section > div.leaflet-control-layers-overlays > label > div > input",
-        ).checked = false;
       }
     },
 

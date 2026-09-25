@@ -184,14 +184,15 @@ test("image gallery, filter changes and map tab", async ({ page }) => {
   await page.goto("/search?q=quartz");
   await page.getByRole("button", { name: "OK", exact: true }).click();
   await page.getByRole("tab", { name: /images/i }).click();
-  await page.getByRole("button", { name: /^open gallery:/i }).first().click();
+  await page
+    .getByRole("button", { name: /^open gallery:/i })
+    .first()
+    .click();
   await expect(page.getByRole("dialog")).toContainText("Image gallery");
   await page.keyboard.press("Escape");
   await expect(page.getByRole("dialog")).not.toBeVisible();
-  await page.getByRole("tab", { name: /map/i }).click();
   await expect(
     page
-      .getByRole("tabpanel", { name: /map/i })
       .getByRole("region", { name: "Map", exact: true })
       .locator(".leaflet-container"),
   ).toBeVisible();
@@ -337,8 +338,9 @@ test("desktop search filters stop before the footer", async ({ page }) => {
   }).toPass();
 });
 
-
-test("filter map fills its container after opening and resizing", async ({ page }) => {
+test("filter map fills its container after opening and resizing", async ({
+  page,
+}) => {
   await page.route("https://services.arcgisonline.com/**", (route) =>
     route.fulfill({
       contentType: "image/svg+xml",
@@ -347,22 +349,28 @@ test("filter map fills its container after opening and resizing", async ({ page 
   );
   await page.goto("/search?q=quartz");
   await page.getByRole("button", { name: "OK", exact: true }).click();
-  const filters = page.getByRole("complementary", { name: "Search filters" });
-  const toggle = filters.getByRole("button", { name: "Map", exact: true });
-  const map = filters.locator("#search-map");
-  await toggle.click();
+  const region = page.getByRole("region", { name: "Map", exact: true });
+  const toggle = region.getByRole("button", { name: /hide map|show map/i });
+  const map = region.locator("#search-map");
   await expect(map).toBeVisible();
   const expectTilesToFillMap = async () => {
     await expect(async () => {
       const covered = await map.evaluate((element) => {
         const bounds = element.getBoundingClientRect();
-        const tiles = Array.from(element.querySelectorAll<HTMLImageElement>(".leaflet-tile-loaded"))
+        const tiles = Array.from(
+          element.querySelectorAll<HTMLImageElement>(".leaflet-tile-loaded"),
+        )
           .filter((tile) => tile.complete && tile.naturalWidth > 0)
           .map((tile) => tile.getBoundingClientRect());
         return [10, bounds.width - 10].every((x) =>
           [10, bounds.height - 10].every((y) =>
-            tiles.some((tile) => tile.left <= bounds.left + x && tile.right >= bounds.left + x
-              && tile.top <= bounds.top + y && tile.bottom >= bounds.top + y),
+            tiles.some(
+              (tile) =>
+                tile.left <= bounds.left + x &&
+                tile.right >= bounds.left + x &&
+                tile.top <= bounds.top + y &&
+                tile.bottom >= bounds.top + y,
+            ),
           ),
         );
       });
@@ -373,47 +381,106 @@ test("filter map fills its container after opening and resizing", async ({ page 
   await toggle.click();
   await toggle.click();
   await expectTilesToFillMap();
+  await region.getByRole("button", { name: "Expand map", exact: true }).click();
+  await expect(map).toHaveCSS("height", "468px");
+  await expectTilesToFillMap();
   await page.setViewportSize({ width: 1440, height: 1000 });
   await expectTilesToFillMap();
 });
 
-
-test("images tab automatically searches for records with images", async ({ page }) => {
+test("images tab automatically searches for records with images", async ({
+  page,
+}) => {
   await page.route("**/api?**", async (route) => {
     const url = new URL(route.request().url());
-    if (url.searchParams.get("wt") === "csv" || url.searchParams.get("rows") === "0")
+    if (
+      url.searchParams.get("wt") === "csv" ||
+      url.searchParams.get("rows") === "0"
+    )
       return route.fallback();
-    const hasImageFilter = url.searchParams.getAll("fq").includes('has_image:true');
-    await route.fulfill({ json: {
-      response: {
-        numFound: hasImageFilter ? 1 : 75,
-        docs: hasImageFilter ? [specimen] : [{ ...specimen, images: [], has_image: false }],
+    const hasImageFilter = url.searchParams
+      .getAll("fq")
+      .includes("has_image:true");
+    await route.fulfill({
+      json: {
+        response: {
+          numFound: hasImageFilter ? 1 : 75,
+          docs: hasImageFilter
+            ? [specimen]
+            : [{ ...specimen, images: [], has_image: false }],
+        },
+        facet_counts: { facet_fields: {} },
       },
-      facet_counts: { facet_fields: {} },
-    } });
+    });
   });
-  await page.goto('/search?q=quartz&page=2&country=%22Estonia%22');
+  await page.goto("/search?q=quartz&page=2&country=%22Estonia%22");
   await page.getByRole("button", { name: "OK", exact: true }).click();
   await page.getByRole("tab", { name: /images/i }).click();
   await expect(page).toHaveURL(/has_image=true/);
   await expect(page).toHaveURL(/page=1/);
   const images = page.getByRole("tabpanel", { name: /images/i });
-  await expect(images.getByRole("button", { name: /^open gallery:/i })).toBeVisible();
+  await expect(
+    images.getByRole("button", { name: /^open gallery:/i }),
+  ).toBeVisible();
   expect(new URL(page.url()).searchParams.get("q")).toBe("quartz");
   expect(new URL(page.url()).searchParams.get("country")).toBe('"Estonia"');
-  await expect(images.getByRole("button", { name: /add filter/i })).toHaveCount(0);
-  await expect(page.getByText("Only results with images are shown in this view.")).toBeVisible();
+  await expect(images.getByRole("button", { name: /add filter/i })).toHaveCount(
+    0,
+  );
+  await expect(
+    page.getByText("Only results with images are shown in this view."),
+  ).toBeVisible();
   await page.getByRole("tab", { name: /table/i }).click();
   await expect(page).not.toHaveURL(/has_image=/);
-  await expect(page.getByText("Only results with images are shown in this view.")).toHaveCount(0);
+  await expect(
+    page.getByText("Only results with images are shown in this view."),
+  ).toHaveCount(0);
   expect(new URL(page.url()).searchParams.get("q")).toBe("quartz");
   expect(new URL(page.url()).searchParams.get("country")).toBe('"Estonia"');
 });
 
-test("images tab preserves an explicitly selected image filter", async ({ page }) => {
+test("images tab preserves an explicitly selected image filter", async ({
+  page,
+}) => {
   await page.goto("/search?q=quartz&has_image=true");
   await page.getByRole("button", { name: "OK", exact: true }).click();
   await page.getByRole("tab", { name: /images/i }).click();
   await page.getByRole("tab", { name: /table/i }).click();
   await expect(page).toHaveURL(/has_image=true/);
+});
+
+test("search combines the map with table previews and image view", async ({
+  page,
+}) => {
+  const errors: string[] = [];
+  page.on("pageerror", (error) => errors.push(error.message));
+  await page.goto("/search?q=quartz");
+  await page.getByRole("button", { name: "OK", exact: true }).click();
+  await expect(page.getByRole("tab")).toHaveCount(2);
+  const map = page.getByRole("region", { name: "Map", exact: true });
+  await expect(map.locator(".leaflet-container")).toBeVisible();
+  const table = page.getByRole("tabpanel", { name: /table/i });
+  await table
+    .getByRole("button", { name: "Open gallery: DEMO-1", exact: true })
+    .click();
+  await expect(page.getByRole("dialog")).toContainText("Image gallery");
+  await expect(page).not.toHaveURL(/has_image=/);
+  await page.keyboard.press("Escape");
+  await expect(page.getByRole("dialog")).not.toBeVisible();
+  await expect(table).toBeVisible();
+  await page.getByRole("tab", { name: /images/i }).click();
+  await expect(map.locator(".leaflet-container")).toBeVisible();
+  await map.getByRole("button", { name: "Hide map", exact: true }).click();
+  await expect(map.locator(".leaflet-container")).not.toBeVisible();
+  await page.getByRole("tab", { name: /table/i }).click();
+  await expect(page).not.toHaveURL(/has_image=/);
+  await page.setViewportSize({ width: 390, height: 844 });
+  await map.getByRole("button", { name: "Show map", exact: true }).click();
+  await expect(map.locator(".leaflet-container")).toBeVisible();
+  expect(
+    await page.evaluate(
+      () => document.documentElement.scrollWidth <= innerWidth,
+    ),
+  ).toBe(true);
+  expect(errors).toEqual([]);
 });
