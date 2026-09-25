@@ -8,28 +8,34 @@ export const useFrontpageStore = defineStore("frontpage", {
     records: "",
     datasetowner: "",
     country: "",
-    cardIds: ["fossil", "mineral", "rock", "meteorite"],
+    hasMaterialSamples: false,
+    cardIds: ["fossil", "mineral", "rock", "meteorite", "materialSample"],
     cards: {
+      materialSample: {
+        url: '/search?recordbasis="MaterialSample"',
+        icon: "i-lucide-flask-conical",
+        isLeaving: false,
+      },
       fossil: {
-        url: '/search?recordbasis="Fossil"',
+        url: '/search?recordbasis="Fossil" "FossilSpecimen"',
         image:
           "https://files.geocollections.info/img/geocase/front_page/fossil1.jpg",
         isLeaving: false,
       },
       mineral: {
-        url: '/search?recordbasis="Mineral"',
+        url: '/search?recordbasis="Mineral" "MineralSpecimen"',
         image:
           "https://files.geocollections.info/img/geocase/front_page/mineral1.jpg",
         isLeaving: false,
       },
       rock: {
-        url: '/search?recordbasis="Rock"',
+        url: '/search?recordbasis="Rock" "RockSpecimen"',
         image:
           "https://files.geocollections.info/img/geocase/front_page/rock1.jpg",
         isLeaving: false,
       },
       meteorite: {
-        url: '/search?recordbasis="Meteorite"',
+        url: '/search?recordbasis="Meteorite" "MeteoriteSpecimen"',
         image:
           "https://files.geocollections.info/img/geocase/front_page/meteorite1.jpg",
         isLeaving: false,
@@ -87,14 +93,27 @@ export const useFrontpageStore = defineStore("frontpage", {
           button: i18n.t("frontPage.cards.meteorites.button"),
           imageAltText: i18n.t("frontPage.cards.meteorites.imageAltText"),
         },
+        materialSample: {
+          ...state.cards.materialSample,
+          url: state.hasMaterialSamples ? state.cards.materialSample.url : "/search",
+          title: i18n.t("frontPage.cards.materialSamples.title"),
+          text: i18n.t("frontPage.cards.materialSamples.text"),
+          button: i18n.t("frontPage.cards.materialSamples.button"),
+          imageAltText: i18n.t("frontPage.cards.materialSamples.imageAltText"),
+        },
       };
     },
   },
   actions: {
     SET_STATS(payload) {
       if (payload?.records) this.records = payload.records;
+      const types = payload?.facet_fields?.recordbasis || [];
+      this.hasMaterialSamples = types.some(
+        (value, index) => index % 2 === 0 && value === "MaterialSample" && types[index + 1] > 0,
+      );
       if (payload?.facet_fields) {
         Object.entries(payload.facet_fields).forEach((item) => {
+          if (item[0] === "recordbasis") return;
           this[item[0]] = item[1].filter(
             (val) => typeof val !== "string",
           ).length;

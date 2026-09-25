@@ -4,7 +4,13 @@ export default defineNuxtConfig({
   vite: {
     optimizeDeps: { exclude: ["maplibre-gl"] },
   },
-  modules: ["@pinia/nuxt", "@nuxt/ui"],
+  modules: ["@pinia/nuxt", "@nuxt/ui", "@nuxt/image"],
+  image: {
+    domains: ["files.geocollections.info", "geocase.eu"],
+    providers: {
+      none: { provider: "none" },
+    },
+  },
   ui: { theme: { prefix: "tw" }, colorMode: false, fonts: false },
   components: [{ path: "~/components", pathPrefix: false }],
   css: [

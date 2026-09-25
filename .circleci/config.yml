@@ -96,16 +96,34 @@ jobs:
   run_docker_image:
     executor: docker-publisher
     steps:
+      - add_ssh_keys:
+          fingerprints:
+            - "SHA256:WxPlUPhrO82L0b86EgsNHzZ23mbWJQSbJTmKsw4P9pw"
       - run:
           name: Run Docker image
-          command: ssh -o "StrictHostKeyChecking no" -p ${PORT} ${USER}@${ADDRESS} "cd /var/www/geocase-ui/script && . run_docker_image.sh"
+          no_output_timeout: 5m
+          command: |
+            ssh -o BatchMode=yes \
+                -o StrictHostKeyChecking=accept-new \
+                -o ConnectTimeout=15 \
+                -p "${PORT}" "${USER}@${ADDRESS}" \
+                "cd /var/www/geocase-ui/script && bash run_docker_image.sh"
 
   run_docker_image_dev:
     executor: docker-publisher
     steps:
+      - add_ssh_keys:
+          fingerprints:
+            - "SHA256:WxPlUPhrO82L0b86EgsNHzZ23mbWJQSbJTmKsw4P9pw"
       - run:
           name: Run Docker image
-          command: ssh -o "StrictHostKeyChecking no" -p ${PORT} ${USER}@${ADDRESS} "cd /var/www/geocase-ui-dev/script && . run_docker_image.sh"
+          no_output_timeout: 5m
+          command: |
+            ssh -o BatchMode=yes \
+                -o StrictHostKeyChecking=accept-new \
+                -o ConnectTimeout=15 \
+                -p "${PORT}" "${USER}@${ADDRESS}" \
+                "cd /var/www/geocase-ui-dev/script && bash run_docker_image.sh"
 
 workflows:
   build:

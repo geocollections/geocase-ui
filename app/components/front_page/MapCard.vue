@@ -3,7 +3,6 @@
     <div ref="container" class="map-canvas" />
     <Teleport v-if="popupTarget && activePopupData.id" :to="popupTarget">
       <MglPopupWrapper
-        :popup="{}"
         :active-popup-data="activePopupData"
         :map-results="frontpage.mapResults"
         :popup-max-width="popupMaxWidth"
@@ -25,15 +24,15 @@ import {
 import "maplibre-gl/dist/maplibre-gl.css";
 import workerUrl from "maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url";
 import { shallowRef, ref, computed, onMounted, onBeforeUnmount } from "vue";
-import { useDisplay } from "vuetify";
 import { useFrontpageStore } from "@/stores/frontpage";
+import { useDesktopLayout } from "@/composables/useDesktopLayout";
 import MglPopupWrapper from "./MglPopupWrapper.vue";
 const frontpage = useFrontpageStore();
 const container = ref(null);
 const popupTarget = shallowRef(null);
 const activePopupData = ref({ id: null, locality: "", lat: null, lng: null });
-const { smAndDown } = useDisplay();
-const popupMaxWidth = computed(() => (smAndDown.value ? "250px" : "400px"));
+const { isDesktop } = useDesktopLayout();
+const popupMaxWidth = computed(() => (isDesktop.value ? "400px" : "250px"));
 let map, popup, resizeObserver, resizeFrame;
 const showLocality = (event) => {
   const feature = event.features?.[0];
@@ -89,6 +88,7 @@ onBeforeUnmount(() => {
   map?.remove();
 });
 </script>
+
 <style scoped>
 .front-map,
 .map-canvas {
