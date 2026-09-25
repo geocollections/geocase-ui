@@ -1,38 +1,91 @@
+<script setup>
+import { computed } from "vue";
+import { useI18n } from "vue-i18n";
+import { useSearchStore } from "@/stores/search";
+import MapWrapper from "@/components/MapWrapper.vue";
+
+const props = defineProps({
+  responseResults: {
+    type: Array,
+    required: true,
+  },
+  responseResultsCount: {
+    type: Number,
+    default: 1,
+  },
+  isDetailView: {
+    type: Boolean,
+    default: false,
+  },
+});
+
+const { t } = useI18n();
+const searchStore = useSearchStore();
+
+const localities = computed(() =>
+  props.responseResultsCount > 0
+    ? props.responseResults.filter((locality) => locality.has_map)
+    : [],
+);
+</script>
+
 <template>
-  <section class="tw:min-h-64" aria-live="polite">
+  <section
+    class="tw:relative tw:min-h-32"
+    :aria-busy="searchStore.isLoading"
+    aria-live="polite"
+  >
+    <UProgress
+      v-if="searchStore.isLoading"
+      color="primary"
+      size="xs"
+      animation="carousel"
+      class="tw:absolute tw:inset-x-0 tw:top-0 tw:z-10"
+    />
+
     <div
-      v-if="localities.length === 0"
-      class="tw:flex tw:justify-center tw:p-4 tw:sm:p-8"
+      v-if="!searchStore.isLoading && localities.length === 0"
+      class="tw:mx-auto tw:max-w-2xl tw:px-4 tw:py-10"
     >
-      <UCard variant="subtle" class="tw:w-full tw:max-w-xl tw:text-center">
-        <div class="tw:flex tw:flex-col tw:items-center tw:gap-3">
-          <span
-            class="tw:bg-muted tw:text-highlighted tw:flex tw:size-12 tw:items-center tw:justify-center tw:rounded-full"
-            aria-hidden="true"
+      <UAlert
+        color="neutral"
+        variant="soft"
+        icon="i-lucide-map-pin-off"
+        :title="t('search.mapNoResults')"
+      >
+        <template #description>
+          <div
+            v-if="!searchStore.search.has_map.value"
+            class="tw:flex tw:flex-col tw:items-start tw:gap-3 tw:sm:flex-row tw:sm:items-center"
           >
-            <UIcon name="i-lucide-map-pin-off" class="tw:size-6" />
-          </span>
-          <p class="tw:text-highlighted tw:text-base tw:font-semibold">
-            {{ $t("search.mapNoResults") }}
-          </p>
-          <p v-if="!search.has_map.value" class="tw:text-muted tw:text-sm">
-            {{ $t("search.mapNoResultsFilterInfo") }}
-          </p>
-          <UButton
-            v-if="!search.has_map.value"
-            icon="i-lucide-filter-plus"
-            color="neutral"
-            variant="solid"
-            @click="updateSearchField({ id: 'has_map', value: 'true' })"
-          >
-            {{ $t("search.addFilter") }}
-          </UButton>
-        </div>
-      </UCard>
+            <span>{{ t("search.mapNoResultsFilterInfo") }}</span>
+            <UButton
+              size="sm"
+              color="primary"
+              variant="soft"
+              icon="i-lucide-list-filter-plus"
+              @click="
+                searchStore.updateSearchField({
+                  id: 'has_map',
+                  value: 'true',
+                })
+              "
+            >
+              {{ t("search.addFilter") }}
+            </UButton>
+          </div>
+        </template>
+      </UAlert>
     </div>
 
-    <div v-show="localities.length > 0" class="map tw:overflow-hidden">
+    <div
+      v-show="localities.length > 0"
+      role="region"
+      :aria-label="t('search.tab.map')"
+      class="map tw:ring-default tw:overflow-hidden tw:rounded-xl tw:ring-1 tw:shadow-sm"
+    >
       <MapWrapper
+        class="tw:w-full"
         :response-results="responseResults"
         :response-results-count="responseResultsCount"
         :height="isDetailView ? '50vh' : '70vh'"
@@ -41,44 +94,3 @@
     </div>
   </section>
 </template>
-
-<script>
-import { useSearchStore } from "@/stores/search";
-
-import { mapActions, mapState } from "pinia";
-import MapWrapper from "@/components/MapWrapper.vue";
-
-export default {
-  name: "TabMap",
-  components: { MapWrapper },
-  props: {
-    responseResults: {
-      type: Array,
-      required: true,
-    },
-    responseResultsCount: {
-      type: Number,
-      required: false,
-      default: 1,
-    },
-    isDetailView: {
-      type: Boolean,
-      default: false,
-    },
-  },
-
-  computed: {
-    ...mapState(useSearchStore, ["search"]),
-
-    localities() {
-      if (this.responseResultsCount > 0) {
-        return this.responseResults.filter((locality) => !!locality.has_map);
-      } else return [];
-    },
-  },
-
-  methods: {
-    ...mapActions(useSearchStore, ["updateSearchField"]),
-  },
-};
-</script>

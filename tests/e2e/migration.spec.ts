@@ -192,6 +192,7 @@ test("image gallery, filter changes and map tab", async ({ page }) => {
   await expect(
     page
       .getByRole("tabpanel", { name: /map/i })
+      .getByRole("region", { name: "Map", exact: true })
       .locator(".leaflet-container"),
   ).toBeVisible();
   await page.getByRole("tab", { name: /table/i }).click();
