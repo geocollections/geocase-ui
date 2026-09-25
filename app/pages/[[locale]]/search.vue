@@ -1,5 +1,6 @@
 <script setup>
 import { useI18n } from "vue-i18n";
+import ActiveSearchFilters from "@/components/search/ActiveSearchFilters.vue";
 
 definePageMeta({ name: "Search", path: "/:locale(en|ee|de)?/search" });
 const { t } = useI18n();
@@ -35,6 +36,8 @@ useHead(() => ({ title: t("header.search") }));
           {{ `${$t("search.page")} ${page}` }}
         </UBadge>
       </header>
+
+      <ActiveSearchFilters />
 
       <USeparator />
 

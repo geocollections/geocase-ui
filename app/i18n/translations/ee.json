@@ -171,6 +171,23 @@
     }
   },
   "search": {
+    "activeFilters": {
+      "keyword": "Otsing",
+      "title": "Valitud filtrid",
+      "remove": "Eemalda filter: {field}",
+      "mapArea": "Kaardil valitud ala",
+      "yes": "Jah",
+      "no": "Ei",
+      "operators": {
+        "contains": "sisaldab",
+        "equals": "võrdub",
+        "starts_with": "algab",
+        "ends_with": "lõpeb",
+        "does_not_contain": "ei sisalda",
+        "greater_than": "suurem kui",
+        "smaller_than": "väiksem kui"
+      }
+    },
     "page": "Lehekülg",
     "recordsFound": "kirjet | kirje | kirjet",
     "openGallery": "Ava galerii",
