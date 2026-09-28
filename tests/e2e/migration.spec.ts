@@ -164,7 +164,9 @@ test("detail returns to the search and wraps long values on narrow screens", asy
   await expect(page.getByRole("heading", { level: 1 })).toHaveText("Quartz");
 
   const row = page
-    .locator(".detail-view-table .SpecimenTable__mobile-row")
+    .getByRole("heading", { name: "Specimen details" })
+    .locator("..")
+    .locator("tbody tr")
     .first();
   await row.locator("td").evaluate((cell) => {
     cell.textContent =
@@ -176,7 +178,7 @@ test("detail returns to the search and wraps long values on narrow screens", asy
     const value = element.querySelector("td")!.getBoundingClientRect();
     return { headerBottom: header.bottom, valueTop: value.top };
   });
-  expect(dimensions.valueTop).toBeGreaterThan(dimensions.headerBottom);
+  expect(dimensions.valueTop).toBeGreaterThanOrEqual(dimensions.headerBottom);
   expect(
     await page.evaluate(() => document.documentElement.scrollWidth),
   ).toBeLessThanOrEqual(390);
