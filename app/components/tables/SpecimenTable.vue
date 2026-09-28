@@ -31,22 +31,24 @@ withDefaults(
 </script>
 
 <template>
-  <div class="tw:w-full tw:overflow-x-auto">
-    <table class="SpecimenTable tw:w-full tw:border-collapse tw:text-left">
-      <tbody>
+  <div class="tw:min-w-0 tw:w-full">
+    <table
+      class="tw:block tw:w-full tw:table-fixed tw:border-collapse tw:text-left tw:md:table"
+    >
+      <tbody class="tw:block tw:md:table-row-group">
         <tr
           v-for="header in headers"
           :key="header.value"
-          class="SpecimenTable__mobile-row tw:border-b tw:border-slate-200 tw:last:border-b-0"
+          class="tw:block tw:border-b tw:border-default tw:last:border-b-0 tw:md:table-row"
         >
           <th
             scope="row"
-            class="SpecimenTable__mobile-row__header tw:w-[35%] tw:p-2.5 tw:px-4 tw:align-top tw:font-bold tw:break-words"
+            class="tw:block tw:w-full tw:px-4 tw:pt-3 tw:font-bold tw:text-highlighted tw:wrap-anywhere tw:md:table-cell tw:md:w-[190px] tw:md:py-3 tw:md:align-top"
           >
             {{ header.text }}
           </th>
           <td
-            class="SpecimenTable__mobile-row__cell tw:p-2.5 tw:px-4 tw:align-top tw:break-words"
+            class="tw:block tw:min-w-0 tw:w-full tw:px-4 tw:pb-3 tw:leading-relaxed tw:wrap-anywhere tw:md:table-cell tw:md:w-auto tw:md:py-3 tw:md:align-top"
           >
             <slot
               :name="`item.${header.value}`"

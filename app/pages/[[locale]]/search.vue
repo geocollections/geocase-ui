@@ -1,4 +1,6 @@
 <script setup>
+import { watch } from "vue";
+import { useRoute } from "#imports";
 import { useI18n } from "vue-i18n";
 import SearchResultsMap from "@/components/search/SearchResultsMap.vue";
 import ImageOverflow from "@/components/image/ImageOverflow.vue";
@@ -6,6 +8,16 @@ import ActiveSearchFilters from "@/components/search/ActiveSearchFilters.vue";
 
 definePageMeta({ name: "Search", path: "/:locale(en|ee|de)?/search" });
 const { t } = useI18n();
+const route = useRoute();
+watch(
+  () => route.fullPath,
+  (path) => {
+    if (typeof window !== "undefined") {
+      window.sessionStorage.setItem("geocase:last-search-path", path);
+    }
+  },
+  { immediate: true },
+);
 useHead(() => ({ title: t("header.search") }));
 </script>
 

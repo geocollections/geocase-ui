@@ -56,3 +56,23 @@
 .header-button:focus-visible {
   @apply tw:outline-2 tw:outline-solid tw:outline-white tw:outline-offset-2;
 }
+
+.detail-map .leaflet-control-zoom,
+.detail-map .leaflet-control-layers {
+  @apply tw:overflow-hidden tw:rounded-lg tw:border tw:border-slate-300 tw:bg-white tw:shadow-lg;
+}
+
+.detail-map .leaflet-control-zoom a,
+.detail-map .leaflet-control-layers-toggle {
+  @apply tw:size-10 tw:bg-white tw:leading-10 tw:text-slate-900;
+}
+
+.detail-map .leaflet-control-zoom a:hover,
+.detail-map .leaflet-control-layers-toggle:hover {
+  @apply tw:bg-slate-100;
+}
+
+.detail-map .leaflet-control-zoom a:focus-visible,
+.detail-map .leaflet-control-layers-toggle:focus-visible {
+  @apply tw:outline-2 tw:outline-offset-[-3px] tw:outline-slate-900;
+}

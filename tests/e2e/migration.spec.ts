@@ -21,9 +21,11 @@ test.beforeEach(async ({ page }) => {
     (route) =>
       route.fulfill({
         contentType: "image/png",
-        body: Buffer.from(
-          "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jRZkAAAAASUVORK5CYII=",
-          "base64",
+        body: Uint8Array.from(
+          atob(
+            "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jRZkAAAAASUVORK5CYII=",
+          ),
+          (character) => character.charCodeAt(0),
         ),
       }),
   );
@@ -151,6 +153,42 @@ test("server table sorting, pagination, export and specimen navigation", async (
   await page.getByText("GER", { exact: true }).click();
   await expect(page).toHaveURL(/\/de\/specimen\/demo/);
   expect(errors).toEqual([]);
+});
+test("detail returns to the search and wraps long values on narrow screens", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/search?q=quartz");
+  await page.getByRole("button", { name: "OK", exact: true }).click();
+  await page.getByRole("link", { name: "DEMO-1" }).click();
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Quartz");
+
+  const row = page
+    .getByRole("heading", { name: "Specimen details" })
+    .locator("..")
+    .locator("tbody tr")
+    .first();
+  await row.locator("td").evaluate((cell) => {
+    cell.textContent =
+      "A long specimen value with a URL: https://example.org/" +
+      "metadata/".repeat(30);
+  });
+  const dimensions = await row.evaluate((element) => {
+    const header = element.querySelector("th")!.getBoundingClientRect();
+    const value = element.querySelector("td")!.getBoundingClientRect();
+    return { headerBottom: header.bottom, valueTop: value.top };
+  });
+  expect(dimensions.valueTop).toBeGreaterThanOrEqual(dimensions.headerBottom);
+  expect(
+    await page.evaluate(() => document.documentElement.scrollWidth),
+  ).toBeLessThanOrEqual(390);
+
+  await page.getByRole("link", { name: "Back to search" }).click();
+  await expect(page).toHaveURL(/\/search\?q=quartz/);
+
+  await page.goto("/specimen/demo%3A1");
+  await page.getByRole("link", { name: "Back to search" }).click();
+  await expect(page).toHaveURL(/\/search\?q=quartz/);
 });
 test("static pages and mobile navigation render without runtime errors", async ({
   page,
@@ -485,9 +523,10 @@ test("search combines the map with table previews and image view", async ({
   expect(errors).toEqual([]);
 });
 
-
 for (const locale of ["", "/ee"]) {
-  test(`map marker opens the specimen detail in ${locale || "English"}`, async ({ page }) => {
+  test(`map marker opens the specimen detail in ${locale || "English"}`, async ({
+    page,
+  }) => {
     await page.goto(`${locale}/search?q=quartz`);
     await page.getByRole("button", { name: "OK", exact: true }).click();
     const marker = page.locator("#search-map .leaflet-marker-icon").first();
@@ -498,23 +537,33 @@ for (const locale of ["", "/ee"]) {
   });
 }
 
-
 for (const width of [390, 768]) {
-  test(`search filters are selectable in the ${width}px drawer`, async ({ page }) => {
+  test(`search filters are selectable in the ${width}px drawer`, async ({
+    page,
+  }) => {
     await page.setViewportSize({ width, height: 1000 });
     await page.goto("/search");
     await page.getByRole("button", { name: "OK", exact: true }).click();
-    await page.getByRole("button", { name: "Toggle navigation drawer" }).click();
+    await page
+      .getByRole("button", { name: "Toggle navigation drawer" })
+      .click();
     const drawer = page.getByRole("dialog");
     await drawer.getByRole("combobox").first().click();
     await page.getByRole("option", { name: "equals", exact: true }).click();
     await expect(drawer).toBeVisible();
-    await drawer.locator('.search-drawer-text-field input').nth(1).fill("Quartz");
+    await drawer
+      .locator(".search-drawer-text-field input")
+      .nth(1)
+      .fill("Quartz");
     await expect(page).toHaveURL(/fullscientificname__equals=Quartz/);
     await drawer.getByRole("checkbox", { name: /Estonia/ }).check();
     await expect(page).toHaveURL(/country=/);
-    await expect(drawer.getByRole("checkbox", { name: /Estonia/ })).toBeChecked();
-    await drawer.getByRole("button", { name: "Reset search", exact: true }).click();
+    await expect(
+      drawer.getByRole("checkbox", { name: /Estonia/ }),
+    ).toBeChecked();
+    await drawer
+      .getByRole("button", { name: "Reset search", exact: true })
+      .click();
     await expect(page).not.toHaveURL(/fullscientificname|country=/);
     await page.keyboard.press("Escape");
     await expect(drawer).not.toBeVisible();
