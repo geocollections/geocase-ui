@@ -260,6 +260,11 @@ export default {
           L.map(this.mapId, {
             layers: [this.baseMaps[0].leafletObject],
             scrollWheelZoom: true,
+            minZoom: this.isDetailView ? 3 : undefined,
+            maxBounds: this.isDetailView
+              ? L.latLngBounds([-85, -180], [85, 180])
+              : undefined,
+            maxBoundsViscosity: this.isDetailView ? 1 : 0,
           }).setView(L.latLng(58.5, 25.5), 6),
         );
 
@@ -280,6 +285,12 @@ export default {
     },
 
     handleLayerChange(event) {
+      if (this.isDetailView) {
+        const provider = this.filteredBaseMaps.find(
+          (baseMap) => baseMap.name === event.name,
+        );
+        this.map.setMinZoom(Math.max(3, provider?.minZoom ?? 3));
+      }
       if (event.name && event.name === "Estonian satellite") {
         this.map.addLayer(this.overlayMaps[0].leafletObject);
       } else {
@@ -302,7 +313,8 @@ export default {
               {
                 icon: this.markerIcon,
                 pmIgnore: true,
-                title: item.fullscientificname || item.unitid || item.locality || "",
+                title:
+                  item.fullscientificname || item.unitid || item.locality || "",
               },
             );
 
@@ -312,7 +324,8 @@ export default {
                   this.activateSearch &&
                   (this.map.pm.globalDrawModeEnabled() ||
                     this.map.pm.globalRemovalModeEnabled())
-                ) return;
+                )
+                  return;
                 if (this.isDetailView) {
                   window.open(item.recordURI, "RecordUriWindow");
                 } else {
