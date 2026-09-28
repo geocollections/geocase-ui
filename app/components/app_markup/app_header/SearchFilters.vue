@@ -24,7 +24,7 @@ const clearLabel = (id: string) =>
 </script>
 
 <template>
-  <div class="tw:text-highlighted tw:space-y-5">
+  <div class="tw:text-highlighted tw:space-y-6">
     <div
       v-if="hasActiveFilters"
       class="tw:sticky tw:-top-4 tw:z-20 tw:-mx-4 tw:-mt-4 tw:bg-white tw:px-4 tw:py-3"
@@ -39,11 +39,7 @@ const clearLabel = (id: string) =>
         @click="reset"
       />
     </div>
-    <UCard
-      variant="outline"
-      class="tw:ring-accented"
-      :ui="{ body: 'tw:p-4 tw:sm:p-4' }"
-    >
+    <div>
       <UFormField
         :label="t('frontPage.quickSearch')"
         size="lg"
@@ -67,12 +63,8 @@ const clearLabel = (id: string) =>
           /></template>
         </UInput>
       </UFormField>
-    </UCard>
-    <UCard
-      variant="outline"
-      class="tw:ring-accented"
-      :ui="{ body: 'tw:space-y-5 tw:p-4 tw:sm:p-4' }"
-    >
+    </div>
+    <div class="tw:space-y-6">
       <UFormField
         v-for="id in store.searchTextIds"
         :key="id"
@@ -116,7 +108,7 @@ const clearLabel = (id: string) =>
       <section
         v-for="id in store.searchCheckboxIds"
         :key="id"
-        class="tw:space-y-2"
+        class="tw:bg-muted/50 tw:space-y-3 tw:rounded-xl tw:px-4 tw:py-3"
       >
         <div class="tw:flex tw:items-center tw:gap-2">
           <UButton
@@ -129,8 +121,9 @@ const clearLabel = (id: string) =>
                 : 'i-lucide-chevron-down'
             "
             color="neutral"
-            variant="outline"
-            class="tw:text-highlighted tw:flex-1 tw:justify-between tw:font-semibold"
+            variant="ghost"
+            :ui="{ label: 'tw:font-bold' }"
+            class="tw:text-highlighted tw:min-w-0 tw:flex-1 tw:justify-between tw:px-0 tw:font-bold tw:hover:bg-transparent"
             @click="
               store.updateSearchField({
                 id,
@@ -151,7 +144,7 @@ const clearLabel = (id: string) =>
         <div
           v-if="fields[id]?.showCheckboxes"
           :id="`facet-${id}`"
-          class="tw:bg-default tw:border-accented tw:space-y-2 tw:rounded-lg tw:border tw:p-3"
+          class="tw:space-y-2 tw:pb-1"
         >
           <UCheckbox
             v-for="(entity, index) in store.getCheckboxes(
@@ -192,11 +185,10 @@ const clearLabel = (id: string) =>
         :key="id"
         :model-value="fields[id]?.value === 'true'"
         :label="t(`search.drawer.${id}`)"
-        variant="card"
         color="neutral"
         :ui="{ label: 'tw:text-highlighted tw:font-semibold' }"
         @update:model-value="updateValue(id, $event === true ? 'true' : null)"
       />
-    </UCard>
+    </div>
   </div>
 </template>
