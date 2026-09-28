@@ -1,4 +1,42 @@
 {
+  "aboutPage": {
+    "pageTitle": "GeoCASe'ist",
+    "eyebrow": "GeoCASe'ist",
+    "heroTitle": "Avasta Maa lugu geoteaduslike kogude kaudu.",
+    "heroDescription": "GeoCASe on geoteaduslike kogude juurdepääsuteenus. See koondab muuseumide ja teadusasutuste kogud ühte otsitavasse portaali, et toetada teadustööd ja rahvusvahelist koostööd.",
+    "explore": "Tutvu kogudega",
+    "collectionsEyebrow": "Mida saab avastada",
+    "collectionsTitle": "Geoteaduslikud kogud",
+    "collectionsDescription": "GeoCASe teeb muuseumide ja teadusasutuste eksemplarid veebis kättesaadavaks.",
+    "collections": {
+      "minerals": "Mineraalid",
+      "rocks": "Kivimid",
+      "meteorites": "Meteoriidid",
+      "fossils": "Fossiilid"
+    },
+    "networkEyebrow": "Andmevõrgustik",
+    "networkTitle": "Kuidas GeoCASe töötab",
+    "networkDescription": "Asutused jagavad oma kogude andmeid. GeoCASe kogub ja indekseerib kirjed, et neid saaks otsida ühest kohast.",
+    "sharedTitle": "Ühised koguandmed",
+    "sharedIntro": "Andmeallikad kasutavad sageli",
+    "sharedStandards": "tarkvara ning XML-põhiseid standardeid",
+    "and": "ja",
+    "extensionNote": "geoteaduste laiendus; vt",
+    "searchTitle": "Üks koht otsimiseks",
+    "searchIntro": "GeoCASe eesmärk on täita geoteadustes sama rolli nagu",
+    "gbifDescription": ", ülemaailmne elurikkuse andmevõrgustik.",
+    "storyEyebrow": "Meie lugu",
+    "storyTitle": "Koostöös loodud",
+    "firstTitle": "Esimene GeoCASe",
+    "firstDescription": "Esimene versioon loodi 2007. aastal Berliini Museum für Naturkundes projekti SYNTHESYS raames.",
+    "upgradeTitle": "GeoCASe 2.0 algus",
+    "upgradeIntro": "Museum für Naturkunde ja Tallinna Tehnikaülikool alustasid uuendatud versiooni arendamist",
+    "earthScienceGroup": "geoteaduste töörühma koordineerimisel.",
+    "cetafDescription": "CETAF ühendab Euroopa loodusteaduslikke uurimisasutusi ning taksonoomia, koolituse ja andmestandardite asjatundjaid. GeoCASe seotakse ka",
+    "disscoName": "DiSSCo teadustaristuga",
+    "governanceTitle": "Kogukonna juhitud",
+    "governanceDescription": "Portaali juhib GeoCASe nõuandekogu, kes vastutab arenduse, hoolduse, tutvustamise ja kvaliteedikontrolli eest."
+  },
   "messages": {
     "languageChange": "Vahetasite keelt!"
   },

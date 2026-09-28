@@ -1,4 +1,42 @@
 {
+  "aboutPage": {
+    "pageTitle": "Über GeoCASe",
+    "eyebrow": "Über GeoCASe",
+    "heroTitle": "Die Geschichte der Erde in Sammlungen entdecken.",
+    "heroDescription": "GeoCASe steht für Geoscience Collections Access Service. Das Portal bündelt Sammlungen von Museen und Forschungseinrichtungen an einem durchsuchbaren Ort und unterstützt so die Forschung und internationale Zusammenarbeit.",
+    "explore": "Sammlungen erkunden",
+    "collectionsEyebrow": "Was es zu entdecken gibt",
+    "collectionsTitle": "Sammlungen aus den Geowissenschaften",
+    "collectionsDescription": "GeoCASe macht Objekte aus Museen und Forschungseinrichtungen online zugänglich.",
+    "collections": {
+      "minerals": "Mineralien",
+      "rocks": "Gesteine",
+      "meteorites": "Meteoriten",
+      "fossils": "Fossilien"
+    },
+    "networkEyebrow": "Das Netzwerk",
+    "networkTitle": "So funktioniert GeoCASe",
+    "networkDescription": "Institutionen stellen Sammlungsdaten bereit. GeoCASe erfasst und indexiert die Datensätze, damit sie über eine einzige Oberfläche durchsucht werden können.",
+    "sharedTitle": "Gemeinsam genutzte Sammlungsdaten",
+    "sharedIntro": "Datenanbieter verwenden häufig die",
+    "sharedStandards": "sowie die XML-basierten Standards",
+    "and": "und",
+    "extensionNote": "die Erweiterung für Geowissenschaften; siehe",
+    "searchTitle": "Ein Ort für die Suche",
+    "searchIntro": "GeoCASe möchte für die Geowissenschaften eine ähnliche Rolle erfüllen wie",
+    "gbifDescription": ", die Global Biodiversity Information Facility.",
+    "storyEyebrow": "Unsere Geschichte",
+    "storyTitle": "Gemeinsam entwickelt",
+    "firstTitle": "Das erste GeoCASe",
+    "firstDescription": "Die erste Version entstand 2007 am Museum für Naturkunde in Berlin im Rahmen des SYNTHESYS-Projekts.",
+    "upgradeTitle": "GeoCASe 2.0 beginnt",
+    "upgradeIntro": "Das Museum für Naturkunde und die Technische Universität Tallinn begannen mit der Entwicklung einer neuen Version unter Koordination der",
+    "earthScienceGroup": "Arbeitsgruppe Geowissenschaften.",
+    "cetafDescription": "CETAF vereint europäische naturwissenschaftliche Forschungseinrichtungen und Fachwissen zu Taxonomie, Ausbildung und Datenstandards. GeoCASe wird sich außerdem mit der",
+    "disscoName": "DiSSCo-Forschungsinfrastruktur",
+    "governanceTitle": "Von der Gemeinschaft getragen",
+    "governanceDescription": "Der GeoCASe-Beirat betreut das Portal und ist für Entwicklung, Wartung, Bekanntmachung und Qualitätskontrolle verantwortlich."
+  },
   "messages": {
     "languageChange": "Die Sprache wurde geändert!"
   },
