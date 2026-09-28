@@ -190,14 +190,22 @@ test("detail returns to the search and wraps long values on narrow screens", asy
   await page.getByRole("link", { name: "Back to search" }).click();
   await expect(page).toHaveURL(/\/search\?q=quartz/);
 });
-test("static pages and mobile navigation render without runtime errors", async ({
+test("localized about page and mobile navigation render without runtime errors", async ({
   page,
 }) => {
   const errors: string[] = [];
   page.on("pageerror", (error) => errors.push(error.message));
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("/ee/about");
-  await expect(page.locator(".static-page")).toContainText("GeoCASe");
+  await expect(
+    page.getByRole("heading", {
+      level: 1,
+      name: "Avasta Maa lugu geoteaduslike kogude kaudu.",
+    }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("link", { name: "Tutvu kogudega" }),
+  ).toHaveAttribute("href", "/ee/search");
   await page.getByRole("button", { name: "OK", exact: true }).click();
   await page.getByRole("button", { name: "Menüü", exact: true }).click();
   await expect(page.getByRole("dialog")).toBeVisible();
