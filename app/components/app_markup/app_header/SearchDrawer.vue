@@ -12,10 +12,10 @@ const { t } = useI18n();
     v-if="isDesktop"
     v-show="drawer"
     :aria-label="t('search.drawer.filters')"
-    class="tw:bg-default tw:border-accented tw:sticky tw:top-16 tw:z-10 tw:flex tw:h-[calc(100dvh-4rem)] tw:w-87.5 tw:shrink-0 tw:flex-col tw:self-start tw:border-r tw:shadow-xl"
+    class="tw:bg-default tw:sticky tw:top-16 tw:z-10 tw:flex tw:h-[calc(100dvh-4rem)] tw:w-87.5 tw:shrink-0 tw:flex-col tw:self-start tw:shadow-lg"
   >
     <header
-      class="tw:bg-default/95 tw:border-accented tw:border-b tw:px-5 tw:py-5 tw:backdrop-blur"
+      class="tw:bg-default/95 tw:px-5 tw:py-5 tw:backdrop-blur"
     >
       <h2
         class="tw:text-highlighted tw:text-xl tw:font-extrabold tw:tracking-tight"
