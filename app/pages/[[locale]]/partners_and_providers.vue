@@ -8,30 +8,30 @@ definePageMeta({
 });
 useHead(() => ({ title: t("partnersPage.pageTitle") }));
 
-const partners = [
-  ["CETAF General Secretariat", "belgium", "https://cetaf.org"],
-  ["Meise Botanic Garden", "belgium", "https://www.plantentuinmeise.be/en/"],
-  ["Museum für Naturkunde Berlin", "germany", "https://www.museumfuernaturkunde.berlin/en/"],
-  ["National Museums Scotland", "unitedKingdom", "https://www.nms.ac.uk/"],
-  ["National Museum, Prague", "czechRepublic", "https://www.nm.cz/en"],
-  ["Natural History Museum Vienna", "austria", "https://www.nhm-wien.ac.at/en"],
-  ["Royal Museum of Central Africa", "belgium", "https://www.africamuseum.be/en"],
-  ["State Museum of Natural History Stuttgart", "germany", "https://naturkundemuseum-bw.de/en/"],
-  ["Tallinn University of Technology", "estonia", "https://taltech.ee/en/"],
-  ["Finnish Museum of Natural History", "finland", "https://www.luomus.fi/en"],
-  ["Naturalis Biodiversity Center", "netherlands", "https://www.naturalis.nl/en"],
+const institutions = [
+  { name: "CETAF General Secretariat", countryKey: "belgium", url: "https://cetaf.org" },
+  { name: "Meise Botanic Garden", countryKey: "belgium", url: "https://www.plantentuinmeise.be/en/" },
+  { name: "Museum für Naturkunde Berlin", countryKey: "germany", url: "https://www.museumfuernaturkunde.berlin/en/" },
+  { name: "National Museums Scotland", countryKey: "unitedKingdom", url: "https://www.nms.ac.uk/" },
+  { name: "National Museum, Prague", countryKey: "czechRepublic", url: "https://www.nm.cz/en" },
+  { name: "Natural History Museum Vienna", countryKey: "austria", url: "https://www.nhm-wien.ac.at/en" },
+  { name: "Royal Museum of Central Africa", countryKey: "belgium", url: "https://www.africamuseum.be/en" },
+  { name: "State Museum of Natural History Stuttgart", countryKey: "germany", url: "https://naturkundemuseum-bw.de/en/" },
+  { name: "Tallinn University of Technology", countryKey: "estonia", url: "https://taltech.ee/en/" },
+  { name: "Finnish Museum of Natural History", countryKey: "finland", url: "https://www.luomus.fi/en" },
+  { name: "Naturalis Biodiversity Center", countryKey: "netherlands", url: "https://www.naturalis.nl/en" },
 ] as const;
 
 const organizations = [
-  ["CETAF", "cetaf.png", "https://cetaf.org"],
-  ["DiSSCo Research Infrastructure", "dissco-logo.png", "https://dissco.eu"],
-  ["Biodiversity Information Standards", "tdwg.png", "https://tdwg.org"],
-  ["Global Biodiversity Information Facility", "gbif.png", "https://gbif.org"],
-  ["BioCASe", "biocase.png", "https://biocase.org"],
-  ["Botanic Garden and Botanical Museum Berlin", "bgbm.png", "https://bgbm.org"],
-];
+  { name: "CETAF", logoFile: "cetaf.png", url: "https://cetaf.org" },
+  { name: "DiSSCo Research Infrastructure", logoFile: "dissco-logo.png", url: "https://dissco.eu" },
+  { name: "Biodiversity Information Standards", logoFile: "tdwg.png", url: "https://tdwg.org" },
+  { name: "Global Biodiversity Information Facility", logoFile: "gbif.png", url: "https://gbif.org" },
+  { name: "BioCASe", logoFile: "biocase.png", url: "https://biocase.org" },
+  { name: "Botanic Garden and Botanical Museum Berlin", logoFile: "bgbm.png", url: "https://bgbm.org" },
+] as const;
 
-const countryCount = new Set(partners.map((partner) => partner[1])).size;
+const countryCount = new Set(institutions.map((institution) => institution.countryKey)).size;
 </script>
 
 <template>
@@ -47,7 +47,7 @@ const countryCount = new Set(partners.map((partner) => partner[1])).size;
           {{ t("partnersPage.heroDescription") }}
         </p>
         <UBadge color="neutral" variant="soft" size="lg" class="tw:mt-7">
-          {{ t("partnersPage.summary", { partners: partners.length, countries: countryCount }) }}
+          {{ t("partnersPage.summary", { partners: institutions.length, countries: countryCount }) }}
         </UBadge>
       </div>
     </header>
@@ -57,17 +57,17 @@ const countryCount = new Set(partners.map((partner) => partner[1])).size;
       <h2 id="partner-institutions" class="tw:mt-2 tw:text-2xl tw:font-bold tw:tracking-tight tw:sm:text-3xl">{{ t("partnersPage.institutionsTitle") }}</h2>
       <div class="tw:mt-7 tw:grid tw:gap-4 tw:sm:grid-cols-2 tw:lg:grid-cols-3">
         <div
-          v-for="(partner, index) in partners"
-          :key="partner[0]"
+          v-for="(institution, index) in institutions"
+          :key="institution.name"
           class="tw:flex tw:min-h-48 tw:min-w-0 tw:flex-col tw:rounded-2xl tw:border tw:border-home-border tw:bg-white tw:p-6 tw:shadow-sm"
         >
           <div class="tw:flex tw:items-baseline tw:justify-between tw:gap-2">
-            <span class="tw:text-xs tw:font-extrabold tw:tracking-widest tw:text-home-link tw:uppercase">{{ t(`partnersPage.countries.${partner[1]}`) }}</span>
+            <span class="tw:text-xs tw:font-extrabold tw:tracking-widest tw:text-home-link tw:uppercase">{{ t(`partnersPage.countries.${institution.countryKey}`) }}</span>
             <span class="tw:text-xl tw:font-bold tw:text-slate-300">{{ String(index + 1).padStart(2, "0") }}</span>
           </div>
-          <h3 class="tw:mt-4 tw:text-lg tw:leading-snug tw:font-bold">{{ partner[0] }}</h3>
+          <h3 class="tw:mt-4 tw:text-lg tw:leading-snug tw:font-bold">{{ institution.name }}</h3>
           <UButton
-            :to="partner[2]"
+            :to="institution.url"
             target="_blank"
             rel="noopener noreferrer"
             color="neutral"
@@ -90,9 +90,9 @@ const countryCount = new Set(partners.map((partner) => partner[1])).size;
       <div class="tw:mt-7 tw:grid tw:gap-3 tw:sm:grid-cols-2 tw:lg:grid-cols-3">
         <UButton
           v-for="organization in organizations"
-          :key="organization[0]"
-          :to="organization[2]"
-          :aria-label="organization[0]"
+          :key="organization.name"
+          :to="organization.url"
+          :aria-label="organization.name"
           target="_blank"
           rel="noopener noreferrer"
           color="neutral"
@@ -100,8 +100,8 @@ const countryCount = new Set(partners.map((partner) => partner[1])).size;
           class="tw:flex tw:min-h-32 tw:items-center tw:justify-center tw:rounded-2xl tw:border tw:border-home-border tw:bg-white tw:p-5 tw:hover:bg-white"
         >
           <img
-            :src="'https://files.geocollections.info/img/geocase/static/partners/' + organization[1]"
-            :alt="organization[0]"
+            :src="'https://files.geocollections.info/img/geocase/static/partners/' + organization.logoFile"
+            :alt="organization.name"
             loading="lazy"
             class="tw:max-h-20 tw:max-w-full tw:object-contain"
           />
