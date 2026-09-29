@@ -1,11 +1,9 @@
 @import url("https://fonts.googleapis.com/css?family=Nunito:200,300,400,600,700,800,900&display=swap");
 
-@layer theme, base, components, utilities;
-@import "tailwindcss/theme.css" layer(theme);
-@import "tailwindcss/utilities.css" layer(utilities);
+@import "tailwindcss" prefix(tw);
 @import "@nuxt/ui";
 
-@theme prefix(tw) {
+@theme {
   --color-geocase: #ffa000;
   --color-fossil: #8bc34a;
   --color-mineral: #e91e63;
