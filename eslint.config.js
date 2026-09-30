@@ -33,6 +33,7 @@ export default [
             "proxyRequest",
             "getRequestURL",
             "useNuxtApp",
+            "useAppNavigation",
             "useRoute",
             "useHead",
             "useSeoMeta",

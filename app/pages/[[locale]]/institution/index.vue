@@ -1,26 +1,16 @@
 <script setup lang="ts">
 import { useI18n } from "vue-i18n";
+import PartnersMap from "@/components/PartnersMap.vue";
+import { institutions } from "@/institutions";
 const { t } = useI18n();
+const { localePath } = useAppNavigation();
 definePageMeta({
-  name: "Partners and providers",
-  path: "/:locale(en|ee|de)?/partners_and_providers",
+  name: "Institutions",
+  path: "/:locale(en|ee|de)?/institution",
+  alias: "/:locale(en|ee|de)?/partners_and_providers",
   layout: "default",
 });
 useHead(() => ({ title: t("partnersPage.pageTitle") }));
-
-const institutions = [
-  { name: "CETAF General Secretariat", countryKey: "belgium", url: "https://cetaf.org" },
-  { name: "Meise Botanic Garden", countryKey: "belgium", url: "https://www.plantentuinmeise.be/en/" },
-  { name: "Museum für Naturkunde Berlin", countryKey: "germany", url: "https://www.museumfuernaturkunde.berlin/en/" },
-  { name: "National Museums Scotland", countryKey: "unitedKingdom", url: "https://www.nms.ac.uk/" },
-  { name: "National Museum, Prague", countryKey: "czechRepublic", url: "https://www.nm.cz/en" },
-  { name: "Natural History Museum Vienna", countryKey: "austria", url: "https://www.nhm-wien.ac.at/en" },
-  { name: "Royal Museum of Central Africa", countryKey: "belgium", url: "https://www.africamuseum.be/en" },
-  { name: "State Museum of Natural History Stuttgart", countryKey: "germany", url: "https://naturkundemuseum-bw.de/en/" },
-  { name: "Tallinn University of Technology", countryKey: "estonia", url: "https://taltech.ee/en/" },
-  { name: "Finnish Museum of Natural History", countryKey: "finland", url: "https://www.luomus.fi/en" },
-  { name: "Naturalis Biodiversity Center", countryKey: "netherlands", url: "https://www.naturalis.nl/en" },
-] as const;
 
 const organizations = [
   { name: "CETAF", logoFile: "cetaf.png", url: "https://cetaf.org" },
@@ -36,8 +26,8 @@ const countryCount = new Set(institutions.map((institution) => institution.count
 
 <template>
   <article class="tw:mx-auto tw:w-full tw:max-w-6xl tw:px-4 tw:py-8 tw:text-home-ink tw:sm:px-6 tw:sm:py-12">
-    <header class="tw:rounded-3xl tw:bg-[#eaf0e9] tw:p-6 tw:sm:p-10 tw:lg:p-12">
-      <div class="tw:max-w-3xl">
+    <header class="tw:grid tw:overflow-hidden tw:rounded-3xl tw:bg-[#eaf0e9] tw:lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
+      <div class="tw:p-6 tw:sm:p-10 tw:lg:p-12">
         <p class="tw:mb-4 tw:inline-flex tw:items-center tw:gap-2 tw:rounded-full tw:bg-white/80 tw:px-3 tw:py-1.5 tw:text-xs tw:font-extrabold tw:tracking-[0.12em] tw:text-home-link tw:uppercase">
           <span class="tw:size-2 tw:rounded-full tw:bg-geocase" aria-hidden="true" />
           {{ t("partnersPage.eyebrow") }}
@@ -50,6 +40,11 @@ const countryCount = new Set(institutions.map((institution) => institution.count
           {{ t("partnersPage.summary", { partners: institutions.length, countries: countryCount }) }}
         </UBadge>
       </div>
+      <div class="tw:p-4 tw:pt-0 tw:sm:p-6 tw:sm:pt-0 tw:lg:p-6">
+        <ClientOnly>
+          <PartnersMap :institutions="institutions" class="tw:h-full tw:min-h-80 tw:overflow-hidden tw:rounded-2xl tw:lg:min-h-112" />
+        </ClientOnly>
+      </div>
     </header>
 
     <section class="tw:py-12 tw:sm:py-16" aria-labelledby="partner-institutions">
@@ -58,14 +53,21 @@ const countryCount = new Set(institutions.map((institution) => institution.count
       <div class="tw:mt-7 tw:grid tw:gap-4 tw:sm:grid-cols-2 tw:lg:grid-cols-3">
         <div
           v-for="(institution, index) in institutions"
-          :key="institution.name"
-          class="tw:flex tw:min-h-48 tw:min-w-0 tw:flex-col tw:rounded-2xl tw:border tw:border-home-border tw:bg-white tw:p-6 tw:shadow-sm"
+          :key="institution.id"
+          class="tw:flex tw:min-h-48 tw:min-w-0 tw:flex-col tw:rounded-2xl tw:border tw:border-home-border tw:bg-white tw:p-6 tw:shadow-sm tw:transition-colors tw:duration-200 tw:hover:bg-[#eaf0e9] tw:focus-within:bg-[#eaf0e9]"
         >
           <div class="tw:flex tw:items-baseline tw:justify-between tw:gap-2">
             <span class="tw:text-xs tw:font-extrabold tw:tracking-widest tw:text-home-link tw:uppercase">{{ t(`partnersPage.countries.${institution.countryKey}`) }}</span>
             <span class="tw:text-xl tw:font-bold tw:text-slate-300">{{ String(index + 1).padStart(2, "0") }}</span>
           </div>
-          <h3 class="tw:mt-4 tw:text-lg tw:leading-snug tw:font-bold">{{ institution.name }}</h3>
+          <h3 class="tw:mt-4 tw:text-lg tw:leading-snug tw:font-bold">
+            <NuxtLink :to="localePath(`/institution/${institution.id}`)" class="tw:hover:text-home-link">
+              {{ institution.name }}
+            </NuxtLink>
+          </h3>
+          <NuxtLink :to="localePath(`/institution/${institution.id}`)" class="tw:mt-3 tw:text-sm tw:font-semibold tw:text-home-link">
+            {{ t("partnersPage.viewDetails") }}
+          </NuxtLink>
           <UButton
             :to="institution.url"
             target="_blank"
