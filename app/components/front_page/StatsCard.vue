@@ -15,7 +15,7 @@ const { localePath } = useAppNavigation();
 
 async function viewInfo() {
   if (props.id === 2) {
-    await router.push(localePath("/partners_and_providers"));
+    await router.push(localePath("/institution"));
     return;
   }
   if (props.id === 3 && !searchStore.search.country.showCheckboxes) {

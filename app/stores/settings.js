@@ -102,8 +102,8 @@ export const useSettingsStore = defineStore("settings", {
         },
         {
           text: i18n.t("header.partners"),
-          to: "/partners_and_providers",
-          name: "Partners and providers",
+          to: "/institution",
+          name: "Institutions",
           icon: "fa:far fa-handshake",
           isStatic: true,
         },

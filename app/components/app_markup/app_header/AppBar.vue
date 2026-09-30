@@ -46,7 +46,7 @@ const links = computed(() => [
   },
   {
     label: t("header.partners"),
-    to: "/partners_and_providers",
+    to: "/institution",
   },
   {
     label: t("header.help"),
