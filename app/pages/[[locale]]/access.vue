@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import { useI18n } from "vue-i18n";
+import { useAppNavigation } from "@/composables/useAppNavigation";
+
 definePageMeta({
   name: "Access",
   path: "/:locale(en|ee|de)?/access",
