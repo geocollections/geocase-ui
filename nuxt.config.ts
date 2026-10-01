@@ -1,6 +1,9 @@
 export default defineNuxtConfig({
   compatibilityDate: "2026-09-07",
   ssr: false,
+  imports: {
+    presets: [{ from: "vue-i18n", imports: ["useI18n"] }],
+  },
   vite: {
     optimizeDeps: { exclude: ["maplibre-gl"] },
   },
