@@ -2,7 +2,6 @@
 import { computed, ref } from "vue";
 import { useRoute, useRouter } from "#imports";
 import { useI18n } from "vue-i18n";
-import { useDetailStore } from "@/stores/detail";
 import { useSettingsStore } from "@/stores/settings";
 import {
   navigationVisibility,
@@ -16,21 +15,11 @@ const emit = defineEmits<{
 const route = useRoute();
 const router = useRouter();
 const { t } = useI18n();
-const detail = useDetailStore();
 const settings = useSettingsStore();
 const { language, localePath, changeLanguage } = useAppNavigation();
 const quickSearch = ref("");
 const isProduction =
   import.meta.client && /(^|\.)geocase\.eu$/.test(window.location.hostname);
-const barGradientClass = computed(() => {
-  if (route.name === "Detail") {
-    if (detail.isItemFossil) return "tw:from-fossil";
-    if (detail.isItemMineral) return "tw:from-mineral";
-    if (detail.isItemRock) return "tw:from-rock";
-    if (detail.isItemMeteorite) return "tw:from-meteorite";
-  }
-  return "tw:from-geocase";
-});
 const links = computed(() => [
   {
     label: t("header.search"),
@@ -77,11 +66,7 @@ function submitSearch() {
 
 <template>
   <header
-    class="tw:fixed tw:inset-x-0 tw:top-0 tw:z-2020 tw:h-16 tw:bg-linear-320/srgb tw:to-header-dark tw:text-white"
-    :class="[
-      barGradientClass,
-      route.name === 'FrontPage' ? 'tw:shadow-header-home' : 'tw:shadow-xl',
-    ]"
+    class="tw:bg-home-hero tw:text-home-hero-muted tw:shadow-header-home tw:fixed tw:inset-x-0 tw:top-0 tw:z-2020 tw:h-16"
   >
     <nav
       aria-label="Main navigation"
@@ -104,12 +89,12 @@ function submitSearch() {
       <NuxtLink
         :to="localePath('/')"
         :title="t('header.titleTooltip')"
-        class="tw:shrink-0 tw:whitespace-nowrap tw:text-lg tw:font-bold tw:tracking-wide tw:text-white tw:no-underline tw:sm:mr-2 tw:sm:text-xl"
+        class="tw:shrink-0 tw:whitespace-nowrap tw:text-lg tw:text-home-accent tw:focus-visible:outline-home-accent tw:rounded-lg tw:font-extrabold tw:tracking-tight tw:no-underline tw:transition-colors tw:hover:text-white tw:focus-visible:outline-2 tw:focus-visible:outline-offset-4 tw:sm:mr-2 tw:sm:text-xl"
       >
         GeoCASe
         <span
           v-if="!isProduction"
-          class="tw:hidden tw:text-xs tw:min-[600px]:inline"
+          class="tw:text-home-hero-muted tw:ml-1 tw:hidden tw:text-[10px] tw:font-semibold tw:tracking-widest tw:min-[600px]:inline"
           >DEV</span
         >
       </NuxtLink>
