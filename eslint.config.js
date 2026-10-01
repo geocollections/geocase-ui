@@ -35,6 +35,8 @@ export default [
             "useNuxtApp",
             "useRoute",
             "useHead",
+            "useI18n",
+            "useAppNavigation",
             "useSeoMeta",
             "navigateTo",
             "abortNavigation",
