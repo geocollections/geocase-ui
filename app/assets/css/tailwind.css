@@ -40,21 +40,21 @@
 }
 
 .header-button {
-  @apply tw:shrink-0 tw:text-white tw:bg-transparent tw:no-underline;
+  @apply tw:text-home-hero-muted tw:shrink-0 tw:rounded-lg tw:bg-transparent tw:font-semibold tw:no-underline tw:transition-colors;
 }
 
 .header-button:hover,
 .header-button:focus-visible,
 .header-button[data-state="open"] {
-  @apply tw:text-white tw:bg-white/12 tw:no-underline;
+  @apply tw:text-home-accent tw:bg-home-accent/10 tw:no-underline;
 }
 
 .header-button:active {
-  @apply tw:bg-white/20;
+  @apply tw:bg-home-accent/20;
 }
 
 .header-button:focus-visible {
-  @apply tw:outline-2 tw:outline-solid tw:outline-white tw:outline-offset-2;
+  @apply tw:outline-home-accent tw:outline-2 tw:outline-solid tw:outline-offset-2;
 }
 
 .detail-map .leaflet-control-zoom,
