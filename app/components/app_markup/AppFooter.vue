@@ -32,7 +32,7 @@ const logos = [
     <p v-html="t('footer.collab_html')" />
     <p>
       {{ t("footer.dataBy") }}
-      <NuxtLink :to="localePath('/partners_and_providers')">{{
+      <NuxtLink :to="localePath('/institution')">{{
         t("footer.partnerInstitutions")
       }}</NuxtLink>
       | <span v-html="t('footer.created_html')" />

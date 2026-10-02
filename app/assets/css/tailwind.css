@@ -1,11 +1,9 @@
 @import url("https://fonts.googleapis.com/css?family=Nunito:200,300,400,600,700,800,900&display=swap");
 
-@layer theme, base, components, utilities;
-@import "tailwindcss/theme.css" layer(theme);
-@import "tailwindcss/utilities.css" layer(utilities);
+@import "tailwindcss" prefix(tw);
 @import "@nuxt/ui";
 
-@theme prefix(tw) {
+@theme {
   --color-geocase: #ffa000;
   --color-fossil: #8bc34a;
   --color-mineral: #e91e63;
@@ -75,4 +73,57 @@
 .detail-map .leaflet-control-zoom a:focus-visible,
 .detail-map .leaflet-control-layers-toggle:focus-visible {
   @apply tw:outline-2 tw:outline-offset-[-3px] tw:outline-slate-900;
+}
+
+.partners-map .maplibregl-popup {
+  @apply tw:z-2;
+}
+
+.partners-map .institution-popup .maplibregl-popup-content {
+  @apply tw:rounded-2xl tw:border tw:border-home-border tw:bg-home-surface tw:pt-6 tw:pr-14 tw:pb-5 tw:pl-5 tw:text-home-ink tw:shadow-xl tw:shadow-home-ink/20 tw:font-[inherit];
+}
+
+.partners-map .institution-popup.maplibregl-popup-anchor-top .maplibregl-popup-tip,
+.partners-map .institution-popup.maplibregl-popup-anchor-top-left .maplibregl-popup-tip,
+.partners-map .institution-popup.maplibregl-popup-anchor-top-right .maplibregl-popup-tip {
+  @apply tw:border-b-home-surface;
+}
+
+.partners-map .institution-popup.maplibregl-popup-anchor-bottom .maplibregl-popup-tip,
+.partners-map .institution-popup.maplibregl-popup-anchor-bottom-left .maplibregl-popup-tip,
+.partners-map .institution-popup.maplibregl-popup-anchor-bottom-right .maplibregl-popup-tip {
+  @apply tw:border-t-home-surface;
+}
+
+.partners-map .institution-popup.maplibregl-popup-anchor-left .maplibregl-popup-tip {
+  @apply tw:border-r-home-surface;
+}
+
+.partners-map .institution-popup.maplibregl-popup-anchor-right .maplibregl-popup-tip {
+  @apply tw:border-l-home-surface;
+}
+
+.partners-map .institution-popup-name {
+  @apply tw:block tw:text-base tw:font-bold tw:leading-snug tw:[overflow-wrap:anywhere];
+}
+
+.partners-map .institution-popup-link {
+  @apply tw:inline-flex tw:items-center tw:mt-3.5 tw:rounded-lg tw:bg-home-hover tw:px-3 tw:py-2 tw:text-sm tw:font-semibold tw:leading-normal tw:text-home-link tw:no-underline;
+}
+
+.partners-map .institution-popup-link:hover {
+  @apply tw:bg-home-border tw:underline;
+}
+
+.partners-map .institution-popup .maplibregl-popup-close-button {
+  @apply tw:absolute tw:top-2 tw:right-2 tw:grid tw:size-9 tw:place-items-center tw:p-0 tw:border tw:border-home-border tw:rounded-full tw:bg-home-hover tw:text-home-link tw:text-[28px] tw:font-semibold tw:leading-none tw:cursor-pointer;
+}
+
+.partners-map .institution-popup .maplibregl-popup-close-button:hover {
+  @apply tw:border-home-link tw:bg-home-border;
+}
+
+.partners-map .institution-popup .maplibregl-popup-close-button:focus-visible,
+.partners-map .institution-popup-link:focus-visible {
+  @apply tw:outline-3 tw:outline-home-link tw:outline-offset-3;
 }

@@ -21,7 +21,7 @@ export const navigationVisibility: Record<string, { header: string; drawer: stri
     header: "tw:hidden tw:min-[1280px]:inline-flex",
     drawer: "tw:min-[1280px]:hidden",
   },
-  "/partners_and_providers": {
+  "/institution": {
     header: "tw:hidden tw:min-[1280px]:inline-flex",
     drawer: "tw:min-[1280px]:hidden",
   },
