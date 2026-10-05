@@ -3,7 +3,10 @@ import { useRoute, useRouter } from "#imports";
 import i18n from "@/i18n";
 import { useSettingsStore } from "@/stores/settings";
 
-export const navigationVisibility: Record<string, { header: string; drawer: string }> = {
+export const navigationVisibility: Record<
+  string,
+  { header: string; drawer: string }
+> = {
   "/": { header: "", drawer: "" },
   "/search": {
     header: "tw:hidden tw:min-[600px]:inline-flex",
@@ -14,16 +17,16 @@ export const navigationVisibility: Record<string, { header: string; drawer: stri
     drawer: "tw:min-[600px]:hidden",
   },
   "/about": {
-    header: "tw:hidden tw:min-[1280px]:inline-flex",
-    drawer: "tw:min-[1280px]:hidden",
+    header: "tw:hidden tw:min-[900px]:inline-flex",
+    drawer: "tw:min-[900px]:hidden",
   },
   "/access": {
-    header: "tw:hidden tw:min-[1280px]:inline-flex",
-    drawer: "tw:min-[1280px]:hidden",
+    header: "tw:hidden tw:min-[900px]:inline-flex",
+    drawer: "tw:min-[900px]:hidden",
   },
   "/institution": {
-    header: "tw:hidden tw:min-[1280px]:inline-flex",
-    drawer: "tw:min-[1280px]:hidden",
+    header: "tw:hidden tw:min-[900px]:inline-flex",
+    drawer: "tw:min-[900px]:hidden",
   },
 };
 

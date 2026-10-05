@@ -12,21 +12,30 @@ const activeFilters = computed(() =>
   store.searchIds.flatMap((id) => {
     const field = store.search[id];
     const value = field.value;
-    if (value == null || (typeof value === "string" && !value.trim())) return [];
-    const label = id === "q"
-      ? t("search.activeFilters.keyword")
-      : t(`search.table.${id}`);
+    if (value == null || (typeof value === "string" && !value.trim()))
+      return [];
+    const label =
+      id === "q" ? t("search.activeFilters.keyword") : t(`search.table.${id}`);
     let displayValue;
     if (id === "map") displayValue = t("search.activeFilters.mapArea");
     else if (field.type === "single_checkbox")
-      displayValue = t(value === "true" ? "search.activeFilters.yes" : "search.activeFilters.no");
+      displayValue = t(
+        value === "true"
+          ? "search.activeFilters.yes"
+          : "search.activeFilters.no",
+      );
     else if (field.type === "checkbox") {
       const decoded = value.replaceAll("&quot;", '"');
-      const values = Array.from(decoded.matchAll(/"([^"\n]*)"/g), (match) => match[1]);
+      const values = Array.from(
+        decoded.matchAll(/"([^"\n]*)"/g),
+        (match) => match[1],
+      );
       displayValue = values.length ? values.join(", ") : decoded;
     } else displayValue = value;
     const operator = field.lookUpType
-      ? t(`search.activeFilters.operators.${field.lookUpType.replaceAll(" ", "_")}`)
+      ? t(
+          `search.activeFilters.operators.${field.lookUpType.replaceAll(" ", "_")}`,
+        )
       : "";
     return [{ id, label, value: displayValue, operator }];
   }),
@@ -60,16 +69,24 @@ async function removeFilter(id) {
       <span class="tw:text-xs tw:font-semibold tw:tracking-wide">
         {{ t("search.activeFilters.title") }}
       </span>
-      <UBadge color="neutral" variant="soft" size="sm">{{ activeFilters.length }}</UBadge>
+      <UBadge color="neutral" variant="soft" size="sm">{{
+        activeFilters.length
+      }}</UBadge>
     </div>
     <ul class="tw:m-0 tw:flex tw:list-none tw:flex-wrap tw:gap-2 tw:p-0">
       <li
         v-for="filter in activeFilters"
         :key="filter.id"
-        class="tw:flex tw:max-w-full tw:items-center tw:gap-1 tw:rounded-xl tw:border tw:border-amber-200 tw:bg-amber-50 tw:py-1 tw:pr-1 tw:pl-3 tw:text-sm tw:text-slate-800"
+        class="tw:flex tw:max-w-full tw:items-center tw:gap-1 tw:rounded-xl tw:border tw:border-[#ddc4eb] tw:bg-[#f8f2fb] tw:py-1 tw:pr-1 tw:pl-3 tw:text-sm tw:text-slate-800"
       >
         <span class="tw:min-w-0 tw:break-words tw:[overflow-wrap:anywhere]">
-          <span class="tw:text-slate-600">{{ filter.label }}<span v-if="filter.operator" class="tw:ml-1">{{ filter.operator }}</span>:</span>
+          <span class="tw:text-slate-600"
+            >{{ filter.label
+            }}<span v-if="filter.operator" class="tw:ml-1">{{
+              filter.operator
+            }}</span
+            >:</span
+          >
           <span class="tw:ml-1 tw:font-semibold">{{ filter.value }}</span>
         </span>
         <UButton
@@ -77,8 +94,10 @@ async function removeFilter(id) {
           color="neutral"
           variant="ghost"
           size="xs"
-          class="tw:shrink-0 tw:rounded-lg tw:text-slate-500 tw:hover:bg-amber-100 tw:hover:text-slate-900"
-          :aria-label="t('search.activeFilters.remove', { field: filter.label })"
+          class="tw:shrink-0 tw:rounded-lg tw:text-slate-500 tw:hover:bg-[#efe2f6] tw:hover:text-slate-900"
+          :aria-label="
+            t('search.activeFilters.remove', { field: filter.label })
+          "
           @click="removeFilter(filter.id)"
         />
       </li>

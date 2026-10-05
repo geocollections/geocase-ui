@@ -3,15 +3,29 @@
 @import "tailwindcss" prefix(tw);
 @import "@nuxt/ui";
 
+@theme static {
+  --color-geocase-50: #faf5fc;
+  --color-geocase-100: #f3e9f8;
+  --color-geocase-200: #e8d3f0;
+  --color-geocase-300: #d9b6e6;
+  --color-geocase-400: #c694d8;
+  --color-geocase-500: #a96ac3;
+  --color-geocase-600: #8e50a8;
+  --color-geocase-700: #743d8b;
+  --color-geocase-800: #5b326c;
+  --color-geocase-900: #482a55;
+  --color-geocase-950: #2f1a39;
+}
+
 @theme {
-  --color-geocase: #ffa000;
+  --color-geocase: #c694d8;
   --color-fossil: #8bc34a;
   --color-mineral: #e91e63;
   --color-rock: #03a9f4;
   --color-meteorite: #607d8b;
   --color-header-dark: #191919;
   --color-home-hero: #13201f;
-  --color-home-accent: #e4bd7a;
+  --color-home-accent: #c694d8;
   --color-home-hero-muted: #dbe3df;
   --color-home-surface: #f6f5f1;
   --color-home-ink: #203932;
@@ -19,7 +33,7 @@
   --color-home-muted: #617068;
   --color-home-border: #dedfd6;
   --color-home-hover: #eaece3;
-  --color-home-focus: #916421;
+  --color-home-focus: #713b8b;
   --shadow-header-home: 0 1px 0 rgb(255 255 255 / 12.5%);
 }
 
@@ -83,23 +97,39 @@
   @apply tw:rounded-2xl tw:border tw:border-home-border tw:bg-home-surface tw:pt-6 tw:pr-14 tw:pb-5 tw:pl-5 tw:text-home-ink tw:shadow-xl tw:shadow-home-ink/20 tw:font-[inherit];
 }
 
-.partners-map .institution-popup.maplibregl-popup-anchor-top .maplibregl-popup-tip,
-.partners-map .institution-popup.maplibregl-popup-anchor-top-left .maplibregl-popup-tip,
-.partners-map .institution-popup.maplibregl-popup-anchor-top-right .maplibregl-popup-tip {
+.partners-map
+  .institution-popup.maplibregl-popup-anchor-top
+  .maplibregl-popup-tip,
+.partners-map
+  .institution-popup.maplibregl-popup-anchor-top-left
+  .maplibregl-popup-tip,
+.partners-map
+  .institution-popup.maplibregl-popup-anchor-top-right
+  .maplibregl-popup-tip {
   @apply tw:border-b-home-surface;
 }
 
-.partners-map .institution-popup.maplibregl-popup-anchor-bottom .maplibregl-popup-tip,
-.partners-map .institution-popup.maplibregl-popup-anchor-bottom-left .maplibregl-popup-tip,
-.partners-map .institution-popup.maplibregl-popup-anchor-bottom-right .maplibregl-popup-tip {
+.partners-map
+  .institution-popup.maplibregl-popup-anchor-bottom
+  .maplibregl-popup-tip,
+.partners-map
+  .institution-popup.maplibregl-popup-anchor-bottom-left
+  .maplibregl-popup-tip,
+.partners-map
+  .institution-popup.maplibregl-popup-anchor-bottom-right
+  .maplibregl-popup-tip {
   @apply tw:border-t-home-surface;
 }
 
-.partners-map .institution-popup.maplibregl-popup-anchor-left .maplibregl-popup-tip {
+.partners-map
+  .institution-popup.maplibregl-popup-anchor-left
+  .maplibregl-popup-tip {
   @apply tw:border-r-home-surface;
 }
 
-.partners-map .institution-popup.maplibregl-popup-anchor-right .maplibregl-popup-tip {
+.partners-map
+  .institution-popup.maplibregl-popup-anchor-right
+  .maplibregl-popup-tip {
   @apply tw:border-l-home-surface;
 }
 

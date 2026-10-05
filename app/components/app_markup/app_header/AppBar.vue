@@ -18,8 +18,6 @@ const { t } = useI18n();
 const settings = useSettingsStore();
 const { language, localePath, changeLanguage } = useAppNavigation();
 const quickSearch = ref("");
-const isProduction =
-  import.meta.client && /(^|\.)geocase\.eu$/.test(window.location.hostname);
 const links = computed(() => [
   {
     label: t("header.search"),
@@ -42,19 +40,18 @@ const links = computed(() => [
     to: "/help",
   },
 ]);
+const languageNames = {
+  en: "English",
+  ee: "Eesti",
+  de: "Deutsch",
+} as const;
 const languages = computed(() =>
-  (["en", "ee", "de"] as const).map((value, index) => ({
-    label: ["ENG", "EST", "GER"][index],
-    onSelect: () => changeLanguage(value),
-  })),
-);
-const resources = computed(() =>
-  settings.externalResources.map((item) => ({
-    label: item.text,
-    to: item.url,
-    target: "_blank",
-    icon: "i-lucide-external-link",
-  })),
+  (Object.entries(languageNames) as [keyof typeof languageNames, string][]).map(
+    ([value, label]) => ({
+      label,
+      onSelect: () => changeLanguage(value),
+    }),
+  ),
 );
 function submitSearch() {
   router.push({
@@ -66,11 +63,11 @@ function submitSearch() {
 
 <template>
   <header
-    class="tw:bg-home-hero tw:text-home-hero-muted tw:shadow-header-home tw:fixed tw:inset-x-0 tw:top-0 tw:z-2020 tw:h-16"
+    class="tw:fixed tw:inset-x-0 tw:top-0 tw:z-2020 tw:h-16 tw:border-b tw:border-home-accent/20 tw:bg-home-hero tw:text-home-hero-muted tw:shadow-header-home"
   >
     <nav
       aria-label="Main navigation"
-      class="tw:flex tw:h-full tw:items-center tw:gap-1 tw:px-3 tw:sm:gap-2 tw:sm:px-4"
+      class="tw:flex tw:h-full tw:items-center tw:gap-1 tw:px-3 tw:sm:gap-2 tw:sm:px-5"
     >
       <UTooltip
         v-if="route.name === 'Search'"
@@ -89,14 +86,15 @@ function submitSearch() {
       <NuxtLink
         :to="localePath('/')"
         :title="t('header.titleTooltip')"
-        class="tw:shrink-0 tw:whitespace-nowrap tw:text-lg tw:text-home-accent tw:focus-visible:outline-home-accent tw:rounded-lg tw:font-extrabold tw:tracking-tight tw:no-underline tw:transition-colors tw:hover:text-white tw:focus-visible:outline-2 tw:focus-visible:outline-offset-4 tw:sm:mr-2 tw:sm:text-xl"
+        aria-label="GeoCASe"
+        class="tw:mr-1 tw:flex tw:shrink-0 tw:items-center tw:rounded-lg tw:whitespace-nowrap tw:no-underline tw:transition-opacity tw:hover:opacity-85 tw:focus-visible:outline-2 tw:focus-visible:outline-offset-4 tw:focus-visible:outline-home-accent tw:sm:mr-3"
       >
-        GeoCASe
         <span
-          v-if="!isProduction"
-          class="tw:text-home-hero-muted tw:ml-1 tw:hidden tw:text-[10px] tw:font-semibold tw:tracking-widest tw:min-[600px]:inline"
-          >DEV</span
+          class="tw:font-serif tw:text-[1.55rem] tw:font-bold tw:tracking-[-0.055em]"
         >
+          <span class="tw:text-home-accent">Geo</span>
+          <span class="tw:text-white">CASe</span>
+        </span>
       </NuxtLink>
       <UButton
         v-for="link in links"
@@ -124,29 +122,13 @@ function submitSearch() {
       </form>
       <UDropdownMenu :items="languages" :ui="{ content: 'tw:z-[3300]' }">
         <UButton
-          aria-label="select language"
+          :aria-label="t('header.language')"
+          :title="languageNames[language]"
           color="neutral"
           variant="ghost"
-          class="header-button"
+          class="header-button tw:px-2.5"
         >
-          <img
-            :src="`https://files.geocollections.info/img/geocase/flags/${language}.svg`"
-            :alt="language"
-            class="tw:size-6 tw:rounded-full tw:object-cover"
-          />
-        </UButton>
-      </UDropdownMenu>
-      <UDropdownMenu :items="resources" :ui="{ content: 'tw:z-[3300]' }">
-        <UButton
-          :aria-label="t('header.resources')"
-          icon="i-lucide-library"
-          color="neutral"
-          variant="ghost"
-          class="header-button"
-        >
-          <span class="tw:hidden tw:min-[600px]:inline">{{
-            t("header.resources")
-          }}</span>
+          {{ languageNames[language] }}
         </UButton>
       </UDropdownMenu>
       <UTooltip :text="t('header.menu')" :ui="{ content: 'tw:z-[3400]' }">
@@ -154,10 +136,14 @@ function submitSearch() {
           icon="i-lucide-menu"
           color="neutral"
           variant="ghost"
-          class="header-button"
+          class="header-button tw:gap-2 tw:px-3"
           :aria-label="t('header.menu')"
           @click="emit('toggle:navigationDrawer')"
-        />
+        >
+          <span class="tw:hidden tw:min-[600px]:inline">{{
+            t("header.menu")
+          }}</span>
+        </UButton>
       </UTooltip>
     </nav>
   </header>

@@ -9,6 +9,7 @@ type CardId = "materialSample" | "fossil" | "mineral" | "rock" | "meteorite";
 interface FrontpageCard {
   url: string;
   image: string;
+  imageModifiers?: { rotate: number; width: number; height: number; fit: string; quality: number; position?: string };
   isLeaving: boolean;
 }
 
@@ -42,7 +43,8 @@ export const useFrontpageStore = defineStore("frontpage", {
       materialSample: {
         url: '/search?recordbasis="MaterialSample"',
         image:
-          "https://files.geocollections.info/7f91c242-6f29-4fa7-93a1-705e87219efd.jpg",
+          "https://files.geocollections.info/50d3973d-a5d1-4e86-9c4b-45b7d4fbf7f4.jpg",
+        imageModifiers: { rotate: 90, width: 800, height: 500, fit: "cover", quality: 80, position: "center" },
         isLeaving: false,
       },
       fossil: {
@@ -77,25 +79,27 @@ export const useFrontpageStore = defineStore("frontpage", {
       return [
         {
           text: i18n.t("frontPage.totalRecords"),
-          count: state.records.toLocaleString(),
+          count: state.records,
           id: 1,
         },
         {
           text: i18n.t("frontPage.institutionCount"),
-          count: state.datasetowner.toLocaleString(),
+          count: state.datasetowner,
           id: 2,
         },
         {
           text: i18n.t("frontPage.countryCount"),
-          count: state.country.toLocaleString(),
+          count: state.country,
           id: 3,
         },
         {
           text: i18n.t("frontPage.datasetCount"),
-          count: state.datasourceurl.toLocaleString(),
+          count: state.datasourceurl,
           id: 4,
         },
-      ];
+      ]
+        .sort((a, b) => Number(b.count) - Number(a.count))
+        .map((item) => ({ ...item, count: item.count.toLocaleString() }));
     },
     getCards: (state) => {
       return {

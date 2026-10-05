@@ -41,14 +41,15 @@ function isActive(path: string) {
       title: 'tw:text-2xl tw:font-semibold tw:tracking-tight tw:text-white',
       close: 'header-button tw:top-5 tw:right-5',
       body: 'tw:p-4 tw:sm:p-5',
-      footer: 'tw:border-home-border tw:px-7 tw:py-5',
     }"
   >
     <template #title>
       <span
-        class="tw:mb-2 tw:block tw:text-xs tw:font-extrabold tw:tracking-[0.16em] tw:text-home-accent"
-        >GeoCASe</span
+        class="tw:mb-2 tw:block tw:font-serif tw:text-[1.55rem] tw:font-bold tw:tracking-[-0.055em]"
       >
+        <span class="tw:text-home-accent">Geo</span>
+        <span class="tw:text-white">CASe</span>
+      </span>
       {{ t("header.menu") }}
     </template>
     <template #body>
@@ -90,16 +91,41 @@ function isActive(path: string) {
           />
         </NuxtLink>
       </nav>
-    </template>
-    <template #footer>
-      <NuxtLink
-        :to="localePath('/')"
-        class="tw:flex tw:items-center tw:gap-2 tw:rounded-md tw:text-sm tw:font-extrabold tw:tracking-tight tw:text-home-link tw:no-underline tw:hover:text-home-ink tw:focus-visible:outline-2 tw:focus-visible:outline-offset-4 tw:focus-visible:outline-home-focus"
-        @click="drawer = false"
+      <section
+        class="tw:mt-7 tw:border-t tw:border-home-border tw:pt-5"
+        :aria-label="t('header.resources')"
       >
-        <UIcon name="i-lucide-globe" class="tw:size-4" aria-hidden="true" />
-        GeoCASe
-      </NuxtLink>
+        <h2
+          class="tw:px-4 tw:text-xs tw:font-extrabold tw:uppercase tw:tracking-[0.14em] tw:text-home-muted"
+        >
+          {{ t("header.resources") }}
+        </h2>
+        <nav
+          :aria-label="t('header.resources')"
+          class="tw:mt-2 tw:flex tw:flex-col tw:gap-1"
+        >
+          <a
+            v-for="resource in settings.externalResources"
+            :key="resource.url"
+            :href="resource.url"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="tw:flex tw:min-h-11 tw:items-center tw:gap-3 tw:rounded-lg tw:px-4 tw:py-2 tw:text-sm tw:font-semibold tw:text-home-link tw:no-underline tw:transition-colors tw:hover:bg-home-hover tw:hover:text-home-ink tw:focus-visible:outline-2 tw:focus-visible:outline-offset-2 tw:focus-visible:outline-home-focus"
+          >
+            <UIcon
+              name="i-lucide-link-2"
+              class="tw:size-4 tw:shrink-0 tw:text-home-muted"
+              aria-hidden="true"
+            />
+            <span class="tw:flex-1">{{ resource.text }}</span>
+            <UIcon
+              name="i-lucide-arrow-up-right"
+              class="tw:size-3.5 tw:shrink-0 tw:text-home-muted"
+              aria-hidden="true"
+            />
+          </a>
+        </nav>
+      </section>
     </template>
   </USlideover>
 </template>
