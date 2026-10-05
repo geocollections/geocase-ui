@@ -1,15 +1,10 @@
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
 import { useI18n } from "vue-i18n";
-import axios from "axios";
 import { useAppNavigation } from "@/composables/useAppNavigation";
+import SearchService from "@/services/SearchService";
+import type { Dataset } from "@/utils/datasets";
 
-type Dataset = {
-  url: string;
-  count: number;
-  owners: { name: string; count: number; institutionId: string | null }[];
-  specimenTypes: string[];
-};
 definePageMeta({ name: "Datasets", path: "/:locale(en|ee|de)?/dataset" });
 const { t } = useI18n();
 const { localePath } = useAppNavigation();
@@ -21,8 +16,9 @@ async function loadDatasets() {
   loading.value = true;
   failed.value = false;
   try {
-    datasets.value = (await axios.get<Dataset[]>("/api/datasets")).data;
-  } catch {
+    datasets.value = await SearchService.getDatasets();
+  } catch (error) {
+    console.error("Failed to load dataset facets", error);
     failed.value = true;
   } finally {
     loading.value = false;
