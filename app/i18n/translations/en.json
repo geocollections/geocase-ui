@@ -1,4 +1,42 @@
 {
+  "aboutPage": {
+    "pageTitle": "About GeoCASe",
+    "eyebrow": "About GeoCASe",
+    "heroTitle": "Explore Earth's story through collections.",
+    "heroDescription": "GeoCASe stands for Geoscience Collections Access Service. It brings museum and research collections together in one searchable place for scientific research and international collaboration.",
+    "explore": "Explore collections",
+    "collectionsEyebrow": "What you can explore",
+    "collectionsTitle": "Collections across Earth sciences",
+    "collectionsDescription": "GeoCASe makes specimens held by museums and research institutions available online.",
+    "collections": {
+      "minerals": "Minerals",
+      "rocks": "Rocks",
+      "meteorites": "Meteorites",
+      "fossils": "Fossils"
+    },
+    "networkEyebrow": "The network",
+    "networkTitle": "How GeoCASe works",
+    "networkDescription": "Institutions provide collection data. GeoCASe harvests and indexes their records so they can be searched through a single interface.",
+    "sharedTitle": "Shared collection data",
+    "sharedIntro": "Providers commonly use",
+    "sharedStandards": "and the XML-based standards",
+    "and": "and",
+    "extensionNote": "the geoscience extension; see",
+    "searchTitle": "One place to search",
+    "searchIntro": "GeoCASe aims to be the Earth science counterpart of",
+    "gbifDescription": ", the Global Biodiversity Information Facility.",
+    "storyEyebrow": "Our story",
+    "storyTitle": "Built through collaboration",
+    "firstTitle": "The first GeoCASe",
+    "firstDescription": "The initial version was built at the Museum für Naturkunde, Berlin, as part of the SYNTHESYS project.",
+    "upgradeTitle": "GeoCASe 2.0 begins",
+    "upgradeIntro": "Museum für Naturkunde and Tallinn University of Technology began developing an upgraded version, coordinated by the",
+    "earthScienceGroup": "Earth Science Group.",
+    "cetafDescription": "CETAF brings together European natural science research institutes and expertise in taxonomy, training and data standards. GeoCASe will also align with the",
+    "disscoName": "DiSSCo Research Infrastructure",
+    "governanceTitle": "Guided by the community",
+    "governanceDescription": "The GeoCASe advisory board manages the portal and is responsible for its development, maintenance, promotion and quality control."
+  },
   "messages": {
     "languageChange": "Changed language!"
   },

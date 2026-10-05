@@ -36,6 +36,8 @@ export default [
             "useAppNavigation",
             "useRoute",
             "useHead",
+            "useI18n",
+            "useAppNavigation",
             "useSeoMeta",
             "navigateTo",
             "abortNavigation",
