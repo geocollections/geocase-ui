@@ -10,13 +10,38 @@ const FACET_QUERY =
 const STATS_QUERY =
   "facet=on&facet.field=datasetowner&facet.field=country&facet.field=recordbasis&facet.field=datasourceurl&facet.limit=500&f.datasourceurl.facet.limit=-1&f.datasourceurl.facet.mincount=1";
 
-class SearchService {
-  static async search(params) {
-    try {
-      let start = (params.page - 1) * params.paginateBy;
-      let sort = buildSort(params.sortBy, params.sortDesc, params.search);
+type MapSelection = {
+  geometry: {
+    type: string;
+    coordinates: number[][][] | number[];
+  };
+  properties: { radius: number };
+};
 
-      let searchFields = buildSearchFieldsQuery(
+type SearchField = {
+  id: string;
+  type: string;
+  lookUpType: string;
+  value: string | MapSelection | null;
+  fields?: string[];
+};
+
+type SearchRequest = {
+  page: number;
+  paginateBy: number;
+  sortBy: string[];
+  sortDesc: boolean[];
+  search: Record<string, SearchField>;
+  searchIds: string[];
+};
+
+class SearchService {
+  static async search(params: SearchRequest) {
+    try {
+      const start = (params.page - 1) * params.paginateBy;
+      const sort = buildSort(params.sortBy, params.sortDesc, params.search);
+
+      const searchFields = buildSearchFieldsQuery(
         params.search,
         params.searchIds,
       );
@@ -28,45 +53,53 @@ class SearchService {
 
       const res = await axios.get(url);
       return res.data;
-    } catch (err) {
-      console.error(err);
-      throw new Error(err);
+    } catch (error) {
+      console.error(error);
+      throw new Error(
+        error instanceof Error ? error.message : String(error),
+      );
     }
   }
 
-  static async getDetailView(id) {
+  static async getDetailView(id: string) {
     try {
-      let url = `${API_URL}?q=geocase_id:"${decodeURIComponent(id)}"`;
+      const url = `${API_URL}?q=geocase_id:"${decodeURIComponent(id)}"`;
 
       const res = await axios.get(url);
       return res.data;
-    } catch (err) {
-      console.error(err);
-      throw new Error(err);
+    } catch (error) {
+      console.error(error);
+      throw new Error(
+        error instanceof Error ? error.message : String(error),
+      );
     }
   }
 
-  static async getDetailViewDataFromSource(dataSourceUrl) {
+  static async getDetailViewDataFromSource(dataSourceUrl: string) {
     try {
-      let url = `${API_URL}/repeat?url=${encodeURIComponent(dataSourceUrl)}`;
+      const url = `${API_URL}/repeat?url=${encodeURIComponent(dataSourceUrl)}`;
       const res = await axios.get(url);
       return res.data;
-    } catch (err) {
-      console.error(err);
-      if (err?.response?.data?.error) throw new Error(err.response.data.error);
-      else throw new Error(err);
+    } catch (error) {
+      console.error(error);
+      if (axios.isAxiosError<{ error?: string }>(error) && error.response?.data.error) {
+        throw new Error(error.response.data.error);
+      }
+      throw new Error(
+        error instanceof Error ? error.message : String(error),
+      );
     }
   }
 
   static async getStats() {
     try {
-      let url = `${API_URL}?q=*&rows=0&${STATS_QUERY}`;
+      const url = `${API_URL}?q=*&rows=0&${STATS_QUERY}`;
 
       const res = await axios.get(url);
       return res.data;
-    } catch (err) {
-      console.error(err);
-      throw new Error(err);
+    } catch (error) {
+      console.error(error);
+      throw new Error(error instanceof Error ? error.message : String(error));
     }
   }
 
@@ -87,35 +120,42 @@ class SearchService {
 
   static async getAllFieldNames() {
     try {
-      let url = `${API_URL}?q=*:*&wt=csv&rows=0&facet=on`;
+      const url = `${API_URL}?q=*:*&wt=csv&rows=0&facet=on`;
 
       const res = await axios.get(url);
       return res.data;
-    } catch (err) {
-      console.error(err);
-      throw new Error(err);
+    } catch (error) {
+      console.error(error);
+      throw new Error(error instanceof Error ? error.message : String(error));
     }
   }
 
-  static async getAllSpecimensInProximity(data) {
+  static async getAllSpecimensInProximity(data: { lat: number; lng: number }) {
     try {
-      let url = `${API_URL}?q=*:*&fq={!geofilt sfield=coordinates}&d=0&pt=${data.lat},${data.lng}&start=0&rows=10000`;
+      const url = `${API_URL}?q=*:*&fq={!geofilt sfield=coordinates}&d=0&pt=${data.lat},${data.lng}&start=0&rows=10000`;
 
       const res = await axios.get(url);
       return res.data;
-    } catch (err) {
-      console.error(err);
-      throw new Error(err);
+    } catch (error) {
+      console.error(error);
+      throw new Error(
+        error instanceof Error ? error.message : String(error),
+      );
     }
   }
 }
 
-function buildSort(sortBy, sortDesc, search) {
+function buildSort(
+  sortBy: string[],
+  sortDesc: boolean[],
+  search: Record<string, SearchField>,
+) {
   let sort = "";
   if (sortBy && sortDesc && sortBy.length > 0 && sortDesc.length > 0) {
     sortBy.forEach((field, index) => {
-      if (search?.[field]?.fields?.length > 0) {
-        search?.[field]?.fields.forEach((item) => {
+      const fields = search[field]?.fields ?? [];
+      if (fields.length > 0) {
+        fields.forEach((item) => {
           sort += item + (sortDesc[index] ? " desc" : " asc") + ",";
         });
       } else sort += field + (sortDesc[index] ? " desc" : " asc") + ",";
@@ -126,23 +166,29 @@ function buildSort(sortBy, sortDesc, search) {
   return sort;
 }
 
-function buildSearchFieldsQuery(search, searchIds) {
-  let encodedData = [];
-  let facetFieldList = [];
+function buildSearchFieldsQuery(
+  search: Record<string, SearchField>,
+  searchIds: string[],
+) {
+  const encodedData: string[] = [];
+  const facetFieldList: string[] = [];
 
   searchIds.forEach((id) => {
-    let name = search[id].id;
-    let type = search[id].type;
-    let lookUpType = search[id].lookUpType;
-    let value = search[id].value;
-    let fields = search[id]?.fields;
+    const searchField = search[id];
+    if (!searchField) return;
+    let name = searchField.id;
+    const type = searchField.type;
+    const lookUpType = searchField.lookUpType;
+    let value = searchField.value;
+    const fields = searchField.fields ?? [];
     let isExcluded = false;
 
-    if (fields?.length > 1) {
-      if (value && value.trim().length > 0) {
-        let filterQueryValue = fields.map((field) => {
+    if (fields.length > 1) {
+      if (typeof value === "string" && value.trim().length > 0) {
+        const searchValue = value;
+        const filterQueryValue = fields.map((field) => {
           name = field;
-          let encodedValue = encodeURIComponent(value);
+          const encodedValue = encodeURIComponent(searchValue);
 
           return createSolrFieldQuery(name, encodedValue, lookUpType);
         });
@@ -152,31 +198,28 @@ function buildSearchFieldsQuery(search, searchIds) {
         encodedData.push(filterQuery);
       }
     } else {
-      if (value && type === "map") {
+      if (value && type === "map" && typeof value !== "string") {
         if (value.geometry.type === "Polygon") {
           const clonedValue = cloneDeep(value);
 
+          if (!isPolygonCoordinates(clonedValue.geometry.coordinates)) return;
           const data = earcut.flatten(clonedValue.geometry.coordinates);
           const triangles = earcut(data.vertices, data.holes, data.dimensions);
 
-          const coordinates = triangles.map((item) => {
+          const coordinates = triangles.flatMap((item) => {
             const startIndex = item * 2;
-            return [data.vertices[startIndex], data.vertices[startIndex + 1]];
+            const x = data.vertices[startIndex];
+            const y = data.vertices[startIndex + 1];
+            return x !== undefined && y !== undefined ? [[x, y]] : [];
           });
-          const triangleCoordinates = coordinates.reduce(
-            (prev, item, index, arr) => {
-              if ((index + 1) % 3 === 0) {
-                prev.push([
-                  arr[index - 2],
-                  arr[index - 1],
-                  arr[index],
-                  arr[index - 2],
-                ]);
-              }
-              return prev;
-            },
-            [],
-          );
+          const triangleCoordinates: number[][][] = [];
+          for (let index = 2; index < coordinates.length; index += 3) {
+            const first = coordinates[index - 2];
+            const second = coordinates[index - 1];
+            const third = coordinates[index];
+            if (first && second && third)
+              triangleCoordinates.push([first, second, third, first]);
+          }
 
           const wkt = new Wkt.Wkt();
           wkt.read(
@@ -197,6 +240,7 @@ function buildSearchFieldsQuery(search, searchIds) {
 
           encodedData.push(`fq=${solrFilter}`);
         } else {
+          if (!isLineCoordinates(value.geometry.coordinates)) return;
           const reversedCoordinates = [...value.geometry.coordinates].reverse();
           const radius = Math.round((value.properties.radius / 1000) * 10) / 10;
 
@@ -208,13 +252,13 @@ function buildSearchFieldsQuery(search, searchIds) {
             `fq=${solrFilter}&d=${radius}&pt=${reversedCoordinates[0]},${reversedCoordinates[1]}`,
           );
         }
-      } else if (value && value.trim().length > 0) {
+      } else if (typeof value === "string" && value.trim().length > 0) {
         if (name === "q" && !(value.includes(" ") || value.includes("*")))
           value = `"${value}"`;
 
         let filterQuery = `fq=${name}:`;
         if (name === "datasourceurl") value = value.replace(/["\\]/g, "\\$&");
-        let encodedValue = encodeURIComponent(value);
+        const encodedValue = encodeURIComponent(value);
 
         if (type === "checkbox") {
           isExcluded = true;
@@ -244,7 +288,11 @@ function buildSearchFieldsQuery(search, searchIds) {
   return encodedData.join("&") + "&" + facetFieldList.join("&");
 }
 
-function createSolrFieldQuery(field, value, lookUpType) {
+function createSolrFieldQuery(
+  field: string,
+  value: string,
+  lookUpType: string,
+) {
   switch (lookUpType) {
     case "contains":
       return `${field}:*${value}*`;
@@ -263,6 +311,19 @@ function createSolrFieldQuery(field, value, lookUpType) {
     default:
       return `${field}:${value}`;
   }
+}
+
+function isPolygonCoordinates(
+  coordinates: number[][][] | number[],
+): coordinates is number[][][] {
+  const first = coordinates[0];
+  return Array.isArray(first) && Array.isArray(first[0]);
+}
+
+function isLineCoordinates(
+  coordinates: number[][][] | number[],
+): coordinates is number[] {
+  return Array.isArray(coordinates) && typeof coordinates[0] === "number";
 }
 
 export default SearchService;

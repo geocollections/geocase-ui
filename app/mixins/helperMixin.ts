@@ -1,26 +1,56 @@
 import imageMixin from "@/mixins/imageMixin";
 
+interface ImageRecord {
+  images?: string[] | null;
+  [key: string]: unknown;
+}
+
+interface DetailViewImage extends ImageRecord {
+  thumbnailImage: string;
+  originalImage: string;
+  imageWidth?: number | null;
+  imageHeight?: number | null;
+  altText: string;
+}
+
+interface HelperMixinThis {
+  detailViewImages: DetailViewImage[];
+  imageExists: boolean;
+  item: ImageRecord;
+  responseResultsCount: number;
+  responseResults: ImageRecord[];
+  getDetailViewImages(images: string[]): Promise<void>;
+  getImageUrl(url: string | null | undefined): string;
+  getImageAltText(imageObject: ImageRecord): string;
+}
+
 const helperMixin = {
   mixins: [imageMixin],
 
-  data: () => ({
+  data: (): { detailViewImages: DetailViewImage[] } => ({
     detailViewImages: [],
   }),
 
   watch: {
     "item.images": {
-      handler: async function (newVal) {
+      handler: async function (
+        this: HelperMixinThis,
+        newVal: string[],
+      ): Promise<void> {
         await this.getDetailViewImages(newVal);
       },
     },
   },
 
   methods: {
-    async getDetailViewImages(images) {
+    async getDetailViewImages(
+      this: HelperMixinThis,
+      images: string[],
+    ): Promise<void> {
       if (this.imageExists) {
         const asyncRes = await Promise.all(
           images.map(async (image) => {
-            let img = await getMeta(this.getImageUrl(image));
+            const img = await getMeta(this.getImageUrl(image));
 
             return {
               ...this.item,
@@ -39,12 +69,13 @@ const helperMixin = {
   },
 
   computed: {
-    searchResultImages() {
+    searchResultImages(this: HelperMixinThis): DetailViewImage[] {
       if (this.responseResultsCount > 0) {
-        let responsesWithImages = this.responseResults.filter(
-          (image) => !!image.images,
+        const responsesWithImages = this.responseResults.filter(
+          (image): image is ImageRecord & { images: string[] } =>
+            !!image.images,
         );
-        let allImages = [];
+        const allImages: DetailViewImage[] = [];
 
         responsesWithImages.forEach((item) =>
           item.images.forEach((image) => {
@@ -63,9 +94,9 @@ const helperMixin = {
   },
 };
 
-function getMeta(url) {
+function getMeta(url: string): Promise<HTMLImageElement> {
   return new Promise((resolve, reject) => {
-    let img = new Image();
+    const img = new Image();
     img.onload = () => resolve(img);
     img.onerror = reject;
     img.src = url;

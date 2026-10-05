@@ -3,8 +3,80 @@ import SearchService from "@/services/SearchService";
 import { useSettingsStore } from "./settings";
 import i18n from "@/i18n";
 
+type SolrRecord = Record<string, any>;
+type FacetValue = string | number;
+
+interface SearchField {
+  id: string;
+  type: string;
+  lookUpType: string;
+  value: any;
+  label: string;
+  fields?: string[];
+  showCheckboxes?: boolean;
+  showMore?: boolean;
+}
+
+interface SearchFields extends Record<string, SearchField> {
+  q: SearchField;
+  datasourceurl: SearchField;
+  fullscientificname: SearchField;
+  highertaxon: SearchField;
+  stratigraphy: SearchField;
+  locality: SearchField;
+  unitid: SearchField;
+  map: SearchField;
+  recordbasis: SearchField;
+  highertaxon_facet: SearchField;
+  type_status: SearchField;
+  country: SearchField;
+  datasetowner: SearchField;
+  providername: SearchField;
+  providercountry: SearchField;
+  has_image: SearchField;
+  has_map: SearchField;
+}
+
+interface TableHeader {
+  text: string;
+  value: string;
+  show: boolean;
+  fixed: boolean;
+  sortable?: boolean;
+  class?: string;
+  align?: string;
+}
+
+interface SearchState {
+  responseResults: SolrRecord[];
+  responseResultsCount: number;
+  page: number;
+  paginateBy: number;
+  sortBy: string[];
+  sortDesc: boolean[];
+  search: SearchFields;
+  searchIds: string[];
+  searchTextIds: string[];
+  searchCheckboxIds: string[];
+  searchSingleCheckboxIds: string[];
+  lookUpTypes: string[];
+  recordbasis: string[];
+  highertaxon_facet: string[];
+  type_status: string[];
+  country: string[];
+  datasetowner: string[];
+  providername: string[];
+  providercountry: string[];
+  paginateByItems: { text: string; value: number }[];
+  searchParamsList: string[];
+  allFieldNames: string[] | null;
+  isLoading: boolean;
+  tableHeaders: TableHeader[];
+  isTableHeaderFixed: boolean;
+}
+
 export const useSearchStore = defineStore("search", {
-  state: () => ({
+  state: (): SearchState => ({
     responseResults: [],
     responseResultsCount: 0,
     page: 1,
@@ -257,47 +329,62 @@ export const useSearchStore = defineStore("search", {
     isTableHeaderFixed: false,
   }),
   getters: {
-    getCheckboxes: (state) => (id, showCheckboxes, showMore) => {
+    getCheckboxes: (state) => (
+      id: string,
+      showCheckboxes: boolean,
+      showMore: boolean | undefined,
+    ) => {
       if (showCheckboxes) {
-        if (showMore) return state[id];
-        else return state[id].slice(0, 4);
+        const facets = state as unknown as Record<string, string[]>;
+        if (showMore) return facets[id]!;
+        else return facets[id]!.slice(0, 4);
       } else return [];
     },
 
-    getCheckboxesLength: (state) => (id) => {
-      if (state?.[id]) return state[id].length;
+    getCheckboxesLength: (state) => (id: string) => {
+      const facets = state as unknown as Record<string, string[]>;
+      if (facets[id]) return facets[id].length;
       else return 0;
     },
 
-    getCheckboxesCount: (state) => (field) => {
-      return state[`${field}_count`];
+    getCheckboxesCount: (state) => (field: string) => {
+      const facets = state as unknown as Record<string, number[]>;
+      return facets[`${field}_count`]!;
     },
 
-    getActiveCheckboxesCount: (state) => (field) => {
-      if (state.search[field].value) {
-        return state.search[field].value.split('" "').length;
+    getActiveCheckboxesCount: (state) => (field: string) => {
+      const searchField = state.search[field];
+      if (searchField?.value) {
+        return searchField.value.split('" "').length;
       } else return 0;
     },
 
     getAllFieldNamesForExport: (state) => {
-      if (state.allFieldNames && state.allFieldNames.length > 0) {
+      const fieldNames = state.allFieldNames;
+      if (fieldNames && fieldNames.length > 0) {
         const NOT_NEEDED_FIELDS = [
           "acquiredFrom",
           "last_harvested_processing",
           "_version_",
         ];
-        return state.allFieldNames.filter(
+        return fieldNames.filter(
           (field) => !NOT_NEEDED_FIELDS.includes(field),
         );
       } else return null;
     },
 
     getAllNonFixedTableHeaders: (state) => {
-      return state.translatedTableHeaders.filter((item) => !item.fixed);
+      const getters = state as unknown as Record<string, any>;
+      return getters.translatedTableHeaders.filter(
+        (item: TableHeader) => !item.fixed,
+      );
     },
 
     getAllShownTableHeaders: (state) => {
-      return state.translatedTableHeaders.filter((item) => item.show);
+      const getters = state as unknown as Record<string, any>;
+      return getters.translatedTableHeaders.filter(
+        (item: TableHeader) => item.show,
+      );
     },
 
     translatedTableHeaders: (state) => {
@@ -321,66 +408,85 @@ export const useSearchStore = defineStore("search", {
     },
   },
   actions: {
-    UPDATE_RESPONSE_RESULTS(payload) {
+    UPDATE_RESPONSE_RESULTS(payload: SolrRecord[]) {
       this.responseResults = payload;
     },
 
-    UPDATE_RESPONSE_RESULTS_COUNT(payload) {
+    UPDATE_RESPONSE_RESULTS_COUNT(payload: number) {
       this.responseResultsCount = payload;
     },
 
-    UPDATE_PAGE(payload) {
+    UPDATE_PAGE(payload: number) {
       this.page = payload;
     },
 
-    UPDATE_PAGINATE_BY(payload) {
+    UPDATE_PAGINATE_BY(payload: number) {
       this.paginateBy = payload;
     },
 
-    UPDATE_SORT_BY(payload) {
+    UPDATE_SORT_BY(payload: string[]) {
       this.sortBy = payload;
     },
 
-    UPDATE_SORT_DESC(payload) {
+    UPDATE_SORT_DESC(payload: boolean[]) {
       this.sortDesc = payload;
     },
 
-    UPDATE_SEARCH_FIELD(payload) {
-      if ("value" in payload) this.search[payload.id].value = payload.value;
+    UPDATE_SEARCH_FIELD(payload: {
+      id: string;
+      value?: any;
+      lookUpType?: string;
+      showCheckboxes?: boolean;
+      showMore?: boolean;
+    }) {
+      const searchField = this.search[payload.id];
+      if (!searchField) return;
+      if ("value" in payload) searchField.value = payload.value;
       if ("lookUpType" in payload)
-        this.search[payload.id].lookUpType = payload.lookUpType;
+        searchField.lookUpType = payload.lookUpType as string;
       if ("showCheckboxes" in payload)
-        this.search[payload.id].showCheckboxes = payload.showCheckboxes;
+        searchField.showCheckboxes = payload.showCheckboxes as boolean;
       if ("showMore" in payload)
-        this.search[payload.id].showMore = payload.showMore;
+        searchField.showMore = payload.showMore as boolean;
     },
 
-    UPDATE_SEARCH_PARAM(payload) {
-      let field = payload.field;
+    UPDATE_SEARCH_PARAM(payload: { field: string; value: string }) {
+      const field = payload.field;
       if (field === "page" || field === "paginateBy") {
+        const currentValue = field === "page" ? this.page : this.paginateBy;
         if (payload.value) {
-          let parsedInt = parseInt(payload.value);
-          if (parsedInt && !isNaN(parsedInt) && this[field] !== parsedInt)
-            this[field] = parsedInt;
-        } else this[field] = field === "page" ? 1 : 25;
+          const parsedInt = parseInt(payload.value);
+          if (parsedInt && !isNaN(parsedInt) && currentValue !== parsedInt) {
+            if (field === "page") this.page = parsedInt;
+            else this.paginateBy = parsedInt;
+          }
+        } else if (field === "page") this.page = 1;
+        else this.paginateBy = 25;
       } else if (field === "sortBy" || field === "sortDesc") {
         if (payload.value && payload.value.trim().length > 0) {
-          let value = payload.value.split(",");
-          if (field === "sortDesc")
-            value = value.map((item) => item === "true");
-          if (JSON.stringify(this[field]) !== JSON.stringify(value))
-            this[field] = value;
-        } else this[field] = [];
+          const value =
+            field === "sortDesc"
+              ? payload.value.split(",").map((item) => item === "true")
+              : payload.value.split(",");
+          if (JSON.stringify(this[field]) !== JSON.stringify(value)) {
+            if (field === "sortDesc") this.sortDesc = value as boolean[];
+            else this.sortBy = value as string[];
+          }
+        } else if (field === "sortBy") this.sortBy = [];
+        else this.sortDesc = [];
       }
     },
 
-    UPDATE_FACETS(payload) {
+    UPDATE_FACETS(payload: Record<string, FacetValue[]> | undefined) {
       if (payload) {
         Object.entries(payload).forEach((item) => {
-          let key = item[0];
-          this[key] = item[1].filter((val) => typeof val === "string");
-          this[`${key}_count`] = item[1].filter(
-            (val) => typeof val !== "string",
+          const key = item[0];
+          const dynamicState = this as unknown as Record<string, unknown>;
+          dynamicState[key] = item[1].filter(
+            (val): val is string => typeof val === "string",
+          );
+          dynamicState[`${key}_count`] = item[1].filter(
+            (val): val is number => typeof val === "number",
           );
         });
       }
@@ -388,9 +494,11 @@ export const useSearchStore = defineStore("search", {
 
     RESET_SEARCH() {
       this.searchIds.forEach((item) => {
-        if (this.search[item].lookUpType !== "")
-          this.search[item].lookUpType = "contains";
-        if (this.search[item].value !== null) this.search[item].value = null;
+        const searchField = this.search[item];
+        if (!searchField) return;
+        if (searchField.lookUpType !== "")
+          searchField.lookUpType = "contains";
+        if (searchField.value !== null) searchField.value = null;
       });
       this.page = 1;
       this.paginateBy = 25;
@@ -398,12 +506,12 @@ export const useSearchStore = defineStore("search", {
       this.sortDesc = [];
     },
 
-    SET_ALL_FIELD_NAMES(payload) {
+    SET_ALL_FIELD_NAMES(payload: { fields: string[] }) {
       this.allFieldNames = payload.fields;
     },
 
-    SET_ALL_TABLE_HEADERS(payload) {
-      let defaultNonFixedTableHeaders = this.tableHeaders
+    SET_ALL_TABLE_HEADERS(payload: { fields: string[] }) {
+      const defaultNonFixedTableHeaders = this.tableHeaders
         .filter((item) => !item.fixed)
         .map((item) => item.value);
       payload.fields.forEach((item) => {
@@ -417,43 +525,49 @@ export const useSearchStore = defineStore("search", {
       });
     },
 
-    SET_LOADING(loadingState) {
+    SET_LOADING(loadingState: boolean) {
       this.isLoading = loadingState;
     },
 
-    UPDATE_TABLE_HEADERS(headers) {
+    UPDATE_TABLE_HEADERS(headers: string[]) {
       this.tableHeaders.forEach((item, index) => {
-        this.tableHeaders[index].show = !!headers.includes(item.value);
+        this.tableHeaders[index]!.show = !!headers.includes(item.value);
       });
     },
 
-    UPDATE_TABLE_HEADER_FIXED_STATE(bool) {
+    UPDATE_TABLE_HEADER_FIXED_STATE(bool: boolean) {
       this.isTableHeaderFixed = bool;
     },
-    updatePage(page) {
+    updatePage(page: number) {
       this.UPDATE_PAGE(page);
     },
 
-    updatePaginateBy(paginateBy) {
+    updatePaginateBy(paginateBy: number) {
       if (this.page !== 1) this.updatePage(1);
       this.UPDATE_PAGINATE_BY(paginateBy);
     },
 
-    updateSortBy(sortBy) {
+    updateSortBy(sortBy: string[]) {
       this.UPDATE_SORT_BY(sortBy);
     },
 
-    updateSortDesc(sortDesc) {
+    updateSortDesc(sortDesc: boolean[]) {
       this.UPDATE_SORT_DESC(sortDesc);
     },
 
-    updateSearchField(payload) {
+    updateSearchField(payload: {
+      id: string;
+      value?: any;
+      lookUpType?: string;
+      showCheckboxes?: boolean;
+      showMore?: boolean;
+    }) {
       if (payload.id) {
         this.UPDATE_SEARCH_FIELD(payload);
       }
     },
 
-    updateSearchParam(payload) {
+    updateSearchParam(payload: { field: string; value: string }) {
       if (payload.field === "paginate_by") payload.field = "paginateBy";
       if (payload.field === "sort_by") payload.field = "sortBy";
       if (payload.field === "sort_desc") payload.field = "sortDesc";
@@ -468,7 +582,7 @@ export const useSearchStore = defineStore("search", {
       this.SET_LOADING(true);
 
       try {
-        let params = {
+        const params = {
           page: this.page,
           paginateBy: this.paginateBy,
           sortBy: this.sortBy,
@@ -476,14 +590,16 @@ export const useSearchStore = defineStore("search", {
           searchIds: this.searchIds,
           search: this.search,
         };
-        let response = await SearchService.search(params);
+        const response = await SearchService.search(params);
 
         if (response) {
           this.UPDATE_FACETS(response?.facet_counts?.facet_fields);
           this.UPDATE_RESPONSE_RESULTS(response?.response?.docs || []);
           this.UPDATE_RESPONSE_RESULTS_COUNT(response?.response?.numFound || 0);
         }
-      } catch (err) {
+      } catch (caught) {
+        const err =
+          caught instanceof Error ? caught : new Error(String(caught));
         useSettingsStore().updateErrorMessage(
           `<b>Failed to fetch search results!</b><br /><b>Name:</b> ${err.name}<br /><b>Message:</b> ${err.message}`,
         );
@@ -496,14 +612,16 @@ export const useSearchStore = defineStore("search", {
 
     async getAllFieldNames() {
       try {
-        let response = await SearchService.getAllFieldNames();
+        const response = await SearchService.getAllFieldNames();
 
         if (response) {
-          let fields = response.split(",");
+          const fields = response.split(",");
           this.SET_ALL_FIELD_NAMES({ fields: fields });
           this.SET_ALL_TABLE_HEADERS({ fields: fields });
         }
-      } catch (err) {
+      } catch (caught) {
+        const err =
+          caught instanceof Error ? caught : new Error(String(caught));
         useSettingsStore().updateErrorMessage(
           `<b>Failed to fetch field names!</b><br /<b>Name:</b> ${err.name}<br /><b>Message:</b> ${err.message}`,
         );
@@ -512,16 +630,16 @@ export const useSearchStore = defineStore("search", {
       }
     },
 
-    updateTableHeaders(payload) {
+    updateTableHeaders(payload: string[]) {
       this.UPDATE_TABLE_HEADERS(payload);
     },
 
-    updateTableHeaderFixedState(payload) {
+    updateTableHeaderFixedState(payload: boolean) {
       this.UPDATE_TABLE_HEADER_FIXED_STATE(payload);
     },
 
     removeStratigraphyFromTableHeaders() {
-      const headersWithoutStratigraphy = this.tableHeaders.reduce(
+      const headersWithoutStratigraphy = this.tableHeaders.reduce<string[]>(
         (prev, curr) => {
           if (
             curr.value !== "stratigraphy" &&

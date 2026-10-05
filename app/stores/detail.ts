@@ -3,10 +3,13 @@ import SearchService from "@/services/SearchService";
 import { useSettingsStore } from "./settings";
 import i18n from "@/i18n";
 
+type AbcdRecord = Record<string, any>;
+type DetailHeader = { text: string; value: string };
+
 export const useDetailStore = defineStore("detail", {
   state: () => ({
-    response: null,
-    responseFromSource: null,
+    response: null as AbcdRecord[] | null,
+    responseFromSource: null as AbcdRecord | null,
     itemHeaders: [
       { text: "type", value: "typestatus" },
       { text: "collection", value: "collectioncode" },
@@ -64,60 +67,66 @@ export const useDetailStore = defineStore("detail", {
   getters: {
     itemExists: (state) => {
       return !!(
-        state.response &&
-        state.response.length > 0 &&
+        state.response?.length &&
         state.response?.[0]?.id
       );
     },
 
     item: (state) => {
-      return state.itemExists ? state.response[0] : [];
+      const store = state as unknown as AbcdRecord;
+      return store.itemExists ? store.response?.[0] || [] : [];
     },
 
     imageExists: (state) => {
-      return !!(state.itemExists && state.item && state.item.images);
+      const store = state as unknown as AbcdRecord;
+      return !!(store.itemExists && store.item && store.item.images);
     },
 
     localityExists: (state) => {
+      const store = state as unknown as AbcdRecord;
       return !!(
-        state.itemExists &&
-        state.item &&
-        state.item.has_map &&
-        state.item.latitude &&
-        state.item.longitude
+        store.itemExists &&
+        store.item &&
+        store.item.has_map &&
+        store.item.latitude &&
+        store.item.longitude
       );
     },
 
     isItemFossil: (state) => {
-      if (state.item) {
-        let type = state.item.recordbasis;
+      const item = (state as unknown as AbcdRecord).item;
+      if (item) {
+        const type = item.recordbasis;
         return type === "Fossil";
       } else return false;
     },
 
     isItemMineral: (state) => {
-      if (state.item) {
-        let type = state.item.recordbasis;
+      const item = (state as unknown as AbcdRecord).item;
+      if (item) {
+        const type = item.recordbasis;
         return type === "Mineral";
       } else return false;
     },
 
     isItemRock: (state) => {
-      if (state.item) {
-        let type = state.item.recordbasis;
+      const item = (state as unknown as AbcdRecord).item;
+      if (item) {
+        const type = item.recordbasis;
         return type === "Rock";
       } else return false;
     },
 
     isItemMeteorite: (state) => {
-      if (state.item) {
-        let type = state.item.recordbasis;
+      const item = (state as unknown as AbcdRecord).item;
+      if (item) {
+        const type = item.recordbasis;
         return type === "Meteorite";
       } else return false;
     },
 
     itemStratigraphy: (state) => {
-      let stratigraphyList = [];
+      let stratigraphyList: { name: string; division?: string }[] = [];
       let stratigraphyEFG =
         state?.responseFromSource?.["abcd:DataSets"]?.["abcd:DataSet"]?.[
           "abcd:Units"
@@ -126,7 +135,7 @@ export const useDetailStore = defineStore("detail", {
         ]?.["efg:UnitStratigraphicDetermination"]?.[
           "efg:ChronostratigraphicAttributions"
         ]?.["efg:ChronostratigraphicAttribution"];
-      let stratigraphyABCD =
+      let stratigraphyABCD: AbcdRecord | AbcdRecord[] | undefined =
         state?.responseFromSource?.["abcd:DataSets"]?.["abcd:DataSet"]?.[
           "abcd:Units"
         ]?.["abcd:Unit"]?.["abcd:Gathering"]?.["abcd:Stratigraphy"]?.[
@@ -137,7 +146,7 @@ export const useDetailStore = defineStore("detail", {
         if (!Array.isArray(stratigraphyEFG))
           stratigraphyEFG = [stratigraphyEFG];
 
-        stratigraphyList = stratigraphyEFG.reduce((prev, curr) => {
+        stratigraphyList = stratigraphyEFG.reduce((prev: typeof stratigraphyList, curr: AbcdRecord) => {
           if (curr["efg:ChronostratigraphicName"])
             prev.push({
               name: curr["efg:ChronostratigraphicName"],
@@ -152,7 +161,7 @@ export const useDetailStore = defineStore("detail", {
         if (!Array.isArray(stratigraphyABCD))
           stratigraphyABCD = [stratigraphyABCD];
 
-        stratigraphyABCD.forEach((item) => {
+        stratigraphyABCD.forEach((item: AbcdRecord) => {
           if (
             item?.["abcd:Term"] &&
             !stratigraphyList.some(
@@ -174,11 +183,13 @@ export const useDetailStore = defineStore("detail", {
     },
 
     contentContactName: (state) => {
-      return state?.contentContact?.["abcd:Name"];
+      const getters = state as unknown as AbcdRecord;
+      return getters.contentContact?.["abcd:Name"];
     },
 
     contentContactEmail: (state) => {
-      let email = state?.contentContact?.["abcd:Email"];
+      const getters = state as unknown as AbcdRecord;
+      let email = getters.contentContact?.["abcd:Email"];
       if (email) {
         if (email.includes("(at)")) email = email.replace("(at)", "@");
         return email;
@@ -186,11 +197,13 @@ export const useDetailStore = defineStore("detail", {
     },
 
     contentContactPhone: (state) => {
-      return state?.contentContact?.["abcd:Phone"];
+      const getters = state as unknown as AbcdRecord;
+      return getters.contentContact?.["abcd:Phone"];
     },
 
     contentContactAddress: (state) => {
-      return state?.contentContact?.["abcd:Address"];
+      const getters = state as unknown as AbcdRecord;
+      return getters.contentContact?.["abcd:Address"];
     },
 
     logoURI: (state) => {
@@ -206,11 +219,11 @@ export const useDetailStore = defineStore("detail", {
     },
 
     representationURI: (state) => {
-      let representationUrl =
+      const representationUrl =
         state?.responseFromSource?.["abcd:DataSets"]?.["abcd:DataSet"]?.[
           "abcd:Metadata"
         ]?.["abcd:Description"]?.["abcd:Representation"]?.["abcd:URI"];
-      let ownerUrl =
+      const ownerUrl =
         state?.responseFromSource?.["abcd:DataSets"]?.["abcd:DataSet"]?.[
           "abcd:Metadata"
         ]?.["abcd:Owners"]?.["abcd:Owner"]?.["abcd:URIs"]?.["abcd:URL"];
@@ -252,12 +265,12 @@ export const useDetailStore = defineStore("detail", {
     },
 
     dateLastEdited: (state) => {
-      let dateLastEdited =
+      const dateLastEdited =
         state?.responseFromSource?.["abcd:DataSets"]?.["abcd:DataSet"]?.[
           "abcd:Units"
         ]?.["abcd:Unit"]?.["abcd:DateLastEdited"];
 
-      let dateModified =
+      const dateModified =
         state?.responseFromSource?.["abcd:DataSets"]?.["abcd:DataSet"]?.[
           "abcd:Metadata"
         ]?.["abcd:RevisionData"]?.["abcd:DateModified"];
@@ -272,17 +285,17 @@ export const useDetailStore = defineStore("detail", {
     },
 
     itemArea: (state) => {
-      let area =
+      let area: AbcdRecord | AbcdRecord[] | undefined =
         state?.responseFromSource?.["abcd:DataSets"]?.["abcd:DataSet"]?.[
           "abcd:Units"
         ]?.["abcd:Unit"]?.["abcd:Gathering"]?.["abcd:NamedAreas"];
 
       if (area) {
         area = Array.isArray(area) ? area : [area];
-        let areaList = area
-          .map((item) => {
-            let areaClass = item?.["abcd:NamedArea"]?.["abcd:AreaClass"];
-            let areaName = item?.["abcd:NamedArea"]?.["abcd:AreaName"];
+        const areaList = area
+          .map((item: AbcdRecord) => {
+            const areaClass = item?.["abcd:NamedArea"]?.["abcd:AreaClass"];
+            const areaName = item?.["abcd:NamedArea"]?.["abcd:AreaName"];
 
             let areaCombined = "";
             if (areaName) {
@@ -291,14 +304,14 @@ export const useDetailStore = defineStore("detail", {
             }
             return areaCombined ? areaCombined : null;
           })
-          .filter((item) => item);
+          .filter((item: string | null): item is string => !!item);
         if (areaList && areaList.length > 0) return areaList;
         else return null;
       } else return null;
     },
 
     itemHighertaxon: (state) => {
-      let highertaxon =
+      let highertaxon: AbcdRecord | AbcdRecord[] | undefined =
         state?.responseFromSource?.["abcd:DataSets"]?.["abcd:DataSet"]?.[
           "abcd:Units"
         ]?.["abcd:Unit"]?.["abcd:Identifications"]?.["abcd:Identification"]?.[
@@ -307,12 +320,12 @@ export const useDetailStore = defineStore("detail", {
 
       if (highertaxon) {
         highertaxon = Array.isArray(highertaxon) ? highertaxon : [highertaxon];
-        let highertaxonList = highertaxon
-          .map((item) => {
+        const highertaxonList = highertaxon
+          .map((item: AbcdRecord) => {
             if (item["abcd:HigherTaxonName"] && item["abcd:HigherTaxonRank"])
               return `${item["abcd:HigherTaxonRank"]}: ${item["abcd:HigherTaxonName"]}`;
           })
-          .filter((item) => item);
+          .filter((item: string | undefined): item is string => !!item);
         if (highertaxonList && highertaxonList.length > 0)
           return highertaxonList;
       } else return null;
@@ -335,7 +348,7 @@ export const useDetailStore = defineStore("detail", {
     },
 
     originalStatus: (state) => {
-      let reference =
+      let reference: string | undefined =
         state?.responseFromSource?.["abcd:DataSets"]?.["abcd:DataSet"]?.[
           "abcd:Units"
         ]?.["abcd:Unit"]?.["abcd:Identifications"]?.[
@@ -343,7 +356,7 @@ export const useDetailStore = defineStore("detail", {
         ]?.[0]?.["abcd:References"]?.["abcd:Reference"]?.["abcd:TitleCitation"];
 
       if (!reference) {
-        let nomenclaturalReference =
+        const nomenclaturalReference =
           state?.responseFromSource?.["abcd:DataSets"]?.["abcd:DataSet"]?.[
             "abcd:Units"
           ]?.["abcd:Unit"]?.["abcd:SpecimenUnit"]?.[
@@ -362,15 +375,15 @@ export const useDetailStore = defineStore("detail", {
     },
 
     itemReference: (state) => {
-      let reference =
+      let reference: AbcdRecord | AbcdRecord[] | undefined =
         state?.responseFromSource?.["abcd:DataSets"]?.["abcd:DataSet"]?.[
           "abcd:Units"
         ]?.["abcd:Unit"]?.["abcd:UnitReferences"]?.["abcd:UnitReference"];
 
       if (reference) {
         reference = Array.isArray(reference) ? reference : [reference];
-        let referenceList = reference
-          .map((item) => {
+        const referenceList = reference
+          .map((item: AbcdRecord) => {
             let ref = "";
             if (item?.["abcd:TitleCitation"])
               ref = item?.["abcd:TitleCitation"];
@@ -384,7 +397,7 @@ export const useDetailStore = defineStore("detail", {
             }
             return ref ? ref : null;
           })
-          .filter((item) => item);
+          .filter((item: string | null): item is string => !!item);
         if (referenceList && referenceList.length > 0) return referenceList;
         else return null;
       } else return null;
@@ -455,7 +468,7 @@ export const useDetailStore = defineStore("detail", {
     },
 
     mineralNameDetail: (state) => {
-      let name =
+      const name =
         state?.responseFromSource?.["abcd:DataSets"]?.["abcd:DataSet"]?.[
           "abcd:Units"
         ]?.["abcd:Unit"]?.["abcd:Identifications"]?.["abcd:Identification"]?.[
@@ -489,111 +502,115 @@ export const useDetailStore = defineStore("detail", {
     },
 
     filteredItemHeaders: (state) => {
-      return state.translatedItemHeaders.filter((header) => {
-        if (state.item[header.value]) {
+      const getters = state as unknown as AbcdRecord;
+      const item = getters.item;
+      return getters.translatedItemHeaders.filter((header: DetailHeader) => {
+        if (item[header.value]) {
           return header;
-        } else if (header.value === "stratigraphy" && state?.itemStratigraphy)
+        } else if (header.value === "stratigraphy" && getters.itemStratigraphy)
           return header;
-        else if (header.value === "area" && state?.itemArea) return header;
-        else if (header.value === "unitWeight" && state?.unitWeight)
+        else if (header.value === "area" && getters.itemArea) return header;
+        else if (header.value === "unitWeight" && getters.unitWeight)
           return header;
-        else if (header.value === "reference" && state?.itemReference)
+        else if (header.value === "reference" && getters.itemReference)
           return header;
-        else if (header.value === "areaDetail" && state?.areaDetail)
+        else if (header.value === "areaDetail" && getters.areaDetail)
           return header;
-        else if (header.value === "nearNamedPlace" && state?.nearNamedPlace)
+        else if (header.value === "nearNamedPlace" && getters.nearNamedPlace)
           return header;
         else if (
           header.value === "highertaxon" &&
-          (state.item?.highertaxon || state.itemHighertaxon)
+          (item?.highertaxon || getters.itemHighertaxon)
         )
           return header;
         else if (
           header.value === "itemMineralGroup" &&
-          state.itemMineralGroup &&
-          JSON.stringify(state.itemMineralGroup) !==
-            JSON.stringify(state.itemHighertaxon) &&
-          JSON.stringify(state.item?.highertaxon) !==
-            JSON.stringify(state.itemMineralGroup)
+          getters.itemMineralGroup &&
+          JSON.stringify(getters.itemMineralGroup) !==
+            JSON.stringify(getters.itemHighertaxon) &&
+          JSON.stringify(item?.highertaxon) !==
+            JSON.stringify(getters.itemMineralGroup)
         )
           return header;
         else if (
           header.value === "mineralNameDetail" &&
-          state.mineralNameDetail
+          getters.mineralNameDetail
         )
           return header;
-        else if (header.value === "acquisitionDate" && state.acquisitionDate)
+        else if (header.value === "acquisitionDate" && getters.acquisitionDate)
           return header;
-        else if (header.value === "unitDateText" && state.unitDateText)
+        else if (header.value === "unitDateText" && getters.unitDateText)
           return header;
-        else if (header.value === "gatheringAgent" && state.gatheringAgent)
+        else if (header.value === "gatheringAgent" && getters.gatheringAgent)
           return header;
-        else if (header.value === "kindOfUnit" && state.kindOfUnit)
+        else if (header.value === "kindOfUnit" && getters.kindOfUnit)
           return header;
       });
     },
 
     filteredItemHeadersSecondary: (state) => {
-      return state.translatedItemHeadersSecondary.filter((header) => {
-        if (state.item[header.value]) {
+      const getters = state as unknown as AbcdRecord;
+      const item = getters.item;
+      return getters.translatedItemHeadersSecondary.filter((header: DetailHeader) => {
+        if (item[header.value]) {
           return header;
         } else if (
           header.value === "contentContactName" &&
-          state?.contentContactName
+          getters.contentContactName
         )
           return header;
         else if (
           header.value === "contentContactEmail" &&
-          state?.contentContactEmail
+          getters.contentContactEmail
         )
           return header;
         else if (
           header.value === "contentContactPhone" &&
-          state?.contentContactPhone
+          getters.contentContactPhone
         )
           return header;
         else if (
           header.value === "contentContactAddress" &&
-          state?.contentContactAddress
+          getters.contentContactAddress
         )
           return header;
         else if (
           header.value === "institutionHomepage" &&
-          state?.representationTitle
+          getters.representationTitle
         )
           return header;
-        else if (header.value === "copyrights" && state?.copyrights)
+        else if (header.value === "copyrights" && getters.copyrights)
           return header;
         else if (
           header.value === "termsofusestatements" &&
-          state?.termsofusestatements
+          getters.termsofusestatements
         )
           return header;
-        else if (header.value === "disclaimers" && state?.disclaimers)
+        else if (header.value === "disclaimers" && getters.disclaimers)
           return header;
-        else if (header.value === "acknowledgements" && state?.acknowledgements)
+        else if (header.value === "acknowledgements" && getters.acknowledgements)
           return header;
-        else if (header.value === "dateLastEdited" && state?.dateLastEdited)
+        else if (header.value === "dateLastEdited" && getters.dateLastEdited)
           return header;
-        else if (header.value === "specimenVerifier" && state?.specimenVerifier)
+        else if (header.value === "specimenVerifier" && getters.specimenVerifier)
           return header;
-        else if (header.value === "unitGuid" && state?.unitGuid) return header;
+        else if (header.value === "unitGuid" && getters.unitGuid) return header;
       });
     },
   },
   actions: {
-    UPDATE_RESPONSE(payload) {
+    UPDATE_RESPONSE(payload: AbcdRecord[]) {
       this.response = payload;
     },
 
-    UPDATE_RESPONSE_FROM_SOURCE(payload) {
+    UPDATE_RESPONSE_FROM_SOURCE(payload: AbcdRecord | null) {
       this.responseFromSource = payload;
     },
 
-    UPDATE_IS_LOADING(payload) {
+    UPDATE_IS_LOADING(payload: boolean) {
       this.isLoading = payload;
     },
-    async getDetailView(id) {
+    async getDetailView(id: string) {
       try {
         this.UPDATE_IS_LOADING(true);
         const response = await SearchService.getDetailView(id);
@@ -609,7 +626,9 @@ export const useDetailStore = defineStore("detail", {
           }
           this.UPDATE_IS_LOADING(false);
         }
-      } catch (err) {
+      } catch (caught) {
+        const err =
+          caught instanceof Error ? caught : new Error(String(caught));
         useSettingsStore().updateErrorMessage(
           `<b>Failed to item with an ID: ${id}!</b><br /><b>Name:</b> ${err.name}<br /><b>Message:</b> ${err.message}`,
         );
@@ -619,7 +638,7 @@ export const useDetailStore = defineStore("detail", {
       }
     },
 
-    async getDetailViewDataFromSource(url) {
+    async getDetailViewDataFromSource(url: string) {
       try {
         const response = await SearchService.getDetailViewDataFromSource(url);
         if (response?.data) {
@@ -631,7 +650,9 @@ export const useDetailStore = defineStore("detail", {
           if (!useSettingsStore().info)
             useSettingsStore().updateInfoState(true);
         }
-      } catch (err) {
+      } catch (caught) {
+        const err =
+          caught instanceof Error ? caught : new Error(String(caught));
         useSettingsStore().updateErrorMessage(
           `<b>Failed to fetch data directly from source!</b><br /><b>Name:</b> ${err.name}<br /><b>Message:</b> ${err.message}`,
         );
