@@ -22,7 +22,7 @@ useHead(() => ({ title: t("frontPage.title") }));
   <div class="tw:bg-home-surface tw:text-home-ink">
     <UContainer class="tw:pb-18">
       <div
-        class="tw:border-home-border tw:grid tw:grid-cols-4 tw:border-b tw:py-7 tw:max-[600px]:grid-cols-1 tw:max-[600px]:py-4"
+        class="tw:border-home-border tw:grid tw:grid-cols-4 tw:border-b tw:py-7 tw:max-[600px]:grid-cols-1 tw:max-[600px]:gap-3 tw:max-[600px]:py-6"
       >
         <StatsCard
           v-for="item in stats"
@@ -63,7 +63,7 @@ useHead(() => ({ title: t("frontPage.title") }));
         </div>
 
         <div
-          class="tw:grid tw:grid-cols-6 tw:auto-rows-fr tw:gap-x-7 tw:gap-y-10 tw:[@media(600px<width<=960px)]:grid-cols-4 tw:[@media(width<=600px)]:grid-cols-1 tw:[@media(width<=600px)]:gap-4"
+          class="tw:grid tw:grid-cols-6 tw:auto-rows-fr tw:gap-x-7 tw:gap-y-10 tw:[@media(600px<width<=960px)]:grid-cols-4 tw:[@media(width<=600px)]:grid-cols-1 tw:[@media(width<=600px)]:auto-rows-auto tw:[@media(width<=600px)]:gap-7"
         >
           <HoverCard
             v-for="card in cards"

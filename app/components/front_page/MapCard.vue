@@ -71,6 +71,28 @@ onMounted(() => {
     focusAfterOpen: false,
   }).setDOMContent(popupTarget.value);
   map.on("load", () => {
+    if (map.getLayer("geocase-heatmap")) {
+      map.setPaintProperty("geocase-heatmap", "heatmap-color", [
+        "interpolate",
+        ["linear"],
+        ["heatmap-density"],
+        0,
+        "rgba(0, 0, 0, 0)",
+        0.1,
+        "#e8d3f0",
+        0.25,
+        "#c694d8",
+        0.45,
+        "#a96ac3",
+        0.7,
+        "#743d8b",
+        0.9,
+        "#482a55",
+      ]);
+    }
+    if (map.getLayer("geocase-distinct")) {
+      map.setPaintProperty("geocase-distinct", "circle-color", "#c694d8");
+    }
     if (!map.getLayer("geocase-distinct")) return;
     map.on("mouseenter", "geocase-distinct", showLocality);
     map.on("click", "geocase-distinct", showLocality);

@@ -14,7 +14,7 @@ const { localePath } = useAppNavigation();
     <img
       src="https://files.geocollections.info/img/geocase/front_page/geocase_landing.jpg"
       :alt="t('header.landingPageAltText')"
-      class="tw:absolute tw:inset-0 tw:-z-20 tw:size-full tw:object-cover"
+      class="tw:absolute tw:inset-0 tw:-z-20 tw:size-full tw:object-cover tw:saturate-[0.7]"
     />
     <div
       class="tw:from-home-hero/98 tw:via-home-hero/75 tw:to-home-hero/25 tw:absolute tw:inset-0 tw:-z-10 tw:bg-linear-to-r"

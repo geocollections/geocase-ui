@@ -7,7 +7,7 @@
       fixed
       bottom
       right
-      color="amber"
+      color="primary"
       theme="dark"
       @click="toTop"
       :style="style"

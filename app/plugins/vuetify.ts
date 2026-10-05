@@ -14,14 +14,14 @@ export default defineNuxtPlugin((nuxtApp) => {
         light: {
           dark: false,
           colors: {
-            primary: "#FFA000",
+            primary: "#C694D8",
             secondary: "#607D8B",
-            accent: "#82B1FF",
+            accent: "#C694D8",
             error: "#FF5252",
             info: "#2196F3",
             success: "#4CAF50",
             warning: "#FFC107",
-            main: "#FFA000",
+            main: "#C694D8",
             fossil: "#8BC34A",
             mineral: "#E91E63",
             rock: "#03A9F4",
