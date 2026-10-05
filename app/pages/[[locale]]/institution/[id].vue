@@ -22,6 +22,9 @@ const { data: collection } = await useAsyncData(
   () => `institution-collection-${route.params.id}`,
   () => $fetch(`/api/institution/${encodeURIComponent(String(route.params.id))}`),
 );
+const collectionPoints = computed(() =>
+  Array.isArray(collection.value?.points) ? collection.value.points : [],
+);
 const loadedImages = ref<string[]>([]);
 const failedImages = ref<string[]>([]);
 const galleryImages = computed(() => (collection.value?.images ?? []).filter(
@@ -67,10 +70,10 @@ useHead(() => ({ title: institution.value?.name ?? t("partnersPage.pageTitle") }
       <p class="tw:mt-4 tw:max-w-3xl tw:text-lg tw:leading-relaxed tw:text-home-muted">{{ profile?.description }}</p>
     </section>
 
-    <section v-if="collection?.points.length" class="tw:mt-8">
+    <section v-if="collectionPoints.length" class="tw:mt-8">
       <h2 class="tw:text-2xl tw:font-bold">{{ t('partnersPage.collectionMap') }}</h2>
       <div class="tw:mt-4 tw:overflow-hidden tw:rounded-3xl tw:border tw:border-home-border">
-        <ClientOnly><InstitutionCollectionMap :key="institution.id" :points="collection.points" :label="t('partnersPage.collectionMap')" /></ClientOnly>
+        <ClientOnly><InstitutionCollectionMap :key="institution.id" :points="collectionPoints" :label="t('partnersPage.collectionMap')" /></ClientOnly>
       </div>
     </section>
 
