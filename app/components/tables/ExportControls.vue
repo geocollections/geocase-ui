@@ -36,7 +36,7 @@ function toastError(error: unknown) {
     timeout: 5000,
     closeOnEscape: true,
     pauseOnHover: false,
-    displayMode: "replace",
+    displayMode: 1,
   });
 }
 

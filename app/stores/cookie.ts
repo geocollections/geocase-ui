@@ -6,7 +6,7 @@ export const useCookieStore = defineStore("cookie", {
   }),
   getters: {},
   actions: {
-    UPDATE_COOKIE_LAW(bool) {
+    UPDATE_COOKIE_LAW(bool: boolean) {
       this.cookieLaw = bool;
     },
     closeCookieLaw() {

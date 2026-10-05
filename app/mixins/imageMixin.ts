@@ -1,13 +1,31 @@
+interface ImageRecord {
+  recordbasis?: unknown;
+  fullscientificname?: unknown;
+  locality?: unknown;
+  datasetowner?: unknown;
+  [key: string]: unknown;
+}
+
+interface ImageMixinThis {
+  $t(key: string): string;
+}
+
 const imageMixin = {
   methods: {
-    getImageUrl(url) {
+    getImageUrl(
+      this: ImageMixinThis,
+      url: string | null | undefined,
+    ): string {
       if (url) {
         const IMAGE_URL = "https://geocase.eu/thumbnails/";
         return IMAGE_URL + encodeURIComponent(url);
       } else return "";
     },
 
-    getImageAltText(imageObject) {
+    getImageAltText(
+      this: ImageMixinThis,
+      imageObject: ImageRecord | null | undefined,
+    ): string {
       let altText = "";
       const fields = [
         "recordbasis",

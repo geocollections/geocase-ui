@@ -7,7 +7,7 @@ export default defineConfig({
   use: { baseURL: "http://127.0.0.1:3100", trace: "retain-on-failure" },
   webServer: [
     {
-      command: "node tests/fixtures/upstream.mjs",
+      command: "node tests/fixtures/upstream.ts",
       url: "http://127.0.0.1:3101",
       reuseExistingServer: false,
     },

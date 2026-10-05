@@ -1,13 +1,13 @@
 export default defineNuxtPlugin((nuxtApp) => {
   if (
-    !import.meta.prod ||
+    !import.meta.env.PROD ||
     !["geocase.eu", "www.geocase.eu"].includes(window.location.hostname)
   )
     return;
 
   window.dataLayer = window.dataLayer || [];
-  window.gtag = function () {
-    window.dataLayer.push(arguments);
+  window.gtag = function (...args) {
+    window.dataLayer.push(args);
   };
   window.gtag("js", new Date());
   window.gtag("config", "G-3H583KMKRT", { send_page_view: false });

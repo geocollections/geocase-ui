@@ -1,6 +1,8 @@
 import { defineStore } from "pinia";
 import i18n from "@/i18n";
 
+type Language = "en" | "ee" | "de";
+
 export const useSettingsStore = defineStore("settings", {
   state: () => ({
     error: false,
@@ -8,7 +10,7 @@ export const useSettingsStore = defineStore("settings", {
     info: false,
     infoMessage: "",
     searchDrawer: false,
-    language: "en",
+    language: "en" as Language,
   }),
   getters: {
     externalResources: () => {
@@ -124,54 +126,57 @@ export const useSettingsStore = defineStore("settings", {
     },
 
     staticPages: (state) => {
-      return state.routes.filter((item) => item.isStatic);
+      const routes = (state as unknown as Record<string, any>).routes;
+      return routes.filter(
+        (item: { isStatic?: boolean }) => "isStatic" in item && item.isStatic,
+      );
     },
   },
   actions: {
-    SET_ERROR_STATE(bool) {
+    SET_ERROR_STATE(bool: boolean) {
       this.error = bool;
     },
 
-    SET_ERROR_MESSAGE(message) {
+    SET_ERROR_MESSAGE(message: string) {
       this.errorMessage = message;
     },
 
-    SET_INFO_STATE(bool) {
+    SET_INFO_STATE(bool: boolean) {
       this.info = bool;
     },
 
-    SET_INFO_MESSAGE(message) {
+    SET_INFO_MESSAGE(message: string) {
       this.infoMessage = message;
     },
 
-    UPDATE_SEARCH_DRAWER_STATE(bool) {
+    UPDATE_SEARCH_DRAWER_STATE(bool: boolean) {
       this.searchDrawer = bool;
     },
 
-    UPDATE_LANGUAGE(language) {
+    UPDATE_LANGUAGE(language: Language) {
       this.language = language;
     },
-    updateErrorState(bool) {
+    updateErrorState(bool: boolean) {
       this.SET_ERROR_STATE(bool);
     },
 
-    updateErrorMessage(message) {
+    updateErrorMessage(message: string) {
       this.SET_ERROR_MESSAGE(message);
     },
 
-    updateInfoState(bool) {
+    updateInfoState(bool: boolean) {
       this.SET_INFO_STATE(bool);
     },
 
-    updateInfoMessage(message) {
+    updateInfoMessage(message: string) {
       this.SET_INFO_MESSAGE(message);
     },
 
-    updateSearchDrawerState(bool) {
+    updateSearchDrawerState(bool: boolean) {
       if (this.searchDrawer !== bool) this.UPDATE_SEARCH_DRAWER_STATE(bool);
     },
 
-    updateLanguage(language) {
+    updateLanguage(language: Language) {
       this.UPDATE_LANGUAGE(language);
     },
   },
