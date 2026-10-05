@@ -8,9 +8,6 @@ export default defineNuxtConfig({
     optimizeDeps: { exclude: ["maplibre-gl"] },
   },
   modules: ["@pinia/nuxt", "@nuxt/ui", "@nuxt/image"],
-  imports: {
-    presets: [{ from: "vue-i18n", imports: ["useI18n"] }],
-  },
   image: {
     domains: ["files.geocollections.info", "geocase.eu"],
     providers: {
