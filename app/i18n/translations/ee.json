@@ -50,6 +50,23 @@
       "append": "otsib kirjeid, kus stratigraafiaks on määratud Burtnieki lade. NB! sellise otsingu puhul tehakse vahet suur- ja väiketähtedel ('asaphus' and 'Asaphus' ei ole samad), abiks on pimesümbol (*)."
     }
   },
+  "datasetsPage": {
+    "title": "Andmekogud",
+    "description": "GeoCASe koondab muuseumide ja teadusasutuste geoteaduslike kogude kirjeid. Siit leiad portaalis esindatud andmekogud, nendega seotud institutsioonid ja lingid kirjete sirvimiseks.",
+    "viewRecords": "Vaata kirjeid",
+    "empty": "Andmekogusid ei ole saadaval.",
+    "loading": "Andmekogude laadimine…",
+    "explanationTitle": "Mida andmekogude loend näitab?",
+    "explanation": "Selles loendis on andmekogu ühest andmeallikast pärinevate kirjete kogum. Andmeallika aadress eristab andmekogusid ning kirjete arv näitab, kui palju kirjeid on sellest allikast praegu GeoCASe’is otsitavad.",
+    "institutionExplanation": "Institutsiooni seos põhineb kirjete andmeomaniku väljal. Ühel institutsioonil võib olla mitu andmekogu ning ühe andmeallikaga võib olla seotud mitu institutsiooni. Institutsiooni nimel klõpsates avaneb selle tutvustus, kui see on portaalis olemas.",
+    "usageExplanation": "Ava „Vaata kirjeid”, et sirvida valitud andmekogu sisu. Proovitüübid pärinevad kirjetest. Andmete kasutamisel kontrolli konkreetsete kirjete kasutustingimusi ning viita andmeid pakkuvale institutsioonile.",
+    "institutions": "Seotud institutsioonid / andmeomanikud",
+    "unknownInstitution": "Institutsioon ei ole kirjetes märgitud.",
+    "source": "Andmekogu andmeallikas",
+    "specimenTypes": "Andmekogus esindatud proovitüübid",
+    "error": "Andmekogude laadimine ebaõnnestus.",
+    "retry": "Proovi uuesti"
+  },
   "frontPage": {
     "heroEyebrow": "Geoteaduslikud kogud",
     "heroDescription": "Avasta fossiile, mineraale, kivimeid, meteoriite ja materjaliproove maailma muuseumide ja teadusasutuste kogudest.",
@@ -68,6 +85,7 @@
     "quickSearch": "Kiirotsing...",
     "totalRecords": "Kirjeid kokku",
     "institutionCount": "Asutuste arv",
+    "datasetCount": "Andmekogude arv",
     "countryCount": "Riigid andmetega",
     "cards": {
       "materialSamples": {

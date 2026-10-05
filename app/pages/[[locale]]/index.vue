@@ -13,7 +13,7 @@ const { t } = useI18n();
 const frontpage = useFrontpageStore();
 const { localePath } = useAppNavigation();
 const stats = computed(() => frontpage.stats);
-const cards = computed(() => Object.values(frontpage.getCards));
+const cards = computed(() => frontpage.cardIds.map((id) => frontpage.getCards[id as keyof typeof frontpage.getCards]));
 
 useHead(() => ({ title: t("frontPage.title") }));
 </script>
@@ -22,7 +22,7 @@ useHead(() => ({ title: t("frontPage.title") }));
   <div class="tw:bg-home-surface tw:text-home-ink">
     <UContainer class="tw:pb-18">
       <div
-        class="tw:border-home-border tw:grid tw:grid-cols-3 tw:border-b tw:py-7 tw:max-[600px]:grid-cols-1 tw:max-[600px]:py-4"
+        class="tw:border-home-border tw:grid tw:grid-cols-4 tw:border-b tw:py-7 tw:max-[600px]:grid-cols-1 tw:max-[600px]:py-4"
       >
         <StatsCard
           v-for="item in stats"

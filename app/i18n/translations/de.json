@@ -50,6 +50,23 @@
       "append": "sucht alle Datensatze, bei denen die Stratigraphie auf Burtnieki-Stufe eingestellt ist. HINWEIS! Bei dieser Art der Suche ist die Großschreibung wichtig ('asaphus' und 'Asaphus' sind nicht dasselbe) und * ist nützlich."
     }
   },
+  "datasetsPage": {
+    "title": "Datensätze",
+    "description": "GeoCASe bündelt geowissenschaftliche Sammlungsdaten von Museen und Forschungseinrichtungen. Entdecken Sie die Datenquellen im Portal, die zugehörigen Institutionen und ihre Einträge.",
+    "viewRecords": "Einträge ansehen",
+    "empty": "Keine Datensätze verfügbar.",
+    "loading": "Datensätze werden geladen…",
+    "explanationTitle": "Was zeigt die Liste der Datensätze?",
+    "explanation": "In dieser Liste bezeichnet ein Datensatz eine Gruppe von Einträgen aus einer Datenquelle. Die Quelladresse unterscheidet die Datensätze. Die Anzahl zeigt, wie viele Einträge aus dieser Quelle aktuell in GeoCASe durchsuchbar sind.",
+    "institutionExplanation": "Die Zuordnung zu Institutionen basiert auf dem Feld zum Dateneigentümer in den Einträgen. Eine Institution kann mehrere Datensätze bereitstellen; eine Quelle kann mehreren Institutionen zugeordnet sein. Ein verlinkter Institutionsname führt zum Profil im Portal.",
+    "usageExplanation": "Wählen Sie „Einträge ansehen“, um einen Datensatz zu durchsuchen. Die Objekttypen stammen aus den Einträgen. Prüfen Sie bei der Datennutzung die jeweiligen Nutzungsbedingungen und nennen Sie die bereitstellende Institution.",
+    "institutions": "Zugehörige Institutionen / Dateneigentümer",
+    "unknownInstitution": "In den Einträgen ist keine Institution angegeben.",
+    "source": "Datenquelle",
+    "specimenTypes": "Objekttypen in diesem Datensatz",
+    "error": "Datensätze konnten nicht geladen werden.",
+    "retry": "Erneut versuchen"
+  },
   "frontPage": {
     "heroEyebrow": "Geowissenschaftliche Sammlungen",
     "heroDescription": "Entdecken Sie Fossilien, Minerale, Gesteine, Meteoriten und Materialproben aus Museen und Forschungssammlungen weltweit.",
@@ -68,6 +85,7 @@
     "quickSearch": "Schnellsuche...",
     "totalRecords": "Einträge insgesamt",
     "institutionCount": "Anzahl der Institutionen",
+    "datasetCount": "Anzahl der Datensätze",
     "countryCount": "Anzahl der Länder",
     "cards": {
       "materialSamples": {

@@ -8,12 +8,15 @@ export const useFrontpageStore = defineStore("frontpage", {
     records: "",
     datasetowner: "",
     country: "",
+    datasourceurl: "",
+    datasets: /** @type {{ url: string, count: number }[]} */ ([]),
     hasMaterialSamples: false,
-    cardIds: ["fossil", "mineral", "rock", "meteorite", "materialSample"],
+    cardIds: ["mineral", "rock", "meteorite", "materialSample", "fossil"],
     cards: {
       materialSample: {
         url: '/search?recordbasis="MaterialSample"',
-        icon: "i-lucide-flask-conical",
+        image:
+          "https://files.geocollections.info/7f91c242-6f29-4fa7-93a1-705e87219efd.jpg",
         isLeaving: false,
       },
       fossil: {
@@ -60,6 +63,11 @@ export const useFrontpageStore = defineStore("frontpage", {
           text: i18n.t("frontPage.countryCount"),
           count: state.country.toLocaleString(),
           id: 3,
+        },
+        {
+          text: i18n.t("frontPage.datasetCount"),
+          count: state.datasourceurl.toLocaleString(),
+          id: 4,
         },
       ];
     },
@@ -111,9 +119,19 @@ export const useFrontpageStore = defineStore("frontpage", {
       this.hasMaterialSamples = types.some(
         (value, index) => index % 2 === 0 && value === "MaterialSample" && types[index + 1] > 0,
       );
+      const sources = payload?.facet_fields?.datasourceurl;
+      if (sources) {
+        this.datasets = [];
+        for (let index = 0; index < sources.length; index += 2) {
+          if (sources[index] && sources[index + 1] > 0) {
+            this.datasets.push({ url: sources[index], count: sources[index + 1] });
+          }
+        }
+        this.datasourceurl = this.datasets.length;
+      }
       if (payload?.facet_fields) {
         Object.entries(payload.facet_fields).forEach((item) => {
-          if (item[0] === "recordbasis") return;
+          if (["recordbasis", "datasourceurl"].includes(item[0])) return;
           this[item[0]] = item[1].filter(
             (val) => typeof val !== "string",
           ).length;
