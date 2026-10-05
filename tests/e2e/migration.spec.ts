@@ -110,8 +110,8 @@ test("homepage quick search, help and localized routes", async ({ page }) => {
   await quickSearch.press("Enter");
   await expect(page).toHaveURL(/search.*q=quartz/);
   await expect(page.locator("#table")).toContainText("DEMO-1");
-  await page.getByRole("button", { name: "select language" }).click();
-  await page.getByText("EST", { exact: true }).click();
+  await page.getByRole("button", { name: "Language" }).click();
+  await page.getByRole("menuitem", { name: "Eesti" }).click();
   await expect(page).toHaveURL(/\/ee\/search/);
   await page.reload();
   await expect(page.locator("html")).toHaveAttribute("lang", "et");
@@ -149,8 +149,8 @@ test("server table sorting, pagination, export and specimen navigation", async (
     path: "test-results/specimen-desktop.png",
     fullPage: true,
   });
-  await page.getByRole("button", { name: "select language" }).click();
-  await page.getByText("GER", { exact: true }).click();
+  await page.getByRole("button", { name: "Language" }).click();
+  await page.getByRole("menuitem", { name: "Deutsch" }).click();
   await expect(page).toHaveURL(/\/de\/specimen\/demo/);
   expect(errors).toEqual([]);
 });
@@ -280,7 +280,7 @@ test("homepage map loads its worker and opens locality specimens", async ({
   expect(errors).toEqual([]);
 });
 
-test("Nuxt UI header keeps the brand visible and exposes external resources", async ({
+test("Nuxt UI header keeps the brand visible and exposes external resources in the menu", async ({
   page,
 }) => {
   await page.goto("/");
@@ -303,11 +303,12 @@ test("Nuxt UI header keeps the brand visible and exposes external resources", as
   await expect(
     header.getByRole("button", { name: "Menu", exact: true }),
   ).toHaveCSS("background-color", "rgba(0, 0, 0, 0)");
-  await header.getByRole("button", { name: /resources/i }).click();
-  await expect(page.getByRole("menuitem", { name: /github/i })).toHaveAttribute(
-    "href",
-    "https://github.com/geocollections/geocase-ui",
-  );
+  await header.getByRole("button", { name: "Menu", exact: true }).click();
+  await expect(
+    page.getByRole("navigation", { name: "Resources" }).getByRole("link", {
+      name: /github/i,
+    }),
+  ).toHaveAttribute("href", "https://github.com/geocollections/geocase-ui");
 });
 
 test("Nuxt UI filters select, clear and reset facets", async ({ page }) => {
