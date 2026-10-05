@@ -2,6 +2,7 @@ import axios from "axios";
 import { cloneDeep } from "lodash";
 import earcut from "earcut";
 import Wkt from "wicket/wicket";
+import { parseDatasetsResponse } from "@/utils/datasets";
 
 const API_URL = "/api";
 const FACET_QUERY =
@@ -67,6 +68,21 @@ class SearchService {
       console.error(err);
       throw new Error(err);
     }
+  }
+
+  static async getDatasets() {
+    const field = "datasourceurl,datasetowner,recordbasis";
+    const res = await axios.get(`${API_URL}/`, {
+      params: {
+        q: "*:*",
+        rows: 0,
+        facet: "on",
+        "facet.pivot": field,
+        "facet.limit": -1,
+        "facet.mincount": 1,
+      },
+    });
+    return parseDatasetsResponse(res.data);
   }
 
   static async getAllFieldNames() {
