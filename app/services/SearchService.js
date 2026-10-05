@@ -7,7 +7,7 @@ const API_URL = "/api";
 const FACET_QUERY =
   "facet=on&facet.mincount=0&facet.limit=200&f.highertaxon_facet.facet.limit=100";
 const STATS_QUERY =
-  "facet=on&facet.field=datasetowner&facet.field=country&facet.field=recordbasis&facet.limit=500";
+  "facet=on&facet.field=datasetowner&facet.field=country&facet.field=recordbasis&facet.field=datasourceurl&facet.limit=500&f.datasourceurl.facet.limit=-1&f.datasourceurl.facet.mincount=1";
 
 class SearchService {
   static async search(params) {
@@ -197,6 +197,7 @@ function buildSearchFieldsQuery(search, searchIds) {
           value = `"${value}"`;
 
         let filterQuery = `fq=${name}:`;
+        if (name === "datasourceurl") value = value.replace(/["\\]/g, "\\$&");
         let encodedValue = encodeURIComponent(value);
 
         if (type === "checkbox") {

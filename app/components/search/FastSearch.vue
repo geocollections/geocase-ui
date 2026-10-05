@@ -120,12 +120,12 @@ async function submitSearch() {
             <UButton
               type="submit"
               icon="i-lucide-search"
-              color="primary"
+              :color="hero ? 'neutral' : 'primary'"
               :variant="hero ? 'solid' : 'ghost'"
               :size="inAppHeader ? 'md' : 'lg'"
               :label="hero ? t('header.search') : undefined"
               :aria-label="t('frontPage.quickSearch')"
-              :class="hero ? 'tw:rounded-2xl' : undefined"
+              :class="hero ? 'tw:rounded-2xl tw:bg-black tw:text-white tw:hover:bg-neutral-800' : undefined"
             />
           </div>
         </template>

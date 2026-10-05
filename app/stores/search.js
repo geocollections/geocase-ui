@@ -19,6 +19,13 @@ export const useSearchStore = defineStore("search", {
         value: null,
         label: "Find quickly",
       },
+      datasourceurl: {
+        id: "datasourceurl",
+        type: "text",
+        lookUpType: "equals",
+        value: null,
+        label: "Data source URL",
+      },
       fullscientificname: {
         id: "fullscientificname",
         type: "text",
@@ -144,6 +151,7 @@ export const useSearchStore = defineStore("search", {
     },
     searchIds: [
       "q",
+      "datasourceurl",
       "fullscientificname",
       "highertaxon",
       "stratigraphy",

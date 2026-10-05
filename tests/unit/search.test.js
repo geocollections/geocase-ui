@@ -6,6 +6,7 @@ import { useDetailStore } from "@/stores/detail";
 import { useFrontpageStore } from "@/stores/frontpage";
 import SearchService from "@/services/SearchService";
 import i18n from "@/i18n";
+import queryMixin from "@/mixins/queryMixin";
 vi.mock("axios", () => ({ default: { get: vi.fn() } }));
 beforeEach(() => {
   setActivePinia(createPinia());
@@ -34,6 +35,27 @@ describe("migrated search state and API contract", () => {
     expect(store.country).toEqual(["Estonia"]);
     expect(store.getCheckboxesCount("country")).toEqual([3]);
     expect(store.isLoading).toBe(false);
+  });
+  it("uses dataset navigation as an exact source filter with match-all search", async () => {
+    const store = useSearchStore();
+    const source = 'https://example.org/query?filter=a&schema=b#"source"';
+    queryMixin.methods.deconstructQueryParams.call({
+      searchIds: store.searchIds,
+      lookUpTypes: store.lookUpTypes,
+      searchParamsList: store.searchParamsList,
+      updateSearchField: store.updateSearchField,
+      updateSearchParam: store.updateSearchParam,
+    }, { datasourceurl__equals: source });
+    axios.get.mockResolvedValue({ data: { response: { docs: [], numFound: 7 } } });
+    await store.fetchResults();
+    const url = new URL(axios.get.mock.calls[0][0], "http://localhost");
+    expect(url.searchParams.get("q")).toBe("*");
+    expect(url.searchParams.getAll("fq")).toContain(
+      `datasourceurl:"${source.replace(/["\\]/g, "\\$&")}"`,
+    );
+    expect(store.responseResultsCount).toBe(7);
+    store.resetSearch();
+    expect(store.search.datasourceurl.value).toBeNull();
   });
   it("resets filters and pagination and preserves translated column identities", () => {
     const store = useSearchStore();

@@ -14,6 +14,10 @@ const searchStore = useSearchStore();
 const { localePath } = useAppNavigation();
 
 async function viewInfo() {
+  if (props.id === 4) {
+    await router.push(localePath("/dataset"));
+    return;
+  }
   if (props.id === 2) {
     await router.push(localePath("/institution"));
     return;

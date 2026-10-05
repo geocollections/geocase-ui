@@ -50,6 +50,23 @@
       "append": "will search all records, where stratigraphy is set to Burtnieki Stage. NB! In this kind of search, uppercase is important ('asaphus' and 'Asaphus' are not the same) and * is useful."
     }
   },
+  "datasetsPage": {
+    "title": "Datasets",
+    "description": "GeoCASe brings together geoscience collection records from museums and research institutions. Explore the datasets represented in the portal, their institutions and links to browse their records.",
+    "viewRecords": "View records",
+    "empty": "No datasets available.",
+    "loading": "Loading datasets…",
+    "explanationTitle": "What does the dataset list show?",
+    "explanation": "In this list, a dataset is a group of records from one data source. The source address distinguishes datasets, and the record count shows how many records from that source are currently searchable in GeoCASe.",
+    "institutionExplanation": "Institution associations come from the dataset owner field in the records. An institution can contribute several datasets, and a source can be associated with several institutions. Click an institution name to open its profile when one is available in the portal.",
+    "usageExplanation": "Choose “View records” to browse a dataset. Specimen types come from its records. When using the data, check the terms of use of the individual records and acknowledge the contributing institution.",
+    "institutions": "Associated institutions / data owners",
+    "unknownInstitution": "No institution is specified in the records.",
+    "source": "Dataset source",
+    "specimenTypes": "Specimen types in this dataset",
+    "error": "Could not load datasets.",
+    "retry": "Try again"
+  },
   "frontPage": {
     "heroEyebrow": "Geoscience collections",
     "heroDescription": "Discover fossils, minerals, rocks, meteorites and material samples from museums and research collections around the world.",
@@ -68,6 +85,7 @@
     "quickSearch": "Quick search...",
     "totalRecords": "Total Records",
     "institutionCount": "Number of Institutions",
+    "datasetCount": "Number of datasets",
     "countryCount": "Countries with data",
     "cards": {
       "materialSamples": {
