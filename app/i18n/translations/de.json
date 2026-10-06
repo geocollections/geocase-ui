@@ -350,6 +350,7 @@
       "tooltipRemoveFixedHeaders": "Festen Status der Tabelle deaktivieren",
       "headerSelectDisabled": "Sortierung aktiviert",
       "headers": "Header",
+      "responsiveColumns": "Auf kleineren Bildschirmen werden weniger Spalten angezeigt.",
       "filter": "Filter",
       "goTo": "Gehe zu Seite",
       "goToBtn": "Gehe",
