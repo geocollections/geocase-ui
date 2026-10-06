@@ -13,8 +13,8 @@ export const navigationVisibility: Record<
     drawer: "tw:min-[600px]:hidden",
   },
   "/help": {
-    header: "tw:hidden tw:min-[600px]:inline-flex",
-    drawer: "tw:min-[600px]:hidden",
+    header: "tw:hidden tw:min-[900px]:inline-flex",
+    drawer: "tw:min-[900px]:hidden",
   },
   "/about": {
     header: "tw:hidden tw:min-[900px]:inline-flex",
