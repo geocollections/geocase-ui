@@ -38,19 +38,18 @@ export const useFrontpageStore = defineStore("frontpage", {
     datasourceurl: "",
     datasets: [] as { url: string; count: number }[],
     hasMaterialSamples: false,
-    cardIds: ["mineral", "rock", "meteorite", "materialSample", "fossil"],
+    cardIds: ["fossil", "mineral", "rock", "meteorite", "materialSample"],
     cards: {
       materialSample: {
         url: '/search?recordbasis="MaterialSample"',
         image:
-          "https://files.geocollections.info/50d3973d-a5d1-4e86-9c4b-45b7d4fbf7f4.jpg",
-        imageModifiers: { rotate: 90, width: 800, height: 500, fit: "cover", quality: 80, position: "center" },
+          "https://files.geocollections.info/img/geocase/front_page/materialsample2.jpg",
         isLeaving: false,
       },
       fossil: {
         url: '/search?recordbasis="Fossil" "FossilSpecimen"',
         image:
-          "https://files.geocollections.info/img/geocase/front_page/fossil1.jpg",
+          "https://files.geocollections.info/img/geocase/front_page/fossil2.jpg",
         isLeaving: false,
       },
       mineral: {
@@ -62,13 +61,13 @@ export const useFrontpageStore = defineStore("frontpage", {
       rock: {
         url: '/search?recordbasis="Rock" "RockSpecimen"',
         image:
-          "https://files.geocollections.info/img/geocase/front_page/rock1.jpg",
+          "https://files.geocollections.info/img/geocase/front_page/rock2.jpg",
         isLeaving: false,
       },
       meteorite: {
         url: '/search?recordbasis="Meteorite" "MeteoriteSpecimen"',
         image:
-          "https://files.geocollections.info/img/geocase/front_page/meteorite1.jpg",
+          "https://files.geocollections.info/img/geocase/front_page/meteorite2.jpg",
         isLeaving: false,
       },
     },

@@ -130,6 +130,25 @@ describe("migrated search state and API contract", () => {
 
 
 describe("homepage material samples navigation", () => {
+  it("uses the requested collection images and display order", () => {
+    const store = useFrontpageStore();
+    const imageBase = "https://files.geocollections.info/img/geocase/front_page/";
+
+    expect(store.cardIds).toEqual([
+      "fossil",
+      "mineral",
+      "rock",
+      "meteorite",
+      "materialSample",
+    ]);
+    expect(store.cards.fossil.image).toBe(`${imageBase}fossil2.jpg`);
+    expect(store.cards.rock.image).toBe(`${imageBase}rock2.jpg`);
+    expect(store.cards.meteorite.image).toBe(`${imageBase}meteorite2.jpg`);
+    expect(store.cards.materialSample.image).toBe(
+      `${imageBase}materialsample2.jpg`,
+    );
+  });
+
   it("only filters material samples when the unfiltered statistics contain them", async () => {
     const store = useFrontpageStore();
     expect(store.getCards.materialSample.url).toBe("/search");

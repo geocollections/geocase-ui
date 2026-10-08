@@ -15,7 +15,7 @@ useSeoMeta({
   ogTitle: () => i18n.t("seo.ogTitle"),
   ogDescription: () => i18n.t("seo.description"),
   ogImage:
-    "https://files.geocollections.info/img/geocase/front_page/geocase_landing.jpg",
+    "https://files.geocollections.info/img/geocase/front_page/geocase_landing3.jpg",
   ogUrl: () => `https://geocase.eu${route.fullPath}`,
   ogImageAlt: () => i18n.t("header.landingPageAltText"),
   twitterCard: "summary_large_image",
