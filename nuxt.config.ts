@@ -7,7 +7,7 @@ export default defineNuxtConfig({
   vite: {
     optimizeDeps: { exclude: ["maplibre-gl"] },
   },
-  modules: ["@pinia/nuxt", "@nuxt/ui", "@nuxt/image"],
+  modules: ["@pinia/nuxt", "@nuxt/ui", "@nuxt/image", "@nuxt/eslint"],
   image: {
     domains: ["files.geocollections.info", "geocase.eu"],
     providers: {
