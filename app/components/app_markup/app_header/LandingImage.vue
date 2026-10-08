@@ -12,16 +12,20 @@ const { localePath } = useAppNavigation();
     class="tw:bg-home-hero tw:relative tw:isolate tw:overflow-hidden tw:text-white"
   >
     <img
-      src="https://files.geocollections.info/img/geocase/front_page/geocase_landing.jpg"
+      src="https://files.geocollections.info/img/geocase/front_page/geocase_landing3.jpg"
       :alt="t('header.landingPageAltText')"
       class="tw:absolute tw:inset-0 tw:-z-20 tw:size-full tw:object-cover tw:saturate-[0.7]"
     />
     <div
-      class="tw:from-home-hero/98 tw:via-home-hero/75 tw:to-home-hero/25 tw:absolute tw:inset-0 tw:-z-10 tw:bg-linear-to-r"
+      class="tw:absolute tw:inset-0 tw:-z-10 tw:bg-[#9438c8]/20 tw:mix-blend-color"
+      aria-hidden="true"
+    />
+    <div
+      class="tw:from-home-hero/98 tw:via-home-hero/75 tw:to-home-hero/25 tw:absolute tw:z-0 tw:inset-0 tw:bg-linear-to-r"
     />
 
     <UContainer
-      class="tw:flex tw:min-h-135 tw:items-center tw:py-16 tw:sm:py-20"
+      class="tw:relative tw:z-10 tw:flex tw:min-h-135 tw:items-center tw:py-16 tw:sm:py-20"
     >
       <div class="tw:max-w-3xl">
         <p

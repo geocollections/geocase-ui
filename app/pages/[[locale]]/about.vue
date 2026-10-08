@@ -25,6 +25,16 @@ const collections = [
     <header
       class="tw:relative tw:overflow-hidden tw:rounded-3xl tw:bg-[#edf1e9] tw:p-6 tw:sm:p-10 tw:lg:p-12"
     >
+      <img
+        src="https://files.geocollections.info/img/geocase/front_page/geocase_landing2.jpg"
+        alt=""
+        aria-hidden="true"
+        class="tw:absolute tw:inset-0 tw:size-full tw:object-cover"
+      />
+      <div
+        class="tw:absolute tw:inset-0 tw:bg-linear-to-r tw:from-[#edf1e9]/95 tw:via-[#edf1e9]/80 tw:to-[#edf1e9]/45"
+        aria-hidden="true"
+      />
       <div
         class="tw:relative tw:z-10 tw:grid tw:items-center tw:gap-10 tw:lg:grid-cols-[minmax(0,1.2fr)_minmax(240px,0.8fr)]"
       >
@@ -39,7 +49,7 @@ const collections = [
             {{ t("aboutPage.eyebrow") }}
           </p>
           <h1
-            class="tw:max-w-2xl tw:text-[clamp(2.25rem,5vw,4rem)] tw:leading-[1.06] tw:font-bold tw:tracking-[-0.045em]"
+            class="tw:pointer-events-none tw:max-w-2xl tw:text-[clamp(2.25rem,5vw,4rem)] tw:leading-[1.06] tw:font-bold tw:tracking-[-0.045em]"
           >
             {{ t("aboutPage.heroTitle") }}
           </h1>
@@ -50,7 +60,7 @@ const collections = [
           </p>
           <NuxtLink
             :to="localePath('/search')"
-            class="tw:mt-7 tw:inline-flex tw:items-center tw:gap-3 tw:rounded-xl tw:bg-home-hero tw:px-5 tw:py-3 tw:font-bold tw:text-white tw:no-underline tw:transition-colors tw:hover:bg-home-link tw:focus-visible:outline-2 tw:focus-visible:outline-offset-2 tw:focus-visible:outline-home-hero"
+            class="tw:pointer-events-auto tw:mt-7 tw:inline-flex tw:items-center tw:gap-3 tw:rounded-xl tw:bg-home-hero tw:px-5 tw:py-3 tw:font-bold tw:text-white tw:no-underline tw:transition-colors tw:hover:bg-home-link tw:focus-visible:outline-2 tw:focus-visible:outline-offset-2 tw:focus-visible:outline-home-hero"
           >
             {{ t("aboutPage.explore") }}
             <UIcon name="i-lucide-arrow-up-right" aria-hidden="true" />
@@ -90,7 +100,6 @@ const collections = [
         </div>
       </div>
     </header>
-
     <section class="tw:py-10 tw:sm:py-12" aria-labelledby="collections-title">
       <p
         class="tw:text-home-muted tw:text-xs tw:font-extrabold tw:tracking-[0.16em] tw:uppercase"

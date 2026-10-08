@@ -542,7 +542,14 @@ function getCetafIdentifierUrl(country, identifier) {
         </section>
       </div>
 
-      <div class="tw:order-4 tw:min-w-0 tw:sm:col-span-2">
+      <div
+        class="tw:order-4 tw:min-w-0"
+        :class="
+          localityExists && detailViewImages.length > 0
+            ? 'tw:sm:col-span-1'
+            : 'tw:sm:col-span-2'
+        "
+      >
         <section
           class="tw:overflow-hidden tw:rounded-[20px] tw:border tw:border-default tw:bg-default tw:shadow-sm"
           v-if="
@@ -704,10 +711,10 @@ function getCetafIdentifierUrl(country, identifier) {
 
       <div
         v-if="localityExists && imageExists && detailViewImages.length > 0"
-        class="tw:order-3 tw:min-w-0 tw:sm:col-span-2"
+        class="tw:order-3 tw:min-w-0 tw:self-start"
       >
         <image-carousel
-          class="tw:mb-0! tw:overflow-hidden tw:rounded-[20px] tw:border tw:border-default tw:shadow-sm tw:sm:ml-auto tw:sm:w-[calc(50%-12px)]"
+          class="tw:mb-0! tw:w-full tw:overflow-hidden tw:rounded-[20px] tw:border tw:border-default tw:shadow-sm"
           :images="detailViewImages"
         />
       </div>

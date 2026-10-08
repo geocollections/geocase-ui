@@ -24,7 +24,8 @@
         >
           <image-wrapper
             class="mx-auto"
-            :image-src="entity.thumbnailImage"
+            :image-src="entity.originalImage"
+            :fallback-src="entity.thumbnailImage"
             :max-height="calculateImageMaxHeight(entity.imageHeight)"
             :value="carouselItem"
             :alt-text="entity.altText"

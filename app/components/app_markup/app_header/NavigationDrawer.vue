@@ -91,6 +91,12 @@ function isActive(path: string) {
           />
         </NuxtLink>
       </nav>
+      <img
+        src="https://files.geocollections.info/img/geocase/front_page/geocase_landing2.jpg"
+        alt=""
+        aria-hidden="true"
+        class="tw:mt-5 tw:aspect-[2.88/1] tw:w-full tw:rounded-xl tw:object-cover"
+      />
       <section
         class="tw:mt-7 tw:border-t tw:border-home-border tw:pt-5"
         :aria-label="t('header.resources')"
