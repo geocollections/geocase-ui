@@ -116,6 +116,10 @@ const displayedHeaders = computed(() => {
           />
         </div>
 
+        <p class="tw:border-b tw:border-slate-200 tw:px-3 tw:py-2 tw:text-xs tw:text-slate-600">
+          {{ t("search.table.responsiveColumns") }}
+        </p>
+
         <div class="tw:p-2">
           <UInput
             v-model="filter"

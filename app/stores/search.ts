@@ -287,13 +287,6 @@ export const useSearchStore = defineStore("search", {
     isLoading: false,
     tableHeaders: [
       {
-        text: "empty",
-        value: "icon",
-        sortable: false,
-        show: true,
-        fixed: true,
-      },
-      {
         text: "collectioncode",
         value: "collectioncode",
         show: true,
@@ -329,17 +322,15 @@ export const useSearchStore = defineStore("search", {
     isTableHeaderFixed: false,
   }),
   getters: {
-    getCheckboxes: (state) => (
-      id: string,
-      showCheckboxes: boolean,
-      showMore: boolean | undefined,
-    ) => {
-      if (showCheckboxes) {
-        const facets = state as unknown as Record<string, string[]>;
-        if (showMore) return facets[id]!;
-        else return facets[id]!.slice(0, 4);
-      } else return [];
-    },
+    getCheckboxes:
+      (state) =>
+      (id: string, showCheckboxes: boolean, showMore: boolean | undefined) => {
+        if (showCheckboxes) {
+          const facets = state as unknown as Record<string, string[]>;
+          if (showMore) return facets[id]!;
+          else return facets[id]!.slice(0, 4);
+        } else return [];
+      },
 
     getCheckboxesLength: (state) => (id: string) => {
       const facets = state as unknown as Record<string, string[]>;
@@ -367,9 +358,7 @@ export const useSearchStore = defineStore("search", {
           "last_harvested_processing",
           "_version_",
         ];
-        return fieldNames.filter(
-          (field) => !NOT_NEEDED_FIELDS.includes(field),
-        );
+        return fieldNames.filter((field) => !NOT_NEEDED_FIELDS.includes(field));
       } else return null;
     },
 
@@ -496,8 +485,7 @@ export const useSearchStore = defineStore("search", {
       this.searchIds.forEach((item) => {
         const searchField = this.search[item];
         if (!searchField) return;
-        if (searchField.lookUpType !== "")
-          searchField.lookUpType = "contains";
+        if (searchField.lookUpType !== "") searchField.lookUpType = "contains";
         if (searchField.value !== null) searchField.value = null;
       });
       this.page = 1;
@@ -656,7 +644,6 @@ export const useSearchStore = defineStore("search", {
 
     resetTableHeaders() {
       const initialTableHeaders = [
-        "icon",
         "collectioncode",
         "unitid",
         "highertaxon",
