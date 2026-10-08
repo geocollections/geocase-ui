@@ -41,6 +41,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.39.0",
+    "@nuxt/eslint": "^1.17.0",
     "@playwright/test": "^1.63.0",
     "@tailwindcss/vite": "^4.3.3",
     "eslint": "^9.39.0",
