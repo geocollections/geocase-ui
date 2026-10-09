@@ -242,7 +242,7 @@
   "search": {
     "layout": {
       "results": "Tulemused",
-      "mapNote": "Selle tulemuste lehe asukohad. Filtreerimiseks joonista ala.",
+      "mapNote": "Kuni 1000 otsingule vastavat asukohta. Filtreerimiseks joonista ala.",
       "hideMap": "Peida kaart",
       "showMap": "Näita kaarti",
       "expandMap": "Suurenda kaarti",

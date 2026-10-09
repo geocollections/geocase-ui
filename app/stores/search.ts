@@ -50,6 +50,11 @@ interface TableHeader {
 interface SearchState {
   responseResults: SolrRecord[];
   responseResultsCount: number;
+  mapResults: SolrRecord[];
+  isMapLoading: boolean;
+  mapResultsQueryKey: string;
+  pendingMapResultsQueryKey: string;
+  mapRequestId: number;
   page: number;
   paginateBy: number;
   sortBy: string[];
@@ -79,6 +84,11 @@ export const useSearchStore = defineStore("search", {
   state: (): SearchState => ({
     responseResults: [],
     responseResultsCount: 0,
+    mapResults: [],
+    isMapLoading: false,
+    mapResultsQueryKey: "",
+    pendingMapResultsQueryKey: "",
+    mapRequestId: 0,
     page: 1,
     paginateBy: 25,
     sortBy: [],
@@ -581,16 +591,19 @@ export const useSearchStore = defineStore("search", {
     async fetchResults() {
       this.SET_LOADING(true);
 
+      const params = {
+        page: this.page,
+        paginateBy: this.paginateBy,
+        sortBy: this.sortBy,
+        sortDesc: this.sortDesc,
+        searchIds: this.searchIds,
+        search: this.search,
+      };
+      const resultsRequest = SearchService.search(params);
+      const mapResultsRequest = this.fetchMapResults();
+
       try {
-        const params = {
-          page: this.page,
-          paginateBy: this.paginateBy,
-          sortBy: this.sortBy,
-          sortDesc: this.sortDesc,
-          searchIds: this.searchIds,
-          search: this.search,
-        };
-        const response = await SearchService.search(params);
+        const response = await resultsRequest;
 
         if (response) {
           this.UPDATE_FACETS(response?.facet_counts?.facet_fields);
@@ -605,9 +618,72 @@ export const useSearchStore = defineStore("search", {
         );
         if (!useSettingsStore().error)
           useSettingsStore().updateErrorState(true);
+      } finally {
+        this.SET_LOADING(false);
       }
 
-      this.SET_LOADING(false);
+      await mapResultsRequest;
+    },
+
+    async fetchMapResults() {
+      const search: SearchFields = {
+        ...this.search,
+        has_map: {
+          ...this.search.has_map,
+          value: this.search.has_map.value ?? "true",
+        },
+      };
+      const queryKey = JSON.stringify(
+        this.searchIds.map((id) => {
+          const field = search[id];
+          return field
+            ? [field.id, field.value, field.lookUpType, field.fields]
+            : null;
+        }),
+      );
+
+      if (
+        queryKey === this.mapResultsQueryKey ||
+        queryKey === this.pendingMapResultsQueryKey
+      )
+        return;
+
+      const requestId = ++this.mapRequestId;
+      this.pendingMapResultsQueryKey = queryKey;
+      this.isMapLoading = true;
+      this.mapResults = [];
+
+      try {
+        const response = await SearchService.searchMap({
+          page: 1,
+          paginateBy: 1000,
+          sortBy: this.sortBy,
+          sortDesc: this.sortDesc,
+          searchIds: this.searchIds,
+          search,
+        });
+
+        if (requestId !== this.mapRequestId) return;
+        this.mapResults = response?.response?.docs || [];
+        this.mapResultsQueryKey = queryKey;
+      } catch (caught) {
+        if (requestId !== this.mapRequestId) return;
+        this.mapResults = [];
+        this.mapResultsQueryKey = "";
+
+        const err =
+          caught instanceof Error ? caught : new Error(String(caught));
+        useSettingsStore().updateErrorMessage(
+          `<b>Failed to fetch map results!</b><br /><b>Name:</b> ${err.name}<br /><b>Message:</b> ${err.message}`,
+        );
+        if (!useSettingsStore().error)
+          useSettingsStore().updateErrorState(true);
+      } finally {
+        if (requestId === this.mapRequestId) {
+          this.pendingMapResultsQueryKey = "";
+          this.isMapLoading = false;
+        }
+      }
     },
 
     async getAllFieldNames() {

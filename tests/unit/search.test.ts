@@ -14,6 +14,39 @@ beforeEach(() => {
   i18n.locale.value = "en";
 });
 describe("migrated search state and API contract", () => {
+  it("fetches up to 1,000 mapped records separately from table results", async () => {
+    const store = useSearchStore();
+    const tableResults = [{ unitid: "table-row" }];
+    store.responseResults = tableResults;
+    store.updateSearchField({ id: "q", value: "quartz" });
+    axios.get.mockResolvedValue({
+      data: {
+        response: {
+          docs: [{ geocase_id: "mapped-record", has_map: true }],
+          numFound: 1200,
+        },
+      },
+    });
+
+    await store.fetchMapResults();
+
+    const url = new URL(axios.get.mock.calls[0][0], "http://localhost");
+    expect(url.searchParams.get("start")).toBe("0");
+    expect(url.searchParams.get("rows")).toBe("1000");
+    expect(url.searchParams.get("q")).toBe('"quartz"');
+    expect(url.searchParams.getAll("fq")).toContain("has_map:true");
+    expect(url.searchParams.get("fl")).toContain(
+      "geocase_id,recordURI,has_map,latitude,longitude",
+    );
+    expect(url.searchParams.has("facet")).toBe(false);
+    expect(url.searchParams.has("facet.field")).toBe(false);
+    expect(store.mapResults).toEqual([
+      { geocase_id: "mapped-record", has_map: true },
+    ]);
+    expect(store.responseResults).toEqual(tableResults);
+    expect(store.isMapLoading).toBe(false);
+  });
+
   it("preserves pagination, sort order and encoded filters", async () => {
     const store = useSearchStore();
     store.updateSearchField({ id: "q", value: "quartz & calcite" });

@@ -36,7 +36,10 @@ type SearchRequest = {
 };
 
 class SearchService {
-  static async search(params: SearchRequest) {
+  static async search(
+    params: SearchRequest,
+    options: { includeFacets?: boolean; fields?: string[] } = {},
+  ) {
     try {
       const start = (params.page - 1) * params.paginateBy;
       const sort = buildSort(params.sortBy, params.sortDesc, params.search);
@@ -44,9 +47,15 @@ class SearchService {
       const searchFields = buildSearchFieldsQuery(
         params.search,
         params.searchIds,
+        options.includeFacets !== false,
       );
 
-      let url = `${API_URL}?start=${start}&rows=${params.paginateBy}&sort=${sort}&defType=edismax&${FACET_QUERY}`;
+      const facetsQuery =
+        options.includeFacets === false ? "" : `&${FACET_QUERY}`;
+      const fieldsQuery = options.fields?.length
+        ? `&fl=${encodeURIComponent(options.fields.join(","))}`
+        : "";
+      let url = `${API_URL}?start=${start}&rows=${params.paginateBy}&sort=${sort}&defType=edismax${facetsQuery}${fieldsQuery}`;
 
       if (searchFields && searchFields.length > 0) url += `&${searchFields}`;
       else url += `&q=*`;
@@ -59,6 +68,44 @@ class SearchService {
         error instanceof Error ? error.message : String(error),
       );
     }
+  }
+
+  static async searchMap(params: SearchRequest) {
+    const hasMapField = params.search.has_map;
+    if (!hasMapField) throw new Error("Map search requires the has_map field.");
+
+    const mapSearch = {
+      ...params.search,
+      has_map: {
+        ...hasMapField,
+        value: hasMapField.value ?? "true",
+      },
+    };
+
+    return this.search(
+      {
+        ...params,
+        page: 1,
+        paginateBy: 1000,
+        sortBy: [],
+        sortDesc: [],
+        search: mapSearch,
+      },
+      {
+        includeFacets: false,
+        fields: [
+          "geocase_id",
+          "recordURI",
+          "has_map",
+          "latitude",
+          "longitude",
+          "country",
+          "fullscientificname",
+          "unitid",
+          "locality",
+        ],
+      },
+    );
   }
 
   static async getDetailView(id: string) {
@@ -169,6 +216,7 @@ function buildSort(
 function buildSearchFieldsQuery(
   search: Record<string, SearchField>,
   searchIds: string[],
+  includeFacets = true,
 ) {
   const encodedData: string[] = [];
   const facetFieldList: string[] = [];
@@ -260,7 +308,7 @@ function buildSearchFieldsQuery(
         if (name === "datasourceurl") value = value.replace(/["\\]/g, "\\$&");
         const encodedValue = encodeURIComponent(value);
 
-        if (type === "checkbox") {
+        if (includeFacets && type === "checkbox") {
           isExcluded = true;
 
           filterQuery = `fq={!tag=${name}}${name}:(${encodedValue})`;
@@ -277,7 +325,7 @@ function buildSearchFieldsQuery(
         encodedData.push(filterQuery);
       } else if (name === "q") encodedData.push("q=*");
 
-      if (type === "checkbox") {
+      if (includeFacets && type === "checkbox") {
         let facetField = `facet.field=${name}`;
         if (isExcluded) facetField = `facet.field={!ex=${name}}${name}`;
         facetFieldList.push(facetField);

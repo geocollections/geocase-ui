@@ -70,7 +70,7 @@ function clearArea() {
     </div>
     <div id="results-map-content" v-show="open" class="tw:relative">
       <UProgress
-        v-if="store.isLoading"
+        v-if="store.isMapLoading"
         class="tw:absolute tw:inset-x-0 tw:top-0 tw:z-1000"
         size="xs"
       />
@@ -78,8 +78,8 @@ function clearArea() {
         map-id="search-map"
         :open="open"
         :height="expanded ? '65vh' : '350px'"
-        :response-results="store.responseResults"
-        :response-results-count="store.responseResultsCount"
+        :response-results="store.mapResults"
+        :response-results-count="store.mapResults.length"
         activate-search
         @update="store.fetchResults()"
       />
