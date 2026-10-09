@@ -224,6 +224,37 @@ test("localized about page and mobile navigation render without runtime errors",
   expect(errors).toEqual([]);
 });
 
+test("localized tutorial content renders responsively without runtime errors", async ({
+  page,
+}) => {
+  const errors: string[] = [];
+  page.on("pageerror", (error) => errors.push(error.message));
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/ee/tutorial");
+
+  await expect(page).toHaveTitle("GeoCASe kasutusjuhend | GeoCASe");
+  await expect(
+    page.getByRole("heading", {
+      level: 1,
+      name: "Avasta geoteaduslikke kogusid GeoCASe abil.",
+    }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("heading", { level: 2, name: "Kogust eksemplarini" }),
+  ).toBeVisible();
+  await expect(page.locator(".tutorial-step-card")).toHaveCount(5);
+  await expect(page.locator(".tutorial-step-card img")).toHaveCount(0);
+  await expect(
+    page.getByRole("link", { name: "Ava otsing" }),
+  ).toHaveAttribute("href", "/ee/search");
+  expect(
+    await page.evaluate(
+      () => document.documentElement.scrollWidth <= window.innerWidth,
+    ),
+  ).toBe(true);
+  expect(errors).toEqual([]);
+});
+
 test("image gallery, filter changes and map tab", async ({ page }) => {
   const errors: string[] = [];
   page.on("pageerror", (error) => errors.push(error.message));
