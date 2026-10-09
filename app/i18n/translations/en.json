@@ -242,7 +242,7 @@
   "search": {
     "layout": {
       "results": "Results",
-      "mapNote": "Locations from this results page. Draw an area to filter.",
+      "mapNote": "Up to 1,000 locations matching your search. Draw an area to filter.",
       "hideMap": "Hide map",
       "showMap": "Show map",
       "expandMap": "Expand map",

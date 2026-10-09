@@ -241,7 +241,7 @@
   "search": {
     "layout": {
       "results": "Ergebnisse",
-      "mapNote": "Standorte dieser Ergebnisseite. Zeichnen Sie einen Bereich zum Filtern.",
+      "mapNote": "Bis zu 1.000 passende Standorte. Zeichnen Sie einen Bereich zum Filtern.",
       "hideMap": "Karte ausblenden",
       "showMap": "Karte anzeigen",
       "expandMap": "Karte vergrößern",
