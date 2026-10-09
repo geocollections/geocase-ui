@@ -135,10 +135,10 @@ describe("homepage material samples navigation", () => {
     const imageBase = "https://files.geocollections.info/img/geocase/front_page/";
 
     expect(store.cardIds).toEqual([
-      "fossil",
       "mineral",
       "rock",
       "meteorite",
+      "fossil",
       "materialSample",
     ]);
     expect(store.cards.fossil.image).toBe(`${imageBase}fossil2.jpg`);
