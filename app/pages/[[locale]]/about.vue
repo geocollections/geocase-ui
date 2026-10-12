@@ -23,7 +23,7 @@ const collections = [
     class="tw:mx-auto tw:w-full tw:max-w-6xl tw:min-w-0 tw:px-4 tw:py-8 tw:text-home-ink tw:sm:px-6 tw:sm:py-12"
   >
     <header
-      class="tw:relative tw:overflow-hidden tw:rounded-3xl tw:bg-[#edf1e9] tw:p-6 tw:sm:p-10 tw:lg:p-12"
+      class="tw:relative tw:overflow-hidden tw:rounded-3xl tw:bg-home-banner tw:p-6 tw:sm:p-10 tw:lg:p-12"
     >
       <img
         src="https://files.geocollections.info/img/geocase/front_page/geocase_landing2.jpg"
@@ -32,7 +32,7 @@ const collections = [
         class="tw:absolute tw:inset-0 tw:size-full tw:object-cover"
       />
       <div
-        class="tw:absolute tw:inset-0 tw:bg-linear-to-r tw:from-[#edf1e9]/95 tw:via-[#edf1e9]/80 tw:to-[#edf1e9]/45"
+        class="tw:absolute tw:inset-0 tw:bg-linear-to-r tw:from-home-banner/95 tw:via-home-banner/80 tw:to-home-banner/45"
         aria-hidden="true"
       />
       <div
