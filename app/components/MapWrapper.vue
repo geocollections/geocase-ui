@@ -40,6 +40,10 @@ export default {
       required: false,
       default: 1,
     },
+    mapLevel: {
+      type: String,
+      default: "points",
+    },
     activateSearch: Boolean,
     isDetailView: Boolean,
   },
@@ -242,7 +246,10 @@ export default {
     this.resizeObserver?.disconnect();
     if (this.map) {
       this.map.off("baselayerchange", this.handleLayerChange);
-      if (this.activateSearch) this.terminateLeafletGeoman();
+      if (this.activateSearch) {
+        this.map.off("moveend", this.handleMapViewportChange);
+        this.terminateLeafletGeoman();
+      }
       this.map.remove();
     }
   },
@@ -265,7 +272,10 @@ export default {
               ? L.latLngBounds([-85, -180], [85, 180])
               : undefined,
             maxBoundsViscosity: this.isDetailView ? 1 : 0,
-          }).setView(L.latLng(58.5, 25.5), 6),
+          }).setView(
+            this.activateSearch ? L.latLng(20, 0) : L.latLng(58.5, 25.5),
+            this.activateSearch ? 2.5 : 6,
+          ),
         );
 
         let baseMaps = {};
@@ -281,6 +291,9 @@ export default {
         L.control.scale({ imperial: false }).addTo(this.map);
 
         this.map.on("baselayerchange", this.handleLayerChange);
+        if (this.activateSearch) {
+          this.map.on("moveend", this.handleMapViewportChange);
+        }
       }
     },
 
@@ -298,13 +311,84 @@ export default {
       }
     },
 
-    setMarkers(localities) {
-      if (localities && localities.length > 0) {
-        if (this.markerLayer !== null) this.map.removeLayer(this.markerLayer);
-        this.markers = [];
+    handleMapViewportChange() {
+      if (!this.map || !this.activateSearch) return;
+      const bounds = this.map.getBounds();
+      this.$emit("viewport-changed", {
+        zoom: this.map.getZoom(),
+        bounds: {
+          west: bounds.getWest(),
+          south: bounds.getSouth(),
+          east: bounds.getEast(),
+          north: bounds.getNorth(),
+        },
+      });
+    },
 
+    isGeomanInteractionActive() {
+      return (
+        this.activateSearch &&
+        (this.map.pm.globalDrawModeEnabled() ||
+          this.map.pm.globalRemovalModeEnabled())
+      );
+    },
+
+    handleGroupedMarkerClick(item) {
+      if (this.isGeomanInteractionActive()) return;
+      if (this.mapLevel === "country") {
+        this.$emit("select-country", item.country);
+        this.map.setView([item.latitude, item.longitude], 5);
+      } else if (this.mapLevel === "locality") {
+        this.$emit("select-locality", item.locality);
+        this.map.setView([item.latitude, item.longitude], 9);
+      }
+    },
+
+    formatMapCount(value) {
+      if (value >= 1_000_000) return `${(value / 1_000_000).toFixed(1)}M`;
+      if (value >= 1_000) return `${(value / 1_000).toFixed(1)}k`;
+      return String(value);
+    },
+
+    setMarkers(localities) {
+      if (this.markerLayer !== null) this.map.removeLayer(this.markerLayer);
+      this.markers = [];
+
+      if (localities && localities.length > 0) {
         localities.forEach((item) => {
-          if (item.latitude && item.longitude) {
+          if (
+            Number.isFinite(Number(item.latitude)) &&
+            Number.isFinite(Number(item.longitude))
+          ) {
+            if (this.mapLevel !== "points" && item.mapCount) {
+              const radius = Math.min(38, 20 + Math.log10(item.mapCount) * 2);
+              const label =
+                this.mapLevel === "country"
+                  ? item.country
+                  : item.locality || item.country;
+              const marker = L.marker(
+                [Number(item.latitude), Number(item.longitude)],
+                {
+                  icon: L.divIcon({
+                    html: `<span class="tw:absolute tw:inset-0 tw:flex tw:items-center tw:justify-center tw:text-center tw:leading-none tw:whitespace-nowrap">${this.formatMapCount(item.mapCount)}</span>`,
+                    className:
+                      "map-count-icon tw:relative tw:flex tw:items-center tw:justify-center tw:rounded-full tw:border-2 tw:border-[rgb(128,72,158,0.85)] tw:bg-[rgb(229,207,241,0.88)] tw:text-center tw:text-[#452255] tw:text-xs tw:font-bold tw:shadow-[0_1px_5px_rgb(0,0,0,0.25)] tw:box-border",
+                    iconSize: [radius * 2, radius * 2],
+                    iconAnchor: [radius, radius],
+                  }),
+                  pmIgnore: true,
+                  title: `${label}: ${item.mapCount}`,
+                },
+              );
+              marker.bindTooltip(
+                `${item.country || ""}${item.locality ? `, ${item.locality}` : ""}: ${item.mapCount.toLocaleString()}`,
+                { direction: "top" },
+              );
+              marker.on("click", () => this.handleGroupedMarkerClick(item));
+              this.markers.push(markRaw(marker));
+              return;
+            }
+
             let marker = L.marker(
               {
                 lat: parseFloat(item.latitude),
@@ -320,12 +404,7 @@ export default {
 
             if (this.isDetailView ? item.recordURI : item.geocase_id) {
               marker.on("click", () => {
-                if (
-                  this.activateSearch &&
-                  (this.map.pm.globalDrawModeEnabled() ||
-                    this.map.pm.globalRemovalModeEnabled())
-                )
-                  return;
+                if (this.isGeomanInteractionActive()) return;
                 if (this.isDetailView) {
                   window.open(item.recordURI, "RecordUriWindow");
                 } else {
@@ -354,16 +433,13 @@ export default {
         this.markerLayer = markRaw(L.layerGroup(this.markers));
         this.map.addLayer(this.markerLayer);
 
-        if (this.markers.length > 0) {
+        if (this.markers.length > 0 && !this.activateSearch) {
           let bounds = new L.featureGroup(this.markers).getBounds();
           this.map.fitBounds(bounds, {
             maxZoom: this.mapId === "tab-map" ? 4 : 6,
             padding: this.mapId === "tab-map" ? [0] : [15, 15],
           });
         }
-      } else {
-        if (this.markerLayer !== null) this.map.removeLayer(this.markerLayer);
-        this.markers = [];
       }
     },
 
@@ -419,5 +495,3 @@ export default {
   },
 };
 </script>
-
-<style scoped></style>
