@@ -351,6 +351,7 @@
       "tooltipRemoveFixedHeaders": "Deactivate table's fixed state",
       "headerSelectDisabled": "Sorting enabled",
       "headers": "Headers",
+      "responsiveColumns": "Fewer columns are shown on smaller screens.",
       "filter": "Filter",
       "goTo": "Go to page",
       "goToBtn": "Go",

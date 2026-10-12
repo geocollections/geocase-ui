@@ -5,6 +5,16 @@ import i18n from "@/i18n";
 
 type SolrRecord = Record<string, any>;
 type FacetValue = string | number;
+const FACET_IDS = [
+  "recordbasis",
+  "highertaxon_facet",
+  "type_status",
+  "country",
+  "datasetowner",
+  "providername",
+  "providercountry",
+] as const;
+type Facet = (typeof FACET_IDS)[number];
 
 interface SearchField {
   id: string;
@@ -57,7 +67,7 @@ interface SearchState {
   search: SearchFields;
   searchIds: string[];
   searchTextIds: string[];
-  searchCheckboxIds: string[];
+  searchCheckboxIds: Facet[];
   searchSingleCheckboxIds: string[];
   lookUpTypes: string[];
   recordbasis: string[];
@@ -247,15 +257,7 @@ export const useSearchStore = defineStore("search", {
       "locality",
       "unitid",
     ],
-    searchCheckboxIds: [
-      "recordbasis",
-      "highertaxon_facet",
-      "type_status",
-      "country",
-      "datasetowner",
-      "providername",
-      "providercountry",
-    ],
+    searchCheckboxIds: [...FACET_IDS],
     searchSingleCheckboxIds: ["has_image", "has_map"],
     lookUpTypes: [
       "contains",
@@ -286,13 +288,6 @@ export const useSearchStore = defineStore("search", {
     allFieldNames: null,
     isLoading: false,
     tableHeaders: [
-      {
-        text: "empty",
-        value: "icon",
-        sortable: false,
-        show: true,
-        fixed: true,
-      },
       {
         text: "collectioncode",
         value: "collectioncode",
@@ -329,30 +324,25 @@ export const useSearchStore = defineStore("search", {
     isTableHeaderFixed: false,
   }),
   getters: {
-    getCheckboxes: (state) => (
-      id: string,
-      showCheckboxes: boolean,
-      showMore: boolean | undefined,
-    ) => {
-      if (showCheckboxes) {
-        const facets = state as unknown as Record<string, string[]>;
-        if (showMore) return facets[id]!;
-        else return facets[id]!.slice(0, 4);
-      } else return [];
+    getCheckboxes:
+      (state) =>
+      (id: Facet, showCheckboxes: boolean, showMore: boolean | undefined) => {
+        if (showCheckboxes) {
+          if (showMore) return state[id];
+          else return state[id].slice(0, 4);
+        } else return [];
+      },
+
+    getCheckboxesLength: (state) => (id: Facet) => {
+      return state[id].length;
     },
 
-    getCheckboxesLength: (state) => (id: string) => {
-      const facets = state as unknown as Record<string, string[]>;
-      if (facets[id]) return facets[id].length;
-      else return 0;
-    },
-
-    getCheckboxesCount: (state) => (field: string) => {
+    getCheckboxesCount: (state) => (field: Facet) => {
       const facets = state as unknown as Record<string, number[]>;
       return facets[`${field}_count`]!;
     },
 
-    getActiveCheckboxesCount: (state) => (field: string) => {
+    getActiveCheckboxesCount: (state) => (field: Facet) => {
       const searchField = state.search[field];
       if (searchField?.value) {
         return searchField.value.split('" "').length;
@@ -367,9 +357,7 @@ export const useSearchStore = defineStore("search", {
           "last_harvested_processing",
           "_version_",
         ];
-        return fieldNames.filter(
-          (field) => !NOT_NEEDED_FIELDS.includes(field),
-        );
+        return fieldNames.filter((field) => !NOT_NEEDED_FIELDS.includes(field));
       } else return null;
     },
 
@@ -496,8 +484,7 @@ export const useSearchStore = defineStore("search", {
       this.searchIds.forEach((item) => {
         const searchField = this.search[item];
         if (!searchField) return;
-        if (searchField.lookUpType !== "")
-          searchField.lookUpType = "contains";
+        if (searchField.lookUpType !== "") searchField.lookUpType = "contains";
         if (searchField.value !== null) searchField.value = null;
       });
       this.page = 1;
@@ -656,7 +643,6 @@ export const useSearchStore = defineStore("search", {
 
     resetTableHeaders() {
       const initialTableHeaders = [
-        "icon",
         "collectioncode",
         "unitid",
         "highertaxon",
