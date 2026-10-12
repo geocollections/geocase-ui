@@ -1,13 +1,53 @@
 <script setup>
-import { computed, ref } from "vue";
+import { computed, onBeforeUnmount, ref } from "vue";
 import { useI18n } from "vue-i18n";
+import { useRoute, useRouter } from "#imports";
 import { useSearchStore } from "@/stores/search";
 import MapWrapper from "@/components/MapWrapper.vue";
 const { t } = useI18n();
 const store = useSearchStore();
+const route = useRoute();
+const router = useRouter();
 const open = ref(true);
 const expanded = ref(false);
 const hasArea = computed(() => !!store.search.map.value);
+let viewportUpdateTimeout;
+
+function updateViewport(payload) {
+  clearTimeout(viewportUpdateTimeout);
+  viewportUpdateTimeout = setTimeout(
+    () => store.updateMapViewport(payload),
+    250,
+  );
+}
+
+function updateFilterFromMap(field, value, zoom) {
+  if (!value) return;
+  const query = { ...route.query, page: "1" };
+  for (const key of Object.keys(query)) {
+    if (key === field || key.startsWith(`${field}__`)) delete query[key];
+  }
+  if (field === "country") {
+    for (const key of Object.keys(query)) {
+      if (key === "locality" || key.startsWith("locality__")) delete query[key];
+    }
+  }
+  if (field === "country") query[field] = `"${value}"`;
+  else query[`${field}__equals`] = value;
+  store.mapZoom = zoom;
+  router.push({ path: route.path, query, hash: route.hash });
+}
+
+function selectCountry(country) {
+  updateFilterFromMap("country", country, 5);
+}
+
+function selectLocality(locality) {
+  updateFilterFromMap("locality", locality, 9);
+}
+
+onBeforeUnmount(() => clearTimeout(viewportUpdateTimeout));
+
 function clearArea() {
   store.updateSearchField({ id: "map", value: null });
   store.fetchResults();
@@ -80,8 +120,12 @@ function clearArea() {
         :height="expanded ? '65vh' : '350px'"
         :response-results="store.mapResults"
         :response-results-count="store.mapResults.length"
+        :map-level="store.mapResultsLevel"
         activate-search
         @update="store.fetchResults()"
+        @viewport-changed="updateViewport"
+        @select-country="selectCountry"
+        @select-locality="selectLocality"
       />
     </div>
   </section>
