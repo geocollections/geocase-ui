@@ -18,6 +18,15 @@ type MapSelection = {
   properties: { radius: number };
 };
 
+type SolrStatistic = { count?: number; mean?: number | null };
+type SolrLocalityGroup = {
+  groupValue?: unknown;
+  doclist?: {
+    docs?: Array<Record<string, unknown>>;
+    numFound?: number;
+  };
+};
+
 type SearchField = {
   id: string;
   type: string;
@@ -34,6 +43,15 @@ type SearchRequest = {
   search: Record<string, SearchField>;
   searchIds: string[];
 };
+
+export type MapBounds = {
+  west: number;
+  south: number;
+  east: number;
+  north: number;
+};
+
+export type MapLevel = "country" | "locality" | "points";
 
 class SearchService {
   static async search(
@@ -70,7 +88,11 @@ class SearchService {
     }
   }
 
-  static async searchMap(params: SearchRequest) {
+  static async searchMap(
+    params: SearchRequest,
+    level: MapLevel,
+    bounds?: MapBounds | null,
+  ) {
     const hasMapField = params.search.has_map;
     if (!hasMapField) throw new Error("Map search requires the has_map field.");
 
@@ -82,30 +104,115 @@ class SearchService {
       },
     };
 
-    return this.search(
-      {
-        ...params,
-        page: 1,
-        paginateBy: 1000,
-        sortBy: [],
-        sortDesc: [],
-        search: mapSearch,
-      },
-      {
-        includeFacets: false,
-        fields: [
-          "geocase_id",
-          "recordURI",
-          "has_map",
-          "latitude",
-          "longitude",
-          "country",
-          "fullscientificname",
-          "unitid",
-          "locality",
-        ],
-      },
+    const mapParams = {
+      ...params,
+      page: 1,
+      sortBy: [],
+      sortDesc: [],
+      search: mapSearch,
+    };
+
+    if (level === "country") {
+      const searchFields = buildSearchFieldsQuery(
+        mapParams.search,
+        mapParams.searchIds,
+        false,
+      );
+      const url = `${API_URL}?rows=0&stats=true&stats.field=latitude&stats.field=longitude&stats.facet=country&fq=country%3A%5B*%20TO%20*%5D&${searchFields}`;
+      const res = await axios.get(url);
+      const latitudeFacets: Record<string, SolrStatistic> =
+        res.data?.stats?.stats_fields?.latitude?.facets?.country ?? {};
+      const longitudeFacets: Record<string, SolrStatistic> =
+        res.data?.stats?.stats_fields?.longitude?.facets?.country ?? {};
+
+      return Object.entries(latitudeFacets).flatMap(([country, latitude]) => {
+        const longitude = longitudeFacets[country];
+        const lat =
+          latitude.mean == null ? Number.NaN : Number(latitude.mean);
+        const lng =
+          longitude?.mean == null ? Number.NaN : Number(longitude.mean);
+        const count = Number(latitude.count);
+        if (
+          !Number.isFinite(lat) ||
+          !Number.isFinite(lng) ||
+          !Number.isFinite(count) ||
+          count <= 0
+        )
+          return [];
+
+        return [
+          {
+            country,
+            latitude: lat,
+            longitude: lng,
+            mapCount: count,
+            has_map: true,
+          },
+        ];
+      });
+    }
+
+    if (level === "locality") {
+      const searchFields = buildSearchFieldsQuery(
+        mapParams.search,
+        mapParams.searchIds,
+        false,
+      );
+      const spatialFilter = buildMapBoundsFilter(bounds);
+      const url = `${API_URL}?rows=500&group=true&group.field=locality&group.limit=1&group.ngroups=true&group.sort=geocase_id%20asc&fl=country%2Clocality%2Clatitude%2Clongitude&fq=locality%3A%5B*%20TO%20*%5D${spatialFilter}&${searchFields}`;
+      const res = await axios.get(url);
+      const groups: SolrLocalityGroup[] =
+        res.data?.grouped?.locality?.groups ?? [];
+
+      return groups.flatMap((group: SolrLocalityGroup) => {
+        const locality = group.groupValue;
+        const record = group.doclist?.docs?.[0];
+        if (!record) return [];
+        const latitude = Number(record?.latitude);
+        const longitude = Number(record?.longitude);
+        const count = Number(group.doclist?.numFound);
+        if (
+          typeof locality !== "string" ||
+          !Number.isFinite(latitude) ||
+          !Number.isFinite(longitude) ||
+          !Number.isFinite(count) ||
+          count <= 0
+        )
+          return [];
+
+        return [
+          {
+            country: record.country,
+            locality,
+            latitude,
+            longitude,
+            mapCount: count,
+            has_map: true,
+          },
+        ];
+      });
+    }
+
+    const fields = [
+      "geocase_id",
+      "recordURI",
+      "has_map",
+      "latitude",
+      "longitude",
+      "country",
+      "fullscientificname",
+      "unitid",
+      "locality",
+    ];
+    const searchFields = buildSearchFieldsQuery(
+      mapParams.search,
+      mapParams.searchIds,
+      false,
     );
+    const spatialFilter = buildMapBoundsFilter(bounds);
+    const url = `${API_URL}?start=0&rows=1000&sort=&defType=edismax&fl=${encodeURIComponent(fields.join(","))}${spatialFilter}&${searchFields}`;
+    const res = await axios.get(url);
+    return res.data?.response?.docs ?? [];
   }
 
   static async getDetailView(id: string) {
@@ -334,6 +441,13 @@ function buildSearchFieldsQuery(
   });
 
   return encodedData.join("&") + "&" + facetFieldList.join("&");
+}
+
+function buildMapBoundsFilter(bounds?: MapBounds | null) {
+  if (!bounds || bounds.west > bounds.east) return "";
+  return `&fq=${encodeURIComponent(
+    `coordinates:"Intersects(ENVELOPE(${bounds.west},${bounds.east},${bounds.north},${bounds.south}))"`,
+  )}`;
 }
 
 function createSolrFieldQuery(

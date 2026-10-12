@@ -1,5 +1,9 @@
 import { defineStore } from "pinia";
 import SearchService from "@/services/SearchService";
+import type {
+  MapBounds,
+  MapLevel,
+} from "@/services/SearchService";
 import { useSettingsStore } from "./settings";
 import i18n from "@/i18n";
 
@@ -51,6 +55,9 @@ interface SearchState {
   responseResults: SolrRecord[];
   responseResultsCount: number;
   mapResults: SolrRecord[];
+  mapResultsLevel: MapLevel;
+  mapZoom: number;
+  mapBounds: MapBounds | null;
   isMapLoading: boolean;
   mapResultsQueryKey: string;
   pendingMapResultsQueryKey: string;
@@ -85,6 +92,9 @@ export const useSearchStore = defineStore("search", {
     responseResults: [],
     responseResultsCount: 0,
     mapResults: [],
+    mapResultsLevel: "country",
+    mapZoom: 2.5,
+    mapBounds: null,
     isMapLoading: false,
     mapResultsQueryKey: "",
     pendingMapResultsQueryKey: "",
@@ -633,13 +643,33 @@ export const useSearchStore = defineStore("search", {
           value: this.search.has_map.value ?? "true",
         },
       };
+      const hasCountryFilter =
+        typeof search.country.value === "string" &&
+        search.country.value.trim().length > 0;
+      const hasLocalityFilter =
+        typeof search.locality.value === "string" &&
+        search.locality.value.trim().length > 0;
+      const level: MapLevel = !hasCountryFilter || this.mapZoom < 4
+        ? "country"
+        : hasLocalityFilter || this.mapZoom >= 9
+          ? "points"
+          : "locality";
+      const bounds = level === "country" ? null : this.mapBounds;
       const queryKey = JSON.stringify(
-        this.searchIds.map((id) => {
-          const field = search[id];
-          return field
-            ? [field.id, field.value, field.lookUpType, field.fields]
-            : null;
-        }),
+        [
+          level,
+          bounds
+            ? Object.values(bounds).map((coordinate) =>
+                Number(coordinate.toFixed(3)),
+              )
+            : null,
+          ...this.searchIds.map((id) => {
+            const field = search[id];
+            return field
+              ? [field.id, field.value, field.lookUpType, field.fields]
+              : null;
+          }),
+        ],
       );
 
       if (
@@ -652,6 +682,7 @@ export const useSearchStore = defineStore("search", {
       this.pendingMapResultsQueryKey = queryKey;
       this.isMapLoading = true;
       this.mapResults = [];
+      this.mapResultsLevel = level;
 
       try {
         const response = await SearchService.searchMap({
@@ -661,10 +692,10 @@ export const useSearchStore = defineStore("search", {
           sortDesc: this.sortDesc,
           searchIds: this.searchIds,
           search,
-        });
+        }, level, bounds);
 
         if (requestId !== this.mapRequestId) return;
-        this.mapResults = response?.response?.docs || [];
+        this.mapResults = response;
         this.mapResultsQueryKey = queryKey;
       } catch (caught) {
         if (requestId !== this.mapRequestId) return;
@@ -684,6 +715,12 @@ export const useSearchStore = defineStore("search", {
           this.isMapLoading = false;
         }
       }
+    },
+
+    updateMapViewport(payload: { zoom: number; bounds: MapBounds }) {
+      this.mapZoom = payload.zoom;
+      this.mapBounds = payload.bounds;
+      this.fetchMapResults();
     },
 
     async getAllFieldNames() {
