@@ -1,5 +1,9 @@
 import { defineStore } from "pinia";
 import SearchService from "@/services/SearchService";
+import type {
+  MapBounds,
+  MapLevel,
+} from "@/services/SearchService";
 import { useSettingsStore } from "./settings";
 import i18n from "@/i18n";
 
@@ -60,6 +64,14 @@ interface TableHeader {
 interface SearchState {
   responseResults: SolrRecord[];
   responseResultsCount: number;
+  mapResults: SolrRecord[];
+  mapResultsLevel: MapLevel;
+  mapZoom: number;
+  mapBounds: MapBounds | null;
+  isMapLoading: boolean;
+  mapResultsQueryKey: string;
+  pendingMapResultsQueryKey: string;
+  mapRequestId: number;
   page: number;
   paginateBy: number;
   sortBy: string[];
@@ -89,6 +101,14 @@ export const useSearchStore = defineStore("search", {
   state: (): SearchState => ({
     responseResults: [],
     responseResultsCount: 0,
+    mapResults: [],
+    mapResultsLevel: "country",
+    mapZoom: 2.5,
+    mapBounds: null,
+    isMapLoading: false,
+    mapResultsQueryKey: "",
+    pendingMapResultsQueryKey: "",
+    mapRequestId: 0,
     page: 1,
     paginateBy: 25,
     sortBy: [],
@@ -568,16 +588,19 @@ export const useSearchStore = defineStore("search", {
     async fetchResults() {
       this.SET_LOADING(true);
 
+      const params = {
+        page: this.page,
+        paginateBy: this.paginateBy,
+        sortBy: this.sortBy,
+        sortDesc: this.sortDesc,
+        searchIds: this.searchIds,
+        search: this.search,
+      };
+      const resultsRequest = SearchService.search(params);
+      const mapResultsRequest = this.fetchMapResults();
+
       try {
-        const params = {
-          page: this.page,
-          paginateBy: this.paginateBy,
-          sortBy: this.sortBy,
-          sortDesc: this.sortDesc,
-          searchIds: this.searchIds,
-          search: this.search,
-        };
-        const response = await SearchService.search(params);
+        const response = await resultsRequest;
 
         if (response) {
           this.UPDATE_FACETS(response?.facet_counts?.facet_fields);
@@ -592,9 +615,99 @@ export const useSearchStore = defineStore("search", {
         );
         if (!useSettingsStore().error)
           useSettingsStore().updateErrorState(true);
+      } finally {
+        this.SET_LOADING(false);
       }
 
-      this.SET_LOADING(false);
+      await mapResultsRequest;
+    },
+
+    async fetchMapResults() {
+      const search: SearchFields = {
+        ...this.search,
+        has_map: {
+          ...this.search.has_map,
+          value: this.search.has_map.value ?? "true",
+        },
+      };
+      const hasCountryFilter =
+        typeof search.country.value === "string" &&
+        search.country.value.trim().length > 0;
+      const hasLocalityFilter =
+        typeof search.locality.value === "string" &&
+        search.locality.value.trim().length > 0;
+      const level: MapLevel = !hasCountryFilter || this.mapZoom < 4
+        ? "country"
+        : hasLocalityFilter || this.mapZoom >= 9
+          ? "points"
+          : "locality";
+      const bounds = level === "country" ? null : this.mapBounds;
+      const queryKey = JSON.stringify(
+        [
+          level,
+          bounds
+            ? Object.values(bounds).map((coordinate) =>
+                Number(coordinate.toFixed(3)),
+              )
+            : null,
+          ...this.searchIds.map((id) => {
+            const field = search[id];
+            return field
+              ? [field.id, field.value, field.lookUpType, field.fields]
+              : null;
+          }),
+        ],
+      );
+
+      if (
+        queryKey === this.mapResultsQueryKey ||
+        queryKey === this.pendingMapResultsQueryKey
+      )
+        return;
+
+      const requestId = ++this.mapRequestId;
+      this.pendingMapResultsQueryKey = queryKey;
+      this.isMapLoading = true;
+      this.mapResults = [];
+      this.mapResultsLevel = level;
+
+      try {
+        const response = await SearchService.searchMap({
+          page: 1,
+          paginateBy: 1000,
+          sortBy: this.sortBy,
+          sortDesc: this.sortDesc,
+          searchIds: this.searchIds,
+          search,
+        }, level, bounds);
+
+        if (requestId !== this.mapRequestId) return;
+        this.mapResults = response;
+        this.mapResultsQueryKey = queryKey;
+      } catch (caught) {
+        if (requestId !== this.mapRequestId) return;
+        this.mapResults = [];
+        this.mapResultsQueryKey = "";
+
+        const err =
+          caught instanceof Error ? caught : new Error(String(caught));
+        useSettingsStore().updateErrorMessage(
+          `<b>Failed to fetch map results!</b><br /><b>Name:</b> ${err.name}<br /><b>Message:</b> ${err.message}`,
+        );
+        if (!useSettingsStore().error)
+          useSettingsStore().updateErrorState(true);
+      } finally {
+        if (requestId === this.mapRequestId) {
+          this.pendingMapResultsQueryKey = "";
+          this.isMapLoading = false;
+        }
+      }
+    },
+
+    updateMapViewport(payload: { zoom: number; bounds: MapBounds }) {
+      this.mapZoom = payload.zoom;
+      this.mapBounds = payload.bounds;
+      this.fetchMapResults();
     },
 
     async getAllFieldNames() {

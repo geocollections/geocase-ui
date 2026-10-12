@@ -71,6 +71,40 @@ test.beforeEach(async ({ page }) => {
         body: "geocase_id,unitid,fullscientificname,country",
         contentType: "text/csv",
       });
+    if (url.searchParams.get("stats") === "true")
+      return route.fulfill({
+        json: {
+          stats: {
+            stats_fields: {
+              latitude: {
+                facets: {
+                  country: { Estonia: { count: 75, mean: specimen.latitude } },
+                },
+              },
+              longitude: {
+                facets: {
+                  country: { Estonia: { count: 75, mean: specimen.longitude } },
+                },
+              },
+            },
+          },
+        },
+      });
+    if (url.searchParams.get("group.field") === "locality")
+      return route.fulfill({
+        json: {
+          grouped: {
+            locality: {
+              groups: [
+                {
+                  groupValue: specimen.locality,
+                  doclist: { numFound: 75, docs: [specimen] },
+                },
+              ],
+            },
+          },
+        },
+      });
     const isDetail = url.searchParams.get("q")?.startsWith("geocase_id:");
     return route.fulfill({
       json: {
@@ -244,9 +278,10 @@ test("localized tutorial content renders responsively without runtime errors", a
   ).toBeVisible();
   await expect(page.locator(".tutorial-step-card")).toHaveCount(5);
   await expect(page.locator(".tutorial-step-card img")).toHaveCount(0);
-  await expect(
-    page.getByRole("link", { name: "Ava otsing" }),
-  ).toHaveAttribute("href", "/ee/search");
+  await expect(page.getByRole("link", { name: "Ava otsing" })).toHaveAttribute(
+    "href",
+    "/ee/search",
+  );
   expect(
     await page.evaluate(
       () => document.documentElement.scrollWidth <= window.innerWidth,
@@ -569,7 +604,21 @@ for (const locale of ["", "/ee"]) {
   }) => {
     await page.goto(`${locale}/search?q=quartz`);
     await page.getByRole("button", { name: "OK", exact: true }).click();
-    const marker = page.locator("#search-map .leaflet-marker-icon").first();
+    const countryMarker = page.locator(
+      '#search-map .map-count-icon[title="Estonia: 75"]',
+    );
+    await expect(countryMarker).toBeVisible();
+    await countryMarker.click();
+    await expect(page).toHaveURL(/country=/);
+    const localityMarker = page.locator(
+      '#search-map .map-count-icon[title="Tallinn: 75"]',
+    );
+    await expect(localityMarker).toBeVisible();
+    await localityMarker.click();
+    await expect(page).toHaveURL(/locality__equals=Tallinn/);
+    const marker = page
+      .locator("#search-map .leaflet-marker-icon:not(.map-count-icon)")
+      .first();
     await expect(marker).toBeVisible();
     await marker.click();
     await expect(page).toHaveURL(new RegExp(`${locale}/specimen/demo`));

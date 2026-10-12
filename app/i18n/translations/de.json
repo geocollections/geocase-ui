@@ -449,7 +449,7 @@
   "search": {
     "layout": {
       "results": "Ergebnisse",
-      "mapNote": "Standorte dieser Ergebnisseite. Zeichnen Sie einen Bereich zum Filtern.",
+      "mapNote": "Wählen Sie ein Land aus, um die Anzahl der Standorte zu sehen, und anschließend einen Standort, um Datenpunkte zu laden. Zeichnen Sie einen Bereich, um zu filtern.",
       "hideMap": "Karte ausblenden",
       "showMap": "Karte anzeigen",
       "expandMap": "Karte vergrößern",

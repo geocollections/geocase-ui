@@ -14,6 +14,158 @@ beforeEach(() => {
   i18n.locale.value = "en";
 });
 describe("migrated search state and API contract", () => {
+  it("fetches viewport-bounded mapped records separately from table results", async () => {
+    const store = useSearchStore();
+    const tableResults = [{ unitid: "table-row" }];
+    store.responseResults = tableResults;
+    store.mapZoom = 9;
+    store.mapBounds = { west: 20, south: 55, east: 30, north: 60 };
+    store.updateSearchField({ id: "q", value: "quartz" });
+    store.updateSearchField({
+      id: "country",
+      value: "Estonia",
+      lookUpType: "equals",
+    });
+    axios.get.mockResolvedValue({
+      data: {
+        response: {
+          docs: [{ geocase_id: "mapped-record", has_map: true }],
+          numFound: 1200,
+        },
+      },
+    });
+
+    await store.fetchMapResults();
+
+    const url = new URL(axios.get.mock.calls[0][0], "http://localhost");
+    expect(url.searchParams.get("start")).toBe("0");
+    expect(url.searchParams.get("rows")).toBe("1000");
+    expect(url.searchParams.get("q")).toBe('"quartz"');
+    expect(url.searchParams.getAll("fq")).toContain("has_map:true");
+    expect(url.searchParams.getAll("fq")).toContain(
+      'coordinates:"Intersects(ENVELOPE(20,30,60,55))"',
+    );
+    expect(url.searchParams.get("fl")).toContain(
+      "geocase_id,recordURI,has_map,latitude,longitude",
+    );
+    expect(url.searchParams.has("facet")).toBe(false);
+    expect(url.searchParams.has("facet.field")).toBe(false);
+    expect(store.mapResults).toEqual([
+      { geocase_id: "mapped-record", has_map: true },
+    ]);
+    expect(store.responseResults).toEqual(tableResults);
+    expect(store.isMapLoading).toBe(false);
+  });
+
+  it("loads country marker counts from Solr coordinate statistics", async () => {
+    const store = useSearchStore();
+    store.updateSearchField({ id: "q", value: "quartz" });
+    axios.get.mockResolvedValue({
+      data: {
+        stats: {
+          stats_fields: {
+            latitude: {
+              facets: {
+                country: {
+                  Estonia: { count: 12, mean: 58.7 },
+                  "United States": { count: 20, mean: 39.8 },
+                  Invalid: { count: 3, mean: null },
+                },
+              },
+            },
+            longitude: {
+              facets: {
+                country: {
+                  Estonia: { count: 12, mean: 25.5 },
+                  "United States": { count: 20, mean: -98.6 },
+                  Invalid: { count: 3, mean: null },
+                },
+              },
+            },
+          },
+        },
+      },
+    });
+
+    await store.fetchMapResults();
+
+    const url = new URL(axios.get.mock.calls[0][0], "http://localhost");
+    expect(url.searchParams.get("rows")).toBe("0");
+    expect(url.searchParams.get("stats")).toBe("true");
+    expect(url.searchParams.get("stats.facet")).toBe("country");
+    expect(store.mapResultsLevel).toBe("country");
+    expect(store.mapResults).toEqual([
+      {
+        country: "Estonia",
+        latitude: 58.7,
+        longitude: 25.5,
+        mapCount: 12,
+        has_map: true,
+      },
+      {
+        country: "United States",
+        latitude: 39.8,
+        longitude: -98.6,
+        mapCount: 20,
+        has_map: true,
+      },
+    ]);
+  });
+
+  it("loads locality groups after a country is selected and zoomed", async () => {
+    const store = useSearchStore();
+    store.updateSearchField({
+      id: "country",
+      value: "Estonia",
+      lookUpType: "equals",
+    });
+    store.mapZoom = 5;
+    store.mapBounds = { west: 20, south: 55, east: 30, north: 60 };
+    axios.get.mockResolvedValue({
+      data: {
+        grouped: {
+          locality: {
+            groups: [
+              {
+                groupValue: "Tartu",
+                doclist: {
+                  numFound: 9,
+                  docs: [
+                    {
+                      country: "Estonia",
+                      latitude: 58.38,
+                      longitude: 26.72,
+                    },
+                  ],
+                },
+              },
+            ],
+          },
+        },
+      },
+    });
+
+    await store.fetchMapResults();
+
+    const url = new URL(axios.get.mock.calls[0][0], "http://localhost");
+    expect(url.searchParams.get("group")).toBe("true");
+    expect(url.searchParams.get("group.field")).toBe("locality");
+    expect(url.searchParams.getAll("fq")).toContain(
+      'coordinates:"Intersects(ENVELOPE(20,30,60,55))"',
+    );
+    expect(store.mapResultsLevel).toBe("locality");
+    expect(store.mapResults).toEqual([
+      {
+        country: "Estonia",
+        locality: "Tartu",
+        latitude: 58.38,
+        longitude: 26.72,
+        mapCount: 9,
+        has_map: true,
+      },
+    ]);
+  });
+
   it("keeps the default table focused on its primary columns", () => {
     const store = useSearchStore();
     const visibleHeaders = store.getAllShownTableHeaders.map(

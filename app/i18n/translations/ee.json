@@ -450,7 +450,7 @@
   "search": {
     "layout": {
       "results": "Tulemused",
-      "mapNote": "Selle tulemuste lehe asukohad. Filtreerimiseks joonista ala.",
+      "mapNote": "Riigi asukohtade arvu nägemiseks vali riik, seejärel vali asukoht, et laadida kirjete punktid. Filtreerimiseks joonista ala.",
       "hideMap": "Peida kaart",
       "showMap": "Näita kaarti",
       "expandMap": "Suurenda kaarti",
