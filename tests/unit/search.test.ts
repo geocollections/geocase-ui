@@ -166,6 +166,31 @@ describe("migrated search state and API contract", () => {
     ]);
   });
 
+  it("keeps the default table focused on its primary columns", () => {
+    const store = useSearchStore();
+    const visibleHeaders = store.getAllShownTableHeaders.map(
+      (header) => header.key,
+    );
+
+    expect(visibleHeaders).toEqual([
+      "collectioncode",
+      "unitid",
+      "highertaxon",
+      "fullscientificname",
+      "country",
+      "locality",
+      "stratigraphy",
+      "recordURI",
+      "url",
+    ]);
+
+    store.updateTableHeaders(["collectioncode"]);
+    store.resetTableHeaders();
+    expect(store.getAllShownTableHeaders.map((header) => header.key)).toEqual(
+      visibleHeaders,
+    );
+  });
+
   it("preserves pagination, sort order and encoded filters", async () => {
     const store = useSearchStore();
     store.updateSearchField({ id: "q", value: "quartz & calcite" });
@@ -191,14 +216,19 @@ describe("migrated search state and API contract", () => {
   it("uses dataset navigation as an exact source filter with match-all search", async () => {
     const store = useSearchStore();
     const source = 'https://example.org/query?filter=a&schema=b#"source"';
-    queryMixin.methods.deconstructQueryParams.call({
-      searchIds: store.searchIds,
-      lookUpTypes: store.lookUpTypes,
-      searchParamsList: store.searchParamsList,
-      updateSearchField: store.updateSearchField,
-      updateSearchParam: store.updateSearchParam,
-    }, { datasourceurl__equals: source });
-    axios.get.mockResolvedValue({ data: { response: { docs: [], numFound: 7 } } });
+    queryMixin.methods.deconstructQueryParams.call(
+      {
+        searchIds: store.searchIds,
+        lookUpTypes: store.lookUpTypes,
+        searchParamsList: store.searchParamsList,
+        updateSearchField: store.updateSearchField,
+        updateSearchParam: store.updateSearchParam,
+      },
+      { datasourceurl__equals: source },
+    );
+    axios.get.mockResolvedValue({
+      data: { response: { docs: [], numFound: 7 } },
+    });
     await store.fetchResults();
     const url = new URL(axios.get.mock.calls[0][0], "http://localhost");
     expect(url.searchParams.get("q")).toBe("*");
@@ -213,9 +243,7 @@ describe("migrated search state and API contract", () => {
     const store = useSearchStore();
     expect(store.search.map.showCheckboxes).toBe(false);
     expect(
-      store.searchCheckboxIds.every(
-        (id) => store.search[id].showCheckboxes,
-      ),
+      store.searchCheckboxIds.every((id) => store.search[id].showCheckboxes),
     ).toBe(true);
     expect(
       store.searchCheckboxIds.every((id) => !store.search[id].showMore),
@@ -280,17 +308,16 @@ describe("migrated search state and API contract", () => {
   });
 });
 
-
 describe("homepage material samples navigation", () => {
   it("uses the requested collection images and display order", () => {
     const store = useFrontpageStore();
     const imageBase = "https://files.geocollections.info/img/geocase/front_page/";
 
     expect(store.cardIds).toEqual([
-      "fossil",
       "mineral",
       "rock",
       "meteorite",
+      "fossil",
       "materialSample",
     ]);
     expect(store.cards.fossil.image).toBe(`${imageBase}fossil2.jpg`);
@@ -310,10 +337,14 @@ describe("homepage material samples navigation", () => {
       [["MaterialSample", 3], '/search?recordbasis="MaterialSample"'],
       [[], "/search"],
     ]) {
-      axios.get.mockResolvedValue({ data: {
-        response: { numFound: 12 },
-        facet_counts: { facet_fields: { recordbasis: types, country: ["Estonia", 12] } },
-      } });
+      axios.get.mockResolvedValue({
+        data: {
+          response: { numFound: 12 },
+          facet_counts: {
+            facet_fields: { recordbasis: types, country: ["Estonia", 12] },
+          },
+        },
+      });
       await store.getStats();
       expect(store.getCards.materialSample.url).toBe(expected);
       expect(store.country).toBe(1);

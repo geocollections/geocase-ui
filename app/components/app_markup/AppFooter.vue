@@ -205,7 +205,7 @@ const logos = [
       </div>
 
       <section
-        class="tw:flex tw:flex-col tw:gap-5 tw:border-t tw:border-white/12 tw:py-7 tw:sm:flex-row tw:sm:items-center tw:sm:justify-between"
+        class="tw:flex tw:flex-col tw:gap-5 tw:border-t tw:border-white/12 tw:py-7 tw:lg:flex-row tw:lg:items-center tw:lg:justify-between"
         :aria-label="t('footer.partners')"
       >
         <div>
@@ -224,14 +224,16 @@ const logos = [
             </NuxtLink>
           </p>
         </div>
-        <div class="tw:flex tw:flex-wrap tw:items-center tw:gap-x-7 tw:gap-y-3">
+        <div
+          class="tw:grid tw:grid-cols-2 tw:items-center tw:gap-x-5 tw:gap-y-4 tw:sm:grid-cols-3 tw:sm:gap-x-7"
+        >
           <a
             v-for="logo in logos"
             :key="logo.image"
             :href="logo.href"
             target="_blank"
             rel="noopener noreferrer"
-            class="tw:flex tw:min-h-12 tw:items-center tw:rounded-md tw:opacity-75 tw:transition-opacity tw:hover:opacity-100 tw:focus-visible:outline-2 tw:focus-visible:outline-home-accent tw:focus-visible:outline-offset-3"
+            class="tw:flex tw:min-h-16 tw:items-center tw:justify-center tw:rounded-md tw:opacity-80 tw:transition-opacity tw:hover:opacity-100 tw:focus-visible:outline-2 tw:focus-visible:outline-home-accent tw:focus-visible:outline-offset-3"
           >
             <img
               :src="`https://geocase.eu/thumbnails/${logo.image}`"
@@ -239,7 +241,7 @@ const logos = [
               width="175"
               height="90"
               loading="lazy"
-              class="tw:h-11 tw:w-28 tw:object-contain tw:sm:w-32"
+              class="tw:h-14 tw:w-full tw:max-w-36 tw:object-contain tw:sm:h-16 tw:sm:max-w-44 tw:lg:h-20 tw:lg:max-w-48"
             />
           </a>
         </div>

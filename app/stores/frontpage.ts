@@ -38,7 +38,7 @@ export const useFrontpageStore = defineStore("frontpage", {
     datasourceurl: "",
     datasets: [] as { url: string; count: number }[],
     hasMaterialSamples: false,
-    cardIds: ["fossil", "mineral", "rock", "meteorite", "materialSample"],
+    cardIds: ["mineral", "rock", "meteorite", "fossil", "materialSample"],
     cards: {
       materialSample: {
         url: '/search?recordbasis="MaterialSample"',
