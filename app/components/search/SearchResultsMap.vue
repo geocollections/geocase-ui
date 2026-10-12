@@ -117,7 +117,7 @@ function clearArea() {
       <MapWrapper
         map-id="search-map"
         :open="open"
-        :height="expanded ? '65vh' : '350px'"
+        :height="expanded ? '65vh' : '450px'"
         :response-results="store.mapResults"
         :response-results-count="store.mapResults.length"
         :map-level="store.mapResultsLevel"

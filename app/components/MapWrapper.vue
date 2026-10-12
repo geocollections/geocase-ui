@@ -273,7 +273,7 @@ export default {
               : undefined,
             maxBoundsViscosity: this.isDetailView ? 1 : 0,
           }).setView(
-            this.activateSearch ? L.latLng(20, 0) : L.latLng(58.5, 25.5),
+            this.activateSearch ? L.latLng(45, 15) : L.latLng(58.5, 25.5),
             this.activateSearch ? 2.5 : 6,
           ),
         );
