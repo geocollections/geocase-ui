@@ -43,7 +43,7 @@ const clearLabel = (id: string) =>
       <UFormField
         :label="t('frontPage.quickSearch')"
         size="lg"
-        :ui="{ label: 'tw:text-highlighted tw:font-semibold' }"
+        :ui="{ label: 'tw:text-highlighted tw:font-extrabold' }"
       >
         <UInput
           :model-value="fields.q?.value ?? ''"
@@ -51,6 +51,7 @@ const clearLabel = (id: string) =>
           icon="i-lucide-search"
           size="lg"
           class="search-drawer-text-field tw:w-full"
+          :ui="{ base: 'tw:font-bold tw:ring-2 tw:ring-geocase-300' }"
           @update:model-value="updateText('q', $event)"
         >
           <template v-if="fields.q?.value" #trailing
@@ -72,18 +73,6 @@ const clearLabel = (id: string) =>
         :ui="{ label: 'tw:text-highlighted tw:font-semibold' }"
       >
         <div class="tw:space-y-2">
-          <USelect
-            :ui="{ content: 'tw:z-[3400]' }"
-            :items="store.lookUpTypes"
-            :model-value="fields[id]?.lookUpType"
-            :disabled="id === 'coordinates'"
-            :aria-label="`${t(`search.table.${id}`)} operator`"
-            class="tw:w-full"
-            @update:model-value="
-              store.updateSearchField({ id, lookUpType: $event });
-              store.updatePage(1);
-            "
-          />
           <UInput
             :model-value="fields[id]?.value ?? ''"
             :readonly="id === 'coordinates'"
@@ -103,8 +92,70 @@ const clearLabel = (id: string) =>
                 @click="clearField(id)"
             /></template>
           </UInput>
+          <details class="tw:text-xs tw:text-muted">
+            <summary class="tw:cursor-pointer tw:py-1">
+              {{ t("search.drawer.matchMode") }}:
+              {{
+                t(
+                  `search.activeFilters.operators.${fields[id]?.lookUpType.replaceAll(" ", "_")}`,
+                )
+              }}
+            </summary>
+            <USelect
+              :ui="{ content: 'tw:z-[3400]' }"
+              :items="store.lookUpTypes"
+              :model-value="fields[id]?.lookUpType"
+              :disabled="id === 'coordinates'"
+              :aria-label="`${t(`search.table.${id}`)} operator`"
+              class="tw:mt-2 tw:w-full"
+              @update:model-value="
+                store.updateSearchField({ id, lookUpType: $event });
+                store.updatePage(1);
+              "
+            />
+          </details>
         </div>
       </UFormField>
+      <section class="tw:space-y-3 tw:rounded-xl tw:bg-muted/50 tw:p-4">
+        <h3 class="tw:font-bold">{{ t("search.table.geologicalAge") }}</h3>
+        <div class="tw:grid tw:grid-cols-2 tw:gap-2">
+          <UFormField :label="t('search.table.age_min')">
+            <UInput
+              type="number"
+              min="0"
+              step="any"
+              :model-value="fields.age_min?.value ?? ''"
+              :aria-label="t('search.table.age_min')"
+              class="tw:w-full"
+              @update:model-value="updateText('age_min', $event)"
+            />
+          </UFormField>
+          <UFormField :label="t('search.table.age_max')">
+            <UInput
+              type="number"
+              min="0"
+              step="any"
+              :model-value="fields.age_max?.value ?? ''"
+              :aria-label="t('search.table.age_max')"
+              class="tw:w-full"
+              @update:model-value="updateText('age_max', $event)"
+            />
+          </UFormField>
+        </div>
+        <UFormField :label="t('search.table.age_unit')">
+          <USelect
+            :items="[
+              { label: t('search.drawer.millionYears'), value: 'My' },
+              { label: t('search.drawer.years'), value: 'years' },
+            ]"
+            :model-value="fields.age_unit?.value ?? 'My'"
+            :aria-label="t('search.table.age_unit')"
+            class="tw:w-full"
+            :ui="{ content: 'tw:z-[3400]' }"
+            @update:model-value="updateValue('age_unit', $event)"
+          />
+        </UFormField>
+      </section>
       <section
         v-for="id in store.searchCheckboxIds"
         :key="id"
