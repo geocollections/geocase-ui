@@ -449,7 +449,8 @@
       "acquisitionDate": "Omandamise aeg",
       "gatheringAgent": "Koguja",
       "unitDateText": "Kogumise aeg",
-      "kindOfUnit": "Üksus"
+      "kindOfUnit": "Üksus",
+      "geologicalAge": "Geoloogiline vanus"
     },
     "secondaryTable": {
       "institution": "Asutus",
@@ -476,7 +477,7 @@
   "search": {
     "layout": {
       "results": "Tulemused",
-      "mapNote": "Riigi asukohtade arvu nägemiseks vali riik, seejärel vali asukoht, et laadida kirjete punktid. Filtreerimiseks joonista ala.",
+      "mapNote": "Vali riik, et näha tabeli esimese 1000 tulemuse koordinaatidega kirjeid. Filtreerimiseks joonista ala.",
       "hideMap": "Peida kaart",
       "showMap": "Näita kaarti",
       "expandMap": "Suurenda kaarti",
@@ -534,7 +535,7 @@
       "longitude": "Pikkuskraad",
       "highertaxon": "Rühm",
       "images": "Pildid",
-      "recordbasis": "Eksemplari tüüp",
+      "recordbasis": "Materjali tüüp",
       "higherrank": "Kategooria",
       "acquiredfrom": "Omandatud",
       "datasourcecountry": "Andmeallika riik",
@@ -588,7 +589,12 @@
       "closeMap": "Sulge kaart",
       "goTo": "Leheküljele",
       "goToBtn": "Mine",
-      "clipboard": "Kopeeri lõikelauale"
+      "clipboard": "Kopeeri lõikelauale",
+      "kindofunit": "Materjali alamtüüp",
+      "geologicalAge": "Geoloogiline vanus",
+      "age_min": "Minimaalne vanus",
+      "age_max": "Maksimaalne vanus",
+      "age_unit": "Vanuse ühik"
     },
     "pagination": "Kuva {value} kaupa",
     "export": {
@@ -611,7 +617,10 @@
       "has_image": "Näita ainult piltidega kirjeid",
       "has_map": "Näita ainult koordinaatidega kirjeid",
       "fixedHeaders": "Külmuta tabeli päiserida (ainult suurte ekraandie puhul)",
-      "tableHeaders": "Tabeli päised"
+      "tableHeaders": "Tabeli päised",
+      "matchMode": "Otsinguviis",
+      "millionYears": "Miljonit aastat (My)",
+      "years": "Aastad"
     },
     "tableNoResults": "Antud otsinguparameetritega kirjeid ei leitud.",
     "imageNoResults": "Antud otsinguparameetritega pilte ei leitud.",

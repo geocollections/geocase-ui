@@ -448,7 +448,8 @@
       "acquisitionDate": "Acquisition date",
       "gatheringAgent": "Collector",
       "unitDateText": "Date collected",
-      "kindOfUnit": "Kind of unit"
+      "kindOfUnit": "Kind of unit",
+      "geologicalAge": "Geologisches Alter"
     },
     "secondaryTable": {
       "institution": "Institution",
@@ -475,7 +476,7 @@
   "search": {
     "layout": {
       "results": "Ergebnisse",
-      "mapNote": "Wählen Sie ein Land aus, um die Anzahl der Standorte zu sehen, und anschließend einen Standort, um Datenpunkte zu laden. Zeichnen Sie einen Bereich, um zu filtern.",
+      "mapNote": "Wählen Sie ein Land, um Datensätze mit Koordinaten aus den ersten 1.000 Tabellenergebnissen anzuzeigen. Zeichnen Sie einen Bereich zum Filtern.",
       "hideMap": "Karte ausblenden",
       "showMap": "Karte anzeigen",
       "expandMap": "Karte vergrößern",
@@ -533,7 +534,7 @@
       "longitude": "Langegrad",
       "highertaxon": "Gruppe",
       "images": "Bilder",
-      "recordbasis": "Specimen type",
+      "recordbasis": "Materialtyp",
       "higherrank": "Rang",
       "acquiredfrom": "Erworben von",
       "datasourcecountry": "Land der Datenquelle",
@@ -589,7 +590,12 @@
       "goTo": "Gehe zu Seite",
       "goToBtn": "Gehe",
       "pageSelect": "{current} / {count}",
-      "clipboard": "In Zwischenablage kopieren"
+      "clipboard": "In Zwischenablage kopieren",
+      "kindofunit": "Materialuntertyp",
+      "geologicalAge": "Geologisches Alter",
+      "age_min": "Mindestalter",
+      "age_max": "Höchstalter",
+      "age_unit": "Alterseinheit"
     },
     "pagination": "Nummeriere mit {value}",
     "export": {
@@ -612,7 +618,10 @@
       "has_image": "Zeige nur Daten mit Bildern",
       "has_map": "Zeige nur georeferenzierte Einträge",
       "fixedHeaders": "Fixierter Tabellenkopf (nur für große Monitore)",
-      "tableHeaders": "Tabellenkopf"
+      "tableHeaders": "Tabellenkopf",
+      "matchMode": "Suchmodus",
+      "millionYears": "Millionen Jahre (My)",
+      "years": "Jahre"
     },
     "tableNoResults": "Keine Einträge mit diesen Parametern gefunden.",
     "imageNoResults": "Keine Bilder mit diesen Parametern gefunden.",

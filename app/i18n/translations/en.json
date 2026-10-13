@@ -449,7 +449,8 @@
       "acquisitionDate": "Acquisition date",
       "gatheringAgent": "Collector",
       "unitDateText": "Date collected",
-      "kindOfUnit": "Kind of unit"
+      "kindOfUnit": "Kind of unit",
+      "geologicalAge": "Geological age"
     },
     "secondaryTable": {
       "institution": "Institution",
@@ -476,7 +477,7 @@
   "search": {
     "layout": {
       "results": "Results",
-      "mapNote": "Select a country to see locality counts, then select a locality to load record points. Draw an area to filter.",
+      "mapNote": "Select a country to show records with coordinates from the first 1,000 table results. Draw an area to filter.",
       "hideMap": "Hide map",
       "showMap": "Show map",
       "expandMap": "Expand map",
@@ -534,7 +535,7 @@
       "longitude": "Longitude",
       "highertaxon": "Group",
       "images": "Images",
-      "recordbasis": "Specimen type",
+      "recordbasis": "Material type",
       "higherrank": "Rank",
       "acquiredfrom": "Acquired from",
       "datasourcecountry": "Data source country",
@@ -590,7 +591,12 @@
       "goTo": "Go to page",
       "goToBtn": "Go",
       "pageSelect": "{current} / {count}",
-      "clipboard": "Copy to clipboard"
+      "clipboard": "Copy to clipboard",
+      "kindofunit": "Material subtype",
+      "geologicalAge": "Geological age",
+      "age_min": "Minimum age",
+      "age_max": "Maximum age",
+      "age_unit": "Age unit"
     },
     "pagination": "Paginate by {value}",
     "export": {
@@ -613,7 +619,10 @@
       "has_image": "Show only data with images",
       "has_map": "Show only georeferenced data",
       "fixedHeaders": "Fixed table header (only on large screens)",
-      "tableHeaders": "Table headers"
+      "tableHeaders": "Table headers",
+      "matchMode": "Match mode",
+      "millionYears": "Million years (My)",
+      "years": "Years"
     },
     "tableNoResults": "Couldn't find any records with these search parameters.",
     "imageNoResults": "Couldn't find any images with these search parameters.",

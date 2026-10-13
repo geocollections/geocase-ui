@@ -4,6 +4,8 @@ import earcut from "earcut";
 import Wkt from "wicket/wicket";
 import { parseDatasetsResponse } from "@/utils/datasets";
 
+import { getCountryCenter } from "@/utils/countryCenters";
+
 const API_URL = "/api";
 const FACET_QUERY =
   "facet=on&facet.mincount=0&facet.limit=200&f.highertaxon_facet.facet.limit=100";
@@ -82,9 +84,7 @@ class SearchService {
       return res.data;
     } catch (error) {
       console.error(error);
-      throw new Error(
-        error instanceof Error ? error.message : String(error),
-      );
+      throw new Error(error instanceof Error ? error.message : String(error));
     }
   }
 
@@ -122,15 +122,10 @@ class SearchService {
       const res = await axios.get(url);
       const latitudeFacets: Record<string, SolrStatistic> =
         res.data?.stats?.stats_fields?.latitude?.facets?.country ?? {};
-      const longitudeFacets: Record<string, SolrStatistic> =
-        res.data?.stats?.stats_fields?.longitude?.facets?.country ?? {};
-
       return Object.entries(latitudeFacets).flatMap(([country, latitude]) => {
-        const longitude = longitudeFacets[country];
-        const lat =
-          latitude.mean == null ? Number.NaN : Number(latitude.mean);
-        const lng =
-          longitude?.mean == null ? Number.NaN : Number(longitude.mean);
+        const center = getCountryCenter(country);
+        const lat = center?.[0] ?? Number.NaN;
+        const lng = center?.[1] ?? Number.NaN;
         const count = Number(latitude.count);
         if (
           !Number.isFinite(lat) ||
@@ -193,26 +188,22 @@ class SearchService {
       });
     }
 
-    const fields = [
-      "geocase_id",
-      "recordURI",
-      "has_map",
-      "latitude",
-      "longitude",
-      "country",
-      "fullscientificname",
-      "unitid",
-      "locality",
-    ];
-    const searchFields = buildSearchFieldsQuery(
-      mapParams.search,
-      mapParams.searchIds,
-      false,
+    const response = await this.search(
+      { ...params, page: 1, paginateBy: 1000 },
+      { includeFacets: false },
     );
-    const spatialFilter = buildMapBoundsFilter(bounds);
-    const url = `${API_URL}?start=0&rows=1000&sort=&defType=edismax&fl=${encodeURIComponent(fields.join(","))}${spatialFilter}&${searchFields}`;
-    const res = await axios.get(url);
-    return res.data?.response?.docs ?? [];
+    // Limit first, then exclude records without valid coordinates.
+    return (response?.response?.docs ?? []).filter(
+      (record: Record<string, unknown>) =>
+        record.latitude != null &&
+        record.latitude !== "" &&
+        record.longitude != null &&
+        record.longitude !== "" &&
+        Number.isFinite(Number(record.latitude)) &&
+        Number.isFinite(Number(record.longitude)) &&
+        Math.abs(Number(record.latitude)) <= 90 &&
+        Math.abs(Number(record.longitude)) <= 180,
+    );
   }
 
   static async getDetailView(id: string) {
@@ -223,9 +214,7 @@ class SearchService {
       return res.data;
     } catch (error) {
       console.error(error);
-      throw new Error(
-        error instanceof Error ? error.message : String(error),
-      );
+      throw new Error(error instanceof Error ? error.message : String(error));
     }
   }
 
@@ -236,12 +225,13 @@ class SearchService {
       return res.data;
     } catch (error) {
       console.error(error);
-      if (axios.isAxiosError<{ error?: string }>(error) && error.response?.data.error) {
+      if (
+        axios.isAxiosError<{ error?: string }>(error) &&
+        error.response?.data.error
+      ) {
         throw new Error(error.response.data.error);
       }
-      throw new Error(
-        error instanceof Error ? error.message : String(error),
-      );
+      throw new Error(error instanceof Error ? error.message : String(error));
     }
   }
 
@@ -292,9 +282,7 @@ class SearchService {
       return res.data;
     } catch (error) {
       console.error(error);
-      throw new Error(
-        error instanceof Error ? error.message : String(error),
-      );
+      throw new Error(error instanceof Error ? error.message : String(error));
     }
   }
 }
@@ -328,9 +316,31 @@ function buildSearchFieldsQuery(
   const encodedData: string[] = [];
   const facetFieldList: string[] = [];
 
+  const ageNumber = (value: unknown) => {
+    if (typeof value !== "string" || !value.trim()) return null;
+    const number = Number(value);
+    return Number.isFinite(number) && number >= 0 ? number : null;
+  };
+  let minimum = ageNumber(search.age_min?.value);
+  let maximum = ageNumber(search.age_max?.value);
+  if (minimum !== null && maximum !== null && minimum > maximum)
+    [minimum, maximum] = [maximum, minimum];
+  if (minimum !== null || maximum !== null) {
+    const unit = search.age_unit?.value === "years" ? "*years*" : "My";
+    const filters = [
+      'parameter:"Geological age"',
+      `unit_of_measurement:${unit}`,
+    ];
+    if (maximum !== null) filters.push(`lower_value:[* TO ${maximum}]`);
+    if (minimum !== null) filters.push(`upper_value:[${minimum} TO *]`);
+    encodedData.push(
+      ...filters.map((filter) => `fq=${encodeURIComponent(filter)}`),
+    );
+  }
+
   searchIds.forEach((id) => {
     const searchField = search[id];
-    if (!searchField) return;
+    if (!searchField || searchField.type === "age") return;
     let name = searchField.id;
     const type = searchField.type;
     const lookUpType = searchField.lookUpType;

@@ -41,6 +41,7 @@ const {
   gatheringAgent,
   unitDateText,
   kindOfUnit,
+  geologicalAge,
   itemHighertaxon,
   itemMineralGroup,
   mineralNameDetail,
@@ -435,6 +436,14 @@ function getCetafIdentifierUrl(country, identifier) {
               <div v-if="unitDateText">
                 {{ unitDateText }}
               </div>
+            </template>
+
+            <template v-slot:item.geologicalAge>
+              <ul class="tw:list-none tw:space-y-1 tw:p-0">
+                <li v-for="(age, index) in geologicalAge" :key="index">
+                  {{ age }}
+                </li>
+              </ul>
             </template>
 
             <template v-slot:item.kindOfUnit>
