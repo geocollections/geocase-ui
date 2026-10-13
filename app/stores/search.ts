@@ -1,9 +1,6 @@
 import { defineStore } from "pinia";
 import SearchService from "@/services/SearchService";
-import type {
-  MapBounds,
-  MapLevel,
-} from "@/services/SearchService";
+import type { MapBounds, MapLevel } from "@/services/SearchService";
 import { useSettingsStore } from "./settings";
 import i18n from "@/i18n";
 
@@ -11,12 +8,12 @@ type SolrRecord = Record<string, any>;
 type FacetValue = string | number;
 const FACET_IDS = [
   "recordbasis",
+  "kindofunit",
   "highertaxon_facet",
   "type_status",
   "country",
   "datasetowner",
   "providername",
-  "providercountry",
 ] as const;
 type Facet = (typeof FACET_IDS)[number];
 
@@ -83,6 +80,7 @@ interface SearchState {
   searchSingleCheckboxIds: string[];
   lookUpTypes: string[];
   recordbasis: string[];
+  kindofunit: string[];
   highertaxon_facet: string[];
   type_status: string[];
   country: string[];
@@ -178,9 +176,39 @@ export const useSearchStore = defineStore("search", {
         type: "checkbox",
         lookUpType: "",
         value: null,
-        label: "Specimen type",
+        label: "Material type",
         showCheckboxes: true,
         showMore: false,
+      },
+      kindofunit: {
+        id: "kindofunit",
+        type: "checkbox",
+        lookUpType: "",
+        value: null,
+        label: "Material subtype",
+        showCheckboxes: true,
+        showMore: false,
+      },
+      age_min: {
+        id: "age_min",
+        type: "age",
+        lookUpType: "",
+        value: null,
+        label: "Minimum age",
+      },
+      age_max: {
+        id: "age_max",
+        type: "age",
+        lookUpType: "",
+        value: null,
+        label: "Maximum age",
+      },
+      age_unit: {
+        id: "age_unit",
+        type: "age",
+        lookUpType: "",
+        value: null,
+        label: "Age unit",
       },
       highertaxon_facet: {
         id: "highertaxon_facet",
@@ -261,6 +289,10 @@ export const useSearchStore = defineStore("search", {
       "unitid",
       "map",
       "recordbasis",
+      "kindofunit",
+      "age_min",
+      "age_max",
+      "age_unit",
       "highertaxon_facet",
       "type_status",
       "country",
@@ -289,6 +321,7 @@ export const useSearchStore = defineStore("search", {
       "smaller than",
     ],
     recordbasis: [],
+    kindofunit: [],
     highertaxon_facet: [],
     type_status: [],
     country: [],
@@ -623,41 +656,23 @@ export const useSearchStore = defineStore("search", {
     },
 
     async fetchMapResults() {
-      const search: SearchFields = {
-        ...this.search,
-        has_map: {
-          ...this.search.has_map,
-          value: this.search.has_map.value ?? "true",
-        },
-      };
+      const search = this.search;
       const hasCountryFilter =
         typeof search.country.value === "string" &&
         search.country.value.trim().length > 0;
-      const hasLocalityFilter =
-        typeof search.locality.value === "string" &&
-        search.locality.value.trim().length > 0;
-      const level: MapLevel = !hasCountryFilter || this.mapZoom < 4
-        ? "country"
-        : hasLocalityFilter || this.mapZoom >= 9
-          ? "points"
-          : "locality";
-      const bounds = level === "country" ? null : this.mapBounds;
-      const queryKey = JSON.stringify(
-        [
-          level,
-          bounds
-            ? Object.values(bounds).map((coordinate) =>
-                Number(coordinate.toFixed(3)),
-              )
-            : null,
-          ...this.searchIds.map((id) => {
-            const field = search[id];
-            return field
-              ? [field.id, field.value, field.lookUpType, field.fields]
-              : null;
-          }),
-        ],
-      );
+      const level: MapLevel = hasCountryFilter ? "points" : "country";
+      const bounds = null;
+      const queryKey = JSON.stringify([
+        level,
+        this.sortBy,
+        this.sortDesc,
+        ...this.searchIds.map((id) => {
+          const field = search[id];
+          return field
+            ? [field.id, field.value, field.lookUpType, field.fields]
+            : null;
+        }),
+      ]);
 
       if (
         queryKey === this.mapResultsQueryKey ||
@@ -672,14 +687,18 @@ export const useSearchStore = defineStore("search", {
       this.mapResultsLevel = level;
 
       try {
-        const response = await SearchService.searchMap({
-          page: 1,
-          paginateBy: 1000,
-          sortBy: this.sortBy,
-          sortDesc: this.sortDesc,
-          searchIds: this.searchIds,
-          search,
-        }, level, bounds);
+        const response = await SearchService.searchMap(
+          {
+            page: 1,
+            paginateBy: 1000,
+            sortBy: this.sortBy,
+            sortDesc: this.sortDesc,
+            searchIds: this.searchIds,
+            search,
+          },
+          level,
+          bounds,
+        );
 
         if (requestId !== this.mapRequestId) return;
         this.mapResults = response;
