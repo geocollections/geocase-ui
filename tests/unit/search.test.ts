@@ -14,7 +14,7 @@ beforeEach(() => {
   i18n.locale.value = "en";
 });
 describe("migrated search state and API contract", () => {
-  it("fetches viewport-bounded mapped records separately from table results", async () => {
+  it("maps the first 1000 table results without viewport filtering", async () => {
     const store = useSearchStore();
     const tableResults = [{ unitid: "table-row" }];
     store.responseResults = tableResults;
@@ -29,7 +29,15 @@ describe("migrated search state and API contract", () => {
     axios.get.mockResolvedValue({
       data: {
         response: {
-          docs: [{ geocase_id: "mapped-record", has_map: true }],
+          docs: [
+            {
+              geocase_id: "mapped-record",
+              has_map: true,
+              latitude: 0,
+              longitude: 0,
+            },
+            { geocase_id: "missing" },
+          ],
           numFound: 1200,
         },
       },
@@ -41,17 +49,16 @@ describe("migrated search state and API contract", () => {
     expect(url.searchParams.get("start")).toBe("0");
     expect(url.searchParams.get("rows")).toBe("1000");
     expect(url.searchParams.get("q")).toBe('"quartz"');
-    expect(url.searchParams.getAll("fq")).toContain("has_map:true");
-    expect(url.searchParams.getAll("fq")).toContain(
-      'coordinates:"Intersects(ENVELOPE(20,30,60,55))"',
-    );
-    expect(url.searchParams.get("fl")).toContain(
-      "geocase_id,recordURI,has_map,latitude,longitude",
-    );
+    expect(url.searchParams.getAll("fq")).not.toContain("has_map:true");
+    expect(
+      url.searchParams
+        .getAll("fq")
+        .some((filter) => filter.includes("ENVELOPE")),
+    ).toBe(false);
     expect(url.searchParams.has("facet")).toBe(false);
     expect(url.searchParams.has("facet.field")).toBe(false);
     expect(store.mapResults).toEqual([
-      { geocase_id: "mapped-record", has_map: true },
+      { geocase_id: "mapped-record", has_map: true, latitude: 0, longitude: 0 },
     ]);
     expect(store.responseResults).toEqual(tableResults);
     expect(store.isMapLoading).toBe(false);
@@ -97,73 +104,38 @@ describe("migrated search state and API contract", () => {
     expect(store.mapResults).toEqual([
       {
         country: "Estonia",
-        latitude: 58.7,
-        longitude: 25.5,
+        latitude: 59,
+        longitude: 26,
         mapCount: 12,
         has_map: true,
       },
       {
         country: "United States",
-        latitude: 39.8,
-        longitude: -98.6,
+        latitude: 38,
+        longitude: -97,
         mapCount: 20,
         has_map: true,
       },
     ]);
   });
 
-  it("loads locality groups after a country is selected and zoomed", async () => {
+  it("shows points for a selected country at low zoom and preserves table sorting", async () => {
     const store = useSearchStore();
-    store.updateSearchField({
-      id: "country",
-      value: "Estonia",
-      lookUpType: "equals",
-    });
-    store.mapZoom = 5;
-    store.mapBounds = { west: 20, south: 55, east: 30, north: 60 };
-    axios.get.mockResolvedValue({
-      data: {
-        grouped: {
-          locality: {
-            groups: [
-              {
-                groupValue: "Tartu",
-                doclist: {
-                  numFound: 9,
-                  docs: [
-                    {
-                      country: "Estonia",
-                      latitude: 58.38,
-                      longitude: 26.72,
-                    },
-                  ],
-                },
-              },
-            ],
-          },
-        },
-      },
-    });
-
+    store.updateSearchField({ id: "country", value: '"Estonia"' });
+    store.updateSortBy(["unitid"]);
+    store.updateSortDesc([true]);
+    store.mapZoom = 2;
+    axios.get.mockResolvedValue({ data: { response: { docs: [] } } });
     await store.fetchMapResults();
-
     const url = new URL(axios.get.mock.calls[0][0], "http://localhost");
-    expect(url.searchParams.get("group")).toBe("true");
-    expect(url.searchParams.get("group.field")).toBe("locality");
-    expect(url.searchParams.getAll("fq")).toContain(
-      'coordinates:"Intersects(ENVELOPE(20,30,60,55))"',
-    );
-    expect(store.mapResultsLevel).toBe("locality");
-    expect(store.mapResults).toEqual([
-      {
-        country: "Estonia",
-        locality: "Tartu",
-        latitude: 58.38,
-        longitude: 26.72,
-        mapCount: 9,
-        has_map: true,
-      },
-    ]);
+    expect(store.mapResultsLevel).toBe("points");
+    expect(url.searchParams.get("sort")).toBe("unitid desc");
+    expect(url.searchParams.getAll("fq")).toContain('country:"Estonia"');
+    store.updateMapViewport({
+      zoom: 10,
+      bounds: { west: 20, south: 55, east: 30, north: 60 },
+    });
+    expect(axios.get).toHaveBeenCalledTimes(1);
   });
 
   it("keeps the default table focused on its primary columns", () => {
@@ -311,7 +283,8 @@ describe("migrated search state and API contract", () => {
 describe("homepage material samples navigation", () => {
   it("uses the requested collection images and display order", () => {
     const store = useFrontpageStore();
-    const imageBase = "https://files.geocollections.info/img/geocase/front_page/";
+    const imageBase =
+      "https://files.geocollections.info/img/geocase/front_page/";
 
     expect(store.cardIds).toEqual([
       "mineral",
@@ -351,5 +324,161 @@ describe("homepage material samples navigation", () => {
     }
     const url = new URL(axios.get.mock.calls[0][0], "http://localhost");
     expect(url.searchParams.getAll("facet.field")).toContain("recordbasis");
+  });
+});
+
+describe("material subtype and geological age", () => {
+  it("requests and filters material subtypes without a provider country control", async () => {
+    const store = useSearchStore();
+    store.updateSearchField({
+      id: "kindofunit",
+      value: '"Microfossil preparation" "Pollen"',
+    });
+    axios.get.mockResolvedValue({
+      data: {
+        response: { docs: [] },
+        facet_counts: {
+          facet_fields: { kindofunit: ["Pollen", 2, "Drillcore", 1] },
+        },
+      },
+    });
+    await store.fetchResults();
+    const url = new URL(axios.get.mock.calls[0][0], "http://localhost");
+    expect(url.searchParams.getAll("fq")).toContain(
+      '{!tag=kindofunit}kindofunit:("Microfossil preparation" "Pollen")',
+    );
+    expect(url.searchParams.getAll("facet.field")).toContain(
+      "{!ex=kindofunit}kindofunit",
+    );
+    expect(store.kindofunit).toEqual(["Pollen", "Drillcore"]);
+    expect(store.searchCheckboxIds.slice(0, 2)).toEqual([
+      "recordbasis",
+      "kindofunit",
+    ]);
+    expect(store.searchCheckboxIds).not.toContain("providercountry");
+  });
+
+  it.each([
+    ["My", "My"],
+    ["years", "*years*"],
+  ])("builds an overlapping age range in %s", async (unit, expected) => {
+    const store = useSearchStore();
+    store.updateSearchField({ id: "age_min", value: "400" });
+    store.updateSearchField({ id: "age_max", value: "450" });
+    store.updateSearchField({ id: "age_unit", value: unit });
+    axios.get.mockResolvedValue({ data: { response: { docs: [] } } });
+    await store.fetchResults();
+    const url = new URL(axios.get.mock.calls[0][0], "http://localhost");
+    expect(url.searchParams.getAll("fq")).toEqual(
+      expect.arrayContaining([
+        'parameter:"Geological age"',
+        `unit_of_measurement:${expected}`,
+        "lower_value:[* TO 450]",
+        "upper_value:[400 TO *]",
+      ]),
+    );
+    expect(
+      url.searchParams.getAll("fq").some((filter) => filter.startsWith("age_")),
+    ).toBe(false);
+  });
+
+  it("defaults to My, accepts zero, and resets age fields", async () => {
+    const store = useSearchStore();
+    store.updateSearchField({ id: "age_min", value: "0" });
+    axios.get.mockResolvedValue({ data: { response: { docs: [] } } });
+    await store.fetchResults();
+    const filters = new URL(
+      axios.get.mock.calls[0][0],
+      "http://localhost",
+    ).searchParams.getAll("fq");
+    expect(filters).toContain("unit_of_measurement:My");
+    expect(filters).toContain("upper_value:[0 TO *]");
+    expect(filters.some((filter) => filter.startsWith("lower_value:"))).toBe(
+      false,
+    );
+    store.resetSearch();
+    expect(store.search.age_min.value).toBeNull();
+    expect(store.search.age_unit.value).toBeNull();
+  });
+
+  it("reads subtype and geological ages from Solr without provider data", () => {
+    const store = useDetailStore();
+    store.UPDATE_RESPONSE([
+      {
+        id: "demo",
+        kindofunit: "Pollen",
+        parameter: ["Weight", "Geological age"],
+        lower_value: [10, 400],
+        upper_value: [20, 450],
+        unit_of_measurement: ["g", "My"],
+      },
+    ]);
+    expect(store.kindOfUnit).toBe("Pollen");
+    expect(store.geologicalAge).toEqual(["400 – 450 My"]);
+    expect(store.filteredItemHeaders.map((header) => header.value)).toContain(
+      "geologicalAge",
+    );
+    store.UPDATE_RESPONSE([
+      {
+        id: "demo",
+        parameter: "Geological age",
+        value_lower: 0,
+        value_upper: 100,
+        unit_of_measurement: "years",
+      },
+    ]);
+    expect(store.geologicalAge).toEqual(["0 – 100 years"]);
+    store.UPDATE_RESPONSE([
+      { id: "demo", parameter: "Weight", lower_value: 10, upper_value: 20 },
+    ]);
+    expect(store.geologicalAge).toBeNull();
+  });
+});
+
+describe("age filter URL state", () => {
+  it("restores subtype and age from a bookmarked query", () => {
+    const store = useSearchStore();
+    queryMixin.methods.deconstructQueryParams.call(
+      {
+        searchIds: store.searchIds,
+        searchParamsList: store.searchParamsList,
+        lookUpTypes: store.lookUpTypes,
+        updateSearchField: store.updateSearchField,
+        updateSearchParam: store.updateSearchParam,
+      },
+      {
+        kindofunit: '"Pollen"',
+        age_min: "400",
+        age_max: "450",
+        age_unit: "years",
+      },
+    );
+    expect(store.search.kindofunit.value).toBe('"Pollen"');
+    expect(store.search.age_min.value).toBe("400");
+    expect(store.search.age_max.value).toBe("450");
+    expect(store.search.age_unit.value).toBe("years");
+  });
+  it("ignores invalid ages and normalizes reversed bounds", async () => {
+    const store = useSearchStore();
+    axios.get.mockResolvedValue({ data: { response: { docs: [] } } });
+    store.updateSearchField({ id: "age_min", value: "-10" });
+    store.updateSearchField({ id: "age_max", value: "NaN" });
+    await store.fetchResults();
+    let filters = new URL(
+      axios.get.mock.calls[0][0],
+      "http://localhost",
+    ).searchParams.getAll("fq");
+    expect(filters.some((filter) => filter.includes("Geological age"))).toBe(
+      false,
+    );
+    store.updateSearchField({ id: "age_min", value: "450" });
+    store.updateSearchField({ id: "age_max", value: "400" });
+    await store.fetchResults();
+    filters = new URL(
+      axios.get.mock.calls.findLast(([url]) => !url.includes("stats=true"))[0],
+      "http://localhost",
+    ).searchParams.getAll("fq");
+    expect(filters).toContain("lower_value:[* TO 450]");
+    expect(filters).toContain("upper_value:[400 TO *]");
   });
 });

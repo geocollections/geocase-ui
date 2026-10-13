@@ -6,6 +6,11 @@ const specimen = {
   collectioncode: "GEO",
   fullscientificname: "Quartz",
   recordbasis: "Mineral",
+  kindofunit: "Pollen",
+  parameter: "Geological age",
+  lower_value: 400,
+  upper_value: 450,
+  unit_of_measurement: "My",
   country: "Estonia",
   locality: "Tallinn",
   datasetowner: "Test Museum",
@@ -117,6 +122,7 @@ test.beforeEach(async ({ page }) => {
             country: ["Estonia", 75],
             datasetowner: ["Test Museum", 75],
             recordbasis: ["Mineral", 75],
+            kindofunit: ["Pollen", 75],
           },
         },
       },
@@ -610,12 +616,6 @@ for (const locale of ["", "/ee"]) {
     await expect(countryMarker).toBeVisible();
     await countryMarker.click();
     await expect(page).toHaveURL(/country=/);
-    const localityMarker = page.locator(
-      '#search-map .map-count-icon[title="Tallinn: 75"]',
-    );
-    await expect(localityMarker).toBeVisible();
-    await localityMarker.click();
-    await expect(page).toHaveURL(/locality__equals=Tallinn/);
     const marker = page
       .locator("#search-map .leaflet-marker-icon:not(.map-count-icon)")
       .first();
@@ -658,3 +658,39 @@ for (const width of [390, 768]) {
     await expect(drawer).not.toBeVisible();
   });
 }
+
+test("material subtype and age filters survive reload and appear in specimen details", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 1000 });
+  await page.goto("/search?kindofunit=%22Pollen%22&age_min=400&age_max=450");
+  await page.getByRole("button", { name: "OK", exact: true }).click();
+  await page.getByRole("button", { name: "Toggle navigation drawer" }).click();
+  const drawer = page.getByRole("dialog");
+  await expect(
+    drawer.getByRole("button", { name: "Material type", exact: true }),
+  ).toBeVisible();
+  await expect(
+    drawer.getByRole("button", { name: "Material subtype", exact: true }),
+  ).toBeVisible();
+  await expect(
+    drawer.getByRole("checkbox", { name: "Pollen (75)" }),
+  ).toBeChecked();
+  await expect(
+    drawer.getByRole("spinbutton", { name: "Minimum age" }),
+  ).toHaveValue("400");
+  await expect(
+    drawer.getByRole("spinbutton", { name: "Maximum age" }),
+  ).toHaveValue("450");
+  await expect(
+    drawer.getByRole("button", { name: "Provider country", exact: true }),
+  ).toHaveCount(0);
+  await expect(
+    drawer.getByRole("combobox", { name: "Name operator" }),
+  ).not.toBeVisible();
+  await page.reload();
+  await expect(page).toHaveURL(/age_min=400/);
+  await page.getByRole("link", { name: "DEMO-1" }).click();
+  await expect(page.getByText("400 – 450 My", { exact: true })).toBeVisible();
+  await expect(page.getByText("Pollen", { exact: true })).toBeVisible();
+});
