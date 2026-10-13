@@ -637,12 +637,17 @@ for (const width of [390, 768]) {
       .getByRole("button", { name: "Toggle navigation drawer" })
       .click();
     const drawer = page.getByRole("dialog");
-    await drawer.getByRole("combobox").first().click();
+    const nameMatchMode = drawer.locator("details").filter({
+      has: page.locator('[aria-label="Name operator"]'),
+    });
+    await nameMatchMode.locator("summary").click();
+    await drawer
+      .getByRole("combobox", { name: "Name operator", exact: true })
+      .click();
     await page.getByRole("option", { name: "equals", exact: true }).click();
     await expect(drawer).toBeVisible();
     await drawer
-      .locator(".search-drawer-text-field input")
-      .nth(1)
+      .getByRole("textbox", { name: "Name", exact: true })
       .fill("Quartz");
     await expect(page).toHaveURL(/fullscientificname__equals=Quartz/);
     await drawer.getByRole("checkbox", { name: /Estonia/ }).check();
