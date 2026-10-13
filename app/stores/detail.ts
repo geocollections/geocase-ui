@@ -26,6 +26,7 @@ export const useDetailStore = defineStore("detail", {
       { text: "latitude", value: "latitude" },
       { text: "longitude", value: "longitude" },
       { text: "stratigraphy", value: "stratigraphy" },
+      { text: "geologicalAge", value: "geologicalAge" },
       { text: "stratigraphyText", value: "stratigraphytext" },
       { text: "reference", value: "reference" },
       { text: "mindat", value: "mindat_url" },
@@ -66,10 +67,7 @@ export const useDetailStore = defineStore("detail", {
   }),
   getters: {
     itemExists: (state) => {
-      return !!(
-        state.response?.length &&
-        state.response?.[0]?.id
-      );
+      return !!(state.response?.length && state.response?.[0]?.id);
     },
 
     item: (state) => {
@@ -146,15 +144,18 @@ export const useDetailStore = defineStore("detail", {
         if (!Array.isArray(stratigraphyEFG))
           stratigraphyEFG = [stratigraphyEFG];
 
-        stratigraphyList = stratigraphyEFG.reduce((prev: typeof stratigraphyList, curr: AbcdRecord) => {
-          if (curr["efg:ChronostratigraphicName"])
-            prev.push({
-              name: curr["efg:ChronostratigraphicName"],
-              division: curr["efg:ChronoStratigraphicDivision"],
-            });
+        stratigraphyList = stratigraphyEFG.reduce(
+          (prev: typeof stratigraphyList, curr: AbcdRecord) => {
+            if (curr["efg:ChronostratigraphicName"])
+              prev.push({
+                name: curr["efg:ChronostratigraphicName"],
+                division: curr["efg:ChronoStratigraphicDivision"],
+              });
 
-          return prev;
-        }, []);
+            return prev;
+          },
+          [],
+        );
       }
 
       if (stratigraphyABCD) {
@@ -449,7 +450,28 @@ export const useDetailStore = defineStore("detail", {
       ];
     },
 
+    geologicalAge: (state) => {
+      const item = state.response?.[0];
+      if (!item) return null;
+      const list = (value: unknown): unknown[] =>
+        Array.isArray(value) ? value : [value];
+      const parameters = list(item.parameter);
+      const lower = list(item.lower_value ?? item.value_lower);
+      const upper = list(item.upper_value ?? item.value_upper);
+      const units = list(item.unit_of_measurement);
+      const ages = parameters.flatMap((parameter, index) => {
+        if (parameter !== "Geological age") return [];
+        const lo = lower[index];
+        const hi = upper[index];
+        const unit = units.length === 1 ? units[0] : units[index];
+        if (lo == null && hi == null) return [];
+        return [`${lo ?? "?"} – ${hi ?? "?"}${unit ? ` ${unit}` : ""}`];
+      });
+      return ages.length ? ages : null;
+    },
+
     kindOfUnit: (state) => {
+      if (state.response?.[0]?.kindofunit) return state.response[0].kindofunit;
       return state?.responseFromSource?.["abcd:DataSets"]?.["abcd:DataSet"]?.[
         "abcd:Units"
       ]?.["abcd:Unit"]?.["abcd:KindOfUnit"];
@@ -509,6 +531,8 @@ export const useDetailStore = defineStore("detail", {
           return header;
         } else if (header.value === "stratigraphy" && getters.itemStratigraphy)
           return header;
+        else if (header.value === "geologicalAge" && getters.geologicalAge)
+          return header;
         else if (header.value === "area" && getters.itemArea) return header;
         else if (header.value === "unitWeight" && getters.unitWeight)
           return header;
@@ -551,51 +575,60 @@ export const useDetailStore = defineStore("detail", {
     filteredItemHeadersSecondary: (state) => {
       const getters = state as unknown as AbcdRecord;
       const item = getters.item;
-      return getters.translatedItemHeadersSecondary.filter((header: DetailHeader) => {
-        if (item[header.value]) {
-          return header;
-        } else if (
-          header.value === "contentContactName" &&
-          getters.contentContactName
-        )
-          return header;
-        else if (
-          header.value === "contentContactEmail" &&
-          getters.contentContactEmail
-        )
-          return header;
-        else if (
-          header.value === "contentContactPhone" &&
-          getters.contentContactPhone
-        )
-          return header;
-        else if (
-          header.value === "contentContactAddress" &&
-          getters.contentContactAddress
-        )
-          return header;
-        else if (
-          header.value === "institutionHomepage" &&
-          getters.representationTitle
-        )
-          return header;
-        else if (header.value === "copyrights" && getters.copyrights)
-          return header;
-        else if (
-          header.value === "termsofusestatements" &&
-          getters.termsofusestatements
-        )
-          return header;
-        else if (header.value === "disclaimers" && getters.disclaimers)
-          return header;
-        else if (header.value === "acknowledgements" && getters.acknowledgements)
-          return header;
-        else if (header.value === "dateLastEdited" && getters.dateLastEdited)
-          return header;
-        else if (header.value === "specimenVerifier" && getters.specimenVerifier)
-          return header;
-        else if (header.value === "unitGuid" && getters.unitGuid) return header;
-      });
+      return getters.translatedItemHeadersSecondary.filter(
+        (header: DetailHeader) => {
+          if (item[header.value]) {
+            return header;
+          } else if (
+            header.value === "contentContactName" &&
+            getters.contentContactName
+          )
+            return header;
+          else if (
+            header.value === "contentContactEmail" &&
+            getters.contentContactEmail
+          )
+            return header;
+          else if (
+            header.value === "contentContactPhone" &&
+            getters.contentContactPhone
+          )
+            return header;
+          else if (
+            header.value === "contentContactAddress" &&
+            getters.contentContactAddress
+          )
+            return header;
+          else if (
+            header.value === "institutionHomepage" &&
+            getters.representationTitle
+          )
+            return header;
+          else if (header.value === "copyrights" && getters.copyrights)
+            return header;
+          else if (
+            header.value === "termsofusestatements" &&
+            getters.termsofusestatements
+          )
+            return header;
+          else if (header.value === "disclaimers" && getters.disclaimers)
+            return header;
+          else if (
+            header.value === "acknowledgements" &&
+            getters.acknowledgements
+          )
+            return header;
+          else if (header.value === "dateLastEdited" && getters.dateLastEdited)
+            return header;
+          else if (
+            header.value === "specimenVerifier" &&
+            getters.specimenVerifier
+          )
+            return header;
+          else if (header.value === "unitGuid" && getters.unitGuid)
+            return header;
+        },
+      );
     },
   },
   actions: {
