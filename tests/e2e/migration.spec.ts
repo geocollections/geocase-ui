@@ -869,3 +869,71 @@ test("typing in one search field survives another field submitting", async ({
   await expect(name).toHaveValue("Quartz");
   await expect(quick).toHaveValue("fossil");
 });
+
+test("image-only checkbox changes table results and can leave the image gallery", async ({
+  page,
+}) => {
+  await page.route("**/api?**", async (route) => {
+    const url = new URL(route.request().url());
+    if (url.searchParams.get("rows") === "0") return route.fallback();
+    const onlyImages = url.searchParams.getAll("fq").includes("has_image:true");
+    await route.fulfill({
+      json: {
+        response: {
+          numFound: onlyImages ? 1 : 2,
+          docs: onlyImages
+            ? [specimen]
+            : [
+                specimen,
+                {
+                  ...specimen,
+                  id: "2",
+                  geocase_id: "no-image",
+                  unitid: "NO-IMAGE",
+                  has_image: false,
+                  images: [],
+                },
+              ],
+        },
+        facet_counts: { facet_fields: {} },
+      },
+    });
+  });
+  await page.setViewportSize({ width: 390, height: 1000 });
+  await page.goto("/search?q=quartz");
+  await page.getByRole("button", { name: "OK", exact: true }).click();
+  await expect(page.locator("#table")).toContainText("NO-IMAGE");
+  await page.getByRole("button", { name: "Toggle navigation drawer" }).click();
+  const drawer = page.getByRole("dialog");
+  const checkbox = drawer.getByRole("checkbox", {
+    name: "Show only records with images",
+    exact: true,
+  });
+  await checkbox.check();
+  await expect(page).toHaveURL(/has_image=true/);
+  await expect(checkbox).toBeChecked();
+  await expect(page.locator("#table")).not.toContainText("NO-IMAGE");
+  await checkbox.uncheck();
+  await expect(page).not.toHaveURL(/has_image=/);
+  await expect(page.locator("#table")).toContainText("NO-IMAGE");
+  await page.keyboard.press("Escape");
+  await page.getByRole("tab", { name: /images/i }).click();
+  await expect(page).toHaveURL(/has_image=true/);
+  await page.getByRole("button", { name: "Toggle navigation drawer" }).click();
+  await expect(checkbox).toBeChecked();
+  await checkbox.uncheck();
+  await expect(page).not.toHaveURL(/has_image=/);
+  await page.keyboard.press("Escape");
+  await expect(page.getByRole("tab", { name: /table/i })).toHaveAttribute(
+    "aria-selected",
+    "true",
+  );
+  await expect(page.locator("#table")).toContainText("NO-IMAGE");
+  await expect(
+    page.getByText("Only results with images are shown in this view."),
+  ).toHaveCount(0);
+  expect(new URL(page.url()).searchParams.get("q")).toBe("quartz");
+  await page.getByRole("button", { name: "Toggle navigation drawer" }).click();
+  await checkbox.check();
+  await expect(page).toHaveURL(/has_image=true/);
+});
