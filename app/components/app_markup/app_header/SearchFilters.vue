@@ -6,6 +6,7 @@ const { t } = useI18n();
 const {
   store,
   fields,
+  textValues,
   updateValue,
   updateText,
   clearField,
@@ -46,7 +47,7 @@ const clearLabel = (id: string) =>
         :ui="{ label: 'tw:text-highlighted tw:font-extrabold' }"
       >
         <UInput
-          :model-value="fields.q?.value ?? ''"
+          :model-value="textValues.q ?? fields.q?.value ?? ''"
           :aria-label="t('frontPage.quickSearch')"
           icon="i-lucide-search"
           size="lg"
@@ -74,7 +75,7 @@ const clearLabel = (id: string) =>
       >
         <div class="tw:space-y-2">
           <UInput
-            :model-value="fields[id]?.value ?? ''"
+            :model-value="textValues[id] ?? fields[id]?.value ?? ''"
             :readonly="id === 'coordinates'"
             :placeholder="
               t(`search.table.${id}${id === 'coordinates' ? 'ReadOnly' : ''}`)
@@ -124,7 +125,7 @@ const clearLabel = (id: string) =>
               type="number"
               min="0"
               step="any"
-              :model-value="fields.age_min?.value ?? ''"
+              :model-value="textValues.age_min ?? fields.age_min?.value ?? ''"
               :aria-label="t('search.table.age_min')"
               class="tw:w-full"
               @update:model-value="updateText('age_min', $event)"
@@ -135,7 +136,7 @@ const clearLabel = (id: string) =>
               type="number"
               min="0"
               step="any"
-              :model-value="fields.age_max?.value ?? ''"
+              :model-value="textValues.age_max ?? fields.age_max?.value ?? ''"
               :aria-label="t('search.table.age_max')"
               class="tw:w-full"
               @update:model-value="updateText('age_max', $event)"

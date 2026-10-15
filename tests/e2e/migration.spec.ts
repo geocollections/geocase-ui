@@ -837,3 +837,35 @@ test("institution country circles render after delayed data and open filtered se
   );
   expect(searchUrl.searchParams.get("country")).toBe('"Estonia"');
 });
+
+test("typing in one search field survives another field submitting", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 1000 });
+  await page.goto("/search");
+  await page.getByRole("button", { name: "OK", exact: true }).click();
+  await page.getByRole("button", { name: "Toggle navigation drawer" }).click();
+  const drawer = page.getByRole("dialog");
+  const quick = drawer.getByRole("textbox", {
+    name: "Quick search...",
+    exact: true,
+  });
+  const name = drawer.getByRole("textbox", { name: "Name", exact: true });
+  await quick.pressSequentially("fossil", { delay: 30 });
+  // The quick-search debounce expires while the name is still being entered.
+  await name.pressSequentially("Quartz", { delay: 70 });
+  await expect(name).toHaveValue("Quartz");
+  await expect(quick).toHaveValue("fossil");
+  await expect
+    .poll(() =>
+      new URL(page.url()).searchParams.get("fullscientificname__contains"),
+    )
+    .toBe("Quartz");
+  await expect
+    .poll(() => new URL(page.url()).searchParams.get("q"))
+    .toBe("fossil");
+  await page.reload();
+  await page.getByRole("button", { name: "Toggle navigation drawer" }).click();
+  await expect(name).toHaveValue("Quartz");
+  await expect(quick).toHaveValue("fossil");
+});
