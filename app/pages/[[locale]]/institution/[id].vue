@@ -43,7 +43,7 @@ const {
   status,
   error,
   refresh,
-} = await useAsyncData(
+} = useAsyncData(
   () => `institution-collection-${route.params.id}`,
   () =>
     $fetch<Collection>(

@@ -28,7 +28,7 @@ test.beforeEach(async ({ page }) => {
         contentType: "image/png",
         body: Uint8Array.from(
           atob(
-            "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jRZkAAAAASUVORK5CYII=",
+            "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=",
           ),
           (character) => character.charCodeAt(0),
         ),
