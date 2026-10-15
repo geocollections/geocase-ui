@@ -351,7 +351,7 @@ test("homepage map loads its worker and opens locality specimens", async ({
   expect(errors).toEqual([]);
 });
 
-test("Nuxt UI header keeps the brand visible and exposes external resources in the menu", async ({
+test("Nuxt UI header keeps the brand visible and links to the resource page", async ({
   page,
 }) => {
   await page.goto("/");
@@ -375,11 +375,14 @@ test("Nuxt UI header keeps the brand visible and exposes external resources in t
     header.getByRole("button", { name: "Menu", exact: true }),
   ).toHaveCSS("background-color", "rgba(0, 0, 0, 0)");
   await header.getByRole("button", { name: "Menu", exact: true }).click();
+  const menu = page.getByRole("dialog");
   await expect(
-    page.getByRole("navigation", { name: "Resources" }).getByRole("link", {
-      name: /github/i,
-    }),
-  ).toHaveAttribute("href", "https://github.com/geocollections/geocase-ui");
+    menu.getByRole("link", { name: "Links", exact: true }),
+  ).toHaveAttribute("href", "/links");
+  await expect(menu.locator('a[target="_blank"]')).toHaveCount(0);
+  await menu.getByRole("link", { name: "Links", exact: true }).click();
+  await expect(page).toHaveURL(/\/links$/);
+  await expect(page.getByRole("dialog")).not.toBeVisible();
 });
 
 test("Nuxt UI filters select, clear and reset facets", async ({ page }) => {
@@ -837,3 +840,271 @@ test("institution country circles render after delayed data and open filtered se
   );
   expect(searchUrl.searchParams.get("country")).toBe('"Estonia"');
 });
+
+test("typing in one search field survives another field submitting", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 1000 });
+  await page.goto("/search");
+  await page.getByRole("button", { name: "OK", exact: true }).click();
+  await page.getByRole("button", { name: "Toggle navigation drawer" }).click();
+  const drawer = page.getByRole("dialog");
+  const quick = drawer.getByRole("textbox", {
+    name: "Quick search...",
+    exact: true,
+  });
+  const name = drawer.getByRole("textbox", { name: "Name", exact: true });
+  await quick.pressSequentially("fossil", { delay: 30 });
+  // The quick-search debounce expires while the name is still being entered.
+  await name.pressSequentially("Quartz", { delay: 70 });
+  await expect(name).toHaveValue("Quartz");
+  await expect(quick).toHaveValue("fossil");
+  await expect
+    .poll(() =>
+      new URL(page.url()).searchParams.get("fullscientificname__contains"),
+    )
+    .toBe("Quartz");
+  await expect
+    .poll(() => new URL(page.url()).searchParams.get("q"))
+    .toBe("fossil");
+  await page.reload();
+  await page.getByRole("button", { name: "Toggle navigation drawer" }).click();
+  await expect(name).toHaveValue("Quartz");
+  await expect(quick).toHaveValue("fossil");
+});
+
+test("image-only checkbox changes table results and can leave the image gallery", async ({
+  page,
+}) => {
+  await page.route("**/api?**", async (route) => {
+    const url = new URL(route.request().url());
+    if (url.searchParams.get("rows") === "0") return route.fallback();
+    const onlyImages = url.searchParams.getAll("fq").includes("has_image:true");
+    await route.fulfill({
+      json: {
+        response: {
+          numFound: onlyImages ? 1 : 2,
+          docs: onlyImages
+            ? [specimen]
+            : [
+                specimen,
+                {
+                  ...specimen,
+                  id: "2",
+                  geocase_id: "no-image",
+                  unitid: "NO-IMAGE",
+                  has_image: false,
+                  images: [],
+                },
+              ],
+        },
+        facet_counts: { facet_fields: {} },
+      },
+    });
+  });
+  await page.setViewportSize({ width: 390, height: 1000 });
+  await page.goto("/search?q=quartz");
+  await page.getByRole("button", { name: "OK", exact: true }).click();
+  await expect(page.locator("#table")).toContainText("NO-IMAGE");
+  await page.getByRole("button", { name: "Toggle navigation drawer" }).click();
+  const drawer = page.getByRole("dialog");
+  const checkbox = drawer.getByRole("checkbox", {
+    name: "Show only records with images",
+    exact: true,
+  });
+  await checkbox.check();
+  await expect(page).toHaveURL(/has_image=true/);
+  await expect(checkbox).toBeChecked();
+  await expect(page.locator("#table")).not.toContainText("NO-IMAGE");
+  await checkbox.uncheck();
+  await expect(page).not.toHaveURL(/has_image=/);
+  await expect(page.locator("#table")).toContainText("NO-IMAGE");
+  await page.keyboard.press("Escape");
+  await page.getByRole("tab", { name: /images/i }).click();
+  await expect(page).toHaveURL(/has_image=true/);
+  await page.getByRole("button", { name: "Toggle navigation drawer" }).click();
+  await expect(checkbox).toBeChecked();
+  await checkbox.uncheck();
+  await expect(page).not.toHaveURL(/has_image=/);
+  await page.keyboard.press("Escape");
+  await expect(page.getByRole("tab", { name: /table/i })).toHaveAttribute(
+    "aria-selected",
+    "true",
+  );
+  await expect(page.locator("#table")).toContainText("NO-IMAGE");
+  await expect(
+    page.getByText("Only results with images are shown in this view."),
+  ).toHaveCount(0);
+  expect(new URL(page.url()).searchParams.get("q")).toBe("quartz");
+  await page.getByRole("button", { name: "Toggle navigation drawer" }).click();
+  await checkbox.check();
+  await expect(page).toHaveURL(/has_image=true/);
+});
+
+for (const entry of ["search", "specimen"]) {
+  test(`original images support zoom and pan from ${entry}`, async ({
+    page,
+  }) => {
+    const errors: string[] = [];
+    page.on("pageerror", (error) => errors.push(error.message));
+    if (entry === "specimen")
+      await page.setViewportSize({ width: 390, height: 844 });
+    await page.route(/https:\/\/example.org\/(quartz|other)\.jpg/, (route) =>
+      route.fulfill({
+        contentType: "image/svg+xml",
+        body: '<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1200"><rect width="1600" height="1200" fill="purple"/><circle cx="800" cy="600" r="300" fill="white"/></svg>',
+      }),
+    );
+    await page.route("**/api?**", (route) => {
+      const url = new URL(route.request().url());
+      if (url.searchParams.get("rows") === "0") return route.fallback();
+      return route.fulfill({
+        json: {
+          response: {
+            numFound: 1,
+            docs: [
+              {
+                ...specimen,
+                images: [
+                  "https://example.org/quartz.jpg",
+                  "https://example.org/other.jpg",
+                ],
+              },
+            ],
+          },
+          facet_counts: { facet_fields: {} },
+        },
+      });
+    });
+    await page.goto(entry === "search" ? "/search?q=quartz" : "/specimen/demo");
+    await page.getByRole("button", { name: "OK", exact: true }).click();
+    if (entry === "search") {
+      await page.getByRole("tab", { name: /images/i }).click();
+      await page
+        .getByRole("button", { name: /^open gallery:/i })
+        .first()
+        .click();
+    } else {
+      await page
+        .getByRole("button", { name: "Zoom image", exact: true })
+        .click();
+    }
+    const gallery = page.getByRole("dialog");
+    const viewer = gallery.getByRole("region", {
+      name: "Zoomable image",
+      exact: true,
+    });
+    const image = viewer.locator("img");
+    await expect(
+      gallery.getByRole("button", { name: "Zoom in", exact: true }),
+    ).toBeEnabled();
+    await expect(image).toHaveAttribute(
+      "src",
+      "https://example.org/quartz.jpg",
+    );
+    const initial = await image.evaluate(
+      (element) => element.getBoundingClientRect().width,
+    );
+    await gallery.getByRole("button", { name: "Zoom in", exact: true }).click();
+    await expect
+      .poll(() =>
+        image.evaluate((element) => element.getBoundingClientRect().width),
+      )
+      .toBeGreaterThan(initial * 1.4);
+    await gallery
+      .getByRole("button", { name: "Original size", exact: true })
+      .click();
+    await expect
+      .poll(() =>
+        image.evaluate((element) => element.getBoundingClientRect().width),
+      )
+      .toBeCloseTo(1600, 0);
+    const before = await image.evaluate(
+      (element) => element.getBoundingClientRect().x,
+    );
+    const box = await viewer.boundingBox();
+    await page.mouse.move(box!.x + box!.width / 2, box!.y + box!.height / 2);
+    await page.mouse.down();
+    await page.mouse.move(
+      box!.x + box!.width / 2 + 40,
+      box!.y + box!.height / 2 + 30,
+      { steps: 4 },
+    );
+    await page.mouse.up();
+    await expect
+      .poll(() =>
+        image.evaluate((element) => element.getBoundingClientRect().x),
+      )
+      .toBeGreaterThan(before);
+    await gallery
+      .getByRole("button", { name: "Fit to screen", exact: true })
+      .click();
+    await expect
+      .poll(() =>
+        image.evaluate((element) => element.getBoundingClientRect().width),
+      )
+      .toBeCloseTo(initial, 0);
+    await expect(
+      gallery.getByRole("button", { name: "Zoom out", exact: true }),
+    ).toBeDisabled();
+    await gallery.getByRole("button", { name: "Zoom in", exact: true }).click();
+    await gallery
+      .getByRole("button", { name: "Next image", exact: true })
+      .click();
+    await expect(image).toHaveAttribute("src", "https://example.org/other.jpg");
+    await expect(
+      gallery.getByRole("button", { name: "Zoom out", exact: true }),
+    ).toBeDisabled();
+    await page.keyboard.press("Escape");
+    await expect(gallery).not.toBeVisible();
+    expect(errors).toEqual([]);
+  });
+}
+
+for (const [locale, title] of [
+  ["", "Explore beyond GeoCASe."],
+  ["/ee", "Avasta enamat kui GeoCASe."],
+  ["/de", "Über GeoCASe hinaus entdecken."],
+]) {
+  test(`resource page has unique links and responsive localized content ${locale || "English"}`, async ({
+    page,
+  }) => {
+    const errors: string[] = [];
+    page.on("pageerror", (error) => errors.push(error.message));
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto(`${locale}/links`);
+    await page.getByRole("button", { name: "OK", exact: true }).click();
+    await expect(
+      page.getByRole("heading", { level: 1, name: title, exact: true }),
+    ).toBeVisible();
+    const cards = page.locator("article .resource-card");
+    await expect(cards).toHaveCount(15);
+    const hrefs = await cards.evaluateAll((links) =>
+      links.map((link) => link.getAttribute("href")),
+    );
+    expect(new Set(hrefs).size).toBe(15);
+    expect(hrefs).toContain("https://www.gbif.org/");
+    expect(hrefs).toContain("https://api.geocase.eu/");
+    expect(hrefs).toContain("https://github.com/geocollections/geocase-ui");
+    for (const card of await cards.all()) {
+      await expect(card).toHaveAttribute("target", "_blank");
+      await expect(card).toHaveAttribute("rel", "noopener noreferrer");
+    }
+    await page.locator('article nav a[href="#standards"]').click();
+    await expect(page).toHaveURL(/#standards$/);
+    for (const width of [390, 768, 1440]) {
+      await page.setViewportSize({ width, height: 900 });
+      expect(
+        await page.evaluate(
+          () => document.documentElement.scrollWidth <= innerWidth,
+        ),
+      ).toBe(true);
+    }
+    if (!locale)
+      await page.screenshot({
+        path: "test-results/links-desktop.png",
+        fullPage: true,
+      });
+    expect(errors).toEqual([]);
+  });
+}

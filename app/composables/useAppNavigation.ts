@@ -24,6 +24,10 @@ export const navigationVisibility: Record<
     header: "tw:hidden tw:min-[900px]:inline-flex",
     drawer: "tw:min-[900px]:hidden",
   },
+  "/dataset": {
+    header: "tw:hidden tw:min-[1100px]:inline-flex",
+    drawer: "tw:min-[1100px]:hidden",
+  },
   "/institution": {
     header: "tw:hidden tw:min-[900px]:inline-flex",
     drawer: "tw:min-[900px]:hidden",

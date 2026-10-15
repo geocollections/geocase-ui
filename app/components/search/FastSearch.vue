@@ -32,7 +32,10 @@ function updateStore(value: string) {
 
 function scheduleStoreUpdate(value: string) {
   clearTimeout(updateTimer);
-  updateTimer = setTimeout(() => updateStore(value), 250);
+  updateTimer = setTimeout(() => {
+    updateStore(value);
+    updateTimer = undefined;
+  }, 250);
 }
 
 function cancelStoreUpdate() {
@@ -40,10 +43,14 @@ function cancelStoreUpdate() {
   updateTimer = undefined;
 }
 
-watch(fastSearch, scheduleStoreUpdate);
+function updateInput(value: string | number) {
+  fastSearch.value = String(value);
+  scheduleStoreUpdate(fastSearch.value);
+}
 watch(
   () => search.value.q.value,
   (value) => {
+    if (updateTimer !== undefined) return;
     const normalizedValue = String(value ?? "");
     if (normalizedValue !== fastSearch.value)
       fastSearch.value = normalizedValue;
@@ -86,7 +93,8 @@ async function submitSearch() {
       @submit.prevent="submitSearch"
     >
       <UInput
-        v-model="fastSearch"
+        :model-value="fastSearch"
+        @update:model-value="updateInput"
         :placeholder="t('frontPage.quickSearch')"
         :aria-label="t('frontPage.quickSearch')"
         :autofocus="route.name === 'FrontPage'"
@@ -125,7 +133,11 @@ async function submitSearch() {
               :size="inAppHeader ? 'md' : 'lg'"
               :label="hero ? t('header.search') : undefined"
               :aria-label="t('frontPage.quickSearch')"
-              :class="hero ? 'tw:rounded-2xl tw:bg-black tw:text-white tw:hover:bg-neutral-800' : undefined"
+              :class="
+                hero
+                  ? 'tw:rounded-2xl tw:bg-black tw:text-white tw:hover:bg-neutral-800'
+                  : undefined
+              "
             />
           </div>
         </template>

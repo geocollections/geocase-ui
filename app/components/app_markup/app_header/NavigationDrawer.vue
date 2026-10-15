@@ -22,6 +22,7 @@ const icons: Record<string, string> = {
   "/partners_and_providers": "i-lucide-handshake",
   "/help": "i-lucide-circle-help",
   "/links": "i-lucide-link",
+  "/dataset": "i-lucide-database",
 };
 function isActive(path: string) {
   return route.path.replace(/\/$/, "") === localePath(path).replace(/\/$/, "");
@@ -97,41 +98,6 @@ function isActive(path: string) {
         aria-hidden="true"
         class="tw:mt-5 tw:aspect-[2.88/1] tw:w-full tw:rounded-xl tw:object-cover"
       />
-      <section
-        class="tw:mt-7 tw:border-t tw:border-home-border tw:pt-5"
-        :aria-label="t('header.resources')"
-      >
-        <h2
-          class="tw:px-4 tw:text-xs tw:font-extrabold tw:uppercase tw:tracking-[0.14em] tw:text-home-muted"
-        >
-          {{ t("header.resources") }}
-        </h2>
-        <nav
-          :aria-label="t('header.resources')"
-          class="tw:mt-2 tw:flex tw:flex-col tw:gap-1"
-        >
-          <a
-            v-for="resource in settings.externalResources"
-            :key="resource.url"
-            :href="resource.url"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="tw:flex tw:min-h-11 tw:items-center tw:gap-3 tw:rounded-lg tw:px-4 tw:py-2 tw:text-sm tw:font-semibold tw:text-home-link tw:no-underline tw:transition-colors tw:hover:bg-home-hover tw:hover:text-home-ink tw:focus-visible:outline-2 tw:focus-visible:outline-offset-2 tw:focus-visible:outline-home-focus"
-          >
-            <UIcon
-              name="i-lucide-link-2"
-              class="tw:size-4 tw:shrink-0 tw:text-home-muted"
-              aria-hidden="true"
-            />
-            <span class="tw:flex-1">{{ resource.text }}</span>
-            <UIcon
-              name="i-lucide-arrow-up-right"
-              class="tw:size-3.5 tw:shrink-0 tw:text-home-muted"
-              aria-hidden="true"
-            />
-          </a>
-        </nav>
-      </section>
     </template>
   </USlideover>
 </template>

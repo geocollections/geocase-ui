@@ -1,4 +1,4 @@
-import { computed, onBeforeUnmount, watch } from "vue";
+import { computed, onBeforeUnmount, reactive, watch } from "vue";
 import { useRoute, useRouter } from "#imports";
 import type { LocationQueryRaw } from "vue-router";
 import { useSearchStore } from "@/stores/search";
@@ -15,13 +15,24 @@ export function useSearchFilters() {
   const route = useRoute();
   const router = useRouter();
   const fields = computed(() => store.search as Record<string, SearchField>);
+  const textValues = reactive<Record<string, string>>({});
   const timers = new Map<string, ReturnType<typeof setTimeout>>();
   function cancelPending() {
     timers.forEach((timer) => clearTimeout(timer));
     timers.clear();
   }
   onBeforeUnmount(cancelPending);
-  watch(() => route.fullPath, cancelPending);
+  watch(() => route.path, cancelPending);
+  watch(
+    () => store.search,
+    () => {
+      for (const id of Object.keys(textValues)) {
+        if (!timers.has(id))
+          textValues[id] = String(store.search[id]?.value ?? "");
+      }
+    },
+    { deep: true, flush: "post" },
+  );
   watch(
     () => store.search,
     () => {
@@ -60,6 +71,7 @@ export function useSearchFilters() {
     }
   }
   function updateText(id: string, value: string | number) {
+    textValues[id] = String(value);
     clearTimeout(timers.get(id));
     timers.set(
       id,
@@ -72,6 +84,7 @@ export function useSearchFilters() {
   function clearField(id: string) {
     clearTimeout(timers.get(id));
     timers.delete(id);
+    textValues[id] = "";
     updateValue(id, null);
     if (id === "map") store.fetchResults();
   }
@@ -98,6 +111,7 @@ export function useSearchFilters() {
   return {
     store,
     fields,
+    textValues,
     updateValue,
     updateText,
     clearField,
