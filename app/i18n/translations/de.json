@@ -615,13 +615,14 @@
       "clearFilters": "Entferne '{field}' Filter",
       "more": "Mehr",
       "less": "Weniger",
-      "has_image": "Zeige nur Daten mit Bildern",
+      "has_image": "Nur Datensätze mit Bildern anzeigen",
       "has_map": "Zeige nur georeferenzierte Einträge",
       "fixedHeaders": "Fixierter Tabellenkopf (nur für große Monitore)",
       "tableHeaders": "Tabellenkopf",
       "matchMode": "Suchmodus",
       "millionYears": "Millionen Jahre (My)",
-      "years": "Jahre"
+      "years": "Jahre",
+      "imageFilterHint": "Deaktivieren, um Datensätze mit und ohne Bilder anzuzeigen."
     },
     "tableNoResults": "Keine Einträge mit diesen Parametern gefunden.",
     "imageNoResults": "Keine Bilder mit diesen Parametern gefunden.",

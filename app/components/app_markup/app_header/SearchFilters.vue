@@ -237,6 +237,9 @@ const clearLabel = (id: string) =>
         :key="id"
         :model-value="fields[id]?.value === 'true'"
         :label="t(`search.drawer.${id}`)"
+        :description="
+          id === 'has_image' ? t('search.drawer.imageFilterHint') : undefined
+        "
         color="neutral"
         :ui="{ label: 'tw:text-highlighted tw:font-semibold' }"
         @update:model-value="updateValue(id, $event === true ? 'true' : null)"

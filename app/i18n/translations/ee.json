@@ -620,7 +620,8 @@
       "tableHeaders": "Tabeli päised",
       "matchMode": "Otsinguviis",
       "millionYears": "Miljonit aastat (My)",
-      "years": "Aastad"
+      "years": "Aastad",
+      "imageFilterHint": "Väljalülitamisel kuvatakse nii piltidega kui ka piltideta kirjed."
     },
     "tableNoResults": "Antud otsinguparameetritega kirjeid ei leitud.",
     "imageNoResults": "Antud otsinguparameetritega pilte ei leitud.",

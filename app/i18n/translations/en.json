@@ -616,13 +616,14 @@
       "clearFilters": "Clear '{field}' filters",
       "more": "More",
       "less": "Less",
-      "has_image": "Show only data with images",
+      "has_image": "Show only records with images",
       "has_map": "Show only georeferenced data",
       "fixedHeaders": "Fixed table header (only on large screens)",
       "tableHeaders": "Table headers",
       "matchMode": "Match mode",
       "millionYears": "Million years (My)",
-      "years": "Years"
+      "years": "Years",
+      "imageFilterHint": "Turn off to include records with and without images."
     },
     "tableNoResults": "Couldn't find any records with these search parameters.",
     "imageNoResults": "Couldn't find any images with these search parameters.",
