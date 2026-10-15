@@ -65,6 +65,13 @@ export const useSettingsStore = defineStore("settings", {
           isStatic: true,
         },
         {
+          text: i18n.t("datasetsPage.title"),
+          to: "/dataset",
+          name: "Dataset",
+          icon: "fa:fas fa-database",
+          isStatic: false,
+        },
+        {
           text: i18n.t("header.help"),
           to: "/help",
           name: "Help",

@@ -36,6 +36,10 @@ const links = computed(() => [
     to: "/institution",
   },
   {
+    label: t("datasetsPage.title"),
+    to: "/dataset",
+  },
+  {
     label: t("header.help"),
     to: "/help",
   },

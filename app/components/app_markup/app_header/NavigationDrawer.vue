@@ -22,6 +22,7 @@ const icons: Record<string, string> = {
   "/partners_and_providers": "i-lucide-handshake",
   "/help": "i-lucide-circle-help",
   "/links": "i-lucide-link",
+  "/dataset": "i-lucide-database",
 };
 function isActive(path: string) {
   return route.path.replace(/\/$/, "") === localePath(path).replace(/\/$/, "");
