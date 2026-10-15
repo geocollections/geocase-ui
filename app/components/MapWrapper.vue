@@ -371,8 +371,7 @@ export default {
                 {
                   icon: L.divIcon({
                     html: `<span class="tw:absolute tw:inset-0 tw:flex tw:items-center tw:justify-center tw:text-center tw:leading-none tw:whitespace-nowrap">${this.formatMapCount(item.mapCount)}</span>`,
-                    className:
-                      "map-count-icon tw:relative tw:flex tw:items-center tw:justify-center tw:rounded-full tw:border-2 tw:border-[rgb(128,72,158,0.85)] tw:bg-[rgb(229,207,241,0.88)] tw:text-center tw:text-[#452255] tw:text-xs tw:font-bold tw:shadow-[0_1px_5px_rgb(0,0,0,0.25)] tw:box-border",
+                    className: "map-count-icon map-country-count tw:relative",
                     iconSize: [radius * 2, radius * 2],
                     iconAnchor: [radius, radius],
                   }),

@@ -158,3 +158,11 @@
 .partners-map .institution-popup-link:focus-visible {
   @apply tw:outline-3 tw:outline-home-link tw:outline-offset-3;
 }
+
+.map-country-count {
+  @apply tw:flex tw:items-center tw:justify-center tw:rounded-full tw:border-2 tw:border-geocase-600/85 tw:bg-geocase-200/90 tw:text-center tw:text-geocase-900 tw:text-xs tw:font-bold tw:shadow-md tw:box-border;
+}
+
+.institution-location-dot {
+  @apply tw:inline-grid tw:shrink-0 tw:place-items-center tw:rounded-full tw:border-3 tw:border-white tw:bg-home-link tw:text-white tw:shadow-lg;
+}
