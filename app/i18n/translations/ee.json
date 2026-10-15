@@ -643,7 +643,16 @@
     "previousImage": "Eelmine pilt",
     "nextImage": "Järgmine pilt",
     "previewsPerRow": "Eelvaateid reas",
-    "goToSpecimenView": "Mine detailvaatesse"
+    "goToSpecimenView": "Mine detailvaatesse",
+    "zoomViewer": "Suurendatav pilt",
+    "zoomControls": "Pildi suurendamise nupud",
+    "zoomIn": "Suurenda",
+    "zoomOut": "Vähenda",
+    "fitImage": "Mahuta ekraanile",
+    "actualSize": "Originaalsuurus",
+    "inspectImage": "Suurenda pilti",
+    "loadingImage": "Laadin pilti…",
+    "imageUnavailable": "Pilt pole saadaval"
   },
   "links": {
     "html": "<h1>Related links</h1><div class=\"row text-center no-gutters\"><div class=\"col-sm-3 col-6\"><h3>Link</h3></div><div class=\"col-sm-9 col-6\"><h3>Description</h3></div></div><div class=\"row no-gutters\"><div class=\"col-sm-3 col-6\"><a href=\"http://www.gbif.org/\" target=\"_blank\">GBIF</a></div><div class=\"col-sm-9 col-6\"> Global Biodiversity Information Facility </div></div><div class=\"row no-gutters\"><div class=\"col-sm-3 col-6\"><a href=\"http://www.synthesys.info/\" target=\"_blank\">SYNTHESYS</a></div><div class=\"col-sm-9 col-6\"> Synthesys Website </div></div><div class=\"row no-gutters\"><div class=\"col-sm-3 col-6\"><a href=\"https://www.naturkundemuseum.berlin/\" target=\"_blank\">Website Museum für Naturkunde</a></div><div class=\"col-sm-9 col-6\"> Museum für Naturkunde Berlin </div></div><div class=\"row no-gutters\"><div class=\"col-sm-3 col-6\"><a href=\"https://github.com/tdwg/abcd\" target=\"_blank\">TDWG</a></div><div class=\"col-sm-9 col-6\"> Task Group on Access to Biological Collection Data </div></div><div class=\"row no-gutters\"><div class=\"col-sm-3 col-6\"><a href=\"https://github.com/tdwg/paleo\" target=\"_blank\">TDWG Paleo Interest Group</a></div><div class=\"col-sm-9 col-6\"> TDWG Interest Group on data standards for paleobiology </div></div><div class=\"row no-gutters\"><div class=\"col-sm-3 col-6\"><a href=\"http://www.biocase.org/\" target=\"_blank\">BioCASE</a></div><div class=\"col-sm-9 col-6\"> A Biological Collection Access Service for Europe </div></div><div class=\"row no-gutters\"><div class=\"col-sm-3 col-6\"><a href=\"http://www.bgbm.org/TDWG/CODATA/Schema/ABCD_1.49/TDWG2004/2004-10-11-Christchurch-ABCD_files/frame.htm\" target=\"_blank\">ABCD schema</a></div><div class=\"col-sm-9 col-6\"> Global Biodiversity Information Facility - ABCD schema introduction </div></div><div class=\"row no-gutters\"><div class=\"col-sm-3 col-6\"><a href=\"http://rs.tdwg.org/dwc/\" target=\"_blank\">Darwin Core</a></div><div class=\"col-sm-9 col-6\"> A set of data elementdefinitions desiged to support the sharing and integration of primary biodiversity data </div></div><div class=\"row no-gutters\"><div class=\"col-sm-3 col-6\"><a href=\"http://www.paleodb.org/cgi-bin/bridge.pl\" target=\"_blank\">The Paleobiology Database</a></div><div class=\"col-sm-9 col-6\"> A public database resource </div></div><div class=\"row no-gutters\"><div class=\"col-sm-3 col-6\"><a href=\"http://www.stratigraphy.net/front_content.php\" target=\"_blank\">Stratigraphy.net</a></div><div class=\"col-sm-9 col-6\"> Provides a forum to discuss and share latest developments and ideas in various branches of stratigraphy </div></div>"

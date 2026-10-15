@@ -20,7 +20,9 @@
         <a
           :href="entity.originalImage"
           target="UrlWindow"
-          :aria-label="entity.altText"
+          :aria-label="$t('imageGallery.inspectImage')"
+          :title="$t('imageGallery.inspectImage')"
+          @click.prevent="openGallery(index)"
         >
           <image-wrapper
             class="mx-auto"
@@ -58,6 +60,13 @@
             >
           </div>
 
+          <UButton
+            icon="i-lucide-zoom-in"
+            color="neutral"
+            variant="outline"
+            @click="openGallery(carouselItem)"
+            >{{ $t("imageGallery.inspectImage") }}</UButton
+          >
           <v-list-item-action
             class="align-self-center"
             v-if="images.length > 1"
@@ -72,14 +81,22 @@
         </v-list-item>
       </v-list>
     </v-card>
+    <ImageOverflow
+      :images="images"
+      :dialog="galleryOpen"
+      :current-index="galleryIndex"
+      @close:dialog="galleryOpen = false"
+      @update:index="galleryIndex = $event"
+    />
   </v-card>
 </template>
 
 <script>
 import ImageWrapper from "@/components/image/ImageWrapper.vue";
+import ImageOverflow from "@/components/image/ImageOverflow.vue";
 export default {
   name: "ImageCarousel",
-  components: { ImageWrapper },
+  components: { ImageWrapper, ImageOverflow },
   props: {
     images: {
       type: Array,
@@ -89,6 +106,8 @@ export default {
 
   data: () => ({
     cycleImages: false,
+    galleryOpen: false,
+    galleryIndex: 0,
     url: null,
     date: null,
     licence: null,
@@ -97,7 +116,13 @@ export default {
   }),
 
   methods: {
+    openGallery(index) {
+      this.galleryIndex = index;
+      this.galleryOpen = true;
+      this.cycleImages = false;
+    },
     activeImage(index) {
+      this.carouselItem = index;
       if (!this.images[index]) return;
       this.url = this.images[index].originalImage;
       this.licence = this.images[index].image_licence;

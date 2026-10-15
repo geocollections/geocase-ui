@@ -937,3 +937,123 @@ test("image-only checkbox changes table results and can leave the image gallery"
   await checkbox.check();
   await expect(page).toHaveURL(/has_image=true/);
 });
+
+for (const entry of ["search", "specimen"]) {
+  test(`original images support zoom and pan from ${entry}`, async ({
+    page,
+  }) => {
+    const errors: string[] = [];
+    page.on("pageerror", (error) => errors.push(error.message));
+    if (entry === "specimen")
+      await page.setViewportSize({ width: 390, height: 844 });
+    await page.route(/https:\/\/example.org\/(quartz|other)\.jpg/, (route) =>
+      route.fulfill({
+        contentType: "image/svg+xml",
+        body: '<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1200"><rect width="1600" height="1200" fill="purple"/><circle cx="800" cy="600" r="300" fill="white"/></svg>',
+      }),
+    );
+    await page.route("**/api?**", (route) => {
+      const url = new URL(route.request().url());
+      if (url.searchParams.get("rows") === "0") return route.fallback();
+      return route.fulfill({
+        json: {
+          response: {
+            numFound: 1,
+            docs: [
+              {
+                ...specimen,
+                images: [
+                  "https://example.org/quartz.jpg",
+                  "https://example.org/other.jpg",
+                ],
+              },
+            ],
+          },
+          facet_counts: { facet_fields: {} },
+        },
+      });
+    });
+    await page.goto(entry === "search" ? "/search?q=quartz" : "/specimen/demo");
+    await page.getByRole("button", { name: "OK", exact: true }).click();
+    if (entry === "search") {
+      await page.getByRole("tab", { name: /images/i }).click();
+      await page
+        .getByRole("button", { name: /^open gallery:/i })
+        .first()
+        .click();
+    } else {
+      await page
+        .getByRole("button", { name: "Zoom image", exact: true })
+        .click();
+    }
+    const gallery = page.getByRole("dialog");
+    const viewer = gallery.getByRole("region", {
+      name: "Zoomable image",
+      exact: true,
+    });
+    const image = viewer.locator("img");
+    await expect(
+      gallery.getByRole("button", { name: "Zoom in", exact: true }),
+    ).toBeEnabled();
+    await expect(image).toHaveAttribute(
+      "src",
+      "https://example.org/quartz.jpg",
+    );
+    const initial = await image.evaluate(
+      (element) => element.getBoundingClientRect().width,
+    );
+    await gallery.getByRole("button", { name: "Zoom in", exact: true }).click();
+    await expect
+      .poll(() =>
+        image.evaluate((element) => element.getBoundingClientRect().width),
+      )
+      .toBeGreaterThan(initial * 1.4);
+    await gallery
+      .getByRole("button", { name: "Original size", exact: true })
+      .click();
+    await expect
+      .poll(() =>
+        image.evaluate((element) => element.getBoundingClientRect().width),
+      )
+      .toBeCloseTo(1600, 0);
+    const before = await image.evaluate(
+      (element) => element.getBoundingClientRect().x,
+    );
+    const box = await viewer.boundingBox();
+    await page.mouse.move(box!.x + box!.width / 2, box!.y + box!.height / 2);
+    await page.mouse.down();
+    await page.mouse.move(
+      box!.x + box!.width / 2 + 40,
+      box!.y + box!.height / 2 + 30,
+      { steps: 4 },
+    );
+    await page.mouse.up();
+    await expect
+      .poll(() =>
+        image.evaluate((element) => element.getBoundingClientRect().x),
+      )
+      .toBeGreaterThan(before);
+    await gallery
+      .getByRole("button", { name: "Fit to screen", exact: true })
+      .click();
+    await expect
+      .poll(() =>
+        image.evaluate((element) => element.getBoundingClientRect().width),
+      )
+      .toBeCloseTo(initial, 0);
+    await expect(
+      gallery.getByRole("button", { name: "Zoom out", exact: true }),
+    ).toBeDisabled();
+    await gallery.getByRole("button", { name: "Zoom in", exact: true }).click();
+    await gallery
+      .getByRole("button", { name: "Next image", exact: true })
+      .click();
+    await expect(image).toHaveAttribute("src", "https://example.org/other.jpg");
+    await expect(
+      gallery.getByRole("button", { name: "Zoom out", exact: true }),
+    ).toBeDisabled();
+    await page.keyboard.press("Escape");
+    await expect(gallery).not.toBeVisible();
+    expect(errors).toEqual([]);
+  });
+}

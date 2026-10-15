@@ -9,6 +9,8 @@ const props = defineProps({
   currentIndex: { type: Number, default: 0 },
 });
 
+const { localePath } = useAppNavigation();
+
 const emit = defineEmits(["close:dialog", "update:index"]);
 const showGallery = ref(true);
 const previewColumns = ref(2);
@@ -153,15 +155,12 @@ onBeforeUnmount(() => window.removeEventListener("keyup", handleKeyup));
             <div
               class="tw:bg-muted/40 tw:relative tw:flex tw:min-h-0 tw:flex-1 tw:items-center tw:justify-center tw:overflow-hidden tw:p-3 tw:sm:p-6"
             >
-              <ImageWrapper
+              <ZoomableImage
                 v-if="currentImage"
-                class="tw:h-full tw:w-full"
-                max-height="100%"
-                width="100%"
-                aspect-ratio="auto"
-                :image-src="currentImage.originalImage"
+                :key="currentImage.originalImage"
+                :src="currentImage.originalImage"
                 :fallback-src="currentImage.thumbnailImage"
-                :alt-text="currentImage.altText"
+                :alt="currentImage.altText"
               />
 
               <UTooltip :text="$t('imageGallery.previousImage')">
@@ -208,7 +207,11 @@ onBeforeUnmount(() => window.removeEventListener("keyup", handleKeyup));
                 {{ currentImage.image_licence }}
               </span>
               <UButton
-                :to="{ path: `specimen/${currentImage.geocase_id}` }"
+                :to="
+                  localePath(
+                    `/specimen/${encodeURIComponent(currentImage.geocase_id)}`,
+                  )
+                "
                 variant="link"
                 trailing-icon="i-lucide-arrow-right"
                 class="tw:p-0"
