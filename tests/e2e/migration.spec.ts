@@ -1,4 +1,5 @@
 import { test, expect } from "@playwright/test";
+import { Buffer } from "node:buffer";
 const specimen = {
   id: "1",
   geocase_id: "demo:1",
@@ -26,11 +27,9 @@ test.beforeEach(async ({ page }) => {
     (route) =>
       route.fulfill({
         contentType: "image/png",
-        body: Uint8Array.from(
-          atob(
-            "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=",
-          ),
-          (character) => character.charCodeAt(0),
+        body: Buffer.from(
+          "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=",
+          "base64",
         ),
       }),
   );
@@ -741,7 +740,7 @@ test("institution gallery falls back to thumbnails and links to specimens", asyn
     )
     .toBeGreaterThan(0);
   await expect(
-    page.getByRole("region", { name: "Collection map", exact: true }),
+    page.locator('.leaflet-container[role="region"][data-country-markers]'),
   ).toBeVisible();
   await expect(
     page.getByRole("button", {
@@ -817,7 +816,9 @@ test("institution country circles render after delayed data and open filtered se
   );
   await page.goto("/institution/tallinn-university-of-technology");
   await page.getByRole("button", { name: "OK", exact: true }).click();
-  const map = page.getByRole("region", { name: "Collection map", exact: true });
+  const map = page.locator(
+    '.leaflet-container[role="region"][data-country-markers]',
+  );
   await expect(map).toHaveAttribute("data-country-markers", "0");
   releaseData();
   await expect(map).toHaveAttribute("data-country-markers", "2");
