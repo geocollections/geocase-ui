@@ -13,51 +13,6 @@ export const useSettingsStore = defineStore("settings", {
     language: "en" as Language,
   }),
   getters: {
-    externalResources: () => {
-      return [
-        {
-          icon: "fa:fas fa-sitemap",
-          text: i18n.t("resources.cetaf"),
-          url: "http://cetaf.org",
-        },
-        {
-          icon: "fa:fas fa-microscope",
-          text: i18n.t("resources.dissco"),
-          url: "http://www.dissco.eu",
-        },
-        {
-          icon: "fa:fas fa-network-wired",
-          text: i18n.t("resources.biocase"),
-          url: "https://www.biocase.org/",
-        },
-        {
-          icon: "fa:fas fa-leaf",
-          text: i18n.t("resources.gbif"),
-          url: "https://www.gbif.org/",
-        },
-        {
-          icon: "fa:far fa-hand-paper",
-          text: i18n.t("resources.abcd-efg"),
-          url: "https://www.tdwg.org/community/esp/efg/",
-        },
-        {
-          icon: "fa:fab fa-github",
-          text: i18n.t("resources.geocase2-github"),
-          url: "https://github.com/geocollections/geocase-ui",
-        },
-        {
-          icon: "fa:fas fa-database",
-          text: i18n.t("resources.geocase1"),
-          url: "http://old.geocase.eu",
-        },
-        {
-          icon: "fa:fas fa-laptop-code",
-          text: i18n.t("resources.geocase-api"),
-          url: "https://api.geocase.eu/",
-        },
-      ];
-    },
-
     routes: () => {
       return [
         {

@@ -351,7 +351,7 @@ test("homepage map loads its worker and opens locality specimens", async ({
   expect(errors).toEqual([]);
 });
 
-test("Nuxt UI header keeps the brand visible and exposes external resources in the menu", async ({
+test("Nuxt UI header keeps the brand visible and links to the resource page", async ({
   page,
 }) => {
   await page.goto("/");
@@ -375,11 +375,14 @@ test("Nuxt UI header keeps the brand visible and exposes external resources in t
     header.getByRole("button", { name: "Menu", exact: true }),
   ).toHaveCSS("background-color", "rgba(0, 0, 0, 0)");
   await header.getByRole("button", { name: "Menu", exact: true }).click();
+  const menu = page.getByRole("dialog");
   await expect(
-    page.getByRole("navigation", { name: "Resources" }).getByRole("link", {
-      name: /github/i,
-    }),
-  ).toHaveAttribute("href", "https://github.com/geocollections/geocase-ui");
+    menu.getByRole("link", { name: "Links", exact: true }),
+  ).toHaveAttribute("href", "/links");
+  await expect(menu.locator('a[target="_blank"]')).toHaveCount(0);
+  await menu.getByRole("link", { name: "Links", exact: true }).click();
+  await expect(page).toHaveURL(/\/links$/);
+  await expect(page.getByRole("dialog")).not.toBeVisible();
 });
 
 test("Nuxt UI filters select, clear and reset facets", async ({ page }) => {
@@ -1054,6 +1057,54 @@ for (const entry of ["search", "specimen"]) {
     ).toBeDisabled();
     await page.keyboard.press("Escape");
     await expect(gallery).not.toBeVisible();
+    expect(errors).toEqual([]);
+  });
+}
+
+for (const [locale, title] of [
+  ["", "Explore beyond GeoCASe."],
+  ["/ee", "Avasta enamat kui GeoCASe."],
+  ["/de", "Über GeoCASe hinaus entdecken."],
+]) {
+  test(`resource page has unique links and responsive localized content ${locale || "English"}`, async ({
+    page,
+  }) => {
+    const errors: string[] = [];
+    page.on("pageerror", (error) => errors.push(error.message));
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto(`${locale}/links`);
+    await page.getByRole("button", { name: "OK", exact: true }).click();
+    await expect(
+      page.getByRole("heading", { level: 1, name: title, exact: true }),
+    ).toBeVisible();
+    const cards = page.locator("article .resource-card");
+    await expect(cards).toHaveCount(15);
+    const hrefs = await cards.evaluateAll((links) =>
+      links.map((link) => link.getAttribute("href")),
+    );
+    expect(new Set(hrefs).size).toBe(15);
+    expect(hrefs).toContain("https://www.gbif.org/");
+    expect(hrefs).toContain("https://api.geocase.eu/");
+    expect(hrefs).toContain("https://github.com/geocollections/geocase-ui");
+    for (const card of await cards.all()) {
+      await expect(card).toHaveAttribute("target", "_blank");
+      await expect(card).toHaveAttribute("rel", "noopener noreferrer");
+    }
+    await page.locator('article nav a[href="#standards"]').click();
+    await expect(page).toHaveURL(/#standards$/);
+    for (const width of [390, 768, 1440]) {
+      await page.setViewportSize({ width, height: 900 });
+      expect(
+        await page.evaluate(
+          () => document.documentElement.scrollWidth <= innerWidth,
+        ),
+      ).toBe(true);
+    }
+    if (!locale)
+      await page.screenshot({
+        path: "test-results/links-desktop.png",
+        fullPage: true,
+      });
     expect(errors).toEqual([]);
   });
 }

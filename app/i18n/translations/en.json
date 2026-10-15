@@ -656,9 +656,6 @@
     "loadingImage": "Loading image…",
     "imageUnavailable": "Image unavailable"
   },
-  "links": {
-    "html": "<h1>Related links</h1><div class=\"row text-center no-gutters\"><div class=\"col-sm-3 col-6\"><h3>Link</h3></div><div class=\"col-sm-9 col-6\"><h3>Description</h3></div></div><div class=\"row no-gutters\"><div class=\"col-sm-3 col-6\"><a href=\"http://www.gbif.org/\" target=\"_blank\">GBIF</a></div><div class=\"col-sm-9 col-6\"> Global Biodiversity Information Facility </div></div><div class=\"row no-gutters\"><div class=\"col-sm-3 col-6\"><a href=\"http://www.synthesys.info/\" target=\"_blank\">SYNTHESYS</a></div><div class=\"col-sm-9 col-6\"> Synthesys Website </div></div><div class=\"row no-gutters\"><div class=\"col-sm-3 col-6\"><a href=\"https://www.naturkundemuseum.berlin/\" target=\"_blank\">Website Museum für Naturkunde</a></div><div class=\"col-sm-9 col-6\"> Museum für Naturkunde Berlin </div></div><div class=\"row no-gutters\"><div class=\"col-sm-3 col-6\"><a href=\"https://github.com/tdwg/abcd\" target=\"_blank\">TDWG</a></div><div class=\"col-sm-9 col-6\"> Task Group on Access to Biological Collection Data </div></div><div class=\"row no-gutters\"><div class=\"col-sm-3 col-6\"><a href=\"https://github.com/tdwg/paleo\" target=\"_blank\">TDWG Paleo Interest Group</a></div><div class=\"col-sm-9 col-6\"> TDWG Interest Group on data standards for paleobiology </div></div><div class=\"row no-gutters\"><div class=\"col-sm-3 col-6\"><a href=\"http://www.biocase.org/\" target=\"_blank\">BioCASE</a></div><div class=\"col-sm-9 col-6\"> A Biological Collection Access Service for Europe </div></div><div class=\"row no-gutters\"><div class=\"col-sm-3 col-6\"><a href=\"http://www.bgbm.org/TDWG/CODATA/Schema/ABCD_1.49/TDWG2004/2004-10-11-Christchurch-ABCD_files/frame.htm\" target=\"_blank\">ABCD schema</a></div><div class=\"col-sm-9 col-6\"> Global Biodiversity Information Facility - ABCD schema introduction </div></div><div class=\"row no-gutters\"><div class=\"col-sm-3 col-6\"><a href=\"http://rs.tdwg.org/dwc/\" target=\"_blank\">Darwin Core</a></div><div class=\"col-sm-9 col-6\"> A set of data elementdefinitions desiged to support the sharing and integration of primary biodiversity data </div></div><div class=\"row no-gutters\"><div class=\"col-sm-3 col-6\"><a href=\"http://www.paleodb.org/cgi-bin/bridge.pl\" target=\"_blank\">The Paleobiology Database</a></div><div class=\"col-sm-9 col-6\"> A public database resource </div></div><div class=\"row no-gutters\"><div class=\"col-sm-3 col-6\"><a href=\"http://www.stratigraphy.net/front_content.php\" target=\"_blank\">Stratigraphy.net</a></div><div class=\"col-sm-9 col-6\"> Provides a forum to discuss and share latest developments and ideas in various branches of stratigraphy </div></div>"
-  },
   "imprint": {
     "html": "<h1>Imprint</h1><p> Museum für Naturkunde <br> Leibniz Institute for Evolution and Biodiversity Science <br> Invalidenstraße 43 <br> 10115 Berlin, Germany </p><p> Landesunmittelbare rechtsfähige Stiftung des öffentlichen Rechts </p><p> phone: +49 (0)30 2093-8591 <br> fax: +49 (0)30 2093-8561 <br> email: info(at)mfn-berlin.de <br> website: <a href=\"https://www.naturkundemuseum.berlin\" target=\"_blank\"> https://www.naturkundemuseum.berlin </a></p><p> Authorized representative person <br> Prof. Johannes Vogel, PhD (director general) </p><p> Controlling authority <br> Senatsverwaltung für Wirtschaft, Technologie und Forschung <br> Martin-Luther-Straße 105, 10825 Berlin </p><p> Content responsiblity (German law § 55 Abs. 2 RStV) <br> Juliane Röhner / Mathias Paul <br></p><p> VAT-ID (German law § 27 a Umsatzsteuergesetz) <br> DE262426477 </p><p> Bank account <br> Berliner Bank AG <br> account number: 512 087 800 <br> bank code: 100 708 48 <br> IBAN: DE40 1007 0848 051 2087 800 <br> BIC/SWIFT: DEUTDEDB110 </p><h2> Information on the website </h2><p style=\"font-weight: bold;\"> Responsible persons: </p><ul><li><span style=\"font-weight: bold;\"> Editorial: </span><br> MfN commissarial editor <br> Falko Glöckler </li><li><span style=\"font-weight: bold;\"> Project management: </span><br> NN </li><li><span style=\"font-weight: bold;\"> Website programming </span> : <br> NN </li></ul><h2> Addtional Regulations </h2><p><span style=\"font-weight: bold;\"> Disclaimer </span><br> For all information published on the site of the Museum für Naturkunde Berlin the following conditions apply: <br> Use of the material provided is bound by the following agreement: The Museum für Naturkunde Berlin makes every effort to provide timely and accurate information. Nevertheless, mistakes and confusions may occur. Therefore the publishers make no guarantee about the correctness, completeness, quality or suitability for any purpose of the information provided or linked to by this site. Information is provided \"as is\" without warranty of any kind, either expressed or implied, including, but not limited to warranties of fitness for a particular purpose. Under no circumstances shall the publishers be liable for any special, indirect, consequential or incidental damages or any damages whatsoever resulting from use of information provided by this site. If misleading, incorrect or otherwise inappropriate information is brought to our attention, a reasonable effort will be made to redress the problems. <br><br> The Museum für Naturkunde Berlin reserves the right to change, supplement, or delete some or all of the information on its Internet web site without notice. Similarly, the Museum für Naturkunde Berlin also reserves the right to temporarily or permanently discontinue the Internet web site. <br><br> Any claims relating to the materials or the WWW site will be governed by German law. <br><br> The general disclaimer published at <a onclick=\"\n        window.open(\n          'http://www.disclaimer.de/disclaimer.htm',\n          'DisclaimerWindow',\n          'width=800,height=600'\n        )\n      \" class=\"text-decoration-underline\"> www.disclaimer.de/disclaimer.htm </a> is part of this disclaimer. <br><br> This disclaimer is to be considered as part of the internet publication from which you were referred. If individual terms or sections of this statement are not legal or correct, the validity and content of the other parts remain uninfluenced by this fact. <br><br> Source: <a href=\"http://www.datenschutzbeauftragter-info.de/\" target=\"_blank\"> www.datenschutzbeauftragter-info.de </a><br><br> © Museum für Naturkunde Berlin </p>"
   },
@@ -813,5 +810,48 @@
         ]
       }
     ]
+  },
+  "linksPage": {
+    "pageTitle": "Related links and resources",
+    "eyebrow": "CONNECTED KNOWLEDGE",
+    "heroTitle": "Explore beyond GeoCASe.",
+    "heroDescription": "Discover the networks, data portals and shared standards behind accessible geoscience collections. Useful resources, brought together in one place.",
+    "summary": "{resources} resources · {categories} categories",
+    "categoriesLabel": "Resource categories",
+    "groups": {
+      "networks": {
+        "title": "Networks & institutions",
+        "description": "The organisations and collaborations connecting collections, people and research."
+      },
+      "data": {
+        "title": "Data & discovery",
+        "description": "Explore biodiversity records, fossil occurrences and stratigraphic information."
+      },
+      "standards": {
+        "title": "Standards & documentation",
+        "description": "Shared structures that make collection data easier to exchange and reuse."
+      },
+      "tools": {
+        "title": "GeoCASe tools",
+        "description": "Work with the API, explore the source code or revisit the original portal."
+      }
+    },
+    "descriptions": {
+      "cetaf": "The Consortium of European Taxonomic Facilities, connecting natural history institutions across Europe.",
+      "dissco": "Distributed System of Scientific Collections: a European research infrastructure for natural science collections.",
+      "synthesys": "European collaboration supporting access to natural history collections and research infrastructure.",
+      "biocase": "Tools and services for publishing collection data through a shared access network.",
+      "museum": "Natural history collections and research at Museum für Naturkunde Berlin.",
+      "gbif": "The Global Biodiversity Information Facility: open access to biodiversity data.",
+      "paleodb": "A public resource for discovering fossil occurrence data through geological time.",
+      "stratigraphy": "A resource for stratigraphic information and the exchange of geological knowledge.",
+      "abcd": "TDWG’s Access to Biological Collection Data standard for specimen and observation data.",
+      "efg": "The ABCD extension for geosciences, with concepts for geological collections.",
+      "darwin": "TDWG’s vocabulary for sharing information about biodiversity and its supporting evidence.",
+      "paleo": "Community work on data standards for palaeobiology and fossil collections.",
+      "api": "Access the GeoCASe API for collection data and integrations.",
+      "github": "Explore the portal source code, follow development and report issues.",
+      "legacy": "Visit the original GeoCASe portal."
+    }
   }
 }
