@@ -215,6 +215,10 @@ export default {
   watch: {
     "$route.query"(newVal, oldVal) {
       if (JSON.stringify(newVal) !== JSON.stringify(oldVal)) {
+        if (this.tab === 1 && newVal.has_image !== "true") {
+          this.imageFilterAddedByTab = false;
+          this.tab = 0;
+        }
         const store = useSearchStore();
         const geometry = store.search.map.value;
         store.resetSearch();
