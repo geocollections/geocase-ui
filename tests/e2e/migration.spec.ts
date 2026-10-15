@@ -1,4 +1,5 @@
 import { test, expect } from "@playwright/test";
+import { Buffer } from "node:buffer";
 const specimen = {
   id: "1",
   geocase_id: "demo:1",
@@ -26,11 +27,9 @@ test.beforeEach(async ({ page }) => {
     (route) =>
       route.fulfill({
         contentType: "image/png",
-        body: Uint8Array.from(
-          atob(
-            "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jRZkAAAAASUVORK5CYII=",
-          ),
-          (character) => character.charCodeAt(0),
+        body: Buffer.from(
+          "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=",
+          "base64",
         ),
       }),
   );
@@ -698,4 +697,143 @@ test("material subtype and age filters survive reload and appear in specimen det
   await page.getByRole("link", { name: "DEMO-1" }).click();
   await expect(page.getByText("400 – 450 My", { exact: true })).toBeVisible();
   await expect(page.getByText("Pollen", { exact: true })).toBeVisible();
+});
+
+test("institution gallery falls back to thumbnails and links to specimens", async ({
+  page,
+}) => {
+  await page.route(
+    "**/api/institution/tallinn-university-of-technology",
+    (route) =>
+      route.fulfill({
+        json: {
+          total: 123,
+          points: [{ latitude: 59.2, longitude: 24.3, count: 2 }],
+          images: [
+            {
+              id: "demo:1",
+              url: "https://example.org/original.jpg",
+              previewUrl: "https://example.org/original.jpg",
+              fallbackUrl: "https://example.org/fallback.jpg",
+              title: "Quartz",
+              license: "CC BY 4.0",
+            },
+          ],
+        },
+      }),
+  );
+  await page.route("https://example.org/original.jpg", (route) =>
+    route.fulfill({ status: 404, body: "" }),
+  );
+  await page.goto("/institution/tallinn-university-of-technology");
+  await page.getByRole("button", { name: "OK", exact: true }).click();
+  const image = page.getByRole("img", { name: "Quartz", exact: true });
+  await image.scrollIntoViewIfNeeded();
+  await expect(image).toBeVisible();
+  await expect(image).toHaveAttribute(
+    "src",
+    "https://example.org/fallback.jpg",
+  );
+  await expect
+    .poll(() =>
+      image.evaluate((element: HTMLImageElement) => element.naturalWidth),
+    )
+    .toBeGreaterThan(0);
+  await expect(
+    page.locator('.leaflet-container[role="region"][data-country-markers]'),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("button", {
+      name: "Institution location: Tallinn University of Technology",
+      exact: true,
+    }),
+  ).toBeVisible();
+  const link = page.getByRole("link", {
+    name: "Explore the collection",
+    exact: true,
+  });
+  expect(
+    new URL(
+      await link.getAttribute("href"),
+      "http://localhost",
+    ).searchParams.get("datasetowner"),
+  ).toBe('"Department of Geology, TalTech"');
+  await image.click();
+  await expect(page).toHaveURL(/specimen\/demo/);
+});
+
+test("institution location remains available without collection data", async ({
+  page,
+}) => {
+  await page.route("**/api/institution/cetaf", (route) =>
+    route.fulfill({ json: { total: 0, points: [], images: [] } }),
+  );
+  await page.goto("/institution/cetaf");
+  await page.getByRole("button", { name: "OK", exact: true }).click();
+  await expect(
+    page.getByRole("button", {
+      name: "Institution location: CETAF General Secretariat",
+      exact: true,
+    }),
+  ).toBeVisible();
+  await expect(
+    page.getByText(
+      "This partner currently has no dataset in GeoCASE, so no collection points are available.",
+      { exact: true },
+    ),
+  ).toBeVisible();
+});
+
+test("institution country circles render after delayed data and open filtered search", async ({
+  page,
+}) => {
+  let releaseData: () => void = () => {};
+  const dataReady = new Promise<void>((resolve) => {
+    releaseData = resolve;
+  });
+  await page.route(
+    "**/api/institution/tallinn-university-of-technology",
+    async (route) => {
+      await dataReady;
+      await route.fulfill({
+        json: {
+          total: 3,
+          countries: [
+            { country: "Estonia", count: 2 },
+            { country: "Finland", count: 1 },
+          ],
+          images: [],
+          points: [
+            { latitude: 59.2, longitude: 24.3, count: 2 },
+            { latitude: 0, longitude: 0, count: 1 },
+          ],
+        },
+      });
+    },
+  );
+  await page.route("https://services.arcgisonline.com/**", (route) =>
+    route.abort(),
+  );
+  await page.goto("/institution/tallinn-university-of-technology");
+  await page.getByRole("button", { name: "OK", exact: true }).click();
+  const map = page.locator(
+    '.leaflet-container[role="region"][data-country-markers]',
+  );
+  await expect(map).toHaveAttribute("data-country-markers", "0");
+  releaseData();
+  await expect(map).toHaveAttribute("data-country-markers", "2");
+  await expect(map.locator(".map-country-count")).toHaveCount(2);
+  await expect(
+    page.getByRole("button", {
+      name: "Institution location: Tallinn University of Technology",
+      exact: true,
+    }),
+  ).toBeVisible();
+  await map.locator('.map-country-count[title="Estonia: 2"]').click();
+  await expect(page).toHaveURL(/search/);
+  const searchUrl = new URL(page.url());
+  expect(searchUrl.searchParams.get("datasetowner")).toBe(
+    '"Department of Geology, TalTech"',
+  );
+  expect(searchUrl.searchParams.get("country")).toBe('"Estonia"');
 });
