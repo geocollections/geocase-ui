@@ -1,5 +1,6 @@
 <script setup>
 import { computed, onBeforeUnmount, ref, watch } from "vue";
+import { useI18n } from "vue-i18n";
 
 const props = defineProps({
   images: { type: Array, required: true },
@@ -10,12 +11,97 @@ const props = defineProps({
 });
 
 const { localePath } = useAppNavigation();
+const { t } = useI18n();
 
 const emit = defineEmits(["close:dialog", "update:index"]);
 const showGallery = ref(true);
 const previewColumns = ref(2);
 
 const currentImage = computed(() => props.images[props.currentIndex]);
+const metadataGroups = computed(() => {
+  const image = currentImage.value;
+  if (!image) return [];
+  const groups = [
+    {
+      title: "imageDetails",
+      fields: ["image_author", "image_date"],
+    },
+    {
+      title: "specimenDetails",
+      fields: [
+        "unitid",
+        "recordbasis",
+        "collectioncode",
+        "datasetowner",
+        "geocase_id",
+      ],
+    },
+    {
+      title: "collectionContext",
+      fields: [
+        "country",
+        "locality",
+        "area_name",
+        "collectorname",
+        "stratigraphy",
+        "stratigraphytext",
+      ],
+    },
+  ];
+  return groups
+    .map((group) => ({
+      title: t(`imageGallery.${group.title}`),
+      fields: group.fields.flatMap((key) => {
+        const value = image[key];
+        const text = (
+          Array.isArray(value)
+            ? value
+                .filter((item) => item != null && String(item).trim())
+                .join(" · ")
+            : String(value ?? "")
+        ).trim();
+        return text
+          ? [{ key, label: t(`search.table.${key}`), value: text }]
+          : [];
+      }),
+    }))
+    .filter((group) => group.fields.length);
+});
+const summaryKeys = new Set([
+  "locality",
+  "country",
+  "image_author",
+]);
+const summaryFields = computed(() =>
+  metadataGroups.value
+    .flatMap((group) => group.fields)
+    .filter((field) => summaryKeys.has(field.key)),
+);
+const additionalGroups = computed(() =>
+  metadataGroups.value
+    .map((group) => ({
+      ...group,
+      fields: group.fields.filter(
+        (field) => !summaryKeys.has(field.key) && field.key !== "unitid",
+      ),
+    }))
+    .filter((group) => group.fields.length),
+);
+
+function externalUrl(value) {
+  if (typeof value !== "string") return undefined;
+  try {
+    const url = new URL(value);
+    return ["http:", "https:"].includes(url.protocol) ? url.href : undefined;
+  } catch {
+    return undefined;
+  }
+}
+const sourceRecordUrl = computed(
+  () =>
+    externalUrl(currentImage.value?.relatedResource) ||
+    externalUrl(currentImage.value?.recordURI),
+);
 
 useHead(() => ({
   htmlAttrs: {
@@ -152,6 +238,47 @@ onBeforeUnmount(() => window.removeEventListener("keyup", handleKeyup));
           <main
             class="tw:flex tw:min-h-0 tw:min-w-0 tw:overflow-hidden tw:flex-col"
           >
+            <nav
+              v-if="currentImage"
+              :aria-label="$t('imageGallery.imageActions')"
+              class="tw:flex tw:shrink-0 tw:flex-wrap tw:items-center tw:gap-2 tw:border-b tw:border-default tw:bg-default tw:px-3 tw:py-2 tw:sm:px-6"
+            >
+              <UButton
+                v-if="currentImage.geocase_id"
+                :to="
+                  localePath(
+                    `/specimen/${encodeURIComponent(currentImage.geocase_id)}`,
+                  )
+                "
+                color="neutral"
+                variant="soft"
+                icon="i-lucide-microscope"
+                size="sm"
+                >{{ $t("imageGallery.goToSpecimenView") }}</UButton
+              >
+              <UButton
+                v-if="externalUrl(currentImage.originalImage)"
+                :href="externalUrl(currentImage.originalImage)"
+                target="_blank"
+                rel="noopener noreferrer"
+                color="neutral"
+                variant="outline"
+                trailing-icon="i-lucide-external-link"
+                size="sm"
+                >{{ $t("imageGallery.linkToImage") }}</UButton
+              >
+              <UButton
+                v-if="sourceRecordUrl"
+                :href="sourceRecordUrl"
+                target="_blank"
+                rel="noopener noreferrer"
+                color="neutral"
+                variant="ghost"
+                trailing-icon="i-lucide-external-link"
+                size="sm"
+                >{{ $t("imageGallery.sourceRecord") }}</UButton
+              >
+            </nav>
             <div
               class="tw:bg-muted/40 tw:relative tw:flex tw:min-h-0 tw:flex-1 tw:items-center tw:justify-center tw:overflow-hidden tw:p-3 tw:sm:p-6"
             >
@@ -190,45 +317,89 @@ onBeforeUnmount(() => window.removeEventListener("keyup", handleKeyup));
               </UTooltip>
             </div>
 
-            <footer
+            <section
               v-if="currentImage"
-              class="tw:border-default tw:bg-default tw:flex tw:flex-wrap tw:items-center tw:gap-x-5 tw:gap-y-2 tw:border-t tw:px-4 tw:py-3 tw:text-sm tw:sm:px-6"
+              :aria-label="$t('imageGallery.imageInformation')"
+              class="tw:max-h-[40%] tw:shrink-0 tw:overflow-y-auto tw:overscroll-contain tw:border-t tw:border-default tw:bg-default tw:px-4 tw:py-2 tw:sm:px-6"
+              tabindex="0"
             >
-              <span v-if="currentImage.image_date" class="tw:text-toned">
-                <strong class="tw:text-highlighted">
-                  {{ $t("imageGallery.date") }}:
-                </strong>
-                {{ currentImage.image_date }}
-              </span>
-              <span v-if="currentImage.image_licence" class="tw:text-toned">
-                <strong class="tw:text-highlighted">
-                  {{ $t("imageGallery.licence") }}:
-                </strong>
-                {{ currentImage.image_licence }}
-              </span>
-              <UButton
-                :to="
-                  localePath(
-                    `/specimen/${encodeURIComponent(currentImage.geocase_id)}`,
-                  )
-                "
-                variant="link"
-                trailing-icon="i-lucide-arrow-right"
-                class="tw:p-0"
+              <div
+                class="tw:flex tw:flex-wrap tw:items-baseline tw:gap-x-3 tw:gap-y-1"
               >
-                {{ $t("imageGallery.goToSpecimenView") }}
-              </UButton>
-              <UButton
-                v-if="currentImage.originalImage"
-                :href="currentImage.originalImage"
-                target="_blank"
-                variant="link"
-                trailing-icon="i-lucide-external-link"
-                class="tw:p-0"
+                <h3
+                  class="tw:break-words tw:text-sm tw:font-bold tw:text-highlighted"
+                >
+                  {{
+                    currentImage.fullscientificname ||
+                    currentImage.unitid ||
+                    $t("imageGallery.imageInformation")
+                  }}
+                </h3>
+                <span
+                  v-if="currentImage.fullscientificname && currentImage.unitid"
+                  class="tw:break-all tw:text-sm tw:text-muted"
+                  >{{ currentImage.unitid }}</span
+                >
+              </div>
+              <dl
+                class="tw:mt-1 tw:flex tw:flex-wrap tw:gap-x-4 tw:gap-y-1 tw:text-xs tw:text-muted"
               >
-                {{ $t("imageGallery.linkToImage") }}
-              </UButton>
-            </footer>
+                <div
+                  v-for="field in summaryFields"
+                  :key="field.key"
+                  class="tw:flex tw:min-w-0 tw:gap-1"
+                >
+                  <dt>{{ field.label }}:</dt>
+                  <dd
+                    class="tw:break-words tw:text-toned tw:[overflow-wrap:anywhere]"
+                  >
+                    {{ field.value }}
+                  </dd>
+                </div>
+              </dl>
+              <details
+                v-if="additionalGroups.length"
+                :key="currentImage.originalImage"
+                class="tw:mt-2"
+              >
+                <summary
+                  class="tw:w-fit tw:cursor-pointer tw:text-xs tw:font-medium tw:text-primary tw:focus-visible:outline-2 tw:focus-visible:outline-offset-2"
+                >
+                  {{ $t("imageGallery.moreInformation") }}
+                </summary>
+                <div
+                  class="tw:mt-3 tw:grid tw:gap-5 tw:md:grid-cols-2 tw:xl:grid-cols-3"
+                >
+                  <div
+                    v-for="group in additionalGroups"
+                    :key="group.title"
+                    class="tw:min-w-0"
+                  >
+                    <h4
+                      class="tw:mb-3 tw:text-xs tw:font-bold tw:tracking-wide tw:text-muted tw:uppercase"
+                    >
+                      {{ group.title }}
+                    </h4>
+                    <dl class="tw:grid tw:gap-3">
+                      <div
+                        v-for="field in group.fields"
+                        :key="field.key"
+                        class="tw:min-w-0"
+                      >
+                        <dt class="tw:text-xs tw:text-muted">
+                          {{ field.label }}
+                        </dt>
+                        <dd
+                          class="tw:mt-0.5 tw:break-words tw:whitespace-pre-line tw:text-sm tw:font-medium tw:text-highlighted tw:[overflow-wrap:anywhere]"
+                        >
+                          {{ field.value }}
+                        </dd>
+                      </div>
+                    </dl>
+                  </div>
+                </div>
+              </details>
+            </section>
           </main>
 
           <aside
@@ -238,6 +409,7 @@ onBeforeUnmount(() => window.removeEventListener("keyup", handleKeyup));
           >
             <USelect
               v-model="previewColumns"
+              name="gallery-preview-columns"
               :items="[1, 2, 3]"
               icon="i-lucide-grid-2x-2"
               color="neutral"
