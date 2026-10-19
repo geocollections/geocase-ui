@@ -830,7 +830,14 @@ test("institution country circles render after delayed data and open filtered se
       exact: true,
     }),
   ).toBeVisible();
-  await map.locator('.map-country-count[title="Estonia: 2"]').click();
+  // Both symbols must be clickable, including after recalculating zoom overlap.
+  const homeMarker = map.locator(".institution-location-marker");
+  const estoniaMarker = map.locator('.map-country-count[title="Estonia: 2"]');
+  await homeMarker.click({ trial: true });
+  await estoniaMarker.click({ trial: true });
+  await map.getByRole("button", { name: "Zoom in", exact: true }).click();
+  await homeMarker.click({ trial: true });
+  await estoniaMarker.click();
   await expect(page).toHaveURL(/search/);
   const searchUrl = new URL(page.url());
   expect(searchUrl.searchParams.get("datasetowner")).toBe(

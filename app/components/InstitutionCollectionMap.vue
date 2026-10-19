@@ -48,6 +48,24 @@ function updatePoints() {
   collectionLayer.clearLayers();
   locations.value.forEach((point) => {
     const radius = Math.min(38, 20 + Math.log10(point.count) * 2);
+    const position = L.latLng(point.latitude, point.longitude);
+    const [homeLongitude, homeLatitude] = props.institution.coordinates;
+    const homePixel = map.latLngToLayerPoint([homeLatitude, homeLongitude]);
+    const countryPixel = map.latLngToLayerPoint(position);
+    const delta = countryPixel.subtract(homePixel);
+    const distance = countryPixel.distanceTo(homePixel);
+    const clearance = radius + 18 + 8;
+    let offset = L.point(0, 0);
+    // Separate nearby symbols in screen pixels while retaining the country anchor.
+    if (distance < clearance) {
+      const direction = distance ? delta.divideBy(distance) : L.point(1, 0);
+      offset = direction.multiplyBy(clearance - distance);
+      L.polyline([position, map.layerPointToLatLng(countryPixel.add(offset))], {
+        color: "#a96ac3",
+        weight: 1,
+        interactive: false,
+      }).addTo(collectionLayer);
+    }
     const content = document.createElement("span");
     content.className =
       "tw:absolute tw:inset-0 tw:flex tw:items-center tw:justify-center";
@@ -59,16 +77,16 @@ function updatePoints() {
           : String(point.count);
     const tooltip = document.createElement("span");
     tooltip.textContent = `${point.country}: ${point.count.toLocaleString()} ${props.countLabel}`;
-    const countryMarker = L.marker([point.latitude, point.longitude], {
+    const countryMarker = L.marker(position, {
       title: `${point.country}: ${point.count}`,
       icon: L.divIcon({
         className: "map-country-count tw:relative",
         html: content.outerHTML,
         iconSize: [radius * 2, radius * 2],
-        iconAnchor: [radius, radius],
+        iconAnchor: [radius - offset.x, radius - offset.y],
       }),
     })
-      .bindTooltip(tooltip)
+      .bindTooltip(tooltip, { offset })
       .addTo(collectionLayer);
     countryMarker.on("click", () => {
       if (!props.datasetOwner) return;
@@ -121,6 +139,7 @@ onMounted(() => {
     );
   // Leaflet layers are independent of tile loading and work without WebGL/workers.
   updatePoints();
+  map.on("zoomend", updatePoints);
   observer = new ResizeObserver(() => map?.invalidateSize());
   observer.observe(container.value);
 });
