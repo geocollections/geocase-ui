@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { useAsyncData } from "#imports";
-import { $fetch } from "ofetch";
 import { useI18n } from "vue-i18n";
 import InstitutionCollectionMap from "@/components/InstitutionCollectionMap.vue";
 import { institutionProfiles } from "@/institutionProfiles";
@@ -10,6 +9,7 @@ import {
   institutionCountrySearchQuery,
 } from "@/utils/institutionMap";
 import SearchService from "@/services/SearchService";
+import { loadInstitutionCollection } from "@/services/institutionCollection";
 
 definePageMeta({
   name: "Institution detail",
@@ -18,25 +18,6 @@ definePageMeta({
   validate: (route) => institutions.some((item) => item.id === route.params.id),
 });
 
-type CollectionImage = {
-  id: string;
-  url: string;
-  previewUrl: string;
-  fallbackUrl?: string;
-  title: string;
-  locality?: string;
-  author?: string;
-  license?: string;
-};
-type Collection = {
-  points: { latitude: number; longitude: number; count: number }[];
-  countries: { country: string; count: number }[];
-  images: CollectionImage[];
-  total: number;
-  locationsUnavailable?: boolean;
-  coordinatesUnavailable?: boolean;
-  imagesUnavailable?: boolean;
-};
 const route = useRoute();
 const { t } = useI18n();
 const { localePath } = useAppNavigation();
@@ -51,19 +32,7 @@ const {
   refresh,
 } = useAsyncData(
   () => `institution-collection-${route.params.id}`,
-  () =>
-    $fetch<Collection>(
-      `/api/institution/${encodeURIComponent(String(route.params.id))}`,
-    ).then((data) => {
-      if (
-        !data ||
-        !Array.isArray(data.points) ||
-        !Array.isArray(data.images) ||
-        typeof data.total !== "number"
-      )
-        throw new Error("Invalid institution collection response");
-      return data;
-    }),
+  () => loadInstitutionCollection(profile.value?.datasetOwner ?? ""),
   { lazy: true },
 );
 const {
