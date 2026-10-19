@@ -20,7 +20,7 @@ export default defineEventHandler(async (event) => {
       };
     };
   };
-  const [locationResult, imageResult] = await Promise.allSettled([
+  const [coordinateResult, countryResult, imageResult] = await Promise.allSettled([
     $fetch<Response>(base, {
       query: {
         q: "*",
@@ -28,6 +28,18 @@ export default defineEventHandler(async (event) => {
         rows: 0,
         facet: "on",
         "facet.pivot": "latitude,longitude",
+        "facet.limit": -1,
+        "facet.mincount": 1,
+      },
+      timeout: 15000,
+      retry: 0,
+    }),
+    $fetch<Response>(base, {
+      query: {
+        q: "*",
+        fq,
+        rows: 0,
+        facet: "on",
         "facet.field": "country",
         "facet.limit": -1,
         "facet.mincount": 1,
@@ -43,7 +55,7 @@ export default defineEventHandler(async (event) => {
   ]);
   const empty: Response = { response: { numFound: 0, docs: [] } };
   const locations =
-    locationResult.status === "fulfilled" ? locationResult.value : empty;
+    coordinateResult.status === "fulfilled" ? coordinateResult.value : empty;
   const imageCount =
     imageResult.status === "fulfilled" ? imageResult.value : empty;
   const facets =
@@ -62,7 +74,8 @@ export default defineEventHandler(async (event) => {
         points.push({ latitude, longitude, count: child.count });
     }
   }
-  const countryFacets = locations.facet_counts?.facet_fields?.country ?? [];
+  const countryData = countryResult.status === "fulfilled" ? countryResult.value : empty;
+  const countryFacets = countryData.facet_counts?.facet_fields?.country ?? [];
   const countries: { country: string; count: number }[] = [];
   for (let index = 0; index < countryFacets.length; index += 2) {
     const country = countryFacets[index];
@@ -139,8 +152,9 @@ export default defineEventHandler(async (event) => {
     points,
     countries,
     images,
-    total: locations.response.numFound,
-    locationsUnavailable: locationResult.status === "rejected",
+    total: countryData.response.numFound,
+    locationsUnavailable: countryResult.status === "rejected",
+    coordinatesUnavailable: coordinateResult.status === "rejected",
     imagesUnavailable,
   };
 });

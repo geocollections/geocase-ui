@@ -7,7 +7,16 @@ async function handler(id, fetch) {
     apiBase: "https://example.test",
   }));
   vi.stubGlobal("createError", (error) => Object.assign(new Error(), error));
-  vi.stubGlobal("$fetch", fetch);
+  const upstreamFetch = fetch;
+  vi.stubGlobal("$fetch", (url, options) => {
+    if (options.query["facet.field"] === "country") {
+      return Promise.resolve({
+        response: { numFound: 20, docs: [] },
+        facet_counts: { facet_fields: { country: ["Estonia", 12, "Finland", 8] } },
+      });
+    }
+    return upstreamFetch(url, options);
+  });
   return (await import("../../server/api/institution/[id].get.ts")).default({});
 }
 afterEach(() => vi.unstubAllGlobals());
@@ -67,7 +76,7 @@ describe("institution collections", () => {
       { country: "Estonia", count: 12 },
       { country: "Finland", count: 8 },
     ]);
-    expect(fetch.mock.calls[0][1].query["facet.field"]).toBe("country");
+    expect(fetch.mock.calls[0][1].query["facet.field"]).toBeUndefined();
     expect(result.images).toHaveLength(8);
     expect(new Set(result.images.map((image) => image.id)).size).toBe(8);
     for (const [, options] of fetch.mock.calls.slice(0, 3)) {
@@ -138,7 +147,9 @@ describe("institution collections", () => {
         },
       });
     const result = await handler("museum-fuer-naturkunde-berlin", fetch);
-    expect(result.locationsUnavailable).toBe(true);
+    expect(result.coordinatesUnavailable).toBe(true);
+    expect(result.locationsUnavailable).toBe(false);
+    expect(result.countries).toHaveLength(2);
     expect(result.images[0].previewUrl).toBe("https://images.test/image.jpg");
     expect(result.points).toEqual([]);
   });
