@@ -5,6 +5,11 @@ import { useI18n } from "vue-i18n";
 import InstitutionCollectionMap from "@/components/InstitutionCollectionMap.vue";
 import { institutionProfiles } from "@/institutionProfiles";
 import { institutions } from "@/institutions";
+import {
+  getInstitutionCountryMarkers,
+  institutionCountrySearchQuery,
+} from "@/utils/institutionMap";
+import SearchService from "@/services/SearchService";
 
 definePageMeta({
   name: "Institution detail",
@@ -29,6 +34,7 @@ type Collection = {
   images: CollectionImage[];
   total: number;
   locationsUnavailable?: boolean;
+  coordinatesUnavailable?: boolean;
   imagesUnavailable?: boolean;
 };
 const route = useRoute();
@@ -60,7 +66,35 @@ const {
     }),
   { lazy: true },
 );
+const {
+  data: datasets,
+  status: datasetsStatus,
+  error: datasetsError,
+  refresh: refreshDatasets,
+} = useAsyncData(
+  () => `institution-datasets-${route.params.id}`,
+  () =>
+    profile.value?.datasetOwner
+      ? SearchService.getDatasets(profile.value.datasetOwner)
+      : Promise.resolve([]),
+  { lazy: true },
+);
+const topCountries = computed(() =>
+  [...(collection.value?.countries ?? [])]
+    .sort((a, b) => b.count - a.count)
+    .slice(0, 8),
+);
+function datasetLink(url: string) {
+  return {
+    path: localePath("/search"),
+    query: { ...searchLink.value.query, datasourceurl__equals: url },
+  };
+}
 const collectionPoints = computed(() => collection.value?.points ?? []);
+const hasCountryMarkers = computed(
+  () =>
+    getInstitutionCountryMarkers(collection.value?.countries ?? []).length > 0,
+);
 const failedImages = ref<string[]>([]);
 const galleryImages = computed(() =>
   (collection.value?.images ?? []).filter(
@@ -146,7 +180,9 @@ useHead(() => ({
           }}</strong>
           {{ t("partnersPage.specimens") }}</span
         >
-        <span class="tw:rounded-xl tw:bg-white/70 tw:px-4 tw:py-3"
+        <span
+          v-if="!collection.coordinatesUnavailable"
+          class="tw:rounded-xl tw:bg-white/70 tw:px-4 tw:py-3"
           ><strong class="tw:text-xl">{{
             collectionPoints.length.toLocaleString()
           }}</strong>
@@ -228,7 +264,12 @@ useHead(() => ({
     </p>
     <p
       v-else-if="
-        !collectionPoints.length && !error && !collection?.locationsUnavailable
+        status === 'success' &&
+        !hasCountryMarkers &&
+        !collectionPoints.length &&
+        !error &&
+        !collection?.locationsUnavailable &&
+        !collection?.coordinatesUnavailable
       "
       class="tw:mt-3 tw:text-home-muted"
     >
@@ -240,6 +281,127 @@ useHead(() => ({
         )
       }}
     </p>
+    <section class="tw:mt-8" aria-labelledby="institution-datasets-title">
+      <h2 id="institution-datasets-title" class="tw:text-2xl tw:font-bold">
+        {{ t("partnersPage.linkedDatasets")
+        }}<span
+          v-if="datasetsStatus === 'success'"
+          class="tw:ml-2 tw:text-home-muted"
+          >({{ datasets?.length ?? 0 }})</span
+        >
+      </h2>
+      <p class="tw:mt-2 tw:max-w-3xl tw:text-home-muted">
+        {{ t("partnersPage.datasetsDescription") }}
+      </p>
+      <p v-if="datasetsStatus === 'pending'" role="status" class="tw:mt-5">
+        {{ t("datasetsPage.loading") }}
+      </p>
+      <div
+        v-else-if="datasetsError"
+        role="alert"
+        class="tw:mt-5 tw:rounded-2xl tw:bg-home-surface tw:p-5"
+      >
+        <p>{{ t("datasetsPage.error") }}</p>
+        <UButton
+          class="tw:mt-3"
+          color="neutral"
+          variant="outline"
+          @click="refreshDatasets()"
+          >{{ t("partnersPage.retry") }}</UButton
+        >
+      </div>
+      <p
+        v-else-if="datasetsStatus === 'success' && !datasets?.length"
+        class="tw:mt-5 tw:text-home-muted"
+      >
+        {{ t("partnersPage.noLinkedDatasets") }}
+      </p>
+      <ul
+        v-else
+        class="tw:mt-5 tw:grid tw:list-none tw:gap-5 tw:p-0 tw:md:grid-cols-2"
+      >
+        <li
+          v-for="dataset in datasets"
+          :key="dataset.url"
+          class="tw:flex tw:min-w-0 tw:flex-col tw:rounded-3xl tw:border tw:border-home-border tw:bg-home-surface tw:p-6"
+        >
+          <p class="tw:text-sm tw:font-semibold tw:text-home-muted">
+            {{ t("datasetsPage.source") }}
+          </p>
+          <h3 class="tw:mt-2 tw:break-all tw:font-semibold">
+            {{ dataset.url }}
+          </h3>
+          <dl class="tw:mt-5 tw:grid tw:gap-4">
+            <div>
+              <dt class="tw:text-sm tw:text-home-muted">
+                {{ t("partnersPage.recordsInInstitution") }}
+              </dt>
+              <dd class="tw:mt-1 tw:text-2xl tw:font-bold">
+                {{ dataset.count.toLocaleString() }}
+              </dd>
+            </div>
+            <div v-if="dataset.specimenTypes.length">
+              <dt class="tw:text-sm tw:text-home-muted">
+                {{ t("datasetsPage.specimenTypes") }}
+              </dt>
+              <dd class="tw:mt-2 tw:flex tw:flex-wrap tw:gap-2">
+                <UBadge
+                  v-for="type in dataset.specimenTypes"
+                  :key="type"
+                  color="neutral"
+                  variant="soft"
+                  >{{ type }}</UBadge
+                >
+              </dd>
+            </div>
+          </dl>
+          <UButton
+            :to="datasetLink(dataset.url)"
+            icon="i-lucide-search"
+            color="neutral"
+            variant="outline"
+            class="tw:mt-6 tw:self-start"
+            >{{ t("datasetsPage.viewRecords") }}</UButton
+          >
+        </li>
+      </ul>
+    </section>
+
+    <section
+      v-if="topCountries.length"
+      class="tw:mt-8 tw:rounded-3xl tw:border tw:border-home-border tw:p-6 tw:sm:p-8"
+      aria-labelledby="institution-coverage-title"
+    >
+      <h2 id="institution-coverage-title" class="tw:text-2xl tw:font-bold">
+        {{ t("partnersPage.geographicCoverage") }}
+      </h2>
+      <p class="tw:mt-2 tw:text-home-muted">
+        {{
+          t("partnersPage.coverageDescription", {
+            count: collection?.countries.length ?? 0,
+          })
+        }}
+      </p>
+      <ul
+        class="tw:mt-5 tw:grid tw:list-none tw:gap-3 tw:p-0 tw:sm:grid-cols-2 tw:lg:grid-cols-4"
+      >
+        <li v-for="country in topCountries" :key="country.country">
+          <NuxtLink
+            :to="{
+              path: localePath('/search'),
+              query: institutionCountrySearchQuery(
+                profile?.datasetOwner ?? '',
+                country.country,
+              ),
+            }"
+            class="tw:flex tw:items-center tw:justify-between tw:gap-3 tw:rounded-xl tw:bg-home-surface tw:p-4 tw:text-home-link tw:hover:underline"
+            ><span>{{ country.country }}</span
+            ><strong>{{ country.count.toLocaleString() }}</strong></NuxtLink
+          >
+        </li>
+      </ul>
+    </section>
+
     <section class="tw:mt-8" aria-labelledby="collection-images-title">
       <h2 id="collection-images-title" class="tw:text-2xl tw:font-bold">
         {{ t("partnersPage.collectionImages") }}

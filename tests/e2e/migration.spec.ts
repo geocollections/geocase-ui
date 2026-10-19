@@ -806,10 +806,7 @@ test("institution country circles render after delayed data and open filtered se
             { country: "Finland", count: 1 },
           ],
           images: [],
-          points: [
-            { latitude: 59.2, longitude: 24.3, count: 2 },
-            { latitude: 0, longitude: 0, count: 1 },
-          ],
+          points: [],
         },
       });
     },
@@ -826,13 +823,21 @@ test("institution country circles render after delayed data and open filtered se
   releaseData();
   await expect(map).toHaveAttribute("data-country-markers", "2");
   await expect(map.locator(".map-country-count")).toHaveCount(2);
+  await expect(page.getByText("This institution has specimens in GeoCASE, but their locality coordinates are missing, so they cannot be shown on the map.")).toBeHidden();
   await expect(
     page.getByRole("button", {
       name: "Institution location: Tallinn University of Technology",
       exact: true,
     }),
   ).toBeVisible();
-  await map.locator('.map-country-count[title="Estonia: 2"]').click();
+  // Both symbols must be clickable, including after recalculating zoom overlap.
+  const homeMarker = map.locator(".institution-location-marker");
+  const estoniaMarker = map.locator('.map-country-count[title="Estonia: 2"]');
+  await homeMarker.click({ trial: true });
+  await estoniaMarker.click({ trial: true });
+  await map.getByRole("button", { name: "Zoom in", exact: true }).click();
+  await homeMarker.click({ trial: true });
+  await estoniaMarker.click();
   await expect(page).toHaveURL(/search/);
   const searchUrl = new URL(page.url());
   expect(searchUrl.searchParams.get("datasetowner")).toBe(

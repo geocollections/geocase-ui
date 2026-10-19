@@ -80,3 +80,17 @@ it("rejects responses that do not contain the expected facet data", () => {
     "The Solr response is missing dataset facet data",
   );
 });
+
+it("scopes institution datasets to the exact owner and escapes Solr quotes", async () => {
+  axios.get.mockResolvedValue({
+    data: {
+      facet_counts: {
+        facet_pivot: { "datasourceurl,datasetowner,recordbasis": [] },
+      },
+    },
+  });
+  await SearchService.getDatasets('Museum "A"');
+  expect(axios.get).toHaveBeenLastCalledWith(expect.any(String), {
+    params: expect.objectContaining({ fq: 'datasetowner:"Museum \\"A\\""' }),
+  });
+});
