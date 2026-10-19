@@ -118,6 +118,7 @@ function submitSearch() {
       >
         <UInput
           v-model="quickSearch"
+          name="quick-search"
           :placeholder="t('frontPage.quickSearch')"
           :aria-label="t('frontPage.quickSearch')"
           icon="i-lucide-search"
