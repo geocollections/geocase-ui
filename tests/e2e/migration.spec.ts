@@ -1004,6 +1004,11 @@ for (const entry of ["search", "specimen"]) {
             docs: [
               {
                 ...specimen,
+                image_author: "GeoCASe photographer",
+                image_license: "CC BY 4.0",
+                image_date: "2024-03-12",
+                relatedResource: "https://example.org/source-record",
+                collectorname: "Example collector",
                 images: [
                   "https://example.org/quartz.jpg",
                   "https://example.org/other.jpg",
@@ -1034,6 +1039,50 @@ for (const entry of ["search", "specimen"]) {
       exact: true,
     });
     const image = viewer.locator("img");
+    const information = gallery.getByRole("region", {
+      name: "Image information",
+      exact: true,
+    });
+    await expect(
+      information.getByText("GeoCASe photographer", { exact: true }),
+    ).toBeVisible();
+    await expect(
+      information.getByText("CC BY 4.0", { exact: true }),
+    ).toHaveCount(0);
+    await expect(
+      information.getByText("2024-03-12", { exact: true }),
+    ).toBeHidden();
+    await information.getByText("More information", { exact: true }).click();
+    await expect(
+      information.getByText("2024-03-12", { exact: true }),
+    ).toBeVisible();
+    await expect(
+      information.getByText("Test Museum", { exact: true }),
+    ).toBeVisible();
+    await expect(
+      information.getByText("Tallinn", { exact: true }),
+    ).toBeVisible();
+    const actions = gallery.getByRole("navigation", { name: "Image links" });
+    await expect(
+      actions.getByRole("link", { name: "Source record" }),
+    ).toHaveAttribute("href", "https://example.org/source-record");
+    await expect(
+      actions.getByRole("link", { name: "Link to image" }),
+    ).toHaveAttribute("href", "https://example.org/quartz.jpg");
+    expect((await actions.boundingBox())!.y).toBeLessThan(
+      (await viewer.boundingBox())!.y,
+    );
+    expect(
+      await gallery.evaluate(
+        (element) => element.scrollWidth <= element.clientWidth,
+      ),
+    ).toBe(true);
+    await information.getByText("More information", { exact: true }).click();
+    await expect(
+      information.getByText("2024-03-12", { exact: true }),
+    ).toBeHidden();
+    await gallery.screenshot({ path: test.info().outputPath("gallery.png") });
+
     await expect(
       gallery.getByRole("button", { name: "Zoom in", exact: true }),
     ).toBeEnabled();
