@@ -79,7 +79,6 @@ function updatePoints() {
     });
   });
   pointCount.value = locations.value.length;
-  fitCollection();
 }
 watch(locations, updatePoints, { deep: true });
 onMounted(() => {
@@ -88,7 +87,7 @@ onMounted(() => {
   map = L.map(container.value, {
     preferCanvas: true,
     scrollWheelZoom: false,
-  }).setView([latitude, longitude], 10);
+  }).setView([46, 12], 3);
   L.tileLayer(
     "https://services.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}",
     {
