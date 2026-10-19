@@ -631,6 +631,13 @@
     "mapNoResultsFilterInfo": "Lisa filter, et näha asukohta sisaldavaid kirjeid."
   },
   "imageGallery": {
+    "moreInformation": "Rohkem infot",
+    "imageDetails": "Pildi andmed",
+    "specimenDetails": "Eksemplar ja kogu",
+    "collectionContext": "Leiukoht ja taust",
+    "imageActions": "Pildi lingid",
+    "sourceRecord": "Allika kirje",
+    "imageInformation": "Pildi info",
     "date": "Kuupäev",
     "licence": "Litsents",
     "linkToImage": "Link pildile",
