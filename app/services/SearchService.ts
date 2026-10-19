@@ -247,7 +247,7 @@ class SearchService {
     }
   }
 
-  static async getDatasets() {
+  static async getDatasets(owner?: string) {
     const field = "datasourceurl,datasetowner,recordbasis";
     const res = await axios.get(`${API_URL}/`, {
       params: {
@@ -255,6 +255,9 @@ class SearchService {
         rows: 0,
         facet: "on",
         "facet.pivot": field,
+        ...(owner
+          ? { fq: `datasetowner:"${owner.replace(/["\\]/g, "\\$&")}"` }
+          : {}),
         "facet.limit": -1,
         "facet.mincount": 1,
       },
