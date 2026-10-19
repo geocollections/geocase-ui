@@ -633,6 +633,13 @@
     "mapNoResultsFilterInfo": "Add filter so it would show results which have a locality."
   },
   "imageGallery": {
+    "moreInformation": "More information",
+    "imageDetails": "Image details",
+    "specimenDetails": "Specimen & collection",
+    "collectionContext": "Locality & context",
+    "imageActions": "Image links",
+    "sourceRecord": "Source record",
+    "imageInformation": "Image information",
     "date": "Date",
     "licence": "Licence",
     "linkToImage": "Link to image",
