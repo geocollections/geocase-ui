@@ -705,26 +705,48 @@ test("material subtype and age filters survive reload and appear in specimen det
 test("institution gallery falls back to thumbnails and links to specimens", async ({
   page,
 }) => {
-  await page.route(
-    "**/api/institution/tallinn-university-of-technology",
-    (route) =>
-      route.fulfill({
-        json: {
-          total: 123,
-          points: [{ latitude: 59.2, longitude: 24.3, count: 2 }],
-          images: [
-            {
-              id: "demo:1",
-              url: "https://example.org/original.jpg",
-              previewUrl: "https://example.org/original.jpg",
-              fallbackUrl: "https://example.org/fallback.jpg",
-              title: "Quartz",
-              license: "CC BY 4.0",
-            },
-          ],
-        },
-      }),
+  // This deployment serves the SPA at unrecognised API paths; the page must use /api.
+  await page.route("**/api/institution/**", (route) =>
+    route.fulfill({
+      contentType: "text/html",
+      body: "<!doctype html><html></html>",
+    }),
   );
+  await page.route("**/api?**", (route) => {
+    const url = new URL(route.request().url());
+    if (
+      !url.searchParams
+        .getAll("fq")
+        .some((fq) => fq.includes("Department of Geology, TalTech"))
+    )
+      return route.fallback();
+    return route.fulfill({
+      json: {
+        response: {
+          numFound: 123,
+          docs:
+            url.searchParams.get("rows") === "0"
+              ? []
+              : [
+                  {
+                    geocase_id: "demo:1",
+                    images: ["https://example.org/original.jpg"],
+                    fullscientificname: "Quartz",
+                    image_license: "CC BY 4.0",
+                  },
+                ],
+        },
+        facet_counts: {
+          facet_fields: { country: ["Estonia", 123] },
+          facet_pivot: {
+            "latitude,longitude": [
+              { value: 59.2, pivot: [{ value: 24.3, count: 2 }] },
+            ],
+          },
+        },
+      },
+    });
+  });
   await page.route("https://example.org/original.jpg", (route) =>
     route.fulfill({ status: 404, body: "" }),
   );
@@ -735,7 +757,7 @@ test("institution gallery falls back to thumbnails and links to specimens", asyn
   await expect(image).toBeVisible();
   await expect(image).toHaveAttribute(
     "src",
-    "https://example.org/fallback.jpg",
+    "https://geocase.eu/thumbnails/https%3A%2F%2Fexample.org%2Foriginal.jpg",
   );
   await expect
     .poll(() =>
@@ -768,9 +790,6 @@ test("institution gallery falls back to thumbnails and links to specimens", asyn
 test("institution location remains available without collection data", async ({
   page,
 }) => {
-  await page.route("**/api/institution/cetaf", (route) =>
-    route.fulfill({ json: { total: 0, points: [], images: [] } }),
-  );
   await page.goto("/institution/cetaf");
   await page.getByRole("button", { name: "OK", exact: true }).click();
   await expect(
@@ -794,23 +813,34 @@ test("institution country circles render after delayed data and open filtered se
   const dataReady = new Promise<void>((resolve) => {
     releaseData = resolve;
   });
-  await page.route(
-    "**/api/institution/tallinn-university-of-technology",
-    async (route) => {
-      await dataReady;
-      await route.fulfill({
-        json: {
-          total: 3,
-          countries: [
-            { country: "Estonia", count: 2 },
-            { country: "Finland", count: 1 },
-          ],
-          images: [],
-          points: [],
-        },
-      });
-    },
+  await page.route("**/api/institution/**", (route) =>
+    route.fulfill({
+      contentType: "text/html",
+      body: "<!doctype html><html></html>",
+    }),
   );
+  await page.route("**/api?**", async (route) => {
+    const url = new URL(route.request().url());
+    if (
+      !url.searchParams
+        .getAll("fq")
+        .some((fq) => fq.includes("Department of Geology, TalTech"))
+    )
+      return route.fallback();
+    await dataReady;
+    await route.fulfill({
+      json: {
+        response: {
+          numFound: url.searchParams.getAll("fq").includes("images:*") ? 0 : 3,
+          docs: [],
+        },
+        facet_counts: {
+          facet_fields: { country: ["Estonia", 2, "Finland", 1] },
+          facet_pivot: { "latitude,longitude": [] },
+        },
+      },
+    });
+  });
   await page.route("https://services.arcgisonline.com/**", (route) =>
     route.abort(),
   );
@@ -823,7 +853,11 @@ test("institution country circles render after delayed data and open filtered se
   releaseData();
   await expect(map).toHaveAttribute("data-country-markers", "2");
   await expect(map.locator(".map-country-count")).toHaveCount(2);
-  await expect(page.getByText("This institution has specimens in GeoCASE, but their locality coordinates are missing, so they cannot be shown on the map.")).toBeHidden();
+  await expect(
+    page.getByText(
+      "This institution has specimens in GeoCASE, but their locality coordinates are missing, so they cannot be shown on the map.",
+    ),
+  ).toBeHidden();
   await expect(
     page.getByRole("button", {
       name: "Institution location: Tallinn University of Technology",
