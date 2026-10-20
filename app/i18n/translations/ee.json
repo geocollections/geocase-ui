@@ -99,7 +99,7 @@
     "notesTitle": "Mida tasub teada",
     "notes": {
       "locations": "Kõigil kirjetel pole koordinaate, seega ei kuvata kõiki eksemplare kaardil.",
-      "mapDetails": "Asukoha vaatamiseks vii kursor kaardimärgile. Märgile klõpsates avaneb eksemplari kirje. Kui mitu kirjet viitavad samale või lähedasele leiukohale, kasuta nende eristamiseks tulemuste tabelit.",
+      "mapDetails": "Asukoha vaatamiseks vii kursor kaardimärgile. Numbriga märgil klõpsates saad valida selle asukoha kirjete vahel; üksikmärgil klõpsates avaneb kirje.",
       "imageDetails": "Pildi pisipildi kohal kuvatakse kirje lühiinfo. Klõps avab suure pildigalerii, kus saad sirvida praeguse tulemuste lehe pilte ning avada originaalpildi või eksemplari kirje.",
       "images": "Kirjel ei pruugi olla ühtegi pilti või võib neid olla mitu. Seetõttu võib piltide arv kirjete arvust erineda.",
       "sources": "Koguandmeid jagavad muuseumid ja teadusasutused. Vaata kirjest andmeallika, õiguste ja kontaktisiku teavet."
@@ -477,7 +477,8 @@
   "search": {
     "layout": {
       "results": "Tulemused",
-      "mapNote": "Vali riik, et näha tabeli esimese 1000 tulemuse koordinaatidega kirjeid. Filtreerimiseks joonista ala.",
+      "mapNote": "Vali riik, et näha kuni 3000 erinevat asukohta. Numbriga märk näitab samade koordinaatidega kirjete arvu; klõpsa kirje valimiseks. Filtreerimiseks joonista ala.",
+      "mapRetry": "Proovi uuesti",
       "hideMap": "Peida kaart",
       "showMap": "Näita kaarti",
       "expandMap": "Suurenda kaarti",

@@ -99,7 +99,7 @@
     "notesTitle": "A few useful things to know",
     "notes": {
       "locations": "Not every record has coordinates, so some specimens will not appear on the map.",
-      "mapDetails": "Hover over a map marker to see its locality. Select a marker to open that specimen record. If several records have the same or nearby locality, use the results table to choose between them.",
+      "mapDetails": "Hover over a marker to see its locality. Select a numbered marker to choose between records at that location, or a single marker to open its record.",
       "imageDetails": "Hover over an image thumbnail for record details. Select it to open the larger gallery, browse images from the current results page, and follow links to the original image or specimen record.",
       "images": "A record may have no image or several images. The number of images can therefore differ from the number of records.",
       "sources": "Collection records are provided by museums and research institutions. Check the record for source, rights and contact information."
@@ -477,7 +477,8 @@
   "search": {
     "layout": {
       "results": "Results",
-      "mapNote": "Select a country to show records with coordinates from the first 1,000 table results. Draw an area to filter.",
+      "mapNote": "Select a country to show up to 3,000 distinct locations. Numbered markers show how many matching records share the same coordinates; select one to choose a record. Draw an area to filter.",
+      "mapRetry": "Retry",
       "hideMap": "Hide map",
       "showMap": "Show map",
       "expandMap": "Expand map",
