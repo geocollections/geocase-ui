@@ -547,7 +547,7 @@ export default {
       }));
       return [
         ...columns.filter((column) => column.accessorKey === "unitid"),
-        ...(this.tableDensity > 0
+        ...(this.tableDensity > 0 && this.responseResults.some((item) => item.images?.some(Boolean))
           ? [
               {
                 accessorKey: "preview",
