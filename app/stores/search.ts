@@ -69,6 +69,7 @@ interface SearchState {
   mapResultsQueryKey: string;
   pendingMapResultsQueryKey: string;
   mapRequestId: number;
+  resultsRequestId: number;
   page: number;
   paginateBy: number;
   sortBy: string[];
@@ -107,6 +108,7 @@ export const useSearchStore = defineStore("search", {
     mapResultsQueryKey: "",
     pendingMapResultsQueryKey: "",
     mapRequestId: 0,
+    resultsRequestId: 0,
     page: 1,
     paginateBy: 25,
     sortBy: [],
@@ -619,6 +621,7 @@ export const useSearchStore = defineStore("search", {
     },
 
     async fetchResults() {
+      const requestId = ++this.resultsRequestId;
       this.SET_LOADING(true);
 
       const params = {
@@ -635,12 +638,14 @@ export const useSearchStore = defineStore("search", {
       try {
         const response = await resultsRequest;
 
+        if (requestId !== this.resultsRequestId) return;
         if (response) {
           this.UPDATE_FACETS(response?.facet_counts?.facet_fields);
           this.UPDATE_RESPONSE_RESULTS(response?.response?.docs || []);
           this.UPDATE_RESPONSE_RESULTS_COUNT(response?.response?.numFound || 0);
         }
       } catch (caught) {
+        if (requestId !== this.resultsRequestId) return;
         const err =
           caught instanceof Error ? caught : new Error(String(caught));
         useSettingsStore().updateErrorMessage(
@@ -649,7 +654,7 @@ export const useSearchStore = defineStore("search", {
         if (!useSettingsStore().error)
           useSettingsStore().updateErrorState(true);
       } finally {
-        this.SET_LOADING(false);
+        if (requestId === this.resultsRequestId) this.SET_LOADING(false);
       }
 
       await mapResultsRequest;

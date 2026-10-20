@@ -14,6 +14,43 @@ beforeEach(() => {
   i18n.locale.value = "en";
 });
 describe("migrated search state and API contract", () => {
+  it("ignores stale search results, counts and facets", async () => {
+    const store = useSearchStore();
+    vi.spyOn(store, "fetchMapResults").mockResolvedValue();
+    let resolveOld;
+    const oldResponse = new Promise((resolve) => { resolveOld = resolve; });
+    vi.spyOn(SearchService, "search")
+      .mockReturnValueOnce(oldResponse)
+      .mockResolvedValueOnce({ response: { docs: [{ unitid: "new" }], numFound: 2 }, facet_counts: { facet_fields: { country: ["Estonia", 2] } } });
+    const oldRequest = store.fetchResults();
+    await store.fetchResults();
+    resolveOld({ response: { docs: [{ unitid: "old" }], numFound: 99 }, facet_counts: { facet_fields: { country: ["Germany", 99] } } });
+    await oldRequest;
+    expect(store.responseResults).toEqual([{ unitid: "new" }]);
+    expect(store.responseResultsCount).toBe(2);
+    expect(store.country).toContain("Estonia");
+    expect(store.country).not.toContain("Germany");
+    vi.restoreAllMocks();
+  });
+
+  it("keeps loading while the latest request is pending and suppresses stale errors", async () => {
+    const store = useSearchStore();
+    vi.spyOn(store, "fetchMapResults").mockResolvedValue();
+    let rejectOld, resolveNew;
+    vi.spyOn(SearchService, "search")
+      .mockReturnValueOnce(new Promise((_, reject) => { rejectOld = reject; }))
+      .mockReturnValueOnce(new Promise((resolve) => { resolveNew = resolve; }));
+    const oldRequest = store.fetchResults();
+    const latestRequest = store.fetchResults();
+    rejectOld(new Error("Old search failed"));
+    await oldRequest;
+    expect(store.isLoading).toBe(true);
+    resolveNew({ response: { docs: [], numFound: 0 } });
+    await latestRequest;
+    expect(store.isLoading).toBe(false);
+    vi.restoreAllMocks();
+  });
+
   it("limits the map to 3000 coordinate groups, counts duplicates and preserves table rows", async () => {
     const store = useSearchStore();
     const tableResults = [{ unitid: "table-row" }, { unitid: "same-location-row" }];

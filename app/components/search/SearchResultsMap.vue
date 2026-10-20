@@ -1,5 +1,5 @@
 <script setup>
-import { computed, onBeforeUnmount, ref } from "vue";
+import { computed, onBeforeUnmount, onMounted, ref } from "vue";
 import { useI18n } from "vue-i18n";
 import { useRoute, useRouter } from "#imports";
 import { useSearchStore } from "@/stores/search";
@@ -8,7 +8,25 @@ const { t } = useI18n();
 const store = useSearchStore();
 const route = useRoute();
 const router = useRouter();
-const open = ref(true);
+const open = ref(false);
+const mapPreferenceKey = "geocase:search-map-open";
+onMounted(() => {
+  let saved = null;
+  try {
+    saved = localStorage.getItem(mapPreferenceKey);
+  } catch {
+    saved = null;
+  }
+  open.value = saved === "true" || (saved !== "false" && window.matchMedia("(min-width: 960px)").matches);
+});
+function toggleMap() {
+  open.value = !open.value;
+  try {
+    localStorage.setItem(mapPreferenceKey, String(open.value));
+  } catch {
+    return;
+  }
+}
 const expanded = ref(false);
 const hasArea = computed(() => !!store.search.map.value);
 let viewportUpdateTimeout;
@@ -104,7 +122,7 @@ function clearArea() {
           :label="t(open ? 'search.layout.hideMap' : 'search.layout.showMap')"
           :aria-expanded="open"
           aria-controls="results-map-content"
-          @click="open = !open"
+          @click="toggleMap"
         />
       </div>
     </div>
