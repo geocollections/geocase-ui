@@ -609,10 +609,14 @@
     },
     "pagination": "Paginate by {value}",
     "export": {
+      "currentPage": "Export this page",
+      "allResults": "Export all search results (CSV)",
+      "progress": "Preparing export: {loaded} / {total} records",
+      "cancel": "Cancel",
       "export": "Export",
       "exportToCsv": "Export to CSV",
       "copyToClipboard": "Copy to clipboard",
-      "downloadFailed": "Download failed: Not enough data!",
+      "downloadFailed": "Export failed. Please try again.",
       "exportSuccessful": "Exported to <b>{type}</b>!",
       "copySuccessful": "Copied to <b>clipboard</b>!",
       "copyFailed": "Copying failed: Nothing to copy!"

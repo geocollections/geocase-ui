@@ -608,10 +608,14 @@
     },
     "pagination": "Nummeriere mit {value}",
     "export": {
+      "currentPage": "Diese Seite exportieren",
+      "allResults": "Alle Suchergebnisse exportieren (CSV)",
+      "progress": "Export wird vorbereitet: {loaded} / {total} Datensätze",
+      "cancel": "Abbrechen",
       "export": "Export",
       "exportToCsv": "Export CSV",
       "copyToClipboard": "Kopiere in Zwischenablage",
-      "downloadFailed": "Download fehlgeschlagen: Nicht genug Daten vorhanden!",
+      "downloadFailed": "Export fehlgeschlagen. Bitte versuchen Sie es erneut.",
       "exportSuccessful": "Exportiert nach <b>{type}</b>!",
       "copySuccessful": "In die <b>Zwischenablage</b> kopiert!",
       "copyFailed": "Kopieren fehlgeschlagen: Nicht zum Kopieren vorhanden!"

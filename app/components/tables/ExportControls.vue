@@ -1,92 +1,141 @@
 <script setup lang="ts">
-import { computed } from "vue";
-import { useNuxtApp } from "#imports";
+import { computed, onBeforeUnmount, ref } from "vue";
 import { useI18n } from "vue-i18n";
 import { utils, writeFile } from "xlsx";
+import SearchService from "@/services/SearchService";
+import { useSearchStore } from "@/stores/search";
+import { exportRows } from "@/utils/exportRecords";
+import type { ExportColumn } from "@/utils/exportRecords";
 
 const { t } = useI18n();
-const { $toast } = useNuxtApp();
+const store = useSearchStore();
+const busy = ref(false);
+const error = ref(false);
+const loaded = ref(0);
+const total = ref(0);
+let controller: AbortController | undefined;
+const disabled = computed(() => store.isLoading || store.resultsError || !store.responseResults.length || busy.value);
 
-function getTable() {
-  const table = document.querySelector<HTMLTableElement>("#table table");
-  if (!table) throw new Error("Results table not found");
-  return table;
+function columns(): ExportColumn[] {
+  const headers: ExportColumn[] = store.getAllShownTableHeaders.map(({ value, text }: ExportColumn) => ({ value: value === "url" ? "images" : value, text }));
+  if (!headers.some(({ value }) => value === "geocase_id")) {
+    headers.unshift({ value: "geocase_id", text: "GeoCASe ID" });
+  }
+  return headers;
 }
 
-function createWorkbook() {
-  const table = getTable().cloneNode(true) as HTMLTableElement;
-  table
-    .querySelectorAll(".v-data-table-header__sort-badge")
-    .forEach((indicator) => indicator.remove());
-  return utils.table_to_book(table);
-}
-
-function toastSuccess(text: string) {
-  $toast.success?.(text, "OK", {
-    position: "topCenter",
-    timeout: 5000,
-    pauseOnHover: false,
-  });
-}
-
-function toastError(error: unknown) {
-  console.error(error);
-  $toast.error?.(t("search.export.downloadFailed"), "Error", {
-    position: "topCenter",
-    timeout: 5000,
-    closeOnEscape: true,
-    pauseOnHover: false,
-    displayMode: 1,
-  });
-}
-
-function handleExportCsv() {
+async function exportPage(format: "csv" | "xlsx" | "clipboard") {
+  error.value = false;
   try {
-    writeFile(createWorkbook(), "GeoCASe.csv", { bookType: "csv" });
-    toastSuccess(t("search.export.exportSuccessful", { type: "CSV" }));
-  } catch (error) {
-    toastError(error);
+    const headers = columns();
+    const sheet = utils.aoa_to_sheet([
+      headers.map(({ text }) => text),
+      ...exportRows(store.responseResults, headers),
+    ]);
+    if (format === "clipboard") {
+      await navigator.clipboard.writeText(utils.sheet_to_csv(sheet, { FS: "\t" }));
+    } else {
+      const workbook = utils.book_new();
+      utils.book_append_sheet(workbook, sheet, "GeoCASe");
+      writeFile(workbook, `GeoCASe-page-${store.page}.${format}`, { bookType: format });
+    }
+  } catch {
+    error.value = true;
   }
 }
 
-function handleExportExcel() {
+async function exportAll() {
+  busy.value = true;
+  error.value = false;
+  loaded.value = 0;
+  total.value = store.responseResultsCount;
+  const headers = columns();
+  const params = {
+    page: 1, paginateBy: 1000,
+    sortBy: [...store.sortBy], sortDesc: [...store.sortDesc],
+    searchIds: [...store.searchIds],
+    search: JSON.parse(JSON.stringify(store.search)),
+  };
+  const activeController = new AbortController();
+  controller = activeController;
   try {
-    writeFile(createWorkbook(), "GeoCASe.xlsx", { bookType: "xlsx" });
-    toastSuccess(t("search.export.exportSuccessful", { type: "XLSX" }));
-  } catch (error) {
-    toastError(error);
+    const chunks: string[] = ["\uFEFF"];
+    const heading = utils.aoa_to_sheet([headers.map(({ text }) => text)]);
+    chunks.push(utils.sheet_to_csv(heading), "\r\n");
+    const fields = [...new Set([
+      ...headers.map(({ value }) => value),
+      ...(headers.some(({ value }) => value === "stratigraphy") ? ["stratigraphies", "stratigraphytexts"] : []),
+    ])];
+    for await (const batch of SearchService.exportRecords(params, fields, activeController.signal)) {
+      total.value = batch.total;
+      if (batch.docs.length) {
+        const sheet = utils.aoa_to_sheet(exportRows(batch.docs, headers));
+        chunks.push(utils.sheet_to_csv(sheet), "\r\n");
+        loaded.value += batch.docs.length;
+      }
+    }
+    activeController.signal.throwIfAborted();
+    const url = URL.createObjectURL(new Blob(chunks, { type: "text/csv;charset=utf-8" }));
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "GeoCASe-all-results.csv";
+    document.body.append(link);
+    link.click();
+    link.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 60_000);
+  } catch {
+    if (!activeController.signal.aborted) error.value = true;
+  } finally {
+    busy.value = false;
+    controller = undefined;
   }
 }
 
-async function handleClipboard() {
-  try {
-    await navigator.clipboard.writeText(getTable().innerText);
-    toastSuccess(t("search.export.copySuccessful"));
-  } catch (error) {
-    toastError(error);
-  }
-}
+onBeforeUnmount(() => controller?.abort());
 
 const exportItems = computed(() => [
-  { label: "CSV", onSelect: handleExportCsv },
-  { label: "XLSX (Excel)", onSelect: handleExportExcel },
-  { label: t("search.table.clipboard"), onSelect: handleClipboard },
+  {
+    label: t("search.export.currentPage"),
+    children: [
+      { label: "CSV", onSelect: () => exportPage("csv") },
+      { label: "XLSX (Excel)", onSelect: () => exportPage("xlsx") },
+      { label: t("search.table.clipboard"), onSelect: () => exportPage("clipboard") },
+    ],
+  },
+  { label: t("search.export.allResults"), onSelect: exportAll },
 ]);
 </script>
 
 <template>
-  <UDropdownMenu
-    :items="exportItems"
-    :content="{ align: 'end', side: 'bottom', sideOffset: 8 }"
-    :ui="{ content: 'tw:z-[5000]' }"
-  >
+  <div class="tw:flex tw:max-w-full tw:flex-wrap tw:items-center tw:gap-2">
+    <UDropdownMenu
+      :items="exportItems"
+      :content="{ align: 'end', side: 'bottom', sideOffset: 8 }"
+      :ui="{ content: 'tw:z-[5000]' }"
+    >
+      <UButton
+        icon="i-lucide-file-output"
+        color="primary"
+        variant="solid"
+        size="lg"
+        :disabled="disabled"
+        :loading="busy"
+        :aria-label="t('search.export.export')"
+        :title="t('search.table.tooltipExport')"
+      />
+    </UDropdownMenu>
+    <span v-if="busy" role="status" class="tw:text-sm">
+      {{ t('search.export.progress', { loaded: loaded.toLocaleString(), total: total.toLocaleString() }) }}
+    </span>
     <UButton
-      icon="i-lucide-file-output"
-      color="primary"
-      variant="solid"
-      size="lg"
-      aria-label="export table"
-      :title="t('search.table.tooltipExport')"
+      v-if="busy"
+      :label="t('search.export.cancel')"
+      variant="ghost"
+      color="neutral"
+      @click="controller?.abort()"
     />
-  </UDropdownMenu>
+    <span v-if="error" role="alert" class="tw:text-sm tw:text-error">
+      {{ t('search.export.downloadFailed') }}
+    </span>
+  </div>
 </template>

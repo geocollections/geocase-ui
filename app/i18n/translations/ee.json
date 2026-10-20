@@ -607,10 +607,14 @@
     },
     "pagination": "Kuva {value} kaupa",
     "export": {
+      "currentPage": "Ekspordi see lehekülg",
+      "allResults": "Ekspordi kõik otsingutulemused (CSV)",
+      "progress": "Ekspordi ettevalmistamine: {loaded} / {total} kirjet",
+      "cancel": "Katkesta",
       "export": "Ekspordi",
       "exportToCsv": "Ekspordi CSV",
       "copyToClipboard": "Kopeeri",
-      "downloadFailed": "Allalaadimine ebaõnnestus: Andmed puuduvad!",
+      "downloadFailed": "Eksport ebaõnnestus. Proovi uuesti.",
       "exportSuccessful": "Eksporditi <b>{type}</b>!",
       "copySuccessful": "Kopeeritud!",
       "copyFailed": "Kopeerimine ebaõnnestus: Pole midagi koperida!"
