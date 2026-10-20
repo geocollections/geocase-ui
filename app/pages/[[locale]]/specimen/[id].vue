@@ -199,9 +199,9 @@ function getCetafIdentifierUrl(country, identifier) {
 
     <div
       v-if="itemExists"
-      class="tw:grid tw:grid-cols-1 tw:gap-6 tw:sm:grid-cols-2"
+      class="tw:grid tw:grid-cols-1 tw:items-start tw:gap-6 tw:lg:grid-cols-2"
     >
-      <div class="tw:sm:col-span-2">
+      <div class="tw:lg:col-span-2">
         <section
           class="tw:overflow-hidden tw:rounded-[20px] tw:border tw:border-default tw:bg-muted/30 tw:shadow-sm"
         >
@@ -311,10 +311,11 @@ function getCetafIdentifierUrl(country, identifier) {
       </div>
 
       <div
-        :class="['tw:order-1 tw:min-w-0', hasMedia ? '' : 'tw:sm:col-span-2']"
+        class="tw:flex tw:min-w-0 tw:flex-col tw:gap-6"
+        :class="{ 'tw:lg:col-span-2': !hasMedia }"
       >
         <section
-          class="tw:h-full tw:overflow-hidden tw:rounded-[20px] tw:border tw:border-default tw:bg-default tw:shadow-sm"
+          class="tw:overflow-hidden tw:rounded-[20px] tw:border tw:border-default tw:bg-default tw:shadow-sm"
         >
           <h2
             class="tw:px-6 tw:pt-5 tw:pb-2 tw:text-lg tw:font-bold tw:text-highlighted"
@@ -572,16 +573,7 @@ function getCetafIdentifierUrl(country, identifier) {
             </template>
           </SpecimenTable>
         </section>
-      </div>
 
-      <div
-        class="tw:order-4 tw:min-w-0"
-        :class="
-          localityExists && detailViewImages.length > 0
-            ? 'tw:sm:col-span-1'
-            : 'tw:sm:col-span-2'
-        "
-      >
         <section
           class="tw:overflow-hidden tw:rounded-[20px] tw:border tw:border-default tw:bg-default tw:shadow-sm"
           v-if="
@@ -723,37 +715,24 @@ function getCetafIdentifierUrl(country, identifier) {
         </section>
       </div>
 
-      <div v-if="hasMedia" class="tw:order-2 tw:flex tw:min-w-0 tw:items-end">
-        <div class="tw:w-full">
-          <div
-            v-if="localityExists"
-            class="detail-map tw:overflow-hidden tw:rounded-[20px] tw:border tw:border-default tw:bg-default tw:shadow-sm"
-          >
-            <TabMap :response-results="response" :is-detail-view="true" />
-          </div>
-
-          <div v-if="!localityExists && detailViewImages.length > 0">
-            <image-carousel
-              class="tw:mb-0! tw:overflow-hidden tw:rounded-[20px] tw:border tw:border-default tw:shadow-sm"
-              :images="detailViewImages"
-            />
-          </div>
-        </div>
-      </div>
-
-      <div
-        v-if="localityExists && imageExists && detailViewImages.length > 0"
-        class="tw:order-3 tw:min-w-0 tw:self-start"
-      >
+      <div v-if="hasMedia" class="tw:flex tw:min-w-0 tw:flex-col tw:gap-6">
         <image-carousel
+          v-if="detailViewImages.length > 0"
           class="tw:mb-0! tw:w-full tw:overflow-hidden tw:rounded-[20px] tw:border tw:border-default tw:shadow-sm"
           :images="detailViewImages"
         />
+
+        <div
+          v-if="localityExists"
+          class="detail-map tw:overflow-hidden tw:rounded-[20px] tw:border tw:border-default tw:bg-default tw:shadow-sm"
+        >
+          <TabMap :response-results="response" :is-detail-view="true" />
+        </div>
       </div>
 
       <details
         v-if="responseFromSource"
-        class="tw:group tw:order-5 tw:min-w-0 tw:overflow-hidden tw:rounded-[20px] tw:border tw:border-default tw:bg-default tw:shadow-sm tw:sm:col-span-2"
+        class="tw:group tw:min-w-0 tw:overflow-hidden tw:rounded-[20px] tw:border tw:border-default tw:bg-default tw:shadow-sm tw:lg:col-span-2"
       >
         <summary
           class="tw:flex tw:cursor-pointer tw:list-none tw:items-center tw:justify-between tw:gap-3 tw:px-6 tw:py-5 tw:font-semibold tw:text-highlighted tw:marker:hidden"
@@ -779,8 +758,8 @@ function getCetafIdentifierUrl(country, identifier) {
     class="tw:mx-auto tw:max-w-7xl tw:px-4 tw:py-6 tw:sm:px-6 tw:lg:px-8"
   >
     <GoBackButton />
-    <div class="tw:grid tw:grid-cols-1 tw:gap-6 tw:sm:grid-cols-2">
-      <USkeleton class="tw:h-36 tw:rounded-[20px] tw:sm:col-span-2" />
+    <div class="tw:grid tw:grid-cols-1 tw:items-start tw:gap-6 tw:lg:grid-cols-2">
+      <USkeleton class="tw:h-36 tw:rounded-[20px] tw:lg:col-span-2" />
       <USkeleton class="tw:h-80 tw:rounded-[20px]" />
       <USkeleton class="tw:h-80 tw:rounded-[20px]" />
     </div>
