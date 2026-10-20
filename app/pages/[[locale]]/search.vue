@@ -78,6 +78,27 @@ useHead(() => ({ title: t("header.search") }));
         />
       </div>
 
+      <UAlert
+        v-if="resultsError"
+        role="alert"
+        color="error"
+        variant="soft"
+        icon="i-lucide-circle-alert"
+        class="tw:mx-4 tw:mb-4 tw:sm:mx-6"
+        :title="$t('search.loadError')"
+        :description="responseResults.length ? $t('search.staleResults') : undefined"
+      >
+        <template #actions>
+          <UButton
+            :label="$t('search.retry')"
+            :loading="isLoading"
+            color="error"
+            variant="soft"
+            @click="fetchResults()"
+          />
+        </template>
+      </UAlert>
+
       <div
         v-show="tab === 0"
         role="tabpanel"
@@ -175,6 +196,7 @@ export default {
       "sortBy",
       "sortDesc",
       "isLoading",
+      "resultsError",
     ]),
     ...mapState(useSearchStore, ["paginateByItemsTranslated"]),
     tableGalleryImages() {

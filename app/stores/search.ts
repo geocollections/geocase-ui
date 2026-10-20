@@ -70,6 +70,7 @@ interface SearchState {
   pendingMapResultsQueryKey: string;
   mapRequestId: number;
   resultsRequestId: number;
+  resultsError: boolean;
   page: number;
   paginateBy: number;
   sortBy: string[];
@@ -109,6 +110,7 @@ export const useSearchStore = defineStore("search", {
     pendingMapResultsQueryKey: "",
     mapRequestId: 0,
     resultsRequestId: 0,
+    resultsError: false,
     page: 1,
     paginateBy: 25,
     sortBy: [],
@@ -640,19 +642,14 @@ export const useSearchStore = defineStore("search", {
 
         if (requestId !== this.resultsRequestId) return;
         if (response) {
+          this.resultsError = false;
           this.UPDATE_FACETS(response?.facet_counts?.facet_fields);
           this.UPDATE_RESPONSE_RESULTS(response?.response?.docs || []);
           this.UPDATE_RESPONSE_RESULTS_COUNT(response?.response?.numFound || 0);
         }
       } catch (caught) {
         if (requestId !== this.resultsRequestId) return;
-        const err =
-          caught instanceof Error ? caught : new Error(String(caught));
-        useSettingsStore().updateErrorMessage(
-          `<b>Failed to fetch search results!</b><br /><b>Name:</b> ${err.name}<br /><b>Message:</b> ${err.message}`,
-        );
-        if (!useSettingsStore().error)
-          useSettingsStore().updateErrorState(true);
+        this.resultsError = true;
       } finally {
         if (requestId === this.resultsRequestId) this.SET_LOADING(false);
       }

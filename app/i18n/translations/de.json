@@ -488,6 +488,9 @@
       "reduceMap": "Karte verkleinern",
       "clearArea": "Bereich entfernen"
     },
+    "loadError": "Ergebnisse konnten nicht geladen werden",
+    "staleResults": "Die vorherigen Ergebnisse werden weiterhin angezeigt. Sie wurden nicht für Ihre letzte Suche aktualisiert.",
+    "retry": "Erneut versuchen",
     "imagesOnlyNotice": "Diese Ansicht aktiviert den Filter „Hat Bild?“. Die Ergebnisanzahl umfasst nur passende Datensätze mit Bildern und kann kleiner als in der Tabellenansicht sein.",
     "imageRecords": "Datensätze mit Bildern",
     "activeFilters": {

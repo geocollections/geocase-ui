@@ -489,6 +489,9 @@
       "reduceMap": "Reduce map",
       "clearArea": "Clear area"
     },
+    "loadError": "Could not load results",
+    "staleResults": "The previous results are still displayed. They have not been updated for your latest search.",
+    "retry": "Try again",
     "imagesOnlyNotice": "This view applies the “Has image?” filter. The result count includes only matching records with images and may be smaller than in the table view.",
     "imageRecords": "Records with images",
     "activeFilters": {

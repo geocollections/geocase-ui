@@ -489,6 +489,9 @@
       "reduceMap": "Vähenda kaarti",
       "clearArea": "Eemalda ala"
     },
+    "loadError": "Tulemusi ei õnnestunud laadida",
+    "staleResults": "Kuvatakse varasema otsingu tulemusi. Neid ei ole viimase otsingu jaoks uuendatud.",
+    "retry": "Proovi uuesti",
     "imagesOnlyNotice": "See vaade rakendab filtri „On pilt?”. Tulemuste arv hõlmab ainult otsingule vastavaid piltidega kirjeid ja võib olla väiksem kui tabelivaates.",
     "imageRecords": "Piltidega kirjed",
     "activeFilters": {
