@@ -175,10 +175,11 @@ test("server table sorting, pagination, export and specimen navigation", async (
     .getByRole("button", { name: "Object ID", exact: true })
     .click();
   await expect(page).toHaveURL(/sort_by=unitid/);
-  await page.getByRole("button", { name: "export table" }).click();
+  await page.getByRole("button", { name: "Export", exact: true }).click();
+  await page.getByRole("menuitem", { name: "Export this page" }).hover();
   const download = page.waitForEvent("download");
   await page.getByText("CSV", { exact: true }).click();
-  expect((await download).suggestedFilename()).toBe("GeoCASe.csv");
+  expect((await download).suggestedFilename()).toBe("GeoCASe-page-1.csv");
   await page
     .locator(".table-top")
     .getByRole("button", { name: "Next page" })
