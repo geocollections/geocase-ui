@@ -336,6 +336,11 @@ test("homepage map loads its worker and opens locality specimens", async ({
   page.on("pageerror", (error) => errors.push(error.message));
   await page.goto("/");
   await page.getByRole("button", { name: "OK", exact: true }).click();
+  const activateMap = page.getByRole("button", { name: "Click to activate the map" });
+  await activateMap.scrollIntoViewIfNeeded();
+  await expect(page.locator(".map-canvas")).toHaveClass(/map-inactive/);
+  await activateMap.click();
+  await expect(page.locator(".map-canvas")).not.toHaveClass(/map-inactive/);
   const canvas = page.locator(".map-canvas canvas");
   await canvas.scrollIntoViewIfNeeded();
   await expect(canvas).toBeVisible();
@@ -556,12 +561,12 @@ test("images tab automatically searches for records with images", async ({
     0,
   );
   await expect(
-    page.getByText("Only results with images are shown in this view."),
+    page.getByText(/This view applies the .* filter\./),
   ).toBeVisible();
   await page.getByRole("tab", { name: /table/i }).click();
   await expect(page).not.toHaveURL(/has_image=/);
   await expect(
-    page.getByText("Only results with images are shown in this view."),
+    page.getByText(/This view applies the .* filter\./),
   ).toHaveCount(0);
   expect(new URL(page.url()).searchParams.get("q")).toBe("quartz");
   expect(new URL(page.url()).searchParams.get("country")).toBe('"Estonia"');
@@ -667,13 +672,18 @@ test("shared coordinate marker opens a paginated record picker", async ({ page }
   const map = page.locator('#search-map');
   await expect(map.locator('.leaflet-marker-icon')).toHaveCount(1);
   await expect(map.locator('.map-count-icon')).toHaveCount(0);
-  // Country view starts at zoom 2.5; counts appear only at zoom 7.
+  await map.scrollIntoViewIfNeeded();
+  const point = await map.locator('.leaflet-marker-icon').boundingBox();
+  expect(point).not.toBeNull();
+  await page.mouse.move(point!.x + point!.width / 2, point!.y + point!.height / 2);
   for (let step = 0; step < 5; step += 1) {
-    await map.locator('.leaflet-control-zoom-in').click();
-    await page.waitForTimeout(300);
+    await page.mouse.wheel(0, -100);
+    await page.waitForTimeout(350);
+    if (await map.locator('.map-count-icon').count()) break;
   }
   const marker = map.locator('.map-count-icon');
   await expect(marker).toHaveText("21");
+  await expect(marker).toBeInViewport();
   await marker.click();
   const popup = page.locator('.leaflet-popup-content');
   await expect(popup).toContainText("Tallinn (21)");
@@ -1029,7 +1039,7 @@ test("image-only checkbox changes table results and can leave the image gallery"
   );
   await expect(page.locator("#table")).toContainText("NO-IMAGE");
   await expect(
-    page.getByText("Only results with images are shown in this view."),
+    page.getByText(/This view applies the .* filter\./),
   ).toHaveCount(0);
   expect(new URL(page.url()).searchParams.get("q")).toBe("quartz");
   await page.getByRole("button", { name: "Toggle navigation drawer" }).click();

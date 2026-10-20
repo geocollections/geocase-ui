@@ -260,7 +260,7 @@ export default {
   methods: {
     updateMapSize() {
       if (this.map && this.$el.clientWidth > 0 && this.$el.clientHeight > 0) {
-        this.map.invalidateSize({ pan: false });
+        this.map.invalidateSize({ animate: false });
       }
     },
 
