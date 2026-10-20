@@ -625,3 +625,9 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+:deep(td a) {
+  font-size: inherit;
+}
+</style>
