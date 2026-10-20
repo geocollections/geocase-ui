@@ -486,7 +486,8 @@
       "reduceMap": "Vähenda kaarti",
       "clearArea": "Eemalda ala"
     },
-    "imagesOnlyNotice": "Selles vaates kuvatakse ainult piltidega tulemusi.",
+    "imagesOnlyNotice": "See vaade rakendab filtri „On pilt?”. Tulemuste arv hõlmab ainult otsingule vastavaid piltidega kirjeid ja võib olla väiksem kui tabelivaates.",
+    "imageRecords": "Piltidega kirjed",
     "activeFilters": {
       "keyword": "Otsing",
       "title": "Valitud filtrid",

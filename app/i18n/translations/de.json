@@ -485,7 +485,8 @@
       "reduceMap": "Karte verkleinern",
       "clearArea": "Bereich entfernen"
     },
-    "imagesOnlyNotice": "In dieser Ansicht werden nur Ergebnisse mit Bildern angezeigt.",
+    "imagesOnlyNotice": "Diese Ansicht aktiviert den Filter „Hat Bild?“. Die Ergebnisanzahl umfasst nur passende Datensätze mit Bildern und kann kleiner als in der Tabellenansicht sein.",
+    "imageRecords": "Datensätze mit Bildern",
     "activeFilters": {
       "keyword": "Suche",
       "title": "Aktive Filter",

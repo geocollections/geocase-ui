@@ -196,7 +196,7 @@ export default {
           slot: "table",
         },
         {
-          label: this.$t("search.tab.images"),
+          label: this.$t("search.imageRecords"),
           icon: "i-lucide-images",
           value: 1,
           slot: "images",
