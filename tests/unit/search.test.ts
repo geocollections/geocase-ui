@@ -14,6 +14,69 @@ beforeEach(() => {
   i18n.locale.value = "en";
 });
 describe("migrated search state and API contract", () => {
+  it("retains old results on failure and clears the persistent error after retry", async () => {
+    const store = useSearchStore();
+    store.responseResults = [{ unitid: "previous" }];
+    store.responseResultsCount = 5;
+    vi.spyOn(store, "fetchMapResults").mockResolvedValue();
+    vi.spyOn(SearchService, "search")
+      .mockRejectedValueOnce(new Error("Network unavailable"))
+      .mockResolvedValueOnce({ response: { docs: [{ unitid: "fresh" }], numFound: 1 } });
+    await store.fetchResults();
+    expect(store.resultsError).toBe(true);
+    expect(store.responseResults).toEqual([{ unitid: "previous" }]);
+    expect(store.responseResultsCount).toBe(5);
+    expect(store.isLoading).toBe(false);
+    await store.fetchResults();
+    expect(store.resultsError).toBe(false);
+    expect(store.responseResults).toEqual([{ unitid: "fresh" }]);
+    vi.restoreAllMocks();
+  });
+
+  it("exports all matching records in stable batches without changing table pagination", async () => {
+    const store = useSearchStore();
+    store.page = 3;
+    store.updateSearchField({ id: "country", value: '"Estonia"' });
+    const docs = Array.from({ length: 1000 }, (_, i) => ({ geocase_id: String(i) }));
+    axios.get.mockResolvedValueOnce({ data: { response: { docs, numFound: 1001 } } })
+      .mockResolvedValueOnce({ data: { response: { docs: [{ geocase_id: "last" }], numFound: 1001 } } });
+    const batches = [];
+    for await (const batch of SearchService.exportRecords({
+      page: store.page, paginateBy: 25, sortBy: ["unitid"], sortDesc: [true],
+      search: store.search, searchIds: store.searchIds,
+    }, ["geocase_id", "unitid"])) batches.push(batch);
+    expect(batches.flatMap((batch) => batch.docs)).toHaveLength(1001);
+    const urls = axios.get.mock.calls.map(([url]) => new URL(url, "http://localhost"));
+    expect(urls.map((url) => url.searchParams.get("start"))).toEqual(["0", "1000"]);
+    expect(urls[0].searchParams.get("sort")).toBe("unitid desc,geocase_id asc");
+    expect(urls[0].searchParams.getAll("fq")).toContain('country:"Estonia"');
+    expect(urls[0].searchParams.get("fl")).toBe("geocase_id,unitid");
+    expect(urls[0].searchParams.has("facet")).toBe(false);
+    expect(store.page).toBe(3);
+  });
+
+  it("stops a cancelled export before requesting more data", async () => {
+    const store = useSearchStore();
+    const controller = new AbortController();
+    controller.abort();
+    const iterator = SearchService.exportRecords({
+      page: 1, paginateBy: 25, sortBy: [], sortDesc: [],
+      search: store.search, searchIds: store.searchIds,
+    }, ["geocase_id"], controller.signal);
+    await expect(iterator.next()).rejects.toThrow();
+    expect(axios.get).not.toHaveBeenCalled();
+  });
+
+  it("rejects incomplete exports rather than downloading a partial result silently", async () => {
+    const store = useSearchStore();
+    axios.get.mockResolvedValueOnce({ data: { response: { docs: [], numFound: 20 } } });
+    const iterator = SearchService.exportRecords({
+      page: 1, paginateBy: 25, sortBy: [], sortDesc: [],
+      search: store.search, searchIds: store.searchIds,
+    }, ["geocase_id"]);
+    await expect(iterator.next()).rejects.toThrow("Incomplete export response");
+  });
+
   it("ignores stale search results, counts and facets", async () => {
     const store = useSearchStore();
     vi.spyOn(store, "fetchMapResults").mockResolvedValue();
@@ -45,6 +108,7 @@ describe("migrated search state and API contract", () => {
     rejectOld(new Error("Old search failed"));
     await oldRequest;
     expect(store.isLoading).toBe(true);
+    expect(store.resultsError).toBe(false);
     resolveNew({ response: { docs: [], numFound: 0 } });
     await latestRequest;
     expect(store.isLoading).toBe(false);

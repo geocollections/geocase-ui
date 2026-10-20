@@ -58,7 +58,7 @@ export type MapLevel = "country" | "locality" | "points";
 class SearchService {
   static async search(
     params: SearchRequest,
-    options: { includeFacets?: boolean; fields?: string[] } = {},
+    options: { includeFacets?: boolean; fields?: string[]; signal?: AbortSignal } = {},
   ) {
     try {
       const start = (params.page - 1) * params.paginateBy;
@@ -80,11 +80,41 @@ class SearchService {
       if (searchFields && searchFields.length > 0) url += `&${searchFields}`;
       else url += `&q=*`;
 
-      const res = await axios.get(url);
+      const res = await axios.get(url, { signal: options.signal });
       return res.data;
     } catch (error) {
       console.error(error);
       throw new Error(error instanceof Error ? error.message : String(error));
+    }
+  }
+
+  static async *exportRecords(
+    params: SearchRequest,
+    fields: string[],
+    signal?: AbortSignal,
+  ): AsyncGenerator<{ docs: Record<string, unknown>[]; total: number }> {
+    const sortBy = [...params.sortBy];
+    const sortDesc = [...params.sortDesc];
+    if (!sortBy.includes("geocase_id")) {
+      sortBy.push("geocase_id");
+      sortDesc.push(false);
+    }
+    let total = Infinity;
+    let loaded = 0;
+    for (let page = 1; loaded < total; page += 1) {
+      signal?.throwIfAborted();
+      const response = await this.search(
+        { ...params, page, paginateBy: 1000, sortBy, sortDesc },
+        { includeFacets: false, fields, signal },
+      );
+      const docs = response?.response?.docs;
+      total = Number(response?.response?.numFound);
+      if (!Array.isArray(docs) || !Number.isFinite(total)) {
+        throw new Error("Invalid export response");
+      }
+      if (docs.length === 0 && loaded < total) throw new Error("Incomplete export response");
+      loaded += docs.length;
+      yield { docs, total };
     }
   }
 
