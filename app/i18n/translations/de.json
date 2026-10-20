@@ -354,6 +354,7 @@
       }
     },
     "map": {
+      "activate": "Klicken, um die Karte zu aktivieren",
       "search": "Search",
       "numFound": "Specimens",
       "itemsPerPageText": "Rows per page"

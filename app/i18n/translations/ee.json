@@ -354,6 +354,7 @@
       }
     },
     "map": {
+      "activate": "Kaardi kasutamiseks klõpsa siin",
       "search": "Otsi",
       "numFound": "Eksemplare",
       "itemsPerPageText": "Ridu lehel"

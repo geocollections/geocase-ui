@@ -354,6 +354,7 @@
       }
     },
     "map": {
+      "activate": "Click to activate the map",
       "search": "Search",
       "numFound": "Specimens",
       "itemsPerPageText": "Rows per page"
