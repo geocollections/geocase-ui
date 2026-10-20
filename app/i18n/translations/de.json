@@ -99,7 +99,7 @@
     "notesTitle": "Ein paar nützliche Hinweise",
     "notes": {
       "locations": "Nicht alle Datensätze enthalten Koordinaten und erscheinen daher auf der Karte.",
-      "mapDetails": "Fahren Sie mit der Maus über eine Markierung, um den Fundort zu sehen. Klicken Sie auf eine Markierung, um den Exemplardatensatz zu öffnen. Bei mehreren Datensätzen desselben oder eines nahegelegenen Fundorts können Sie die Einträge in der Ergebnistabelle auswählen.",
+      "mapDetails": "Fahren Sie über eine Markierung, um den Fundort zu sehen. Nummerierte Markierungen öffnen eine Datensatzauswahl; einzelne Markierungen öffnen den Datensatz.",
       "imageDetails": "Beim Überfahren eines Bildvorschaubilds werden kurze Datensatzinformationen angezeigt. Ein Klick öffnet die größere Galerie. Dort können Sie Bilder der aktuellen Ergebnisseite durchsehen und das Originalbild oder den Exemplardatensatz öffnen.",
       "images": "Ein Datensatz kann kein oder mehrere Bilder enthalten. Daher kann die Bildanzahl von der Anzahl der Datensätze abweichen.",
       "sources": "Die Sammlungsdaten werden von Museen und Forschungseinrichtungen bereitgestellt. Angaben zu Quelle, Rechten und Kontakt finden Sie im jeweiligen Datensatz."
@@ -354,6 +354,7 @@
       }
     },
     "map": {
+      "activate": "Klicken, um die Karte zu aktivieren",
       "search": "Search",
       "numFound": "Specimens",
       "itemsPerPageText": "Rows per page"
@@ -476,14 +477,22 @@
   "search": {
     "layout": {
       "results": "Ergebnisse",
-      "mapNote": "Wählen Sie ein Land, um Datensätze mit Koordinaten aus den ersten 1.000 Tabellenergebnissen anzuzeigen. Zeichnen Sie einen Bereich zum Filtern.",
+      "mapLocationSummary": "Karte: {count} Standorte · Tabelle: {records} Datensätze",
+      "mapCountrySummary": "Karte: {count} Länder · Tabelle: {records} Datensätze",
+      "mapLimitNotice": "Die Karte hat ihr Limit von 3.000 Standorten erreicht. Grenzen Sie Ihre Suche ein, um weniger Standorte zu untersuchen. Die Tabelle enthält weiterhin alle passenden Datensätze.",
+      "mapNote": "Wählen Sie ein Land, um bis zu 3.000 unterschiedliche Standorte anzuzeigen. Nummerierte Markierungen zeigen die Anzahl der Datensätze mit denselben Koordinaten; klicken Sie darauf, um einen Datensatz auszuwählen. Zeichnen Sie einen Bereich zum Filtern.",
+      "mapRetry": "Erneut versuchen",
       "hideMap": "Karte ausblenden",
       "showMap": "Karte anzeigen",
       "expandMap": "Karte vergrößern",
       "reduceMap": "Karte verkleinern",
       "clearArea": "Bereich entfernen"
     },
-    "imagesOnlyNotice": "In dieser Ansicht werden nur Ergebnisse mit Bildern angezeigt.",
+    "loadError": "Ergebnisse konnten nicht geladen werden",
+    "staleResults": "Die vorherigen Ergebnisse werden weiterhin angezeigt. Sie wurden nicht für Ihre letzte Suche aktualisiert.",
+    "retry": "Erneut versuchen",
+    "imagesOnlyNotice": "Diese Ansicht aktiviert den Filter „Hat Bild?“. Die Ergebnisanzahl umfasst nur passende Datensätze mit Bildern und kann kleiner als in der Tabellenansicht sein.",
+    "imageRecords": "Datensätze mit Bildern",
     "activeFilters": {
       "keyword": "Suche",
       "title": "Aktive Filter",
@@ -599,10 +608,14 @@
     },
     "pagination": "Nummeriere mit {value}",
     "export": {
+      "currentPage": "Diese Seite exportieren",
+      "allResults": "Alle Suchergebnisse exportieren (CSV)",
+      "progress": "Export wird vorbereitet: {loaded} / {total} Datensätze",
+      "cancel": "Abbrechen",
       "export": "Export",
       "exportToCsv": "Export CSV",
       "copyToClipboard": "Kopiere in Zwischenablage",
-      "downloadFailed": "Download fehlgeschlagen: Nicht genug Daten vorhanden!",
+      "downloadFailed": "Export fehlgeschlagen. Bitte versuchen Sie es erneut.",
       "exportSuccessful": "Exportiert nach <b>{type}</b>!",
       "copySuccessful": "In die <b>Zwischenablage</b> kopiert!",
       "copyFailed": "Kopieren fehlgeschlagen: Nicht zum Kopieren vorhanden!"

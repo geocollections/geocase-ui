@@ -1,6 +1,14 @@
 <template>
-  <div class="front-map">
-    <div ref="container" class="map-canvas" />
+  <div ref="wrapper" class="front-map" @keydown.esc="deactivateMap">
+    <div ref="container" class="map-canvas" :class="{ 'map-inactive': !active }" />
+    <button
+      v-if="!active"
+      type="button"
+      class="map-activate"
+      @click="activateMap"
+    >
+      <span>{{ $t("frontPage.map.activate") }}</span>
+    </button>
     <Teleport v-if="popupTarget && activePopupData.id" :to="popupTarget">
       <MglPopupWrapper
         :active-popup-data="activePopupData"
@@ -29,12 +37,28 @@ import { useDesktopLayout } from "@/composables/useDesktopLayout";
 import MglPopupWrapper from "./MglPopupWrapper.vue";
 const frontpage = useFrontpageStore();
 const container = ref(null);
+const wrapper = ref(null);
+const active = ref(false);
+const activateMap = () => {
+  active.value = true;
+  map?.scrollZoom.enable();
+  map?.getCanvas().focus();
+};
+const deactivateMap = () => {
+  active.value = false;
+  map?.scrollZoom.disable();
+  popup?.remove();
+};
+const handleOutsidePointer = (event) => {
+  if (!wrapper.value?.contains(event.target)) deactivateMap();
+};
 const popupTarget = shallowRef(null);
 const activePopupData = ref({ id: null, locality: "", lat: null, lng: null });
 const { isDesktop } = useDesktopLayout();
 const popupMaxWidth = computed(() => (isDesktop.value ? "400px" : "250px"));
 let map, popup, resizeObserver, resizeFrame;
 const showLocality = (event) => {
+  if (!active.value) return;
   const feature = event.features?.[0];
   if (!feature?.geometry?.coordinates || !feature.properties) return;
   const coordinates = [...feature.geometry.coordinates];
@@ -60,6 +84,7 @@ onMounted(() => {
     zoom: 1.5,
     minZoom: 1,
     maxZoom: 19,
+    scrollZoom: false,
   });
   map.addControl(new NavigationControl(), "top-right");
   map.addControl(new GeolocateControl(), "top-right");
@@ -102,8 +127,10 @@ onMounted(() => {
     resizeFrame = requestAnimationFrame(() => map.resize());
   });
   resizeObserver.observe(container.value);
+  document.addEventListener("pointerdown", handleOutsidePointer);
 });
 onBeforeUnmount(() => {
+  document.removeEventListener("pointerdown", handleOutsidePointer);
   resizeObserver?.disconnect();
   cancelAnimationFrame(resizeFrame);
   popup?.remove();
@@ -117,6 +144,35 @@ onBeforeUnmount(() => {
   width: 100%;
   height: 100%;
   min-height: 320px;
+}
+.front-map {
+  position: relative;
+}
+.map-inactive {
+  pointer-events: none;
+}
+.map-activate {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 24px;
+  cursor: pointer;
+  touch-action: pan-y;
+}
+.map-activate span {
+  padding: 10px 16px;
+  border-radius: 999px;
+  background: white;
+  color: #203932;
+  box-shadow: 0 2px 12px #0002;
+  font-weight: 600;
+}
+.map-activate:focus-visible {
+  outline: 3px solid #8e50a8;
+  outline-offset: -3px;
 }
 .front-map :deep(.maplibregl-popup-content) {
   padding: 0;

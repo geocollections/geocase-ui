@@ -14,54 +14,159 @@ beforeEach(() => {
   i18n.locale.value = "en";
 });
 describe("migrated search state and API contract", () => {
-  it("maps the first 1000 table results without viewport filtering", async () => {
+  it("retains old results on failure and clears the persistent error after retry", async () => {
     const store = useSearchStore();
-    const tableResults = [{ unitid: "table-row" }];
+    store.responseResults = [{ unitid: "previous" }];
+    store.responseResultsCount = 5;
+    vi.spyOn(store, "fetchMapResults").mockResolvedValue();
+    vi.spyOn(SearchService, "search")
+      .mockRejectedValueOnce(new Error("Network unavailable"))
+      .mockResolvedValueOnce({ response: { docs: [{ unitid: "fresh" }], numFound: 1 } });
+    await store.fetchResults();
+    expect(store.resultsError).toBe(true);
+    expect(store.responseResults).toEqual([{ unitid: "previous" }]);
+    expect(store.responseResultsCount).toBe(5);
+    expect(store.isLoading).toBe(false);
+    await store.fetchResults();
+    expect(store.resultsError).toBe(false);
+    expect(store.responseResults).toEqual([{ unitid: "fresh" }]);
+    vi.restoreAllMocks();
+  });
+
+  it("exports all matching records in stable batches without changing table pagination", async () => {
+    const store = useSearchStore();
+    store.page = 3;
+    store.updateSearchField({ id: "country", value: '"Estonia"' });
+    const docs = Array.from({ length: 1000 }, (_, i) => ({ geocase_id: String(i) }));
+    axios.get.mockResolvedValueOnce({ data: { response: { docs, numFound: 1001 } } })
+      .mockResolvedValueOnce({ data: { response: { docs: [{ geocase_id: "last" }], numFound: 1001 } } });
+    const batches = [];
+    for await (const batch of SearchService.exportRecords({
+      page: store.page, paginateBy: 25, sortBy: ["unitid"], sortDesc: [true],
+      search: store.search, searchIds: store.searchIds,
+    }, ["geocase_id", "unitid"])) batches.push(batch);
+    expect(batches.flatMap((batch) => batch.docs)).toHaveLength(1001);
+    const urls = axios.get.mock.calls.map(([url]) => new URL(url, "http://localhost"));
+    expect(urls.map((url) => url.searchParams.get("start"))).toEqual(["0", "1000"]);
+    expect(urls[0].searchParams.get("sort")).toBe("unitid desc,geocase_id asc");
+    expect(urls[0].searchParams.getAll("fq")).toContain('country:"Estonia"');
+    expect(urls[0].searchParams.get("fl")).toBe("geocase_id,unitid");
+    expect(urls[0].searchParams.has("facet")).toBe(false);
+    expect(store.page).toBe(3);
+  });
+
+  it("stops a cancelled export before requesting more data", async () => {
+    const store = useSearchStore();
+    const controller = new AbortController();
+    controller.abort();
+    const iterator = SearchService.exportRecords({
+      page: 1, paginateBy: 25, sortBy: [], sortDesc: [],
+      search: store.search, searchIds: store.searchIds,
+    }, ["geocase_id"], controller.signal);
+    await expect(iterator.next()).rejects.toThrow();
+    expect(axios.get).not.toHaveBeenCalled();
+  });
+
+  it("rejects incomplete exports rather than downloading a partial result silently", async () => {
+    const store = useSearchStore();
+    axios.get.mockResolvedValueOnce({ data: { response: { docs: [], numFound: 20 } } });
+    const iterator = SearchService.exportRecords({
+      page: 1, paginateBy: 25, sortBy: [], sortDesc: [],
+      search: store.search, searchIds: store.searchIds,
+    }, ["geocase_id"]);
+    await expect(iterator.next()).rejects.toThrow("Incomplete export response");
+  });
+
+  it("ignores stale search results, counts and facets", async () => {
+    const store = useSearchStore();
+    vi.spyOn(store, "fetchMapResults").mockResolvedValue();
+    let resolveOld;
+    const oldResponse = new Promise((resolve) => { resolveOld = resolve; });
+    vi.spyOn(SearchService, "search")
+      .mockReturnValueOnce(oldResponse)
+      .mockResolvedValueOnce({ response: { docs: [{ unitid: "new" }], numFound: 2 }, facet_counts: { facet_fields: { country: ["Estonia", 2] } } });
+    const oldRequest = store.fetchResults();
+    await store.fetchResults();
+    resolveOld({ response: { docs: [{ unitid: "old" }], numFound: 99 }, facet_counts: { facet_fields: { country: ["Germany", 99] } } });
+    await oldRequest;
+    expect(store.responseResults).toEqual([{ unitid: "new" }]);
+    expect(store.responseResultsCount).toBe(2);
+    expect(store.country).toContain("Estonia");
+    expect(store.country).not.toContain("Germany");
+    vi.restoreAllMocks();
+  });
+
+  it("keeps loading while the latest request is pending and suppresses stale errors", async () => {
+    const store = useSearchStore();
+    vi.spyOn(store, "fetchMapResults").mockResolvedValue();
+    let rejectOld, resolveNew;
+    vi.spyOn(SearchService, "search")
+      .mockReturnValueOnce(new Promise((_, reject) => { rejectOld = reject; }))
+      .mockReturnValueOnce(new Promise((resolve) => { resolveNew = resolve; }));
+    const oldRequest = store.fetchResults();
+    const latestRequest = store.fetchResults();
+    rejectOld(new Error("Old search failed"));
+    await oldRequest;
+    expect(store.isLoading).toBe(true);
+    expect(store.resultsError).toBe(false);
+    resolveNew({ response: { docs: [], numFound: 0 } });
+    await latestRequest;
+    expect(store.isLoading).toBe(false);
+    vi.restoreAllMocks();
+  });
+
+  it("limits the map to 3000 coordinate groups, counts duplicates and preserves table rows", async () => {
+    const store = useSearchStore();
+    const tableResults = [{ unitid: "table-row" }, { unitid: "same-location-row" }];
     store.responseResults = tableResults;
-    store.mapZoom = 9;
     store.mapBounds = { west: 20, south: 55, east: 30, north: 60 };
     store.updateSearchField({ id: "q", value: "quartz" });
-    store.updateSearchField({
-      id: "country",
-      value: "Estonia",
-      lookUpType: "equals",
-    });
-    axios.get.mockResolvedValue({
-      data: {
-        response: {
-          docs: [
-            {
-              geocase_id: "mapped-record",
-              has_map: true,
-              latitude: 0,
-              longitude: 0,
-            },
-            { geocase_id: "missing" },
-          ],
-          numFound: 1200,
-        },
-      },
-    });
-
+    store.updateSearchField({ id: "country", value: "Estonia", lookUpType: "equals" });
+    axios.get.mockResolvedValue({ data: {
+      grouped: { "concat(latitude,',',longitude)": { groups: [
+        { groupValue: "0,0", doclist: { numFound: 4000, docs: [
+          { geocase_id: "mapped-record", latitude: 0, longitude: 0 },
+        ] } },
+        { groupValue: "1,2", doclist: { numFound: 1, docs: [
+          { geocase_id: "another-location", latitude: 1, longitude: 2 },
+        ] } },
+      ] } },
+    } });
     await store.fetchMapResults();
-
     const url = new URL(axios.get.mock.calls[0][0], "http://localhost");
-    expect(url.searchParams.get("start")).toBe("0");
-    expect(url.searchParams.get("rows")).toBe("1000");
+    expect(url.searchParams.get("rows")).toBe("3000");
+    expect(url.searchParams.get("group.func")).toBe("concat(latitude,',',longitude)");
+    expect(url.searchParams.get("group.limit")).toBe("1");
     expect(url.searchParams.get("q")).toBe('"quartz"');
-    expect(url.searchParams.getAll("fq")).not.toContain("has_map:true");
-    expect(
-      url.searchParams
-        .getAll("fq")
-        .some((filter) => filter.includes("ENVELOPE")),
-    ).toBe(false);
-    expect(url.searchParams.has("facet")).toBe(false);
-    expect(url.searchParams.has("facet.field")).toBe(false);
+    expect(url.searchParams.getAll("fq")).toContain("has_map:true");
+    expect(url.searchParams.getAll("fq").some((filter) => filter.includes("ENVELOPE"))).toBe(false);
     expect(store.mapResults).toEqual([
-      { geocase_id: "mapped-record", has_map: true, latitude: 0, longitude: 0 },
+      { geocase_id: "mapped-record", has_map: true, latitude: 0, longitude: 0, mapCount: 4000 },
+      { geocase_id: "another-location", has_map: true, latitude: 1, longitude: 2, mapCount: 1 },
     ]);
     expect(store.responseResults).toEqual(tableResults);
     expect(store.isMapLoading).toBe(false);
+  });
+
+  it("pages through all records at an exact location with active search filters", async () => {
+    const store = useSearchStore();
+    store.updateSearchField({ id: "q", value: "quartz" });
+    store.updateSearchField({ id: "country", value: '"Estonia"' });
+    const response = { docs: [{ geocase_id: "second-page" }], numFound: 21 };
+    axios.get.mockResolvedValue({ data: { response } });
+    const result = await SearchService.searchMapLocation({
+      page: 1, paginateBy: 20, sortBy: ["unitid"], sortDesc: [true],
+      search: store.search, searchIds: store.searchIds,
+    }, 0, 2.5, 2);
+    const url = new URL(axios.get.mock.calls[0][0], "http://localhost");
+    expect(url.searchParams.get("start")).toBe("20");
+    expect(url.searchParams.get("rows")).toBe("20");
+    expect(url.searchParams.getAll("fq")).toEqual(expect.arrayContaining([
+      "latitude:0", "longitude:2.5", 'country:"Estonia"',
+    ]));
+    expect(url.searchParams.get("q")).toBe('"quartz"');
+    expect(url.searchParams.get("sort")).toBe("unitid desc,geocase_id asc");
+    expect(result).toEqual(response);
   });
 
   it("loads country marker counts from Solr coordinate statistics", async () => {
@@ -251,16 +356,16 @@ describe("migrated search state and API contract", () => {
     expect(detail.filteredItemHeaders.length).toBeGreaterThanOrEqual(0);
     const front = useFrontpageStore();
     expect(front.getCards.fossil.url).toBe(
-      '/search?recordbasis="Fossil" "FossilSpecimen"',
+      '/search?recordbasis="Fossil"',
     );
     expect(front.getCards.mineral.url).toBe(
-      '/search?recordbasis="Mineral" "MineralSpecimen"',
+      '/search?recordbasis="Mineral"',
     );
     expect(front.getCards.rock.url).toBe(
-      '/search?recordbasis="Rock" "RockSpecimen"',
+      '/search?recordbasis="Rock"',
     );
     expect(front.getCards.meteorite.url).toBe(
-      '/search?recordbasis="Meteorite" "MeteoriteSpecimen"',
+      '/search?recordbasis="Meteorite"',
     );
     axios.get.mockResolvedValue({
       data: { response: { docs: [{ unitid: "42" }], numFound: 1 } },

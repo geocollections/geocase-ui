@@ -1,5 +1,5 @@
 <script setup>
-import { computed, onBeforeUnmount, ref } from "vue";
+import { computed, onBeforeUnmount, onMounted, ref } from "vue";
 import { useI18n } from "vue-i18n";
 import { useRoute, useRouter } from "#imports";
 import { useSearchStore } from "@/stores/search";
@@ -8,7 +8,25 @@ const { t } = useI18n();
 const store = useSearchStore();
 const route = useRoute();
 const router = useRouter();
-const open = ref(true);
+const open = ref(false);
+const mapPreferenceKey = "geocase:search-map-open";
+onMounted(() => {
+  let saved = null;
+  try {
+    saved = localStorage.getItem(mapPreferenceKey);
+  } catch {
+    saved = null;
+  }
+  open.value = saved === "true" || (saved !== "false" && window.matchMedia("(min-width: 960px)").matches);
+});
+function toggleMap() {
+  open.value = !open.value;
+  try {
+    localStorage.setItem(mapPreferenceKey, String(open.value));
+  } catch {
+    return;
+  }
+}
 const expanded = ref(false);
 const hasArea = computed(() => !!store.search.map.value);
 let viewportUpdateTimeout;
@@ -70,6 +88,23 @@ function clearArea() {
             t("search.tab.map")
           }}
         </h2>
+        <div aria-live="polite" aria-atomic="true">
+          <p
+            v-if="!store.isMapLoading && !store.isLoading"
+            class="tw:mt-1 tw:text-sm tw:font-medium"
+          >
+            {{ t(store.mapResultsLevel === 'country' ? 'search.layout.mapCountrySummary' : 'search.layout.mapLocationSummary', {
+              count: store.mapResults.length.toLocaleString(),
+              records: store.responseResultsCount.toLocaleString(),
+            }) }}
+          </p>
+          <p
+            v-if="!store.isMapLoading && !store.isLoading && store.mapResultsLevel === 'points' && store.mapResults.length >= 3000"
+            class="tw:mt-2 tw:text-sm tw:font-semibold tw:text-warning"
+          >
+            {{ t('search.layout.mapLimitNotice') }}
+          </p>
+        </div>
         <p class="tw:mt-1 tw:text-xs tw:text-muted">
           {{ t("search.layout.mapNote") }}
         </p>
@@ -104,7 +139,7 @@ function clearArea() {
           :label="t(open ? 'search.layout.hideMap' : 'search.layout.showMap')"
           :aria-expanded="open"
           aria-controls="results-map-content"
-          @click="open = !open"
+          @click="toggleMap"
         />
       </div>
     </div>

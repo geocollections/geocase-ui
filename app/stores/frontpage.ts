@@ -47,25 +47,25 @@ export const useFrontpageStore = defineStore("frontpage", {
         isLeaving: false,
       },
       fossil: {
-        url: '/search?recordbasis="Fossil" "FossilSpecimen"',
+        url: '/search?recordbasis="Fossil"',
         image:
           "https://files.geocollections.info/img/geocase/front_page/fossil2.jpg",
         isLeaving: false,
       },
       mineral: {
-        url: '/search?recordbasis="Mineral" "MineralSpecimen"',
+        url: '/search?recordbasis="Mineral"',
         image:
           "https://files.geocollections.info/img/geocase/front_page/mineral1.jpg",
         isLeaving: false,
       },
       rock: {
-        url: '/search?recordbasis="Rock" "RockSpecimen"',
+        url: '/search?recordbasis="Rock"',
         image:
           "https://files.geocollections.info/img/geocase/front_page/rock2.jpg",
         isLeaving: false,
       },
       meteorite: {
-        url: '/search?recordbasis="Meteorite" "MeteoriteSpecimen"',
+        url: '/search?recordbasis="Meteorite"',
         image:
           "https://files.geocollections.info/img/geocase/front_page/meteorite2.jpg",
         isLeaving: false,

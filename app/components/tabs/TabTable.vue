@@ -547,7 +547,7 @@ export default {
       }));
       return [
         ...columns.filter((column) => column.accessorKey === "unitid"),
-        ...(this.tableDensity > 0
+        ...(this.tableDensity > 0 && this.responseResults.some((item) => item.images?.some(Boolean))
           ? [
               {
                 accessorKey: "preview",
@@ -625,3 +625,9 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+:deep(td a) {
+  font-size: inherit;
+}
+</style>

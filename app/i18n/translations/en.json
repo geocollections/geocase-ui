@@ -99,7 +99,7 @@
     "notesTitle": "A few useful things to know",
     "notes": {
       "locations": "Not every record has coordinates, so some specimens will not appear on the map.",
-      "mapDetails": "Hover over a map marker to see its locality. Select a marker to open that specimen record. If several records have the same or nearby locality, use the results table to choose between them.",
+      "mapDetails": "Hover over a marker to see its locality. Select a numbered marker to choose between records at that location, or a single marker to open its record.",
       "imageDetails": "Hover over an image thumbnail for record details. Select it to open the larger gallery, browse images from the current results page, and follow links to the original image or specimen record.",
       "images": "A record may have no image or several images. The number of images can therefore differ from the number of records.",
       "sources": "Collection records are provided by museums and research institutions. Check the record for source, rights and contact information."
@@ -354,6 +354,7 @@
       }
     },
     "map": {
+      "activate": "Click to activate the map",
       "search": "Search",
       "numFound": "Specimens",
       "itemsPerPageText": "Rows per page"
@@ -477,14 +478,22 @@
   "search": {
     "layout": {
       "results": "Results",
-      "mapNote": "Select a country to show records with coordinates from the first 1,000 table results. Draw an area to filter.",
+      "mapLocationSummary": "Map: {count} locations · Table: {records} records",
+      "mapCountrySummary": "Map: {count} countries · Table: {records} records",
+      "mapLimitNotice": "The map has reached its 3,000-location limit. Narrow your search to explore a smaller set of locations. The table still includes all matching records.",
+      "mapNote": "Select a country to show up to 3,000 distinct locations. Numbered markers show how many matching records share the same coordinates; select one to choose a record. Draw an area to filter.",
+      "mapRetry": "Retry",
       "hideMap": "Hide map",
       "showMap": "Show map",
       "expandMap": "Expand map",
       "reduceMap": "Reduce map",
       "clearArea": "Clear area"
     },
-    "imagesOnlyNotice": "Only results with images are shown in this view.",
+    "loadError": "Could not load results",
+    "staleResults": "The previous results are still displayed. They have not been updated for your latest search.",
+    "retry": "Try again",
+    "imagesOnlyNotice": "This view applies the “Has image?” filter. The result count includes only matching records with images and may be smaller than in the table view.",
+    "imageRecords": "Records with images",
     "activeFilters": {
       "keyword": "Search",
       "title": "Active filters",
@@ -600,10 +609,14 @@
     },
     "pagination": "Paginate by {value}",
     "export": {
+      "currentPage": "Export this page",
+      "allResults": "Export all search results (CSV)",
+      "progress": "Preparing export: {loaded} / {total} records",
+      "cancel": "Cancel",
       "export": "Export",
       "exportToCsv": "Export to CSV",
       "copyToClipboard": "Copy to clipboard",
-      "downloadFailed": "Download failed: Not enough data!",
+      "downloadFailed": "Export failed. Please try again.",
       "exportSuccessful": "Exported to <b>{type}</b>!",
       "copySuccessful": "Copied to <b>clipboard</b>!",
       "copyFailed": "Copying failed: Nothing to copy!"

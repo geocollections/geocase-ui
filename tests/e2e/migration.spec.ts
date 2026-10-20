@@ -109,6 +109,12 @@ test.beforeEach(async ({ page }) => {
           },
         },
       });
+    if (url.searchParams.has("group.func"))
+      return route.fulfill({ json: { grouped: {
+        [url.searchParams.get("group.func")!]: { groups: [
+          { groupValue: "59.4,24.7", doclist: { numFound: 1, docs: [specimen] } },
+        ] },
+      } } });
     const isDetail = url.searchParams.get("q")?.startsWith("geocase_id:");
     return route.fulfill({
       json: {
@@ -169,10 +175,11 @@ test("server table sorting, pagination, export and specimen navigation", async (
     .getByRole("button", { name: "Object ID", exact: true })
     .click();
   await expect(page).toHaveURL(/sort_by=unitid/);
-  await page.getByRole("button", { name: "export table" }).click();
+  await page.getByRole("button", { name: "Export", exact: true }).click();
+  await page.getByRole("menuitem", { name: "Export this page" }).hover();
   const download = page.waitForEvent("download");
   await page.getByText("CSV", { exact: true }).click();
-  expect((await download).suggestedFilename()).toBe("GeoCASe.csv");
+  expect((await download).suggestedFilename()).toBe("GeoCASe-page-1.csv");
   await page
     .locator(".table-top")
     .getByRole("button", { name: "Next page" })
@@ -329,6 +336,11 @@ test("homepage map loads its worker and opens locality specimens", async ({
   page.on("pageerror", (error) => errors.push(error.message));
   await page.goto("/");
   await page.getByRole("button", { name: "OK", exact: true }).click();
+  const activateMap = page.getByRole("button", { name: "Click to activate the map" });
+  await activateMap.scrollIntoViewIfNeeded();
+  await expect(page.locator(".map-canvas")).toHaveClass(/map-inactive/);
+  await activateMap.click();
+  await expect(page.locator(".map-canvas")).not.toHaveClass(/map-inactive/);
   const canvas = page.locator(".map-canvas canvas");
   await canvas.scrollIntoViewIfNeeded();
   await expect(canvas).toBeVisible();
@@ -549,12 +561,12 @@ test("images tab automatically searches for records with images", async ({
     0,
   );
   await expect(
-    page.getByText("Only results with images are shown in this view."),
+    page.getByText(/This view applies the .* filter\./),
   ).toBeVisible();
   await page.getByRole("tab", { name: /table/i }).click();
   await expect(page).not.toHaveURL(/has_image=/);
   await expect(
-    page.getByText("Only results with images are shown in this view."),
+    page.getByText(/This view applies the .* filter\./),
   ).toHaveCount(0);
   expect(new URL(page.url()).searchParams.get("q")).toBe("quartz");
   expect(new URL(page.url()).searchParams.get("country")).toBe('"Estonia"');
@@ -616,6 +628,12 @@ for (const locale of ["", "/ee"]) {
       '#search-map .map-count-icon[title="Estonia: 75"]',
     );
     await expect(countryMarker).toBeVisible();
+    const circle = await countryMarker.boundingBox();
+    const number = await countryMarker.locator("span").boundingBox();
+    expect(circle).not.toBeNull();
+    expect(number).not.toBeNull();
+    expect(Math.abs((circle!.x + circle!.width / 2) - (number!.x + number!.width / 2))).toBeLessThan(1);
+    expect(Math.abs((circle!.y + circle!.height / 2) - (number!.y + number!.height / 2))).toBeLessThan(1);
     await countryMarker.click();
     await expect(page).toHaveURL(/country=/);
     const marker = page
@@ -627,6 +645,55 @@ for (const locale of ["", "/ee"]) {
     await expect(page.getByRole("heading", { level: 1 })).toHaveText("Quartz");
   });
 }
+
+test("shared coordinate marker opens a paginated record picker", async ({ page }) => {
+  await page.route("**/api?**", async (route) => {
+    const url = new URL(route.request().url());
+    if (url.searchParams.has("group.func")) {
+      expect(url.searchParams.get("rows")).toBe("3000");
+      return route.fulfill({ json: { grouped: {
+        [url.searchParams.get("group.func")!]: { groups: [
+          { groupValue: "59.4,24.7", doclist: { numFound: 21, docs: [specimen] } },
+        ] },
+      } } });
+    }
+    if (url.searchParams.getAll("fq").includes("latitude:59.4")) {
+      const start = Number(url.searchParams.get("start"));
+      return route.fulfill({ json: { response: { numFound: 21, docs:
+        Array.from({ length: start === 0 ? 20 : 1 }, (_, index) => ({
+          ...specimen, geocase_id: `demo:${start + index + 1}`, unitid: `DEMO-${start + index + 1}`,
+        })),
+      } } });
+    }
+    await route.fallback();
+  });
+  await page.goto('/ee/search?country=Estonia');
+  await page.getByRole("button", { name: "OK", exact: true }).click();
+  const map = page.locator('#search-map');
+  await expect(map.locator('.leaflet-marker-icon')).toHaveCount(1);
+  await expect(map.locator('.map-count-icon')).toHaveCount(0);
+  await map.scrollIntoViewIfNeeded();
+  const point = await map.locator('.leaflet-marker-icon').boundingBox();
+  expect(point).not.toBeNull();
+  await page.mouse.move(point!.x + point!.width / 2, point!.y + point!.height / 2);
+  for (let step = 0; step < 5; step += 1) {
+    await page.mouse.wheel(0, -100);
+    await page.waitForTimeout(350);
+    if (await map.locator('.map-count-icon').count()) break;
+  }
+  const marker = map.locator('.map-count-icon');
+  await expect(marker).toHaveText("21");
+  await expect(marker).toBeInViewport();
+  await marker.click();
+  const popup = page.locator('.leaflet-popup-content');
+  await expect(popup).toContainText("Tallinn (21)");
+  await expect(popup.locator('a')).toHaveCount(20);
+  await popup.getByRole('button', { name: 'Näita rohkem' }).click();
+  await expect(popup.locator('a')).toHaveCount(21);
+  await expect(popup.getByRole('button', { name: 'Näita rohkem' })).not.toBeVisible();
+  await popup.locator('a').last().click();
+  await expect(page).toHaveURL(/\/ee\/specimen\/demo(?::|%3A)21/);
+});
 
 for (const width of [390, 768]) {
   test(`search filters are selectable in the ${width}px drawer`, async ({
@@ -972,7 +1039,7 @@ test("image-only checkbox changes table results and can leave the image gallery"
   );
   await expect(page.locator("#table")).toContainText("NO-IMAGE");
   await expect(
-    page.getByText("Only results with images are shown in this view."),
+    page.getByText(/This view applies the .* filter\./),
   ).toHaveCount(0);
   expect(new URL(page.url()).searchParams.get("q")).toBe("quartz");
   await page.getByRole("button", { name: "Toggle navigation drawer" }).click();
