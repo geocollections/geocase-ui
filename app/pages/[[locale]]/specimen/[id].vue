@@ -1,5 +1,5 @@
 <script setup>
-import { computed, watch } from "vue";
+import { computed, ref, useId, watch } from "vue";
 import { storeToRefs } from "pinia";
 import { useI18n } from "vue-i18n";
 import { onBeforeRouteLeave, useRoute } from "#imports";
@@ -60,6 +60,17 @@ const {
   specimenVerifier,
   unitGuid,
 } = storeToRefs(detail);
+
+const referencesExpanded = ref(false);
+const referencesId = useId();
+const visibleReferences = computed(() =>
+  referencesExpanded.value
+    ? itemReference.value
+    : itemReference.value?.slice(0, 3),
+);
+watch(itemReference, () => {
+  referencesExpanded.value = false;
+});
 
 const getSpecimenType = computed(() =>
   isItemMineral.value
@@ -406,11 +417,23 @@ function getCetafIdentifierUrl(country, identifier) {
 
             <template v-slot:item.reference>
               <div v-if="itemReference && itemReference.length > 0">
-                <ul class="tw:list-[circle] tw:pl-5">
-                  <li v-for="(item, index) in itemReference" :key="index">
+                <ul :id="referencesId" class="tw:list-[circle] tw:pl-5">
+                  <li v-for="(item, index) in visibleReferences" :key="index">
                     <span v-html="item" />
                   </li>
                 </ul>
+                <UButton
+                  v-if="itemReference.length > 3"
+                  :label="t(referencesExpanded ? 'detail.showLess' : 'detail.showMore')"
+                  :trailing-icon="referencesExpanded ? 'i-lucide-chevron-up' : 'i-lucide-chevron-down'"
+                  :aria-expanded="referencesExpanded"
+                  :aria-controls="referencesId"
+                  color="primary"
+                  variant="link"
+                  size="sm"
+                  class="tw:mt-2 tw:p-0 tw:font-semibold"
+                  @click="referencesExpanded = !referencesExpanded"
+                />
               </div>
             </template>
 
