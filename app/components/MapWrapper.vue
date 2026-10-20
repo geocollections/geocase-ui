@@ -14,6 +14,7 @@ import "leaflet/dist/leaflet.css";
 import "@geoman-io/leaflet-geoman-free/dist/leaflet-geoman.css";
 import { useSearchStore } from "@/stores/search";
 import { markRaw } from "vue";
+import SearchService from "@/services/SearchService";
 
 export default {
   name: "MapWrapper",
@@ -55,6 +56,7 @@ export default {
       resizeObserver: null,
       markers: [],
       markerLayer: null,
+      locationCountMarkers: [],
       markerIcon: markRaw(
         new L.divIcon({
           html: "<i class='v-icon notranslate fas fa-circle theme--light text-primary searchMap-marker-icon' style='font-size: 0.75rem; opacity: 0.5;'/>",
@@ -246,6 +248,7 @@ export default {
     this.resizeObserver?.disconnect();
     if (this.map) {
       this.map.off("baselayerchange", this.handleLayerChange);
+      this.map.off("zoomend", this.updateLocationMarkerIcons);
       if (this.activateSearch) {
         this.map.off("moveend", this.handleMapViewportChange);
         this.terminateLeafletGeoman();
@@ -291,6 +294,7 @@ export default {
         L.control.scale({ imperial: false }).addTo(this.map);
 
         this.map.on("baselayerchange", this.handleLayerChange);
+        this.map.on("zoomend", this.updateLocationMarkerIcons);
         if (this.activateSearch) {
           this.map.on("moveend", this.handleMapViewportChange);
         }
@@ -308,6 +312,22 @@ export default {
         this.map.addLayer(this.overlayMaps[0].leafletObject);
       } else {
         this.map.removeLayer(this.overlayMaps[0].leafletObject);
+      }
+    },
+
+    locationMarkerIcon(count) {
+      if (!this.map || this.map.getZoom() < 7) return this.markerIcon;
+      return L.divIcon({
+        html: `<span>${Number(count).toLocaleString()}</span>`,
+        className: "map-count-icon map-country-count",
+        iconSize: [40, 40],
+        iconAnchor: [20, 20],
+      });
+    },
+
+    updateLocationMarkerIcons() {
+      for (const { marker, count } of this.locationCountMarkers) {
+        marker.setIcon(this.locationMarkerIcon(count));
       }
     },
 
@@ -344,6 +364,64 @@ export default {
       }
     },
 
+    bindLocationPopup(marker, item) {
+      const container = document.createElement("div");
+      container.style.cssText = "min-width:240px;max-width:320px";
+      const heading = document.createElement("strong");
+      heading.textContent = `${item.locality || `${item.latitude}, ${item.longitude}`} (${item.mapCount})`;
+      container.append(heading);
+      const list = document.createElement("div");
+      list.style.cssText = "max-height:240px;overflow:auto;margin-top:8px";
+      container.append(list);
+      const next = document.createElement("button");
+      next.type = "button";
+      next.textContent = this.$t("detail.showMore");
+      next.style.cssText = "margin-top:8px;text-decoration:underline;cursor:pointer";
+      container.append(next);
+      const store = useSearchStore();
+      const params = {
+        page: 1, paginateBy: 20,
+        sortBy: [...store.sortBy], sortDesc: [...store.sortDesc],
+        searchIds: [...store.searchIds],
+        search: JSON.parse(JSON.stringify(store.search)),
+      };
+      let page = 1;
+      let loading = false;
+      let loaded = false;
+      const load = async () => {
+        if (loading) return;
+        loading = true;
+        next.disabled = true;
+        try {
+          const response = await SearchService.searchMapLocation(params, item.latitude, item.longitude, page);
+          for (const record of response.docs) {
+            const link = document.createElement("a");
+            link.textContent = [record.fullscientificname, record.unitid, record.geocase_id].filter(Boolean).join(" · ");
+            link.href = this.$router.resolve({
+              name: "Detail",
+              params: { id: record.geocase_id, ...(this.$route.params.locale ? { locale: this.$route.params.locale } : {}) },
+            }).href;
+            link.style.cssText = "display:block;padding:8px 0;border-bottom:1px solid #ddd";
+            list.append(link);
+          }
+          loaded = true;
+          next.hidden = page * 20 >= response.numFound;
+          page += 1;
+        } catch {
+          next.textContent = this.$t("search.layout.mapRetry");
+        } finally {
+          loading = false;
+          next.disabled = false;
+        }
+      };
+      next.addEventListener("click", load);
+      marker.bindPopup(container, { maxWidth: 360 });
+      marker.on("click", () => {
+        if (this.isGeomanInteractionActive()) { marker.closePopup(); return; }
+        if (!loaded) load();
+      });
+    },
+
     formatMapCount(value) {
       if (value >= 1_000_000) return `${(value / 1_000_000).toFixed(1)}M`;
       if (value >= 1_000) return `${(value / 1_000).toFixed(1)}k`;
@@ -353,6 +431,7 @@ export default {
     setMarkers(localities) {
       if (this.markerLayer !== null) this.map.removeLayer(this.markerLayer);
       this.markers = [];
+      this.locationCountMarkers = [];
 
       if (localities && localities.length > 0) {
         localities.forEach((item) => {
@@ -370,8 +449,8 @@ export default {
                 [Number(item.latitude), Number(item.longitude)],
                 {
                   icon: L.divIcon({
-                    html: `<span class="tw:absolute tw:inset-0 tw:flex tw:items-center tw:justify-center tw:text-center tw:leading-none tw:whitespace-nowrap">${this.formatMapCount(item.mapCount)}</span>`,
-                    className: "map-count-icon map-country-count tw:relative",
+                    html: `<span class="tw:leading-none tw:whitespace-nowrap">${this.formatMapCount(item.mapCount)}</span>`,
+                    className: "map-count-icon map-country-count",
                     iconSize: [radius * 2, radius * 2],
                     iconAnchor: [radius, radius],
                   }),
@@ -394,14 +473,19 @@ export default {
                 lng: parseFloat(item.longitude),
               },
               {
-                icon: this.markerIcon,
+                icon: !this.isDetailView && item.mapCount > 1
+                  ? this.locationMarkerIcon(item.mapCount)
+                  : this.markerIcon,
                 pmIgnore: true,
                 title:
                   item.fullscientificname || item.unitid || item.locality || "",
               },
             );
 
-            if (this.isDetailView ? item.recordURI : item.geocase_id) {
+            if (!this.isDetailView && item.mapCount > 1) {
+              this.locationCountMarkers.push({ marker: markRaw(marker), count: item.mapCount });
+              this.bindLocationPopup(marker, item);
+            } else if (this.isDetailView ? item.recordURI : item.geocase_id) {
               marker.on("click", () => {
                 if (this.isGeomanInteractionActive()) return;
                 if (this.isDetailView) {
