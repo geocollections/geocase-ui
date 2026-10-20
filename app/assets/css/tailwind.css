@@ -163,6 +163,19 @@
   @apply tw:flex tw:items-center tw:justify-center tw:rounded-full tw:border-2 tw:border-geocase-600/85 tw:bg-geocase-200/90 tw:text-center tw:text-geocase-900 tw:text-xs tw:font-bold tw:shadow-md tw:box-border;
 }
 
+/* Override Leaflet's display:block without changing marker positioning. */
+.leaflet-marker-icon.map-country-count {
+  display: grid;
+  place-items: center;
+  line-height: 1;
+}
+
+.leaflet-marker-icon.map-country-count > span {
+  display: block;
+  line-height: 1;
+  white-space: nowrap;
+}
+
 .institution-location-dot {
   @apply tw:inline-grid tw:shrink-0 tw:place-items-center tw:rounded-full tw:border-3 tw:border-white tw:bg-home-link tw:text-white tw:shadow-lg;
 }
