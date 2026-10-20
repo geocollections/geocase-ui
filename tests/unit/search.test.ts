@@ -14,54 +14,58 @@ beforeEach(() => {
   i18n.locale.value = "en";
 });
 describe("migrated search state and API contract", () => {
-  it("maps the first 1000 table results without viewport filtering", async () => {
+  it("limits the map to 3000 coordinate groups, counts duplicates and preserves table rows", async () => {
     const store = useSearchStore();
-    const tableResults = [{ unitid: "table-row" }];
+    const tableResults = [{ unitid: "table-row" }, { unitid: "same-location-row" }];
     store.responseResults = tableResults;
-    store.mapZoom = 9;
     store.mapBounds = { west: 20, south: 55, east: 30, north: 60 };
     store.updateSearchField({ id: "q", value: "quartz" });
-    store.updateSearchField({
-      id: "country",
-      value: "Estonia",
-      lookUpType: "equals",
-    });
-    axios.get.mockResolvedValue({
-      data: {
-        response: {
-          docs: [
-            {
-              geocase_id: "mapped-record",
-              has_map: true,
-              latitude: 0,
-              longitude: 0,
-            },
-            { geocase_id: "missing" },
-          ],
-          numFound: 1200,
-        },
-      },
-    });
-
+    store.updateSearchField({ id: "country", value: "Estonia", lookUpType: "equals" });
+    axios.get.mockResolvedValue({ data: {
+      grouped: { "concat(latitude,',',longitude)": { groups: [
+        { groupValue: "0,0", doclist: { numFound: 4000, docs: [
+          { geocase_id: "mapped-record", latitude: 0, longitude: 0 },
+        ] } },
+        { groupValue: "1,2", doclist: { numFound: 1, docs: [
+          { geocase_id: "another-location", latitude: 1, longitude: 2 },
+        ] } },
+      ] } },
+    } });
     await store.fetchMapResults();
-
     const url = new URL(axios.get.mock.calls[0][0], "http://localhost");
-    expect(url.searchParams.get("start")).toBe("0");
-    expect(url.searchParams.get("rows")).toBe("1000");
+    expect(url.searchParams.get("rows")).toBe("3000");
+    expect(url.searchParams.get("group.func")).toBe("concat(latitude,',',longitude)");
+    expect(url.searchParams.get("group.limit")).toBe("1");
     expect(url.searchParams.get("q")).toBe('"quartz"');
-    expect(url.searchParams.getAll("fq")).not.toContain("has_map:true");
-    expect(
-      url.searchParams
-        .getAll("fq")
-        .some((filter) => filter.includes("ENVELOPE")),
-    ).toBe(false);
-    expect(url.searchParams.has("facet")).toBe(false);
-    expect(url.searchParams.has("facet.field")).toBe(false);
+    expect(url.searchParams.getAll("fq")).toContain("has_map:true");
+    expect(url.searchParams.getAll("fq").some((filter) => filter.includes("ENVELOPE"))).toBe(false);
     expect(store.mapResults).toEqual([
-      { geocase_id: "mapped-record", has_map: true, latitude: 0, longitude: 0 },
+      { geocase_id: "mapped-record", has_map: true, latitude: 0, longitude: 0, mapCount: 4000 },
+      { geocase_id: "another-location", has_map: true, latitude: 1, longitude: 2, mapCount: 1 },
     ]);
     expect(store.responseResults).toEqual(tableResults);
     expect(store.isMapLoading).toBe(false);
+  });
+
+  it("pages through all records at an exact location with active search filters", async () => {
+    const store = useSearchStore();
+    store.updateSearchField({ id: "q", value: "quartz" });
+    store.updateSearchField({ id: "country", value: '"Estonia"' });
+    const response = { docs: [{ geocase_id: "second-page" }], numFound: 21 };
+    axios.get.mockResolvedValue({ data: { response } });
+    const result = await SearchService.searchMapLocation({
+      page: 1, paginateBy: 20, sortBy: ["unitid"], sortDesc: [true],
+      search: store.search, searchIds: store.searchIds,
+    }, 0, 2.5, 2);
+    const url = new URL(axios.get.mock.calls[0][0], "http://localhost");
+    expect(url.searchParams.get("start")).toBe("20");
+    expect(url.searchParams.get("rows")).toBe("20");
+    expect(url.searchParams.getAll("fq")).toEqual(expect.arrayContaining([
+      "latitude:0", "longitude:2.5", 'country:"Estonia"',
+    ]));
+    expect(url.searchParams.get("q")).toBe('"quartz"');
+    expect(url.searchParams.get("sort")).toBe("unitid desc,geocase_id asc");
+    expect(result).toEqual(response);
   });
 
   it("loads country marker counts from Solr coordinate statistics", async () => {

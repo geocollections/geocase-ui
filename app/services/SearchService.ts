@@ -188,22 +188,39 @@ class SearchService {
       });
     }
 
-    const response = await this.search(
-      { ...params, page: 1, paginateBy: 1000 },
-      { includeFacets: false },
-    );
-    // Limit first, then exclude records without valid coordinates.
-    return (response?.response?.docs ?? []).filter(
-      (record: Record<string, unknown>) =>
-        record.latitude != null &&
-        record.latitude !== "" &&
-        record.longitude != null &&
-        record.longitude !== "" &&
-        Number.isFinite(Number(record.latitude)) &&
-        Number.isFinite(Number(record.longitude)) &&
-        Math.abs(Number(record.latitude)) <= 90 &&
-        Math.abs(Number(record.longitude)) <= 180,
-    );
+    const searchFields = buildSearchFieldsQuery(mapSearch, params.searchIds, false);
+    const grouping = "concat(latitude,',',longitude)";
+    const sort = buildSort(params.sortBy, params.sortDesc, params.search);
+    const url = `${API_URL}?start=0&rows=3000&group=true&group.func=${encodeURIComponent(grouping)}&group.limit=1&sort=${sort}&fl=geocase_id,unitid,fullscientificname,locality,country,latitude,longitude&fq=latitude:[-90%20TO%2090]&fq=longitude:[-180%20TO%20180]&${searchFields}`;
+    const res = await axios.get(url);
+    const groups: SolrLocalityGroup[] = res.data?.grouped?.[grouping]?.groups ?? [];
+    return groups.flatMap((group) => {
+      const record = group.doclist?.docs?.[0];
+      if (!record || record.latitude == null || record.longitude == null) return [];
+      return [{ ...record, has_map: true, mapCount: group.doclist?.numFound ?? 1 }];
+    });
+  }
+
+  static async searchMapLocation(
+    params: SearchRequest,
+    latitude: number,
+    longitude: number,
+    page = 1,
+  ) {
+    const hasMapField = params.search.has_map;
+    if (!hasMapField) throw new Error("Map search requires the has_map field.");
+
+    const searchFields = buildSearchFieldsQuery({
+      ...params.search,
+      has_map: { ...hasMapField, value: hasMapField.value ?? "true" },
+    }, params.searchIds, false);
+    const requestedSort = buildSort(params.sortBy, params.sortDesc, params.search);
+    const sort = requestedSort.includes("geocase_id ")
+      ? requestedSort
+      : [requestedSort, "geocase_id asc"].filter(Boolean).join(",");
+    const url = `${API_URL}?start=${(page - 1) * 20}&rows=20&sort=${sort}&fl=geocase_id,unitid,fullscientificname,locality&fq=latitude:${encodeURIComponent(latitude)}&fq=longitude:${encodeURIComponent(longitude)}&${searchFields}`;
+    const res = await axios.get(url);
+    return res.data.response;
   }
 
   static async getDetailView(id: string) {
