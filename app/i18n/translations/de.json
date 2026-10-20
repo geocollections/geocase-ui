@@ -477,6 +477,9 @@
   "search": {
     "layout": {
       "results": "Ergebnisse",
+      "mapLocationSummary": "Karte: {count} Standorte · Tabelle: {records} Datensätze",
+      "mapCountrySummary": "Karte: {count} Länder · Tabelle: {records} Datensätze",
+      "mapLimitNotice": "Die Karte hat ihr Limit von 3.000 Standorten erreicht. Grenzen Sie Ihre Suche ein, um weniger Standorte zu untersuchen. Die Tabelle enthält weiterhin alle passenden Datensätze.",
       "mapNote": "Wählen Sie ein Land, um bis zu 3.000 unterschiedliche Standorte anzuzeigen. Nummerierte Markierungen zeigen die Anzahl der Datensätze mit denselben Koordinaten; klicken Sie darauf, um einen Datensatz auszuwählen. Zeichnen Sie einen Bereich zum Filtern.",
       "mapRetry": "Erneut versuchen",
       "hideMap": "Karte ausblenden",

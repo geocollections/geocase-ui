@@ -478,6 +478,9 @@
   "search": {
     "layout": {
       "results": "Results",
+      "mapLocationSummary": "Map: {count} locations · Table: {records} records",
+      "mapCountrySummary": "Map: {count} countries · Table: {records} records",
+      "mapLimitNotice": "The map has reached its 3,000-location limit. Narrow your search to explore a smaller set of locations. The table still includes all matching records.",
       "mapNote": "Select a country to show up to 3,000 distinct locations. Numbered markers show how many matching records share the same coordinates; select one to choose a record. Draw an area to filter.",
       "mapRetry": "Retry",
       "hideMap": "Hide map",

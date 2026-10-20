@@ -88,6 +88,23 @@ function clearArea() {
             t("search.tab.map")
           }}
         </h2>
+        <div aria-live="polite" aria-atomic="true">
+          <p
+            v-if="!store.isMapLoading && !store.isLoading"
+            class="tw:mt-1 tw:text-sm tw:font-medium"
+          >
+            {{ t(store.mapResultsLevel === 'country' ? 'search.layout.mapCountrySummary' : 'search.layout.mapLocationSummary', {
+              count: store.mapResults.length.toLocaleString(),
+              records: store.responseResultsCount.toLocaleString(),
+            }) }}
+          </p>
+          <p
+            v-if="!store.isMapLoading && !store.isLoading && store.mapResultsLevel === 'points' && store.mapResults.length >= 3000"
+            class="tw:mt-2 tw:text-sm tw:font-semibold tw:text-warning"
+          >
+            {{ t('search.layout.mapLimitNotice') }}
+          </p>
+        </div>
         <p class="tw:mt-1 tw:text-xs tw:text-muted">
           {{ t("search.layout.mapNote") }}
         </p>
