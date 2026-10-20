@@ -255,16 +255,16 @@ describe("migrated search state and API contract", () => {
     expect(detail.filteredItemHeaders.length).toBeGreaterThanOrEqual(0);
     const front = useFrontpageStore();
     expect(front.getCards.fossil.url).toBe(
-      '/search?recordbasis="Fossil" "FossilSpecimen"',
+      '/search?recordbasis="Fossil"',
     );
     expect(front.getCards.mineral.url).toBe(
-      '/search?recordbasis="Mineral" "MineralSpecimen"',
+      '/search?recordbasis="Mineral"',
     );
     expect(front.getCards.rock.url).toBe(
-      '/search?recordbasis="Rock" "RockSpecimen"',
+      '/search?recordbasis="Rock"',
     );
     expect(front.getCards.meteorite.url).toBe(
-      '/search?recordbasis="Meteorite" "MeteoriteSpecimen"',
+      '/search?recordbasis="Meteorite"',
     );
     axios.get.mockResolvedValue({
       data: { response: { docs: [{ unitid: "42" }], numFound: 1 } },
