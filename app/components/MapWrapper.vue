@@ -1,10 +1,55 @@
 <template>
-  <div
-    :id="mapId"
-    :style="{
-      height: `${height}`,
-    }"
-  ></div>
+  <div>
+    <div
+      :id="mapId"
+      :style="{
+        height: `${height}`,
+      }"
+    ></div>
+    <details v-if="markers.length" class="tw:bg-default tw:p-3">
+      <summary class="tw:cursor-pointer tw:py-2 tw:font-semibold">
+        {{ $t("a11y.mapLocations") }}
+      </summary>
+      <p role="status" class="tw:my-2 tw:text-sm">
+        {{
+          $t("a11y.locationRange", {
+            start: locationPage * 20 + 1,
+            end: Math.min((locationPage + 1) * 20, markers.length),
+            total: markers.length,
+          })
+        }}
+      </p>
+      <ul class="tw:space-y-1">
+        <li
+          v-for="(marker, index) in markers.slice(
+            locationPage * 20,
+            (locationPage + 1) * 20,
+          )"
+          :key="locationPage * 20 + index"
+        >
+          <button
+            type="button"
+            class="tw:min-h-11 tw:w-full tw:rounded tw:px-3 tw:py-2 tw:text-left tw:text-primary tw:underline"
+            @click="activateLocation(marker, $event)"
+          >
+            {{ $t("a11y.openLocation", { name: marker.options.title }) }}
+          </button>
+        </li>
+      </ul>
+      <div v-if="markers.length > 20" class="tw:mt-3 tw:flex tw:gap-3">
+        <UButton
+          :label="$t('a11y.previousLocations')"
+          :disabled="locationPage === 0"
+          @click="locationPage--"
+        />
+        <UButton
+          :label="$t('a11y.nextLocations')"
+          :disabled="(locationPage + 1) * 20 >= markers.length"
+          @click="locationPage++"
+        />
+      </div>
+    </details>
+  </div>
 </template>
 
 <script>
@@ -55,12 +100,16 @@ export default {
       map: null,
       resizeObserver: null,
       markers: [],
+      locationPage: 0,
+      popupTrigger: null,
       markerLayer: null,
       locationCountMarkers: [],
       markerIcon: markRaw(
         new L.divIcon({
           html: "<i class='v-icon notranslate fas fa-circle theme--light text-primary searchMap-marker-icon' style='font-size: 0.75rem; opacity: 0.5;'/>",
           className: "map-marker",
+          iconSize: [24, 24],
+          iconAnchor: [12, 12],
         }),
       ),
       baseMaps: markRaw([
@@ -258,6 +307,50 @@ export default {
   },
 
   methods: {
+    activateLocation(marker, event) {
+      this.popupTrigger = event.currentTarget;
+      this.map.panTo(marker.getLatLng());
+      marker.fire("click");
+    },
+    prepareMarker(marker) {
+      marker.on("add", () => {
+        const element = marker.getElement();
+        element.setAttribute(
+          "aria-label",
+          this.$t("a11y.openLocation", { name: marker.options.title }),
+        );
+        element.addEventListener("keydown", (event) => {
+          if (event.key === " ") {
+            event.preventDefault();
+            marker.fire("click");
+          }
+        });
+      });
+      marker.on("popupopen", ({ popup }) => {
+        const element = popup.getElement();
+        element.onkeydown = (event) => {
+          if (event.key === "Escape") {
+            event.preventDefault();
+            event.stopPropagation();
+            marker.closePopup();
+          }
+        };
+        element.setAttribute("tabindex", "-1");
+        element.setAttribute("role", "region");
+        element.setAttribute("aria-label", marker.options.title);
+        element
+          .querySelector(".leaflet-popup-close-button")
+          ?.setAttribute("aria-label", this.$t("a11y.closePopup"));
+        element.focus();
+      });
+      marker.on("popupclose", () => {
+        const target = this.popupTrigger?.isConnected
+          ? this.popupTrigger
+          : marker.getElement();
+        target?.focus();
+        this.popupTrigger = null;
+      });
+    },
     updateMapSize() {
       if (this.map && this.$el.clientWidth > 0 && this.$el.clientHeight > 0) {
         this.map.invalidateSize({ animate: false });
@@ -270,6 +363,7 @@ export default {
           L.map(this.mapId, {
             layers: [this.baseMaps[0].leafletObject],
             scrollWheelZoom: true,
+            zoomControl: false,
             minZoom: this.isDetailView ? 3 : undefined,
             maxBounds: this.isDetailView
               ? L.latLngBounds([-85, -180], [85, 180])
@@ -291,6 +385,16 @@ export default {
         );
         L.control.layers(baseMaps, overlayMaps).addTo(this.map);
 
+        L.control
+          .zoom({
+            zoomInTitle: this.$t("a11y.zoomIn"),
+            zoomOutTitle: this.$t("a11y.zoomOut"),
+          })
+          .addTo(this.map);
+        const layersToggle = this.map
+          .getContainer()
+          .querySelector(".leaflet-control-layers-toggle");
+        layersToggle?.setAttribute("aria-label", this.$t("a11y.mapLayers"));
         L.control.scale({ imperial: false }).addTo(this.map);
 
         this.map.on("baselayerchange", this.handleLayerChange);
@@ -372,16 +476,20 @@ export default {
       container.append(heading);
       const list = document.createElement("div");
       list.style.cssText = "max-height:240px;overflow:auto;margin-top:8px";
+      list.setAttribute("aria-live", "polite");
       container.append(list);
       const next = document.createElement("button");
       next.type = "button";
       next.textContent = this.$t("detail.showMore");
-      next.style.cssText = "margin-top:8px;text-decoration:underline;cursor:pointer";
+      next.style.cssText =
+        "margin-top:8px;text-decoration:underline;cursor:pointer";
       container.append(next);
       const store = useSearchStore();
       const params = {
-        page: 1, paginateBy: 20,
-        sortBy: [...store.sortBy], sortDesc: [...store.sortDesc],
+        page: 1,
+        paginateBy: 20,
+        sortBy: [...store.sortBy],
+        sortDesc: [...store.sortDesc],
         searchIds: [...store.searchIds],
         search: JSON.parse(JSON.stringify(store.search)),
       };
@@ -393,15 +501,32 @@ export default {
         loading = true;
         next.disabled = true;
         try {
-          const response = await SearchService.searchMapLocation(params, item.latitude, item.longitude, page);
+          const response = await SearchService.searchMapLocation(
+            params,
+            item.latitude,
+            item.longitude,
+            page,
+          );
           for (const record of response.docs) {
             const link = document.createElement("a");
-            link.textContent = [record.fullscientificname, record.unitid, record.geocase_id].filter(Boolean).join(" · ");
+            link.textContent = [
+              record.fullscientificname,
+              record.unitid,
+              record.geocase_id,
+            ]
+              .filter(Boolean)
+              .join(" · ");
             link.href = this.$router.resolve({
               name: "Detail",
-              params: { id: record.geocase_id, ...(this.$route.params.locale ? { locale: this.$route.params.locale } : {}) },
+              params: {
+                id: record.geocase_id,
+                ...(this.$route.params.locale
+                  ? { locale: this.$route.params.locale }
+                  : {}),
+              },
             }).href;
-            link.style.cssText = "display:block;padding:8px 0;border-bottom:1px solid #ddd";
+            link.style.cssText =
+              "display:block;padding:8px 0;border-bottom:1px solid #ddd";
             list.append(link);
           }
           loaded = true;
@@ -417,7 +542,10 @@ export default {
       next.addEventListener("click", load);
       marker.bindPopup(container, { maxWidth: 360 });
       marker.on("click", () => {
-        if (this.isGeomanInteractionActive()) { marker.closePopup(); return; }
+        if (this.isGeomanInteractionActive()) {
+          marker.closePopup();
+          return;
+        }
         if (!loaded) load();
       });
     },
@@ -431,6 +559,7 @@ export default {
     setMarkers(localities) {
       if (this.markerLayer !== null) this.map.removeLayer(this.markerLayer);
       this.markers = [];
+      this.locationPage = 0;
       this.locationCountMarkers = [];
 
       if (localities && localities.length > 0) {
@@ -473,17 +602,21 @@ export default {
                 lng: parseFloat(item.longitude),
               },
               {
-                icon: !this.isDetailView && item.mapCount > 1
-                  ? this.locationMarkerIcon(item.mapCount)
-                  : this.markerIcon,
+                icon:
+                  !this.isDetailView && item.mapCount > 1
+                    ? this.locationMarkerIcon(item.mapCount)
+                    : this.markerIcon,
                 pmIgnore: true,
                 title:
-                  item.fullscientificname || item.unitid || item.locality || "",
+                  [item.locality, item.fullscientificname || item.unitid || `${item.latitude}, ${item.longitude}`].filter(Boolean).join(" · ") + (item.mapCount > 1 ? ` (${item.mapCount})` : ""),
               },
             );
 
             if (!this.isDetailView && item.mapCount > 1) {
-              this.locationCountMarkers.push({ marker: markRaw(marker), count: item.mapCount });
+              this.locationCountMarkers.push({
+                marker: markRaw(marker),
+                count: item.mapCount,
+              });
               this.bindLocationPopup(marker, item);
             } else if (this.isDetailView ? item.recordURI : item.geocase_id) {
               marker.on("click", () => {
@@ -513,6 +646,7 @@ export default {
             this.markers.push(markRaw(marker));
           }
         });
+        this.markers.forEach((marker) => this.prepareMarker(marker));
         this.markerLayer = markRaw(L.layerGroup(this.markers));
         this.map.addLayer(this.markerLayer);
 
