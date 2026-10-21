@@ -5,7 +5,8 @@ type Language = "en" | "ee" | "de";
 
 export default defineNuxtRouteMiddleware((to) => {
   const settings = useSettingsStore();
-  const routeLocale = to.params.locale;
+  const routeLocale =
+    to.params.locale || to.path.match(/^\/(en|ee|de)(?:\/|$)/)?.[1];
   const locale =
     (Array.isArray(routeLocale) ? routeLocale[0] : routeLocale) ||
     settings.language ||
