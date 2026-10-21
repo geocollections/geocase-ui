@@ -256,7 +256,7 @@ test("localized about page and mobile navigation render without runtime errors",
   await page.getByRole("button", { name: "Menüü", exact: true }).click();
   await expect(page.getByRole("dialog")).toBeVisible();
   await expect(
-    page.getByRole("navigation", { name: "Site navigation" }),
+    page.getByRole("navigation", { name: "Veebilehe navigatsioon", exact: true }),
   ).toBeVisible();
   await page.keyboard.press("Escape");
   await expect(page.getByRole("dialog")).not.toBeVisible();

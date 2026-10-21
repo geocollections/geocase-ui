@@ -1,7 +1,7 @@
 <template>
   <v-card
     rounded="0"
-    class="CookieLaw tw:fixed! tw:bottom-0 tw:z-[100000] tw:w-full py-3 px-6"
+    class="CookieLaw tw:fixed! tw:bottom-0! tw:z-[100000]! tw:w-full! py-3 px-6"
     elevation="12"
   >
     <div class="d-flex flex-row justify-center">
