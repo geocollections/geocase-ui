@@ -24,7 +24,7 @@ const entries = computed(() =>
     <li v-for="[key, value] in entries" :key="key" class="tw:min-w-0">
       <details
         v-if="value !== null && typeof value === 'object'"
-        :open="depth < 2"
+        :open="true"
         class="tw:group"
       >
         <summary
