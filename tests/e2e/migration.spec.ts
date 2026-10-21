@@ -420,7 +420,7 @@ test("mobile search filters close with Escape and preserve navigation", async ({
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("/ee/search?q=quartz");
   await page.getByRole("button", { name: "OK", exact: true }).click();
-  await page.getByRole("button", { name: "Ava või sulge navigeerimismenüü" }).click();
+  await page.getByRole("button", { name: "Otsing ja filtrid", exact: true }).click();
   await expect(page.getByRole("dialog")).toBeVisible();
   await page.keyboard.press("Escape");
   await expect(page.getByRole("dialog")).not.toBeVisible();
@@ -705,7 +705,7 @@ for (const width of [390, 768]) {
     await page.goto("/search");
     await page.getByRole("button", { name: "OK", exact: true }).click();
     await page
-      .getByRole("button", { name: "Toggle navigation drawer" })
+      .getByRole("button", { name: "Search & filters", exact: true })
       .click();
     const drawer = page.getByRole("dialog");
     const nameMatchMode = drawer.locator("details").filter({
@@ -741,7 +741,7 @@ test("material subtype and age filters survive reload and appear in specimen det
   await page.setViewportSize({ width: 390, height: 1000 });
   await page.goto("/search?kindofunit=%22Pollen%22&age_min=400&age_max=450");
   await page.getByRole("button", { name: "OK", exact: true }).click();
-  await page.getByRole("button", { name: "Toggle navigation drawer" }).click();
+  await page.getByRole("button", { name: "Search & filters", exact: true }).click();
   const drawer = page.getByRole("dialog");
   await expect(
     drawer.getByRole("button", { name: "Material type", exact: true }),
@@ -965,7 +965,7 @@ test("typing in one search field survives another field submitting", async ({
   await page.setViewportSize({ width: 390, height: 1000 });
   await page.goto("/search");
   await page.getByRole("button", { name: "OK", exact: true }).click();
-  await page.getByRole("button", { name: "Toggle navigation drawer" }).click();
+  await page.getByRole("button", { name: "Search & filters", exact: true }).click();
   const drawer = page.getByRole("dialog");
   const quick = drawer.getByRole("textbox", {
     name: "Quick search...",
@@ -986,7 +986,7 @@ test("typing in one search field survives another field submitting", async ({
     .poll(() => new URL(page.url()).searchParams.get("q"))
     .toBe("fossil");
   await page.reload();
-  await page.getByRole("button", { name: "Toggle navigation drawer" }).click();
+  await page.getByRole("button", { name: "Search & filters", exact: true }).click();
   await expect(name).toHaveValue("Quartz");
   await expect(quick).toHaveValue("fossil");
 });
@@ -1024,7 +1024,7 @@ test("image-only checkbox changes table results and can leave the image gallery"
   await page.goto("/search?q=quartz");
   await page.getByRole("button", { name: "OK", exact: true }).click();
   await expect(page.locator("#table")).toContainText("NO-IMAGE");
-  await page.getByRole("button", { name: "Toggle navigation drawer" }).click();
+  await page.getByRole("button", { name: "Search & filters", exact: true }).click();
   const drawer = page.getByRole("dialog");
   const checkbox = drawer.getByRole("checkbox", {
     name: "Show only records with images",
@@ -1040,7 +1040,7 @@ test("image-only checkbox changes table results and can leave the image gallery"
   await page.keyboard.press("Escape");
   await page.getByRole("tab", { name: /images/i }).click();
   await expect(page).toHaveURL(/has_image=true/);
-  await page.getByRole("button", { name: "Toggle navigation drawer" }).click();
+  await page.getByRole("button", { name: "Search & filters", exact: true }).click();
   await expect(checkbox).toBeChecked();
   await checkbox.uncheck();
   await expect(page).not.toHaveURL(/has_image=/);
@@ -1054,7 +1054,7 @@ test("image-only checkbox changes table results and can leave the image gallery"
     page.getByText(/This view applies the .* filter\./),
   ).toHaveCount(0);
   expect(new URL(page.url()).searchParams.get("q")).toBe("quartz");
-  await page.getByRole("button", { name: "Toggle navigation drawer" }).click();
+  await page.getByRole("button", { name: "Search & filters", exact: true }).click();
   await checkbox.check();
   await expect(page).toHaveURL(/has_image=true/);
 });
@@ -1410,5 +1410,46 @@ for (const width of [390, 1440]) {
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
     const emptyRows = await page.locator("table tr").evaluateAll((rows) => rows.filter((row) => !row.querySelector("td")?.textContent?.trim()).length);
     expect(emptyRows).toBe(0);
+  });
+}
+
+for (const width of [390, 768, 1024, 1440]) {
+  test(`search filters have a visible labelled entry point at ${width}px`, async ({ page }) => {
+    await page.setViewportSize({ width, height: 1000 });
+    await page.goto('/search?q=quartz&country=%22Estonia%22');
+    await page.getByRole("button", { name: "OK", exact: true }).click();
+    await expect(page.getByRole("heading", { level: 1 })).toContainText("75");
+    const toggle = page.locator("#search-filters-toggle");
+    await expect(toggle).toHaveAccessibleName("Search & filters");
+    await expect(toggle).toBeVisible();
+    await expect(toggle).toContainText("Search & filters");
+    await expect(toggle.locator("#search-filter-count")).toHaveText("2");
+    await expect(page.getByRole("navigation", { name: "Main navigation" }).getByRole("button", { name: "Search & filters" })).toHaveCount(0);
+    if (width < 960) {
+      await expect(toggle).toHaveAttribute("aria-expanded", "false");
+      await toggle.click();
+      const dialog = page.getByRole("dialog", { name: "Search filters", exact: true });
+      await expect(dialog).toBeVisible();
+      await expect(toggle).toHaveAttribute("aria-expanded", "true");
+      await dialog.getByRole("button", { name: "Show results (75)", exact: true }).click();
+      await expect(dialog).not.toBeVisible();
+      await expect(toggle).toBeFocused();
+      await page.keyboard.press("Enter");
+      await expect(dialog).toBeVisible();
+      await page.keyboard.press("Escape");
+      await expect(dialog).not.toBeVisible();
+      await expect(toggle).toBeFocused();
+    } else {
+      const panel = page.getByRole("complementary", { name: "Search filters", exact: true });
+      await expect(panel).toBeVisible();
+      await toggle.click();
+      await expect(panel).not.toBeVisible();
+      await expect(toggle).toHaveAttribute("aria-expanded", "false");
+      await toggle.press("Enter");
+      await expect(panel).toBeVisible();
+      await expect(toggle).toHaveAttribute("aria-expanded", "true");
+    }
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+    await page.screenshot({ path: test.info().outputPath("search-filter-entry.png"), fullPage: true });
   });
 }

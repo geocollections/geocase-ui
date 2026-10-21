@@ -22,11 +22,6 @@ watch(
 </script>
 
 <template>
-  <AppBar
-    @toggle:navigation-drawer="toggle"
-    @toggle:search-drawer="
-      settings.updateSearchDrawerState(!settings.searchDrawer)
-    "
-  />
+  <AppBar @toggle:navigation-drawer="toggle" />
   <NavigationDrawer v-model:drawer="drawer" />
 </template>
