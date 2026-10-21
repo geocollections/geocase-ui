@@ -222,3 +222,26 @@
   min-height: 24px;
 }
 
+.thumbnail-scroll {
+  scrollbar-color: var(--ui-border-accented) transparent;
+  scrollbar-gutter: stable;
+  scrollbar-width: thin;
+}
+
+.thumbnail-scroll::-webkit-scrollbar {
+  width: 0.5rem;
+}
+
+.thumbnail-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.thumbnail-scroll::-webkit-scrollbar-thumb {
+  background: var(--ui-border-accented);
+  border: 2px solid var(--ui-bg);
+  border-radius: 999px;
+}
+
+.thumbnail-scroll::-webkit-scrollbar-thumb:hover {
+  background: var(--ui-text-muted);
+}
