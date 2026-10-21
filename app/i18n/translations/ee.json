@@ -1,4 +1,25 @@
 {
+  "errorPage": {
+    "error": "Viga",
+    "notFoundTitle": "Lehte ei leitud",
+    "notFoundDescription": "Aadress võib olla muutunud või leht eemaldatud. Geoteaduslike kogude avastamist saad jätkata otsingus.",
+    "errorTitle": "Midagi läks valesti",
+    "errorDescription": "Seda lehte ei õnnestunud avada. Proovi mõne aja pärast uuesti või jätka kogude sirvimist.",
+    "retry": "Proovi uuesti",
+    "home": "Avaleht",
+    "search": "Ava otsing",
+    "backHome": "Tagasi avalehele",
+    "continueExploring": "Jätka avastamist",
+    "searchTitle": "Otsi eksemplare",
+    "searchDescription": "Leia fossiile, mineraale ja kivimeid.",
+    "institutionsTitle": "Sirvi asutusi",
+    "institutionsDescription": "Tutvu andmeid jagavate asutuste kogudega.",
+    "helpTitle": "Abi ja juhendid",
+    "helpDescription": "Leia abi otsingu ja andmete kasutamise kohta.",
+    "footer": "Euroopa geoteaduslike kogude portaal",
+    "navigation": "Põhinavigatsioon",
+    "skipToContent": "Liigu põhisisu juurde"
+  },
   "a11y": {
     "closeCookie": "Sulge küpsiste teade",
     "partnerMap": "Partnerasutuste kaart",

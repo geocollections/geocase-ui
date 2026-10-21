@@ -1,4 +1,25 @@
 {
+  "errorPage": {
+    "error": "Error",
+    "notFoundTitle": "Page not found",
+    "notFoundDescription": "The address may have changed or the page may have been removed. You can continue exploring the geoscience collections through search.",
+    "errorTitle": "Something went wrong",
+    "errorDescription": "We couldn’t open this page. Please try again in a moment, or continue browsing the collections.",
+    "retry": "Try again",
+    "home": "Home",
+    "search": "Search collections",
+    "backHome": "Back to home",
+    "continueExploring": "Continue exploring",
+    "searchTitle": "Find specimens",
+    "searchDescription": "Discover fossils, minerals and rocks.",
+    "institutionsTitle": "Browse institutions",
+    "institutionsDescription": "Explore collections from our data providers.",
+    "helpTitle": "Help and guides",
+    "helpDescription": "Get help with searching and using the data.",
+    "footer": "European Geosciences Collection Portal",
+    "navigation": "Main navigation",
+    "skipToContent": "Skip to main content"
+  },
   "a11y": {
     "closeCookie": "Close cookie notification",
     "partnerMap": "Partner institution map",
