@@ -404,9 +404,11 @@ test("Nuxt UI filters select, clear and reset facets", async ({ page }) => {
   await expect(
     filters.getByRole("checkbox", { name: /Estonia/ }),
   ).toBeVisible();
-  await filters.getByRole("checkbox", { name: /Estonia/ }).check();
+  await filters.getByRole("checkbox", { name: /Estonia/ }).focus();
+  await page.keyboard.press("Space");
   await expect(page).toHaveURL(/country=/);
-  await filters.getByRole("checkbox", { name: /Estonia/ }).uncheck();
+  await filters.getByRole("checkbox", { name: /Estonia/ }).focus();
+  await page.keyboard.press("Space");
   await expect(page).not.toHaveURL(/country=/);
   await filters.getByRole("button", { name: /reset search/i }).click();
   await expect(page).not.toHaveURL(/q=quartz/);
@@ -418,13 +420,13 @@ test("mobile search filters close with Escape and preserve navigation", async ({
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("/ee/search?q=quartz");
   await page.getByRole("button", { name: "OK", exact: true }).click();
-  await page.getByRole("button", { name: "Toggle navigation drawer" }).click();
+  await page.getByRole("button", { name: "Ava või sulge navigeerimismenüü" }).click();
   await expect(page.getByRole("dialog")).toBeVisible();
   await page.keyboard.press("Escape");
   await expect(page.getByRole("dialog")).not.toBeVisible();
   await page.getByRole("button", { name: "Menüü", exact: true }).click();
   await page
-    .getByRole("navigation", { name: "Site navigation" })
+    .getByRole("navigation", { name: "Veebilehe navigatsioon" })
     .getByRole("link", { name: "Pealeht", exact: true })
     .click();
   await expect(page).toHaveURL(/\/ee$/);
@@ -707,11 +709,11 @@ for (const width of [390, 768]) {
       .click();
     const drawer = page.getByRole("dialog");
     const nameMatchMode = drawer.locator("details").filter({
-      has: page.locator('[aria-label="Name operator"]'),
+      has: page.locator('[aria-label="Matching mode for Name"]'),
     });
     await nameMatchMode.locator("summary").click();
     await drawer
-      .getByRole("combobox", { name: "Name operator", exact: true })
+      .getByRole("combobox", { name: "Matching mode for Name", exact: true })
       .click();
     await page.getByRole("option", { name: "equals", exact: true }).click();
     await expect(drawer).toBeVisible();
@@ -760,7 +762,7 @@ test("material subtype and age filters survive reload and appear in specimen det
     drawer.getByRole("button", { name: "Provider country", exact: true }),
   ).toHaveCount(0);
   await expect(
-    drawer.getByRole("combobox", { name: "Name operator" }),
+    drawer.getByRole("combobox", { name: "Matching mode for Name" }),
   ).not.toBeVisible();
   await page.reload();
   await expect(page).toHaveURL(/age_min=400/);
@@ -1289,3 +1291,74 @@ for (const width of [1100, 1440, 1920]) {
     expect(await positions()).toEqual(initial);
   });
 }
+
+for (const [locale, skip] of [["", "Skip to main content"], ["/ee", "Liigu põhisisu juurde"], ["/de", "Zum Hauptinhalt springen"]]) {
+  test(`keyboard skip link reaches main content in ${locale || "English"}`, async ({ page }) => {
+    await page.goto(`${locale}/search?q=quartz`);
+    await expect(page.locator(".skip-link")).toBeAttached();
+    await page.keyboard.press("Tab");
+    await expect(page.locator(".skip-link")).toBeFocused();
+    await expect(page.getByRole("link", { name: skip, exact: true })).toBeInViewport();
+    await page.keyboard.press("Enter");
+    await expect(page.locator("#main-content")).toBeFocused();
+    await page.keyboard.press("Tab");
+    expect(await page.evaluate(() => document.querySelector("#main-content")?.contains(document.activeElement))).toBe(true);
+  });
+}
+
+test("keyboard search and gallery close restore focus", async ({ page }) => {
+  await page.goto("/");
+  await page.getByRole("button", { name: "OK", exact: true }).click();
+  const search = page.getByRole("search").getByRole("textbox");
+  await search.focus();
+  await search.fill("quartz");
+  await page.keyboard.press("Enter");
+  await expect(page).toHaveURL(/q=quartz/);
+  const trigger = page.locator("#table").getByRole("button", { name: "Open gallery: DEMO-1", exact: true });
+  await trigger.focus();
+  await page.keyboard.press("Enter");
+  const dialog = page.getByRole("dialog");
+  await expect(dialog).toBeVisible();
+  for (let i = 0; i < 12; i++) {
+    await page.keyboard.press("Tab");
+    expect(await dialog.evaluate((element) => element.contains(document.activeElement))).toBe(true);
+  }
+  await page.keyboard.press("Escape");
+  await expect(dialog).not.toBeVisible();
+  await expect(trigger).toBeFocused();
+});
+
+test("map location list opens popup by keyboard and Escape returns focus", async ({ page }) => {
+  await page.route("**/api?**", (route) => {
+    const url = new URL(route.request().url());
+    if (url.searchParams.has("group.func")) return route.fulfill({ json: { grouped: {
+      [url.searchParams.get("group.func")!]: { groups: [{ groupValue: "59.4,24.7", doclist: { numFound: 21, docs: [specimen] } }] }
+    } } });
+    return route.fallback();
+  });
+  await page.goto("/ee/search?country=Estonia");
+  await page.getByRole("button", { name: "OK", exact: true }).click();
+  const summary = page.locator("summary").filter({ hasText: "Kaardi asukohad" });
+  await summary.focus();
+  await page.keyboard.press("Enter");
+  const location = summary.locator("..").getByRole("button", { name: /Ava asukoht:.*Tallinn/ });
+  await location.focus();
+  await page.keyboard.press("Enter");
+  const popup = page.locator(".leaflet-popup");
+  await expect(popup).toBeVisible();
+  await expect(popup).toBeFocused();
+  const markerBox = await page.locator("#search-map .leaflet-marker-icon").first().boundingBox();
+  expect(markerBox!.width).toBeGreaterThanOrEqual(24);
+  expect(markerBox!.height).toBeGreaterThanOrEqual(24);
+  await expect(popup.getByRole("button", { name: "Sulge hüpikaken" })).toBeVisible();
+  await page.keyboard.press("Escape");
+  await expect(popup).not.toBeVisible();
+  await expect(location).toBeFocused();
+  const marker = page.locator("#search-map .leaflet-marker-icon").first();
+  await marker.focus();
+  await page.keyboard.press("Space");
+  await expect(popup).toBeVisible();
+  await page.keyboard.press("Escape");
+  await expect(popup).not.toBeVisible();
+  await expect(marker).toBeFocused();
+});
