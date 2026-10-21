@@ -1263,3 +1263,29 @@ for (const [locale, title] of [
     expect(errors).toEqual([]);
   });
 }
+
+for (const width of [1100, 1440, 1920]) {
+  test(`table columns stay aligned between image and imageless pages at ${width}px`, async ({ page }) => {
+    await page.setViewportSize({ width, height: 1000 });
+    await page.route("**/api?**", (route) => {
+      const url = new URL(route.request().url());
+      if (url.searchParams.get("rows") === "0" || url.searchParams.has("stats") || url.searchParams.has("group.field")) return route.fallback();
+      const secondPage = Number(url.searchParams.get("start")) > 0;
+      return route.fulfill({ json: { response: { numFound: 75, docs: [{ ...specimen, unitid: secondPage ? "NO-IMAGE" : "DEMO-1", images: secondPage ? [] : specimen.images, has_image: !secondPage }] } } });
+    });
+    await page.goto("/search?q=quartz");
+    await page.getByRole("button", { name: "OK", exact: true }).click();
+    const table = page.locator("#table");
+    await expect(table.getByRole("columnheader", { name: "Images", exact: true })).toBeVisible();
+    const positions = () => table.locator("thead th").evaluateAll((cells) => cells.map((cell) => ({ x: cell.getBoundingClientRect().x, width: cell.getBoundingClientRect().width })));
+    const initial = await positions();
+    await page.getByRole("button", { name: "Next page", exact: true }).first().click();
+    await expect(table).toContainText("NO-IMAGE");
+    await expect(table.getByRole("columnheader", { name: "Images", exact: true })).toHaveCount(0);
+    expect(await positions()).toEqual(initial);
+    await page.getByRole("button", { name: "Previous page", exact: true }).first().click();
+    await expect(table).toContainText("DEMO-1");
+    await expect(table.getByRole("columnheader", { name: "Images", exact: true })).toBeVisible();
+    expect(await positions()).toEqual(initial);
+  });
+}

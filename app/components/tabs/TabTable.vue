@@ -144,7 +144,7 @@
       <div class="tw:hidden tw:overflow-x-auto tw:lg:block">
         <UTable
           id="table"
-          class="table tw:w-full"
+          class="table tw:w-full tw:[&_td_a]:[font-size:inherit]"
           :class="
             isTableHeaderFixed
               ? 'tw:min-h-80 tw:max-h-[calc(100vh-22rem)]'
@@ -522,6 +522,9 @@ export default {
         )
         .slice(0, this.tableDensity === 0 ? 2 : 4);
     },
+    hasPageImages() {
+      return this.responseResults.some((item) => item.images?.some(Boolean));
+    },
     tableColumns() {
       const columns = this.responsiveHeaders.map((header) => ({
         accessorKey: header.value,
@@ -547,12 +550,18 @@ export default {
       }));
       return [
         ...columns.filter((column) => column.accessorKey === "unitid"),
-        ...(this.tableDensity > 0 && this.responseResults.some((item) => item.images?.some(Boolean))
+        ...(this.tableDensity > 0
           ? [
               {
                 accessorKey: "preview",
                 header: this.$t("search.tab.images"),
                 enableSorting: false,
+                meta: {
+                  class: {
+                    th: this.hasPageImages ? "tw:w-20" : "tw:w-20 tw:invisible",
+                    td: this.hasPageImages ? "" : "tw:invisible",
+                  },
+                },
               },
             ]
           : []),
@@ -625,9 +634,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-:deep(td a) {
-  font-size: inherit;
-}
-</style>
