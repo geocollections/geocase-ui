@@ -152,6 +152,6 @@ onBeforeUnmount(() => {
     ref="container"
     class="partners-map tw:relative tw:overflow-hidden tw:min-h-80 tw:w-full"
     role="region"
-    aria-label="Partner institution map"
+    :aria-label="t('a11y.partnerMap')"
   />
 </template>

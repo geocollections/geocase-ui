@@ -54,7 +54,7 @@ function isActive(path: string) {
       {{ t("header.menu") }}
     </template>
     <template #body>
-      <nav aria-label="Site navigation" class="tw:flex tw:flex-col tw:gap-1.5">
+      <nav :aria-label="t('a11y.siteNavigation')" class="tw:flex tw:flex-col tw:gap-1.5">
         <NuxtLink
           v-for="item in settings.routes"
           :key="item.name"

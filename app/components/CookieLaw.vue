@@ -22,7 +22,7 @@
         <v-btn
           color="primary"
           @click="$emit('accept')"
-          title="Close cookie notification"
+          :title="$t('a11y.closeCookie')"
         >
           OK
         </v-btn>

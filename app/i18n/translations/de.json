@@ -1,4 +1,27 @@
 {
+  "a11y": {
+    "closeCookie": "Cookie-Hinweis schließen",
+    "partnerMap": "Karte der Partnereinrichtungen",
+    "skipToContent": "Zum Hauptinhalt springen",
+    "mainNavigation": "Hauptnavigation",
+    "toggleNavigation": "Navigationsmenü öffnen oder schließen",
+    "siteNavigation": "Seitennavigation",
+    "pagination": "Tabellenseiten",
+    "firstPage": "Erste Seite",
+    "previousPage": "Vorherige Seite",
+    "nextPage": "Nächste Seite",
+    "lastPage": "Letzte Seite",
+    "filterOperator": "Suchmodus für {field}",
+    "mapLocations": "Kartenstandorte",
+    "openLocation": "Standort öffnen: {name}",
+    "previousLocations": "Vorherige Standorte",
+    "nextLocations": "Weitere Standorte",
+    "closePopup": "Popup schließen",
+    "zoomIn": "Vergrößern",
+    "zoomOut": "Verkleinern",
+    "mapLayers": "Kartenebenen",
+    "locationRange": "Kartenstandorte {start}–{end} von {total}"
+  },
   "aboutPage": {
     "pageTitle": "Über GeoCASe",
     "eyebrow": "Über GeoCASe",

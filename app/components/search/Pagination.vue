@@ -34,7 +34,7 @@ function updatePaginateBy(value: unknown) {
 <template>
   <nav
     v-if="numberOfResults >= 0"
-    aria-label="Pagination"
+    :aria-label="$t('a11y.pagination')"
     class="tw:flex tw:flex-col tw:items-center tw:justify-between tw:gap-3 tw:p-2 tw:lg:flex-row"
   >
     <USelect
