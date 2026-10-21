@@ -121,30 +121,13 @@
         />
       </div>
       <div v-else class="tw:p-3 tw:lg:hidden">
-        <UAlert
-          color="neutral"
-          variant="soft"
-          icon="i-lucide-search-x"
-          :title="$t('search.tableNoResults')"
-        >
-          <template #actions>
-            <UButton
-              color="error"
-              variant="soft"
-              size="sm"
-              icon="i-lucide-trash-2"
-              @click="resetSearch"
-            >
-              {{ $t("search.drawer.resetSearch") }}
-            </UButton>
-          </template>
-        </UAlert>
+        <SearchEmptyState />
       </div>
 
       <div class="tw:hidden tw:overflow-x-auto tw:lg:block">
         <UTable
           id="table"
-          class="table tw:w-full"
+          class="table tw:w-full tw:[&_td_a]:[font-size:inherit]"
           :class="
             isTableHeaderFixed
               ? 'tw:min-h-80 tw:max-h-[calc(100vh-22rem)]'
@@ -332,24 +315,7 @@
 
           <template #empty>
             <div class="tw:mx-auto tw:max-w-2xl tw:p-6">
-              <UAlert
-                color="neutral"
-                variant="soft"
-                icon="i-lucide-search-x"
-                :title="$t('search.tableNoResults')"
-              >
-                <template #actions>
-                  <UButton
-                    color="error"
-                    variant="soft"
-                    size="sm"
-                    icon="i-lucide-trash-2"
-                    @click="resetSearch"
-                  >
-                    {{ $t("search.drawer.resetSearch") }}
-                  </UButton>
-                </template>
-              </UAlert>
+              <SearchEmptyState />
             </div>
           </template>
         </UTable>
@@ -385,6 +351,7 @@ import ImageWrapper from "@/components/image/ImageWrapper.vue";
 import HeaderControls from "@/components/tables/HeaderControls.vue";
 import PaginationControls from "@/components/tables/PaginationControls.vue";
 import ExportControls from "@/components/tables/ExportControls.vue";
+import SearchEmptyState from "@/components/search/SearchEmptyState.vue";
 
 export default {
   name: "TabTable",
@@ -415,6 +382,7 @@ export default {
     return { tableDensity };
   },
   components: {
+    SearchEmptyState,
     ImageWrapper,
     ExportControls,
     PaginationControls,
@@ -522,6 +490,9 @@ export default {
         )
         .slice(0, this.tableDensity === 0 ? 2 : 4);
     },
+    hasPageImages() {
+      return this.responseResults.some((item) => item.images?.some(Boolean));
+    },
     tableColumns() {
       const columns = this.responsiveHeaders.map((header) => ({
         accessorKey: header.value,
@@ -547,12 +518,18 @@ export default {
       }));
       return [
         ...columns.filter((column) => column.accessorKey === "unitid"),
-        ...(this.tableDensity > 0 && this.responseResults.some((item) => item.images?.some(Boolean))
+        ...(this.tableDensity > 0
           ? [
               {
                 accessorKey: "preview",
                 header: this.$t("search.tab.images"),
                 enableSorting: false,
+                meta: {
+                  class: {
+                    th: this.hasPageImages ? "tw:w-20" : "tw:w-20 tw:invisible",
+                    td: this.hasPageImages ? "" : "tw:invisible",
+                  },
+                },
               },
             ]
           : []),
@@ -625,9 +602,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-:deep(td a) {
-  font-size: inherit;
-}
-</style>

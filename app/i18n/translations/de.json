@@ -1,4 +1,27 @@
 {
+  "a11y": {
+    "closeCookie": "Cookie-Hinweis schließen",
+    "partnerMap": "Karte der Partnereinrichtungen",
+    "skipToContent": "Zum Hauptinhalt springen",
+    "mainNavigation": "Hauptnavigation",
+    "toggleNavigation": "Navigationsmenü öffnen oder schließen",
+    "siteNavigation": "Seitennavigation",
+    "pagination": "Tabellenseiten",
+    "firstPage": "Erste Seite",
+    "previousPage": "Vorherige Seite",
+    "nextPage": "Nächste Seite",
+    "lastPage": "Letzte Seite",
+    "filterOperator": "Suchmodus für {field}",
+    "mapLocations": "Kartenstandorte",
+    "openLocation": "Standort öffnen: {name}",
+    "previousLocations": "Vorherige Standorte",
+    "nextLocations": "Weitere Standorte",
+    "closePopup": "Popup schließen",
+    "zoomIn": "Vergrößern",
+    "zoomOut": "Verkleinern",
+    "mapLayers": "Kartenebenen",
+    "locationRange": "Kartenstandorte {start}–{end} von {total}"
+  },
   "aboutPage": {
     "pageTitle": "Über GeoCASe",
     "eyebrow": "Über GeoCASe",
@@ -475,6 +498,12 @@
     }
   },
   "search": {
+    "noResultsFilteredHint": "Entfernen Sie einen der aktiven Filter oben oder verwenden Sie einen allgemeineren Suchbegriff. Prüfen Sie auch die Schreibweise.",
+    "noResultsBroadHint": "Versuchen Sie einen allgemeineren Suchbegriff oder prüfen Sie die Schreibweise.",
+    "editSearch": "Suche anpassen",
+    "copySearchLink": "Suchlink kopieren",
+    "linkCopied": "Suchlink kopiert.",
+    "linkCopyFailed": "Der Link konnte nicht kopiert werden. Kopieren Sie die Adresse aus der Adressleiste.",
     "layout": {
       "results": "Ergebnisse",
       "mapLocationSummary": "Karte: {count} Standorte · Tabelle: {records} Datensätze",

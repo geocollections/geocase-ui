@@ -747,7 +747,7 @@ function getCetafIdentifierUrl(country, identifier) {
         <div
           class="tw:max-h-125 tw:overflow-auto tw:border-t tw:border-default tw:p-5"
         >
-          <ProviderDataTree :data="responseFromSource" />
+          <ProviderDataTree :data="responseFromSource['abcd:DataSets']" />
         </div>
       </details>
     </div>

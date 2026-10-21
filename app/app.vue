@@ -1,10 +1,12 @@
 <template>
-  <UApp>
+  <UApp :locale="uiLocale">
     <NuxtLayout><NuxtPage /></NuxtLayout>
   </UApp>
 </template>
 <script setup>
 import i18n from "@/i18n";
+import { en, et, de } from "@nuxt/ui/locale";
+const uiLocale = computed(() => ({ en, ee: et, de })[i18n.locale.value] || en);
 const route = useRoute();
 useHead(() => ({
   htmlAttrs: { lang: i18n.locale.value === "ee" ? "et" : i18n.locale.value },

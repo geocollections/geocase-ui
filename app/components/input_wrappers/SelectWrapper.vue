@@ -1,5 +1,6 @@
 <template>
   <v-select
+    class="select-wrapper"
     v-bind="$attrs"
     hide-details
     density="compact"
@@ -35,24 +36,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-.custom-prepend-inner {
-  margin: 5px 4px 3px 0;
-  font-weight: bold;
-  color: black;
-  white-space: nowrap;
-}
-
-.chips-select :deep(.v-select__selections) {
-  padding: 8px 0;
-}
-
-.chips-select :deep(.v-chip) {
-  margin: 3px !important;
-}
-
-.chips-select :deep(.v-label) {
-  font-weight: bold;
-}
-</style>

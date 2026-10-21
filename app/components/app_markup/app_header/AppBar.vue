@@ -70,7 +70,7 @@ function submitSearch() {
     class="tw:fixed tw:inset-x-0 tw:top-0 tw:z-2020 tw:h-16 tw:border-b tw:border-home-accent/20 tw:bg-home-hero tw:text-home-hero-muted tw:shadow-header-home"
   >
     <nav
-      aria-label="Main navigation"
+      :aria-label="t('a11y.mainNavigation')"
       class="tw:flex tw:h-full tw:items-center tw:gap-1 tw:px-3 tw:sm:gap-2 tw:sm:px-5"
     >
       <UTooltip
@@ -83,7 +83,7 @@ function submitSearch() {
           color="neutral"
           variant="ghost"
           class="header-button"
-          aria-label="Toggle navigation drawer"
+          :aria-label="t('a11y.toggleNavigation')"
           @click="emit('toggle:searchDrawer')"
         />
       </UTooltip>

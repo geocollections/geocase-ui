@@ -1,4 +1,27 @@
 {
+  "a11y": {
+    "closeCookie": "Close cookie notification",
+    "partnerMap": "Partner institution map",
+    "skipToContent": "Skip to main content",
+    "mainNavigation": "Main navigation",
+    "toggleNavigation": "Toggle navigation drawer",
+    "siteNavigation": "Site navigation",
+    "pagination": "Table pagination",
+    "firstPage": "First page",
+    "previousPage": "Previous page",
+    "nextPage": "Next page",
+    "lastPage": "Last page",
+    "filterOperator": "Matching mode for {field}",
+    "mapLocations": "Map locations",
+    "openLocation": "Open location: {name}",
+    "previousLocations": "Previous locations",
+    "nextLocations": "Next locations",
+    "closePopup": "Close popup",
+    "zoomIn": "Zoom in",
+    "zoomOut": "Zoom out",
+    "mapLayers": "Map layers",
+    "locationRange": "Map locations {start}–{end} of {total}"
+  },
   "aboutPage": {
     "pageTitle": "About GeoCASe",
     "eyebrow": "About GeoCASe",
@@ -476,6 +499,12 @@
     }
   },
   "search": {
+    "noResultsFilteredHint": "Remove one of the active filters above or use a broader search term. Check the spelling too.",
+    "noResultsBroadHint": "Try a broader search term or check the spelling.",
+    "editSearch": "Edit search",
+    "copySearchLink": "Copy search link",
+    "linkCopied": "Search link copied.",
+    "linkCopyFailed": "Could not copy the link. Copy the address from your browser’s address bar.",
     "layout": {
       "results": "Results",
       "mapLocationSummary": "Map: {count} locations · Table: {records} records",

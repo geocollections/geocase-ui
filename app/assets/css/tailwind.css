@@ -179,3 +179,156 @@
 .institution-location-dot {
   @apply tw:inline-grid tw:shrink-0 tw:place-items-center tw:rounded-full tw:border-3 tw:border-white tw:bg-home-link tw:text-white tw:shadow-lg;
 }
+
+/* Keep keyboard focus visible above map tiles and below the fixed header. */
+:where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+  outline: 3px solid #713b8b;
+  outline-offset: 3px;
+  scroll-margin-block: 6rem;
+}
+:where(button, [role="button"]) {
+  min-width: 24px;
+  min-height: 24px;
+}
+#main-content {
+  scroll-margin-top: 5rem;
+}
+.skip-link {
+  position: fixed;
+  top: 0.5rem;
+  left: 0.5rem;
+  z-index: 10000;
+  padding: 0.75rem 1rem;
+  background: white;
+  color: #482a55;
+  border: 2px solid #713b8b;
+  border-radius: 0.5rem;
+  transform: translateY(-200%);
+}
+.skip-link:focus {
+  transform: translateY(0);
+}
+.leaflet-container .leaflet-marker-icon:focus-visible {
+  outline: 3px solid #713b8b;
+  outline-offset: 3px;
+}
+.leaflet-container .map-marker {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.leaflet-container .leaflet-popup-close-button {
+  min-width: 24px;
+  min-height: 24px;
+}
+
+.lang-button {
+  height: 28px;
+  width: 28px !important;
+}
+.lang-button.flag {
+  position: relative;
+  display: inline-block;
+  width: 1.33333333em;
+  line-height: 1em;
+  background-size: cover;
+  background-position: 50%;
+  background-repeat: no-repeat;
+}
+.lang-button.flag-en {
+  background-image: url("https://files.geocollections.info/img/geocase/flags/en.svg");
+}
+.lang-button.flag-ee {
+  background-image: url("https://files.geocollections.info/img/geocase/flags/ee.svg");
+}
+.lang-button.flag-de {
+  background-image: url("https://files.geocollections.info/img/geocase/flags/de.svg");
+}
+.lang-button.flag-squared {
+  width: 1em;
+}
+.lang-button.flag-circle {
+  border-radius: 100%;
+}
+
+.front-map,
+.front-map .map-canvas {
+  width: 100%;
+  height: 100%;
+  min-height: 320px;
+}
+.front-map {
+  position: relative;
+}
+.front-map .map-inactive {
+  pointer-events: none;
+}
+.front-map .map-activate {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 24px;
+  cursor: pointer;
+  touch-action: pan-y;
+}
+.front-map .map-activate span {
+  padding: 10px 16px;
+  border-radius: 999px;
+  background: white;
+  color: #203932;
+  box-shadow: 0 2px 12px #0002;
+  font-weight: 600;
+}
+.front-map .map-activate:focus-visible {
+  outline: 3px solid #8e50a8;
+  outline-offset: -3px;
+}
+.front-map .maplibregl-popup-content {
+  padding: 0;
+}
+
+.select-wrapper .custom-prepend-inner {
+  margin: 5px 4px 3px 0;
+  font-weight: bold;
+  color: black;
+  white-space: nowrap;
+}
+
+.select-wrapper.chips-select .v-select__selections {
+  padding: 8px 0;
+}
+
+.select-wrapper.chips-select .v-chip {
+  margin: 3px !important;
+}
+
+.select-wrapper.chips-select .v-label {
+  font-weight: bold;
+}
+
+.thumbnail-scroll {
+  scrollbar-color: var(--ui-border-accented) transparent;
+  scrollbar-gutter: stable;
+  scrollbar-width: thin;
+}
+
+.thumbnail-scroll::-webkit-scrollbar {
+  width: 0.5rem;
+}
+
+.thumbnail-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.thumbnail-scroll::-webkit-scrollbar-thumb {
+  background: var(--ui-border-accented);
+  border: 2px solid var(--ui-bg);
+  border-radius: 999px;
+}
+
+.thumbnail-scroll::-webkit-scrollbar-thumb:hover {
+  background: var(--ui-text-muted);
+}

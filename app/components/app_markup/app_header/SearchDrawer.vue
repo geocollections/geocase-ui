@@ -9,6 +9,7 @@ const { t } = useI18n();
 
 <template>
   <aside
+    id="search-filters-panel"
     v-if="isDesktop"
     v-show="drawer"
     :aria-label="t('search.drawer.filters')"

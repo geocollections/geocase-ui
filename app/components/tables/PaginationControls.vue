@@ -81,7 +81,7 @@ function changeRowsPerPage(value: unknown) {
 
 <template>
   <nav
-    aria-label="Table pagination"
+    :aria-label="$t('a11y.pagination')"
     class="tw:flex tw:min-h-full tw:flex-wrap tw:items-center tw:justify-around tw:gap-2 tw:sm:mr-3"
   >
     <div class="tw:flex tw:items-center tw:gap-3 tw:sm:ml-auto tw:sm:mr-7">
@@ -105,7 +105,7 @@ function changeRowsPerPage(value: unknown) {
         color="neutral"
         variant="ghost"
         :disabled="isFirstPage"
-        aria-label="First page"
+        :aria-label="$t('a11y.firstPage')"
         @click="updatePage(1)"
       />
       <UButton
@@ -113,7 +113,7 @@ function changeRowsPerPage(value: unknown) {
         color="neutral"
         variant="ghost"
         :disabled="isFirstPage"
-        aria-label="Previous page"
+        :aria-label="$t('a11y.previousPage')"
         @click="updatePage(options.page - 1)"
       />
 
@@ -167,7 +167,7 @@ function changeRowsPerPage(value: unknown) {
         color="neutral"
         variant="ghost"
         :disabled="isLastPage"
-        aria-label="Next page"
+        :aria-label="$t('a11y.nextPage')"
         @click="updatePage(options.page + 1)"
       />
       <UButton
@@ -175,7 +175,7 @@ function changeRowsPerPage(value: unknown) {
         color="neutral"
         variant="ghost"
         :disabled="isLastPage"
-        aria-label="Last page"
+        :aria-label="$t('a11y.lastPage')"
         @click="updatePage(pagination.pageCount)"
       />
     </div>

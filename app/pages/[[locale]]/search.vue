@@ -1,5 +1,5 @@
 <script setup>
-import { watch } from "vue";
+import { ref, watch } from "vue";
 import { useRoute } from "#imports";
 import { useI18n } from "vue-i18n";
 import SearchResultsMap from "@/components/search/SearchResultsMap.vue";
@@ -9,6 +9,26 @@ import ActiveSearchFilters from "@/components/search/ActiveSearchFilters.vue";
 definePageMeta({ name: "Search", path: "/:locale(en|ee|de)?/search" });
 const { t } = useI18n();
 const route = useRoute();
+const copyLinkStatus = ref("");
+const copyingLink = ref(false);
+async function copySearchLink() {
+  copyingLink.value = true;
+  copyLinkStatus.value = "";
+  try {
+    await navigator.clipboard.writeText(window.location.href);
+    copyLinkStatus.value = "search.linkCopied";
+  } catch {
+    copyLinkStatus.value = "search.linkCopyFailed";
+  } finally {
+    copyingLink.value = false;
+  }
+}
+watch(
+  () => route.fullPath,
+  () => {
+    copyLinkStatus.value = "";
+  },
+);
 watch(
   () => route.fullPath,
   (path) => {
@@ -31,7 +51,7 @@ useHead(() => ({ title: t("header.search") }));
       :ui="{ body: 'tw:p-0 tw:sm:p-0' }"
     >
       <header
-        class="tw:flex tw:items-center tw:justify-between tw:gap-4 tw:px-4 tw:py-5 tw:sm:px-6"
+        class="tw:flex tw:flex-wrap tw:items-center tw:justify-between tw:gap-4 tw:px-4 tw:py-5 tw:sm:px-6"
       >
         <div aria-live="polite">
           <h1
@@ -52,9 +72,28 @@ useHead(() => ({ title: t("header.search") }));
             {{ $t("search.imagesOnlyNotice") }}
           </p>
         </div>
-        <UBadge color="neutral" variant="soft" size="lg" class="tw:sm:hidden">
-          {{ `${$t("search.page")} ${page}` }}
-        </UBadge>
+        <div class="tw:flex tw:flex-wrap tw:items-center tw:gap-3">
+          <div>
+            <UButton
+              icon="i-lucide-link"
+              color="neutral"
+              variant="outline"
+              :label="t('search.copySearchLink')"
+              :loading="copyingLink"
+              @click="copySearchLink"
+            />
+            <p
+              role="status"
+              aria-live="polite"
+              class="tw:mt-1 tw:text-xs tw:text-muted"
+            >
+              {{ copyLinkStatus ? t(copyLinkStatus) : "" }}
+            </p>
+          </div>
+          <UBadge color="neutral" variant="soft" size="lg" class="tw:sm:hidden">
+            {{ `${$t("search.page")} ${page}` }}
+          </UBadge>
+        </div>
       </header>
 
       <ActiveSearchFilters />
@@ -86,7 +125,9 @@ useHead(() => ({ title: t("header.search") }));
         icon="i-lucide-circle-alert"
         class="tw:mx-4 tw:mb-4 tw:sm:mx-6"
         :title="$t('search.loadError')"
-        :description="responseResults.length ? $t('search.staleResults') : undefined"
+        :description="
+          responseResults.length ? $t('search.staleResults') : undefined
+        "
       >
         <template #actions>
           <UButton

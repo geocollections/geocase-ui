@@ -95,34 +95,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-.lang-button {
-  height: 28px;
-  width: 28px !important;
-}
-.flag {
-  position: relative;
-  display: inline-block;
-  width: 1.33333333em;
-  line-height: 1em;
-  background-size: cover;
-  background-position: 50%;
-  background-repeat: no-repeat;
-}
-.flag-en {
-  background-image: url("https://files.geocollections.info/img/geocase/flags/en.svg");
-}
-.flag-ee {
-  background-image: url("https://files.geocollections.info/img/geocase/flags/ee.svg");
-}
-.flag-de {
-  background-image: url("https://files.geocollections.info/img/geocase/flags/de.svg");
-}
-.flag-squared {
-  width: 1em;
-}
-.flag-circle {
-  border-radius: 100%;
-}
-</style>

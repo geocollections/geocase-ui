@@ -14,10 +14,24 @@ const { localePath } = useAppNavigation();
 const { t } = useI18n();
 
 const emit = defineEmits(["close:dialog", "update:index"]);
+let galleryTrigger = null;
+function restoreGalleryFocus(event) {
+  event.preventDefault();
+  if (galleryTrigger?.isConnected) galleryTrigger.focus();
+}
 const showGallery = ref(true);
 const previewColumns = ref(2);
 
 const currentImage = computed(() => props.images[props.currentIndex]);
+const imageLicence = computed(() => {
+  const image = currentImage.value;
+  const value = image?.image_license || image?.image_licence;
+  return (
+    Array.isArray(value)
+      ? value.filter(Boolean).join(" · ")
+      : String(value ?? "")
+  ).trim();
+});
 const metadataGroups = computed(() => {
   const image = currentImage.value;
   if (!image) return [];
@@ -67,16 +81,21 @@ const metadataGroups = computed(() => {
     }))
     .filter((group) => group.fields.length);
 });
-const summaryKeys = new Set([
-  "locality",
-  "country",
-  "image_author",
-]);
-const summaryFields = computed(() =>
-  metadataGroups.value
+const summaryKeys = new Set(["locality", "country", "image_author"]);
+const summaryFields = computed(() => [
+  ...metadataGroups.value
     .flatMap((group) => group.fields)
     .filter((field) => summaryKeys.has(field.key)),
-);
+  ...(imageLicence.value
+    ? [
+        {
+          key: "image_license",
+          label: t("imageGallery.licence"),
+          value: imageLicence.value,
+        },
+      ]
+    : []),
+]);
 const additionalGroups = computed(() =>
   metadataGroups.value
     .map((group) => ({
@@ -135,8 +154,10 @@ watch(
   () => props.dialog,
   (open) => {
     if (typeof window === "undefined") return;
-    if (open) window.addEventListener("keyup", handleKeyup);
-    else window.removeEventListener("keyup", handleKeyup);
+    if (open) {
+      galleryTrigger = document.activeElement;
+      window.addEventListener("keyup", handleKeyup);
+    } else window.removeEventListener("keyup", handleKeyup);
   },
   { immediate: true },
 );
@@ -148,12 +169,13 @@ onBeforeUnmount(() => window.removeEventListener("keyup", handleKeyup));
   <UModal
     :open="dialog"
     fullscreen
-    :modal="false"
+    :modal="true"
     :overlay="false"
     :dismissible="false"
     :close="false"
     :title="$t('imageGallery.imageGallery')"
     :content="{
+      onCloseAutoFocus: restoreGalleryFocus,
       style: {
         inset: '4rem 0 0',
         height: 'auto',
@@ -465,29 +487,3 @@ onBeforeUnmount(() => window.removeEventListener("keyup", handleKeyup));
     </template>
   </UModal>
 </template>
-
-<style scoped>
-.thumbnail-scroll {
-  scrollbar-color: var(--ui-border-accented) transparent;
-  scrollbar-gutter: stable;
-  scrollbar-width: thin;
-}
-
-.thumbnail-scroll::-webkit-scrollbar {
-  width: 0.5rem;
-}
-
-.thumbnail-scroll::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.thumbnail-scroll::-webkit-scrollbar-thumb {
-  background: var(--ui-border-accented);
-  border: 2px solid var(--ui-bg);
-  border-radius: 999px;
-}
-
-.thumbnail-scroll::-webkit-scrollbar-thumb:hover {
-  background: var(--ui-text-muted);
-}
-</style>

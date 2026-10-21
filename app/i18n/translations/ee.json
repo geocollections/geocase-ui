@@ -1,4 +1,27 @@
 {
+  "a11y": {
+    "closeCookie": "Sulge küpsiste teade",
+    "partnerMap": "Partnerasutuste kaart",
+    "skipToContent": "Liigu põhisisu juurde",
+    "mainNavigation": "Põhinavigatsioon",
+    "toggleNavigation": "Ava või sulge navigeerimismenüü",
+    "siteNavigation": "Veebilehe navigatsioon",
+    "pagination": "Tabeli leheküljed",
+    "firstPage": "Esimene lehekülg",
+    "previousPage": "Eelmine lehekülg",
+    "nextPage": "Järgmine lehekülg",
+    "lastPage": "Viimane lehekülg",
+    "filterOperator": "Välja {field} vastendusviis",
+    "mapLocations": "Kaardi asukohad",
+    "openLocation": "Ava asukoht: {name}",
+    "previousLocations": "Eelmised asukohad",
+    "nextLocations": "Järgmised asukohad",
+    "closePopup": "Sulge hüpikaken",
+    "zoomIn": "Suurenda kaarti",
+    "zoomOut": "Vähenda kaarti",
+    "mapLayers": "Kaardikihid",
+    "locationRange": "Kaardi asukohad {start}–{end}, kokku {total}"
+  },
   "aboutPage": {
     "pageTitle": "GeoCASe'ist",
     "eyebrow": "GeoCASe'ist",
@@ -476,6 +499,12 @@
     }
   },
   "search": {
+    "noResultsFilteredHint": "Eemalda mõni ülal kuvatud filter või kasuta laiemat otsingusõna. Kontrolli ka õigekirja.",
+    "noResultsBroadHint": "Proovi laiemat otsingusõna või kontrolli õigekirja.",
+    "editSearch": "Muuda otsingut",
+    "copySearchLink": "Kopeeri otsingu link",
+    "linkCopied": "Otsingu link on kopeeritud.",
+    "linkCopyFailed": "Lingi kopeerimine ebaõnnestus. Kopeeri aadress brauseri aadressiribalt.",
     "layout": {
       "results": "Tulemused",
       "mapLocationSummary": "Kaardil {count} asukohta · tabelis {records} kirjet",
