@@ -4,6 +4,7 @@ import { useRoute } from "#imports";
 import { useI18n } from "vue-i18n";
 import SearchResultsMap from "@/components/search/SearchResultsMap.vue";
 import ImageOverflow from "@/components/image/ImageOverflow.vue";
+import SearchFiltersToolbar from "@/components/search/SearchFiltersToolbar.vue";
 import ActiveSearchFilters from "@/components/search/ActiveSearchFilters.vue";
 
 definePageMeta({ name: "Search", path: "/:locale(en|ee|de)?/search" });
@@ -44,6 +45,7 @@ useHead(() => ({ title: t("header.search") }));
 <template>
   <div class="tw:bg-muted/30 tw:min-h-full tw:p-3 tw:sm:p-5">
     <ScrollToTop />
+    <SearchFiltersToolbar />
 
     <UCard
       variant="outline"

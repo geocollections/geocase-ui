@@ -499,6 +499,11 @@
     }
   },
   "search": {
+    "openFilters": "Otsing ja filtrid",
+    "activeFilterCount": "{count} aktiivset filtrit",
+    "filtersHint": "Täpsusta otsingut nime, asukoha või kogu järgi.",
+    "showResults": "Näita tulemusi ({count})",
+    "backToResults": "Tagasi tulemuste juurde",
     "noResultsFilteredHint": "Eemalda mõni ülal kuvatud filter või kasuta laiemat otsingusõna. Kontrolli ka õigekirja.",
     "noResultsBroadHint": "Proovi laiemat otsingusõna või kontrolli õigekirja.",
     "editSearch": "Muuda otsingut",

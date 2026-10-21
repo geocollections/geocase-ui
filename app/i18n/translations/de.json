@@ -498,6 +498,11 @@
     }
   },
   "search": {
+    "openFilters": "Suche & Filter",
+    "activeFilterCount": "{count} aktive Filter",
+    "filtersHint": "Suche nach Name, Fundort oder Sammlung eingrenzen.",
+    "showResults": "Ergebnisse anzeigen ({count})",
+    "backToResults": "Zurück zu den Ergebnissen",
     "noResultsFilteredHint": "Entfernen Sie einen der aktiven Filter oben oder verwenden Sie einen allgemeineren Suchbegriff. Prüfen Sie auch die Schreibweise.",
     "noResultsBroadHint": "Versuchen Sie einen allgemeineren Suchbegriff oder prüfen Sie die Schreibweise.",
     "editSearch": "Suche anpassen",

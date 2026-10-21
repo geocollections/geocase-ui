@@ -499,6 +499,11 @@
     }
   },
   "search": {
+    "openFilters": "Search & filters",
+    "activeFilterCount": "{count} active filters",
+    "filtersHint": "Refine your search by name, location or collection.",
+    "showResults": "Show results ({count})",
+    "backToResults": "Back to results",
     "noResultsFilteredHint": "Remove one of the active filters above or use a broader search term. Check the spelling too.",
     "noResultsBroadHint": "Try a broader search term or check the spelling.",
     "editSearch": "Edit search",
