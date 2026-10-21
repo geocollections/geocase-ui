@@ -121,24 +121,7 @@
         />
       </div>
       <div v-else class="tw:p-3 tw:lg:hidden">
-        <UAlert
-          color="neutral"
-          variant="soft"
-          icon="i-lucide-search-x"
-          :title="$t('search.tableNoResults')"
-        >
-          <template #actions>
-            <UButton
-              color="error"
-              variant="soft"
-              size="sm"
-              icon="i-lucide-trash-2"
-              @click="resetSearch"
-            >
-              {{ $t("search.drawer.resetSearch") }}
-            </UButton>
-          </template>
-        </UAlert>
+        <SearchEmptyState />
       </div>
 
       <div class="tw:hidden tw:overflow-x-auto tw:lg:block">
@@ -332,24 +315,7 @@
 
           <template #empty>
             <div class="tw:mx-auto tw:max-w-2xl tw:p-6">
-              <UAlert
-                color="neutral"
-                variant="soft"
-                icon="i-lucide-search-x"
-                :title="$t('search.tableNoResults')"
-              >
-                <template #actions>
-                  <UButton
-                    color="error"
-                    variant="soft"
-                    size="sm"
-                    icon="i-lucide-trash-2"
-                    @click="resetSearch"
-                  >
-                    {{ $t("search.drawer.resetSearch") }}
-                  </UButton>
-                </template>
-              </UAlert>
+              <SearchEmptyState />
             </div>
           </template>
         </UTable>
@@ -385,6 +351,7 @@ import ImageWrapper from "@/components/image/ImageWrapper.vue";
 import HeaderControls from "@/components/tables/HeaderControls.vue";
 import PaginationControls from "@/components/tables/PaginationControls.vue";
 import ExportControls from "@/components/tables/ExportControls.vue";
+import SearchEmptyState from "@/components/search/SearchEmptyState.vue";
 
 export default {
   name: "TabTable",
@@ -415,6 +382,7 @@ export default {
     return { tableDensity };
   },
   components: {
+    SearchEmptyState,
     ImageWrapper,
     ExportControls,
     PaginationControls,
