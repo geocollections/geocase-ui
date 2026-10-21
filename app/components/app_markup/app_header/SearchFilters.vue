@@ -104,10 +104,19 @@ const clearLabel = (id: string) =>
             </summary>
             <USelect
               :ui="{ content: 'tw:z-[3400]' }"
-              :items="store.lookUpTypes"
+              :items="
+                store.lookUpTypes.map((value) => ({
+                  value,
+                  label: t(
+                    `search.activeFilters.operators.${value.replaceAll(' ', '_')}`,
+                  ),
+                }))
+              "
               :model-value="fields[id]?.lookUpType"
               :disabled="id === 'coordinates'"
-              :aria-label="`${t(`search.table.${id}`)} operator`"
+              :aria-label="
+                t('a11y.filterOperator', { field: t(`search.table.${id}`) })
+              "
               class="tw:mt-2 tw:w-full"
               @update:model-value="
                 store.updateSearchField({ id, lookUpType: $event });
