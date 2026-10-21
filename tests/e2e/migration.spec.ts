@@ -922,6 +922,15 @@ test("institution country circles render after delayed data and open filtered se
   releaseData();
   await expect(map).toHaveAttribute("data-country-markers", "2");
   await expect(map.locator(".map-country-count")).toHaveCount(2);
+  const expectCenteredCounts = async () => {
+    const offsets = await map.locator(".map-country-count").evaluateAll((markers) => markers.map((marker) => {
+      const circle = marker.getBoundingClientRect();
+      const text = marker.querySelector("span")!.getBoundingClientRect();
+      return Math.max(Math.abs(circle.x + circle.width / 2 - text.x - text.width / 2), Math.abs(circle.y + circle.height / 2 - text.y - text.height / 2));
+    }));
+    for (const offset of offsets) expect(offset).toBeLessThan(1);
+  };
+  await expectCenteredCounts();
   await expect(
     page.getByText(
       "This institution has specimens in GeoCASE, but their locality coordinates are missing, so they cannot be shown on the map.",
@@ -940,6 +949,7 @@ test("institution country circles render after delayed data and open filtered se
   await estoniaMarker.click({ trial: true });
   await map.getByRole("button", { name: "Zoom in", exact: true }).click();
   await homeMarker.click({ trial: true });
+  await expectCenteredCounts();
   await estoniaMarker.click();
   await expect(page).toHaveURL(/search/);
   const searchUrl = new URL(page.url());
