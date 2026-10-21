@@ -80,10 +80,10 @@ const logos = [
     />
 
     <div
-      class="tw:mx-auto tw:max-w-7xl tw:px-4 tw:pt-10 tw:pb-8 tw:sm:px-6 tw:sm:pt-14 tw:lg:px-8"
+      class="tw:mx-auto tw:max-w-7xl tw:px-4 tw:pt-6 tw:pb-5 tw:sm:px-6 tw:md:pt-14 tw:md:pb-8 tw:lg:px-8"
     >
       <section
-        class="tw:relative tw:overflow-hidden tw:rounded-3xl tw:border tw:border-white/10 tw:bg-[radial-gradient(ellipse_at_85%_0%,rgb(198_148_216/0.18),transparent_42%),linear-gradient(125deg,#203c34,#182c29_72%)] tw:px-6 tw:py-7 tw:shadow-[0_24px_60px_rgb(0_0_0/0.18)] tw:sm:px-9 tw:sm:py-8"
+        class="tw:relative tw:hidden tw:overflow-hidden tw:rounded-3xl tw:md:block tw:border tw:border-white/10 tw:bg-[radial-gradient(ellipse_at_85%_0%,rgb(198_148_216/0.18),transparent_42%),linear-gradient(125deg,#203c34,#182c29_72%)] tw:px-6 tw:py-7 tw:shadow-[0_24px_60px_rgb(0_0_0/0.18)] tw:sm:px-9 tw:sm:py-8"
         :aria-label="t('footer.explore')"
       >
         <div
@@ -124,8 +124,79 @@ const logos = [
         </div>
       </section>
 
+      <div class="tw:md:hidden">
+        <NuxtLink
+          :to="localePath('/')"
+          aria-label="GeoCASe"
+          class="tw:inline-flex tw:min-h-11 tw:items-center tw:rounded-lg tw:font-serif tw:text-3xl tw:font-bold tw:tracking-[-0.055em] tw:no-underline tw:focus-visible:outline-home-accent"
+        >
+          <span class="tw:text-home-accent">Geo</span
+          ><span class="tw:text-white">CASe</span>
+        </NuxtLink>
+        <p class="tw:mt-1 tw:text-base tw:leading-6 tw:text-home-hero-muted">
+          {{ t("footer.title") }}
+        </p>
+        <nav
+          :aria-label="t('a11y.siteNavigation')"
+          class="tw:mt-5 tw:border-t tw:border-white/15"
+        >
+          <details
+            v-for="group in linkGroups"
+            :key="group.title"
+            class="tw:group tw:border-b tw:border-white/15"
+          >
+            <summary
+              class="tw:flex tw:min-h-13 tw:cursor-pointer tw:list-none tw:items-center tw:justify-between tw:gap-3 tw:py-3 tw:text-base tw:font-bold tw:text-white tw:marker:hidden tw:focus-visible:outline-home-accent"
+            >
+              {{ group.title }}
+              <UIcon
+                name="i-lucide-chevron-down"
+                class="tw:size-5 tw:shrink-0 tw:transition-transform tw:group-open:rotate-180"
+                aria-hidden="true"
+              />
+            </summary>
+            <ul class="tw:m-0 tw:list-none tw:pb-3 tw:pl-3">
+              <li v-for="link in group.links" :key="link.path">
+                <NuxtLink
+                  :to="localePath(link.path)"
+                  class="tw:flex tw:min-h-11 tw:items-center tw:rounded-lg tw:px-2 tw:py-2 tw:text-base tw:leading-6 tw:text-home-hero-muted tw:no-underline tw:hover:text-home-accent tw:focus-visible:outline-home-accent"
+                  >{{ link.label }}</NuxtLink
+                >
+              </li>
+            </ul>
+          </details>
+          <details class="tw:group tw:border-b tw:border-white/15">
+            <summary
+              class="tw:flex tw:min-h-13 tw:cursor-pointer tw:list-none tw:items-center tw:justify-between tw:gap-3 tw:py-3 tw:text-base tw:font-bold tw:text-white tw:marker:hidden tw:focus-visible:outline-home-accent"
+            >
+              {{ t("footer.resources") }}
+              <UIcon
+                name="i-lucide-chevron-down"
+                class="tw:size-5 tw:shrink-0 tw:transition-transform tw:group-open:rotate-180"
+                aria-hidden="true"
+              />
+            </summary>
+            <ul class="tw:m-0 tw:list-none tw:pb-3 tw:pl-3">
+              <li v-for="resource in resources" :key="resource.href">
+                <a
+                  :href="resource.href"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="tw:flex tw:min-h-11 tw:items-center tw:gap-2 tw:rounded-lg tw:px-2 tw:py-2 tw:text-base tw:leading-6 tw:text-home-hero-muted tw:no-underline tw:hover:text-home-accent tw:focus-visible:outline-home-accent"
+                  >{{ resource.label
+                  }}<UIcon
+                    :name="resource.icon"
+                    class="tw:size-4"
+                    aria-hidden="true"
+                /></a>
+              </li>
+            </ul>
+          </details>
+        </nav>
+      </div>
+
       <div
-        class="tw:grid tw:gap-10 tw:py-12 tw:sm:grid-cols-2 tw:lg:grid-cols-[1.45fr_0.8fr_0.9fr_0.8fr] tw:lg:gap-12 tw:lg:py-14"
+        class="tw:hidden tw:gap-10 tw:py-12 tw:md:grid tw:md:grid-cols-2 tw:lg:grid-cols-[1.45fr_0.8fr_0.9fr_0.8fr] tw:lg:gap-12 tw:lg:py-14"
       >
         <div class="tw:max-w-sm">
           <NuxtLink
@@ -205,16 +276,18 @@ const logos = [
       </div>
 
       <section
-        class="tw:flex tw:flex-col tw:gap-5 tw:border-t tw:border-white/12 tw:py-7 tw:lg:flex-row tw:lg:items-center tw:lg:justify-between"
+        class="tw:flex tw:flex-col tw:gap-3 tw:border-t tw:border-white/12 tw:py-4 tw:md:gap-5 tw:md:py-7 tw:lg:flex-row tw:lg:items-center tw:lg:justify-between"
         :aria-label="t('footer.partners')"
       >
         <div>
           <h2
-            class="tw:text-xs tw:font-extrabold tw:tracking-[0.15em] tw:text-home-accent tw:uppercase"
+            class="tw:text-base tw:font-bold tw:text-home-accent tw:md:text-xs tw:md:font-extrabold tw:md:tracking-[0.15em] tw:md:uppercase"
           >
             {{ t("footer.partners") }}
           </h2>
-          <p class="tw:mt-1.5 tw:text-sm tw:text-home-hero-muted/80">
+          <p
+            class="tw:mt-1.5 tw:hidden tw:text-sm tw:text-home-hero-muted/80 tw:md:block"
+          >
             {{ t("footer.dataBy") }}
             <NuxtLink
               :to="localePath('/institution')"
@@ -248,11 +321,11 @@ const logos = [
       </section>
 
       <div
-        class="tw:flex tw:flex-col tw:gap-2 tw:border-t tw:border-white/12 tw:pt-5 tw:pb-2 tw:text-xs tw:leading-relaxed tw:text-home-hero-muted/75 tw:sm:flex-row tw:sm:items-center tw:sm:justify-between"
+        class="tw:flex tw:flex-col tw:gap-2 tw:border-t tw:border-white/12 tw:pt-4 tw:pb-1 tw:text-sm tw:leading-6 tw:text-home-hero-muted/90 tw:md:pt-5 tw:md:pb-2 tw:md:text-xs tw:md:leading-relaxed tw:md:text-home-hero-muted/75 tw:md:flex-row tw:md:items-center tw:md:justify-between"
       >
         <p>© {{ year }} GeoCASe. {{ t("footer.rights") }}</p>
         <p
-          class="tw:max-w-2xl tw:sm:text-right"
+          class="tw:max-w-2xl tw:md:text-right"
           v-html="t('footer.created_html')"
         />
       </div>
