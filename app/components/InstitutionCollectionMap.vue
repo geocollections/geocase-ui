@@ -67,8 +67,7 @@ function updatePoints() {
       }).addTo(collectionLayer);
     }
     const content = document.createElement("span");
-    content.className =
-      "tw:absolute tw:inset-0 tw:flex tw:items-center tw:justify-center";
+    content.className = "tw:leading-none tw:whitespace-nowrap";
     content.textContent =
       point.count >= 1_000_000
         ? `${(point.count / 1_000_000).toFixed(1)}M`
@@ -80,7 +79,7 @@ function updatePoints() {
     const countryMarker = L.marker(position, {
       title: `${point.country}: ${point.count}`,
       icon: L.divIcon({
-        className: "map-country-count tw:relative",
+        className: "map-country-count",
         html: content.outerHTML,
         iconSize: [radius * 2, radius * 2],
         iconAnchor: [radius - offset.x, radius - offset.y],

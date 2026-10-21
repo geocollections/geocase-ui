@@ -6,6 +6,13 @@ import i18n from "@/i18n";
 type AbcdRecord = Record<string, any>;
 type DetailHeader = { text: string; value: string };
 
+function hasDisplayValue(value: unknown): boolean {
+  if (Array.isArray(value)) return value.some(hasDisplayValue);
+  if (typeof value === "string") return value.trim().length > 0;
+  if (typeof value === "number") return Number.isFinite(value);
+  return value != null && value !== false;
+}
+
 export const useDetailStore = defineStore("detail", {
   state: () => ({
     response: null as AbcdRecord[] | null,
@@ -77,17 +84,28 @@ export const useDetailStore = defineStore("detail", {
 
     imageExists: (state) => {
       const store = state as unknown as AbcdRecord;
-      return !!(store.itemExists && store.item && store.item.images);
+      return !!(
+        store.itemExists &&
+        Array.isArray(store.item.images) &&
+        store.item.images.some(
+          (image: unknown) => typeof image === "string" && image.trim(),
+        )
+      );
     },
 
     localityExists: (state) => {
       const store = state as unknown as AbcdRecord;
+      const latitude = store.item?.latitude;
+      const longitude = store.item?.longitude;
       return !!(
         store.itemExists &&
-        store.item &&
         store.item.has_map &&
-        store.item.latitude &&
-        store.item.longitude
+        hasDisplayValue(latitude) &&
+        hasDisplayValue(longitude) &&
+        Number.isFinite(Number(latitude)) &&
+        Number.isFinite(Number(longitude)) &&
+        Math.abs(Number(latitude)) <= 90 &&
+        Math.abs(Number(longitude)) <= 180
       );
     },
 
@@ -527,7 +545,7 @@ export const useDetailStore = defineStore("detail", {
       const getters = state as unknown as AbcdRecord;
       const item = getters.item;
       return getters.translatedItemHeaders.filter((header: DetailHeader) => {
-        if (item[header.value]) {
+        if (hasDisplayValue(item[header.value])) {
           return header;
         } else if (header.value === "stratigraphy" && getters.itemStratigraphy)
           return header;
@@ -577,7 +595,7 @@ export const useDetailStore = defineStore("detail", {
       const item = getters.item;
       return getters.translatedItemHeadersSecondary.filter(
         (header: DetailHeader) => {
-          if (item[header.value]) {
+          if (hasDisplayValue(item[header.value])) {
             return header;
           } else if (
             header.value === "contentContactName" &&

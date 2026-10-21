@@ -63,12 +63,18 @@ const {
 
 const referencesExpanded = ref(false);
 const referencesId = useId();
+const references = computed(() => {
+  if (itemReference.value?.length)
+    return itemReference.value.map((html) => ({ html, text: "" }));
+  const value = item.value?.reference;
+  return (Array.isArray(value) ? value : [value])
+    .filter((text) => typeof text === "string" && text.trim())
+    .map((text) => ({ html: "", text: text.trim() }));
+});
 const visibleReferences = computed(() =>
-  referencesExpanded.value
-    ? itemReference.value
-    : itemReference.value?.slice(0, 3),
+  referencesExpanded.value ? references.value : references.value.slice(0, 3),
 );
-watch(itemReference, () => {
+watch(references, () => {
   referencesExpanded.value = false;
 });
 
@@ -83,36 +89,61 @@ const getSpecimenType = computed(() =>
 );
 const filteredNames = computed(() =>
   Array.isArray(item.value?.names)
-    ? item.value.names.filter((name) => name !== item.value.fullscientificname)
+    ? [
+        ...new Set(
+          item.value.names
+            .filter((name) => typeof name === "string")
+            .map((name) => name.trim())
+            .filter(
+              (name) => name && name !== item.value.fullscientificname?.trim(),
+            ),
+        ),
+      ]
     : [],
 );
+const namesExpanded = ref(false);
+const namesId = useId();
+const visibleNames = computed(() =>
+  namesExpanded.value ? filteredNames.value : filteredNames.value.slice(0, 3),
+);
+watch(filteredNames, () => {
+  namesExpanded.value = false;
+});
 const specimenTitle = computed(
   () =>
-    item.value?.fullscientificname ||
-    item.value?.unitid ||
-    item.value?.collectioncode ||
-    item.value?.geocase_id ||
-    "",
+    [
+      item.value?.fullscientificname,
+      item.value?.unitid,
+      item.value?.collectioncode,
+      item.value?.geocase_id,
+      item.value?.id,
+    ]
+      .map((value) => String(value ?? "").trim())
+      .find(Boolean) || "",
 );
 const computedLastHarvestedProcessing = computed(
   () => item.value?.last_harvested_processing?.split("T")[0] || null,
 );
 const detailViewImages = computed(() =>
   Array.isArray(item.value?.images)
-    ? item.value.images.map((image) => ({
-        ...item.value,
-        thumbnailImage: `https://geocase.eu/thumbnails/${encodeURIComponent(image)}`,
-        originalImage: image,
-        altText: [
-          "recordbasis",
-          "fullscientificname",
-          "locality",
-          "datasetowner",
-        ]
-          .filter((field) => item.value[field])
-          .map((field) => `${t(`search.table.${field}`)}: ${item.value[field]}`)
-          .join(", "),
-      }))
+    ? item.value.images
+        .filter((image) => typeof image === "string" && image.trim())
+        .map((image) => ({
+          ...item.value,
+          thumbnailImage: `https://geocase.eu/thumbnails/${encodeURIComponent(image)}`,
+          originalImage: image,
+          altText: [
+            "recordbasis",
+            "fullscientificname",
+            "locality",
+            "datasetowner",
+          ]
+            .filter((field) => item.value[field])
+            .map(
+              (field) => `${t(`search.table.${field}`)}: ${item.value[field]}`,
+            )
+            .join(", "),
+        }))
     : [],
 );
 const hasMedia = computed(
@@ -276,32 +307,52 @@ function getCetafIdentifierUrl(country, identifier) {
                 </h1>
 
                 <h2
+                  :id="namesId"
                   class="tw:text-base tw:leading-relaxed tw:text-muted tw:wrap-anywhere"
                   v-if="filteredNames.length > 0"
                 >
                   <span class="tw:font-normal"
-                    >{{ $t("detail.otherIdentification")
-                    }}<span v-if="filteredNames.length > 1">s</span>:
+                    >{{ $t("detail.otherIdentification") }}:
                   </span>
                   <span
                     :class="{ 'tw:italic': isItemFossil }"
-                    v-for="(entity, index) in filteredNames"
+                    v-for="(entity, index) in visibleNames"
                     :key="index"
                   >
                     <span class="tw:font-bold">{{ entity }}</span>
-                    <span
-                      class="tw:mx-1"
-                      v-if="index < filteredNames.length - 1"
+                    <span class="tw:mx-1" v-if="index < visibleNames.length - 1"
                       >|</span
                     >
                   </span>
                 </h2>
+                <UButton
+                  v-if="filteredNames.length > 3"
+                  :label="
+                    t(namesExpanded ? 'detail.showLess' : 'detail.showMore')
+                  "
+                  :trailing-icon="
+                    namesExpanded
+                      ? 'i-lucide-chevron-up'
+                      : 'i-lucide-chevron-down'
+                  "
+                  :aria-expanded="namesExpanded"
+                  :aria-controls="namesId"
+                  color="primary"
+                  variant="link"
+                  size="sm"
+                  class="tw:mt-2 tw:p-0 tw:font-semibold"
+                  @click="namesExpanded = !namesExpanded"
+                />
               </div>
 
               <div v-if="logoURI" class="tw:ml-auto tw:shrink-0">
                 <img
                   :src="logoURI"
-                  :alt="`${item.datasetowner} logo`"
+                  :alt="
+                    representationTitle ||
+                    item.datasetowner ||
+                    t('detail.secondaryTable.institution')
+                  "
                   class="tw:max-h-20 tw:max-w-20 tw:object-contain tw:lg:max-h-25 tw:lg:max-w-25"
                 />
               </div>
@@ -417,16 +468,27 @@ function getCetafIdentifierUrl(country, identifier) {
             </template>
 
             <template v-slot:item.reference>
-              <div v-if="itemReference && itemReference.length > 0">
+              <div v-if="references.length">
                 <ul :id="referencesId" class="tw:list-[circle] tw:pl-5">
                   <li v-for="(item, index) in visibleReferences" :key="index">
-                    <span v-html="item" />
+                    <span v-if="item.html" v-html="item.html" />
+                    <ExpandableDetailText v-else :text="item.text" />
                   </li>
                 </ul>
                 <UButton
-                  v-if="itemReference.length > 3"
-                  :label="t(referencesExpanded ? 'detail.showLess' : 'detail.showMore')"
-                  :trailing-icon="referencesExpanded ? 'i-lucide-chevron-up' : 'i-lucide-chevron-down'"
+                  v-if="references.length > 3"
+                  :label="
+                    t(
+                      referencesExpanded
+                        ? 'detail.showLess'
+                        : 'detail.showMore',
+                    )
+                  "
+                  :trailing-icon="
+                    referencesExpanded
+                      ? 'i-lucide-chevron-up'
+                      : 'i-lucide-chevron-down'
+                  "
                   :aria-expanded="referencesExpanded"
                   :aria-controls="referencesId"
                   color="primary"
@@ -758,7 +820,9 @@ function getCetafIdentifierUrl(country, identifier) {
     class="tw:mx-auto tw:max-w-7xl tw:px-4 tw:py-6 tw:sm:px-6 tw:lg:px-8"
   >
     <GoBackButton />
-    <div class="tw:grid tw:grid-cols-1 tw:items-start tw:gap-6 tw:lg:grid-cols-2">
+    <div
+      class="tw:grid tw:grid-cols-1 tw:items-start tw:gap-6 tw:lg:grid-cols-2"
+    >
       <USkeleton class="tw:h-36 tw:rounded-[20px] tw:lg:col-span-2" />
       <USkeleton class="tw:h-80 tw:rounded-[20px]" />
       <USkeleton class="tw:h-80 tw:rounded-[20px]" />

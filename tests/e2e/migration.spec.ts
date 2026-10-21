@@ -420,7 +420,7 @@ test("mobile search filters close with Escape and preserve navigation", async ({
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("/ee/search?q=quartz");
   await page.getByRole("button", { name: "OK", exact: true }).click();
-  await page.getByRole("button", { name: "Ava või sulge navigeerimismenüü" }).click();
+  await page.getByRole("button", { name: "Otsing ja filtrid", exact: true }).click();
   await expect(page.getByRole("dialog")).toBeVisible();
   await page.keyboard.press("Escape");
   await expect(page.getByRole("dialog")).not.toBeVisible();
@@ -705,7 +705,7 @@ for (const width of [390, 768]) {
     await page.goto("/search");
     await page.getByRole("button", { name: "OK", exact: true }).click();
     await page
-      .getByRole("button", { name: "Toggle navigation drawer" })
+      .getByRole("button", { name: "Search & filters", exact: true })
       .click();
     const drawer = page.getByRole("dialog");
     const nameMatchMode = drawer.locator("details").filter({
@@ -741,7 +741,7 @@ test("material subtype and age filters survive reload and appear in specimen det
   await page.setViewportSize({ width: 390, height: 1000 });
   await page.goto("/search?kindofunit=%22Pollen%22&age_min=400&age_max=450");
   await page.getByRole("button", { name: "OK", exact: true }).click();
-  await page.getByRole("button", { name: "Toggle navigation drawer" }).click();
+  await page.getByRole("button", { name: "Search & filters", exact: true }).click();
   const drawer = page.getByRole("dialog");
   await expect(
     drawer.getByRole("button", { name: "Material type", exact: true }),
@@ -922,6 +922,15 @@ test("institution country circles render after delayed data and open filtered se
   releaseData();
   await expect(map).toHaveAttribute("data-country-markers", "2");
   await expect(map.locator(".map-country-count")).toHaveCount(2);
+  const expectCenteredCounts = async () => {
+    const offsets = await map.locator(".map-country-count").evaluateAll((markers) => markers.map((marker) => {
+      const circle = marker.getBoundingClientRect();
+      const text = marker.querySelector("span")!.getBoundingClientRect();
+      return Math.max(Math.abs(circle.x + circle.width / 2 - text.x - text.width / 2), Math.abs(circle.y + circle.height / 2 - text.y - text.height / 2));
+    }));
+    for (const offset of offsets) expect(offset).toBeLessThan(1);
+  };
+  await expectCenteredCounts();
   await expect(
     page.getByText(
       "This institution has specimens in GeoCASE, but their locality coordinates are missing, so they cannot be shown on the map.",
@@ -940,6 +949,7 @@ test("institution country circles render after delayed data and open filtered se
   await estoniaMarker.click({ trial: true });
   await map.getByRole("button", { name: "Zoom in", exact: true }).click();
   await homeMarker.click({ trial: true });
+  await expectCenteredCounts();
   await estoniaMarker.click();
   await expect(page).toHaveURL(/search/);
   const searchUrl = new URL(page.url());
@@ -955,7 +965,7 @@ test("typing in one search field survives another field submitting", async ({
   await page.setViewportSize({ width: 390, height: 1000 });
   await page.goto("/search");
   await page.getByRole("button", { name: "OK", exact: true }).click();
-  await page.getByRole("button", { name: "Toggle navigation drawer" }).click();
+  await page.getByRole("button", { name: "Search & filters", exact: true }).click();
   const drawer = page.getByRole("dialog");
   const quick = drawer.getByRole("textbox", {
     name: "Quick search...",
@@ -976,7 +986,7 @@ test("typing in one search field survives another field submitting", async ({
     .poll(() => new URL(page.url()).searchParams.get("q"))
     .toBe("fossil");
   await page.reload();
-  await page.getByRole("button", { name: "Toggle navigation drawer" }).click();
+  await page.getByRole("button", { name: "Search & filters", exact: true }).click();
   await expect(name).toHaveValue("Quartz");
   await expect(quick).toHaveValue("fossil");
 });
@@ -1014,7 +1024,7 @@ test("image-only checkbox changes table results and can leave the image gallery"
   await page.goto("/search?q=quartz");
   await page.getByRole("button", { name: "OK", exact: true }).click();
   await expect(page.locator("#table")).toContainText("NO-IMAGE");
-  await page.getByRole("button", { name: "Toggle navigation drawer" }).click();
+  await page.getByRole("button", { name: "Search & filters", exact: true }).click();
   const drawer = page.getByRole("dialog");
   const checkbox = drawer.getByRole("checkbox", {
     name: "Show only records with images",
@@ -1030,7 +1040,7 @@ test("image-only checkbox changes table results and can leave the image gallery"
   await page.keyboard.press("Escape");
   await page.getByRole("tab", { name: /images/i }).click();
   await expect(page).toHaveURL(/has_image=true/);
-  await page.getByRole("button", { name: "Toggle navigation drawer" }).click();
+  await page.getByRole("button", { name: "Search & filters", exact: true }).click();
   await expect(checkbox).toBeChecked();
   await checkbox.uncheck();
   await expect(page).not.toHaveURL(/has_image=/);
@@ -1044,7 +1054,7 @@ test("image-only checkbox changes table results and can leave the image gallery"
     page.getByText(/This view applies the .* filter\./),
   ).toHaveCount(0);
   expect(new URL(page.url()).searchParams.get("q")).toBe("quartz");
-  await page.getByRole("button", { name: "Toggle navigation drawer" }).click();
+  await page.getByRole("button", { name: "Search & filters", exact: true }).click();
   await checkbox.check();
   await expect(page).toHaveURL(/has_image=true/);
 });
@@ -1361,4 +1371,117 @@ test("map location list opens popup by keyboard and Escape returns focus", async
   await page.keyboard.press("Escape");
   await expect(popup).not.toBeVisible();
   await expect(marker).toBeFocused();
+});
+
+for (const width of [390, 1440]) {
+  test(`detail handles long names, references and missing values at ${width}px`, async ({ page }) => {
+    await page.setViewportSize({ width, height: 1000 });
+    const longTitle = "VeryLongScientificName".repeat(12);
+    const aliases = Array.from({ length: 12 }, (_, index) => `Alternative determination ${index + 1}`);
+    await page.route("**/api?**", (route) => {
+      const url = new URL(route.request().url());
+      if (!url.searchParams.get("q")?.startsWith("geocase_id:")) return route.fallback();
+      return route.fulfill({ json: { response: { numFound: 1, docs: [{
+        ...specimen, fullscientificname: longTitle,
+        names: [longTitle, "", null, "  ", ...aliases, aliases[0]],
+        images: ["", null, "  "], country: "  ", locality: [], datasetowner: "  ",
+        latitude: 0, longitude: 25,
+        reference: Array.from({ length: 5 }, (_, index) => `Citation ${index + 1}: https://example.org/${"very-long-path".repeat(50)}`),
+      }] } } });
+    });
+    await page.goto("/specimen/demo:1");
+    await page.getByRole("button", { name: "OK", exact: true }).click();
+    await expect(page.getByRole("heading", { level: 1 })).toHaveText(longTitle);
+    const names = page.getByRole("heading", { name: /^Other identifications:/ });
+    await expect(names).toContainText(aliases[2]);
+    await expect(names).not.toContainText(aliases[3]);
+    const namesId = await names.getAttribute("id");
+    await page.locator(`[aria-controls="${namesId}"]`).click();
+    await expect(names).toContainText(aliases[11]);
+    await expect(page.locator(".v-carousel")).toHaveCount(0);
+    await expect(page.locator(".detail-map")).toBeVisible();
+    await expect(page.locator("table tr").filter({ has: page.getByRole("rowheader", { name: "Country", exact: true }) })).toHaveCount(0);
+    const references = page.getByRole("row").filter({ has: page.getByRole("rowheader", { name: "Reference", exact: true }) });
+    await expect(references.locator("li")).toHaveCount(3);
+    const referencesId = await references.locator("ul").getAttribute("id");
+    await references.locator(`[aria-controls="${referencesId}"]`).click();
+    await expect(references.locator("li")).toHaveCount(5);
+    await references.locator("li").first().getByRole("button", { name: "Show more", exact: true }).click();
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+    const emptyRows = await page.locator("table tr").evaluateAll((rows) => rows.filter((row) => !row.querySelector("td")?.textContent?.trim()).length);
+    expect(emptyRows).toBe(0);
+  });
+}
+
+for (const width of [390, 768, 1024, 1440]) {
+  test(`search filters have a visible labelled entry point at ${width}px`, async ({ page }) => {
+    await page.setViewportSize({ width, height: 1000 });
+    await page.goto('/search?q=quartz&country=%22Estonia%22');
+    await page.getByRole("button", { name: "OK", exact: true }).click();
+    await expect(page.getByRole("heading", { level: 1 })).toContainText("75");
+    const toggle = page.locator("#search-filters-toggle");
+    await expect(toggle).toHaveAccessibleName("Search & filters");
+    await expect(toggle).toBeVisible();
+    await expect(toggle).toContainText("Search & filters");
+    await expect(toggle.locator("#search-filter-count")).toHaveText("2");
+    await expect(page.getByRole("navigation", { name: "Main navigation" }).getByRole("button", { name: "Search & filters" })).toHaveCount(0);
+    if (width < 960) {
+      await expect(toggle).toHaveAttribute("aria-expanded", "false");
+      await toggle.click();
+      const dialog = page.getByRole("dialog", { name: "Search filters", exact: true });
+      await expect(dialog).toBeVisible();
+      await expect(toggle).toHaveAttribute("aria-expanded", "true");
+      await dialog.getByRole("button", { name: "Show results (75)", exact: true }).click();
+      await expect(dialog).not.toBeVisible();
+      await expect(toggle).toBeFocused();
+      await page.keyboard.press("Enter");
+      await expect(dialog).toBeVisible();
+      await page.keyboard.press("Escape");
+      await expect(dialog).not.toBeVisible();
+      await expect(toggle).toBeFocused();
+    } else {
+      const panel = page.getByRole("complementary", { name: "Search filters", exact: true });
+      await expect(panel).toBeVisible();
+      await toggle.click();
+      await expect(panel).not.toBeVisible();
+      await expect(toggle).toHaveAttribute("aria-expanded", "false");
+      await toggle.press("Enter");
+      await expect(panel).toBeVisible();
+      await expect(toggle).toHaveAttribute("aria-expanded", "true");
+    }
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+    await page.screenshot({ path: test.info().outputPath("search-filter-entry.png"), fullPage: true });
+  });
+}
+
+for (const width of [390, 1440]) {
+  for (const [prefix, heading, searchLabel] of [["", "Page not found", "Search collections"], ["/ee", "Lehte ei leitud", "Ava otsing"], ["/de", "Seite nicht gefunden", "Sammlungen durchsuchen"]]) {
+    test(`branded 404 page recovers to search in ${prefix || "English"} at ${width}px`, async ({ page }) => {
+      await page.setViewportSize({ width, height: 1000 });
+      await page.goto(`${prefix}/this-page-does-not-exist`);
+      await expect(page.getByRole("heading", { level: 1, name: heading, exact: true })).toBeVisible();
+      await expect(page).toHaveURL(new RegExp(`${prefix}/this-page-does-not-exist$`));
+      await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", "noindex, nofollow");
+      expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+      await page.screenshot({ path: test.info().outputPath("error-page.png"), fullPage: true });
+      await page.getByRole("main").getByRole("link", { name: searchLabel, exact: true }).click();
+      await expect(page).toHaveURL(new RegExp(`${prefix}/search(?:\\?|$)`));
+      await expect(page.getByRole("heading", { level: 1 })).toContainText("75");
+    });
+  }
+}
+
+test("branded server error offers retry without exposing internal details", async ({ page }) => {
+  await page.goto("/ee/search?q=quartz");
+  await page.getByRole("button", { name: "OK", exact: true }).click();
+  await page.evaluate(() => {
+    const root = document.getElementById("__nuxt") as HTMLElement & { __vue_app__: { $nuxt: { payload: { error: unknown } } } };
+    const app = root.__vue_app__.$nuxt;
+    app.payload.error = { statusCode: 500, message: "Sensitive internal stack details", fatal: true };
+  });
+  await expect(page.getByRole("heading", { level: 1, name: "Midagi läks valesti" })).toBeVisible();
+  await expect(page.getByText("Sensitive internal stack details", { exact: false })).toHaveCount(0);
+  await page.getByRole("button", { name: "Proovi uuesti", exact: true }).click();
+  await expect(page).toHaveURL(/\/ee\/search\?q=quartz/);
+  await expect(page.getByRole("heading", { level: 1 })).toContainText("75");
 });

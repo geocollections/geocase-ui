@@ -2,20 +2,17 @@
 import { computed, ref } from "vue";
 import { useRoute, useRouter } from "#imports";
 import { useI18n } from "vue-i18n";
-import { useSettingsStore } from "@/stores/settings";
 import {
   navigationVisibility,
   useAppNavigation,
 } from "@/composables/useAppNavigation";
 
 const emit = defineEmits<{
-  "toggle:searchDrawer": [];
   "toggle:navigationDrawer": [];
 }>();
 const route = useRoute();
 const router = useRouter();
 const { t } = useI18n();
-const settings = useSettingsStore();
 const { language, localePath, changeLanguage } = useAppNavigation();
 const quickSearch = ref("");
 const links = computed(() => [
@@ -73,20 +70,6 @@ function submitSearch() {
       :aria-label="t('a11y.mainNavigation')"
       class="tw:flex tw:h-full tw:items-center tw:gap-1 tw:px-3 tw:sm:gap-2 tw:sm:px-5"
     >
-      <UTooltip
-        v-if="route.name === 'Search'"
-        :text="t('header.showSearch')"
-        :ui="{ content: 'tw:z-[3400]' }"
-      >
-        <UButton
-          icon="i-lucide-sliders-horizontal"
-          color="neutral"
-          variant="ghost"
-          class="header-button"
-          :aria-label="t('a11y.toggleNavigation')"
-          @click="emit('toggle:searchDrawer')"
-        />
-      </UTooltip>
       <NuxtLink
         :to="localePath('/')"
         :title="t('header.titleTooltip')"

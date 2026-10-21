@@ -1,4 +1,25 @@
 {
+  "errorPage": {
+    "error": "Fehler",
+    "notFoundTitle": "Seite nicht gefunden",
+    "notFoundDescription": "Die Adresse wurde möglicherweise geändert oder die Seite entfernt. Entdecken Sie die geowissenschaftlichen Sammlungen über die Suche.",
+    "errorTitle": "Etwas ist schiefgelaufen",
+    "errorDescription": "Diese Seite konnte nicht geöffnet werden. Versuchen Sie es später erneut oder stöbern Sie weiter in den Sammlungen.",
+    "retry": "Erneut versuchen",
+    "home": "Startseite",
+    "search": "Sammlungen durchsuchen",
+    "backHome": "Zur Startseite",
+    "continueExploring": "Weiter entdecken",
+    "searchTitle": "Sammlungsobjekte finden",
+    "searchDescription": "Entdecken Sie Fossilien, Minerale und Gesteine.",
+    "institutionsTitle": "Institutionen entdecken",
+    "institutionsDescription": "Entdecken Sie die Sammlungen unserer Datenanbieter.",
+    "helpTitle": "Hilfe und Anleitungen",
+    "helpDescription": "Hilfe zur Suche und zur Nutzung der Daten.",
+    "footer": "Europäisches Portal geowissenschaftlicher Sammlungen",
+    "navigation": "Hauptnavigation",
+    "skipToContent": "Zum Hauptinhalt springen"
+  },
   "a11y": {
     "closeCookie": "Cookie-Hinweis schließen",
     "partnerMap": "Karte der Partnereinrichtungen",
@@ -498,6 +519,11 @@
     }
   },
   "search": {
+    "openFilters": "Suche & Filter",
+    "activeFilterCount": "{count} aktive Filter",
+    "filtersHint": "Suche nach Name, Fundort oder Sammlung eingrenzen.",
+    "showResults": "Ergebnisse anzeigen ({count})",
+    "backToResults": "Zurück zu den Ergebnissen",
     "noResultsFilteredHint": "Entfernen Sie einen der aktiven Filter oben oder verwenden Sie einen allgemeineren Suchbegriff. Prüfen Sie auch die Schreibweise.",
     "noResultsBroadHint": "Versuchen Sie einen allgemeineren Suchbegriff oder prüfen Sie die Schreibweise.",
     "editSearch": "Suche anpassen",
