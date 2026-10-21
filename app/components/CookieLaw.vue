@@ -1,10 +1,14 @@
 <template>
-  <v-card rounded="0" class="CookieLaw py-3 px-6" elevation="12">
+  <v-card
+    rounded="0"
+    class="CookieLaw tw:fixed! tw:bottom-0 tw:z-[100000] tw:w-full py-3 px-6"
+    elevation="12"
+  >
     <div class="d-flex flex-row justify-center">
       <div
         class="align-self-center pr-3"
         :class="{
-          'text-sm': $vuetify.display.smAndDown,
+          'tw:text-sm': $vuetify.display.smAndDown,
         }"
       >
         {{ $t("cookiePolicy.introduction") }}
@@ -36,16 +40,3 @@ export default {
   name: "CookieLaw",
 };
 </script>
-
-<style scoped>
-.CookieLaw {
-  position: fixed;
-  bottom: 0;
-  z-index: 100000;
-  width: 100%;
-}
-
-.text-sm {
-  font-size: 14px;
-}
-</style>

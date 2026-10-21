@@ -51,7 +51,7 @@
               ><a
                 :href="url"
                 target="UrlWindow"
-                class="link text-decoration-none"
+                class="tw:hover:opacity-70 text-decoration-none"
                 >{{ $t("imageGallery.linkToImage") }}
                 <v-icon color="primary" size="x-small"
                   >fa:fas fa-external-link-alt</v-icon
@@ -138,9 +138,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-.link:hover {
-  opacity: 0.7;
-}
-</style>

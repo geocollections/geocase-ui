@@ -1,6 +1,6 @@
 <template>
   <NuxtLayout name="default">
-    <v-container class="static-page">
+    <v-container class="static-page tw:max-w-275!">
       <v-card class="pa-4 pa-md-6">
         <v-row>
           <v-col cols="12" md="3">
@@ -24,8 +24,3 @@
 import { useSettingsStore } from "@/stores/settings";
 const settings = useSettingsStore();
 </script>
-<style scoped>
-.static-page {
-  max-width: 1100px;
-}
-</style>
