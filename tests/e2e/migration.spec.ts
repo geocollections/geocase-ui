@@ -1116,8 +1116,8 @@ for (const entry of ["search", "specimen"]) {
       information.getByText("GeoCASe photographer", { exact: true }),
     ).toBeVisible();
     await expect(
-      information.getByText("CC BY 4.0", { exact: true }),
-    ).toHaveCount(0);
+      information.locator(":scope > dl").getByText("CC BY 4.0", { exact: true }),
+    ).toBeVisible();
     await expect(
       information.getByText("2024-03-12", { exact: true }),
     ).toBeHidden();

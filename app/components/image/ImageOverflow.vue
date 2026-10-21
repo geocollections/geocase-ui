@@ -23,6 +23,15 @@ const showGallery = ref(true);
 const previewColumns = ref(2);
 
 const currentImage = computed(() => props.images[props.currentIndex]);
+const imageLicence = computed(() => {
+  const image = currentImage.value;
+  const value = image?.image_license || image?.image_licence;
+  return (
+    Array.isArray(value)
+      ? value.filter(Boolean).join(" · ")
+      : String(value ?? "")
+  ).trim();
+});
 const metadataGroups = computed(() => {
   const image = currentImage.value;
   if (!image) return [];
@@ -73,11 +82,20 @@ const metadataGroups = computed(() => {
     .filter((group) => group.fields.length);
 });
 const summaryKeys = new Set(["locality", "country", "image_author"]);
-const summaryFields = computed(() =>
-  metadataGroups.value
+const summaryFields = computed(() => [
+  ...metadataGroups.value
     .flatMap((group) => group.fields)
     .filter((field) => summaryKeys.has(field.key)),
-);
+  ...(imageLicence.value
+    ? [
+        {
+          key: "image_license",
+          label: t("imageGallery.licence"),
+          value: imageLicence.value,
+        },
+      ]
+    : []),
+]);
 const additionalGroups = computed(() =>
   metadataGroups.value
     .map((group) => ({
