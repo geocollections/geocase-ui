@@ -2,6 +2,7 @@
 import { computed, reactive } from "vue";
 import { useI18n } from "vue-i18n";
 import { useSearchStore } from "@/stores/search";
+import SearchEmptyState from "@/components/search/SearchEmptyState.vue";
 import ImageWrapper from "@/components/image/ImageWrapper.vue";
 import ImageOverflow from "@/components/image/ImageOverflow.vue";
 
@@ -32,7 +33,12 @@ const searchResultImages = computed(() => {
           ? `https://geocase.eu/thumbnails/${encodeURIComponent(image)}`
           : "",
         originalImage: image,
-        altText: ["recordbasis", "fullscientificname", "locality", "datasetowner"]
+        altText: [
+          "recordbasis",
+          "fullscientificname",
+          "locality",
+          "datasetowner",
+        ]
           .filter((field) => result[field])
           .map((field) => `${t(`search.table.${field}`)}: ${result[field]}`)
           .join(", "),
@@ -42,9 +48,7 @@ const searchResultImages = computed(() => {
 
 function openDialogUsingImage(image) {
   gallery.currentIndex = Math.max(
-    searchResultImages.value.findIndex(
-      (item) => item.originalImage === image,
-    ),
+    searchResultImages.value.findIndex((item) => item.originalImage === image),
     0,
   );
   gallery.open = true;
@@ -162,13 +166,7 @@ defineExpose({ openDialogUsingImage });
       v-else-if="!searchStore.isLoading"
       class="tw:mx-auto tw:max-w-2xl tw:px-4 tw:py-10"
     >
-      <UAlert
-        color="neutral"
-        variant="soft"
-        icon="i-lucide-search-x"
-        :title="t('search.imageNoResults')"
-      >
-      </UAlert>
+      <SearchEmptyState images />
     </div>
 
     <ImageOverflow
