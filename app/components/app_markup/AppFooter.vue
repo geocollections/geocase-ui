@@ -298,11 +298,16 @@ const logos = [
           </p>
         </div>
         <div
-          class="tw:grid tw:grid-cols-2 tw:items-center tw:gap-x-5 tw:gap-y-4 tw:sm:grid-cols-3 tw:sm:gap-x-7"
+          class="tw:grid tw:grid-cols-2 tw:items-center tw:gap-x-5 tw:gap-y-2 tw:md:grid-cols-3 tw:md:gap-x-7"
         >
           <a
-            v-for="logo in logos"
+            v-for="(logo, index) in logos"
             :key="logo.image"
+            :class="
+              index === logos.length - 1
+                ? 'tw:col-span-2 tw:w-1/2 tw:justify-self-center tw:md:col-span-1 tw:md:w-auto tw:md:justify-self-auto'
+                : undefined
+            "
             :href="logo.href"
             target="_blank"
             rel="noopener noreferrer"
@@ -314,7 +319,7 @@ const logos = [
               width="175"
               height="90"
               loading="lazy"
-              class="tw:h-14 tw:w-full tw:max-w-36 tw:object-contain tw:sm:h-16 tw:sm:max-w-44 tw:lg:h-20 tw:lg:max-w-48"
+              class="tw:h-16 tw:w-full tw:max-w-40 tw:object-contain tw:md:max-w-44 tw:lg:h-20 tw:lg:max-w-48"
             />
           </a>
         </div>
