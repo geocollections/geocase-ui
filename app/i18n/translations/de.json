@@ -498,6 +498,12 @@
     }
   },
   "search": {
+    "noResultsFilteredHint": "Entfernen Sie einen der aktiven Filter oben oder verwenden Sie einen allgemeineren Suchbegriff. Prüfen Sie auch die Schreibweise.",
+    "noResultsBroadHint": "Versuchen Sie einen allgemeineren Suchbegriff oder prüfen Sie die Schreibweise.",
+    "editSearch": "Suche anpassen",
+    "copySearchLink": "Suchlink kopieren",
+    "linkCopied": "Suchlink kopiert.",
+    "linkCopyFailed": "Der Link konnte nicht kopiert werden. Kopieren Sie die Adresse aus der Adressleiste.",
     "layout": {
       "results": "Ergebnisse",
       "mapLocationSummary": "Karte: {count} Standorte · Tabelle: {records} Datensätze",

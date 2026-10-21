@@ -499,6 +499,12 @@
     }
   },
   "search": {
+    "noResultsFilteredHint": "Eemalda mõni ülal kuvatud filter või kasuta laiemat otsingusõna. Kontrolli ka õigekirja.",
+    "noResultsBroadHint": "Proovi laiemat otsingusõna või kontrolli õigekirja.",
+    "editSearch": "Muuda otsingut",
+    "copySearchLink": "Kopeeri otsingu link",
+    "linkCopied": "Otsingu link on kopeeritud.",
+    "linkCopyFailed": "Lingi kopeerimine ebaõnnestus. Kopeeri aadress brauseri aadressiribalt.",
     "layout": {
       "results": "Tulemused",
       "mapLocationSummary": "Kaardil {count} asukohta · tabelis {records} kirjet",

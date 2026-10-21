@@ -499,6 +499,12 @@
     }
   },
   "search": {
+    "noResultsFilteredHint": "Remove one of the active filters above or use a broader search term. Check the spelling too.",
+    "noResultsBroadHint": "Try a broader search term or check the spelling.",
+    "editSearch": "Edit search",
+    "copySearchLink": "Copy search link",
+    "linkCopied": "Search link copied.",
+    "linkCopyFailed": "Could not copy the link. Copy the address from your browser’s address bar.",
     "layout": {
       "results": "Results",
       "mapLocationSummary": "Map: {count} locations · Table: {records} records",
