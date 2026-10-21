@@ -1372,3 +1372,43 @@ test("map location list opens popup by keyboard and Escape returns focus", async
   await expect(popup).not.toBeVisible();
   await expect(marker).toBeFocused();
 });
+
+for (const width of [390, 1440]) {
+  test(`detail handles long names, references and missing values at ${width}px`, async ({ page }) => {
+    await page.setViewportSize({ width, height: 1000 });
+    const longTitle = "VeryLongScientificName".repeat(12);
+    const aliases = Array.from({ length: 12 }, (_, index) => `Alternative determination ${index + 1}`);
+    await page.route("**/api?**", (route) => {
+      const url = new URL(route.request().url());
+      if (!url.searchParams.get("q")?.startsWith("geocase_id:")) return route.fallback();
+      return route.fulfill({ json: { response: { numFound: 1, docs: [{
+        ...specimen, fullscientificname: longTitle,
+        names: [longTitle, "", null, "  ", ...aliases, aliases[0]],
+        images: ["", null, "  "], country: "  ", locality: [], datasetowner: "  ",
+        latitude: 0, longitude: 25,
+        reference: Array.from({ length: 5 }, (_, index) => `Citation ${index + 1}: https://example.org/${"very-long-path".repeat(50)}`),
+      }] } } });
+    });
+    await page.goto("/specimen/demo:1");
+    await page.getByRole("button", { name: "OK", exact: true }).click();
+    await expect(page.getByRole("heading", { level: 1 })).toHaveText(longTitle);
+    const names = page.getByRole("heading", { name: /^Other identifications:/ });
+    await expect(names).toContainText(aliases[2]);
+    await expect(names).not.toContainText(aliases[3]);
+    const namesId = await names.getAttribute("id");
+    await page.locator(`[aria-controls="${namesId}"]`).click();
+    await expect(names).toContainText(aliases[11]);
+    await expect(page.locator(".v-carousel")).toHaveCount(0);
+    await expect(page.locator(".detail-map")).toBeVisible();
+    await expect(page.locator("table tr").filter({ has: page.getByRole("rowheader", { name: "Country", exact: true }) })).toHaveCount(0);
+    const references = page.getByRole("row").filter({ has: page.getByRole("rowheader", { name: "Reference", exact: true }) });
+    await expect(references.locator("li")).toHaveCount(3);
+    const referencesId = await references.locator("ul").getAttribute("id");
+    await references.locator(`[aria-controls="${referencesId}"]`).click();
+    await expect(references.locator("li")).toHaveCount(5);
+    await references.locator("li").first().getByRole("button", { name: "Show more", exact: true }).click();
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+    const emptyRows = await page.locator("table tr").evaluateAll((rows) => rows.filter((row) => !row.querySelector("td")?.textContent?.trim()).length);
+    expect(emptyRows).toBe(0);
+  });
+}
