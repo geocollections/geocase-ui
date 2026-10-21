@@ -1,5 +1,8 @@
 <template>
   <v-app>
+    <a href="#main-content" class="skip-link" @click.prevent="skipToContent">{{
+      $t("a11y.skipToContent")
+    }}</a>
     <AppHeader />
     <main
       class="tw:flex tw:flex-1"
@@ -11,7 +14,7 @@
         v-if="route.name === 'Search'"
         v-model:drawer="settings.searchDrawer"
       />
-      <div class="tw:min-w-0 tw:flex-1">
+      <div id="main-content" tabindex="-1" class="tw:min-w-0 tw:flex-1">
         <LandingImage v-if="route.name === 'FrontPage'" /><slot />
       </div>
     </main>
@@ -29,6 +32,11 @@ import AppHeader from "@/components/app_markup/AppHeader.vue";
 import AppFooter from "@/components/app_markup/AppFooter.vue";
 import LandingImage from "@/components/app_markup/app_header/LandingImage.vue";
 import CookieLaw from "@/components/CookieLaw.vue";
+function skipToContent() {
+  const content = document.getElementById("main-content");
+  content?.focus();
+  content?.scrollIntoView({ block: "start" });
+}
 const route = useRoute();
 const cookie = useCookieStore();
 const settings = useSettingsStore();

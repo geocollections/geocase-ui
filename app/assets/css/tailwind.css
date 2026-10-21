@@ -179,3 +179,46 @@
 .institution-location-dot {
   @apply tw:inline-grid tw:shrink-0 tw:place-items-center tw:rounded-full tw:border-3 tw:border-white tw:bg-home-link tw:text-white tw:shadow-lg;
 }
+
+/* Keep keyboard focus visible above map tiles and below the fixed header. */
+:where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+  outline: 3px solid #713b8b;
+  outline-offset: 3px;
+  scroll-margin-block: 6rem;
+}
+:where(button, [role="button"]) {
+  min-width: 24px;
+  min-height: 24px;
+}
+#main-content {
+  scroll-margin-top: 5rem;
+}
+.skip-link {
+  position: fixed;
+  top: 0.5rem;
+  left: 0.5rem;
+  z-index: 10000;
+  padding: 0.75rem 1rem;
+  background: white;
+  color: #482a55;
+  border: 2px solid #713b8b;
+  border-radius: 0.5rem;
+  transform: translateY(-200%);
+}
+.skip-link:focus {
+  transform: translateY(0);
+}
+.leaflet-container .leaflet-marker-icon:focus-visible {
+  outline: 3px solid #713b8b;
+  outline-offset: 3px;
+}
+.leaflet-container .map-marker {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.leaflet-container .leaflet-popup-close-button {
+  min-width: 24px;
+  min-height: 24px;
+}
+
