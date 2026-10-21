@@ -1453,3 +1453,35 @@ for (const width of [390, 768, 1024, 1440]) {
     await page.screenshot({ path: test.info().outputPath("search-filter-entry.png"), fullPage: true });
   });
 }
+
+for (const width of [390, 1440]) {
+  for (const [prefix, heading, searchLabel] of [["", "Page not found", "Search collections"], ["/ee", "Lehte ei leitud", "Ava otsing"], ["/de", "Seite nicht gefunden", "Sammlungen durchsuchen"]]) {
+    test(`branded 404 page recovers to search in ${prefix || "English"} at ${width}px`, async ({ page }) => {
+      await page.setViewportSize({ width, height: 1000 });
+      await page.goto(`${prefix}/this-page-does-not-exist`);
+      await expect(page.getByRole("heading", { level: 1, name: heading, exact: true })).toBeVisible();
+      await expect(page).toHaveURL(new RegExp(`${prefix}/this-page-does-not-exist$`));
+      await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", "noindex, nofollow");
+      expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+      await page.screenshot({ path: test.info().outputPath("error-page.png"), fullPage: true });
+      await page.getByRole("main").getByRole("link", { name: searchLabel, exact: true }).click();
+      await expect(page).toHaveURL(new RegExp(`${prefix}/search(?:\\?|$)`));
+      await expect(page.getByRole("heading", { level: 1 })).toContainText("75");
+    });
+  }
+}
+
+test("branded server error offers retry without exposing internal details", async ({ page }) => {
+  await page.goto("/ee/search?q=quartz");
+  await page.getByRole("button", { name: "OK", exact: true }).click();
+  await page.evaluate(() => {
+    const root = document.getElementById("__nuxt") as HTMLElement & { __vue_app__: { $nuxt: { payload: { error: unknown } } } };
+    const app = root.__vue_app__.$nuxt;
+    app.payload.error = { statusCode: 500, message: "Sensitive internal stack details", fatal: true };
+  });
+  await expect(page.getByRole("heading", { level: 1, name: "Midagi läks valesti" })).toBeVisible();
+  await expect(page.getByText("Sensitive internal stack details", { exact: false })).toHaveCount(0);
+  await page.getByRole("button", { name: "Proovi uuesti", exact: true }).click();
+  await expect(page).toHaveURL(/\/ee\/search\?q=quartz/);
+  await expect(page.getByRole("heading", { level: 1 })).toContainText("75");
+});
