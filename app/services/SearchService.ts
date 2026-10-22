@@ -221,7 +221,7 @@ class SearchService {
     const searchFields = buildSearchFieldsQuery(mapSearch, params.searchIds, false);
     const grouping = "concat(latitude,',',longitude)";
     const sort = buildSort(params.sortBy, params.sortDesc, params.search);
-    const url = `${API_URL}?start=0&rows=3000&group=true&group.func=${encodeURIComponent(grouping)}&group.limit=1&sort=${sort}&fl=geocase_id,unitid,fullscientificname,locality,country,latitude,longitude&fq=latitude:[-90%20TO%2090]&fq=longitude:[-180%20TO%20180]&${searchFields}`;
+    const url = `${API_URL}?start=0&rows=1000&group=true&group.func=${encodeURIComponent(grouping)}&group.limit=1&sort=${sort}&fl=geocase_id,unitid,fullscientificname,locality,country,latitude,longitude&fq=latitude:[-90%20TO%2090]&fq=longitude:[-180%20TO%20180]&${searchFields}`;
     const res = await axios.get(url);
     const groups: SolrLocalityGroup[] = res.data?.grouped?.[grouping]?.groups ?? [];
     return groups.flatMap((group) => {
