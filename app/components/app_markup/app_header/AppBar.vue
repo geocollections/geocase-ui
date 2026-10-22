@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import AppLogo from "@/components/AppLogo.vue";
 import { computed, ref } from "vue";
 import { useRoute, useRouter } from "#imports";
 import { useI18n } from "vue-i18n";
@@ -74,14 +75,9 @@ function submitSearch() {
         :to="localePath('/')"
         :title="t('header.titleTooltip')"
         aria-label="GeoCASe"
-        class="tw:mr-1 tw:flex tw:shrink-0 tw:items-center tw:rounded-lg tw:whitespace-nowrap tw:no-underline tw:transition-opacity tw:hover:opacity-85 tw:focus-visible:outline-2 tw:focus-visible:outline-offset-4 tw:focus-visible:outline-home-accent tw:sm:mr-3"
+        class="tw:mr-1 tw:flex tw:shrink-0 tw:items-center tw:gap-2 tw:rounded-lg tw:whitespace-nowrap tw:no-underline tw:transition-opacity tw:hover:opacity-85 tw:focus-visible:outline-2 tw:focus-visible:outline-offset-4 tw:focus-visible:outline-home-accent tw:sm:mr-3"
       >
-        <span
-          class="tw:font-serif tw:text-[1.55rem] tw:font-bold tw:tracking-[-0.055em]"
-        >
-          <span class="tw:text-home-accent">Geo</span>
-          <span class="tw:text-white">CASe</span>
-        </span>
+        <AppLogo />
       </NuxtLink>
       <UButton
         v-for="link in links"

@@ -26,7 +26,7 @@ export default defineNuxtConfig({
   ],
   runtimeConfig: { apiBase: "https://api.geocase.eu", datasetCatalogUrl: "https://geocase.eu/dcat/datasets.json" },
   app: {
-    head: { title: "Welcome", link: [{ rel: "icon", href: "/favicon.ico" }] },
+    head: { title: "Welcome", link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico?v=purple" }, { rel: "icon", type: "image/svg+xml", href: "/favicon.svg" }] },
   },
   devtools: { enabled: false },
 });
