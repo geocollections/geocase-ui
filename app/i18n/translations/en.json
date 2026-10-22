@@ -330,20 +330,22 @@
   },
   "datasetsPage": {
     "title": "Datasets",
-    "description": "GeoCASe brings together geoscience collection records from museums and research institutions. Explore the datasets represented in the portal, their institutions and links to browse their records.",
+    "description": "Explore geoscience datasets from contributing museums and research institutions. Each dataset has its own page with collection information and access links.",
     "viewRecords": "View records",
     "empty": "No datasets available.",
     "loading": "Loading datasets…",
     "explanationTitle": "What does the dataset list show?",
-    "explanation": "In this list, a dataset is a group of records from one data source. The source address distinguishes datasets, and the record count shows how many records from that source are currently searchable in GeoCASe.",
-    "institutionExplanation": "Institution associations come from the dataset owner field in the records. An institution can contribute several datasets, and a source can be associated with several institutions. Click an institution name to open its profile when one is available in the portal.",
-    "usageExplanation": "Choose “View records” to browse a dataset. Specimen types come from its records. When using the data, check the terms of use of the individual records and acknowledge the contributing institution.",
+    "explanation": "A dataset is a collection of related geoscience records contributed by a museum or research institution. One institution can publish several datasets, each covering a different collection, subject or geographic area.",
+    "institutionExplanation": "Each dataset has its own page with a stable identifier (GUID). Where supplied by the institution, the page shows its description, coverage, citation, licence and access links.",
+    "usageExplanation": "Open a dataset to learn about its contents and follow the available links to the source. Before reusing the data, check its licence and rights statement, and cite the contributing institution.",
     "institutions": "Associated institutions / data owners",
     "unknownInstitution": "No institution is specified in the records.",
     "source": "Dataset source",
     "specimenTypes": "Specimen types in this dataset",
     "error": "Could not load datasets.",
-    "retry": "Try again"
+    "retry": "Try again",
+    "browseTitle": "Explore the datasets",
+    "browseDescription": "Discover the descriptions, coverage, licences and access links of published datasets."
   },
   "frontPage": {
     "heroEyebrow": "Geoscience collections",
@@ -938,5 +940,24 @@
       "github": "Explore the portal source code, follow development and report issues.",
       "legacy": "Visit the original GeoCASe portal."
     }
+  },
+  "datasetDetail": {
+    "title": "Dataset",
+    "back": "All datasets",
+    "description": "Description",
+    "institution": "Institution",
+    "coverage": "Coverage",
+    "spatial": "Geographic coverage",
+    "taxonomic": "Taxonomic coverage",
+    "geoecological": "Geoecological coverage",
+    "citation": "Citation",
+    "licence": "Licence and rights",
+    "access": "Access links",
+    "source": "Open source landing page",
+    "accessRights": "Access conditions",
+    "notFound": "Dataset not found",
+    "catalog": "Dataset landing pages",
+    "catalogError": "Dataset descriptions could not be loaded.",
+    "view": "View dataset"
   }
 }
