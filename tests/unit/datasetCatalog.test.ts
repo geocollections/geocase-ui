@@ -20,6 +20,9 @@ describe("dataset catalog", () => {
   it("rejects unexpected upstream responses", () => {
     expect(() => parseDatasetCatalog({ error: "unavailable" })).toThrow();
   });
+  it("rejects an HTML redirect response instead of rendering its characters", () => {
+    expect(() => parseDatasetCatalog({ data: "<!DOCTYPE html><html>API docs</html>" })).toThrow();
+  });
   it("allows only complete HTTP access links", () => {
     expect(datasetWebUrl("https://example.org/data")).toBe("https://example.org/data");
     for (const value of ["javascript:alert(1)", "data:text/html,test", "/relative", "", null]) {

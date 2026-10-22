@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import { useAsyncData } from "#imports";
 import { $fetch } from "ofetch";
-import type { CatalogDataset } from "@/utils/datasetCatalog";
-import { datasetWebUrl } from "@/utils/datasetCatalog";
+import { datasetWebUrl, parseDatasetCatalog } from "@/utils/datasetCatalog";
 
 definePageMeta({ name: "Dataset detail", path: "/:locale(en|ee|de)?/dataset/:guid" });
 const route = useRoute();
@@ -10,7 +9,12 @@ const { t } = useI18n();
 const { localePath } = useAppNavigation();
 const { data: dataset, status, error, refresh } = useAsyncData(
   () => `dataset-${route.params.guid}`,
-  () => $fetch<CatalogDataset>(`/api/datasets/${encodeURIComponent(String(route.params.guid))}`),
+  async () => {
+    const response = await $fetch<unknown>(`/catalog/datasets/${encodeURIComponent(String(route.params.guid))}`, { responseType: "json" });
+    const dataset = parseDatasetCatalog({ data: [response] })[0];
+    if (!dataset) throw new Error("Invalid dataset response");
+    return dataset;
+  },
 );
 const fields = computed(() => [
   ["coverage", dataset.value?.coverage],

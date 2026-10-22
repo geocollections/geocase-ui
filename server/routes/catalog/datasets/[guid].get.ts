@@ -1,4 +1,4 @@
-import type { CatalogDataset } from "../../../app/utils/datasetCatalog";
+import type { CatalogDataset } from "../../../../app/utils/datasetCatalog";
 
 export default defineEventHandler(async (event): Promise<CatalogDataset> => {
   const guid = getRouterParam(event, "guid") ?? "";

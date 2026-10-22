@@ -3,12 +3,12 @@ import { useAsyncData } from "#imports";
 import { $fetch } from "ofetch";
 import { useI18n } from "vue-i18n";
 import { useAppNavigation } from "@/composables/useAppNavigation";
-import type { CatalogDataset } from "@/utils/datasetCatalog";
+import { parseDatasetCatalog } from "@/utils/datasetCatalog";
 
 definePageMeta({ name: "Datasets", path: "/:locale(en|ee|de)?/dataset" });
 const { t } = useI18n();
 const { localePath } = useAppNavigation();
-const { data: catalog, status: catalogStatus, error: catalogError, refresh: refreshCatalog } = useAsyncData("dataset-catalog", () => $fetch<CatalogDataset[]>("/api/datasets"));
+const { data: catalog, status: catalogStatus, error: catalogError, refresh: refreshCatalog } = useAsyncData("dataset-catalog", async () => parseDatasetCatalog({ data: await $fetch<unknown>("/catalog/datasets", { responseType: "json" }) }));
 useHead(() => ({ title: t("datasetsPage.title") }));
 </script>
 
