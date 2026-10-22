@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import AppLogo from "@/components/AppLogo.vue";
 import { useRoute } from "#imports";
 import { useI18n } from "vue-i18n";
 import { useSettingsStore } from "@/stores/settings";
@@ -45,12 +46,7 @@ function isActive(path: string) {
     }"
   >
     <template #title>
-      <span
-        class="tw:mb-2 tw:block tw:font-serif tw:text-[1.55rem] tw:font-bold tw:tracking-[-0.055em]"
-      >
-        <span class="tw:text-home-accent">Geo</span>
-        <span class="tw:text-white">CASe</span>
-      </span>
+      <span class="tw:mb-2 tw:block"><AppLogo /></span>
       {{ t("header.menu") }}
     </template>
     <template #body>
