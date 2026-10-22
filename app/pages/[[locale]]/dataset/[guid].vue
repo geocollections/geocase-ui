@@ -1,10 +1,12 @@
 <script setup lang="ts">
-import { useAsyncData } from "#imports";
+import { useAsyncData, useRequestURL, useRouter } from "#imports";
 import { $fetch } from "ofetch";
 import { datasetWebUrl, parseDatasetCatalog } from "@/utils/datasetCatalog";
 
 definePageMeta({ name: "Dataset detail", path: "/:locale(en|ee|de)?/dataset/:guid" });
 const route = useRoute();
+const router = useRouter();
+const origin = useRequestURL().origin;
 const { t } = useI18n();
 const { localePath } = useAppNavigation();
 const { data: dataset, status, error, refresh } = useAsyncData(
@@ -16,6 +18,15 @@ const { data: dataset, status, error, refresh } = useAsyncData(
     return dataset;
   },
 );
+watch(dataset, (value) => {
+  if (value && String(route.params.guid) !== value.dataset_guid) {
+    void router.replace({
+      path: localePath("/dataset/" + value.dataset_guid),
+      query: route.query,
+      hash: route.hash,
+    });
+  }
+}, { immediate: true });
 const fields = computed(() => [
   ["coverage", dataset.value?.coverage],
   ["spatial", dataset.value?.spatial_label],
@@ -26,7 +37,13 @@ const links = computed(() => [
   { label: "source", url: datasetWebUrl(dataset.value?.landing_page_url) },
   { label: "accessRights", url: datasetWebUrl(dataset.value?.access_rights_uri) },
 ].filter((link) => link.url));
-useHead(() => ({ title: dataset.value?.title ?? t("datasetDetail.title") }));
+useHead(() => ({
+  title: dataset.value?.title ?? t("datasetDetail.title"),
+  link: dataset.value ? [{
+    rel: "canonical",
+    href: new URL(localePath("/dataset/" + dataset.value.dataset_guid), origin).href,
+  }] : [],
+}));
 </script>
 
 

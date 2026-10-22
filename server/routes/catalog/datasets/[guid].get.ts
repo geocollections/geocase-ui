@@ -1,8 +1,8 @@
-import type { CatalogDataset } from "../../../../app/utils/datasetCatalog";
+import { findCatalogDataset, isDatasetIdentifier, type CatalogDataset } from "../../../../app/utils/datasetCatalog";
 
 export default defineEventHandler(async (event): Promise<CatalogDataset> => {
   const guid = getRouterParam(event, "guid") ?? "";
-  if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(guid)) {
+  if (!isDatasetIdentifier(guid)) {
     throw createError({ statusCode: 404, statusMessage: "Dataset not found" });
   }
   let datasets: CatalogDataset[];
@@ -11,7 +11,7 @@ export default defineEventHandler(async (event): Promise<CatalogDataset> => {
   } catch {
     throw createError({ statusCode: 502, statusMessage: "Dataset catalog unavailable" });
   }
-  const dataset = datasets.find((item) => item.dataset_guid.toLowerCase() === guid.toLowerCase());
+  const dataset = findCatalogDataset(datasets, guid);
   if (!dataset) throw createError({ statusCode: 404, statusMessage: "Dataset not found" });
   return dataset;
 });

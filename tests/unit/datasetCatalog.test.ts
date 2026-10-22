@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { datasetWebUrl, parseDatasetCatalog } from "../../app/utils/datasetCatalog";
+import { datasetWebUrl, parseDatasetCatalog, findCatalogDataset } from "../../app/utils/datasetCatalog";
 
 const dataset = {
   dataset_guid: "8fa26a2c-c99d-11f1-a7eb-269714084253",
@@ -8,6 +8,17 @@ const dataset = {
   is_published: 1,
 };
 describe("dataset catalog", () => {
+  it("resolves GUID and numeric ID to the same dataset", () => {
+    const item = { ...dataset, dataset_id: 2 };
+    expect(findCatalogDataset([item], "2")).toBe(item);
+    expect(findCatalogDataset([item], item.dataset_guid)).toBe(item);
+    expect(findCatalogDataset([item], item.dataset_guid.toUpperCase())).toBe(item);
+  });
+  it("does not match malformed or unknown identifiers", () => {
+    for (const id of ["0", "-2", "2.0", "2abc", "../2", "02", "999"]) {
+      expect(findCatalogDataset([{ ...dataset, dataset_id: 2 }], id)).toBeUndefined();
+    }
+  });
   it("keeps public datasets and their nullable metadata", () => {
     expect(parseDatasetCatalog({ data: [{ ...dataset, citation: null }] })).toEqual([{ ...dataset, citation: null }]);
   });
