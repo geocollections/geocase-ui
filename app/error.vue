@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import AppLogo from "@/components/AppLogo.vue";
 import { computed } from "vue";
 import type { NuxtError } from "#app";
 import { clearError, useRequestURL, reloadNuxtApp } from "#imports";
@@ -80,9 +81,9 @@ useHead(() => ({
             aria-label="GeoCASe"
             class="tw:rounded-lg tw:font-serif tw:text-[1.75rem] tw:font-bold tw:tracking-[-0.055em] tw:no-underline tw:focus-visible:outline-home-accent"
             @click.prevent="recover('/')"
-            ><span class="tw:text-home-accent">Geo</span
-            ><span class="tw:text-white">CASe</span></a
           >
+            <AppLogo />
+          </a>
           <nav
             :aria-label="t('navigation')"
             class="tw:flex tw:items-center tw:gap-1 tw:text-sm tw:font-bold"
