@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import AppLogo from "@/components/AppLogo.vue";
 import { computed } from "vue";
 import { useI18n } from "vue-i18n";
 import { useAppNavigation } from "@/composables/useAppNavigation";
@@ -130,8 +131,7 @@ const logos = [
           aria-label="GeoCASe"
           class="tw:inline-flex tw:min-h-11 tw:items-center tw:rounded-lg tw:font-serif tw:text-3xl tw:font-bold tw:tracking-[-0.055em] tw:no-underline tw:focus-visible:outline-home-accent"
         >
-          <span class="tw:text-home-accent">Geo</span
-          ><span class="tw:text-white">CASe</span>
+          <AppLogo size="large" />
         </NuxtLink>
         <p class="tw:mt-1 tw:text-base tw:leading-6 tw:text-home-hero-muted">
           {{ t("footer.title") }}
@@ -203,13 +203,8 @@ const logos = [
             :to="localePath('/')"
             class="tw:inline-flex tw:items-center tw:rounded-lg tw:text-white tw:no-underline tw:focus-visible:outline-2 tw:focus-visible:outline-home-accent tw:focus-visible:outline-offset-4"
           >
-            <span
-              class="tw:font-serif tw:text-[1.55rem] tw:font-bold tw:tracking-[-0.055em]"
-            >
-              <span class="tw:text-home-accent">Geo</span>
-              <span class="tw:text-white">CASe</span>
-            </span>
-          </NuxtLink>
+          <AppLogo />
+        </NuxtLink>
           <p
             class="tw:mt-4 tw:text-sm tw:leading-relaxed tw:text-home-hero-muted"
           >
