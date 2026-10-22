@@ -1,4 +1,5 @@
 export interface CatalogDataset {
+  dataset_id?: number;
   dataset_guid: string;
   title: string;
   source_id?: string | null;
@@ -34,5 +35,19 @@ export function parseDatasetCatalog(value: unknown): CatalogDataset[] {
     typeof row.title === "string" &&
     (row.is_active === 1 || row.is_active === true) &&
     (row.is_published === 1 || row.is_published === true),
+  );
+}
+
+
+export function isDatasetIdentifier(value: string): boolean {
+  return /^[1-9]\d*$/.test(value) ||
+    /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(value);
+}
+
+export function findCatalogDataset(datasets: CatalogDataset[], identifier: string): CatalogDataset | undefined {
+  if (!isDatasetIdentifier(identifier)) return undefined;
+  return datasets.find((item) =>
+    item.dataset_guid.toLowerCase() === identifier.toLowerCase() ||
+    (typeof item.dataset_id === "number" && String(item.dataset_id) === identifier),
   );
 }
