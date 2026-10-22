@@ -34,7 +34,8 @@ export function parseDatasetCatalog(value: unknown): CatalogDataset[] {
     /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(row.dataset_guid) &&
     typeof row.title === "string" &&
     (row.is_active === 1 || row.is_active === true) &&
-    (row.is_published === 1 || row.is_published === true),
+    ((row.is_published_geocase ?? row.is_published) === 1 ||
+      (row.is_published_geocase ?? row.is_published) === true),
   );
 }
 

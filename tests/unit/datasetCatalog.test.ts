@@ -28,6 +28,20 @@ describe("dataset catalog", () => {
       { ...dataset, dataset_guid: "../other" }, null, { title: "Missing GUID" },
     ] })).toEqual([]);
   });
+  it("accepts the current GeoCASe publication flag without the legacy field", () => {
+    const metadata = { dataset_guid: dataset.dataset_guid, title: dataset.title, is_active: 1 };
+    const current = { ...metadata, is_published_geocase: 1, is_published_dcat: 1 };
+    expect(parseDatasetCatalog({ data: [current] })).toEqual([current]);
+  });
+  it("uses GeoCASe visibility even when DCAT or the legacy flag is enabled", () => {
+    expect(parseDatasetCatalog({ data: [
+      { ...dataset, is_published_geocase: 0, is_published_dcat: 1 },
+      { ...dataset, is_active: 0, is_published_geocase: 1 },
+      { ...dataset, is_published: undefined, is_published_dcat: 1 },
+    ] })).toEqual([]);
+    const visible = { ...dataset, is_published: 0, is_published_geocase: true, is_published_dcat: 0 };
+    expect(parseDatasetCatalog({ data: [visible] })).toEqual([visible]);
+  });
   it("rejects unexpected upstream responses", () => {
     expect(() => parseDatasetCatalog({ error: "unavailable" })).toThrow();
   });
