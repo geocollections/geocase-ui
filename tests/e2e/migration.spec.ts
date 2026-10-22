@@ -652,7 +652,7 @@ test("shared coordinate marker opens a paginated record picker", async ({ page }
   await page.route("**/api?**", async (route) => {
     const url = new URL(route.request().url());
     if (url.searchParams.has("group.func")) {
-      expect(url.searchParams.get("rows")).toBe("3000");
+      expect(url.searchParams.get("rows")).toBe("1000");
       return route.fulfill({ json: { grouped: {
         [url.searchParams.get("group.func")!]: { groups: [
           { groupValue: "59.4,24.7", doclist: { numFound: 21, docs: [specimen] } },

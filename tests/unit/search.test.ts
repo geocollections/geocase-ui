@@ -115,7 +115,7 @@ describe("migrated search state and API contract", () => {
     vi.restoreAllMocks();
   });
 
-  it("limits the map to 3000 coordinate groups, counts duplicates and preserves table rows", async () => {
+  it("limits the map to 1000 coordinate groups, counts duplicates and preserves table rows", async () => {
     const store = useSearchStore();
     const tableResults = [{ unitid: "table-row" }, { unitid: "same-location-row" }];
     store.responseResults = tableResults;
@@ -134,7 +134,7 @@ describe("migrated search state and API contract", () => {
     } });
     await store.fetchMapResults();
     const url = new URL(axios.get.mock.calls[0][0], "http://localhost");
-    expect(url.searchParams.get("rows")).toBe("3000");
+    expect(url.searchParams.get("rows")).toBe("1000");
     expect(url.searchParams.get("group.func")).toBe("concat(latitude,',',longitude)");
     expect(url.searchParams.get("group.limit")).toBe("1");
     expect(url.searchParams.get("q")).toBe('"quartz"');

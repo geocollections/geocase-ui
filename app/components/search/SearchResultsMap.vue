@@ -99,7 +99,7 @@ function clearArea() {
             }) }}
           </p>
           <p
-            v-if="!store.isMapLoading && !store.isLoading && store.mapResultsLevel === 'points' && store.mapResults.length >= 3000"
+            v-if="!store.isMapLoading && !store.isLoading && store.mapResultsLevel === 'points' && store.mapResults.length >= 1000"
             class="tw:mt-2 tw:text-sm tw:font-semibold tw:text-warning"
           >
             {{ t('search.layout.mapLimitNotice') }}

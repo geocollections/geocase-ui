@@ -330,20 +330,22 @@
   },
   "datasetsPage": {
     "title": "Datensätze",
-    "description": "GeoCASe bündelt geowissenschaftliche Sammlungsdaten von Museen und Forschungseinrichtungen. Entdecken Sie die Datenquellen im Portal, die zugehörigen Institutionen und ihre Einträge.",
+    "description": "Entdecken Sie geowissenschaftliche Datensätze von Museen und Forschungseinrichtungen. Jeder Datensatz hat eine eigene Seite mit Sammlungsinformationen und Zugangslinks.",
     "viewRecords": "Einträge ansehen",
     "empty": "Keine Datensätze verfügbar.",
     "loading": "Datensätze werden geladen…",
     "explanationTitle": "Was zeigt die Liste der Datensätze?",
-    "explanation": "In dieser Liste bezeichnet ein Datensatz eine Gruppe von Einträgen aus einer Datenquelle. Die Quelladresse unterscheidet die Datensätze. Die Anzahl zeigt, wie viele Einträge aus dieser Quelle aktuell in GeoCASe durchsuchbar sind.",
-    "institutionExplanation": "Die Zuordnung zu Institutionen basiert auf dem Feld zum Dateneigentümer in den Einträgen. Eine Institution kann mehrere Datensätze bereitstellen; eine Quelle kann mehreren Institutionen zugeordnet sein. Ein verlinkter Institutionsname führt zum Profil im Portal.",
-    "usageExplanation": "Wählen Sie „Einträge ansehen“, um einen Datensatz zu durchsuchen. Die Objekttypen stammen aus den Einträgen. Prüfen Sie bei der Datennutzung die jeweiligen Nutzungsbedingungen und nennen Sie die bereitstellende Institution.",
+    "explanation": "Ein Datensatz ist eine Sammlung zusammengehöriger geowissenschaftlicher Objektdatensätze eines Museums oder einer Forschungseinrichtung. Eine Institution kann mehrere Datensätze zu unterschiedlichen Sammlungen, Themen oder Regionen veröffentlichen.",
+    "institutionExplanation": "Jeder Datensatz hat eine eigene Seite und eine dauerhafte Kennung (GUID). Soweit von der Institution bereitgestellt, zeigt die Seite Beschreibung, Abdeckung, Zitierung, Lizenz und Zugangslinks.",
+    "usageExplanation": "Öffnen Sie einen Datensatz, um seinen Inhalt kennenzulernen und über die verfügbaren Links zur Quelle zu gelangen. Prüfen Sie vor der Weiterverwendung die Lizenz und Rechteinformationen und zitieren Sie die beitragende Institution.",
     "institutions": "Zugehörige Institutionen / Dateneigentümer",
     "unknownInstitution": "In den Einträgen ist keine Institution angegeben.",
     "source": "Datenquelle",
     "specimenTypes": "Objekttypen in diesem Datensatz",
     "error": "Datensätze konnten nicht geladen werden.",
-    "retry": "Erneut versuchen"
+    "retry": "Erneut versuchen",
+    "browseTitle": "Datensätze entdecken",
+    "browseDescription": "Entdecken Sie Beschreibungen, Abdeckung, Lizenzen und Zugangslinks veröffentlichter Datensätze."
   },
   "frontPage": {
     "heroEyebrow": "Geowissenschaftliche Sammlungen",
@@ -937,5 +939,24 @@
       "github": "Erkunden Sie den Quellcode, verfolgen Sie die Entwicklung und melden Sie Probleme.",
       "legacy": "Besuchen Sie das ursprüngliche GeoCASe-Portal."
     }
+  },
+  "datasetDetail": {
+    "title": "Datensatz",
+    "back": "Alle Datensätze",
+    "description": "Beschreibung",
+    "institution": "Institution",
+    "coverage": "Abdeckung",
+    "spatial": "Geografische Abdeckung",
+    "taxonomic": "Taxonomische Abdeckung",
+    "geoecological": "Geoökologische Abdeckung",
+    "citation": "Zitierung",
+    "licence": "Lizenz und Rechte",
+    "access": "Zugangslinks",
+    "source": "Quellseite öffnen",
+    "accessRights": "Zugangsbedingungen",
+    "notFound": "Datensatz nicht gefunden",
+    "catalog": "Datensatzseiten",
+    "catalogError": "Die Datensatzbeschreibungen konnten nicht geladen werden.",
+    "view": "Datensatz ansehen"
   }
 }
