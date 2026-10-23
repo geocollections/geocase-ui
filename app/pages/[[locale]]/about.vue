@@ -289,6 +289,35 @@ const collections = [
       </p>
     </section>
 
+    <section aria-labelledby="team-title" class="tw:mb-10 tw:rounded-3xl tw:border tw:border-home-border tw:p-6 tw:sm:p-9">
+      <p class="tw:text-xs tw:font-extrabold tw:tracking-widest tw:text-home-link tw:uppercase">{{ t('aboutPage.team.eyebrow') }}</p>
+      <h2 id="team-title" class="tw:mt-2 tw:text-2xl tw:font-bold tw:tracking-tight tw:sm:text-3xl">{{ t('aboutPage.team.title') }}</h2>
+      <p class="tw:mt-4 tw:max-w-3xl tw:leading-7 tw:text-home-muted">{{ t('aboutPage.team.intro') }}</p>
+      <div class="tw:mt-7 tw:grid tw:gap-4 tw:sm:grid-cols-2">
+        <article v-for="person in [{ name: 'Olle Hints', key: 'olle' }, { name: 'Kristjan Urtson', key: 'kristjan' }, { name: 'Alissa Milovidova', key: 'alissa' }]" :key="person.key" class="tw:rounded-2xl tw:bg-home-surface tw:p-6">
+          <p class="tw:text-xs tw:font-bold tw:tracking-wide tw:text-home-muted">TalTech</p>
+          <h3 class="tw:mt-2 tw:text-xl tw:font-bold">{{ person.name }}</h3>
+          <p class="tw:mt-3 tw:leading-7 tw:text-home-muted">{{ t(`aboutPage.team.${person.key}`) }}</p>
+        </article>
+        <article class="tw:rounded-2xl tw:bg-home-hover tw:p-6">
+          <p class="tw:text-xs tw:font-bold tw:tracking-wide tw:text-home-muted">CETAF ESG</p>
+          <h3 class="tw:mt-2 tw:text-xl tw:font-bold">{{ t('aboutPage.team.esgTitle') }}</h3>
+          <p class="tw:mt-3 tw:leading-7 tw:text-home-muted">{{ t('aboutPage.team.esg') }}</p>
+          <a href="https://cetaf.org/wp-content/uploads/ESWG-CHARTA.pdf" class="tw:mt-4 tw:inline-flex tw:min-h-11 tw:items-center tw:gap-2 tw:font-semibold tw:text-home-link tw:underline tw:underline-offset-4">{{ t('aboutPage.team.esgLink') }}<UIcon name="i-lucide-arrow-up-right" aria-hidden="true" /></a>
+        </article>
+      </div>
+      <NuxtLink :to="localePath('/help#contact')" class="tw:mt-6 tw:inline-flex tw:min-h-11 tw:items-center tw:gap-2 tw:font-semibold tw:text-home-link tw:underline tw:underline-offset-4">{{ t('aboutPage.team.contact') }}<UIcon name="i-lucide-arrow-right" aria-hidden="true" /></NuxtLink>
+      <div class="tw:mt-8 tw:border-t tw:border-home-border tw:pt-7">
+        <h3 class="tw:text-xl tw:font-bold">{{ t('aboutPage.team.previousTitle') }}</h3>
+        <p class="tw:mt-3 tw:max-w-3xl tw:leading-7 tw:text-home-muted">{{ t('aboutPage.team.previous') }}</p>
+        <ul class="tw:mt-4 tw:grid tw:list-none tw:gap-3 tw:p-0">
+          <li><a href="https://www.museumfuernaturkunde.berlin/en/" class="tw:font-semibold tw:text-home-link tw:underline tw:underline-offset-4">Museum für Naturkunde Berlin</a></li>
+          <li><a href="https://istc.cetaf.org/images/c/c6/Minutes_of_the_CETAF_ISTC-DWG_meeting%2C_Vienna_2019.pdf" class="tw:font-semibold tw:text-home-link tw:underline tw:underline-offset-4">{{ t('aboutPage.team.falkoLink') }}</a></li>
+          <li><a href="https://github.com/MfN-Berlin/geocase-infrastructure" class="tw:font-semibold tw:text-home-link tw:underline tw:underline-offset-4">{{ t('aboutPage.team.codeLink') }}</a></li>
+        </ul>
+      </div>
+    </section>
+
     <section
       class="tw:mb-4 tw:rounded-2xl tw:bg-home-surface tw:p-6 tw:sm:p-8"
       aria-labelledby="governance-title"
