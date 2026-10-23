@@ -79,7 +79,23 @@
     "cetafDescription": "CETAF ühendab Euroopa loodusteaduslikke uurimisasutusi ning taksonoomia, koolituse ja andmestandardite asjatundjaid. GeoCASe seotakse ka",
     "disscoName": "DiSSCo teadustaristuga",
     "governanceTitle": "Kogukonna juhitud",
-    "governanceDescription": "Portaali juhib GeoCASe nõuandekogu, kes vastutab arenduse, hoolduse, tutvustamise ja kvaliteedikontrolli eest."
+    "governanceDescription": "Portaali juhib GeoCASe nõuandekogu, kes vastutab arenduse, hoolduse, tutvustamise ja kvaliteedikontrolli eest.",
+    "team": {
+      "eyebrow": "GEOCASE’I INIMESED",
+      "title": "GeoCASe’i tänane tiim",
+      "intro": "TalTechi tiim arendab ja haldab portaali koostöös CETAF-i maateaduste töörühmaga (ESG).",
+      "olle": "Üldküsimused, teaduslik taust ja koostöö GeoCASe’i kogukonnaga.",
+      "kristjan": "Andmepakkujate toetamine, kogude andmete avaldamine ja andmete liidestamine.",
+      "alissa": "Tarkvaraarendus, portaali disain, kasutusmugavus ja uued funktsioonid.",
+      "esgTitle": "CETAF-i maateaduste töörühm",
+      "esg": "ESG ühendab maateaduslike kogude kogukonda ning toetab koostööd ja GeoCASe’i arengut.",
+      "esgLink": "Töörühma tutvustus",
+      "contact": "Võta tiimiga ühendust",
+      "previousTitle": "Varasemad panustajad Berliinist",
+      "previous": "GeoCASe tugineb Museum für Naturkunde Berlini varasemale tööle, kus valmis 2007. aastal portaali esimene versioon. Täname Berliini panustajaid, sealhulgas Falko Glöcklerit, portaali ja selle taristu arendamise eest.",
+      "falkoLink": "Falko Glöckler — GeoCASe’i tutvustus CETAF-i kohtumisel (2019)",
+      "codeLink": "GeoCASe’i varasem taristu — lähtekood"
+    }
   },
   "efgPage": {
     "pageTitle": "ABCD-EFG geoteaduslikele kogudele",
@@ -824,8 +840,22 @@
     "searchDescription": "Ava otsing, et uurida geoteaduslikke kogusid.",
     "contactEyebrow": "VÕTA ÜHENDUST",
     "contactTitle": "Küsi abi",
-    "contactDescription": "Kirjelda küsimust või anna probleemist teada. GeoCASe tugitiim aitab esimesel võimalusel.",
-    "formTitle": "GeoCASe kasutajatoe kontaktivorm"
+    "contactDescription": "Vali oma küsimusele sobiv kontaktisik ja kirjuta talle otse.",
+    "room": "Ruum",
+    "contacts": {
+      "general": {
+        "title": "Üldküsimused",
+        "description": "Kirjuta Ollele GeoCASe’i, kogude ja partnervõrgustikuga seotud üldküsimustes. Tema poole võid pöörduda koostöösoovidega ning abi saamiseks sobiva kontaktisiku leidmisel."
+      },
+      "providers": {
+        "title": "Andmepakkujaks saamine",
+        "description": "Kirjuta Kristjanile, kui sinu asutus soovib oma kogude andmeid GeoCASe’i kaudu jagada. Ta aitab liitumise, andmete ettevalmistamise ja andmeteenuse ühendamise küsimustes ning andmete liidestamisel tekkinud probleemidega."
+      },
+      "portal": {
+        "title": "Tarkvaraarendus, disain ja funktsioonid",
+        "description": "Kirjuta Alissale tarkvaraarenduse, portaali disaini ja funktsionaalsusega seotud küsimustes. Oodatud on arendusettepanekud, kasutusmugavuse tagasiside ja tehniliste probleemide kirjeldused. Lisa võimalusel lehe link ning selgita, mida soovisid teha."
+      }
+    }
   },
   "accessPage": {
     "pageTitle": "Andmete kasutamine",
@@ -943,7 +973,7 @@
     "title": "Andmestik",
     "back": "Kõik andmestikud",
     "description": "Kirjeldus",
-    "institution": "Institutsioon",
+    "institution": "Asutuse veebileht",
     "coverage": "Ulatus",
     "spatial": "Geograafiline ulatus",
     "taxonomic": "Taksonoomiline ulatus",
@@ -956,6 +986,16 @@
     "notFound": "Andmestikku ei leitud",
     "catalog": "Andmestike tutvustuslehed",
     "catalogError": "Andmestike kirjelduste laadimine ebaõnnestus.",
-    "view": "Vaata andmestikku"
+    "view": "Vaata andmestikku",
+    "portal": "Andmed GeoCASe portaalis",
+    "api": "Teenuse API",
+    "download": "Laadi arhiiv alla",
+    "keywords": "Märksõnad",
+    "rightsPUBLIC": "Avalik kasutus",
+    "rightsRESTRICTED": "Piiratud kasutus",
+    "rightsNON_PUBLIC": "Mitteavalik",
+    "map": "Andmestiku kaart",
+    "mapError": "Asukohtade laadimine ebaõnnestus.",
+    "mapNote": "Kaart näitab kuni 1000 erinevat asukohta. Klõpsa punktil, et avada kirje detailvaade. Kui samal kohal on mitu kirjet, avaneb neist esimene."
   }
 }

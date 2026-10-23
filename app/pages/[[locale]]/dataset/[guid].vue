@@ -1,7 +1,10 @@
 <script setup lang="ts">
+import ProviderDataPanel from "@/components/ProviderDataPanel.vue";
 import { useAsyncData, useRequestURL, useRouter } from "#imports";
 import { $fetch } from "ofetch";
-import { datasetWebUrl, parseDatasetCatalog } from "@/utils/datasetCatalog";
+import { institutionProfiles } from "@/institutionProfiles";
+import SearchService from "@/services/SearchService";
+import { datasetProviderParams, datasetWebUrl, parseDatasetCatalog } from "@/utils/datasetCatalog";
 
 definePageMeta({ name: "Dataset detail", path: "/:locale(en|ee|de)?/dataset/:guid" });
 const route = useRoute();
@@ -27,16 +30,54 @@ watch(dataset, (value) => {
     });
   }
 }, { immediate: true });
+const providerData = computed(() => dataset.value ? {
+  ...dataset.value,
+  provider_params: datasetProviderParams(dataset.value.provider_params),
+} : null);
+const provider = computed(() => datasetProviderParams(dataset.value?.provider_params));
+const { data: indexedDatasets } = useAsyncData("dataset-index-owners", () => SearchService.getDatasets());
+const owner = computed(() => {
+  const indexed = indexedDatasets.value?.find((item) => item.url === dataset.value?.provider_url);
+  return indexed?.owners.length === 1 ? indexed.owners[0]!.name : "";
+});
+const searchUrl = computed(() => {
+  if (!owner.value || !dataset.value?.provider_url) return undefined;
+  return localePath("/search") + "?" + new URLSearchParams({ datasetowner: `"${owner.value}"`, datasourceurl__equals: dataset.value.provider_url }).toString();
+});
+const accessConditions = computed(() => {
+  const uri = dataset.value?.access_rights_uri;
+  if (!uri) return undefined;
+  const code = uri.split("/").pop();
+  return ["PUBLIC", "RESTRICTED", "NON_PUBLIC"].includes(code ?? "") ? t(`datasetDetail.rights${code}`) : uri;
+});
 const fields = computed(() => [
   ["coverage", dataset.value?.coverage],
+  ["keywords", dataset.value?.keywords],
   ["spatial", dataset.value?.spatial_label],
   ["taxonomic", dataset.value?.taxonomic_terms],
   ["geoecological", dataset.value?.geoecological_terms],
 ].filter(([, value]) => typeof value === "string" && value.trim()));
+const landingPageUrl = computed(() => {
+  const url = datasetWebUrl(dataset.value?.landing_page_url);
+  if (!url || !dataset.value) return undefined;
+  const path = new URL(url).pathname.replace(/\/$/, "");
+  // Catalog landing pages often point back to this very dataset.
+  const identifier = path.match(/\/dataset\/([^/]+)$/)?.[1];
+  if (identifier && [dataset.value.dataset_guid.toLowerCase(), String(dataset.value.dataset_id)].includes(identifier.toLowerCase())) return undefined;
+  return url;
+});
+const institutionUrl = computed(() => {
+  const entry = Object.entries(institutionProfiles).find(([, profile]) => owner.value && profile.datasetOwner === owner.value);
+  return entry ? localePath("/institution/" + entry[0]) : datasetWebUrl(provider.value.providerURL);
+});
+const providerIsArchive = computed(() => /\.zip(?:[?#]|$)/i.test(dataset.value?.provider_url ?? ""));
 const links = computed(() => [
-  { label: "source", url: datasetWebUrl(dataset.value?.landing_page_url) },
-  { label: "accessRights", url: datasetWebUrl(dataset.value?.access_rights_uri) },
-].filter((link) => link.url));
+  { label: "source", url: landingPageUrl.value },
+  { label: "portal", url: searchUrl.value },
+  { label: "institution", url: institutionUrl.value },
+  { label: providerIsArchive.value ? "download" : "api", url: datasetWebUrl(dataset.value?.provider_url) },
+  { label: "download", url: datasetWebUrl(provider.value.abcdArchiveUrl) },
+].filter((link, index, all) => link.url && all.findIndex((other) => other.url === link.url) === index));
 useHead(() => ({
   title: dataset.value?.title ?? t("datasetDetail.title"),
   link: dataset.value ? [{
@@ -73,6 +114,7 @@ useHead(() => ({
 
       <div class="tw:mt-8 tw:grid tw:items-start tw:gap-8 tw:lg:mt-10 tw:lg:grid-cols-[minmax(0,1fr)_minmax(0,320px)] tw:lg:gap-10">
         <div class="tw:min-w-0 tw:space-y-9">
+          <DatasetLocations v-if="owner && dataset.provider_url" :key="dataset.dataset_guid" :owner="owner" :source="dataset.provider_url" />
           <section v-if="dataset.description?.trim()" aria-labelledby="dataset-description">
             <h2 id="dataset-description" class="tw:text-2xl tw:font-bold tw:tracking-tight">{{ t("datasetDetail.description") }}</h2>
             <p class="tw:mt-4 tw:whitespace-pre-line tw:break-words tw:text-base tw:leading-8 tw:text-home-muted">{{ dataset.description }}</p>
@@ -88,6 +130,7 @@ useHead(() => ({
               </div>
             </dl>
           </section>
+          <ProviderDataPanel :data="providerData" />
           <section v-if="dataset.citation?.trim()" aria-labelledby="dataset-citation">
             <h2 id="dataset-citation" class="tw:flex tw:items-center tw:gap-3 tw:text-xl tw:font-bold tw:tracking-tight">
               <UIcon name="i-lucide-quote" class="tw:size-5 tw:shrink-0 tw:text-home-link" aria-hidden="true" />{{ t("datasetDetail.citation") }}
@@ -97,6 +140,10 @@ useHead(() => ({
         </div>
 
         <div class="tw:min-w-0 tw:space-y-5">
+          <section v-if="accessConditions" class="tw:rounded-3xl tw:bg-home-surface tw:p-6">
+            <h2 class="tw:text-lg tw:font-bold">{{ t("datasetDetail.accessRights") }}</h2>
+            <p class="tw:mt-3">{{ accessConditions }}</p>
+          </section>
           <section v-if="links.length" aria-labelledby="dataset-access" class="tw:rounded-3xl tw:bg-home-hero tw:p-6 tw:text-white">
             <h2 id="dataset-access" class="tw:flex tw:items-center tw:gap-3 tw:text-xl tw:font-bold">
               <UIcon name="i-lucide-external-link" class="tw:size-5 tw:shrink-0 tw:text-home-accent" aria-hidden="true" />{{ t("datasetDetail.access") }}

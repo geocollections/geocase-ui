@@ -79,7 +79,23 @@
     "cetafDescription": "CETAF brings together European natural science research institutes and expertise in taxonomy, training and data standards. GeoCASe will also align with the",
     "disscoName": "DiSSCo Research Infrastructure",
     "governanceTitle": "Guided by the community",
-    "governanceDescription": "The GeoCASe advisory board manages the portal and is responsible for its development, maintenance, promotion and quality control."
+    "governanceDescription": "The GeoCASe advisory board manages the portal and is responsible for its development, maintenance, promotion and quality control.",
+    "team": {
+      "eyebrow": "PEOPLE BEHIND GEOCASE",
+      "title": "The GeoCASe team today",
+      "intro": "The TalTech team develops and maintains the portal in collaboration with the CETAF Earth Science Group (ESG).",
+      "olle": "General questions, scientific context and collaboration with the GeoCASe community.",
+      "kristjan": "Support for data providers, collection data publishing and data integration.",
+      "alissa": "Software development, portal design, usability and new features.",
+      "esgTitle": "CETAF Earth Science Group",
+      "esg": "The ESG brings together the Earth Science collections community and supports collaboration and the development of GeoCASe.",
+      "esgLink": "About the working group",
+      "contact": "Contact the team",
+      "previousTitle": "Earlier contributions from Berlin",
+      "previous": "GeoCASe builds on earlier work at Museum für Naturkunde Berlin, where the first version was developed in 2007. We acknowledge the Berlin contributors, including Falko Glöckler, and their work on the portal and its infrastructure.",
+      "falkoLink": "Falko Glöckler — GeoCASe presentation, CETAF meeting (2019)",
+      "codeLink": "Earlier GeoCASe infrastructure — source code"
+    }
   },
   "efgPage": {
     "pageTitle": "ABCD-EFG for geoscience collections",
@@ -826,8 +842,22 @@
     "searchDescription": "Open search to explore geoscience collections.",
     "contactEyebrow": "GET IN TOUCH",
     "contactTitle": "Contact support",
-    "contactDescription": "Send us your question or tell us about an issue. The GeoCASe support team will get back to you as soon as possible.",
-    "formTitle": "GeoCASe support contact form"
+    "contactDescription": "Choose the right person for your question and contact them directly by email.",
+    "room": "Room",
+    "contacts": {
+      "general": {
+        "title": "General questions",
+        "description": "Contact Olle for general questions about GeoCASe, its collections and the partner network. He can help with collaboration enquiries and guide you to the right person for questions about the initiative."
+      },
+      "providers": {
+        "title": "Becoming a data provider",
+        "description": "Contact Kristjan if your institution would like to share collection data through GeoCASe. He can help with getting started, preparing data, connecting a provider service and resolving data integration issues."
+      },
+      "portal": {
+        "title": "Software development, design & features",
+        "description": "Contact Alissa about software development, portal design and functionality. Share feature requests, usability feedback or technical issues, including what you were trying to do and a link to the relevant page."
+      }
+    }
   },
   "accessPage": {
     "pageTitle": "Data access & use",
@@ -945,7 +975,7 @@
     "title": "Dataset",
     "back": "All datasets",
     "description": "Description",
-    "institution": "Institution",
+    "institution": "Institution website",
     "coverage": "Coverage",
     "spatial": "Geographic coverage",
     "taxonomic": "Taxonomic coverage",
@@ -958,6 +988,16 @@
     "notFound": "Dataset not found",
     "catalog": "Dataset landing pages",
     "catalogError": "Dataset descriptions could not be loaded.",
-    "view": "View dataset"
+    "view": "View dataset",
+    "portal": "Records in GeoCASe",
+    "api": "Provider API",
+    "download": "Download archive",
+    "keywords": "Keywords",
+    "rightsPUBLIC": "Public access",
+    "rightsRESTRICTED": "Restricted access",
+    "rightsNON_PUBLIC": "Non-public access",
+    "map": "Dataset map",
+    "mapError": "Locations could not be loaded.",
+    "mapNote": "The map shows up to 1,000 distinct locations. Select a point to open its specimen details. If records share coordinates, the first record is shown."
   }
 }

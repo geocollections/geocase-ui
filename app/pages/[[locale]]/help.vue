@@ -9,6 +9,12 @@ definePageMeta({
 });
 
 const { t } = useI18n();
+const failedPhotos = ref<string[]>([]);
+const contacts = [
+  { name: "Olle Hints", initials: "OH", topic: "general", icon: "i-lucide-messages-square", email: "olle.hints@taltech.ee", photo: "https://volt.ttu.ee/v1/2V6C7Q/photo:T003766", phone: "+372 620 3027", phoneHref: "+3726203027" },
+  { name: "Kristjan Urtson", initials: "KU", topic: "providers", icon: "i-lucide-database", email: "kristjan.urtson@taltech.ee", photo: "https://media.voog.com/0000/0041/7136/photos/urtson.jpg", phone: "+372 620 3034", phoneHref: "+3726203034" },
+  { name: "Alissa Milovidova", initials: "AM", topic: "portal", icon: "i-lucide-panels-top-left", email: "alissa.milovidova@taltech.ee", photo: "https://volt.ttu.ee/v1/2V6C7Q/photo:T0079165", phone: "+372 55959507", phoneHref: "+37255959507" },
+];
 const { localePath } = useAppNavigation();
 
 useHead(() => ({ title: t("helpPage.pageTitle") }));
@@ -180,13 +186,25 @@ useHead(() => ({ title: t("helpPage.pageTitle") }));
           {{ t("helpPage.contactDescription") }}
         </p>
       </div>
-      <div class="tw:p-2 tw:sm:p-4">
-        <iframe
-          src="https://www.cognitoforms.com/cetaf4/geocasehelpdesk"
-          :title="t('helpPage.formTitle')"
-          class="tw:block tw:min-h-200 tw:w-full tw:border-0"
-          loading="lazy"
-        />
+      <div class="tw:grid tw:gap-5 tw:p-5 tw:sm:p-8 tw:lg:grid-cols-3">
+        <article v-for="contact in contacts" :key="contact.email" class="tw:flex tw:min-w-0 tw:flex-col tw:rounded-2xl tw:border tw:border-home-border tw:bg-home-surface/50 tw:p-6">
+          <div class="tw:mb-6 tw:flex tw:items-center tw:gap-2 tw:text-xs tw:font-bold tw:tracking-wide tw:text-home-link">
+            <UIcon :name="contact.icon" class="tw:size-4 tw:shrink-0" aria-hidden="true" />
+            {{ t(`helpPage.contacts.${contact.topic}.title`) }}
+          </div>
+          <div class="tw:mb-5 tw:flex tw:items-center tw:gap-4">
+            <span v-if="contact.photo && !failedPhotos.includes(contact.email)" class="tw:block tw:size-20 tw:shrink-0 tw:overflow-hidden tw:rounded-2xl tw:bg-home-hover"><img :src="contact.photo" :alt="contact.name" :style="contact.initials === 'KU' ? { transform: 'scale(1.7)', transformOrigin: '50% 0%' } : undefined" width="80" height="80" loading="lazy" class="tw:size-20 tw:shrink-0 tw:rounded-2xl tw:bg-home-hover tw:object-cover tw:object-top" @error="failedPhotos.push(contact.email)" /></span>
+            <span v-else class="tw:grid tw:size-20 tw:shrink-0 tw:place-items-center tw:rounded-2xl tw:bg-home-hover tw:text-2xl tw:font-bold tw:text-home-link" aria-hidden="true">{{ contact.initials }}</span>
+            <h3 class="tw:text-xl tw:leading-tight tw:font-bold tw:tracking-tight">{{ contact.name }}</h3>
+          </div>
+          <p class="tw:mb-6 tw:text-sm tw:leading-6 tw:text-home-muted">{{ t(`helpPage.contacts.${contact.topic}.description`) }}</p>
+          <address class="tw:mt-auto tw:grid tw:gap-3 tw:border-t tw:border-home-border tw:pt-5 tw:text-sm tw:not-italic">
+            <a :href="`mailto:${contact.email}`" class="tw:flex tw:min-h-11 tw:items-center tw:gap-2 tw:rounded-lg tw:font-semibold tw:text-home-link tw:hover:underline tw:focus-visible:outline-2 tw:focus-visible:outline-offset-2">
+              <UIcon name="i-lucide-mail" class="tw:size-4 tw:shrink-0" aria-hidden="true" /><span class="tw:break-all">{{ contact.email }}</span>
+            </a>
+            <a v-if="contact.phone" :href="`tel:${contact.phoneHref}`" class="tw:flex tw:min-h-11 tw:items-center tw:gap-2 tw:rounded-lg tw:text-home-muted tw:hover:text-home-link tw:focus-visible:outline-2 tw:focus-visible:outline-offset-2"><UIcon name="i-lucide-phone" class="tw:size-4 tw:shrink-0" aria-hidden="true" />{{ contact.phone }}</a>
+          </address>
+        </article>
       </div>
     </section>
   </article>

@@ -79,7 +79,23 @@
     "cetafDescription": "CETAF vereint europäische naturwissenschaftliche Forschungseinrichtungen und Fachwissen zu Taxonomie, Ausbildung und Datenstandards. GeoCASe wird sich außerdem mit der",
     "disscoName": "DiSSCo-Forschungsinfrastruktur",
     "governanceTitle": "Von der Gemeinschaft getragen",
-    "governanceDescription": "Der GeoCASe-Beirat betreut das Portal und ist für Entwicklung, Wartung, Bekanntmachung und Qualitätskontrolle verantwortlich."
+    "governanceDescription": "Der GeoCASe-Beirat betreut das Portal und ist für Entwicklung, Wartung, Bekanntmachung und Qualitätskontrolle verantwortlich.",
+    "team": {
+      "eyebrow": "DIE MENSCHEN HINTER GEOCASE",
+      "title": "Das heutige GeoCASe-Team",
+      "intro": "Das TalTech-Team entwickelt und betreibt das Portal in Zusammenarbeit mit der CETAF Earth Science Group (ESG).",
+      "olle": "Allgemeine Fragen, wissenschaftlicher Kontext und Zusammenarbeit mit der GeoCASe-Gemeinschaft.",
+      "kristjan": "Unterstützung für Datenanbieter, Veröffentlichung von Sammlungsdaten und Datenintegration.",
+      "alissa": "Softwareentwicklung, Portaldesign, Benutzerfreundlichkeit und neue Funktionen.",
+      "esgTitle": "CETAF Earth Science Group",
+      "esg": "Die ESG verbindet die Gemeinschaft der geowissenschaftlichen Sammlungen und unterstützt die Zusammenarbeit und die Weiterentwicklung von GeoCASe.",
+      "esgLink": "Über die Arbeitsgruppe",
+      "contact": "Kontakt zum Team",
+      "previousTitle": "Frühere Beiträge aus Berlin",
+      "previous": "GeoCASe baut auf früheren Arbeiten am Museum für Naturkunde Berlin auf, wo 2007 die erste Version entstand. Wir danken den Berliner Mitwirkenden, darunter Falko Glöckler, für ihre Beiträge zum Portal und seiner Infrastruktur.",
+      "falkoLink": "Falko Glöckler — GeoCASe beim CETAF-Treffen (2019)",
+      "codeLink": "Frühere GeoCASe-Infrastruktur — Quellcode"
+    }
   },
   "efgPage": {
     "pageTitle": "ABCD-EFG für geowissenschaftliche Sammlungen",
@@ -825,8 +841,22 @@
     "searchDescription": "Öffnen Sie die Suche und entdecken Sie geowissenschaftliche Sammlungen.",
     "contactEyebrow": "KONTAKT",
     "contactTitle": "Support kontaktieren",
-    "contactDescription": "Senden Sie uns Ihre Frage oder melden Sie ein Problem. Das GeoCASe-Support-Team hilft Ihnen so bald wie möglich.",
-    "formTitle": "GeoCASe-Support-Kontaktformular"
+    "contactDescription": "Wählen Sie die passende Kontaktperson und schreiben Sie ihr direkt eine E-Mail.",
+    "room": "Raum",
+    "contacts": {
+      "general": {
+        "title": "Allgemeine Fragen",
+        "description": "Wenden Sie sich an Olle bei allgemeinen Fragen zu GeoCASe, den Sammlungen und dem Partnernetzwerk. Er hilft bei Kooperationsanfragen und bei der Suche nach der passenden Kontaktperson."
+      },
+      "providers": {
+        "title": "Datenanbieter werden",
+        "description": "Wenden Sie sich an Kristjan, wenn Ihre Institution Sammlungsdaten über GeoCASe bereitstellen möchte. Er hilft beim Einstieg, bei der Datenvorbereitung, beim Anschluss eines Datendienstes und bei Problemen mit der Datenintegration."
+      },
+      "portal": {
+        "title": "Softwareentwicklung, Design & Funktionen",
+        "description": "Wenden Sie sich an Alissa bei Fragen zur Softwareentwicklung, zum Portaldesign und zu Funktionen. Teilen Sie Funktionswünsche, Rückmeldungen zur Bedienbarkeit oder technische Probleme mit. Fügen Sie möglichst einen Link zur betroffenen Seite hinzu und beschreiben Sie Ihr Vorhaben."
+      }
+    }
   },
   "accessPage": {
     "pageTitle": "Datenzugang und Nutzung",
@@ -944,7 +974,7 @@
     "title": "Datensatz",
     "back": "Alle Datensätze",
     "description": "Beschreibung",
-    "institution": "Institution",
+    "institution": "Website der Institution",
     "coverage": "Abdeckung",
     "spatial": "Geografische Abdeckung",
     "taxonomic": "Taxonomische Abdeckung",
@@ -957,6 +987,16 @@
     "notFound": "Datensatz nicht gefunden",
     "catalog": "Datensatzseiten",
     "catalogError": "Die Datensatzbeschreibungen konnten nicht geladen werden.",
-    "view": "Datensatz ansehen"
+    "view": "Datensatz ansehen",
+    "portal": "Datensätze in GeoCASe",
+    "api": "Anbieter-API",
+    "download": "Archiv herunterladen",
+    "keywords": "Schlagwörter",
+    "rightsPUBLIC": "Öffentlicher Zugang",
+    "rightsRESTRICTED": "Eingeschränkter Zugang",
+    "rightsNON_PUBLIC": "Nicht öffentlich",
+    "map": "Datensatzkarte",
+    "mapError": "Standorte konnten nicht geladen werden.",
+    "mapNote": "Die Karte zeigt bis zu 1.000 unterschiedliche Standorte. Klicken Sie auf einen Punkt, um die Objektdetails zu öffnen. Bei gemeinsamen Koordinaten wird der erste Eintrag geöffnet."
   }
 }

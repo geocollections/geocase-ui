@@ -2,6 +2,9 @@ export interface CatalogDataset {
   dataset_id?: number;
   dataset_guid: string;
   title: string;
+  provider_url?: string | null;
+  provider_params?: string | Record<string, unknown> | null;
+  keywords?: string | null;
   source_id?: string | null;
   description?: string | null;
   organisation_name?: string | null;
@@ -51,4 +54,11 @@ export function findCatalogDataset(datasets: CatalogDataset[], identifier: strin
     item.dataset_guid.toLowerCase() === identifier.toLowerCase() ||
     (typeof item.dataset_id === "number" && String(item.dataset_id) === identifier),
   );
+}
+
+export function datasetProviderParams(value: CatalogDataset["provider_params"]): Record<string, unknown> {
+  try {
+    const parsed = typeof value === "string" ? JSON.parse(value) : value;
+    return parsed && typeof parsed === "object" && !Array.isArray(parsed) ? parsed : {};
+  } catch { return {}; }
 }

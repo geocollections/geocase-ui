@@ -4,7 +4,7 @@ GeoCASe is a portal for museum and research collections of fossils, minerals, ro
 
 ## Development
 
-Use Node 24 LTS (see `.nvmrc`) and npm 11:
+Use Node 24.22.1 LTS (see `.nvmrc`) and npm 11:
 
 ```sh
 nvm install

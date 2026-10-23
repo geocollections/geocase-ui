@@ -90,6 +90,7 @@ export default {
       type: String,
       default: "points",
     },
+    selectableLocations: Boolean,
     activateSearch: Boolean,
     isDetailView: Boolean,
   },
@@ -612,7 +613,9 @@ export default {
               },
             );
 
-            if (!this.isDetailView && item.mapCount > 1) {
+            if (this.selectableLocations) {
+              marker.on("click", () => this.$emit("select-location", item));
+            } else if (!this.isDetailView && item.mapCount > 1) {
               this.locationCountMarkers.push({
                 marker: markRaw(marker),
                 count: item.mapCount,

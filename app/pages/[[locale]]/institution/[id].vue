@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import ProviderDataPanel from "@/components/ProviderDataPanel.vue";
 import { useAsyncData } from "#imports";
 import { useI18n } from "vue-i18n";
 import InstitutionCollectionMap from "@/components/InstitutionCollectionMap.vue";
@@ -8,6 +9,8 @@ import {
   getInstitutionCountryMarkers,
   institutionCountrySearchQuery,
 } from "@/utils/institutionMap";
+import { $fetch } from "ofetch";
+import { parseDatasetCatalog, datasetProviderParams } from "@/utils/datasetCatalog";
 import SearchService from "@/services/SearchService";
 import { loadInstitutionCollection } from "@/services/institutionCollection";
 
@@ -48,6 +51,18 @@ const {
       : Promise.resolve([]),
   { lazy: true },
 );
+const { data: catalog } = useAsyncData("institution-provider-catalog", async () =>
+  parseDatasetCatalog({ data: await $fetch<unknown>("/catalog/datasets") }),
+  { lazy: true },
+);
+const providerData = computed(() => {
+  const sources = new Set((datasets.value ?? []).map((item) => item.url));
+  const related = (catalog.value ?? []).filter((item) => item.provider_url && sources.has(item.provider_url));
+  return related.length ? related.map((item) => ({
+    ...item,
+    provider_params: datasetProviderParams(item.provider_params),
+  })) : null;
+});
 const topCountries = computed(() =>
   [...(collection.value?.countries ?? [])]
     .sort((a, b) => b.count - a.count)
@@ -428,5 +443,6 @@ useHead(() => ({
         </NuxtLink>
       </div>
     </section>
+    <ProviderDataPanel :data="providerData" />
   </article>
 </template>
