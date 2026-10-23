@@ -11,12 +11,12 @@ executors:
       IMAGE_NAME: geocollections/geocase-ui
       IMAGE_NAME_DEV: geocollections/geocase-ui-dev
     docker:
-      - image: cimg/node:24.11
+      - image: cimg/node:24.22
 
 jobs:
   validate:
     docker:
-      - image: cimg/node:24.11-browsers
+      - image: cimg/node:24.22-browsers
     steps:
       - checkout
       - run: npm ci
