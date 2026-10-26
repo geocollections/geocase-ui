@@ -786,7 +786,7 @@ test("institution gallery falls back to thumbnails and links to specimens", asyn
     if (
       !url.searchParams
         .getAll("fq")
-        .some((fq) => fq.includes("Department of Geology, TalTech"))
+        .some((fq) => fq.includes("https://source.test/taltech"))
     )
       return route.fallback();
     return route.fulfill({
@@ -850,8 +850,8 @@ test("institution gallery falls back to thumbnails and links to specimens", asyn
     new URL(
       await link.getAttribute("href"),
       "http://localhost",
-    ).searchParams.get("datasetowner"),
-  ).toBe('"Department of Geology, TalTech"');
+    ).searchParams.get("q"),
+  ).toBe('datasourceurl:( "https://source.test/taltech" )');
   await image.click();
   await expect(page).toHaveURL(/specimen\/demo/);
 });
@@ -869,7 +869,7 @@ test("institution location remains available without collection data", async ({
   ).toBeVisible();
   await expect(
     page.getByText(
-      "This partner currently has no dataset in GeoCASE, so no collection points are available.",
+      "Collection data is not available for this institution’s catalog datasets.",
       { exact: true },
     ),
   ).toBeVisible();
@@ -893,7 +893,7 @@ test("institution country circles render after delayed data and open filtered se
     if (
       !url.searchParams
         .getAll("fq")
-        .some((fq) => fq.includes("Department of Geology, TalTech"))
+        .some((fq) => fq.includes("https://source.test/taltech"))
     )
       return route.fallback();
     await dataReady;
@@ -953,8 +953,8 @@ test("institution country circles render after delayed data and open filtered se
   await estoniaMarker.click();
   await expect(page).toHaveURL(/search/);
   const searchUrl = new URL(page.url());
-  expect(searchUrl.searchParams.get("datasetowner")).toBe(
-    '"Department of Geology, TalTech"',
+  expect(searchUrl.searchParams.get("q")).toBe(
+    'datasourceurl:( "https://source.test/taltech" )',
   );
   expect(searchUrl.searchParams.get("country")).toBe('"Estonia"');
 });
@@ -1495,4 +1495,27 @@ test("institution related datasets use catalog institution relationships", async
   await expect(dataset).toHaveAttribute("href", "/dataset/8fa26a2c-c99d-11f1-a7eb-269714084253");
   await expect(section.getByRole("link", { name: "Other institution dataset" })).toHaveCount(0);
   await expect(section.locator("h2")).toContainText("(1)");
+});
+
+
+test("dataset search survives reload and clearing preserves unrelated query parameters", async ({ page }) => {
+  await page.goto("/dataset?q=TalTech&view=cards");
+  const input = page.getByRole("searchbox", { name: "Search datasets", exact: true });
+  await expect(input).toHaveValue("TalTech");
+  await expect(page.getByRole("heading", { name: "TalTech geological collections", exact: true })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Other institution dataset", exact: true })).toHaveCount(0);
+  await page.reload();
+  await expect(input).toHaveValue("TalTech");
+  await page.getByRole("button", { name: "Clear search", exact: true }).click();
+  await expect(input).toHaveValue("");
+  await expect(page).toHaveURL(/view=cards/);
+  expect(new URL(page.url()).searchParams.has("q")).toBe(false);
+  await expect(page.getByRole("heading", { name: "Other institution dataset", exact: true })).toBeVisible();
+});
+
+test("former institution links explain catalog removal and link to the directory", async ({ page }) => {
+  await page.goto("/institution/meise-botanic-garden");
+  await expect(page.getByRole("heading", { name: "Meise Botanic Garden", exact: true })).toBeVisible();
+  await expect(page.getByText("This institution is not currently listed in the institution catalog.", { exact: false })).toBeVisible();
+  await expect(page.getByRole("link", { name: "Back to institutions", exact: true })).toHaveAttribute("href", "/institution");
 });
