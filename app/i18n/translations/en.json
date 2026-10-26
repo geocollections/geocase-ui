@@ -999,5 +999,10 @@
     "map": "Dataset map",
     "mapError": "Locations could not be loaded.",
     "mapNote": "The map shows up to 1,000 distinct locations. Select a point to open its specimen details. If records share coordinates, the first record is shown."
-  }
+  },
+  "institutionsCatalog": {
+  "loading": "Loading institutions…",
+  "error": "Institutions could not be loaded. Please try again.",
+  "empty": "No institutions available."
+}
 }
