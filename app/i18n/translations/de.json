@@ -1003,5 +1003,12 @@
   "loading": "Institutionen werden geladen…",
   "error": "Institutionen konnten nicht geladen werden. Bitte erneut versuchen.",
   "empty": "Keine Institutionen verfügbar."
+},
+  "datasetFilter": {
+  "label": "Datensätze suchen",
+  "placeholder": "Nach Name, Institution oder Beschreibung suchen…",
+  "clear": "Suche löschen",
+  "count": "{shown} von {total} Datensätzen angezeigt",
+  "noMatches": "Keine passenden Datensätze gefunden. Versuchen Sie einen anderen Suchbegriff."
 }
 }

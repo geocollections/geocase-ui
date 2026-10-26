@@ -1004,5 +1004,12 @@
   "loading": "Loading institutions…",
   "error": "Institutions could not be loaded. Please try again.",
   "empty": "No institutions available."
+},
+  "datasetFilter": {
+  "label": "Search datasets",
+  "placeholder": "Search by name, institution or description…",
+  "clear": "Clear search",
+  "count": "Showing {shown} of {total} datasets",
+  "noMatches": "No datasets match your search. Try another search term."
 }
 }

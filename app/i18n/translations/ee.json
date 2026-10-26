@@ -1002,5 +1002,12 @@
   "loading": "Laadin asutusi…",
   "error": "Asutuste laadimine ebaõnnestus. Proovi uuesti.",
   "empty": "Asutusi ei leitud."
+},
+  "datasetFilter": {
+  "label": "Otsi andmestikke",
+  "placeholder": "Otsi nime, asutuse või kirjelduse järgi…",
+  "clear": "Tühjenda otsing",
+  "count": "Kuvatud {shown} andmestikku {total}-st",
+  "noMatches": "Otsingule vastavaid andmestikke ei leitud. Proovi teist otsingusõna."
 }
 }
