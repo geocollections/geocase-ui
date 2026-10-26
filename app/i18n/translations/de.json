@@ -1015,5 +1015,12 @@
   "noIndexedRecords": "Für die Katalogdatensätze dieser Institution wurden keine indexierten Exemplare gefunden.",
   "collectionUnavailable": "Sammlungsdaten für die Katalogdatensätze dieser Institution sind nicht verfügbar.",
   "legacyInstitution": "Diese Institution ist derzeit nicht im Institutionskatalog aufgeführt. Verfügbare Sammlungen finden Sie im aktuellen Institutionsverzeichnis."
+},
+  "mobileSearch": {
+  "sortBy": "Sortieren nach",
+  "defaultOrder": "Standardreihenfolge",
+  "ascending": "Aufsteigende Reihenfolge",
+  "descending": "Absteigende Reihenfolge",
+  "mapHelp": "Karte verwenden"
 }
 }

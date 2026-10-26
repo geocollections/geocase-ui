@@ -1016,5 +1016,12 @@
   "noIndexedRecords": "No indexed specimens were found for this institution’s catalog datasets.",
   "collectionUnavailable": "Collection data is not available for this institution’s catalog datasets.",
   "legacyInstitution": "This institution is not currently listed in the institution catalog. Browse the current institution directory to find available collections."
+},
+  "mobileSearch": {
+  "sortBy": "Sort by",
+  "defaultOrder": "Default order",
+  "ascending": "Ascending order",
+  "descending": "Descending order",
+  "mapHelp": "How to use the map"
 }
 }
