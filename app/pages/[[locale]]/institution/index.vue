@@ -1,7 +1,11 @@
 <script setup lang="ts">
+import { useAsyncData } from "#imports";
+import { $fetch } from "ofetch";
 import { useI18n } from "vue-i18n";
 import PartnersMap from "@/components/PartnersMap.vue";
-import { institutions } from "@/institutions";
+import type { CatalogInstitution } from "@/utils/institutionCatalog";
+const { data: institutions, status, error, refresh } = await useAsyncData("institution-catalog", () => $fetch<CatalogInstitution[]>("/catalog/institutions"), { default: () => [] });
+const mappedInstitutions = computed(() => institutions.value.flatMap((item) => item.coordinates ? [{ id: item.id, name: item.name, url: item.url, coordinates: item.coordinates as [number, number] }] : []));
 const { t } = useI18n();
 const { localePath } = useAppNavigation();
 definePageMeta({
@@ -21,7 +25,7 @@ const organizations = [
   { name: "Botanic Garden and Botanical Museum Berlin", logoFile: "bgbm.png", url: "https://bgbm.org" },
 ] as const;
 
-const countryCount = new Set(institutions.map((institution) => institution.countryKey)).size;
+const countryCount = computed(() => new Set(institutions.value.map((institution) => institution.country)).size);
 </script>
 
 <template>
@@ -42,7 +46,7 @@ const countryCount = new Set(institutions.map((institution) => institution.count
       </div>
       <div class="tw:p-4 tw:pt-0 tw:sm:p-6 tw:sm:pt-0 tw:lg:p-6">
         <ClientOnly>
-          <PartnersMap :institutions="institutions" class="tw:h-full tw:min-h-80 tw:overflow-hidden tw:rounded-2xl tw:lg:min-h-112" />
+          <PartnersMap v-if="mappedInstitutions.length" :institutions="mappedInstitutions" class="tw:h-full tw:min-h-80 tw:overflow-hidden tw:rounded-2xl tw:lg:min-h-112" />
         </ClientOnly>
       </div>
     </header>
@@ -50,6 +54,12 @@ const countryCount = new Set(institutions.map((institution) => institution.count
     <section class="tw:py-12 tw:sm:py-16" aria-labelledby="partner-institutions">
       <p class="tw:text-home-muted tw:text-xs tw:font-extrabold tw:tracking-[0.16em] tw:uppercase">{{ t("partnersPage.networkEyebrow") }}</p>
       <h2 id="partner-institutions" class="tw:mt-2 tw:text-2xl tw:font-bold tw:tracking-tight tw:sm:text-3xl">{{ t("partnersPage.institutionsTitle") }}</h2>
+      <p v-if="status === 'pending'" role="status" class="tw:mt-5">{{ t("institutionsCatalog.loading") }}</p>
+      <div v-if="error" role="alert" class="tw:mt-5">
+        <p>{{ t("institutionsCatalog.error") }}</p>
+        <UButton @click="refresh()">{{ t("partnersPage.retry") }}</UButton>
+      </div>
+      <p v-if="status === 'success' && !institutions.length" class="tw:mt-5">{{ t("institutionsCatalog.empty") }}</p>
       <div class="tw:mt-7 tw:grid tw:gap-4 tw:sm:grid-cols-2 tw:lg:grid-cols-3">
         <div
           v-for="(institution, index) in institutions"
@@ -57,7 +67,7 @@ const countryCount = new Set(institutions.map((institution) => institution.count
           class="tw:flex tw:min-h-48 tw:min-w-0 tw:flex-col tw:rounded-2xl tw:border tw:border-home-border tw:bg-white tw:p-6 tw:shadow-sm tw:transition-colors tw:duration-200 tw:hover:bg-[#eaf0e9] tw:focus-within:bg-[#eaf0e9]"
         >
           <div class="tw:flex tw:items-baseline tw:justify-between tw:gap-2">
-            <span class="tw:text-xs tw:font-extrabold tw:tracking-widest tw:text-home-link tw:uppercase">{{ t(`partnersPage.countries.${institution.countryKey}`) }}</span>
+            <span class="tw:text-xs tw:font-extrabold tw:tracking-widest tw:text-home-link tw:uppercase">{{ institution.countryKey ? t(`partnersPage.countries.${institution.countryKey}`) : institution.country }}</span>
             <span class="tw:text-xl tw:font-bold tw:text-slate-300">{{ String(index + 1).padStart(2, "0") }}</span>
           </div>
           <h3 class="tw:mt-4 tw:text-lg tw:leading-snug tw:font-bold">
@@ -65,11 +75,12 @@ const countryCount = new Set(institutions.map((institution) => institution.count
               {{ institution.name }}
             </NuxtLink>
           </h3>
+          <p v-if="institution.description" class="tw:mt-3 tw:line-clamp-3 tw:text-sm tw:leading-6 tw:text-home-muted">{{ institution.description }}</p>
           <NuxtLink :to="localePath(`/institution/${institution.id}`)" class="tw:mt-3 tw:text-sm tw:font-semibold tw:text-home-link">
             {{ t("partnersPage.viewDetails") }}
           </NuxtLink>
           <UButton
-            :to="institution.url"
+            v-if="institution.url" :to="institution.url"
             target="_blank"
             rel="noopener noreferrer"
             color="neutral"
