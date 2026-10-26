@@ -1519,3 +1519,91 @@ test("former institution links explain catalog removal and link to the directory
   await expect(page.getByText("This institution is not currently listed in the institution catalog.", { exact: false })).toBeVisible();
   await expect(page.getByRole("link", { name: "All institutions", exact: true })).toHaveAttribute("href", "/institution");
 });
+
+
+test("mobile sorting preserves filters, resets pagination and survives reload", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/search?q=quartz&country="Estonia"&page=2');
+  await page.getByRole("button", { name: "OK", exact: true }).click();
+  const sort = page.getByRole("combobox", { name: "Sort by", exact: true });
+  await sort.click();
+  await page.getByRole("option", { name: "Object ID", exact: true }).click();
+  await expect(page).toHaveURL(/sort_by=unitid/);
+  let query = new URL(page.url()).searchParams;
+  expect(query.get("page")).toBe("1");
+  expect(query.get("q")).toBe("quartz");
+  expect(query.get("country")).toBe('"Estonia"');
+  await page.getByRole("button", { name: "Ascending order", exact: true }).click();
+  await expect(page).toHaveURL(/sort_desc=true/);
+  await page.reload();
+  await expect(sort).toContainText("Object ID");
+  await expect(page.getByRole("button", { name: "Descending order", exact: true })).toHaveAttribute("aria-pressed", "true");
+  await sort.click();
+  await page.getByRole("option", { name: "Default order", exact: true }).click();
+  await expect(sort).toContainText("Default order");
+  await expect(page).not.toHaveURL(/sort_by=/);
+  query = new URL(page.url()).searchParams;
+  expect(query.has("sort_desc")).toBe(false);
+  expect(query.get("country")).toBe('"Estonia"');
+});
+
+for (const width of [320, 390]) {
+  test(`mobile search controls fit and provide touch targets at ${width}px`, async ({ page }) => {
+    await page.setViewportSize({ width, height: 844 });
+    await page.goto("/search?q=quartz");
+    await page.getByRole("button", { name: "OK", exact: true }).click();
+    await expect(page.getByRole("link", { name: "DEMO-1", exact: true })).toBeVisible();
+    await expect(page.getByRole("button", { name: "Table configuration", exact: true })).toBeHidden();
+    for (const name of ["Search & filters", "Remove Search filter", "Copy search link"]) {
+      const box = await page.getByRole("button", { name, exact: true }).boundingBox();
+      expect(box?.width).toBeGreaterThanOrEqual(44);
+      expect(box?.height).toBeGreaterThanOrEqual(44);
+    }
+    const next = await page.locator(".table-top").getByRole("button", { name: "Next page", exact: true }).boundingBox();
+    expect(next?.width).toBeGreaterThanOrEqual(44);
+    expect(next?.height).toBeGreaterThanOrEqual(44);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width);
+    if (width === 390) {
+      const record = await page.getByRole("link", { name: "DEMO-1", exact: true }).boundingBox();
+      expect(record?.y).toBeLessThan(700);
+    }
+    const map = page.getByRole("region", { name: "Map", exact: true });
+    await expect(map.getByText("Select a country", { exact: false })).toBeHidden();
+    await map.getByRole("button", { name: "Show map", exact: true }).click();
+    await expect(map.locator(".leaflet-container")).toBeVisible();
+    await map.getByText("How to use the map", { exact: true }).click();
+    await expect(map.getByText("Select a country", { exact: false }).last()).toBeVisible();
+  });
+}
+
+test("desktop table configuration remains available and mobile sort is hidden", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 1000 });
+  await page.goto("/search?q=quartz");
+  await page.getByRole("button", { name: "OK", exact: true }).click();
+  await expect(page.getByRole("button", { name: "Table configuration", exact: true })).toBeVisible();
+  await expect(page.getByRole("combobox", { name: "Sort by", exact: true })).toBeHidden();
+});
+
+
+test("homepage catalog counters match the dataset and institution directories", async ({ page }) => {
+  await page.goto("/");
+  await page.getByRole("button", { name: "OK", exact: true }).click();
+  const datasets = page.getByRole("button", { name: /Number of datasets/ });
+  const institutions = page.getByRole("button", { name: /Number of Institutions/ });
+  await expect(datasets.locator("span").first()).toHaveText("2");
+  await expect(institutions.locator("span").first()).toHaveText("2");
+  await datasets.click();
+  await expect(page.locator("h3")).toHaveCount(2);
+  await page.goBack();
+  await institutions.click();
+  await expect(page.locator("h3")).toHaveCount(2);
+});
+
+test("homepage shows an unavailable count without hiding the other catalog count", async ({ page }) => {
+  await page.route("**/catalog/datasets", (route) => route.fulfill({ status: 502, json: { error: true } }));
+  await page.goto("/");
+  const datasets = page.getByRole("button", { name: /Number of datasets/ });
+  const institutions = page.getByRole("button", { name: /Number of Institutions/ });
+  await expect(datasets.locator("span").first()).toHaveText("—");
+  await expect(institutions.locator("span").first()).toHaveText("2");
+});
