@@ -997,5 +997,10 @@
     "map": "Andmestiku kaart",
     "mapError": "Asukohtade laadimine ebaõnnestus.",
     "mapNote": "Kaart näitab kuni 1000 erinevat asukohta. Klõpsa punktil, et avada kirje detailvaade. Kui samal kohal on mitu kirjet, avaneb neist esimene."
-  }
+  },
+  "institutionsCatalog": {
+  "loading": "Laadin asutusi…",
+  "error": "Asutuste laadimine ebaõnnestus. Proovi uuesti.",
+  "empty": "Asutusi ei leitud."
+}
 }
