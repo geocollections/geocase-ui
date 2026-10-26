@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useAsyncData } from "#imports";
+import { useAsyncData, useRouter } from "#imports";
 import { $fetch } from "ofetch";
 import { useI18n } from "vue-i18n";
 import { useAppNavigation } from "@/composables/useAppNavigation";
@@ -9,7 +9,14 @@ definePageMeta({ name: "Datasets", path: "/:locale(en|ee|de)?/dataset" });
 const { t } = useI18n();
 const { localePath } = useAppNavigation();
 const { data: catalog, status: catalogStatus, error: catalogError, refresh: refreshCatalog } = useAsyncData("dataset-catalog", async () => parseDatasetCatalog({ data: await $fetch<unknown>("/catalog/datasets", { responseType: "json" }) }));
-const datasetSearch = ref("");
+const route = useRoute();
+const router = useRouter();
+const datasetSearch = computed({
+  get: () => typeof route.query.q === "string" ? route.query.q : "",
+  set: (value: string) => {
+    void router.replace({ path: route.path, query: { ...route.query, q: value || undefined }, hash: route.hash });
+  },
+});
 const filteredCatalog = computed(() => {
   const terms = datasetSearch.value.trim().toLocaleLowerCase().split(/\s+/).filter(Boolean);
   return (catalog.value ?? []).filter((item) => {
