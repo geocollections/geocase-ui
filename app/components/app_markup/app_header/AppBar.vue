@@ -65,7 +65,7 @@ function submitSearch() {
 
 <template>
   <header
-    class="tw:fixed tw:inset-x-0 tw:top-0 tw:z-2020 tw:h-16 tw:border-b tw:border-home-accent/20 tw:bg-home-hero tw:text-home-hero-muted tw:shadow-header-home"
+    class="mobile-touch-controls tw:fixed tw:inset-x-0 tw:top-0 tw:z-2020 tw:h-16 tw:border-b tw:border-home-accent/20 tw:bg-home-hero tw:text-home-hero-muted tw:shadow-header-home"
   >
     <nav
       :aria-label="t('a11y.mainNavigation')"
