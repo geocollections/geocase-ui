@@ -3,9 +3,11 @@
     <div
       class="table-top tw:border-default tw:bg-default tw:flex tw:flex-col tw:gap-3 tw:border-b tw:p-3 tw:lg:flex-row tw:lg:items-center"
     >
-      <div class="tw:flex tw:items-center tw:gap-2">
+      <div class="tw:flex tw:items-center tw:gap-2 tw:lg:shrink-0">
         <ExportControls />
+        <MobileSearchSort />
         <HeaderControls
+          class="tw:hidden tw:lg:inline-flex"
           :headers="translatedTableHeaders"
           :visible-headers="getAllShownTableHeaders"
           :sort-by="sortBy"
