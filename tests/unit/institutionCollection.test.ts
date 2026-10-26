@@ -7,6 +7,8 @@ async function handler(id, fetch) {
     apiBase: "https://example.test",
   }));
   vi.stubGlobal("createError", (error) => Object.assign(new Error(), error));
+  vi.stubGlobal("loadInstitutionCatalog", async () => id === "unknown" ? [] : [{ id, institution_id: 1 }]);
+  vi.stubGlobal("loadDatasetCatalog", async () => id === "cetaf" ? [] : [{ institution_id: 1, provider_url: "https://source.test/collection" }]);
   const upstreamFetch = fetch;
   vi.stubGlobal("$fetch", (url, options) => {
     if (options.query["facet.field"] === "country") {
@@ -37,7 +39,7 @@ describe("institution collections", () => {
       statusCode: 404,
     });
   });
-  it("filters every request by the exact owner, retains zero coordinates and limits images", async () => {
+  it("filters every request by the catalog source, retains zero coordinates and limits images", async () => {
     const docs = Array.from({ length: 8 }, (_, index) => ({
       geocase_id: `id-${index}`,
       images: [`https://images.test/image-${index}.jpg`],
@@ -81,7 +83,7 @@ describe("institution collections", () => {
     expect(new Set(result.images.map((image) => image.id)).size).toBe(8);
     for (const [, options] of fetch.mock.calls.slice(0, 3)) {
       expect([options.query.fq].flat()).toContain(
-        'datasetowner:"Department of Geology, TalTech"',
+        'datasourceurl:( "https://source.test/collection" )',
       );
     }
     expect(fetch.mock.calls[0][1].query["facet.limit"]).toBe(-1);

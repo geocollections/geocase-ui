@@ -36,3 +36,14 @@ test("sitemap and localized direct entry routes are served", async ({
   expect(await sitemap.text()).toContain("https://geocase.eu/ee/search");
   expect((await request.get("/de/specimen/demo%3A1")).status()).toBe(200);
 });
+
+test("sitemap includes catalog pages and translated institution and dataset details", async ({ request }) => {
+  const response = await request.get("/sitemap.xml");
+  expect(response.ok()).toBe(true);
+  const xml = await response.text();
+  for (const prefix of ["", "/ee", "/de"]) {
+    for (const path of ["/dataset", "/institution", "/institution/tallinn-university-of-technology", "/dataset/8fa26a2c-c99d-11f1-a7eb-269714084253"]) {
+      expect(xml).toContain(`<loc>https://geocase.eu${prefix}${path}</loc>`);
+    }
+  }
+});

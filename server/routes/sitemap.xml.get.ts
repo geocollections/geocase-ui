@@ -5,14 +5,21 @@ const pages = [
   "/access",
   "/tutorial",
   "/efg",
-  "/partners_and_providers",
+  "/institution",
+  "/dataset",
   "/help",
   "/links",
 ];
-export default defineEventHandler((event) => {
+export default defineEventHandler(async (event) => {
+  const config = useRuntimeConfig(event);
+  const [institutions, datasets] = await Promise.all([
+    loadInstitutionCatalog(config.institutionCatalogUrl),
+    loadDatasetCatalog(config.datasetCatalogUrl),
+  ]);
+  const paths = [...pages, ...institutions.map((item) => `/institution/${encodeURIComponent(item.id)}`), ...datasets.map((item) => `/dataset/${encodeURIComponent(item.dataset_guid)}`)];
   setResponseHeader(event, "Content-Type", "application/xml; charset=utf-8");
   const urls = ["", "/ee", "/de"].flatMap((locale) =>
-    pages.map(
+    paths.map(
       (page) =>
         `<url><loc>https://geocase.eu${locale}${page || "/"}</loc></url>`,
     ),

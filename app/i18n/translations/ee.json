@@ -788,7 +788,7 @@
     "website": "Ametlik veebileht",
     "approximateLocation": "Ligikaudne asukoht (laiuskraad, pikkuskraad)",
     "linkedDatasets": "Seotud andmestikud",
-    "datasetsDescription": "Selle institutsiooni andmestikud GeoCASe’is koos kirjete arvu ja eksemplaritüüpidega. Allika URL tähistab indekseeritud andmestikku.",
+    "datasetsDescription": "Selle asutusega seotud GeoCASe’i andmestikud. Ava andmestik, et vaadata selle kirjeldust ja juurdepääsuvõimalusi.",
     "noLinkedDatasets": "Selle institutsiooniga seotud andmestikke ei ole praegu GeoCASe’is saadaval.",
     "recordsInInstitution": "Selle institutsiooni kirjed",
     "geographicCoverage": "Geograafiline ulatus",
@@ -1009,5 +1009,10 @@
   "clear": "Tühjenda otsing",
   "count": "Kuvatud {shown} andmestikku {total}-st",
   "noMatches": "Otsingule vastavaid andmestikke ei leitud. Proovi teist otsingusõna."
+},
+  "catalogImprovements": {
+  "noIndexedRecords": "Selle asutuse kataloogiandmestikest ei leitud otsinguindeksis eksemplare.",
+  "collectionUnavailable": "Selle asutuse kataloogiandmestike kogumiandmed pole saadaval.",
+  "legacyInstitution": "Seda asutust ei ole praegu asutuste kataloogis. Saadaolevad kogud leiad kehtivast asutuste nimekirjast."
 }
 }

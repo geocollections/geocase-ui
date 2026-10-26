@@ -12,7 +12,7 @@ const server = createServer((request, response) => {
   if (url.pathname === "/dcat/datasets.json") {
     response.writeHead(200, { "content-type": "application/json" });
     response.end(JSON.stringify({ data: [
-      { dataset_id: 1, dataset_guid: "8fa26a2c-c99d-11f1-a7eb-269714084253", institution_id: 1, title: "TalTech geological collections", description: "Fossils and minerals", is_active: 1, is_published_geocase: 1 },
+      { dataset_id: 1, dataset_guid: "8fa26a2c-c99d-11f1-a7eb-269714084253", institution_id: 1, title: "TalTech geological collections", provider_url: "https://source.test/taltech", description: "Fossils and minerals", is_active: 1, is_published_geocase: 1 },
       { dataset_id: 2, dataset_guid: "58221cb2-ca04-11f1-a7eb-269714084253", institution_id: 2, title: "Other institution dataset", is_active: 1, is_published_geocase: 1 },
     ] }));
     return;

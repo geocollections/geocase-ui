@@ -1,8 +1,9 @@
 import { $fetch } from "ofetch";
+import { institutionCollectionFilter } from "../utils/institutionCatalog";
 
 /** Uses the shared Solr proxy so collection pages also work behind existing deployments. */
 export async function loadInstitutionCollection(
-  owner: string,
+  sourceUrls: string[],
   base = "/api",
   fetcher: <T>(url: string, options: {
     query: Record<string, string | number | string[]>;
@@ -10,8 +11,8 @@ export async function loadInstitutionCollection(
     retry: number;
   }) => Promise<T> = $fetch,
 ) {
-  if (!owner) return { points: [], countries: [], images: [], total: 0 };
-  const fq = `datasetowner:"${owner.replace(/["\\]/g, "\\$&")}"`;
+  if (!sourceUrls.length) return { points: [], countries: [], images: [], total: 0 };
+  const fq = institutionCollectionFilter(sourceUrls);
   type Response = {
     response: { numFound: number; docs: Record<string, any>[] };
     facet_counts?: {
@@ -148,7 +149,7 @@ export async function loadInstitutionCollection(
         url,
         previewUrl: url.replace(/^http:/i, "https:"),
         fallbackUrl: "https://geocase.eu/thumbnails/" + encodeURIComponent(url),
-        title: doc.fullscientificname || doc.unitid || doc.locality || owner,
+        title: doc.fullscientificname || doc.unitid || doc.locality || "",
         locality: doc.locality,
         author: doc.image_author,
         license: doc.image_license,

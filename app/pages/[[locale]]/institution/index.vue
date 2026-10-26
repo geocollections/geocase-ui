@@ -79,6 +79,7 @@ const countryCount = computed(() => new Set(institutions.value.map((institution)
           <NuxtLink :to="localePath(`/institution/${institution.id}`)" class="tw:mt-3 tw:text-sm tw:font-semibold tw:text-home-link">
             {{ t("partnersPage.viewDetails") }}
           </NuxtLink>
+          <div class="tw:mt-auto tw:flex tw:items-end tw:justify-between tw:gap-4 tw:pt-5">
           <UButton
             v-if="institution.url" :to="institution.url"
             target="_blank"
@@ -86,10 +87,20 @@ const countryCount = computed(() => new Set(institutions.value.map((institution)
             color="neutral"
             variant="link"
             trailing-icon="i-lucide-arrow-up-right"
-            class="tw:mt-auto tw:self-start tw:px-0 tw:pt-5 tw:font-bold tw:text-home-link"
+            class="tw:min-w-0 tw:shrink tw:whitespace-normal tw:px-0 tw:font-bold tw:text-home-link"
           >
             {{ t("partnersPage.visitWebsite") }}
           </UButton>
+            <img
+              v-if="institution.logoUrl"
+              :src="institution.logoUrl"
+              :alt="institution.name"
+              loading="lazy"
+              width="96"
+              height="56"
+              class="tw:ml-auto tw:h-14 tw:w-24 tw:shrink-0 tw:object-contain tw:object-right-bottom"
+            />
+          </div>
         </div>
       </div>
     </section>

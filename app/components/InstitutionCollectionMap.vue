@@ -4,12 +4,12 @@ import { useRouter } from "#imports";
 import "leaflet/dist/leaflet.css";
 import {
   getInstitutionCountryMarkers,
-  institutionCountrySearchQuery,
 } from "@/utils/institutionMap";
+import { institutionCollectionSearchQuery } from "@/utils/institutionCatalog";
 
 const props = defineProps({
   countries: { type: Array, default: () => [] },
-  datasetOwner: { type: String, default: "" },
+  sourceUrls: { type: Array, default: () => [] },
   institution: { type: Object, required: true },
   label: { type: String, required: true },
   homeLabel: { type: String, required: true },
@@ -88,10 +88,10 @@ function updatePoints() {
       .bindTooltip(tooltip, { offset })
       .addTo(collectionLayer);
     countryMarker.on("click", () => {
-      if (!props.datasetOwner) return;
+      if (!props.sourceUrls.length) return;
       router.push({
         path: localePath("/search"),
-        query: institutionCountrySearchQuery(props.datasetOwner, point.country),
+        query: institutionCollectionSearchQuery(props.sourceUrls, point.country),
       });
     });
   });
