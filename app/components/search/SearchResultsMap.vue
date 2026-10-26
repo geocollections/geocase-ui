@@ -75,10 +75,10 @@ function clearArea() {
 <template>
   <section
     :aria-label="t('search.tab.map')"
-    class="tw:mx-4 tw:mb-5 tw:overflow-hidden tw:rounded-xl tw:border tw:border-default tw:sm:mx-6"
+    class="tw:mx-3 tw:mb-2 tw:sm:mb-5 tw:overflow-hidden tw:rounded-xl tw:border tw:border-default tw:sm:mx-6"
   >
     <div
-      class="tw:flex tw:flex-wrap tw:items-center tw:justify-between tw:gap-3 tw:bg-muted/30 tw:px-4 tw:py-3"
+      class="tw:flex tw:flex-wrap tw:items-center tw:justify-between tw:gap-3 tw:bg-muted/30 tw:px-3 tw:py-1 tw:lg:px-4 tw:lg:py-3"
     >
       <div class="tw:min-w-0">
         <h2
@@ -88,7 +88,7 @@ function clearArea() {
             t("search.tab.map")
           }}
         </h2>
-        <div aria-live="polite" aria-atomic="true">
+        <div :class="open ? '' : 'tw:hidden tw:lg:block'" aria-live="polite" aria-atomic="true">
           <p
             v-if="!store.isMapLoading && !store.isLoading"
             class="tw:mt-1 tw:text-sm tw:font-medium"
@@ -105,7 +105,7 @@ function clearArea() {
             {{ t('search.layout.mapLimitNotice') }}
           </p>
         </div>
-        <p class="tw:mt-1 tw:text-xs tw:text-muted">
+        <p class="tw:mt-1 tw:hidden tw:text-xs tw:text-muted tw:lg:block">
           {{ t("search.layout.mapNote") }}
         </p>
       </div>
@@ -143,6 +143,10 @@ function clearArea() {
         />
       </div>
     </div>
+    <details v-if="open" class="tw:px-3 tw:pb-2 tw:text-xs tw:text-muted tw:lg:hidden">
+      <summary class="tw:flex tw:min-h-11 tw:cursor-pointer tw:items-center">{{ t("mobileSearch.mapHelp") }}</summary>
+      <p class="tw:pb-2 tw:leading-relaxed">{{ t("search.layout.mapNote") }}</p>
+    </details>
     <div id="results-map-content" v-show="open" class="tw:relative">
       <UProgress
         v-if="store.isMapLoading"
