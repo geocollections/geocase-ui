@@ -37,10 +37,8 @@ const {
 );
 const linkedCatalog = computed(() => institution.value ? institutionDatasets(catalog.value ?? [], institution.value.institution_id) : []);
 const sourceUrls = computed(() => institutionSourceUrls(linkedCatalog.value));
-const heroImage = computed(() => institution.value?.id === "tallinn-university-of-technology"
-  ? "https://haldus.taltech.ee/sites/default/files/styles/manual_crop/public/news-image/Tallinna%20Tehnika%C3%BClikooli%20Mustam%C3%A4e%20linnaku%20hoone%20GEO.jpg?itok=40UrfB8Q"
-  : undefined);
-
+const failedHeroImage = ref<string | null>(null);
+const heroImage = computed(() => institution.value?.headerUrl && institution.value.headerUrl !== failedHeroImage.value ? institution.value.headerUrl : undefined);
 const {
   data: collection,
   status,
@@ -48,7 +46,7 @@ const {
   refresh,
 } = useAsyncData(
   () => `institution-collection-${route.params.id}-${sourceUrls.value.join("|")}`,
-  () => loadInstitutionCollection(sourceUrls.value),
+  () => loadInstitutionCollection(sourceUrls.value, "/api", $fetch, [institution.value?.name, ...linkedCatalog.value.map((item) => item.organisation_name)].filter((name): name is string => typeof name === "string" && !!name)),
   { lazy: true },
 );
 const providerData = computed(() => linkedCatalog.value.length ? linkedCatalog.value.map((item) => ({
@@ -73,7 +71,7 @@ const galleryImages = computed(() =>
 );
 const searchLink = computed(() => ({
   path: localePath("/search"),
-  query: institutionCollectionSearchQuery(sourceUrls.value),
+  query: institutionCollectionSearchQuery(sourceUrls.value, undefined, collection.value?.owners ?? []),
 }));
 function imageError(event: Event, image: { id: string; fallbackUrl?: string }) {
   const target = event.target as HTMLImageElement;
@@ -104,13 +102,10 @@ useHead(() => ({
     </NuxtLink>
 
     <header
-      class="tw:relative tw:mt-8 tw:overflow-hidden tw:rounded-3xl tw:bg-home-banner tw:p-6 tw:sm:p-10 tw:lg:p-12"
+      class="tw:mt-8 tw:grid tw:gap-8 tw:rounded-3xl tw:bg-home-banner tw:p-6 tw:sm:p-10 tw:lg:p-12"
+      :class="heroImage ? 'tw:lg:grid-cols-2' : undefined"
     >
-      <template v-if="heroImage">
-        <img :src="heroImage" alt="" aria-hidden="true" fetchpriority="high" class="tw:absolute tw:inset-0 tw:size-full tw:object-cover tw:object-center" />
-        <div class="tw:absolute tw:inset-0 tw:bg-linear-to-r tw:from-home-banner/95 tw:via-home-banner/90 tw:to-home-banner/60 tw:lg:to-home-banner/20" aria-hidden="true" />
-      </template>
-      <div class="tw:relative" :class="heroImage ? 'tw:max-w-2xl' : undefined">
+      <div class="tw:min-w-0">
       <p
         class="tw:text-xs tw:font-extrabold tw:tracking-[0.16em] tw:text-home-link tw:uppercase"
       >
@@ -167,6 +162,9 @@ useHead(() => ({
         >
       </div>
       </div>
+      <figure v-if="heroImage" class="tw:relative tw:aspect-[4/3] tw:min-w-0 tw:overflow-hidden tw:rounded-2xl tw:border tw:border-home-border tw:bg-home-surface tw:lg:aspect-auto tw:lg:min-h-80">
+        <img :src="heroImage" :alt="institution.name" @error="failedHeroImage = heroImage ?? null" fetchpriority="high" class="tw:absolute tw:inset-0 tw:size-full tw:object-cover" />
+      </figure>
     </header>
 
     <section
@@ -225,6 +223,7 @@ useHead(() => ({
             :key="institution.id"
             :countries="collection?.countries ?? []"
             :source-urls="sourceUrls"
+            :owners="collection?.owners ?? []"
             :institution="institution"
             :home-label="t('partnersPage.institutionLocation')"
             :count-label="t('partnersPage.specimens')"
@@ -328,6 +327,7 @@ useHead(() => ({
               query: institutionCollectionSearchQuery(
                 sourceUrls,
                 country.country,
+                collection?.owners ?? [],
               ),
             }"
             class="tw:flex tw:items-center tw:justify-between tw:gap-3 tw:rounded-xl tw:bg-home-surface tw:p-4 tw:text-home-link tw:hover:underline"
