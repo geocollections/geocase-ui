@@ -1,4 +1,4 @@
-import { datasetWebUrl } from "./datasetCatalog";
+import { datasetWebUrl, type CatalogDataset } from "./datasetCatalog";
 
 export interface CatalogInstitution {
   id: string;
@@ -39,4 +39,19 @@ export function parseInstitutionCatalog(value: unknown): CatalogInstitution[] {
 }
 export function findCatalogInstitution(items: CatalogInstitution[], id: string) {
   return items.find((item) => item.id === id || item.institution_guid === id || String(item.institution_id) === id);
+}
+
+export function institutionDatasets(datasets: CatalogDataset[], institutionId: number) {
+  return datasets.filter((item) => item.institution_id === institutionId || item.creator_institution_id === institutionId);
+}
+export function institutionSourceUrls(datasets: CatalogDataset[]) {
+  return [...new Set(datasets.map((item) => item.provider_url).filter((url): url is string => !!datasetWebUrl(url)))];
+}
+export function institutionCollectionFilter(urls: string[]) {
+  if (!urls.length) return "";
+  const quoted = [...new Set(urls)].map((url) => `"${url.replace(/["\\]/g, "\\$&")}"`);
+  return `datasourceurl:( ${quoted.join(" OR ")} )`;
+}
+export function institutionCollectionSearchQuery(urls: string[], country?: string) {
+  return { q: institutionCollectionFilter(urls), ...(country ? { country: `"${country.replace(/["\\]/g, "\\$&")}"` } : {}), page: "1" };
 }
