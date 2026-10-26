@@ -1021,5 +1021,12 @@
   "ascending": "Kasvav järjestus",
   "descending": "Kahanev järjestus",
   "mapHelp": "Kaardi kasutamine"
+},
+  "institutionFilter": {
+  "label": "Otsi asutusi",
+  "placeholder": "Otsi nime, riigi või kirjelduse järgi…",
+  "clear": "Tühjenda asutuste otsing",
+  "count": "Kuvatud {shown} asutust {total}-st",
+  "noMatches": "Otsingule vastavaid asutusi ei leitud. Proovi teist otsingusõna."
 }
 }

@@ -1023,5 +1023,12 @@
   "ascending": "Ascending order",
   "descending": "Descending order",
   "mapHelp": "How to use the map"
+},
+  "institutionFilter": {
+  "label": "Search institutions",
+  "placeholder": "Search by name, country or description…",
+  "clear": "Clear institution search",
+  "count": "Showing {shown} of {total} institutions",
+  "noMatches": "No institutions match your search. Try another search term."
 }
 }
