@@ -3,11 +3,10 @@ import ProviderDataPanel from "@/components/ProviderDataPanel.vue";
 import { useAsyncData, createError } from "#imports";
 import { useI18n } from "vue-i18n";
 import InstitutionCollectionMap from "@/components/InstitutionCollectionMap.vue";
-import { institutionProfiles } from "@/institutionProfiles";
-import { findCatalogInstitution, type CatalogInstitution } from "@/utils/institutionCatalog";
+import { institutions as legacyInstitutions } from "@/institutions";
+import { findCatalogInstitution, institutionDatasets, institutionSourceUrls, institutionCollectionSearchQuery, type CatalogInstitution } from "@/utils/institutionCatalog";
 import {
   getInstitutionCountryMarkers,
-  institutionCountrySearchQuery,
 } from "@/utils/institutionMap";
 import { $fetch } from "ofetch";
 import { parseDatasetCatalog, datasetProviderParams } from "@/utils/datasetCatalog";
@@ -25,21 +24,8 @@ const { localePath } = useAppNavigation();
 const { data: institutions, error: institutionError } = await useAsyncData("institution-catalog", () => $fetch<CatalogInstitution[]>("/catalog/institutions"));
 const institution = computed(() => findCatalogInstitution(institutions.value ?? [], String(route.params.id)));
 if (institutionError.value) throw createError({ statusCode: 502, statusMessage: "Institution catalog unavailable" });
-if (!institution.value) throw createError({ statusCode: 404, statusMessage: "Institution not found" });
-const profile = computed(() => ({
-  datasetOwner: institutionProfiles[institution.value?.id ?? ""]?.datasetOwner ?? "",
-  description: institution.value?.description ?? "",
-}));
-const {
-  data: collection,
-  status,
-  error,
-  refresh,
-} = useAsyncData(
-  () => `institution-collection-${route.params.id}`,
-  () => loadInstitutionCollection(profile.value?.datasetOwner ?? ""),
-  { lazy: true },
-);
+const legacyInstitution = computed(() => !institution.value ? legacyInstitutions.find((item) => item.id === route.params.id) : undefined);
+if (!institution.value && !legacyInstitution.value) throw createError({ statusCode: 404, statusMessage: "Institution not found" });
 const {
   data: catalog,
   status: datasetsStatus,
@@ -49,9 +35,18 @@ const {
   parseDatasetCatalog({ data: await $fetch<unknown>("/catalog/datasets") }),
   { lazy: true },
 );
-const linkedCatalog = computed(() => (catalog.value ?? []).filter((item) =>
-  item.institution_id === institution.value?.institution_id || item.creator_institution_id === institution.value?.institution_id,
-));
+const linkedCatalog = computed(() => institution.value ? institutionDatasets(catalog.value ?? [], institution.value.institution_id) : []);
+const sourceUrls = computed(() => institutionSourceUrls(linkedCatalog.value));
+const {
+  data: collection,
+  status,
+  error,
+  refresh,
+} = useAsyncData(
+  () => `institution-collection-${route.params.id}-${sourceUrls.value.join("|")}`,
+  () => loadInstitutionCollection(sourceUrls.value),
+  { lazy: true },
+);
 const providerData = computed(() => linkedCatalog.value.length ? linkedCatalog.value.map((item) => ({
   ...item,
   provider_params: datasetProviderParams(item.provider_params),
@@ -74,7 +69,7 @@ const galleryImages = computed(() =>
 );
 const searchLink = computed(() => ({
   path: localePath("/search"),
-  query: { datasetowner: `"${profile.value?.datasetOwner}"` },
+  query: institutionCollectionSearchQuery(sourceUrls.value),
 }));
 function imageError(event: Event, image: { id: string; fallbackUrl?: string }) {
   const target = event.target as HTMLImageElement;
@@ -87,7 +82,7 @@ watch(collection, () => {
   failedImages.value = [];
 });
 useHead(() => ({
-  title: institution.value?.name ?? t("partnersPage.pageTitle"),
+  title: institution.value?.name ?? legacyInstitution.value?.name ?? t("partnersPage.pageTitle"),
 }));
 </script>
 
@@ -124,7 +119,7 @@ useHead(() => ({
       <img v-if="institution.logoUrl" :src="institution.logoUrl" :alt="institution.name" class="tw:mt-5 tw:max-h-24 tw:max-w-64 tw:object-contain" />
       <div class="tw:mt-7 tw:flex tw:flex-wrap tw:gap-3">
         <UButton
-          v-if="profile?.datasetOwner"
+          v-if="sourceUrls.length"
           :to="searchLink"
           icon="i-lucide-search"
           class="tw:bg-home-link tw:text-white"
@@ -142,7 +137,7 @@ useHead(() => ({
         </UButton>
       </div>
       <div
-        v-if="collection && !error"
+        v-if="collection && !error && sourceUrls.length"
         class="tw:mt-8 tw:flex tw:flex-wrap tw:gap-4 tw:text-sm"
       >
         <span
@@ -171,7 +166,7 @@ useHead(() => ({
       <p
         class="tw:mt-4 tw:max-w-3xl tw:text-lg tw:leading-relaxed tw:text-home-muted"
       >
-        {{ profile?.description }}
+        {{ institution.description }}
       </p>
     </section>
 
@@ -219,7 +214,7 @@ useHead(() => ({
           ><InstitutionCollectionMap
             :key="institution.id"
             :countries="collection?.countries ?? []"
-            :dataset-owner="profile?.datasetOwner ?? ''"
+            :source-urls="sourceUrls"
             :institution="institution"
             :home-label="t('partnersPage.institutionLocation')"
             :count-label="t('partnersPage.specimens')"
@@ -238,6 +233,7 @@ useHead(() => ({
     <p
       v-else-if="
         status === 'success' &&
+        datasetsStatus === 'success' &&
         !hasCountryMarkers &&
         !collectionPoints.length &&
         !error &&
@@ -248,9 +244,9 @@ useHead(() => ({
     >
       {{
         t(
-          profile?.datasetOwner
-            ? "partnersPage.noCollectionCoordinates"
-            : "partnersPage.noCollectionDataset",
+          sourceUrls.length
+            ? (collection?.total ? "partnersPage.noCollectionCoordinates" : "catalogImprovements.noIndexedRecords")
+            : "catalogImprovements.collectionUnavailable",
         )
       }}
     </p>
@@ -319,8 +315,8 @@ useHead(() => ({
           <NuxtLink
             :to="{
               path: localePath('/search'),
-              query: institutionCountrySearchQuery(
-                profile?.datasetOwner ?? '',
+              query: institutionCollectionSearchQuery(
+                sourceUrls,
                 country.country,
               ),
             }"
@@ -390,5 +386,10 @@ useHead(() => ({
       </div>
     </section>
     <ProviderDataPanel :data="providerData" />
+  </article>
+  <article v-else-if="legacyInstitution" class="tw:mx-auto tw:max-w-6xl tw:px-4 tw:py-12 tw:text-home-ink">
+    <h1 class="tw:text-3xl tw:font-bold">{{ legacyInstitution.name }}</h1>
+    <p role="status" class="tw:mt-5 tw:max-w-2xl tw:leading-7 tw:text-home-muted">{{ t("catalogImprovements.legacyInstitution") }}</p>
+    <UButton :to="localePath('/institution')" class="tw:mt-6" icon="i-lucide-arrow-left">{{ t("partnersPage.backToInstitutions") }}</UButton>
   </article>
 </template>
