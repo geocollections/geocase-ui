@@ -1,13 +1,22 @@
 <script setup>
 import { computed } from "vue";
 import { useI18n } from "vue-i18n";
-import { useRoute, useRouter } from "#imports";
+import { $fetch } from "ofetch";
+import { institutionOwnerMatchesLabel } from "@/utils/institutionCatalog";
+import { parseSourceFilter } from "@/utils/sourceFilters";
+import { parseDatasetCatalog } from "@/utils/datasetCatalog";
+import { useAsyncData, useRoute, useRouter } from "#imports";
 import { useSearchStore } from "@/stores/search";
 
 const { t } = useI18n();
 const store = useSearchStore();
 const route = useRoute();
 const router = useRouter();
+const { data: sourceCatalog } = useAsyncData("active-filter-dataset-catalog", async () =>
+  store.search.datasourceurl.value ? parseDatasetCatalog({ data: await $fetch("/catalog/datasets") }) : [],
+  { lazy: true, watch: [() => store.search.datasourceurl.value] },
+);
+
 const activeFilters = computed(() =>
   store.searchIds.flatMap((id) => {
     const field = store.search[id];
@@ -15,9 +24,20 @@ const activeFilters = computed(() =>
     if (value == null || (typeof value === "string" && !value.trim()))
       return [];
     const label =
-      id === "q" ? t("search.activeFilters.keyword") : t(`search.table.${id}`);
+      id === "q" ? t("search.activeFilters.keyword") : id === "datasourceurl" ? t("datasetsPage.title") : t(`search.table.${id}`);
     let displayValue;
-    if (id === "map") displayValue = t("search.activeFilters.mapArea");
+    if (id === "datasourceurl" && field.lookUpType === "equals") {
+      displayValue = parseSourceFilter(String(value)).map((url) => {
+        const candidates = (sourceCatalog.value ?? []).filter((item) => item.provider_url === url);
+        const owners = Array.from(String(store.search.datasetowner.value ?? "").matchAll(/"(?:\\.|[^"\\])*"/g), (match) => {
+          try { return JSON.parse(match[0]); } catch { return ""; }
+        });
+        const scoped = candidates.filter((item) => item.organisation_name && owners.some((owner) => institutionOwnerMatchesLabel(owner, item.organisation_name)));
+        const titles = (scoped.length ? scoped : candidates).map((item) => item.title);
+        return titles.length ? titles.join(" / ") : url;
+      }).join(", ");
+    }
+    else if (id === "map") displayValue = t("search.activeFilters.mapArea");
     else if (field.type === "single_checkbox")
       displayValue = t(
         value === "true"

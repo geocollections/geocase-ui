@@ -11,10 +11,10 @@ async function handler(id, fetch) {
   vi.stubGlobal("loadDatasetCatalog", async () => id === "cetaf" ? [] : [{ institution_id: 1, provider_url: "https://source.test/collection" }]);
   const upstreamFetch = fetch;
   vi.stubGlobal("$fetch", (url, options) => {
-    if (options.query["facet.field"] === "country") {
+    if ([options.query["facet.field"]].flat().includes("country")) {
       return Promise.resolve({
         response: { numFound: 20, docs: [] },
-        facet_counts: { facet_fields: { country: ["Estonia", 12, "Finland", 8] } },
+        facet_counts: { facet_fields: { country: ["Estonia", 12, "Finland", 8], datasetowner: ["Department of Geology, TalTech", 20] } },
       });
     }
     return upstreamFetch(url, options);
@@ -50,7 +50,7 @@ describe("institution collections", () => {
       .mockResolvedValueOnce({
         response: { numFound: 20 },
         facet_counts: {
-          facet_fields: { country: ["Estonia", 12, "Finland", 8] },
+          facet_fields: { country: ["Estonia", 12, "Finland", 8], datasetowner: ["Department of Geology, TalTech", 20] },
           facet_pivot: {
             "latitude,longitude": [
               { value: 0, pivot: [{ value: 0, count: 2 }] },
@@ -172,5 +172,35 @@ describe("institution collections", () => {
     const result = await handler("museum-fuer-naturkunde-berlin", fetch);
     expect(result.imagesUnavailable).toBe(true);
     expect(result.points).toEqual([{ latitude: 59, longitude: 24, count: 1 }]);
+  });
+});
+
+
+describe("institution collection owner scope", () => {
+  it("uses the same exact owner and source scope for counts, map and images", async () => {
+    const { loadInstitutionCollection } = await import("../../app/services/institutionCollection");
+    const fetcher = vi.fn(async (_url, options) => {
+      if (options.query["facet.field"] === "datasetowner") return {
+        response: { numFound: 30, docs: [] },
+        facet_counts: { facet_fields: { datasetowner: ["Department of Geology, TalTech", 7, "University of Tartu", 23] } },
+      };
+      return { response: { numFound: [options.query.fq].flat().includes("images:*") ? 0 : 7, docs: [] } };
+    });
+    const result = await loadInstitutionCollection(["https://source.test/shared"], "/api", fetcher, ["TalTech Department of Geology"]);
+    expect(result.total).toBe(7);
+    expect(fetcher).toHaveBeenCalledTimes(4);
+    for (const [, options] of fetcher.mock.calls.slice(1)) {
+      const filter = [options.query.fq].flat().join(" ");
+      expect(filter).toContain('datasourceurl:( "https://source.test/shared" )');
+      expect(filter).toContain('AND datasetowner:( "Department of Geology, TalTech" )');
+      expect(filter).not.toContain("University of Tartu");
+    }
+  });
+
+  it("does not silently include other institutions when the owner is ambiguous", async () => {
+    const { loadInstitutionCollection } = await import("../../app/services/institutionCollection");
+    const fetcher = vi.fn().mockResolvedValue({ response: { numFound: 30, docs: [] }, facet_counts: { facet_fields: { datasetowner: ["Museum A", 10, "Museum B", 20] } } });
+    await expect(loadInstitutionCollection(["https://source.test/shared"], "/api", fetcher, ["Museum C"])).rejects.toThrow("owner could not be resolved");
+    expect(fetcher).toHaveBeenCalledTimes(1);
   });
 });

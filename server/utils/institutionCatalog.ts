@@ -2,4 +2,4 @@ import { parseInstitutionCatalog, type CatalogInstitution } from "../../app/util
 
 export const loadInstitutionCatalog = defineCachedFunction(async (url: string): Promise<CatalogInstitution[]> => {
   return parseInstitutionCatalog(await $fetch<unknown>(url, { responseType: "json", timeout: 15000, retry: 1 }));
-}, { name: "institution-catalog", maxAge: 300 });
+}, { name: "institution-catalog-v2", maxAge: 300 });

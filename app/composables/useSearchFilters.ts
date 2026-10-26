@@ -1,3 +1,4 @@
+import { sourceFilterQueryValue } from "@/utils/sourceFilters";
 import { computed, onBeforeUnmount, reactive, watch } from "vue";
 import { useRoute, useRouter } from "#imports";
 import type { LocationQueryRaw } from "vue-router";
@@ -45,7 +46,7 @@ export function useSearchFilters() {
           const key = field.lookUpType
             ? `${id}__${field.lookUpType.replaceAll(" ", "_")}`
             : id;
-          query[key] = field.value;
+          query[key] = id === "datasourceurl" && field.lookUpType === "equals" ? sourceFilterQueryValue(field.value) : field.value;
         }
       }
       if ("page" in query) query.page = String(store.page);

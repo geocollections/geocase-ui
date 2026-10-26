@@ -1,3 +1,4 @@
+import { quoteFilterValue } from "./sourceFilters";
 import { datasetWebUrl, type CatalogDataset } from "./datasetCatalog";
 
 export interface CatalogInstitution {
@@ -11,6 +12,7 @@ export interface CatalogInstitution {
   url: string;
   address: string;
   logoUrl?: string;
+  headerUrl?: string;
   coordinates: [number, number] | null;
 }
 const aliases: Record<string, string> = {
@@ -34,6 +36,7 @@ export function parseInstitutionCatalog(value: unknown): CatalogInstitution[] {
     url: datasetWebUrl(row.website_url) ?? "",
     address: typeof row.address === "string" ? row.address : "",
     logoUrl: datasetWebUrl(row.logo_url),
+    headerUrl: datasetWebUrl(row.header_url),
     coordinates: typeof row.longitude === "number" && typeof row.latitude === "number" && Number.isFinite(row.longitude) && Number.isFinite(row.latitude) && Math.abs(row.longitude) <= 180 && Math.abs(row.latitude) <= 90 ? [row.longitude, row.latitude] : null,
   }));
 }
@@ -52,6 +55,32 @@ export function institutionCollectionFilter(urls: string[]) {
   const quoted = [...new Set(urls)].map((url) => `"${url.replace(/["\\]/g, "\\$&")}"`);
   return `datasourceurl:( ${quoted.join(" OR ")} )`;
 }
-export function institutionCollectionSearchQuery(urls: string[], country?: string) {
-  return { q: institutionCollectionFilter(urls), ...(country ? { country: `"${country.replace(/["\\]/g, "\\$&")}"` } : {}), page: "1" };
+export function institutionCollectionSearchQuery(urls: string[], country?: string, owners: string[] = []) {
+  const names = [...new Set(owners)].filter(Boolean).map(quoteFilterValue);
+  return {
+    ...(urls.length ? { datasourceurl__equals: urls.length === 1 ? urls[0]! : urls } : {}),
+    ...(names.length ? { datasetowner: names.length === 1 ? names[0]! : `(${names.join(" OR ")})` } : {}),
+    ...(country ? { country: quoteFilterValue(country) } : {}),
+    page: "1",
+  };
+}
+
+/** Match catalog organisation names to real index owners, allowing word-order and punctuation differences. */
+export function resolveInstitutionOwners(candidates: string[], labels: string[]): string[] {
+  const names = new Set(labels.filter(Boolean).map(institutionNameKey));
+  const owners = [...new Set(candidates.filter(Boolean))];
+  const matched = owners.filter((owner) => names.has(institutionNameKey(owner)));
+  if (matched.length) return matched;
+  const expanded = owners.filter((owner) => labels.some((label) => institutionOwnerMatchesLabel(owner, label)));
+  return expanded.length === 1 ? expanded : owners.length === 1 ? owners : [];
+}
+
+export function institutionOwnerMatchesLabel(owner: string, label: string): boolean {
+  const words = institutionNameKey(label).split(" ").filter(Boolean);
+  const ownerWords = new Set(institutionNameKey(owner).split(" "));
+  return words.length > 0 && words.every((word) => ownerWords.has(word));
+}
+
+export function institutionNameKey(value: string): string {
+  return (value.toLocaleLowerCase().normalize("NFKD").replace(/\p{M}/gu, "").match(/[\p{L}\p{N}]+/gu) ?? []).sort().join(" ");
 }

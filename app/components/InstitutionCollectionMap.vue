@@ -10,6 +10,7 @@ import { institutionCollectionSearchQuery } from "@/utils/institutionCatalog";
 const props = defineProps({
   countries: { type: Array, default: () => [] },
   sourceUrls: { type: Array, default: () => [] },
+  owners: { type: Array, default: () => [] },
   institution: { type: Object, required: true },
   label: { type: String, required: true },
   homeLabel: { type: String, required: true },
@@ -91,7 +92,7 @@ function updatePoints() {
       if (!props.sourceUrls.length) return;
       router.push({
         path: localePath("/search"),
-        query: institutionCollectionSearchQuery(props.sourceUrls, point.country),
+        query: institutionCollectionSearchQuery(props.sourceUrls, point.country, props.owners),
       });
     });
   });

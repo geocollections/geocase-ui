@@ -1022,5 +1022,12 @@
   "ascending": "Aufsteigende Reihenfolge",
   "descending": "Absteigende Reihenfolge",
   "mapHelp": "Karte verwenden"
+},
+  "institutionFilter": {
+  "label": "Institutionen suchen",
+  "placeholder": "Nach Name, Land oder Beschreibung suchen…",
+  "clear": "Institutionssuche löschen",
+  "count": "{shown} von {total} Institutionen angezeigt",
+  "noMatches": "Keine passenden Institutionen gefunden. Versuchen Sie einen anderen Suchbegriff."
 }
 }

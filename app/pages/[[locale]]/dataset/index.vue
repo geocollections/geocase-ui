@@ -65,25 +65,20 @@ useHead(() => ({ title: t("datasetsPage.title") }));
         <p v-if="catalogStatus === 'success' && catalog?.length && !filteredCatalog.length">{{ t("datasetFilter.noMatches") }}</p>
       </div>
 
-      <ul class="tw:mt-6 tw:grid tw:list-none tw:gap-4 tw:p-0 tw:md:grid-cols-2">
-        <li v-for="item in filteredCatalog" :key="item.dataset_guid" class="tw:flex tw:min-w-0 tw:flex-col tw:rounded-2xl tw:bg-home-surface tw:p-5 tw:sm:p-6">
-          <div class="tw:mb-5 tw:flex tw:items-center tw:gap-3">
-            <span class="tw:grid tw:size-10 tw:shrink-0 tw:place-items-center tw:rounded-xl tw:bg-white tw:text-home-link" aria-hidden="true"><UIcon name="i-lucide-database" class="tw:size-5" /></span>
-            <span class="tw:text-sm tw:font-bold tw:text-home-link">{{ t("datasetDetail.title") }}</span>
+      <ul class="tw:mt-6 tw:grid tw:list-none tw:gap-4 tw:p-0 tw:sm:grid-cols-2 tw:lg:grid-cols-3">
+        <li v-for="(item, index) in filteredCatalog" :key="item.dataset_guid" class="dataset-card tw:relative tw:flex tw:min-h-48 tw:min-w-0 tw:flex-col tw:rounded-2xl tw:border tw:border-home-border tw:bg-white tw:p-6 tw:shadow-sm tw:transition-colors tw:duration-200 tw:hover:bg-[#eaf0e9] tw:focus-within:bg-[#eaf0e9]">
+          <div class="tw:flex tw:items-baseline tw:justify-between tw:gap-2">
+            <span class="tw:text-xs tw:font-extrabold tw:tracking-widest tw:text-home-link tw:uppercase">{{ t("datasetDetail.title") }}</span>
+            <span class="tw:text-xl tw:font-bold tw:text-slate-300">{{ String(index + 1).padStart(2, "0") }}</span>
           </div>
-          <h3 class="tw:break-words tw:text-xl tw:leading-snug tw:font-bold tw:tracking-tight">
-            <NuxtLink :to="localePath('/dataset/' + item.dataset_guid)" class="tw:hover:text-home-link tw:hover:underline tw:focus-visible:outline-2 tw:focus-visible:outline-offset-4">
+          <h3 class="tw:mt-4 tw:break-words tw:text-lg tw:leading-snug tw:font-bold">
+            <NuxtLink :to="localePath('/dataset/' + item.dataset_guid)" class="tw:hover:text-home-link tw:after:absolute tw:after:inset-0 tw:after:rounded-2xl tw:focus-visible:outline-none tw:focus-visible:after:ring-2 tw:focus-visible:after:ring-home-link">
               {{ item.title }}
             </NuxtLink>
           </h3>
           <p v-if="item.organisation_name" class="tw:mt-2 tw:break-words tw:text-sm tw:text-home-muted">{{ item.organisation_name }}</p>
-          <p v-if="item.description" class="tw:mt-3 tw:line-clamp-3 tw:break-words tw:leading-7 tw:text-home-muted">{{ item.description }}</p>
-          <div class="tw:mt-auto tw:flex tw:flex-wrap tw:gap-x-5 tw:gap-y-2 tw:pt-5">
-            <NuxtLink :to="localePath('/dataset/' + item.dataset_guid)" class="tw:inline-flex tw:min-h-11 tw:items-center tw:gap-2 tw:font-bold tw:text-home-link tw:hover:underline tw:focus-visible:outline-2 tw:focus-visible:outline-offset-4">
-              {{ t("datasetDetail.view") }}<UIcon name="i-lucide-arrow-right" aria-hidden="true" />
-            </NuxtLink>
+          <p v-if="item.description" class="tw:mt-3 tw:line-clamp-3 tw:break-words tw:text-sm tw:leading-6 tw:text-home-muted">{{ item.description }}</p>
 
-          </div>
         </li>
       </ul>
     </section>

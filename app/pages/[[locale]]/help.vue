@@ -13,7 +13,7 @@ const failedPhotos = ref<string[]>([]);
 const contacts = [
   { name: "Olle Hints", initials: "OH", topic: "general", icon: "i-lucide-messages-square", email: "olle.hints@taltech.ee", photo: "https://volt.ttu.ee/v1/2V6C7Q/photo:T003766", phone: "+372 620 3027", phoneHref: "+3726203027" },
   { name: "Kristjan Urtson", initials: "KU", topic: "providers", icon: "i-lucide-database", email: "kristjan.urtson@taltech.ee", photo: "https://media.voog.com/0000/0041/7136/photos/urtson.jpg", phone: "+372 620 3034", phoneHref: "+3726203034" },
-  { name: "Alissa Milovidova", initials: "AM", topic: "portal", icon: "i-lucide-panels-top-left", email: "alissa.milovidova@taltech.ee", photo: "https://volt.ttu.ee/v1/2V6C7Q/photo:T0079165", phone: "+372 55959507", phoneHref: "+37255959507" },
+  { name: "Alissa Milovidova", initials: "AM", topic: "portal", icon: "i-lucide-panels-top-left", email: "alissa.milovidova@taltech.ee", photo: "https://volt.ttu.ee/v1/2V6C7Q/photo:T0079165", phone: "+372 5595 9507", phoneHref: "+37255959507" },
 ];
 const { localePath } = useAppNavigation();
 

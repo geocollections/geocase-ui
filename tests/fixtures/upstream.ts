@@ -5,7 +5,7 @@ const server = createServer((request, response) => {
     response.writeHead(200, { "content-type": "application/json" });
     response.end(JSON.stringify({ data: [
       { institution_id: 1, institution_guid: "20a8ff79-c977-11f1-a7eb-269714084253", cetaf_id: "ee-ttu", organisation_name: "TalTech", description: "Geological collections at TalTech.", country: "Estonia", latitude: 59.3953, longitude: 24.6712, website_url: "https://taltech.ee" },
-      { institution_id: 2, institution_guid: "6119946d-c979-11f1-a7eb-269714084253", cetaf_id: "cetaf", organisation_name: "Consortium of European Taxonomic Facilities", description: "European natural history collections network.", country: "Belgium", latitude: 50.8366, longitude: 4.3768, website_url: "https://cetaf.org" },
+      { institution_id: 2, institution_guid: "6119946d-c979-11f1-a7eb-269714084253", cetaf_id: "cetaf", header_url: "https://example.org/cetaf-header.jpg", organisation_name: "Consortium of European Taxonomic Facilities", description: "European natural history collections network.", country: "Belgium", latitude: 50.8366, longitude: 4.3768, website_url: "https://cetaf.org" },
     ] }));
     return;
   }
