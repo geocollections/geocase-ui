@@ -62,9 +62,9 @@ async function removeFilter(id) {
   <section
     v-if="activeFilters.length"
     :aria-label="t('search.activeFilters.title')"
-    class="tw:border-default tw:mx-4 tw:mb-5 tw:border-t tw:pt-4 tw:sm:mx-6"
+    class="tw:border-default tw:mx-3 tw:mb-2 tw:border-t tw:pt-2 tw:sm:mx-6 tw:sm:mb-5 tw:sm:pt-4"
   >
-    <div class="tw:mb-2.5 tw:flex tw:items-center tw:gap-2 tw:text-muted">
+    <div class="tw:mb-2.5 tw:hidden tw:items-center tw:sm:flex tw:gap-2 tw:text-muted">
       <UIcon name="i-lucide-list-filter" class="tw:size-4" aria-hidden="true" />
       <span class="tw:text-xs tw:font-semibold tw:tracking-wide">
         {{ t("search.activeFilters.title") }}

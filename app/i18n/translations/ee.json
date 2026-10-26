@@ -1014,5 +1014,12 @@
   "noIndexedRecords": "Selle asutuse kataloogiandmestikest ei leitud otsinguindeksis eksemplare.",
   "collectionUnavailable": "Selle asutuse kataloogiandmestike kogumiandmed pole saadaval.",
   "legacyInstitution": "Seda asutust ei ole praegu asutuste kataloogis. Saadaolevad kogud leiad kehtivast asutuste nimekirjast."
+},
+  "mobileSearch": {
+  "sortBy": "Sorteeri",
+  "defaultOrder": "Vaikimisi järjestus",
+  "ascending": "Kasvav järjestus",
+  "descending": "Kahanev järjestus",
+  "mapHelp": "Kaardi kasutamine"
 }
 }

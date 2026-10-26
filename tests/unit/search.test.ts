@@ -1,6 +1,7 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { createPinia, setActivePinia } from "pinia";
 import axios from "axios";
+import { $fetch } from "ofetch";
 import { useSearchStore } from "@/stores/search";
 import { useDetailStore } from "@/stores/detail";
 import { useFrontpageStore } from "@/stores/frontpage";
@@ -8,6 +9,7 @@ import SearchService from "@/services/SearchService";
 import i18n from "@/i18n";
 import queryMixin from "@/mixins/queryMixin";
 vi.mock("axios", () => ({ default: { get: vi.fn() } }));
+vi.mock("ofetch", () => ({ $fetch: vi.fn().mockResolvedValue([]) }));
 beforeEach(() => {
   setActivePinia(createPinia());
   vi.clearAllMocks();
@@ -585,5 +587,33 @@ describe("age filter URL state", () => {
     ).searchParams.getAll("fq");
     expect(filters).toContain("lower_value:[* TO 450]");
     expect(filters).toContain("upper_value:[400 TO *]");
+  });
+});
+
+
+describe("homepage catalog counts", () => {
+  it("counts published catalog entries independently from indexed owners and shared source URLs", async () => {
+    const store = useFrontpageStore();
+    const dataset = { dataset_guid: "8fa26a2c-c99d-11f1-a7eb-269714084253", title: "Collection", is_active: 1, is_published_geocase: 1, provider_url: "https://source.test/shared" };
+    vi.mocked($fetch).mockImplementation(async (url) => url === "/catalog/datasets" ? [dataset, { ...dataset, dataset_guid: "58221cb2-ca04-11f1-a7eb-269714084253" }, { ...dataset, is_active: 0 }] : [{ institution_id: 1 }, { institution_id: 2 }, { institution_id: 3 }]);
+    await store.getCatalogCounts();
+    store.SET_STATS({ records: 0, facet_fields: { datasourceurl: ["different source", 20], datasetowner: ["Different owner", 20], country: ["Estonia", 12, "Finland", 0] } });
+    expect(store.stats.find((item) => item.id === 4)?.count).toBe("2");
+    expect(store.stats.find((item) => item.id === 2)?.count).toBe("3");
+    expect(store.records).toBe(0);
+    expect(store.country).toBe(1);
+  });
+
+  it("shows loading and unavailable states independently for each catalog", async () => {
+    const store = useFrontpageStore();
+    expect(store.datasetowner).toBe("…");
+    expect(store.datasourceurl).toBe("…");
+    vi.mocked($fetch).mockImplementation(async (url) => {
+      if (url === "/catalog/datasets") throw new Error("Catalog offline");
+      return [];
+    });
+    await store.getCatalogCounts();
+    expect(store.datasourceurl).toBe("—");
+    expect(store.datasetowner).toBe(0);
   });
 });

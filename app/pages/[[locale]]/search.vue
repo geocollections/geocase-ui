@@ -43,7 +43,7 @@ useHead(() => ({ title: t("header.search") }));
 </script>
 
 <template>
-  <div class="tw:bg-muted/30 tw:min-h-full tw:p-3 tw:sm:p-5">
+  <div class="mobile-touch-controls tw:bg-muted/30 tw:min-h-full tw:p-3 tw:sm:p-5">
     <ScrollToTop />
     <SearchFiltersToolbar />
 
@@ -53,11 +53,11 @@ useHead(() => ({ title: t("header.search") }));
       :ui="{ body: 'tw:p-0 tw:sm:p-0' }"
     >
       <header
-        class="tw:flex tw:flex-wrap tw:items-center tw:justify-between tw:gap-4 tw:px-4 tw:py-5 tw:sm:px-6"
+        class="tw:flex tw:flex-wrap tw:items-center tw:justify-between tw:gap-2 tw:px-3 tw:py-3 tw:sm:gap-4 tw:sm:px-6 tw:sm:py-5"
       >
         <div aria-live="polite">
           <h1
-            class="tw:text-highlighted tw:text-2xl tw:font-bold tw:tracking-tight tw:sm:text-3xl"
+            class="tw:text-highlighted tw:text-lg tw:font-bold tw:tracking-tight tw:sm:text-3xl"
           >
             {{ responseResultsCount.toLocaleString() }}
             {{ $t("search.recordsFound", responseResultsCount) }}
@@ -80,11 +80,12 @@ useHead(() => ({ title: t("header.search") }));
               icon="i-lucide-link"
               color="neutral"
               variant="outline"
-              :label="t('search.copySearchLink')"
+              :aria-label="t('search.copySearchLink')"
               :loading="copyingLink"
               @click="copySearchLink"
-            />
+            ><span class="tw:hidden tw:sm:inline">{{ t("search.copySearchLink") }}</span></UButton>
             <p
+              v-if="copyLinkStatus"
               role="status"
               aria-live="polite"
               class="tw:mt-1 tw:text-xs tw:text-muted"
@@ -92,9 +93,7 @@ useHead(() => ({ title: t("header.search") }));
               {{ copyLinkStatus ? t(copyLinkStatus) : "" }}
             </p>
           </div>
-          <UBadge color="neutral" variant="soft" size="lg" class="tw:sm:hidden">
-            {{ `${$t("search.page")} ${page}` }}
-          </UBadge>
+
         </div>
       </header>
 
@@ -105,7 +104,7 @@ useHead(() => ({ title: t("header.search") }));
       <div
         class="tw:flex tw:flex-wrap tw:items-center tw:justify-between tw:gap-3 tw:border-t tw:border-default tw:px-4 tw:py-3 tw:sm:px-6"
       >
-        <h2 class="tw:text-base tw:font-semibold">
+        <h2 class="tw:sr-only tw:text-base tw:font-semibold tw:sm:not-sr-only">
           {{ $t("search.layout.results") }}
         </h2>
         <UTabs
@@ -115,7 +114,7 @@ useHead(() => ({ title: t("header.search") }));
           size="sm"
           color="neutral"
           variant="pill"
-          :ui="{ trigger: 'tw:data-[state=active]:text-white!' }"
+          :ui="{ trigger: 'tw:min-h-11 tw:data-[state=active]:text-white! tw:lg:min-h-0' }"
         />
       </div>
 

@@ -1,4 +1,6 @@
 import { defineStore } from "pinia";
+import { $fetch } from "ofetch";
+import { parseDatasetCatalog } from "@/utils/datasetCatalog";
 import SearchService from "@/services/SearchService";
 import { useSettingsStore } from "./settings";
 import i18n from "@/i18n";
@@ -18,7 +20,6 @@ interface FrontpageState {
   datasetowner: number | string;
   country: number | string;
   datasourceurl: number | string;
-  datasets: { url: string; count: number }[];
   hasMaterialSamples: boolean;
   cardIds: CardId[];
   cards: Record<CardId, FrontpageCard>;
@@ -32,11 +33,10 @@ interface StatsPayload {
 
 export const useFrontpageStore = defineStore("frontpage", {
   state: (): FrontpageState => ({
-    records: "",
-    datasetowner: "",
-    country: "",
-    datasourceurl: "",
-    datasets: [] as { url: string; count: number }[],
+    records: "…",
+    datasetowner: "…",
+    country: "…",
+    datasourceurl: "…",
     hasMaterialSamples: false,
     cardIds: ["mineral", "rock", "meteorite", "fossil", "materialSample"],
     cards: {
@@ -143,7 +143,7 @@ export const useFrontpageStore = defineStore("frontpage", {
   },
   actions: {
     SET_STATS(payload: StatsPayload) {
-      if (payload?.records) this.records = payload.records;
+      if (typeof payload?.records === "number" && Number.isFinite(payload.records) && payload.records >= 0) this.records = payload.records;
       const types = payload?.facet_fields?.recordbasis || [];
       this.hasMaterialSamples = types.some((value, index) => {
         const count = types[index + 1];
@@ -154,25 +154,8 @@ export const useFrontpageStore = defineStore("frontpage", {
           count > 0
         );
       });
-      const sources = payload?.facet_fields?.datasourceurl;
-      if (sources) {
-        this.datasets = [];
-        for (let index = 0; index < sources.length; index += 2) {
-          const url = sources[index];
-          const count = sources[index + 1];
-          if (typeof url === "string" && typeof count === "number" && count > 0) {
-            this.datasets.push({ url, count });
-          }
-        }
-        this.datasourceurl = this.datasets.length;
-      }
-      if (payload?.facet_fields) {
-        Object.entries(payload.facet_fields).forEach((item) => {
-          if (["recordbasis", "datasourceurl"].includes(item[0])) return;
-          (this as unknown as Record<string, unknown>)[item[0]] =
-            item[1].filter((val) => typeof val !== "string").length;
-        });
-      }
+      const countries = payload?.facet_fields?.country;
+      if (countries) this.country = countries.filter((value, index) => index % 2 === 1 && typeof value === "number" && value > 0).length;
     },
 
     UPDATE_CARD_IS_LEAVING(payload: { id: CardId; isLeaving: boolean }) {
@@ -191,6 +174,36 @@ export const useFrontpageStore = defineStore("frontpage", {
       this.mapResults[payload.id]!.numFound = payload.numFound;
     },
     async getStats() {
+      await Promise.all([this.getIndexedStats(), this.getCatalogCounts()]);
+    },
+
+    async getCatalogCounts() {
+      this.datasourceurl = "…";
+      this.datasetowner = "…";
+      await Promise.all([
+        (async () => {
+          try {
+            const data = await $fetch<unknown>("/catalog/datasets");
+            this.datasourceurl = parseDatasetCatalog({ data }).length;
+          } catch {
+            this.datasourceurl = "—";
+          }
+        })(),
+        (async () => {
+          try {
+            const data = await $fetch<unknown>("/catalog/institutions");
+            if (!Array.isArray(data)) throw new Error("Invalid institution catalog");
+            this.datasetowner = data.length;
+          } catch {
+            this.datasetowner = "—";
+          }
+        })(),
+      ]);
+    },
+
+    async getIndexedStats() {
+      this.records = "…";
+      this.country = "…";
       try {
         const response = await SearchService.getStats();
 
@@ -200,6 +213,8 @@ export const useFrontpageStore = defineStore("frontpage", {
             facet_fields: response?.facet_counts?.facet_fields,
           });
       } catch (err) {
+        this.records = "—";
+        this.country = "—";
         const error = err instanceof Error ? err : new Error(String(err));
         useSettingsStore().updateErrorMessage(
           `<b>Failed to fetch statistics</b><br /><b>Name:</b> ${error.name}<br /><b>Message:</b> ${error.message}`,

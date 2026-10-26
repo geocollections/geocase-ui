@@ -42,7 +42,7 @@ function restoreFocus(event: Event) {
     :content="{ onCloseAutoFocus: restoreFocus }"
     :ui="{
       overlay: 'tw:z-[3290]',
-      content: 'tw:z-[3300] tw:max-w-87.5',
+      content: 'mobile-touch-controls tw:z-[3300] tw:max-w-87.5',
       header: 'tw:bg-default/95 tw:backdrop-blur',
       title:
         'tw:text-highlighted tw:text-xl tw:font-extrabold tw:tracking-tight',
