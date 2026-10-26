@@ -2,6 +2,7 @@
 import ProviderDataPanel from "@/components/ProviderDataPanel.vue";
 import { useAsyncData, useRequestURL, useRouter } from "#imports";
 import { $fetch } from "ofetch";
+import type { CatalogInstitution } from "@/utils/institutionCatalog";
 import { institutionProfiles } from "@/institutionProfiles";
 import SearchService from "@/services/SearchService";
 import { datasetProviderParams, datasetWebUrl, parseDatasetCatalog } from "@/utils/datasetCatalog";
@@ -66,7 +67,10 @@ const landingPageUrl = computed(() => {
   if (identifier && [dataset.value.dataset_guid.toLowerCase(), String(dataset.value.dataset_id)].includes(identifier.toLowerCase())) return undefined;
   return url;
 });
+const { data: institutions } = useAsyncData("institution-catalog", () => $fetch<CatalogInstitution[]>("/catalog/institutions"));
 const institutionUrl = computed(() => {
+  const institution = institutions.value?.find((item) => item.institution_id === dataset.value?.institution_id);
+  if (institution) return localePath("/institution/" + institution.id);
   const entry = Object.entries(institutionProfiles).find(([, profile]) => owner.value && profile.datasetOwner === owner.value);
   return entry ? localePath("/institution/" + entry[0]) : datasetWebUrl(provider.value.providerURL);
 });

@@ -17,6 +17,8 @@ export default defineConfig({
         "npm run dev -- --host 127.0.0.1 --port 3100",
       url: "http://127.0.0.1:3100",
       env: {
+        NUXT_INSTITUTION_CATALOG_URL: "http://127.0.0.1:3101/dcat/institutions.json",
+        NUXT_DATASET_CATALOG_URL: "http://127.0.0.1:3101/dcat/datasets.json",
         NUXT_API_BASE: "http://127.0.0.1:3101",
         HOST: "127.0.0.1",
         PORT: "3100",

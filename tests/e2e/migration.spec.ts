@@ -838,7 +838,7 @@ test("institution gallery falls back to thumbnails and links to specimens", asyn
   ).toBeVisible();
   await expect(
     page.getByRole("button", {
-      name: "Institution location: Tallinn University of Technology",
+      name: "Institution location: TalTech",
       exact: true,
     }),
   ).toBeVisible();
@@ -863,7 +863,7 @@ test("institution location remains available without collection data", async ({
   await page.getByRole("button", { name: "OK", exact: true }).click();
   await expect(
     page.getByRole("button", {
-      name: "Institution location: CETAF General Secretariat",
+      name: "Institution location: Consortium of European Taxonomic Facilities",
       exact: true,
     }),
   ).toBeVisible();
@@ -938,7 +938,7 @@ test("institution country circles render after delayed data and open filtered se
   ).toBeHidden();
   await expect(
     page.getByRole("button", {
-      name: "Institution location: Tallinn University of Technology",
+      name: "Institution location: TalTech",
       exact: true,
     }),
   ).toBeVisible();
@@ -1484,4 +1484,15 @@ test("branded server error offers retry without exposing internal details", asyn
   await page.getByRole("button", { name: "Proovi uuesti", exact: true }).click();
   await expect(page).toHaveURL(/\/ee\/search\?q=quartz/);
   await expect(page.getByRole("heading", { level: 1 })).toContainText("75");
+});
+
+
+test("institution related datasets use catalog institution relationships", async ({ page }) => {
+  await page.goto("/institution/tallinn-university-of-technology");
+  const section = page.locator('section[aria-labelledby="institution-datasets-title"]');
+  const dataset = section.getByRole("link", { name: "TalTech geological collections", exact: true });
+  await expect(dataset).toBeVisible();
+  await expect(dataset).toHaveAttribute("href", "/dataset/8fa26a2c-c99d-11f1-a7eb-269714084253");
+  await expect(section.getByRole("link", { name: "Other institution dataset" })).toHaveCount(0);
+  await expect(section.locator("h2")).toContainText("(1)");
 });
