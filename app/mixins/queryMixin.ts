@@ -1,3 +1,4 @@
+import { sourceFilterQueryValue } from "@/utils/sourceFilters";
 import { useSearchStore } from "@/stores/search";
 import { mapActions, mapState } from "pinia";
 import type {
@@ -74,7 +75,7 @@ const queryMixin = {
             if (searchField.value && searchField.value.trim().length > 0) {
               if (searchField.lookUpType)
                 queryKey += `__${replaceField(search[queryKey]!.lookUpType)}`;
-              appendableQuery[queryKey] = searchField.value;
+              appendableQuery[queryKey] = item === "datasourceurl" && searchField.lookUpType === "equals" ? sourceFilterQueryValue(searchField.value) : searchField.value;
             } else delete appendableQuery[queryKey];
           });
       }
@@ -116,7 +117,7 @@ const queryMixin = {
             lookUpType = replaceField(lookUpType, false);
 
           if (this.lookUpTypes.includes(lookUpType) || lookUpType === "") {
-            const value = item[1] || null;
+            const value = field === "datasourceurl" && lookUpType === "equals" && Array.isArray(item[1]) ? JSON.stringify(item[1].filter((value) => typeof value === "string" && value)) : item[1] || null;
 
             this.updateSearchField({
               id: field,
