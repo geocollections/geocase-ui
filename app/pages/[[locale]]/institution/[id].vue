@@ -1,33 +1,35 @@
 <script setup lang="ts">
 import ProviderDataPanel from "@/components/ProviderDataPanel.vue";
-import { useAsyncData } from "#imports";
+import { useAsyncData, createError } from "#imports";
 import { useI18n } from "vue-i18n";
 import InstitutionCollectionMap from "@/components/InstitutionCollectionMap.vue";
 import { institutionProfiles } from "@/institutionProfiles";
-import { institutions } from "@/institutions";
+import { findCatalogInstitution, type CatalogInstitution } from "@/utils/institutionCatalog";
 import {
   getInstitutionCountryMarkers,
   institutionCountrySearchQuery,
 } from "@/utils/institutionMap";
 import { $fetch } from "ofetch";
 import { parseDatasetCatalog, datasetProviderParams } from "@/utils/datasetCatalog";
-import SearchService from "@/services/SearchService";
 import { loadInstitutionCollection } from "@/services/institutionCollection";
 
 definePageMeta({
   name: "Institution detail",
   path: "/:locale(en|ee|de)?/institution/:id",
   layout: "default",
-  validate: (route) => institutions.some((item) => item.id === route.params.id),
 });
 
 const route = useRoute();
 const { t } = useI18n();
 const { localePath } = useAppNavigation();
-const institution = computed(() =>
-  institutions.find((item) => item.id === route.params.id),
-);
-const profile = computed(() => institutionProfiles[String(route.params.id)]);
+const { data: institutions, error: institutionError } = await useAsyncData("institution-catalog", () => $fetch<CatalogInstitution[]>("/catalog/institutions"));
+const institution = computed(() => findCatalogInstitution(institutions.value ?? [], String(route.params.id)));
+if (institutionError.value) throw createError({ statusCode: 502, statusMessage: "Institution catalog unavailable" });
+if (!institution.value) throw createError({ statusCode: 404, statusMessage: "Institution not found" });
+const profile = computed(() => ({
+  datasetOwner: institutionProfiles[institution.value?.id ?? ""]?.datasetOwner ?? "",
+  description: institution.value?.description ?? "",
+}));
 const {
   data: collection,
   status,
@@ -39,41 +41,26 @@ const {
   { lazy: true },
 );
 const {
-  data: datasets,
+  data: catalog,
   status: datasetsStatus,
   error: datasetsError,
   refresh: refreshDatasets,
-} = useAsyncData(
-  () => `institution-datasets-${route.params.id}`,
-  () =>
-    profile.value?.datasetOwner
-      ? SearchService.getDatasets(profile.value.datasetOwner)
-      : Promise.resolve([]),
-  { lazy: true },
-);
-const { data: catalog } = useAsyncData("institution-provider-catalog", async () =>
+} = useAsyncData("institution-provider-catalog", async () =>
   parseDatasetCatalog({ data: await $fetch<unknown>("/catalog/datasets") }),
   { lazy: true },
 );
-const providerData = computed(() => {
-  const sources = new Set((datasets.value ?? []).map((item) => item.url));
-  const related = (catalog.value ?? []).filter((item) => item.provider_url && sources.has(item.provider_url));
-  return related.length ? related.map((item) => ({
-    ...item,
-    provider_params: datasetProviderParams(item.provider_params),
-  })) : null;
-});
+const linkedCatalog = computed(() => (catalog.value ?? []).filter((item) =>
+  item.institution_id === institution.value?.institution_id || item.creator_institution_id === institution.value?.institution_id,
+));
+const providerData = computed(() => linkedCatalog.value.length ? linkedCatalog.value.map((item) => ({
+  ...item,
+  provider_params: datasetProviderParams(item.provider_params),
+})) : null);
 const topCountries = computed(() =>
   [...(collection.value?.countries ?? [])]
     .sort((a, b) => b.count - a.count)
     .slice(0, 8),
 );
-function datasetLink(url: string) {
-  return {
-    path: localePath("/search"),
-    query: { ...searchLink.value.query, datasourceurl__equals: url },
-  };
-}
 const collectionPoints = computed(() => collection.value?.points ?? []);
 const hasCountryMarkers = computed(
   () =>
@@ -131,8 +118,10 @@ useHead(() => ({
         {{ institution.name }}
       </h1>
       <p class="tw:mt-5 tw:text-lg tw:text-home-muted">
-        {{ t(`partnersPage.countries.${institution.countryKey}`) }}
+        {{ institution.countryKey ? t(`partnersPage.countries.${institution.countryKey}`) : institution.country }}
       </p>
+      <p v-if="institution.address" class="tw:mt-3 tw:text-home-muted">{{ institution.address }}</p>
+      <img v-if="institution.logoUrl" :src="institution.logoUrl" :alt="institution.name" class="tw:mt-5 tw:max-h-24 tw:max-w-64 tw:object-contain" />
       <div class="tw:mt-7 tw:flex tw:flex-wrap tw:gap-3">
         <UButton
           v-if="profile?.datasetOwner"
@@ -142,7 +131,7 @@ useHead(() => ({
           >{{ t("partnersPage.exploreCollection") }}</UButton
         >
         <UButton
-          :to="institution.url"
+          v-if="institution.url" :to="institution.url"
           target="_blank"
           rel="noopener noreferrer"
           trailing-icon="i-lucide-arrow-up-right"
@@ -205,7 +194,7 @@ useHead(() => ({
         >{{ t("partnersPage.retry") }}</UButton
       >
     </div>
-    <section class="tw:mt-8" aria-labelledby="collection-map-title">
+    <section v-if="institution.coordinates" class="tw:mt-8" aria-labelledby="collection-map-title">
       <h2 id="collection-map-title" class="tw:text-2xl tw:font-bold">
         {{ t("partnersPage.collectionMap") }}
       </h2>
@@ -271,12 +260,18 @@ useHead(() => ({
         }}<span
           v-if="datasetsStatus === 'success'"
           class="tw:ml-2 tw:text-home-muted"
-          >({{ datasets?.length ?? 0 }})</span
+          >({{ linkedCatalog.length }})</span
         >
       </h2>
       <p class="tw:mt-2 tw:max-w-3xl tw:text-home-muted">
         {{ t("partnersPage.datasetsDescription") }}
       </p>
+      <ul v-if="linkedCatalog.length" class="tw:mt-5 tw:grid tw:list-none tw:gap-4 tw:p-0 tw:md:grid-cols-2">
+        <li v-for="item in linkedCatalog" :key="item.dataset_guid" class="tw:rounded-2xl tw:bg-home-surface tw:p-6">
+          <NuxtLink :to="localePath('/dataset/' + item.dataset_guid)" class="tw:text-lg tw:font-bold tw:text-home-link tw:hover:underline">{{ item.title }}</NuxtLink>
+          <p v-if="item.description" class="tw:mt-3 tw:line-clamp-3 tw:leading-7 tw:text-home-muted">{{ item.description }}</p>
+        </li>
+      </ul>
       <p v-if="datasetsStatus === 'pending'" role="status" class="tw:mt-5">
         {{ t("datasetsPage.loading") }}
       </p>
@@ -295,60 +290,11 @@ useHead(() => ({
         >
       </div>
       <p
-        v-else-if="datasetsStatus === 'success' && !datasets?.length"
+        v-else-if="datasetsStatus === 'success' && !linkedCatalog.length"
         class="tw:mt-5 tw:text-home-muted"
       >
         {{ t("partnersPage.noLinkedDatasets") }}
       </p>
-      <ul
-        v-else
-        class="tw:mt-5 tw:grid tw:list-none tw:gap-5 tw:p-0 tw:md:grid-cols-2"
-      >
-        <li
-          v-for="dataset in datasets"
-          :key="dataset.url"
-          class="tw:flex tw:min-w-0 tw:flex-col tw:rounded-3xl tw:border tw:border-home-border tw:bg-home-surface tw:p-6"
-        >
-          <p class="tw:text-sm tw:font-semibold tw:text-home-muted">
-            {{ t("datasetsPage.source") }}
-          </p>
-          <h3 class="tw:mt-2 tw:break-all tw:font-semibold">
-            {{ dataset.url }}
-          </h3>
-          <dl class="tw:mt-5 tw:grid tw:gap-4">
-            <div>
-              <dt class="tw:text-sm tw:text-home-muted">
-                {{ t("partnersPage.recordsInInstitution") }}
-              </dt>
-              <dd class="tw:mt-1 tw:text-2xl tw:font-bold">
-                {{ dataset.count.toLocaleString() }}
-              </dd>
-            </div>
-            <div v-if="dataset.specimenTypes.length">
-              <dt class="tw:text-sm tw:text-home-muted">
-                {{ t("datasetsPage.specimenTypes") }}
-              </dt>
-              <dd class="tw:mt-2 tw:flex tw:flex-wrap tw:gap-2">
-                <UBadge
-                  v-for="type in dataset.specimenTypes"
-                  :key="type"
-                  color="neutral"
-                  variant="soft"
-                  >{{ type }}</UBadge
-                >
-              </dd>
-            </div>
-          </dl>
-          <UButton
-            :to="datasetLink(dataset.url)"
-            icon="i-lucide-search"
-            color="neutral"
-            variant="outline"
-            class="tw:mt-6 tw:self-start"
-            >{{ t("datasetsPage.viewRecords") }}</UButton
-          >
-        </li>
-      </ul>
     </section>
 
     <section
