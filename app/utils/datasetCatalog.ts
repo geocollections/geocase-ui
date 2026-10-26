@@ -1,5 +1,7 @@
 export interface CatalogDataset {
   dataset_id?: number;
+  institution_id?: number | null;
+  creator_institution_id?: number | null;
   dataset_guid: string;
   title: string;
   provider_url?: string | null;
