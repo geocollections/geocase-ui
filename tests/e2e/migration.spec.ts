@@ -1517,5 +1517,5 @@ test("former institution links explain catalog removal and link to the directory
   await page.goto("/institution/meise-botanic-garden");
   await expect(page.getByRole("heading", { name: "Meise Botanic Garden", exact: true })).toBeVisible();
   await expect(page.getByText("This institution is not currently listed in the institution catalog.", { exact: false })).toBeVisible();
-  await expect(page.getByRole("link", { name: "Back to institutions", exact: true })).toHaveAttribute("href", "/institution");
+  await expect(page.getByRole("link", { name: "All institutions", exact: true })).toHaveAttribute("href", "/institution");
 });
