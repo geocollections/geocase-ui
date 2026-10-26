@@ -24,7 +24,7 @@ export default defineNuxtConfig({
     "izitoast/dist/css/iziToast.min.css",
     "~/assets/css/tailwind.css",
   ],
-  runtimeConfig: { apiBase: "https://api.geocase.eu", datasetCatalogUrl: "https://geocase.eu/dcat/datasets.json" },
+  runtimeConfig: { institutionCatalogUrl: "https://geocase.geocollections.info/dcat/institutions.json", apiBase: "https://api.geocase.eu", datasetCatalogUrl: "https://geocase.eu/dcat/datasets.json" },
   app: {
     head: { title: "Welcome", link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico?v=purple" }, { rel: "icon", type: "image/svg+xml", href: "/favicon.svg" }] },
   },
