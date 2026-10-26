@@ -1,11 +1,12 @@
-import { institutionProfiles } from "../../../app/institutionProfiles";
+import { findCatalogInstitution, institutionDatasets, institutionSourceUrls } from "../../../app/utils/institutionCatalog";
 import { loadInstitutionCollection } from "../../../app/services/institutionCollection";
 
 export default defineEventHandler(async (event) => {
-  const id = getRouterParam(event, "id") ?? "";
-  if (!Object.hasOwn(institutionProfiles, id))
-    throw createError({ statusCode: 404 });
-  const owner = institutionProfiles[id]!.datasetOwner;
-  const base = `${useRuntimeConfig(event).apiBase.replace(/\/$/, "")}/v1/solr`;
-  return loadInstitutionCollection(owner, base, $fetch);
+  const config = useRuntimeConfig(event);
+  const institutions = await loadInstitutionCatalog(config.institutionCatalogUrl);
+  const institution = findCatalogInstitution(institutions, getRouterParam(event, "id") ?? "");
+  if (!institution) throw createError({ statusCode: 404 });
+  const datasets = await loadDatasetCatalog(config.datasetCatalogUrl);
+  const sources = institutionSourceUrls(institutionDatasets(datasets, institution.institution_id));
+  return loadInstitutionCollection(sources, `${config.apiBase.replace(/\/$/, "")}/v1/solr`, $fetch);
 });
