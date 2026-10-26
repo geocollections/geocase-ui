@@ -37,6 +37,10 @@ const {
 );
 const linkedCatalog = computed(() => institution.value ? institutionDatasets(catalog.value ?? [], institution.value.institution_id) : []);
 const sourceUrls = computed(() => institutionSourceUrls(linkedCatalog.value));
+const heroImage = computed(() => institution.value?.id === "tallinn-university-of-technology"
+  ? "https://haldus.taltech.ee/sites/default/files/styles/manual_crop/public/news-image/Tallinna%20Tehnika%C3%BClikooli%20Mustam%C3%A4e%20linnaku%20hoone%20GEO.jpg?itok=40UrfB8Q"
+  : undefined);
+
 const {
   data: collection,
   status,
@@ -100,8 +104,13 @@ useHead(() => ({
     </NuxtLink>
 
     <header
-      class="tw:mt-8 tw:rounded-3xl tw:bg-home-banner tw:p-6 tw:sm:p-10 tw:lg:p-12"
+      class="tw:relative tw:mt-8 tw:overflow-hidden tw:rounded-3xl tw:bg-home-banner tw:p-6 tw:sm:p-10 tw:lg:p-12"
     >
+      <template v-if="heroImage">
+        <img :src="heroImage" alt="" aria-hidden="true" fetchpriority="high" class="tw:absolute tw:inset-0 tw:size-full tw:object-cover tw:object-center" />
+        <div class="tw:absolute tw:inset-0 tw:bg-linear-to-r tw:from-home-banner/95 tw:via-home-banner/90 tw:to-home-banner/60 tw:lg:to-home-banner/20" aria-hidden="true" />
+      </template>
+      <div class="tw:relative" :class="heroImage ? 'tw:max-w-2xl' : undefined">
       <p
         class="tw:text-xs tw:font-extrabold tw:tracking-[0.16em] tw:text-home-link tw:uppercase"
       >
@@ -156,6 +165,7 @@ useHead(() => ({
           }}</strong>
           {{ t("partnersPage.mappedLocations") }}</span
         >
+      </div>
       </div>
     </header>
 
