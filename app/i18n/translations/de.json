@@ -789,7 +789,7 @@
     "website": "Offizielle Website",
     "approximateLocation": "Ungefährer Standort (Breitengrad, Längengrad)",
     "linkedDatasets": "Zugehörige Datensätze",
-    "datasetsDescription": "Datensätze dieser Institution in GeoCASe mit Datensatzanzahl und Objekttypen. Jede Quell-URL kennzeichnet einen indexierten Datensatz.",
+    "datasetsDescription": "Mit dieser Institution verknüpfte GeoCASe-Datensätze. Öffnen Sie einen Datensatz, um seine Beschreibung und Zugangsmöglichkeiten anzuzeigen.",
     "noLinkedDatasets": "Für diese Institution sind derzeit keine verknüpften Datensätze in GeoCASe verfügbar.",
     "recordsInInstitution": "Einträge dieser Institution",
     "geographicCoverage": "Geografische Abdeckung",
@@ -1010,5 +1010,10 @@
   "clear": "Suche löschen",
   "count": "{shown} von {total} Datensätzen angezeigt",
   "noMatches": "Keine passenden Datensätze gefunden. Versuchen Sie einen anderen Suchbegriff."
+},
+  "catalogImprovements": {
+  "noIndexedRecords": "Für die Katalogdatensätze dieser Institution wurden keine indexierten Exemplare gefunden.",
+  "collectionUnavailable": "Sammlungsdaten für die Katalogdatensätze dieser Institution sind nicht verfügbar.",
+  "legacyInstitution": "Diese Institution ist derzeit nicht im Institutionskatalog aufgeführt. Verfügbare Sammlungen finden Sie im aktuellen Institutionsverzeichnis."
 }
 }
