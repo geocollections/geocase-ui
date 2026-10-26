@@ -806,7 +806,7 @@ test("institution gallery falls back to thumbnails and links to specimens", asyn
                 ],
         },
         facet_counts: {
-          facet_fields: { country: ["Estonia", 123] },
+          facet_fields: { country: ["Estonia", 123], datasetowner: ["Department of Geology, TalTech", 123] },
           facet_pivot: {
             "latitude,longitude": [
               { value: 59.2, pivot: [{ value: 24.3, count: 2 }] },
@@ -850,8 +850,8 @@ test("institution gallery falls back to thumbnails and links to specimens", asyn
     new URL(
       await link.getAttribute("href"),
       "http://localhost",
-    ).searchParams.get("q"),
-  ).toBe('datasourceurl:( "https://source.test/taltech" )');
+    ).searchParams.get("datasourceurl__equals"),
+  ).toBe("https://source.test/taltech");
   await image.click();
   await expect(page).toHaveURL(/specimen\/demo/);
 });
@@ -904,7 +904,7 @@ test("institution country circles render after delayed data and open filtered se
           docs: [],
         },
         facet_counts: {
-          facet_fields: { country: ["Estonia", 2, "Finland", 1] },
+          facet_fields: { country: ["Estonia", 2, "Finland", 1], datasetowner: ["Department of Geology, TalTech", 3] },
           facet_pivot: { "latitude,longitude": [] },
         },
       },
@@ -953,9 +953,9 @@ test("institution country circles render after delayed data and open filtered se
   await estoniaMarker.click();
   await expect(page).toHaveURL(/search/);
   const searchUrl = new URL(page.url());
-  expect(searchUrl.searchParams.get("q")).toBe(
-    'datasourceurl:( "https://source.test/taltech" )',
-  );
+  expect(searchUrl.searchParams.get("datasourceurl__equals")).toBe("https://source.test/taltech");
+  expect(searchUrl.searchParams.get("datasetowner")).toBe('"Department of Geology, TalTech"');
+  expect(searchUrl.searchParams.has("q")).toBe(false);
   expect(searchUrl.searchParams.get("country")).toBe('"Estonia"');
 });
 
@@ -1606,4 +1606,103 @@ test("homepage shows an unavailable count without hiding the other catalog count
   const institutions = page.getByRole("button", { name: /Number of Institutions/ });
   await expect(datasets.locator("span").first()).toHaveText("—");
   await expect(institutions.locator("span").first()).toHaveText("2");
+});
+
+
+test("institution hero uses the source header image and omits it when absent", async ({ page }) => {
+  await page.goto("/institution/cetaf");
+  const photo = page.locator('article header img[src="https://example.org/cetaf-header.jpg"]');
+  await expect(photo).toBeVisible();
+  await expect.poll(() => photo.evaluate((image: HTMLImageElement) => image.naturalWidth)).toBeGreaterThan(0);
+  await page.goto("/institution/tallinn-university-of-technology");
+  await expect(page.getByRole("heading", { name: "TalTech", exact: true })).toBeVisible();
+  await expect(page.locator('article header img')).toHaveCount(0);
+});
+
+test("institution hero retains its content when the source photo fails", async ({ page }) => {
+  await page.route("https://example.org/cetaf-header.jpg", (route) => route.fulfill({ status: 404, body: "" }));
+  await page.goto("/institution/cetaf");
+  await expect(page.getByRole("heading", { name: "Consortium of European Taxonomic Facilities", exact: true })).toBeVisible();
+  await expect(page.locator('article header img')).toHaveCount(0);
+  await expect(page.getByRole("link", { name: "Visit website", exact: true })).toBeVisible();
+});
+
+
+test("institution hero search filters cards and map and survives reload", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/institution?q=Estonia");
+  await page.getByRole("button", { name: "OK", exact: true }).click();
+  const input = page.getByRole("searchbox", { name: "Search institutions", exact: true });
+  await expect(input).toHaveValue("Estonia");
+  await expect(page.locator("h3")).toHaveCount(1);
+  await expect(page.getByRole("heading", { name: "TalTech", exact: true })).toBeVisible();
+  await expect(page.locator("button[data-institution-id]")).toHaveCount(1);
+  await page.reload();
+  await expect(input).toHaveValue("Estonia");
+  await input.fill("no-such-institution-12345");
+  await expect(page.locator("h3")).toHaveCount(0);
+  await expect(page.getByText("No institutions match your search. Try another search term.", { exact: true })).toBeVisible();
+  await page.getByRole("button", { name: "Clear institution search", exact: true }).click();
+  await expect(input).toHaveValue("");
+  await expect(page.locator("h3")).toHaveCount(2);
+  await expect(page.locator("button[data-institution-id]")).toHaveCount(2);
+  expect(new URL(page.url()).searchParams.has("q")).toBe(false);
+  expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(390);
+});
+
+
+test("institution cards open details while website buttons remain separate", async ({ page }) => {
+  await page.goto("/institution");
+  await page.getByRole("button", { name: "OK", exact: true }).click();
+  const card = page.locator(".institution-card").filter({ has: page.getByRole("heading", { name: "TalTech", exact: true }) });
+  const website = card.getByRole("link", { name: "Visit website", exact: true });
+  await expect(website).toHaveAttribute("href", "https://taltech.ee/");
+  await expect(website).toHaveAttribute("target", "_blank");
+  await expect(website.locator("a")).toHaveCount(0);
+  const initialBackground = await website.evaluate((element) => getComputedStyle(element).backgroundColor);
+  await website.hover();
+  await expect.poll(() => website.evaluate((element) => getComputedStyle(element).backgroundColor)).not.toBe(initialBackground);
+  await page.context().route("https://taltech.ee/**", (route) => route.fulfill({ contentType: "text/html", body: "<h1>Institution website</h1>" }));
+  const popup = page.waitForEvent("popup");
+  await website.click();
+  const external = await popup;
+  await expect(external).toHaveURL("https://taltech.ee/");
+  await external.close();
+  await expect(page).toHaveURL(/\/institution$/);
+  await card.click({ position: { x: 10, y: 10 } });
+  await expect(page).toHaveURL(/institution\/tallinn-university-of-technology$/);
+  await expect(page.getByRole("heading", { name: "TalTech", exact: true })).toBeVisible();
+});
+
+
+test("collection source and owner filters survive refinement pagination and reload", async ({ page }) => {
+  const sources = ["https://source.test/first?dsa=one&schema=x", "https://source.test/second?dsa=two"];
+  await page.route("**/catalog/datasets", (route) => route.fulfill({ json: sources.map((provider_url, index) => ({
+    dataset_guid: index ? "58221cb2-ca04-11f1-a7eb-269714084253" : "8fa26a2c-c99d-11f1-a7eb-269714084253", title: index ? "Second dataset" : "First dataset", provider_url, is_active: 1, is_published_geocase: 1,
+  })) }));
+  const query = new URLSearchParams({ datasetowner: '"Test Museum"', page: "1" });
+  sources.forEach((url) => query.append("datasourceurl__equals", url));
+  await page.goto("/search?" + query);
+  await page.getByRole("button", { name: "OK", exact: true }).click();
+  const filters = page.getByRole("region", { name: "Active filters", exact: true });
+  await expect(filters).toContainText("First dataset");
+  await expect(filters).toContainText("Second dataset");
+  await expect(filters).toContainText("Test Museum");
+  const quick = page.locator(".search-drawer-text-field input").first();
+  await expect(quick).toHaveValue("");
+  await quick.fill("calcite");
+  await expect(page).toHaveURL(/q=calcite/);
+  expect(new URL(page.url()).searchParams.getAll("datasourceurl__equals")).toEqual(sources);
+  await page.locator(".table-top").getByRole("button", { name: "Next page", exact: true }).click();
+  await expect(page).toHaveURL(/page=2/);
+  await page.reload();
+  await expect(quick).toHaveValue("calcite");
+  await expect(filters).toContainText("First dataset");
+  expect(new URL(page.url()).searchParams.getAll("datasourceurl__equals")).toEqual(sources);
+  await filters.getByRole("button", { name: "Remove Datasets filter", exact: true }).click();
+  await expect(filters.getByRole("button", { name: "Remove Datasets filter", exact: true })).toHaveCount(0);
+  const finalQuery = new URL(page.url()).searchParams;
+  expect(finalQuery.has("datasourceurl__equals")).toBe(false);
+  expect(finalQuery.get("q")).toBe("calcite");
+  expect(finalQuery.get("datasetowner")).toBe('"Test Museum"');
 });
