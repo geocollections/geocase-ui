@@ -790,7 +790,7 @@
     "website": "Official website",
     "approximateLocation": "Approximate location (latitude, longitude)",
     "linkedDatasets": "Related datasets",
-    "datasetsDescription": "Datasets published by this institution in GeoCASe, with record counts and specimen types. Each source URL identifies an indexed dataset.",
+    "datasetsDescription": "Datasets linked to this institution in GeoCASe. Open a dataset to view its description and access options.",
     "noLinkedDatasets": "No linked datasets are currently available for this institution in GeoCASe.",
     "recordsInInstitution": "Records from this institution",
     "geographicCoverage": "Geographic coverage",
@@ -1011,5 +1011,10 @@
   "clear": "Clear search",
   "count": "Showing {shown} of {total} datasets",
   "noMatches": "No datasets match your search. Try another search term."
+},
+  "catalogImprovements": {
+  "noIndexedRecords": "No indexed specimens were found for this institution’s catalog datasets.",
+  "collectionUnavailable": "Collection data is not available for this institution’s catalog datasets.",
+  "legacyInstitution": "This institution is not currently listed in the institution catalog. Browse the current institution directory to find available collections."
 }
 }
