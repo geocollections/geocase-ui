@@ -7,6 +7,8 @@ export default defineEventHandler(async (event) => {
   const institution = findCatalogInstitution(institutions, getRouterParam(event, "id") ?? "");
   if (!institution) throw createError({ statusCode: 404 });
   const datasets = await loadDatasetCatalog(config.datasetCatalogUrl);
-  const sources = institutionSourceUrls(institutionDatasets(datasets, institution.institution_id));
-  return loadInstitutionCollection(sources, `${config.apiBase.replace(/\/$/, "")}/v1/solr`, $fetch);
+  const related = institutionDatasets(datasets, institution.institution_id);
+  const sources = institutionSourceUrls(related);
+  const labels = [institution.name, ...related.map((item) => item.organisation_name)].filter((name): name is string => typeof name === "string" && !!name);
+  return loadInstitutionCollection(sources, `${config.apiBase.replace(/\/$/, "")}/v1/solr`, $fetch, labels);
 });

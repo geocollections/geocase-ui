@@ -1,5 +1,6 @@
 import { $fetch } from "ofetch";
-import { institutionCollectionFilter } from "../utils/institutionCatalog";
+import { quoteFilterValue } from "../utils/sourceFilters";
+import { institutionCollectionFilter, resolveInstitutionOwners } from "../utils/institutionCatalog";
 
 /** Uses the shared Solr proxy so collection pages also work behind existing deployments. */
 export async function loadInstitutionCollection(
@@ -10,13 +11,14 @@ export async function loadInstitutionCollection(
     timeout: number;
     retry: number;
   }) => Promise<T> = $fetch,
+  ownerLabels: string[] = [],
 ) {
   if (!sourceUrls.length) return { points: [], countries: [], images: [], total: 0 };
-  const fq = institutionCollectionFilter(sourceUrls);
+  let fq = institutionCollectionFilter(sourceUrls);
   type Response = {
     response: { numFound: number; docs: Record<string, any>[] };
     facet_counts?: {
-      facet_fields?: { country?: (string | number)[] };
+      facet_fields?: { country?: (string | number)[]; datasetowner?: (string | number)[] };
       facet_pivot?: {
         "latitude,longitude"?: {
           value: number;
@@ -25,6 +27,14 @@ export async function loadInstitutionCollection(
       };
     };
   };
+  if (ownerLabels.length) {
+    const indexed = await fetcher<Response>(base, { query: { q: "*", fq, rows: 0, facet: "on", "facet.field": "datasetowner", "facet.limit": -1, "facet.mincount": 1 }, timeout: 15000, retry: 0 });
+    const values = indexed.facet_counts?.facet_fields?.datasetowner ?? [];
+    const candidates = values.filter((value, index): value is string => index % 2 === 0 && typeof value === "string" && Number(values[index + 1]) > 0);
+    const matched = resolveInstitutionOwners(candidates, ownerLabels);
+    if (indexed.response.numFound > 0 && !matched.length) throw new Error("Institution collection owner could not be resolved");
+    if (matched.length) fq += ` AND datasetowner:( ${matched.map(quoteFilterValue).join(" OR ")} )`;
+  }
   const [coordinateResult, countryResult, imageResult] =
     await Promise.allSettled([
       fetcher<Response>(base, {
@@ -46,7 +56,7 @@ export async function loadInstitutionCollection(
           fq,
           rows: 0,
           facet: "on",
-          "facet.field": "country",
+          "facet.field": ["country", "datasetowner"],
           "facet.limit": -1,
           "facet.mincount": 1,
         },
@@ -83,6 +93,9 @@ export async function loadInstitutionCollection(
   const countryData =
     countryResult.status === "fulfilled" ? countryResult.value : empty;
   const countryFacets = countryData.facet_counts?.facet_fields?.country ?? [];
+  const ownerFacets = countryData.facet_counts?.facet_fields?.datasetowner ?? [];
+  const owners = ownerFacets.filter((value, index): value is string => index % 2 === 0 && typeof value === "string" && !!value.trim() && Number(ownerFacets[index + 1]) > 0);
+
   const countries: { country: string; count: number }[] = [];
   for (let index = 0; index < countryFacets.length; index += 2) {
     const country = countryFacets[index];
@@ -160,6 +173,7 @@ export async function loadInstitutionCollection(
     countries,
     images,
     total: countryData.response.numFound,
+    owners,
     locationsUnavailable: countryResult.status === "rejected",
     coordinatesUnavailable: coordinateResult.status === "rejected",
     imagesUnavailable,
