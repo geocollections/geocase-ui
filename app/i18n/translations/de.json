@@ -998,5 +998,10 @@
     "map": "Datensatzkarte",
     "mapError": "Standorte konnten nicht geladen werden.",
     "mapNote": "Die Karte zeigt bis zu 1.000 unterschiedliche Standorte. Klicken Sie auf einen Punkt, um die Objektdetails zu öffnen. Bei gemeinsamen Koordinaten wird der erste Eintrag geöffnet."
-  }
+  },
+  "institutionsCatalog": {
+  "loading": "Institutionen werden geladen…",
+  "error": "Institutionen konnten nicht geladen werden. Bitte erneut versuchen.",
+  "empty": "Keine Institutionen verfügbar."
+}
 }
