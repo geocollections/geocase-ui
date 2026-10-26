@@ -617,3 +617,27 @@ describe("homepage catalog counts", () => {
     expect(store.datasetowner).toBe(0);
   });
 });
+
+
+describe("institution collection search scope", () => {
+  it("combines multiple exact sources with the owner and keeps quick search free", async () => {
+    const store = useSearchStore();
+    const sources = ['https://example.org/query?dsa=one&schema=x', 'https://example.org/query?dsa=two#"quoted"'];
+    queryMixin.methods.deconstructQueryParams.call({
+      searchIds: store.searchIds, lookUpTypes: store.lookUpTypes, searchParamsList: store.searchParamsList,
+      updateSearchField: store.updateSearchField, updateSearchParam: store.updateSearchParam,
+    }, { datasourceurl__equals: sources, datasetowner: '"Department of Geology, TalTech"' });
+    axios.get.mockResolvedValue({ data: { response: { docs: [], numFound: 7 } } });
+    await store.fetchResults();
+    const url = new URL(axios.get.mock.calls[0][0], "http://localhost");
+    expect(url.searchParams.get("q")).toBe("*");
+    const quoted = sources.map((value) => `"${value.replace(/["\\]/g, "\\$&")}"`);
+    expect(url.searchParams.getAll("fq")).toContain(`datasourceurl:( ${quoted.join(" OR ")} )`);
+    expect(url.searchParams.getAll("fq").some((value) => value.includes('datasetowner:("Department of Geology, TalTech")'))).toBe(true);
+    store.updateSearchField({ id: "q", value: "quartz" });
+    await store.fetchResults();
+    const refined = new URL(axios.get.mock.calls.findLast(([url]) => !url.includes("stats=true"))[0], "http://localhost");
+    expect(refined.searchParams.get("q")).toBe('"quartz"');
+    expect(refined.searchParams.getAll("fq")).toContain(`datasourceurl:( ${quoted.join(" OR ")} )`);
+  });
+});

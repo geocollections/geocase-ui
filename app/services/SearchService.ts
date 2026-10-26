@@ -1,4 +1,5 @@
 import axios from "axios";
+import { parseSourceFilter, quoteFilterValue } from "@/utils/sourceFilters";
 import { cloneDeep } from "lodash";
 import earcut from "earcut";
 import Wkt from "wicket/wicket";
@@ -468,6 +469,13 @@ function buildSearchFieldsQuery(
           );
         }
       } else if (typeof value === "string" && value.trim().length > 0) {
+        if (name === "datasourceurl" && lookUpType === "equals") {
+          const sources = parseSourceFilter(value).map(quoteFilterValue);
+          const filter = sources.length === 1 ? `datasourceurl:${sources[0]}` : `datasourceurl:( ${sources.join(" OR ")} )`;
+          encodedData.push(`fq=${encodeURIComponent(filter)}`);
+          return;
+        }
+
         if (name === "q" && !(value.includes(" ") || value.includes("*")))
           value = `"${value}"`;
 
