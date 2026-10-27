@@ -103,6 +103,7 @@ const clearLabel = (id: string) =>
               }}
             </summary>
             <USelect
+              :content="{ position: 'popper', bodyLock: false }"
               :ui="{ content: 'tw:z-[3400]' }"
               :items="
                 store.lookUpTypes.map((value) => ({
@@ -161,6 +162,7 @@ const clearLabel = (id: string) =>
             :model-value="fields.age_unit?.value ?? 'My'"
             :aria-label="t('search.table.age_unit')"
             class="tw:w-full"
+            :content="{ position: 'popper', bodyLock: false }"
             :ui="{ content: 'tw:z-[3400]' }"
             @update:model-value="updateValue('age_unit', $event)"
           />
