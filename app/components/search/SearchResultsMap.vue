@@ -75,7 +75,7 @@ function clearArea() {
 <template>
   <section
     :aria-label="t('search.tab.map')"
-    class="tw:mx-3 tw:mb-2 tw:sm:mb-5 tw:overflow-hidden tw:rounded-xl tw:border tw:border-default tw:sm:mx-6"
+    class="tw:relative tw:isolate tw:mx-3 tw:mb-2 tw:sm:mb-5 tw:overflow-hidden tw:rounded-xl tw:border tw:border-default tw:sm:mx-6"
   >
     <div
       class="tw:flex tw:flex-wrap tw:items-center tw:justify-between tw:gap-3 tw:bg-muted/30 tw:px-3 tw:py-1 tw:lg:px-4 tw:lg:py-3"

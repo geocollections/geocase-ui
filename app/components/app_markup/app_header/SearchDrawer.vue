@@ -30,7 +30,7 @@ function restoreFocus(event: Event) {
     :aria-label="t('search.drawer.filters')"
     class="tw:bg-default tw:sticky tw:top-16 tw:z-10 tw:flex tw:h-[calc(100dvh-4rem)] tw:w-87.5 tw:shrink-0 tw:flex-col tw:self-start tw:shadow-lg"
   >
-    <div class="tw:min-h-0 tw:flex-1 tw:overflow-y-auto tw:p-4">
+    <div class="tw:min-h-0 tw:flex-1 tw:overflow-x-hidden tw:overflow-y-auto tw:p-4">
       <SearchFilters />
     </div>
   </aside>
