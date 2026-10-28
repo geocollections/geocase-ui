@@ -23,7 +23,7 @@ const filterCount = computed(
       id="search-filters-toggle"
       icon="i-lucide-sliders-horizontal"
       :trailing-icon="
-        settings.searchDrawer ? 'i-lucide-chevron-up' : 'i-lucide-chevron-down'
+        settings.searchDrawer ? 'i-lucide-chevron-left' : 'i-lucide-chevron-right'
       "
       color="primary"
       variant="solid"
