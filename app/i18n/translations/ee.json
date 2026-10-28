@@ -1,0 +1,1060 @@
+{
+  "errorPage": {
+    "error": "Viga",
+    "notFoundTitle": "Lehte ei leitud",
+    "notFoundDescription": "Aadress võib olla muutunud või leht eemaldatud. Geoteaduslike kogude avastamist saad jätkata otsingus.",
+    "errorTitle": "Midagi läks valesti",
+    "errorDescription": "Seda lehte ei õnnestunud avada. Proovi mõne aja pärast uuesti või jätka kogude sirvimist.",
+    "retry": "Proovi uuesti",
+    "home": "Avaleht",
+    "search": "Ava otsing",
+    "backHome": "Tagasi avalehele",
+    "continueExploring": "Jätka avastamist",
+    "searchTitle": "Otsi eksemplare",
+    "searchDescription": "Leia fossiile, mineraale ja kivimeid.",
+    "institutionsTitle": "Sirvi asutusi",
+    "institutionsDescription": "Tutvu andmeid jagavate asutuste kogudega.",
+    "helpTitle": "Abi ja juhendid",
+    "helpDescription": "Leia abi otsingu ja andmete kasutamise kohta.",
+    "footer": "Euroopa geoteaduslike kogude portaal",
+    "navigation": "Põhinavigatsioon",
+    "skipToContent": "Liigu põhisisu juurde"
+  },
+  "a11y": {
+    "closeCookie": "Sulge küpsiste teade",
+    "partnerMap": "Partnerasutuste kaart",
+    "skipToContent": "Liigu põhisisu juurde",
+    "mainNavigation": "Põhinavigatsioon",
+    "toggleNavigation": "Ava või sulge navigeerimismenüü",
+    "siteNavigation": "Veebilehe navigatsioon",
+    "pagination": "Tabeli leheküljed",
+    "firstPage": "Esimene lehekülg",
+    "previousPage": "Eelmine lehekülg",
+    "nextPage": "Järgmine lehekülg",
+    "lastPage": "Viimane lehekülg",
+    "filterOperator": "Välja {field} vastendusviis",
+    "mapLocations": "Kaardi asukohad",
+    "openLocation": "Ava asukoht: {name}",
+    "previousLocations": "Eelmised asukohad",
+    "nextLocations": "Järgmised asukohad",
+    "closePopup": "Sulge hüpikaken",
+    "zoomIn": "Suurenda kaarti",
+    "zoomOut": "Vähenda kaarti",
+    "mapLayers": "Kaardikihid",
+    "locationRange": "Kaardi asukohad {start}–{end}, kokku {total}"
+  },
+  "aboutPage": {
+    "pageTitle": "GeoCASe'ist",
+    "eyebrow": "GeoCASe'ist",
+    "heroTitle": "Avasta Maa lugu geoteaduslike kogude kaudu.",
+    "heroDescription": "GeoCASe on geoteaduslike kogude juurdepääsuteenus. See koondab muuseumide ja teadusasutuste kogud ühte otsitavasse portaali, et toetada teadustööd ja rahvusvahelist koostööd.",
+    "explore": "Tutvu kogudega",
+    "collectionsEyebrow": "Mida saab avastada",
+    "collectionsTitle": "Geoteaduslikud kogud",
+    "collectionsDescription": "GeoCASe teeb muuseumide ja teadusasutuste eksemplarid veebis kättesaadavaks.",
+    "collections": {
+      "minerals": "Mineraalid",
+      "rocks": "Kivimid",
+      "meteorites": "Meteoriidid",
+      "fossils": "Fossiilid"
+    },
+    "networkEyebrow": "Andmevõrgustik",
+    "networkTitle": "Kuidas GeoCASe töötab",
+    "networkDescription": "Asutused jagavad oma kogude andmeid. GeoCASe kogub ja indekseerib kirjed, et neid saaks otsida ühest kohast.",
+    "sharedTitle": "Ühised koguandmed",
+    "sharedIntro": "Andmeallikad kasutavad sageli",
+    "sharedStandards": "tarkvara ning XML-põhiseid standardeid",
+    "and": "ja",
+    "extensionNote": "geoteaduste laiendus; vt",
+    "searchTitle": "Üks koht otsimiseks",
+    "searchIntro": "GeoCASe eesmärk on täita geoteadustes sama rolli nagu",
+    "gbifDescription": ", ülemaailmne elurikkuse andmevõrgustik.",
+    "storyEyebrow": "Meie lugu",
+    "storyTitle": "Koostöös loodud",
+    "firstTitle": "Esimene GeoCASe",
+    "firstDescription": "Esimene versioon loodi 2007. aastal Berliini Museum für Naturkundes projekti SYNTHESYS raames.",
+    "upgradeTitle": "GeoCASe 2.0 algus",
+    "upgradeIntro": "Museum für Naturkunde ja Tallinna Tehnikaülikool alustasid uuendatud versiooni arendamist",
+    "earthScienceGroup": "geoteaduste töörühma koordineerimisel.",
+    "cetafDescription": "CETAF ühendab Euroopa loodusteaduslikke uurimisasutusi ning taksonoomia, koolituse ja andmestandardite asjatundjaid. GeoCASe seotakse ka",
+    "disscoName": "DiSSCo teadustaristuga",
+    "governanceTitle": "Kogukonna juhitud",
+    "governanceDescription": "Portaali juhib GeoCASe nõuandekogu, kes vastutab arenduse, hoolduse, tutvustamise ja kvaliteedikontrolli eest.",
+    "team": {
+      "eyebrow": "GEOCASE’I INIMESED",
+      "title": "GeoCASe’i tänane tiim",
+      "intro": "TalTechi tiim arendab ja haldab portaali koostöös CETAF-i maateaduste töörühmaga (ESG).",
+      "olle": "Üldküsimused, teaduslik taust ja koostöö GeoCASe’i kogukonnaga.",
+      "kristjan": "Andmepakkujate toetamine, kogude andmete avaldamine ja andmete liidestamine.",
+      "alissa": "Tarkvaraarendus, portaali disain, kasutusmugavus ja uued funktsioonid.",
+      "esgTitle": "CETAF-i maateaduste töörühm",
+      "esg": "ESG ühendab maateaduslike kogude kogukonda ning toetab koostööd ja GeoCASe’i arengut.",
+      "esgLink": "Töörühma tutvustus",
+      "contact": "Võta tiimiga ühendust",
+      "previousTitle": "Varasemad panustajad Berliinist",
+      "previous": "GeoCASe tugineb Museum für Naturkunde Berlini varasemale tööle, kus valmis 2007. aastal portaali esimene versioon. Täname Berliini panustajaid, sealhulgas Falko Glöcklerit, portaali ja selle taristu arendamise eest.",
+      "falkoLink": "Falko Glöckler — GeoCASe’i tutvustus CETAF-i kohtumisel (2019)",
+      "codeLink": "GeoCASe’i varasem taristu — lähtekood"
+    }
+  },
+  "efgPage": {
+    "pageTitle": "ABCD-EFG geoteaduslikele kogudele",
+    "eyebrow": "ANDMESTANDARD",
+    "heroTitle": "Ühine keel geoteaduslikele kogudele.",
+    "heroDescription": "ABCD-EFG on XML-skeem digiteeritud paleontoloogiliste, mineraloogiliste ja geoloogiliste kogude kirjeldamiseks. See aitab koguandmeid vahetada kohalike andmebaaside ja teenuste, näiteks GeoCASe vahel.",
+    "documentationLink": "Tutvu dokumentatsiooniga",
+    "githubLink": "Vaata EFG-d GitHubis",
+    "standardEyebrow": "STANDARD",
+    "standardTitle": "Loodud geoteaduslike andmete jaoks",
+    "standardDescription": "ABCD-EFG laiendab standardit Access to Biological Collection Data (ABCD) mõistetega, mida on vaja paleontoloogiliste, mineraloogiliste ja geoloogiliste eksemplaride kirjeldamiseks.",
+    "schemaTitle": "ABCD standardi laiendus",
+    "schemaDescription": "ABCD-EFG XML-skeem põhineb elurikkuse andmestandardite organisatsiooni TDWG hallataval ABCD standardil ning laiendab seda geoteaduslike kogude jaoks.",
+    "abcdLink": "ABCD standardi kohta",
+    "providerTitle": "Koguandmebaaside ühendamine",
+    "providerDescription": "BioCASe Provider Software aitab asutustel vastendada kohaliku andmeallika andmed ühise skeemiga. Tarkvara vahendab XML-vormingus andmevahetust lähteandmebaasi ja portaalide, näiteks GeoCASe vahel.",
+    "providerLink": "BioCASe Provider Software",
+    "communityEyebrow": "ÜHINE ARENDUS",
+    "communityTitle": "Kogukonna kujundatud standard",
+    "communityDescription": "ABCD-EFG laiendus on esitatud TDWG-le geoteaduslike kogude andmestandardina. Ühine struktuur toetab andmete järjepidevat vahetamist ja taaskasutust asutuste vahel.",
+    "resourcesTitle": "Loe lisaks",
+    "paperLink": "Petersen jt 2018: EFG laiendus",
+    "paperPdfLink": "Loe artikli PDF-i",
+    "documentationEyebrow": "VIITEMATERJAL",
+    "documentationTitle": "ABCD-EFG skeemi dokumentatsioon",
+    "openDocumentation": "Ava uuel vahelehel"
+  },
+  "tutorialPage": {
+    "pageTitle": "GeoCASe kasutusjuhend",
+    "eyebrow": "KASUTUSJUHEND",
+    "heroTitle": "Avasta geoteaduslikke kogusid GeoCASe abil.",
+    "heroDescription": "Otsi muuseumide ja teaduskogude kirjeid, täpsusta tulemusi filtritega ning uuri eksemplare leiukoha järgi.",
+    "exploreSearch": "Ava otsing",
+    "exploreDatasets": "Vaata andmekogusid",
+    "stepsEyebrow": "Alusta siit",
+    "stepsTitle": "Kogust eksemplarini",
+    "stepsDescription": "Alusta kogude sirvimisest, täpsusta otsingut ja ava üksikkirjed, et näha kogude jagatud teavet.",
+    "steps": {
+      "collections": {
+        "title": "Vali kogu",
+        "description": "Avalehel saad valida fossiilid, mineraalid, kivimid, meteoriidid või materjaliproovid, et avada vastava tüübiga eeltäidetud otsing. Kõigi kirjete vaatamiseks vali kõik eksemplarid."
+      },
+      "search": {
+        "title": "Otsi ja filtreeri",
+        "description": "Kiirotsing leiab märksõnu kirjetest. Ava otsingufiltrid, et täpsustada tulemusi näiteks nime või leiukoha järgi või valida väärtusi saadaolevatest filtriloenditest."
+      },
+      "results": {
+        "title": "Vaata otsingutulemusi",
+        "description": "Vaheta tabeli- ja pildikuva vahel. Sorteeri tabeli veerge ja liigu tulemuste lehtede vahel. Ühel kirjel võib olla mitu pilti, seega piltide arv ei pruugi võrduda kirjete arvuga."
+      },
+      "map": {
+        "title": "Uuri kaarti",
+        "description": "Kaardil kuvatakse koordinaatidega kirjed. Vali asukoht, et uurida seal leitud eksemplare, või joonista kaardile ala ja piira otsingut leiukoha järgi."
+      },
+      "records": {
+        "title": "Ava eksemplari kirje",
+        "description": "Ava kirje tabelist või kaardilt, et näha selle üksikasju, pilte, leiukohta ja kogu teavet. Nähtavad andmed sõltuvad sellest, mida andmeid jagav asutus on lisanud."
+      }
+    },
+    "notesEyebrow": "Enne avastamist",
+    "notesTitle": "Mida tasub teada",
+    "notes": {
+      "locations": "Kõigil kirjetel pole koordinaate, seega ei kuvata kõiki eksemplare kaardil.",
+      "mapDetails": "Asukoha vaatamiseks vii kursor kaardimärgile. Numbriga märgil klõpsates saad valida selle asukoha kirjete vahel; üksikmärgil klõpsates avaneb kirje.",
+      "imageDetails": "Pildi pisipildi kohal kuvatakse kirje lühiinfo. Klõps avab suure pildigalerii, kus saad sirvida praeguse tulemuste lehe pilte ning avada originaalpildi või eksemplari kirje.",
+      "images": "Kirjel ei pruugi olla ühtegi pilti või võib neid olla mitu. Seetõttu võib piltide arv kirjete arvust erineda.",
+      "sources": "Koguandmeid jagavad muuseumid ja teadusasutused. Vaata kirjest andmeallika, õiguste ja kontaktisiku teavet."
+    },
+    "providers": {
+      "eyebrow": "ANDMEPAKKUJATELE",
+      "title": "Jaga oma kogu GeoCASe kaudu",
+      "description": "GeoCASe koondab asutuste kogude kirjeid. Andmeid jagatakse BioCASe Provider Software’i kaudu, mis ühendab kohaliku andmebaasi ABCD-EFG andmevorminguga.",
+      "stepsTitle": "Andmete ettevalmistamine ja avaldamine",
+      "steps": {
+        "install": {
+          "title": "Paigalda andmepakkuja tarkvara",
+          "description": "Paigalda BioCASe Provider Software internetist ligipääsetavasse serverisse. Paigaldamisel ja serveri seadistamisel võib vaja minna andmebaasi haldaja või IT-tiimi abi."
+        },
+        "connect": {
+          "title": "Ühenda andmebaas",
+          "description": "Seadista ühendus kohaliku andmeallikaga ja kirjelda andmebaasi struktuur andmepakkuja tarkvaras."
+        },
+        "map": {
+          "title": "Vasta andmeväljad standardile",
+          "description": "Seo andmebaasi väljad GeoCASe kasutatavate ABCD-EFG mõistetega. Avalda ainult teavet, mille avalikustamiseks on asutusel luba."
+        },
+        "publish": {
+          "title": "Registreeri andmeallikas",
+          "description": "Kui andmepakkuja on töökorras ja seadistatud, saada portaali lisamise taotlemiseks oma andmeallika URL GeoCASe tiimile."
+        },
+        "harvest": {
+          "title": "Hoia kirjed ajakohasena",
+          "description": "GeoCASe uuendab andmeid asutuste andmepakkujatest regulaarselt. Hoia andmeallikas kättesaadav ning uuenda kirjete, kontaktide, õiguste ja muutmise kuupäeva teavet."
+        }
+      },
+      "documentation": "BioCASe paigaldus- ja tehniline dokumentatsioon",
+      "mappingDocumentation": "ABCD-EFG väljade vastendamise juhend",
+      "apiTitle": "GeoCASe API",
+      "apiDescription": "Avalik API võimaldab pärida GeoCASe eksemplariandmeid masinloetavas JSON-vormingus. API järgib OpenAPI spetsifikatsiooni.",
+      "apiLink": "Ava GeoCASe API",
+      "openApiLink": "OpenAPI spetsifikatsioon",
+      "metadataTitle": "Andmekogu kohta esitatav teave",
+      "metadataDescription": "Lisa andmekogu tasemel järgmised andmed, et kasutajad saaksid kogu tuvastada, omanikuga ühendust võtta ja kasutustingimustest aru saada.",
+      "datasetFields": {
+        "title": {
+          "name": "Andmekogu pealkiri",
+          "description": "Eksemplarikirjeid sisaldava andmekogu nimi."
+        },
+        "datasetId": {
+          "name": "Andmekogu ID",
+          "description": "Andmekogu kordumatu tunnus."
+        },
+        "contentContact": {
+          "name": "Sisukontakt",
+          "description": "Kuraatori või sisukontakti nimi ja e-posti aadress."
+        },
+        "technicalContact": {
+          "name": "Tehniline kontakt",
+          "description": "Tehnilise kontaktisiku või andmebaasi haldaja nimi ja e-posti aadress."
+        },
+        "ownerInstitution": {
+          "name": "Omanikust asutus",
+          "description": "Kogu valdava asutuse nimi ja aadress."
+        },
+        "ownerCountry": {
+          "name": "Asutuse riik",
+          "description": "Kogu valdava asutuse riik."
+        },
+        "terms": {
+          "name": "Kasutustingimused / litsents",
+          "description": "Andmekogu ja selle piltide kasutustingimused või litsents."
+        },
+        "lastModified": {
+          "name": "Viimati muudetud",
+          "description": "Andmekogu viimase muutmise kuupäev."
+        }
+      },
+      "specimenFieldsTitle": "Eksemplari väljad ja soovitused",
+      "specimenFieldsDescription": "GeoCASe andmepakkuja juhendis on mõisted eksemplari tüübi järgi kohustuslikud (K), soovituslikud (S) või valikulised (V).",
+      "fieldLabels": {
+        "unitId": "UnitID",
+        "recordBasis": "RecordBasis",
+        "scientificName": "FullScientificName",
+        "country": "Country",
+        "coordinates": "Coordinates",
+        "stratigraphy": "Stratigraphy",
+        "imageUrl": "Multimeediaobjekti URL",
+        "imageLicence": "Multimeediaobjekti litsents"
+      },
+      "fieldDescriptions": {
+        "unitId": "Eksemplari, kataloogi või asutuse registrinumber.",
+        "recordBasis": "Eksemplari tüüp.",
+        "scientificName": "Määratud teaduslik nimi.",
+        "country": "Eksemplari kogumise riik.",
+        "coordinates": "Leiukoha laius- ja pikkuskraad.",
+        "stratigraphy": "Stratigraafiline teave, kui see on olemas.",
+        "imageUrl": "Veebis kättesaadava pildi või eksemplari URL.",
+        "imageLicence": "Meedia kasutustingimused või litsents."
+      },
+      "types": {
+        "fossils": "Fossiilid",
+        "minerals": "Mineraalid",
+        "rocks": "Kivimid",
+        "meteorites": "Meteoriidid"
+      },
+      "statuses": {
+        "required": "K",
+        "recommended": "S",
+        "optional": "V",
+        "notApplicable": "—"
+      },
+      "statusNames": {
+        "required": "Kohustuslik",
+        "recommended": "Soovituslik",
+        "optional": "Valikuline",
+        "notApplicable": "Määramata"
+      },
+      "contactNote": "GeoCASe võrgustikuga liitumise küsimustes võta ühendust GeoCASe tiimiga.",
+      "specimenFields": {
+        "unitId": {
+          "fossils": "required",
+          "minerals": "required",
+          "rocks": "required",
+          "meteorites": "required"
+        },
+        "recordBasis": {
+          "fossils": "required",
+          "minerals": "required",
+          "rocks": "required",
+          "meteorites": "required"
+        },
+        "scientificName": {
+          "fossils": "required",
+          "minerals": "required",
+          "rocks": "required",
+          "meteorites": "recommended"
+        },
+        "country": {
+          "fossils": "recommended",
+          "minerals": "required",
+          "rocks": "required",
+          "meteorites": "recommended"
+        },
+        "coordinates": {
+          "fossils": "recommended",
+          "minerals": "recommended",
+          "rocks": "recommended",
+          "meteorites": "recommended"
+        },
+        "stratigraphy": {
+          "fossils": "recommended",
+          "minerals": "recommended",
+          "rocks": "notApplicable",
+          "meteorites": "notApplicable"
+        },
+        "imageUrl": {
+          "fossils": "recommended",
+          "minerals": "optional",
+          "rocks": "optional",
+          "meteorites": "optional"
+        },
+        "imageLicence": {
+          "fossils": "recommended",
+          "minerals": "recommended",
+          "rocks": "recommended",
+          "meteorites": "recommended"
+        }
+      },
+      "fieldColumn": "Väli / mõiste",
+      "installationLink": "Paigaldusjuhend",
+      "connectionLink": "Andmebaasiühenduse juhend",
+      "structureLink": "Andmebaasi struktuuri juhend",
+      "interoperability": "ABCD andmestandardit kasutatakse ka teenuses"
+    }
+  },
+  "messages": {
+    "languageChange": "Vahetasite keelt!"
+  },
+  "searchHelp": {
+    "title": "Otsingu abiinfo",
+    "help1": "Sisesta märksõna(d) kiireks otsinguks kõigist andmetabelitest. Suur- ja väiketähti ei eristata, pimesümbolina (wildcard) kasutada tärni ",
+    "help2": "Mitme märksõna korral otsitakse vasteid, kus esineb vähemalt üks otsitavatest. Et märksõna kindlasti tulemustes sisalduks, lisa selle ette '<b class='secondary--text font-weight-black'>+</b>'. Kui soovid mõne termini välistada, siis kasuta märksõna ees '<b class='secondary--text font-weight-black'>-</b>'. Näiteks: ",
+    "help3": "Mitmesõnalise väljendi otsimiseks ümbritse see <b class='secondary--text'>jutumärkidega</b>; sama tee ka siis kui otsitav sisaldab erimärke, nagu '-' ja '+', nt ",
+    "help4": {
+      "prepend": "Kiirotsingut saab kasutada ka detailsemate pärigute jaoks, kuid selleks tuleb teada andmebaasi väljade nimetusi. Nt päring",
+      "append": "otsib kirjeid, kus stratigraafiaks on määratud Burtnieki lade. NB! sellise otsingu puhul tehakse vahet suur- ja väiketähtedel ('asaphus' and 'Asaphus' ei ole samad), abiks on pimesümbol (*)."
+    }
+  },
+  "datasetsPage": {
+    "title": "Andmekogud",
+    "description": "Avasta muuseumide ja teadusasutuste geoteaduslikke andmestikke. Igal andmestikul on oma leht kogude teabe ja ligipääsulinkidega.",
+    "viewRecords": "Vaata kirjeid",
+    "empty": "Andmekogusid ei ole saadaval.",
+    "loading": "Andmekogude laadimine…",
+    "explanationTitle": "Mida andmekogude loend näitab?",
+    "explanation": "Andmestik on muuseumi või teadusasutuse avaldatud seotud geoteaduslike kirjete kogum. Üks asutus võib avaldada mitu andmestikku, mis käsitlevad eri kogusid, teemasid või piirkondi.",
+    "institutionExplanation": "Igal andmestikul on oma leht ja püsiv tunnus (GUID). Kui asutus on vastava teabe lisanud, kuvatakse lehel kirjeldus, ulatus, viide, litsents ja ligipääsulingid.",
+    "usageExplanation": "Ava andmestik, et tutvuda selle sisuga ja liikuda olemasolevate linkide kaudu allika juurde. Enne andmete taaskasutamist kontrolli litsentsi ja õiguste teavet ning viita andmed avaldanud asutusele.",
+    "institutions": "Seotud institutsioonid / andmeomanikud",
+    "unknownInstitution": "Institutsioon ei ole kirjetes märgitud.",
+    "source": "Andmekogu andmeallikas",
+    "specimenTypes": "Andmekogus esindatud proovitüübid",
+    "error": "Andmekogude laadimine ebaõnnestus.",
+    "retry": "Proovi uuesti",
+    "browseTitle": "Avasta andmestikke",
+    "browseDescription": "Tutvu avaldatud andmestike kirjelduste, ulatuse, litsentside ja ligipääsulinkidega."
+  },
+  "frontPage": {
+    "heroEyebrow": "Geoteaduslikud kogud",
+    "heroDescription": "Avasta fossiile, mineraale, kivimeid, meteoriite ja materjaliproove maailma muuseumide ja teadusasutuste kogudest.",
+    "browseAll": "Vaata kõiki eksemplare",
+    "collectionsEyebrow": "Tutvu kogudega",
+    "collectionsTitle": "Geoloogilise ajaloo mitmekesine maailm",
+    "mapEyebrow": "Avasta asukoha järgi",
+    "mapTitle": "Avasta maailma oma jalge all",
+    "mapDescription": "Uuri leiukohti kaardil ja leia eksemplare kõikjalt maailmast.",
+    "prototype_alert": {
+      "title": "This is GeoCASe 2.0 interface.",
+      "text": "Please report problems in <a href=\"https://github.com/geocollections/geocase-ui\" target=\"_blank\">GitHub</a>. The old portal is accessible at: <a href=\"http://old.geocase.eu\" target=\"_blank\">http://old.geocase.eu</a>."
+    },
+    "title": "Euroopa Geokogude Portaal",
+    "findQuickly": "Leia kiirelt...",
+    "quickSearch": "Kiirotsing...",
+    "totalRecords": "Kirjeid kokku",
+    "institutionCount": "Asutuste arv",
+    "datasetCount": "Andmekogude arv",
+    "countryCount": "Riigid andmetega",
+    "cards": {
+      "materialSamples": {
+        "title": "Materjaliproovid",
+        "text": "Teadusuuringuteks kogutud kivimite, setete ja teiste materjalide proovid.",
+        "button": "Vaata materjaliproove",
+        "imageAltText": "Materjaliproov"
+      },
+      "fossils": {
+        "title": "Fossiilid",
+        "text": "Muistse elu jäljed, säilinud kivimites läbi geoloogilise aja.",
+        "button": "Vaata fossiile",
+        "imageAltText": "Fossiil"
+      },
+      "minerals": {
+        "title": "Mineraalid",
+        "text": "Looduslikud kristallid ja mineraalide mitmekesine maailm.",
+        "button": "Vaata Mineraale",
+        "imageAltText": "Mineraal"
+      },
+      "rocks": {
+        "title": "Kivimid",
+        "text": "Maa kujunemise lugu kivimites ja setetes.",
+        "button": "Vaata kivimeid",
+        "imageAltText": "Kivim"
+      },
+      "meteorites": {
+        "title": "Meteoriidid",
+        "text": "Kosmosest Maale jõudnud killud meie Päikesesüsteemist.",
+        "button": "Vaata meteoriite",
+        "imageAltText": "Meteoriit"
+      }
+    },
+    "map": {
+      "activate": "Kaardi kasutamiseks klõpsa siin",
+      "search": "Otsi",
+      "numFound": "Eksemplare",
+      "itemsPerPageText": "Ridu lehel"
+    }
+  },
+  "footer": {
+    "title": "GeoCASe: Euroopa Geokogude Portaal",
+    "ctaTitle": "Avasta kogusid, mis jutustavad Maa lugu.",
+    "ctaDescription": "Otsi eksemplare maailma muuseumide ja teadusasutuste kogudest.",
+    "browseCollections": "Avasta kogusid",
+    "explore": "Avasta",
+    "about": "GeoCASe",
+    "resources": "Võrgustik ja ressursid",
+    "partners": "Meie partnerid",
+    "rights": "Geoteaduslikud kogud üle kogu maailma.",
+    "dataBy": "Andmed kogutud",
+    "partnerInstitutions": "partnerasutustelt",
+    "collab_html": "GeoCASe 2.0 on valminud <a href='https://cetaf.org' target='FooterWindow'>CETAF Earth Science Group'i</a> ühistööl.",
+    "created_html": "<a href='https://github.com/geocollections/geocase-ui' target='FooterWindow'>Portaali tarkvara</a> on loodud ja majutatud <a href='https://taltech.ee/en/department-geology' target='FooterWindow'>TalTech</a> ning <a href='https://www.museumfuernaturkunde.berlin/' target='FooterWindow'>MfN</a> poolt.",
+    "taltechLogoAltText": "Tallinna Tehnikaülikooli logo",
+    "mfnLogoAltText": "Berliini loodusmuuseumi logo",
+    "cetafLogoAltText": "Consortium of European Taxonomic Facilities"
+  },
+  "header": {
+    "home": "Pealeht",
+    "search": "Otsing",
+    "about": "Liitu",
+    "access": "Ligipääs",
+    "tutorial": "Juhend",
+    "efg": "EFG",
+    "partners": "Asutused",
+    "help": "Abi",
+    "links": "Lingid",
+    "imprint": "Andmed",
+    "resources": "Ressursid",
+    "language": "Keel",
+    "titleTooltip": "Liigu esilehele",
+    "showSearch": "Näita/peida otsingu filtreid",
+    "menu": "Menüü",
+    "landingPageAltText": "Valged barüüdikristallid"
+  },
+  "resources": {
+    "cetaf": "CETAF",
+    "dissco": "DiSSCo",
+    "biocase": "BioCASe portaal",
+    "gbif": "GBIF portaal",
+    "abcd-efg": "ABCD-EFG standard",
+    "geocase2-github": "GeoCASe 2.0 GitHubis",
+    "geocase1": "GeoCASe 1.0 portaal",
+    "geocase-api": "GeoCASe API"
+  },
+  "detail": {
+    "noResults": "Kahjuks ei leidnud mitte ühtegi vastet, kus eksemplari <b>ID</b> oleks <b>{id}</b>",
+    "dataFromProvider": "Andmed otse algallikast (arendajatele)",
+    "goBack": "Tagasi otsingusse",
+    "specimenDetails": "Eksemplari andmed",
+    "sourceAndRights": "Allikas ja kasutusõigused",
+    "showMore": "Näita rohkem",
+    "showLess": "Näita vähem",
+    "otherIdentification": "Teised määrangud",
+    "specimenType": {
+      "fossil": "Fossiil",
+      "mineral": "Mineraal",
+      "rock": "Kivim",
+      "meteorite": "Meteoriit"
+    },
+    "table": {
+      "type": "Tüüp",
+      "collection": "Kollektsioon",
+      "objectId": "Objekti ID",
+      "typeStatus": "Originaal staatus",
+      "group": "Grupp",
+      "country": "Riik",
+      "area": "Ala",
+      "areaDetail": "Ala lisainfo",
+      "locality": "Lokaliteet",
+      "latitude": "Laiuskraad",
+      "longitude": "Pikkuskraad",
+      "stratigraphy": "Stratigraafia",
+      "stratigraphyText": "Stratigraafia vaba",
+      "mindat": "Mindat",
+      "taxonRecordInPbdb": "Taksoni kirje PBDB-s",
+      "taxonInEncyclopediaOfLife": "Takson Encyclopedia of Life-s",
+      "taxonInTreeOfLife": "Takson Tree of Life'is",
+      "TaxonInFossiilidInfo": "Takson fossiilid.info-s",
+      "recordUri": "Kirje URL",
+      "relatedResource": "Seotud allikas",
+      "reference": "Kirjandus",
+      "unitWeight": "Kaal",
+      "nearNamedPlace": "Lähim koht",
+      "itemMineralGroup": "Grupp",
+      "mineralNameDetail": "Nime lisainfo",
+      "acquisitionDate": "Omandamise aeg",
+      "gatheringAgent": "Koguja",
+      "unitDateText": "Kogumise aeg",
+      "kindOfUnit": "Üksus",
+      "geologicalAge": "Geoloogiline vanus"
+    },
+    "secondaryTable": {
+      "institution": "Asutus",
+      "datasetOwner": "Andmekogumi omanik",
+      "contactPerson": "Kontaktisik",
+      "contactEmail": "E-mail",
+      "contactPhone": "Telefon",
+      "contactAddress": "Aadress",
+      "contactData": "Kontaktandmed",
+      "dataSourceCountry": "Andmeallika riik",
+      "copyright": "Autoriõigus",
+      "termsOfUse": "Kasutustingimused",
+      "disclaimer": "Hoiatustekst",
+      "acknowledgement": "Vastuvõtukinnitus",
+      "lastEdited": "Viimati muudetud",
+      "lastHarvested": "Viimati päritud",
+      "providerName": "Teenusepakkuja",
+      "specimenVerifier": "Eksemplari kontrollija",
+      "geocaseId": "GeoCASe ID",
+      "unitGuid": "UnitGUID",
+      "cetafIdentifier": "CETAF"
+    }
+  },
+  "search": {
+    "openFilters": "Otsing ja filtrid",
+    "activeFilterCount": "{count} aktiivset filtrit",
+    "filtersHint": "Täpsusta otsingut nime, asukoha või kogu järgi.",
+    "showResults": "Näita tulemusi ({count})",
+    "backToResults": "Tagasi tulemuste juurde",
+    "noResultsFilteredHint": "Eemalda mõni ülal kuvatud filter või kasuta laiemat otsingusõna. Kontrolli ka õigekirja.",
+    "noResultsBroadHint": "Proovi laiemat otsingusõna või kontrolli õigekirja.",
+    "editSearch": "Muuda otsingut",
+    "copySearchLink": "Kopeeri otsingu link",
+    "linkCopied": "Otsingu link on kopeeritud.",
+    "linkCopyFailed": "Lingi kopeerimine ebaõnnestus. Kopeeri aadress brauseri aadressiribalt.",
+    "layout": {
+      "results": "Tulemused",
+      "mapLocationSummary": "Kaardil {count} asukohta · tabelis {records} kirjet",
+      "mapCountrySummary": "Kaardil {count} riiki · tabelis {records} kirjet",
+      "mapLimitNotice": "Kaardi 1000 asukoha piir on täitunud. Kitsenda otsingut, et uurida väiksemat asukohtade hulka. Tabel sisaldab endiselt kõiki otsingule vastavaid kirjeid.",
+      "mapNote": "Vali riik, et näha kuni 1000 erinevat asukohta. Numbriga märk näitab samade koordinaatidega kirjete arvu; klõpsa kirje valimiseks. Filtreerimiseks joonista ala.",
+      "mapRetry": "Proovi uuesti",
+      "hideMap": "Peida kaart",
+      "showMap": "Näita kaarti",
+      "expandMap": "Suurenda kaarti",
+      "reduceMap": "Vähenda kaarti",
+      "clearArea": "Eemalda ala"
+    },
+    "loadError": "Tulemusi ei õnnestunud laadida",
+    "staleResults": "Kuvatakse varasema otsingu tulemusi. Neid ei ole viimase otsingu jaoks uuendatud.",
+    "retry": "Proovi uuesti",
+    "imagesOnlyNotice": "See vaade rakendab filtri „On pilt?”. Tulemuste arv hõlmab ainult otsingule vastavaid piltidega kirjeid ja võib olla väiksem kui tabelivaates.",
+    "imageRecords": "Piltidega kirjed",
+    "activeFilters": {
+      "keyword": "Otsing",
+      "title": "Valitud filtrid",
+      "remove": "Eemalda filter: {field}",
+      "mapArea": "Kaardil valitud ala",
+      "yes": "Jah",
+      "no": "Ei",
+      "operators": {
+        "contains": "sisaldab",
+        "equals": "võrdub",
+        "starts_with": "algab",
+        "ends_with": "lõpeb",
+        "does_not_contain": "ei sisalda",
+        "greater_than": "suurem kui",
+        "smaller_than": "väiksem kui"
+      }
+    },
+    "page": "Lehekülg",
+    "recordsFound": "kirjet | kirje | kirjet",
+    "openGallery": "Ava galerii",
+    "mindatLink": "Link mindat.org lehele",
+    "goToDetailView": "Mine detailvaatesse",
+    "mapMarkerTooltip": "Vajuta, et otsida eksemplare selles asukohas!",
+    "tab": {
+      "table": "Tabel",
+      "images": "Pildid",
+      "map": "Kaart"
+    },
+    "table": {
+      "empty": "",
+      "area_name": "Ala",
+      "country_original": "Riik originaal",
+      "country": "Riik",
+      "collectioncode": "Kollektsiooni kood",
+      "mindepth": "Min. sügavus",
+      "mindat_id": "Mindat ID",
+      "meteorite_id": "Meteorite ID",
+      "geocase_id": "GeoCASe ID",
+      "country_code": "Country code",
+      "is_mineral": "Mineraal?",
+      "gatheringareas": "Leiuala",
+      "stratigraphytext": "Stratigraafia vaba",
+      "taxon_id_tol": "Takson Tree of Life'is",
+      "datasetownerabbrev": "Andmekogumi omanik",
+      "last_harvested_processing": "Viimati päritud",
+      "id": "ID",
+      "taxon_hierarchy_string": "Taksoni hierarhiline tekst",
+      "longitude": "Pikkuskraad",
+      "highertaxon": "Rühm",
+      "images": "Pildid",
+      "recordbasis": "Materjali tüüp",
+      "higherrank": "Kategooria",
+      "acquiredfrom": "Omandatud",
+      "datasourcecountry": "Andmeallika riik",
+      "locality": "Lokaliteet",
+      "mindat_url": "Mindat URL",
+      "occurrenceid": "Sündmuse ID",
+      "provideraddress": "Teenusepakkuja aadress",
+      "area_type": "Ala tüüp",
+      "taxon_id_pbdb": "Taksoni kirje PBDB-s",
+      "has_map": "On kaart?",
+      "highertaxa": "Klass",
+      "datasourceurl": "Andmeallika URL",
+      "fullscientificname": "Nimi",
+      "datasetowner": "Andmekogumi omanik",
+      "type_fullscientificname": "Nime tüüp",
+      "latitude": "Laiuskraad",
+      "image_license": "Pilti litsents",
+      "providercountry": "Andmetarnija riik",
+      "type_status": "Originaal staatus",
+      "maxdepth": "Max. sügavus",
+      "stratigraphy": "Stratigraafia",
+      "providerurl": "Andmetarnija URL",
+      "has_image": "On pilt?",
+      "highertaxon_facet": "Rühm",
+      "image_author": "Pildi autor",
+      "recordURI": "Kirje link",
+      "taxon_id": "Taksoni ID",
+      "image_date": "Pildi kuupäev",
+      "collectorname": "Koguja",
+      "providername": "Andmetarnija",
+      "url": "URL",
+      "relatedResource": "Seotud allikas",
+      "names": "Nimed",
+      "_version_": "_version_",
+      "unitid": "Objekti ID",
+      "coordinates": "Koordinaadid",
+      "coordinatesReadOnly": "Koordinaadid - LOE AINULT",
+      "map": "Kaart",
+      "cetaf_identifier": "CETAF id",
+      "stratigraphytexts": "Stratigraafia free",
+      "stratigraphies": "Stratigraphy komaga eraldatud",
+      "tooltipExport": "Faili eksport",
+      "tooltipConfig": "Tabeli konfiguratsioon",
+      "tooltipResetHeaders": "Lähtesta päised",
+      "tooltipShowActiveHeaders": "Vaata aktiveeritud päiseid",
+      "tooltipShowAllHeaders": "Vaata kõiki päiseid",
+      "headerSelectDisabled": "Veergu sorteeritakse",
+      "headers": "Päised",
+      "responsiveColumns": "Väiksemal ekraanil kuvatakse vähem veerge.",
+      "filter": "Filter",
+      "closeMap": "Sulge kaart",
+      "goTo": "Leheküljele",
+      "goToBtn": "Mine",
+      "clipboard": "Kopeeri lõikelauale",
+      "kindofunit": "Materjali alamtüüp",
+      "geologicalAge": "Geoloogiline vanus",
+      "age_min": "Minimaalne vanus",
+      "age_max": "Maksimaalne vanus",
+      "age_unit": "Vanuse ühik"
+    },
+    "pagination": "Kuva {value} kaupa",
+    "export": {
+      "currentPage": "Ekspordi see lehekülg",
+      "allResults": "Ekspordi kõik otsingutulemused (CSV)",
+      "progress": "Ekspordi ettevalmistamine: {loaded} / {total} kirjet",
+      "cancel": "Katkesta",
+      "export": "Ekspordi",
+      "exportToCsv": "Ekspordi CSV",
+      "copyToClipboard": "Kopeeri",
+      "downloadFailed": "Eksport ebaõnnestus. Proovi uuesti.",
+      "exportSuccessful": "Eksporditi <b>{type}</b>!",
+      "copySuccessful": "Kopeeritud!",
+      "copyFailed": "Kopeerimine ebaõnnestus: Pole midagi koperida!"
+    },
+    "drawer": {
+      "filters": "Otsingufiltrid",
+      "additionalFilters": "Täiendavad filtrid",
+      "extraOptions": "Lisavõimalused",
+      "resetSearch": "Taasta otsing",
+      "clearFilters": "Puhasta '{field}' filtrid",
+      "more": "Rohkem",
+      "less": "Vähem",
+      "has_image": "Näita ainult piltidega kirjeid",
+      "has_map": "Näita ainult koordinaatidega kirjeid",
+      "fixedHeaders": "Külmuta tabeli päiserida (ainult suurte ekraandie puhul)",
+      "tableHeaders": "Tabeli päised",
+      "matchMode": "Otsinguviis",
+      "millionYears": "Miljonit aastat (My)",
+      "years": "Aastad",
+      "imageFilterHint": "Väljalülitamisel kuvatakse nii piltidega kui ka piltideta kirjed."
+    },
+    "tableNoResults": "Antud otsinguparameetritega kirjeid ei leitud.",
+    "imageNoResults": "Antud otsinguparameetritega pilte ei leitud.",
+    "imageNoResultsFilterInfo": "Lisa filter, et näha pilte sisaldavaid kirjeid.",
+    "addFilter": "Lisa filter",
+    "mapNoResults": "Antud otsinguparameetritega lokaliteete ei leitud.",
+    "mapNoResultsFilterInfo": "Lisa filter, et näha asukohta sisaldavaid kirjeid."
+  },
+  "imageGallery": {
+    "moreInformation": "Rohkem infot",
+    "imageDetails": "Pildi andmed",
+    "specimenDetails": "Eksemplar ja kogu",
+    "collectionContext": "Leiukoht ja taust",
+    "imageActions": "Pildi lingid",
+    "sourceRecord": "Allika kirje",
+    "imageInformation": "Pildi info",
+    "date": "Kuupäev",
+    "licence": "Litsents",
+    "linkToImage": "Link pildile",
+    "cycleImages": "Slaidiseannss",
+    "closeGallery": "Sulge galerii",
+    "imageGallery": "Pildigalerii",
+    "hideThumbnails": "Peida pisipildid",
+    "showThumbnails": "Kuva pisipildid",
+    "thumbnails": "Piltide pisipildid",
+    "previousImage": "Eelmine pilt",
+    "nextImage": "Järgmine pilt",
+    "previewsPerRow": "Eelvaateid reas",
+    "goToSpecimenView": "Mine detailvaatesse",
+    "zoomViewer": "Suurendatav pilt",
+    "zoomControls": "Pildi suurendamise nupud",
+    "zoomIn": "Suurenda",
+    "zoomOut": "Vähenda",
+    "fitImage": "Mahuta ekraanile",
+    "actualSize": "Originaalsuurus",
+    "inspectImage": "Suurenda pilti",
+    "loadingImage": "Laadin pilti…",
+    "imageUnavailable": "Pilt pole saadaval"
+  },
+  "imprint": {
+    "html": "<h1>Imprint</h1><p> Museum für Naturkunde <br> Leibniz Institute for Evolution and Biodiversity Science <br> Invalidenstraße 43 <br> 10115 Berlin, Germany </p><p> Landesunmittelbare rechtsfähige Stiftung des öffentlichen Rechts </p><p> phone: +49 (0)30 2093-8591 <br> fax: +49 (0)30 2093-8561 <br> email: info(at)mfn-berlin.de <br> website: <a href=\"https://www.naturkundemuseum.berlin\" target=\"_blank\"> https://www.naturkundemuseum.berlin </a></p><p> Authorized representative person <br> Prof. Johannes Vogel, PhD (director general) </p><p> Controlling authority <br> Senatsverwaltung für Wirtschaft, Technologie und Forschung <br> Martin-Luther-Straße 105, 10825 Berlin </p><p> Content responsiblity (German law § 55 Abs. 2 RStV) <br> Juliane Röhner / Mathias Paul <br></p><p> VAT-ID (German law § 27 a Umsatzsteuergesetz) <br> DE262426477 </p><p> Bank account <br> Berliner Bank AG <br> account number: 512 087 800 <br> bank code: 100 708 48 <br> IBAN: DE40 1007 0848 051 2087 800 <br> BIC/SWIFT: DEUTDEDB110 </p><h2> Information on the website </h2><p style=\"font-weight: bold;\"> Responsible persons: </p><ul><li><span style=\"font-weight: bold;\"> Editorial: </span><br> MfN commissarial editor <br> Falko Glöckler </li><li><span style=\"font-weight: bold;\"> Project management: </span><br> NN </li><li><span style=\"font-weight: bold;\"> Website programming </span> : <br> NN </li></ul><h2> Addtional Regulations </h2><p><span style=\"font-weight: bold;\"> Disclaimer </span><br> For all information published on the site of the Museum für Naturkunde Berlin the following conditions apply: <br> Use of the material provided is bound by the following agreement: The Museum für Naturkunde Berlin makes every effort to provide timely and accurate information. Nevertheless, mistakes and confusions may occur. Therefore the publishers make no guarantee about the correctness, completeness, quality or suitability for any purpose of the information provided or linked to by this site. Information is provided \"as is\" without warranty of any kind, either expressed or implied, including, but not limited to warranties of fitness for a particular purpose. Under no circumstances shall the publishers be liable for any special, indirect, consequential or incidental damages or any damages whatsoever resulting from use of information provided by this site. If misleading, incorrect or otherwise inappropriate information is brought to our attention, a reasonable effort will be made to redress the problems. <br><br> The Museum für Naturkunde Berlin reserves the right to change, supplement, or delete some or all of the information on its Internet web site without notice. Similarly, the Museum für Naturkunde Berlin also reserves the right to temporarily or permanently discontinue the Internet web site. <br><br> Any claims relating to the materials or the WWW site will be governed by German law. <br><br> The general disclaimer published at <a onclick=\"\n        window.open(\n          'http://www.disclaimer.de/disclaimer.htm',\n          'DisclaimerWindow',\n          'width=800,height=600'\n        )\n      \" class=\"text-decoration-underline\"> www.disclaimer.de/disclaimer.htm </a> is part of this disclaimer. <br><br> This disclaimer is to be considered as part of the internet publication from which you were referred. If individual terms or sections of this statement are not legal or correct, the validity and content of the other parts remain uninfluenced by this fact. <br><br> Source: <a href=\"http://www.datenschutzbeauftragter-info.de/\" target=\"_blank\"> www.datenschutzbeauftragter-info.de </a><br><br> © Museum für Naturkunde Berlin </p>"
+  },
+  "efg": {
+    "html": "<h1>EFG</h1>ABCDEFG (Access to Biological Collection Databases Extended for Geosciences) is an XML-Schema (Extensible Markup Language) developed for use with palaeontological, mineralogical and geological digitalized collection data.<p>It extends the <a href=\"https://www.tdwg.org/standards/abcd/\"  target=\"_blank\">ABCD-XML-Schema</a> (Access to Biological Collection Databases) used by <a href=\"http://www.gbif.net\"  target=\"_blank\">GBIF</a> (Glocal Biodiversity Iformation Facility).</p><p>The ABCDEFG-XML-Schema is used to apply a mapping to the local data source and it is supported by the BioCASe Provider Software. This Software is easy to install and provides a very handy user interface for databse description and mapping. The BioCASe Provider Software mediates between the local data source and the GeoCASe Portal by sending and receiving XML documents.</p><p>ABCDEFG is proposed to the organisation of biodiversity information standards <a href=\"http://www.tdwg.org\"  target=\"_blank\">TDWG</a> (Taxonomic Databases Working Group) as a data standard for geoscientific collections.</p><p>The BioCASe Provider Software may be obtained from <a href=\"https://biocase.org/products/provider_software/\"  target=\"_blank\">https://biocase.org/products/provider_software/</a>.<br></p><p>For further information on <a href=\"https://www.tdwg.org/standards/abcd/\"  target=\"_blank\">ABCD</a> visit the TDWG Terms Wiki page <a href=\"https://www.tdwg.org/standards/abcd/\"  target=\"_blank\">https://www.tdwg.org/standards/abcd/</a>.</p><p>For further information on the ABCD <a href=\"https://github.com/tdwg/efg\"  target=\"_blank\">Extension for Geosciences (EFG)</a> see <a href=\"https://doi.org/10.5194/fr-21-47-2018\"  target=\"_blank\">Petersen et al. 2018</a> (<a href=\"https://www.foss-rec.net/21/47/2018/fr-21-47-2018.pdf\"  target=\"_blank\">pdf</a>) or download the <a href=\"https://efg.geocase.eu/documentation/html/efg.html\"  target=\"_blank\">ABCDEFG-XML-Schema documentation</a> which is also embedded below.<br></p><p><a style=\"float:right;\" href=\"https://efg.geocase.eu/documentation/html/efg.html\"  target=\"_blank\">Open in new Window/Tab</a><br>ABCDEFG Schema Documentation:</p><iframe style=\"border: 1px solid darkblue; width: 100%;\" height=\"700\" src=\"https://efg.geocase.eu/documentation/html/efg.html\"></iframe>"
+  },
+  "access": {
+    "html": "<h1 class=\"mb-2\">Terms of Use</h1>\n\n<p>Using data available through the GeoCASe network requires agreeing with the following:</p>\n\n<ul>\n\t<li>The quality and completeness of data cannot be guaranteed.</li>\n\t<li>Users employ these data at their own risk.</li>\n\t<li>Users shall respect restrictions of access to sensitive data.</li>\n\t<li>Users must publicly acknowledge, in conjunction with the use of the data, the data providers whose biodiversity data they have used.</li>\n\t<li>Data providers may require additional attribution of specific collections within their institution.</li>\n\t<li>Users must comply with additional terms and conditions of use set by the data provider. Where these exist they will be available through the metadata associated with the data. GeoCASe does not assert any intellectual property rights in the data that is made available through its network.</li>\n\t<li>The data provider warrants that they have made the necessary agreements with the original owners of the data that it can make the data available through GeoCASe network.</li>\n\t<li>The data provider makes reasonable efforts to ensure that the data they serve are accurate. Responsibility regarding the restriction of access to sensitive data resides with the data provider.</li>\n\t<li>The data provider includes a stable and unique identifier in their data so that the owner of the data is known and for other necessary purposes.</li>\n\t<li>GeoCASe is not liable or responsible, nor are its employees or contractors, for the data contents; or for any loss, damage, claim, cost or expense however it may arise, from an inability to use the GeoCASe network.</li>\n</ul>\n\n<h2 class=\"mt-5 mb-2\">Disclaimer</h2>\n\n<h3 class=\"mb-1\">Liability for Content</h3>\n\n<p>We make every effort to keep the information on our website current, but accept no liability whatsoever for the content provided. Pursuant to &sect;7 par. 1 of TMG (German Tele-Media Act), the law limits our responsibility as a service provider to our own content on these Web pages.</p>\n\n<p>According to &sect;&sect;8 to 10 of TMG, we are not obligated to monitor third party information provided or stored on our website. However, we shall promptly remove any content upon becoming aware that it violates the law. Our liability in such an instance shall commence at the time we become aware of the respective violation.</p>\n\n<h3 class=\"my-1\">Liability for Links</h3>\n\n<p>Our site contains links to third-party Web sites. We have no influence whatsoever on the information on these Web sites and accept no guarantee for its correctness. The content of such third-party sites is the responsibility of the respective owners/providers.</p>\n\n<p>At the time third-party Web sites were linked to ours, we found NO GROUNDS WHATSOEVER of any likely contravention of the law. We shall promptly delete a link upon becoming aware that it violates the law.</p>\n\n<h3 class=\"my-1\">Copyright</h3>\n\n<p>The content of this data portal is aggregated from different data sources. We highly recommend data providers to assign open licences to their data in order to increase re-usability according to the FAIR principles (Wilkinson et al. 2016, <a href=\"https://doi.org/10.1038/sdata.2016.18\">https://doi.org/10.1038/sdata.2016.18</a>).<br />\nHowever, the re-use of the data MUST have consideration for the individual licences and restrictions per dataset and data provider. If no licence is indicated by the data providers a full restriction (&ldquo;all rights reserved&rdquo;) must be assumed. Different licences for different data types (e.g. textual metadata and media files) within one dataset might be applied.</p>\n\n<p>We are not accountable for any violation of copyrights caused by or at the data providers. The data providers provide the data and metadata on their own risk.</p>\n\n<p>GeoCASe code is openly available at <strong>GitHub </strong>under <strong>GPL 3.0 License</strong>:</p>\n\n<ul>\n\t<li><strong>GeoCASe 2.0 portal software: </strong><a href=\"https://github.com/geocollections/geocase-ui\">https://github.com/geocollections/geocase-ui</a></li>\n\t<li><strong>GeoCASe thumbnail service</strong>: <a href=\"https://github.com/geocollections/geocase-thumbnail\">https://github.com/geocollections/geocase-thumbnail</a>&nbsp;</li>\n\t<li><strong>GeoCASe 1.0 infrastructure: </strong><a href=\"https://github.com/geocollections/geocase-infrastructure\">https://github.com/geocollections/geocase-infrastructure</a></li>\n</ul>\n"
+  },
+  "about": {
+    "html": "<h1 class=\"mb-2\">What is GeoCASe?</h1>\n\n<p><strong>GeoCASe </strong>stands for <strong>Geo</strong>science <strong>C</strong>ollections <strong>A</strong>ccess <strong>Se</strong>rvice. It is a data network and web portal designed to make collections of minerals, rocks, meteorites and fossils held in museums and research institutions universally available online, in order to foster scientific research and collaboration internationally.</p>\n\n<p>Data for GeoCASe network are provided by individual museums and research institutions, most commonly via the <a href=\"https://www.biocase.org/products/provider_software/index.shtml\" target=\"_blank\">BioCASe Provider Software</a> using XML-based data exchange standards <a href=\"https://www.tdwg.org/standards/abcd/\" target=\"_blank\">ABCD</a> (Access to Biological Collections Data) and <a href=\"https://github.com/tdwg/efg\" target=\"_blank\">ABCD-EFG</a> (ABCD Extension for Geosciences; see<a href=\"https://doi.org/10.5194/fr-21-47-2018\" target=\"_blank\"> Petersen et al. 2018</a>). GeoCASe service &ldquo;harvests&rdquo; these data sources, stores the records in index and makes them easily accessible and searchable from a single user interface. GeoCASe aims to become the Earth Science counterpart of <a href=\"https://gbif.org\" target=\"_blank\">GBIF</a>, the Global Biodiversity Information Facility used by thousands of institutions and researchers.</p>\n\n<p>The initial version of GeoCASe was built at the Museum f&uuml;r Naturkunde, Berlin, as part of SYNTHESYS project in 2007. Development of an upgraded version, <strong>GeoCASE 2.0</strong>, started in 2020 by the Museum f&uuml;r Naturkunde and Tallinn University of Technology under coordination of the<a href=\"https://cetaf.org/\" target=\"_blank\"> <strong>CETAF</strong></a><strong> ESG</strong> (Consortium of European Taxonomic Facilities, Earth Science Group). Being a product of CETAF, which is a well established cohesive community of European Natural Science research institutes containing a wide-range of expertise in taxonomy, training, data standards and taxonomy, ensures that GeoCASe is reliable and sustainable in serving the needs of the wider community. GeoCASe will also become aligned with the<a href=\"https://www.dissco.eu/\" target=\"_blank\"> <strong>DiSSCo Research Infrastructure</strong></a>.&nbsp;</p>\n\n<p>GeoCASe is currently managed by the &lsquo;GeoCASe advisory board&rsquo; who are responsible for the development, maintenance, promotion and quality control of the portal.</p>"
+  },
+  "partnersPage": {
+    "pageTitle": "Asutused",
+    "eyebrow": "GeoCASe võrgustik",
+    "heroDescription": "Asutused teevad koostööd, et geoteaduste kogud oleksid lihtsamini leitavad.",
+    "summary": "{partners} asutust · {countries} riiki",
+    "networkEyebrow": "Võrgustik",
+    "institutionsTitle": "Asutused",
+    "viewDetails": "Vaata lähemalt",
+    "backToInstitutions": "Kõik asutused",
+    "location": "Asutuse asukoht",
+    "visitWebsite": "Külasta veebilehte",
+    "collaborationEyebrow": "Koostöö",
+    "relatedTitle": "Seotud algatused ja organisatsioonid",
+    "relatedDescription": "GeoCASe kasutab Berliini botaanikaaia ja botaanikamuuseumi BioCASe tehnoloogiat ning TDWG kinnitatud andmestandardeid, et tagada ühilduvus GBIFiga. Algatust toetab CETAF ning see teeb tihedat koostööd DiSSCo teadustaristuga.",
+    "countries": {
+      "belgium": "Belgia",
+      "germany": "Saksamaa",
+      "unitedKingdom": "Ühendkuningriik",
+      "czechRepublic": "Tšehhi",
+      "austria": "Austria",
+      "estonia": "Eesti",
+      "finland": "Soome",
+      "netherlands": "Madalmaad"
+    },
+    "country": "Riik",
+    "collectionProvider": "Kogu andmeandja",
+    "website": "Ametlik veebileht",
+    "approximateLocation": "Ligikaudne asukoht (laiuskraad, pikkuskraad)",
+    "linkedDatasets": "Seotud andmestikud",
+    "datasetsDescription": "Selle asutusega seotud GeoCASe’i andmestikud. Ava andmestik, et vaadata selle kirjeldust ja juurdepääsuvõimalusi.",
+    "noLinkedDatasets": "Selle institutsiooniga seotud andmestikke ei ole praegu GeoCASe’is saadaval.",
+    "recordsInInstitution": "Selle institutsiooni kirjed",
+    "geographicCoverage": "Geograafiline ulatus",
+    "coverageDescription": "Kirjed hõlmavad {count} riiki. Allpool on enim esindatud riigid. Riigi kirjete vaatamiseks vali riik.",
+    "overview": "Tutvustus",
+    "overviewSource": "Allikas: institutsiooni ametlik veebileht",
+    "collectionMap": "Kogu leiukohad",
+    "loadingCollection": "Laadin kollektsiooni…",
+    "collectionError": "Kogu andmete laadimine ebaõnnestus.",
+    "retry": "Proovi uuesti",
+    "noCollectionPoints": "Selle institutsiooni koordinaatidega eksemplare GeoCASe’is praegu ei ole.",
+    "noCollectionCoordinates": "Selle asutuse eksemplarid on GeoCASE’is olemas, kuid nende leiukohtade koordinaadid puuduvad. Seetõttu pole neid võimalik kaardil näidata.",
+    "noCollectionDataset": "Selle partneri andmekogu GeoCASE’is praegu ei ole, seetõttu puuduvad ka kogu kaardipunktid.",
+    "collectionImages": "Valik kogu pilte",
+    "noCollectionImages": "Selle institutsiooni eksemplaride pilte GeoCASe’is praegu ei ole.",
+    "exploreCollection": "Ava kollektsioon",
+    "specimens": "kirjet",
+    "mappedLocations": "asukohta kaardil",
+    "institutionLocation": "Institutsiooni asukoht",
+    "specimenLocations": "Kirjete asukohad",
+    "mapDescription": "Vajuta riigi arvuringile, et avada selle institutsiooni ja riigi kirjed otsingus. Roheline marker tähistab institutsiooni ennast.",
+    "collectionLoadError": "Osa kollektsiooni andmeid ei õnnestunud laadida. Institutsiooni asukohta saad siiski vaadata.",
+    "countryRecords": "Kirjed riikide kaupa"
+  },
+  "partners_and_providers": {
+    "html": "<h1 class=\"mb-2\">Partners</h1><ul>\n\t<li><a href=\"https://cetaf.org\" target=\"PartnersWindow\">CETAF General Secretariat</a>, Belgium</li>\n\t<li><a href=\"https://www.plantentuinmeise.be/en/\" target=\"PartnersWindow\">Meise Botanic Garden</a>, Belgium</li>\n\t<li><a href=\"https://www.museumfuernaturkunde.berlin/en/\" target=\"PartnersWindow\">Museum f&uuml;r Naturkunde Berlin</a>, Germany</li>\n\t<li><a href=\"https://www.nms.ac.uk/\" target=\"PartnersWindow\">National Museums Scotland</a>, United Kingdom</li>\n\t<li><a href=\"https://www.nm.cz/en\" target=\"PartnersWindow\">National Museum, Prague, Czech republic</a>, Czech Republic</li>\n\t<li><a href=\"https://www.nhm-wien.ac.at/en\" target=\"PartnersWindow\">Natural History Museum Vienna</a>, Austria</li>\n\t<li><a href=\"https://www.africamuseum.be/en\" target=\"PartnersWindow\">Royal Museum of Central Africa</a>, Belgium</li>\n\t<li><a href=\"https://naturkundemuseum-bw.de/en/\" target=\"PartnersWindow\">State Museum of Natural History Stuttgart</a>, Germany</li>\n\t<li><a href=\"https://taltech.ee/en/\" target=\"PartnersWindow\">Tallinn University of Technology</a>, Estonia</li>\n\t<li><a href=\"https://www.luomus.fi/en\" target=\"PartnersWindow\">Finnish Museum of Natural History</a>, Finland</li>\n\t<li><a href=\"https://www.naturalis.nl/en\" target=\"PartnersWindow\">Naturalis Biodiversity Center</a>, The Netherlands</li>\n</ul>\n\n<p class=\"my-4\"><a href=\"https://cetaf.org\"><img src=\"https://files.geocollections.info/img/geocase/static/partners/cetaf.png\" alt=\"Consortium of European Taxonomic Facilities\" style=\"max-width: 240px;\" /></a></p>\n\n<h2>Related Initiatives and Organizations</h2>\n\n<p>GeoCASe uses the <a href=\"https://biocase.org\">BioCASe</a> technology provided by <a href=\"https://bgbm.org\">Botanic Garden and Botanical Museum Berlin</a> (BGBM) and the data standards ratified by <a href=\"https://tdwg.org\">TDWG</a> in order to be compatible with <a href=\"https://gbif.org\">GBIF</a> as well.</p>\n\n<p>It is officially supported by the <a href=\"https://cetaf.org/\">CETAF</a> and aligns its services in close collaboration with the <a href=\"https://dissco.eu\">DiSSCo Research Infrastructure</a>.</p><a href=\"https://dissco.eu\"><img src=\"https://files.geocollections.info/img/geocase/static/partners/dissco-logo.png\" alt=\"Distributed Systems of Scientific Collections\" style=\"max-width:210px\" /></a></p>\n\n<p><a href=\"https://tdwg.org\"><img src=\"https://files.geocollections.info/img/geocase/static/partners/tdwg.png\" alt=\"Biodiversity Information Standards\" style=\"max-width:210px\" /></a></p>\n\n<p><a href=\"https://gbif.org\"><img src=\"https://files.geocollections.info/img/geocase/static/partners/gbif.png\" alt=\"Global Biodiversity Information Facility\" style=\"max-width:210px\" /></a></p>\n\n<p><a href=\"https://biocase.org\"><img src=\"https://files.geocollections.info/img/geocase/static/partners/biocase.png\" alt=\"BioCASe\" style=\"max-width:210px\" /></a></p>\n\n<p><a href=\"https://bgbm.org\"><img src=\"https://files.geocollections.info/img/geocase/static/partners/bgbm.png\" alt=\"BGBM\" style=\"max-width:210px;\" /></a><br />\n&nbsp;</p>\n"
+  },
+  "cookiePolicy": {
+    "introduction": "See veebileht kasutab küpsiseid. Veebilehe kasutamist jätkates nõustute küpsiste kasutamisega",
+    "readMoreButton": "Lugege meie kasutustingimusi",
+    "title": "Küpsisepoliitika",
+    "text": "Veebilehe külastajate andmeid kasutatakse ainult mitteisikustatud statistiliseks analüüsiks ning lehekülje funktsionaalsuse parandamiseks. Andmeid ei edastada kolmandatele osapooltele."
+  },
+  "seo": {
+    "description": "GeoCASe is a data network and web portal designed to make collections of minerals, rocks, meteorites and fossils held in museums and research institutions universally available online.",
+    "ogTitle": "GeoCASe 2.0: Euroopa Geokogude Portaal"
+  },
+  "helpPage": {
+    "pageTitle": "Abi ja tugi",
+    "eyebrow": "ABI JA TUGI",
+    "heroTitle": "Kuidas saame aidata?",
+    "heroDescription": "Leia juhised GeoCASe kasutamiseks või võta ühendust meie tugitiimiga, kui vajad abi.",
+    "tutorialLink": "Vaata kasutusjuhendit",
+    "searchLink": "Mine otsingusse",
+    "resourcesLabel": "Abi ja juhised",
+    "tutorialTitle": "GeoCASe kasutusjuhend",
+    "tutorialDescription": "Samm-sammuline juhend otsingu, filtrite ja kogude kasutamiseks.",
+    "searchTitle": "Otsid kindlat eksemplari?",
+    "searchDescription": "Ava otsing, et uurida geoteaduslikke kogusid.",
+    "contactEyebrow": "VÕTA ÜHENDUST",
+    "contactTitle": "Küsi abi",
+    "contactDescription": "Vali oma küsimusele sobiv kontaktisik ja kirjuta talle otse.",
+    "room": "Ruum",
+    "contacts": {
+      "general": {
+        "title": "Üldküsimused",
+        "description": "Kirjuta Ollele GeoCASe’i, kogude ja partnervõrgustikuga seotud üldküsimustes. Tema poole võid pöörduda koostöösoovidega ning abi saamiseks sobiva kontaktisiku leidmisel."
+      },
+      "providers": {
+        "title": "Andmepakkujaks saamine",
+        "description": "Kirjuta Kristjanile, kui sinu asutus soovib oma kogude andmeid GeoCASe’i kaudu jagada. Ta aitab liitumise, andmete ettevalmistamise ja andmeteenuse ühendamise küsimustes ning andmete liidestamisel tekkinud probleemidega."
+      },
+      "portal": {
+        "title": "Tarkvaraarendus, disain ja funktsioonid",
+        "description": "Kirjuta Alissale tarkvaraarenduse, portaali disaini ja funktsionaalsusega seotud küsimustes. Oodatud on arendusettepanekud, kasutusmugavuse tagasiside ja tehniliste probleemide kirjeldused. Lisa võimalusel lehe link ning selgita, mida soovisid teha."
+      }
+    }
+  },
+  "accessPage": {
+    "pageTitle": "Andmete kasutamine",
+    "eyebrow": "LIGIPÄÄS JA KASUTAMINE",
+    "heroTitle": "Avasta vabalt.\nKasuta vastutustundlikult.",
+    "heroDescription": "Tutvu geoteaduslike kollektsioonidega. Siit leiad teabe GeoCASe andmete kasutamise, jagamise ja taaskasutamise kohta.",
+    "explore": "Avasta kollektsioone",
+    "readTerms": "Loe kasutustingimusi",
+    "overview": "LÜHIÜLEVAADE",
+    "overviewTitle": "Hea teadustöö algab vastutustundlikust kasutamisest.",
+    "creditTitle": "Viita allikale",
+    "creditDescription": "Tunnusta asutusi ja kollektsioone, mille andmeid oma töös kasutad.",
+    "licenceTitle": "Kontrolli litsentsi",
+    "licenceDescription": "Igal andmestikul võivad olla oma litsents ja kasutustingimused.",
+    "careTitle": "Kasuta hoolikalt",
+    "careDescription": "Austa tundlike andmete piiranguid ning kontrolli kirjete kvaliteeti ja täielikkust.",
+    "termsEyebrow": "JUHISED",
+    "termsTitle": "Kasutustingimused",
+    "userTitle": "Andmete kasutajale",
+    "providerTitle": "Andmete pakkujale",
+    "responsibilityTitle": "Võrgustiku vastutus",
+    "legalEyebrow": "TÄPSEM TEAVE",
+    "legalTitle": "Vastutus ja autoriõigus",
+    "sourceEyebrow": "AVATUD LÄHTEKOOD",
+    "sourceTitle": "Avatud tööriistad. Jagatud teadmised.",
+    "sourceDescription": "GeoCASe tarkvara on GitHubis kättesaadav GPL 3.0 litsentsi alusel.",
+    "portal": "Portaali tarkvara",
+    "thumbnails": "Pisipiltide teenus",
+    "infrastructure": "Algne taristu",
+    "contents": "Sellel lehel",
+    "termsNav": "Kasutustingimused",
+    "legalNav": "Vastutus ja autoriõigus",
+    "sourceNav": "Lähtekood",
+    "termsIntro": "Using data available through the GeoCASe network requires agreeing with the following:",
+    "terms": [
+      "The quality and completeness of data cannot be guaranteed.",
+      "Users employ these data at their own risk.",
+      "Users shall respect restrictions of access to sensitive data.",
+      "Users must publicly acknowledge, in conjunction with the use of the data, the data providers whose biodiversity data they have used.",
+      "Data providers may require additional attribution of specific collections within their institution.",
+      "Users must comply with additional terms and conditions of use set by the data provider. Where these exist they will be available through the metadata associated with the data. GeoCASe does not assert any intellectual property rights in the data that is made available through its network.",
+      "The data provider warrants that they have made the necessary agreements with the original owners of the data that it can make the data available through GeoCASe network.",
+      "The data provider makes reasonable efforts to ensure that the data they serve are accurate. Responsibility regarding the restriction of access to sensitive data resides with the data provider.",
+      "The data provider includes a stable and unique identifier in their data so that the owner of the data is known and for other necessary purposes.",
+      "GeoCASe is not liable or responsible, nor are its employees or contractors, for the data contents; or for any loss, damage, claim, cost or expense however it may arise, from an inability to use the GeoCASe network."
+    ],
+    "legal": [
+      {
+        "title": "Liability for Content",
+        "paragraphs": [
+          "We make every effort to keep the information on our website current, but accept no liability whatsoever for the content provided. Pursuant to &sect;7 par. 1 of TMG (German Tele-Media Act), the law limits our responsibility as a service provider to our own content on these Web pages.",
+          "According to &sect;&sect;8 to 10 of TMG, we are not obligated to monitor third party information provided or stored on our website. However, we shall promptly remove any content upon becoming aware that it violates the law. Our liability in such an instance shall commence at the time we become aware of the respective violation."
+        ]
+      },
+      {
+        "title": "Liability for Links",
+        "paragraphs": [
+          "Our site contains links to third-party Web sites. We have no influence whatsoever on the information on these Web sites and accept no guarantee for its correctness. The content of such third-party sites is the responsibility of the respective owners/providers.",
+          "At the time third-party Web sites were linked to ours, we found NO GROUNDS WHATSOEVER of any likely contravention of the law. We shall promptly delete a link upon becoming aware that it violates the law."
+        ]
+      },
+      {
+        "title": "Copyright",
+        "paragraphs": [
+          "The content of this data portal is aggregated from different data sources. We highly recommend data providers to assign open licences to their data in order to increase re-usability according to the FAIR principles (Wilkinson et al. 2016, <a href=\"https://doi.org/10.1038/sdata.2016.18\">https://doi.org/10.1038/sdata.2016.18</a>).<br />\nHowever, the re-use of the data MUST have consideration for the individual licences and restrictions per dataset and data provider. If no licence is indicated by the data providers a full restriction (&ldquo;all rights reserved&rdquo;) must be assumed. Different licences for different data types (e.g. textual metadata and media files) within one dataset might be applied.",
+          "We are not accountable for any violation of copyrights caused by or at the data providers. The data providers provide the data and metadata on their own risk."
+        ]
+      }
+    ]
+  },
+  "linksPage": {
+    "pageTitle": "Kasulikud lingid ja ressursid",
+    "eyebrow": "SEOTUD TEADMISED",
+    "heroTitle": "Avasta enamat kui GeoCASe.",
+    "heroDescription": "Tutvu võrgustike, andmeportaalide ja ühiste standarditega, mis aitavad geoteaduslikke kogusid kättesaadavaks teha. Kasulikud ressursid ühes kohas.",
+    "summary": "{resources} ressurssi · {categories} kategooriat",
+    "categoriesLabel": "Ressursside kategooriad",
+    "groups": {
+      "networks": {
+        "title": "Võrgustikud ja asutused",
+        "description": "Organisatsioonid ja koostöövõrgustikud, mis ühendavad kogusid, inimesi ja teadust."
+      },
+      "data": {
+        "title": "Andmed ja avastamine",
+        "description": "Uuri elurikkuse andmeid, fossiilide leiukohti ja stratigraafilist teavet."
+      },
+      "standards": {
+        "title": "Standardid ja dokumentatsioon",
+        "description": "Ühised struktuurid, mis lihtsustavad kogude andmete vahetamist ja taaskasutamist."
+      },
+      "tools": {
+        "title": "GeoCASe tööriistad",
+        "description": "Kasuta API-t, tutvu lähtekoodiga või külasta portaali varasemat versiooni."
+      }
+    },
+    "descriptions": {
+      "cetaf": "Euroopa taksonoomiaasutuste konsortsium, mis ühendab looduslookogudega asutusi üle Euroopa.",
+      "dissco": "Euroopa teadustaristu loodusteaduslike kogude digitaalseks ühendamiseks.",
+      "synthesys": "Euroopa koostöö, mis toetab juurdepääsu looduslookogudele ja teadustaristule.",
+      "biocase": "Tööriistad ja teenused kogude andmete avaldamiseks ühises juurdepääsuvõrgustikus.",
+      "museum": "Berliini loodusloomuuseumi kogud ja teadustöö.",
+      "gbif": "Ülemaailmne elurikkuse teabesüsteem: avatud juurdepääs elurikkuse andmetele.",
+      "paleodb": "Avalik andmebaas fossiilide esinemise uurimiseks läbi geoloogilise aja.",
+      "stratigraphy": "Stratigraafiline teave ja geoloogiliste teadmiste vahetamine.",
+      "abcd": "TDWG standard eksemplaride ja vaatlusandmete kirjeldamiseks ning vahetamiseks.",
+      "efg": "ABCD geoteaduste laiendus geoloogiliste kogude kirjeldamiseks.",
+      "darwin": "TDWG sõnavara elurikkuse ja seda tõendavate andmete jagamiseks.",
+      "paleo": "Kogukonna koostöö paleobioloogia ja fossiilikogude andmestandardite arendamisel.",
+      "api": "GeoCASe API kogude andmete kasutamiseks ja liidestuste loomiseks.",
+      "github": "Tutvu portaali lähtekoodiga, jälgi arendust ja teata probleemidest.",
+      "legacy": "Külasta GeoCASe portaali algset versiooni."
+    }
+  },
+  "datasetDetail": {
+    "title": "Andmestik",
+    "back": "Kõik andmestikud",
+    "description": "Kirjeldus",
+    "institution": "Asutuse veebileht",
+    "coverage": "Ulatus",
+    "spatial": "Geograafiline ulatus",
+    "taxonomic": "Taksonoomiline ulatus",
+    "geoecological": "Geoökoloogiline ulatus",
+    "citation": "Viide",
+    "licence": "Litsents ja õigused",
+    "access": "Ligipääsulingid",
+    "source": "Ava allika veebileht",
+    "accessRights": "Ligipääsutingimused",
+    "notFound": "Andmestikku ei leitud",
+    "catalog": "Andmestike tutvustuslehed",
+    "catalogError": "Andmestike kirjelduste laadimine ebaõnnestus.",
+    "view": "Vaata andmestikku",
+    "portal": "Andmed GeoCASe portaalis",
+    "api": "Teenuse API",
+    "download": "Laadi arhiiv alla",
+    "keywords": "Märksõnad",
+    "rightsPUBLIC": "Avalik kasutus",
+    "rightsRESTRICTED": "Piiratud kasutus",
+    "rightsNON_PUBLIC": "Mitteavalik",
+    "map": "Andmestiku kaart",
+    "mapError": "Asukohtade laadimine ebaõnnestus.",
+    "providerDetails": "Andmeandja ja andmete kogumise teave",
+    "resourceName": "Andmeandja ressursi nimi",
+    "sourceId": "Allika tunnus",
+    "language": "Keel",
+    "providerCountry": "Andmeandja riik",
+    "providerAddress": "Andmeandja aadress",
+    "sourceRecords": "Andmeandja teatatud kirjete arv",
+    "harvestedRecords": "GeoCASe’i kogutud kirjete arv",
+    "lastHarvested": "Viimane andmete kogumine",
+    "acknowledgement": "Tänuavaldus",
+    "provenance": "Päritolu",
+    "remarks": "Märkused",
+    "standard": "Andmestandard",
+    "datasetType": "Andmestiku tüüp",
+    "sourceRecordsNote": "Andmeandja teatatud arv kirjeldab lähtekollektsiooni. Kogutud kirjete arv näitab GeoCASe’i imporditud kirjeid ning võib lähteallika arvust erineda.",
+    "totalRecords": "Kirjeid selles andmestikus kokku",
+    "totalRecordsNote": "Kõik selle andmestiku GeoCASe’is leitavad kirjed, sealhulgas koordinaatideta kirjed. Allolev kaart laadib kuni 1000 kehtivate koordinaatidega kirjet ja koondab need asukoha järgi.",
+    "browseRecords": "Vaata kõiki kirjeid",
+    "mapAllLocations": "Kuvatud on kõik {total} erinevat kehtivate koordinaatidega asukohta. Rohkem erinevaid asukohti selles andmestikus pole; 1000 on kuvamise ülempiir, mitte nõutav punktide arv.",
+    "mapSampleLocations": "Kaardil on juhuslik valik 1000 asukohast kokku {total} erineva kehtivate koordinaatidega asukoha hulgast. Lehe uuesti avamisel tehakse uus valik.",
+    "mapNoLocations": "Selles andmestikus pole kaardil kuvamiseks kehtivate koordinaatidega asukohti. Kirjeid saab endiselt vaadata otsingus.",
+    "mapCoordinateRecords": "{records} kehtivate koordinaatidega kirjet paiknevad {locations} erinevas asukohas. Samade koordinaatidega kirjed koondatakse üheks kaardipunktiks, mistõttu võib punkte olla vähem kui kirjeid.",
+    "mapInteraction": "Numbriga punktil klõpsates saad valida selle asukoha kirjete hulgast. Üksikul punktil klõpsates avaneb selle kirje. Kehtivate koordinaatideta kirjeid kaardil ei kuvata, kuid need on otsingus olemas.",
+    "mapPointsCount": "Kuvatud punktid (kirjed): {shown} / {total} koordinaatidega kirjest",
+    "mapLoadedLocations": "Kuvatud asukohti: {count}",
+    "mapRecordLimit": "Kaart laadib kuni 1000 kehtivate koordinaatidega kirjet. Samade koordinaatidega kirjed koondatakse üheks punktiks. Asukohtade arv käib laaditud kirjete, mitte kogu andmestiku kohta.",
+    "mapLoadedSummary": "{records} laaditud kirjet paiknevad {locations} erinevas asukohas. Numbriga punktil saad valida selle asukoha laaditud kirjete hulgast.",
+    "mapCount": "Kaardil {shown} / kokku {total} asukohta",
+    "mapNote": "Kaart näitab kuni 1000 erinevat asukohta. Klõpsa punktil, et avada kirje detailvaade. Kui samal kohal on mitu kirjet, avaneb neist esimene."
+  },
+  "institutionsCatalog": {
+  "loading": "Laadin asutusi…",
+  "error": "Asutuste laadimine ebaõnnestus. Proovi uuesti.",
+  "empty": "Asutusi ei leitud."
+},
+  "datasetFilter": {
+  "label": "Otsi andmestikke",
+  "placeholder": "Otsi nime, asutuse või kirjelduse järgi…",
+  "clear": "Tühjenda otsing",
+  "count": "Kuvatud {shown} andmestikku {total}-st",
+  "noMatches": "Otsingule vastavaid andmestikke ei leitud. Proovi teist otsingusõna."
+},
+  "catalogImprovements": {
+  "noIndexedRecords": "Selle asutuse kataloogiandmestikest ei leitud otsinguindeksis eksemplare.",
+  "collectionUnavailable": "Selle asutuse kataloogiandmestike kogumiandmed pole saadaval.",
+  "legacyInstitution": "Seda asutust ei ole praegu asutuste kataloogis. Saadaolevad kogud leiad kehtivast asutuste nimekirjast."
+},
+  "mobileSearch": {
+  "sortBy": "Sorteeri",
+  "defaultOrder": "Vaikimisi järjestus",
+  "ascending": "Kasvav järjestus",
+  "descending": "Kahanev järjestus",
+  "mapHelp": "Kaardi kasutamine"
+},
+  "institutionFilter": {
+  "label": "Otsi asutusi",
+  "placeholder": "Otsi nime, riigi või kirjelduse järgi…",
+  "clear": "Tühjenda asutuste otsing",
+  "count": "Kuvatud {shown} asutust {total}-st",
+  "noMatches": "Otsingule vastavaid asutusi ei leitud. Proovi teist otsingusõna."
+}
+}

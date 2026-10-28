@@ -1,0 +1,342 @@
+@import url("https://fonts.googleapis.com/css?family=Nunito:200,300,400,600,700,800,900&display=swap");
+
+@import "tailwindcss" prefix(tw);
+@import "@nuxt/ui";
+
+@theme static {
+  --color-geocase-50: #faf5fc;
+  --color-geocase-100: #f3e9f8;
+  --color-geocase-200: #e8d3f0;
+  --color-geocase-300: #d9b6e6;
+  --color-geocase-400: #c694d8;
+  --color-geocase-500: #a96ac3;
+  --color-geocase-600: #8e50a8;
+  --color-geocase-700: #743d8b;
+  --color-geocase-800: #5b326c;
+  --color-geocase-900: #482a55;
+  --color-geocase-950: #2f1a39;
+}
+
+@theme {
+  --color-geocase: #c694d8;
+  --color-fossil: #8bc34a;
+  --color-mineral: #e91e63;
+  --color-rock: #03a9f4;
+  --color-meteorite: #607d8b;
+  --color-header-dark: #191919;
+  --color-home-hero: #13201f;
+  --color-home-accent: #c694d8;
+  --color-home-hero-muted: #dbe3df;
+  --color-home-surface: #f6f5f1;
+  --color-home-banner: #edf1e9;
+  --color-home-ink: #203932;
+  --color-home-link: #264e40;
+  --color-home-muted: #617068;
+  --color-home-border: #dedfd6;
+  --color-home-hover: #eaece3;
+  --color-home-focus: #713b8b;
+  --shadow-header-home: 0 1px 0 rgb(255 255 255 / 12.5%);
+}
+
+.v-application {
+  font-family: "Nunito", sans-serif !important;
+  -webkit-font-smoothing: antialiased;
+}
+
+@layer base {
+  :where(button, input, select, textarea)[data-slot] {
+    font: inherit;
+    color: inherit;
+    border: 0 solid;
+    background-color: transparent;
+  }
+}
+
+.header-button {
+  @apply tw:text-home-hero-muted tw:shrink-0 tw:rounded-lg tw:bg-transparent tw:font-semibold tw:no-underline tw:transition-colors;
+}
+
+.header-button:hover,
+.header-button:focus-visible,
+.header-button[data-state="open"] {
+  @apply tw:text-home-accent tw:bg-home-accent/10 tw:no-underline;
+}
+
+.header-button:active {
+  @apply tw:bg-home-accent/20;
+}
+
+.header-button:focus-visible {
+  @apply tw:outline-home-accent tw:outline-2 tw:outline-solid tw:outline-offset-2;
+}
+
+.detail-map .leaflet-control-zoom,
+.detail-map .leaflet-control-layers {
+  @apply tw:overflow-hidden tw:rounded-lg tw:border tw:border-slate-300 tw:bg-white tw:shadow-lg;
+}
+
+.detail-map .leaflet-control-zoom a,
+.detail-map .leaflet-control-layers-toggle {
+  @apply tw:size-10 tw:bg-white tw:leading-10 tw:text-slate-900;
+}
+
+.detail-map .leaflet-control-zoom a:hover,
+.detail-map .leaflet-control-layers-toggle:hover {
+  @apply tw:bg-slate-100;
+}
+
+.detail-map .leaflet-control-zoom a:focus-visible,
+.detail-map .leaflet-control-layers-toggle:focus-visible {
+  @apply tw:outline-2 tw:outline-offset-[-3px] tw:outline-slate-900;
+}
+
+.partners-map .maplibregl-popup {
+  @apply tw:z-2;
+}
+
+.partners-map .institution-popup .maplibregl-popup-content {
+  @apply tw:rounded-2xl tw:border tw:border-home-border tw:bg-home-surface tw:pt-6 tw:pr-14 tw:pb-5 tw:pl-5 tw:text-home-ink tw:shadow-xl tw:shadow-home-ink/20 tw:font-[inherit];
+}
+
+.partners-map
+  .institution-popup.maplibregl-popup-anchor-top
+  .maplibregl-popup-tip,
+.partners-map
+  .institution-popup.maplibregl-popup-anchor-top-left
+  .maplibregl-popup-tip,
+.partners-map
+  .institution-popup.maplibregl-popup-anchor-top-right
+  .maplibregl-popup-tip {
+  @apply tw:border-b-home-surface;
+}
+
+.partners-map
+  .institution-popup.maplibregl-popup-anchor-bottom
+  .maplibregl-popup-tip,
+.partners-map
+  .institution-popup.maplibregl-popup-anchor-bottom-left
+  .maplibregl-popup-tip,
+.partners-map
+  .institution-popup.maplibregl-popup-anchor-bottom-right
+  .maplibregl-popup-tip {
+  @apply tw:border-t-home-surface;
+}
+
+.partners-map
+  .institution-popup.maplibregl-popup-anchor-left
+  .maplibregl-popup-tip {
+  @apply tw:border-r-home-surface;
+}
+
+.partners-map
+  .institution-popup.maplibregl-popup-anchor-right
+  .maplibregl-popup-tip {
+  @apply tw:border-l-home-surface;
+}
+
+.partners-map .institution-popup-name {
+  @apply tw:block tw:text-base tw:font-bold tw:leading-snug tw:[overflow-wrap:anywhere];
+}
+
+.partners-map .institution-popup-link {
+  @apply tw:inline-flex tw:items-center tw:mt-3.5 tw:rounded-lg tw:bg-home-hover tw:px-3 tw:py-2 tw:text-sm tw:font-semibold tw:leading-normal tw:text-home-link tw:no-underline;
+}
+
+.partners-map .institution-popup-link:hover {
+  @apply tw:bg-home-border tw:underline;
+}
+
+.partners-map .institution-popup .maplibregl-popup-close-button {
+  @apply tw:absolute tw:top-2 tw:right-2 tw:grid tw:size-9 tw:place-items-center tw:p-0 tw:border tw:border-home-border tw:rounded-full tw:bg-home-hover tw:text-home-link tw:text-[28px] tw:font-semibold tw:leading-none tw:cursor-pointer;
+}
+
+.partners-map .institution-popup .maplibregl-popup-close-button:hover {
+  @apply tw:border-home-link tw:bg-home-border;
+}
+
+.partners-map .institution-popup .maplibregl-popup-close-button:focus-visible,
+.partners-map .institution-popup-link:focus-visible {
+  @apply tw:outline-3 tw:outline-home-link tw:outline-offset-3;
+}
+
+.map-country-count {
+  @apply tw:flex tw:items-center tw:justify-center tw:rounded-full tw:border-2 tw:border-geocase-600/85 tw:bg-geocase-200/90 tw:text-center tw:text-geocase-900 tw:text-xs tw:font-bold tw:shadow-md tw:box-border;
+}
+
+/* Override Leaflet's display:block without changing marker positioning. */
+.leaflet-marker-icon.map-country-count {
+  display: grid;
+  place-items: center;
+  line-height: 1;
+}
+
+.leaflet-marker-icon.map-country-count > span {
+  display: block;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.institution-location-dot {
+  @apply tw:inline-grid tw:shrink-0 tw:place-items-center tw:rounded-full tw:border-3 tw:border-white tw:bg-home-link tw:text-white tw:shadow-lg;
+}
+
+/* Keep keyboard focus visible above map tiles and below the fixed header. */
+:where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+  outline: 3px solid #713b8b;
+  outline-offset: 3px;
+  scroll-margin-block: 6rem;
+}
+:where(button, [role="button"]) {
+  min-width: 24px;
+  min-height: 24px;
+}
+#main-content {
+  scroll-margin-top: 5rem;
+}
+.skip-link {
+  position: fixed;
+  top: 0.5rem;
+  left: 0.5rem;
+  z-index: 10000;
+  padding: 0.75rem 1rem;
+  background: white;
+  color: #482a55;
+  border: 2px solid #713b8b;
+  border-radius: 0.5rem;
+  transform: translateY(-200%);
+}
+.skip-link:focus {
+  transform: translateY(0);
+}
+.leaflet-container .leaflet-marker-icon:focus-visible {
+  outline: 3px solid #713b8b;
+  outline-offset: 3px;
+}
+.leaflet-container .map-marker {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.leaflet-container .leaflet-popup-close-button {
+  min-width: 24px;
+  min-height: 24px;
+}
+
+.lang-button {
+  height: 28px;
+  width: 28px !important;
+}
+.lang-button.flag {
+  position: relative;
+  display: inline-block;
+  width: 1.33333333em;
+  line-height: 1em;
+  background-size: cover;
+  background-position: 50%;
+  background-repeat: no-repeat;
+}
+.lang-button.flag-en {
+  background-image: url("https://files.geocollections.info/img/geocase/flags/en.svg");
+}
+.lang-button.flag-ee {
+  background-image: url("https://files.geocollections.info/img/geocase/flags/ee.svg");
+}
+.lang-button.flag-de {
+  background-image: url("https://files.geocollections.info/img/geocase/flags/de.svg");
+}
+.lang-button.flag-squared {
+  width: 1em;
+}
+.lang-button.flag-circle {
+  border-radius: 100%;
+}
+
+.front-map,
+.front-map .map-canvas {
+  width: 100%;
+  height: 100%;
+  min-height: 320px;
+}
+.front-map {
+  position: relative;
+}
+.front-map .map-inactive {
+  pointer-events: none;
+}
+.front-map .map-activate {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 24px;
+  cursor: pointer;
+  touch-action: pan-y;
+}
+.front-map .map-activate span {
+  padding: 10px 16px;
+  border-radius: 999px;
+  background: white;
+  color: #203932;
+  box-shadow: 0 2px 12px #0002;
+  font-weight: 600;
+}
+.front-map .map-activate:focus-visible {
+  outline: 3px solid #8e50a8;
+  outline-offset: -3px;
+}
+.front-map .maplibregl-popup-content {
+  padding: 0;
+}
+
+.select-wrapper .custom-prepend-inner {
+  margin: 5px 4px 3px 0;
+  font-weight: bold;
+  color: black;
+  white-space: nowrap;
+}
+
+.select-wrapper.chips-select .v-select__selections {
+  padding: 8px 0;
+}
+
+.select-wrapper.chips-select .v-chip {
+  margin: 3px !important;
+}
+
+.select-wrapper.chips-select .v-label {
+  font-weight: bold;
+}
+
+.thumbnail-scroll {
+  scrollbar-color: var(--ui-border-accented) transparent;
+  scrollbar-gutter: stable;
+  scrollbar-width: thin;
+}
+
+.thumbnail-scroll::-webkit-scrollbar {
+  width: 0.5rem;
+}
+
+.thumbnail-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.thumbnail-scroll::-webkit-scrollbar-thumb {
+  background: var(--ui-border-accented);
+  border: 2px solid var(--ui-bg);
+  border-radius: 999px;
+}
+
+.thumbnail-scroll::-webkit-scrollbar-thumb:hover {
+  background: var(--ui-text-muted);
+}
+
+/* Keep compact desktop controls while providing usable touch targets below the table breakpoint. */
+@media (max-width: 1023px) {
+  .mobile-touch-controls :where(button:not([role="checkbox"]), [role="combobox"], [role="tab"]) {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}

@@ -1,0 +1,297 @@
+<script setup lang="ts">
+import { computed } from "vue";
+import { useI18n } from "vue-i18n";
+import { useSearchFilters } from "@/composables/useSearchFilters";
+const { t } = useI18n();
+const {
+  store,
+  fields,
+  textValues,
+  updateValue,
+  updateText,
+  clearField,
+  isSelected,
+  toggleFacet,
+  reset,
+} = useSearchFilters();
+const hasActiveFilters = computed(() =>
+  store.searchIds.some((id) => {
+    const value = fields.value[id]?.value;
+    return typeof value === "string" ? value.trim().length > 0 : !!value;
+  }),
+);
+const clearLabel = (id: string) =>
+  t("search.drawer.clearFilters", { field: t(`search.table.${id}`) });
+</script>
+
+<template>
+  <div class="search-filters tw:text-highlighted tw:space-y-6">
+    <div
+      v-if="hasActiveFilters"
+      class="tw:sticky tw:-top-4 tw:z-20 tw:-mx-4 tw:-mt-4 tw:bg-white tw:px-4 tw:py-3"
+    >
+      <UButton
+        :label="t('search.drawer.resetSearch')"
+        icon="i-lucide-trash-2"
+        color="error"
+        variant="outline"
+        block
+        class="tw:bg-white tw:text-red-600 tw:ring-red-200 tw:hover:bg-white tw:hover:ring-red-400 tw:active:bg-red-600 tw:active:text-white"
+        @click="reset"
+      />
+    </div>
+    <div>
+      <UFormField
+        :label="t('frontPage.quickSearch')"
+        size="lg"
+        :ui="{ label: 'tw:text-highlighted tw:font-extrabold' }"
+      >
+        <UInput
+          :model-value="textValues.q ?? fields.q?.value ?? ''"
+          :aria-label="t('frontPage.quickSearch')"
+          icon="i-lucide-search"
+          size="lg"
+          class="search-drawer-text-field tw:w-full"
+          :ui="{ base: 'tw:font-bold tw:ring-2 tw:ring-geocase-300' }"
+          @update:model-value="updateText('q', $event)"
+        >
+          <template v-if="fields.q?.value" #trailing
+            ><UButton
+              icon="i-lucide-x"
+              color="neutral"
+              variant="link"
+              :aria-label="clearLabel('q')"
+              @click="clearField('q')"
+          /></template>
+        </UInput>
+      </UFormField>
+    </div>
+    <div class="tw:space-y-6">
+      <UFormField
+        v-for="id in store.searchTextIds"
+        :key="id"
+        :label="t(`search.table.${id}`)"
+        :ui="{ label: 'tw:text-highlighted tw:font-semibold' }"
+      >
+        <div class="tw:space-y-2">
+          <UInput
+            :model-value="textValues[id] ?? fields[id]?.value ?? ''"
+            :readonly="id === 'coordinates'"
+            :placeholder="
+              t(`search.table.${id}${id === 'coordinates' ? 'ReadOnly' : ''}`)
+            "
+            :aria-label="t(`search.table.${id}`)"
+            class="search-drawer-text-field tw:w-full"
+            @update:model-value="updateText(id, $event)"
+          >
+            <template v-if="fields[id]?.value && id !== 'coordinates'" #trailing
+              ><UButton
+                icon="i-lucide-x"
+                color="neutral"
+                variant="link"
+                :aria-label="clearLabel(id)"
+                @click="clearField(id)"
+            /></template>
+          </UInput>
+          <details class="tw:text-xs tw:text-muted">
+            <summary class="tw:cursor-pointer tw:py-1">
+              {{ t("search.drawer.matchMode") }}:
+              {{
+                t(
+                  `search.activeFilters.operators.${fields[id]?.lookUpType.replaceAll(" ", "_")}`,
+                )
+              }}
+            </summary>
+            <USelect
+              :content="{ position: 'popper', bodyLock: false }"
+              :ui="{ content: 'tw:z-[3400]' }"
+              :items="
+                store.lookUpTypes.map((value) => ({
+                  value,
+                  label: t(
+                    `search.activeFilters.operators.${value.replaceAll(' ', '_')}`,
+                  ),
+                }))
+              "
+              :model-value="fields[id]?.lookUpType"
+              :disabled="id === 'coordinates'"
+              :aria-label="
+                t('a11y.filterOperator', { field: t(`search.table.${id}`) })
+              "
+              class="tw:mt-2 tw:w-full"
+              @update:model-value="
+                store.updateSearchField({ id, lookUpType: $event });
+                store.updatePage(1);
+              "
+            />
+          </details>
+        </div>
+      </UFormField>
+      <section class="tw:space-y-3 tw:rounded-xl tw:bg-muted/50 tw:p-4">
+        <h3 class="tw:font-bold">{{ t("search.table.geologicalAge") }}</h3>
+        <div class="tw:grid tw:grid-cols-2 tw:gap-2">
+          <UFormField :label="t('search.table.age_min')">
+            <UInput
+              type="number"
+              min="0"
+              step="any"
+              :model-value="textValues.age_min ?? fields.age_min?.value ?? ''"
+              :aria-label="t('search.table.age_min')"
+              class="tw:w-full"
+              @update:model-value="updateText('age_min', $event)"
+            />
+          </UFormField>
+          <UFormField :label="t('search.table.age_max')">
+            <UInput
+              type="number"
+              min="0"
+              step="any"
+              :model-value="textValues.age_max ?? fields.age_max?.value ?? ''"
+              :aria-label="t('search.table.age_max')"
+              class="tw:w-full"
+              @update:model-value="updateText('age_max', $event)"
+            />
+          </UFormField>
+        </div>
+        <UFormField :label="t('search.table.age_unit')">
+          <USelect
+            :items="[
+              { label: t('search.drawer.millionYears'), value: 'My' },
+              { label: t('search.drawer.years'), value: 'years' },
+            ]"
+            :model-value="fields.age_unit?.value ?? 'My'"
+            :aria-label="t('search.table.age_unit')"
+            class="tw:w-full"
+            :content="{ position: 'popper', bodyLock: false }"
+            :ui="{ content: 'tw:z-[3400]' }"
+            @update:model-value="updateValue('age_unit', $event)"
+          />
+        </UFormField>
+      </section>
+      <section
+        v-for="id in store.searchCheckboxIds"
+        :key="id"
+        class="tw:bg-muted/50 tw:space-y-3 tw:rounded-xl tw:px-4 tw:py-3"
+      >
+        <div class="tw:flex tw:items-center tw:gap-2">
+          <UButton
+            :label="t(`search.table.${id}`)"
+            :aria-expanded="!!fields[id]?.showCheckboxes"
+            :aria-controls="`facet-${id}`"
+            :trailing-icon="
+              fields[id]?.showCheckboxes
+                ? 'i-lucide-chevron-up'
+                : 'i-lucide-chevron-down'
+            "
+            color="neutral"
+            variant="ghost"
+            :ui="{ label: 'tw:font-bold' }"
+            class="tw:text-highlighted tw:min-w-0 tw:flex-1 tw:justify-between tw:px-0 tw:font-bold tw:hover:bg-transparent"
+            @click="
+              store.updateSearchField({
+                id,
+                showCheckboxes: !fields[id]?.showCheckboxes,
+              })
+            "
+          />
+          <UButton
+            v-if="store.getActiveCheckboxesCount(id) > 0"
+            icon="i-lucide-trash-2"
+            color="error"
+            variant="ghost"
+            :aria-label="clearLabel(id)"
+            @click="clearField(id)"
+            >{{ store.getActiveCheckboxesCount(id) }}</UButton
+          >
+        </div>
+        <div
+          v-if="fields[id]?.showCheckboxes"
+          :id="`facet-${id}`"
+          class="tw:space-y-2 tw:pb-1"
+        >
+          <UCheckbox
+            v-for="(entity, index) in store.getCheckboxes(
+              id,
+              true,
+              fields[id]?.showMore,
+            )"
+            :key="entity"
+            :model-value="isSelected(id, entity)"
+            :label="`${entity} (${store.getCheckboxesCount(id)[index]})`"
+            class="search-filter-checkbox"
+            :ui="{ label: 'tw:text-highlighted' }"
+            @update:model-value="toggleFacet(id, entity, $event === true)"
+          />
+          <UButton
+            v-if="store.getCheckboxesLength(id) > 4"
+            :label="
+              t(
+                fields[id]?.showMore
+                  ? 'search.drawer.less'
+                  : 'search.drawer.more',
+              )
+            "
+            :icon="fields[id]?.showMore ? 'i-lucide-minus' : 'i-lucide-plus'"
+            color="neutral"
+            variant="link"
+            class="tw:text-highlighted tw:font-semibold"
+            @click="
+              store.updateSearchField({
+                id,
+                showMore: !fields[id]?.showMore,
+              })
+            "
+          />
+        </div>
+      </section>
+      <UCheckbox
+        v-for="id in store.searchSingleCheckboxIds"
+        :key="id"
+        :model-value="fields[id]?.value === 'true'"
+        :label="t(`search.drawer.${id}`)"
+        :description="
+          id === 'has_image' ? t('search.drawer.imageFilterHint') : undefined
+        "
+        color="neutral"
+        class="search-filter-checkbox"
+        :ui="{ label: 'tw:text-highlighted tw:font-semibold' }"
+        @update:model-value="updateValue(id, $event === true ? 'true' : null)"
+      />
+    </div>
+  </div>
+</template>
+
+<style scoped>
+/* Checkbox buttons need their own size, independent of generic button targets. */
+.search-filter-checkbox :deep(button[role="checkbox"]) {
+  width: 24px;
+  height: 24px;
+  min-width: 24px;
+  min-height: 24px;
+  flex-shrink: 0;
+}
+
+.search-filter-checkbox :deep([data-slot="container"]) {
+  height: 24px;
+}
+
+@media (max-width: 1023px) {
+  .search-filter-checkbox {
+    min-height: 44px;
+    align-items: center;
+  }
+
+  .search-filter-checkbox :deep([data-slot="label"]) {
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+  }
+
+  /* Match field and label sizes while avoiding focus zoom on mobile browsers. */
+  .search-filters :deep(input),
+  .search-filters :deep([role="combobox"]),
+  .search-filters :deep([data-slot="label"]) {
+    font-size: 16px;
+  }
+}
+</style>

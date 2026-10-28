@@ -1,0 +1,31 @@
+import { defineConfig, devices } from "@playwright/test";
+export default defineConfig({
+  testDir: "tests/e2e",
+  fullyParallel: false,
+  workers: 1,
+  expect: { timeout: 15000 },
+  use: { baseURL: "http://127.0.0.1:3100", trace: "retain-on-failure" },
+  webServer: [
+    {
+      command: "node tests/fixtures/upstream.ts",
+      url: "http://127.0.0.1:3101",
+      reuseExistingServer: false,
+    },
+    {
+      command:
+        process.env.PLAYWRIGHT_SERVER_COMMAND ||
+        "npm run dev -- --host 127.0.0.1 --port 3100",
+      url: "http://127.0.0.1:3100",
+      env: {
+        NUXT_INSTITUTION_CATALOG_URL: "http://127.0.0.1:3101/dcat/institutions.json",
+        NUXT_DATASET_CATALOG_URL: "http://127.0.0.1:3101/dcat/datasets.json",
+        NUXT_API_BASE: "http://127.0.0.1:3101",
+        HOST: "127.0.0.1",
+        PORT: "3100",
+      },
+      reuseExistingServer: false,
+      timeout: 120000,
+    },
+  ],
+  projects: [{ name: "chromium", use: { ...devices["Desktop Chrome"] } }],
+});

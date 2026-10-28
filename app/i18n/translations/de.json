@@ -1,0 +1,1061 @@
+{
+  "errorPage": {
+    "error": "Fehler",
+    "notFoundTitle": "Seite nicht gefunden",
+    "notFoundDescription": "Die Adresse wurde möglicherweise geändert oder die Seite entfernt. Entdecken Sie die geowissenschaftlichen Sammlungen über die Suche.",
+    "errorTitle": "Etwas ist schiefgelaufen",
+    "errorDescription": "Diese Seite konnte nicht geöffnet werden. Versuchen Sie es später erneut oder stöbern Sie weiter in den Sammlungen.",
+    "retry": "Erneut versuchen",
+    "home": "Startseite",
+    "search": "Sammlungen durchsuchen",
+    "backHome": "Zur Startseite",
+    "continueExploring": "Weiter entdecken",
+    "searchTitle": "Sammlungsobjekte finden",
+    "searchDescription": "Entdecken Sie Fossilien, Minerale und Gesteine.",
+    "institutionsTitle": "Institutionen entdecken",
+    "institutionsDescription": "Entdecken Sie die Sammlungen unserer Datenanbieter.",
+    "helpTitle": "Hilfe und Anleitungen",
+    "helpDescription": "Hilfe zur Suche und zur Nutzung der Daten.",
+    "footer": "Europäisches Portal geowissenschaftlicher Sammlungen",
+    "navigation": "Hauptnavigation",
+    "skipToContent": "Zum Hauptinhalt springen"
+  },
+  "a11y": {
+    "closeCookie": "Cookie-Hinweis schließen",
+    "partnerMap": "Karte der Partnereinrichtungen",
+    "skipToContent": "Zum Hauptinhalt springen",
+    "mainNavigation": "Hauptnavigation",
+    "toggleNavigation": "Navigationsmenü öffnen oder schließen",
+    "siteNavigation": "Seitennavigation",
+    "pagination": "Tabellenseiten",
+    "firstPage": "Erste Seite",
+    "previousPage": "Vorherige Seite",
+    "nextPage": "Nächste Seite",
+    "lastPage": "Letzte Seite",
+    "filterOperator": "Suchmodus für {field}",
+    "mapLocations": "Kartenstandorte",
+    "openLocation": "Standort öffnen: {name}",
+    "previousLocations": "Vorherige Standorte",
+    "nextLocations": "Weitere Standorte",
+    "closePopup": "Popup schließen",
+    "zoomIn": "Vergrößern",
+    "zoomOut": "Verkleinern",
+    "mapLayers": "Kartenebenen",
+    "locationRange": "Kartenstandorte {start}–{end} von {total}"
+  },
+  "aboutPage": {
+    "pageTitle": "Über GeoCASe",
+    "eyebrow": "Über GeoCASe",
+    "heroTitle": "Die Geschichte der Erde in Sammlungen entdecken.",
+    "heroDescription": "GeoCASe steht für Geoscience Collections Access Service. Das Portal bündelt Sammlungen von Museen und Forschungseinrichtungen an einem durchsuchbaren Ort und unterstützt so die Forschung und internationale Zusammenarbeit.",
+    "explore": "Sammlungen erkunden",
+    "collectionsEyebrow": "Was es zu entdecken gibt",
+    "collectionsTitle": "Sammlungen aus den Geowissenschaften",
+    "collectionsDescription": "GeoCASe macht Objekte aus Museen und Forschungseinrichtungen online zugänglich.",
+    "collections": {
+      "minerals": "Mineralien",
+      "rocks": "Gesteine",
+      "meteorites": "Meteoriten",
+      "fossils": "Fossilien"
+    },
+    "networkEyebrow": "Das Netzwerk",
+    "networkTitle": "So funktioniert GeoCASe",
+    "networkDescription": "Institutionen stellen Sammlungsdaten bereit. GeoCASe erfasst und indexiert die Datensätze, damit sie über eine einzige Oberfläche durchsucht werden können.",
+    "sharedTitle": "Gemeinsam genutzte Sammlungsdaten",
+    "sharedIntro": "Datenanbieter verwenden häufig die",
+    "sharedStandards": "sowie die XML-basierten Standards",
+    "and": "und",
+    "extensionNote": "die Erweiterung für Geowissenschaften; siehe",
+    "searchTitle": "Ein Ort für die Suche",
+    "searchIntro": "GeoCASe möchte für die Geowissenschaften eine ähnliche Rolle erfüllen wie",
+    "gbifDescription": ", die Global Biodiversity Information Facility.",
+    "storyEyebrow": "Unsere Geschichte",
+    "storyTitle": "Gemeinsam entwickelt",
+    "firstTitle": "Das erste GeoCASe",
+    "firstDescription": "Die erste Version entstand 2007 am Museum für Naturkunde in Berlin im Rahmen des SYNTHESYS-Projekts.",
+    "upgradeTitle": "GeoCASe 2.0 beginnt",
+    "upgradeIntro": "Das Museum für Naturkunde und die Technische Universität Tallinn begannen mit der Entwicklung einer neuen Version unter Koordination der",
+    "earthScienceGroup": "Arbeitsgruppe Geowissenschaften.",
+    "cetafDescription": "CETAF vereint europäische naturwissenschaftliche Forschungseinrichtungen und Fachwissen zu Taxonomie, Ausbildung und Datenstandards. GeoCASe wird sich außerdem mit der",
+    "disscoName": "DiSSCo-Forschungsinfrastruktur",
+    "governanceTitle": "Von der Gemeinschaft getragen",
+    "governanceDescription": "Der GeoCASe-Beirat betreut das Portal und ist für Entwicklung, Wartung, Bekanntmachung und Qualitätskontrolle verantwortlich.",
+    "team": {
+      "eyebrow": "DIE MENSCHEN HINTER GEOCASE",
+      "title": "Das heutige GeoCASe-Team",
+      "intro": "Das TalTech-Team entwickelt und betreibt das Portal in Zusammenarbeit mit der CETAF Earth Science Group (ESG).",
+      "olle": "Allgemeine Fragen, wissenschaftlicher Kontext und Zusammenarbeit mit der GeoCASe-Gemeinschaft.",
+      "kristjan": "Unterstützung für Datenanbieter, Veröffentlichung von Sammlungsdaten und Datenintegration.",
+      "alissa": "Softwareentwicklung, Portaldesign, Benutzerfreundlichkeit und neue Funktionen.",
+      "esgTitle": "CETAF Earth Science Group",
+      "esg": "Die ESG verbindet die Gemeinschaft der geowissenschaftlichen Sammlungen und unterstützt die Zusammenarbeit und die Weiterentwicklung von GeoCASe.",
+      "esgLink": "Über die Arbeitsgruppe",
+      "contact": "Kontakt zum Team",
+      "previousTitle": "Frühere Beiträge aus Berlin",
+      "previous": "GeoCASe baut auf früheren Arbeiten am Museum für Naturkunde Berlin auf, wo 2007 die erste Version entstand. Wir danken den Berliner Mitwirkenden, darunter Falko Glöckler, für ihre Beiträge zum Portal und seiner Infrastruktur.",
+      "falkoLink": "Falko Glöckler — GeoCASe beim CETAF-Treffen (2019)",
+      "codeLink": "Frühere GeoCASe-Infrastruktur — Quellcode"
+    }
+  },
+  "efgPage": {
+    "pageTitle": "ABCD-EFG für geowissenschaftliche Sammlungen",
+    "eyebrow": "DATENSTANDARD",
+    "heroTitle": "Eine gemeinsame Sprache für geowissenschaftliche Sammlungen.",
+    "heroDescription": "ABCD-EFG ist ein XML-Schema zur Beschreibung digitalisierter paläontologischer, mineralogischer und geologischer Sammlungen. Es erleichtert den Datenaustausch zwischen lokalen Datenbanken und Diensten wie GeoCASe.",
+    "documentationLink": "Dokumentation ansehen",
+    "githubLink": "EFG auf GitHub ansehen",
+    "standardEyebrow": "DER STANDARD",
+    "standardTitle": "Für geowissenschaftliche Daten entwickelt",
+    "standardDescription": "ABCD-EFG erweitert Access to Biological Collection Data (ABCD) um Konzepte zur Beschreibung paläontologischer, mineralogischer und geologischer Objekte.",
+    "schemaTitle": "Eine Erweiterung von ABCD",
+    "schemaDescription": "Das ABCD-EFG-XML-Schema baut auf dem von Biodiversity Information Standards (TDWG) betreuten ABCD-Standard auf und erweitert ihn für geowissenschaftliche Sammlungen.",
+    "abcdLink": "Informationen zum ABCD-Standard",
+    "providerTitle": "Sammlungsdatenbanken verbinden",
+    "providerDescription": "Die BioCASe Provider Software unterstützt Institutionen dabei, Daten aus lokalen Quellen dem gemeinsamen Schema zuzuordnen. Sie vermittelt den XML-Datenaustausch zwischen der Quelldatenbank und Portalen wie GeoCASe.",
+    "providerLink": "BioCASe Provider Software",
+    "communityEyebrow": "GEMEINSAM ENTWICKELT",
+    "communityTitle": "Ein Standard aus der Fachgemeinschaft",
+    "communityDescription": "Die ABCD-EFG-Erweiterung wurde TDWG als Datenstandard für geowissenschaftliche Sammlungen vorgeschlagen. Die gemeinsame Struktur unterstützt den konsistenten Datenaustausch und die Nachnutzung durch Institutionen.",
+    "resourcesTitle": "Weiterführende Informationen",
+    "paperLink": "Petersen et al. 2018: die EFG-Erweiterung",
+    "paperPdfLink": "Artikel als PDF lesen",
+    "documentationEyebrow": "REFERENZ",
+    "documentationTitle": "Dokumentation des ABCD-EFG-Schemas",
+    "openDocumentation": "In neuem Tab öffnen"
+  },
+  "tutorialPage": {
+    "pageTitle": "GeoCASe verwenden",
+    "eyebrow": "BENUTZERHANDBUCH",
+    "heroTitle": "Geowissenschaftliche Sammlungen mit GeoCASe entdecken.",
+    "heroDescription": "Durchsuchen Sie Datensätze aus Museen und Forschungssammlungen, grenzen Sie die Ergebnisse mit Filtern ein und erkunden Sie Objekte nach ihrem Standort.",
+    "exploreSearch": "Suche öffnen",
+    "exploreDatasets": "Datensätze ansehen",
+    "stepsEyebrow": "Erste Schritte",
+    "stepsTitle": "Von der Sammlung zum Exemplar",
+    "stepsDescription": "Beginnen Sie mit einer Sammlung, verfeinern Sie Ihre Suche und öffnen Sie einzelne Datensätze, um die bereitgestellten Informationen zu erkunden.",
+    "steps": {
+      "collections": {
+        "title": "Sammlung auswählen",
+        "description": "Wählen Sie auf der Startseite Fossilien, Minerale, Gesteine, Meteoriten oder Materialproben aus, um eine entsprechend gefilterte Suche zu öffnen. Mit „Alle Exemplare“ können Sie alle Datensätze durchsuchen."
+      },
+      "search": {
+        "title": "Suchen und filtern",
+        "description": "Die Schnellsuche findet Begriffe in den Datensätzen. Öffnen Sie die Suchfilter, um beispielsweise nach Namen oder Fundort einzugrenzen oder Werte aus den verfügbaren Filtern auszuwählen."
+      },
+      "results": {
+        "title": "Ergebnisse ansehen",
+        "description": "Wechseln Sie zwischen Tabellen- und Bildansicht. Sortieren Sie Spalten und blättern Sie durch die Ergebnisse. Ein Datensatz kann mehrere Bilder enthalten; daher kann die Bildanzahl von der Anzahl der Datensätze abweichen."
+      },
+      "map": {
+        "title": "Karte erkunden",
+        "description": "Die Karte zeigt Datensätze mit Koordinaten. Wählen Sie einen Fundort aus, um die dortigen Exemplare zu erkunden, oder zeichnen Sie einen Bereich auf der Karte ein, um die Suche räumlich einzugrenzen."
+      },
+      "records": {
+        "title": "Exemplardatensatz öffnen",
+        "description": "Öffnen Sie einen Datensatz aus der Tabelle oder Karte, um die verfügbaren Details, Bilder, den Fundort und Sammlungsinformationen anzusehen. Welche Angaben angezeigt werden, hängt von der liefernden Institution ab."
+      }
+    },
+    "notesEyebrow": "Gut zu wissen",
+    "notesTitle": "Ein paar nützliche Hinweise",
+    "notes": {
+      "locations": "Nicht alle Datensätze enthalten Koordinaten und erscheinen daher auf der Karte.",
+      "mapDetails": "Fahren Sie über eine Markierung, um den Fundort zu sehen. Nummerierte Markierungen öffnen eine Datensatzauswahl; einzelne Markierungen öffnen den Datensatz.",
+      "imageDetails": "Beim Überfahren eines Bildvorschaubilds werden kurze Datensatzinformationen angezeigt. Ein Klick öffnet die größere Galerie. Dort können Sie Bilder der aktuellen Ergebnisseite durchsehen und das Originalbild oder den Exemplardatensatz öffnen.",
+      "images": "Ein Datensatz kann kein oder mehrere Bilder enthalten. Daher kann die Bildanzahl von der Anzahl der Datensätze abweichen.",
+      "sources": "Die Sammlungsdaten werden von Museen und Forschungseinrichtungen bereitgestellt. Angaben zu Quelle, Rechten und Kontakt finden Sie im jeweiligen Datensatz."
+    },
+    "providers": {
+      "eyebrow": "FÜR DATENANBIETER",
+      "title": "Sammlungen über GeoCASe bereitstellen",
+      "description": "GeoCASe bündelt Datensätze aus institutionellen Sammlungen. Datenanbieter veröffentlichen ihre Daten mit der BioCASe Provider Software, die eine lokale Datenbank mit dem gemeinsamen Format ABCD-EFG verbindet.",
+      "stepsTitle": "Daten vorbereiten und veröffentlichen",
+      "steps": {
+        "install": {
+          "title": "Anbietersoftware installieren",
+          "description": "Installieren Sie die BioCASe Provider Software auf einem über das Internet erreichbaren Server. Bei Installation und Serverkonfiguration kann Unterstützung der Datenbankverwaltung oder IT erforderlich sein."
+        },
+        "connect": {
+          "title": "Datenbank verbinden",
+          "description": "Richten Sie die Verbindung zur lokalen Datenquelle ein und beschreiben Sie deren Datenbankstruktur in der Anbietersoftware."
+        },
+        "map": {
+          "title": "Datenfelder zuordnen",
+          "description": "Ordnen Sie Datenbankfelder den von GeoCASe verwendeten ABCD-EFG-Konzepten zu. Veröffentlichen Sie nur Informationen, die Ihre Institution öffentlich zugänglich machen darf."
+        },
+        "publish": {
+          "title": "Datenquelle registrieren",
+          "description": "Wenn der Anbieter online und konfiguriert ist, senden Sie die URL Ihrer Datenquelle an das GeoCASe-Team, um die Aufnahme ins Portal anzufragen."
+        },
+        "harvest": {
+          "title": "Datensätze aktuell halten",
+          "description": "GeoCASe übernimmt regelmäßig Daten von institutionellen Anbietern. Halten Sie die Quelle erreichbar und pflegen Sie Datensätze, Kontakte, Rechte und Änderungsdaten."
+        }
+      },
+      "documentation": "Installations- und technische Dokumentation von BioCASe",
+      "mappingDocumentation": "Anleitung zur ABCD-EFG-Feldzuordnung",
+      "apiTitle": "GeoCASe API",
+      "apiDescription": "Die öffentliche API stellt GeoCASe-Exemplardaten in maschinenlesbarem JSON bereit und folgt der OpenAPI-Spezifikation.",
+      "apiLink": "GeoCASe API öffnen",
+      "openApiLink": "OpenAPI-Spezifikation",
+      "metadataTitle": "Angaben zum Datensatz",
+      "metadataDescription": "Diese Angaben auf Datensatzebene helfen Nutzenden, die Sammlung zuzuordnen, Kontakt aufzunehmen und Nutzungsbedingungen zu verstehen.",
+      "datasetFields": {
+        "title": {
+          "name": "Datensatztitel",
+          "description": "Name des Datensatzes mit den Exemplareinträgen."
+        },
+        "datasetId": {
+          "name": "Datensatz-ID",
+          "description": "Eindeutige Kennung des Datensatzes."
+        },
+        "contentContact": {
+          "name": "Inhaltlicher Kontakt",
+          "description": "Name und E-Mail-Adresse des Kurators oder inhaltlichen Kontakts."
+        },
+        "technicalContact": {
+          "name": "Technischer Kontakt",
+          "description": "Name und E-Mail-Adresse des technischen Kontakts oder der Datenbankverwaltung."
+        },
+        "ownerInstitution": {
+          "name": "Besitzende Institution",
+          "description": "Name und Adresse der Institution, die die Sammlung verwahrt."
+        },
+        "ownerCountry": {
+          "name": "Land der Institution",
+          "description": "Land der sammlungsführenden Institution."
+        },
+        "terms": {
+          "name": "Nutzungsbedingungen / Lizenz",
+          "description": "Nutzungsbedingungen oder Lizenz für Datensatz und Bilder."
+        },
+        "lastModified": {
+          "name": "Zuletzt geändert",
+          "description": "Datum der letzten Änderung des Datensatzes."
+        }
+      },
+      "specimenFieldsTitle": "Exemplarfelder und Empfehlungen",
+      "specimenFieldsDescription": "Die ursprüngliche GeoCASe-Anleitung kennzeichnet Konzepte je nach Objekttyp als verpflichtend (P), empfohlen (E) oder optional (O).",
+      "fieldLabels": {
+        "unitId": "UnitID",
+        "recordBasis": "RecordBasis",
+        "scientificName": "FullScientificName",
+        "country": "Country",
+        "coordinates": "Coordinates",
+        "stratigraphy": "Stratigraphy",
+        "imageUrl": "Multimedia-Objekt-URL",
+        "imageLicence": "Multimedia-Objekt-Lizenz"
+      },
+      "fieldDescriptions": {
+        "unitId": "Exemplar-, Katalog- oder institutionelle Registrierungsnummer.",
+        "recordBasis": "Art des Exemplars.",
+        "scientificName": "Bestimmter wissenschaftlicher Name.",
+        "country": "Land, in dem das Exemplar gesammelt wurde.",
+        "coordinates": "Breiten- und Längengrad des Fundorts.",
+        "stratigraphy": "Stratigraphische Angaben, sofern verfügbar.",
+        "imageUrl": "Im Web erreichbare Bild- oder Exemplar-URL.",
+        "imageLicence": "Nutzungsbedingungen oder Lizenz für Medien."
+      },
+      "types": {
+        "fossils": "Fossilien",
+        "minerals": "Minerale",
+        "rocks": "Gesteine",
+        "meteorites": "Meteoriten"
+      },
+      "statuses": {
+        "required": "P",
+        "recommended": "E",
+        "optional": "O",
+        "notApplicable": "—"
+      },
+      "statusNames": {
+        "required": "Pflichtfeld",
+        "recommended": "Empfohlen",
+        "optional": "Optional",
+        "notApplicable": "Nicht angegeben"
+      },
+      "contactNote": "Bei Fragen zur Aufnahme ins GeoCASe-Netzwerk wenden Sie sich an das GeoCASe-Team.",
+      "specimenFields": {
+        "unitId": {
+          "fossils": "required",
+          "minerals": "required",
+          "rocks": "required",
+          "meteorites": "required"
+        },
+        "recordBasis": {
+          "fossils": "required",
+          "minerals": "required",
+          "rocks": "required",
+          "meteorites": "required"
+        },
+        "scientificName": {
+          "fossils": "required",
+          "minerals": "required",
+          "rocks": "required",
+          "meteorites": "recommended"
+        },
+        "country": {
+          "fossils": "recommended",
+          "minerals": "required",
+          "rocks": "required",
+          "meteorites": "recommended"
+        },
+        "coordinates": {
+          "fossils": "recommended",
+          "minerals": "recommended",
+          "rocks": "recommended",
+          "meteorites": "recommended"
+        },
+        "stratigraphy": {
+          "fossils": "recommended",
+          "minerals": "recommended",
+          "rocks": "notApplicable",
+          "meteorites": "notApplicable"
+        },
+        "imageUrl": {
+          "fossils": "recommended",
+          "minerals": "optional",
+          "rocks": "optional",
+          "meteorites": "optional"
+        },
+        "imageLicence": {
+          "fossils": "recommended",
+          "minerals": "recommended",
+          "rocks": "recommended",
+          "meteorites": "recommended"
+        }
+      },
+      "fieldColumn": "Feld / Konzept",
+      "installationLink": "Installationsanleitung",
+      "connectionLink": "Anleitung zur Datenbankverbindung",
+      "structureLink": "Anleitung zur Datenbankstruktur",
+      "interoperability": "Der Datenstandard ABCD wird auch von"
+    }
+  },
+  "messages": {
+    "languageChange": "Die Sprache wurde geändert!"
+  },
+  "searchHelp": {
+    "title": "Suchhilfe",
+    "help1": "Geben Sie den/die Begriff(e) für eine schnelle Suche in allen Haupttabellen ein. Groß- und Kleinschreibung wird nicht unterschieden, für Platzhalter bitte ein Sternchen (*) verwenden",
+    "help2": "Bei Eingabe mehrerer Suchbegriffe enthalten Sie Ergebnisse für jeden der Begriffe. Um das Vorhandensein eines bestimmten Schlüsselworts sicherzustellen, stellen Sie ihm '<b class='secondary--text font-weight-black'>+</b>' voran. Um einen Begriff auszuschließen, stellen Sie ihm '<b class='secondary--text font-weight-black'>-</b>' voran. Zum Beispiel:",
+    "help3": "Um einen exakten Ausdruck zu suchen, verwenden Sie bitte <b class='secondary--text'>doppelte Anführungszeichen</b>. Verwenden Sie diese auch, wenn der Begriff Sonderzeichen wie z. B. '+' oder '-' enthalt.",
+    "help4": {
+      "prepend": "Das Schnellsuchfeld kann auch für erweiterte Abfragen verwendet werden, wenn Sie die Namen der Datenbankfelder kennen. Zum Beispiel, Abfrage nach",
+      "append": "sucht alle Datensatze, bei denen die Stratigraphie auf Burtnieki-Stufe eingestellt ist. HINWEIS! Bei dieser Art der Suche ist die Großschreibung wichtig ('asaphus' und 'Asaphus' sind nicht dasselbe) und * ist nützlich."
+    }
+  },
+  "datasetsPage": {
+    "title": "Datensätze",
+    "description": "Entdecken Sie geowissenschaftliche Datensätze von Museen und Forschungseinrichtungen. Jeder Datensatz hat eine eigene Seite mit Sammlungsinformationen und Zugangslinks.",
+    "viewRecords": "Einträge ansehen",
+    "empty": "Keine Datensätze verfügbar.",
+    "loading": "Datensätze werden geladen…",
+    "explanationTitle": "Was zeigt die Liste der Datensätze?",
+    "explanation": "Ein Datensatz ist eine Sammlung zusammengehöriger geowissenschaftlicher Objektdatensätze eines Museums oder einer Forschungseinrichtung. Eine Institution kann mehrere Datensätze zu unterschiedlichen Sammlungen, Themen oder Regionen veröffentlichen.",
+    "institutionExplanation": "Jeder Datensatz hat eine eigene Seite und eine dauerhafte Kennung (GUID). Soweit von der Institution bereitgestellt, zeigt die Seite Beschreibung, Abdeckung, Zitierung, Lizenz und Zugangslinks.",
+    "usageExplanation": "Öffnen Sie einen Datensatz, um seinen Inhalt kennenzulernen und über die verfügbaren Links zur Quelle zu gelangen. Prüfen Sie vor der Weiterverwendung die Lizenz und Rechteinformationen und zitieren Sie die beitragende Institution.",
+    "institutions": "Zugehörige Institutionen / Dateneigentümer",
+    "unknownInstitution": "In den Einträgen ist keine Institution angegeben.",
+    "source": "Datenquelle",
+    "specimenTypes": "Objekttypen in diesem Datensatz",
+    "error": "Datensätze konnten nicht geladen werden.",
+    "retry": "Erneut versuchen",
+    "browseTitle": "Datensätze entdecken",
+    "browseDescription": "Entdecken Sie Beschreibungen, Abdeckung, Lizenzen und Zugangslinks veröffentlichter Datensätze."
+  },
+  "frontPage": {
+    "heroEyebrow": "Geowissenschaftliche Sammlungen",
+    "heroDescription": "Entdecken Sie Fossilien, Minerale, Gesteine, Meteoriten und Materialproben aus Museen und Forschungssammlungen weltweit.",
+    "browseAll": "Alle Exemplare ansehen",
+    "collectionsEyebrow": "Sammlungen entdecken",
+    "collectionsTitle": "Die Vielfalt der Erdgeschichte",
+    "mapEyebrow": "Nach Standort entdecken",
+    "mapTitle": "Entdecken Sie die Welt unter Ihren Füßen",
+    "mapDescription": "Erkunden Sie Fundorte auf der Karte und finden Sie Exemplare aus aller Welt.",
+    "prototype_alert": {
+      "title": "This is GeoCASe 2.0 interface.",
+      "text": "Please report problems in <a href=\"https://github.com/geocollections/geocase-ui\" target=\"_blank\">GitHub</a>. The old portal is accessible at: <a href=\"http://old.geocase.eu\" target=\"_blank\">http://old.geocase.eu</a>."
+    },
+    "title": "The Earth Science Collections Portal",
+    "findQuickly": "Schnellsuche...",
+    "quickSearch": "Schnellsuche...",
+    "totalRecords": "Einträge insgesamt",
+    "institutionCount": "Anzahl der Institutionen",
+    "datasetCount": "Anzahl der Datensätze",
+    "countryCount": "Anzahl der Länder",
+    "cards": {
+      "materialSamples": {
+        "title": "Materialproben",
+        "text": "Gesteine, Sedimente und weitere Materialien für die Forschung.",
+        "button": "Materialproben ansehen",
+        "imageAltText": "Materialprobe"
+      },
+      "fossils": {
+        "title": "Fossilien",
+        "text": "Spuren vergangenen Lebens, bewahrt über geologische Zeiträume.",
+        "button": "Fossilien ansehen",
+        "imageAltText": "Fossil"
+      },
+      "minerals": {
+        "title": "Minerale",
+        "text": "Natürliche Kristalle und die vielfältige Welt der Minerale.",
+        "button": "Minerale ansehen",
+        "imageAltText": "Mineral"
+      },
+      "rocks": {
+        "title": "Gesteine",
+        "text": "Die Geschichte der Erde, aufgezeichnet in Gesteinen und Sedimenten.",
+        "button": "Gesteine ansehen",
+        "imageAltText": "Rock"
+      },
+      "meteorites": {
+        "title": "Meteoriten",
+        "text": "Fragmente unseres Sonnensystems, die die Erde erreicht haben.",
+        "button": "Meteoriten ansehen",
+        "imageAltText": "Meteorite"
+      }
+    },
+    "map": {
+      "activate": "Klicken, um die Karte zu aktivieren",
+      "search": "Search",
+      "numFound": "Specimens",
+      "itemsPerPageText": "Rows per page"
+    }
+  },
+  "footer": {
+    "title": "GeoCASe: The Earth Science Collections Portal",
+    "ctaTitle": "Entdecken Sie Sammlungen, die die Geschichte der Erde erzählen.",
+    "ctaDescription": "Durchsuchen Sie Exemplare aus Museen und Forschungseinrichtungen weltweit.",
+    "browseCollections": "Sammlungen entdecken",
+    "explore": "Entdecken",
+    "about": "Über GeoCASe",
+    "resources": "Netzwerk & Ressourcen",
+    "partners": "Unsere Partner",
+    "rights": "Geowissenschaftliche Sammlungen weltweit verbinden.",
+    "dataBy": "Daten von",
+    "partnerInstitutions": "Partnerinstitutionen",
+    "collab_html": "GeoCASe 2.0 is collaborative effort of the <a href='https://cetaf.org' target='FooterWindow'>CETAF Earth Sciences Group</a>.",
+    "created_html": "<a href='https://github.com/geocollections/geocase-ui' target='FooterWindow'>Portal software</a> created and hosted by <a href='https://taltech.ee/en/department-geology' target='FooterWindow'>TalTech</a> and <a href='https://www.museumfuernaturkunde.berlin/' target='FooterWindow'>MfN</a>.",
+    "taltechLogoAltText": "Tallinn University of Technology logo",
+    "mfnLogoAltText": "Museum für Naturkunde Berlin logo",
+    "cetafLogoAltText": "Consortium of European Taxonomic Facilities"
+  },
+  "header": {
+    "home": "Home",
+    "search": "Suche",
+    "about": "Über GeoCASe",
+    "access": "Zugang",
+    "tutorial": "Tutorial",
+    "efg": "EFG",
+    "partners": "Institutionen",
+    "help": "Helfen",
+    "links": "Links",
+    "imprint": "Imprint",
+    "resources": "Ressourcen",
+    "language": "Sprache",
+    "titleTooltip": "Zur Startseite",
+    "showSearch": "Zeige/verberge Suchfilter",
+    "menu": "Menü",
+    "landingPageAltText": "White baryte crystals"
+  },
+  "resources": {
+    "cetaf": "CETAF",
+    "dissco": "DiSSCo",
+    "biocase": "BioCASe Portal",
+    "gbif": "GBIF Portal",
+    "abcd-efg": "ABCD-EFG Standard",
+    "geocase2-github": "GeoCASe 2.0 auf GitHub",
+    "geocase1": "GeoCASe 1.0 Portal",
+    "geocase-api": "GeoCASe API"
+  },
+  "detail": {
+    "noResults": "Es konnten keine Ergebnisse mit der <b>ID</b> <b>{id}</b> gefunden werden.",
+    "dataFromProvider": "Daten vom Provider (für Entwickler)",
+    "goBack": "Zurück zur Suche",
+    "specimenDetails": "Exemplardaten",
+    "sourceAndRights": "Quelle und Nutzungsrechte",
+    "showMore": "Mehr anzeigen",
+    "showLess": "Weniger anzeigen",
+    "otherIdentification": "Weitere Identifikationen",
+    "specimenType": {
+      "fossil": "Fossil",
+      "mineral": "Mineral",
+      "rock": "Gestein",
+      "meteorite": "Meteorit"
+    },
+    "table": {
+      "type": "Typ",
+      "collection": "Sammlung",
+      "objectId": "Objekt ID",
+      "typeStatus": "Typenstatus",
+      "group": "Gruppe",
+      "country": "Land",
+      "area": "Gebiet",
+      "locality": "Lokalität",
+      "latitude": "Breitengrad",
+      "longitude": "Langengrad",
+      "stratigraphy": "Stratigraphie",
+      "stratigraphyText": "Stratigraphie frei",
+      "mindat": "Mindat",
+      "taxonRecordInPbdb": "Taxon record in PBDB",
+      "taxonInEncyclopediaOfLife": "Taxon in Encyclopedia of Life",
+      "taxonInTreeOfLife": "Taxon in Tree of Life",
+      "TaxonInFossiilidInfo": "Taxon in fossiilid.info",
+      "recordUri": "Record URI",
+      "relatedResource": "Verwandte Ressource",
+      "reference": "Reference",
+      "unitWeight": "Weight",
+      "nearNamedPlace": "Nearest place",
+      "itemMineralGroup": "Group",
+      "mineralNameDetail": "Name detail",
+      "acquisitionDate": "Acquisition date",
+      "gatheringAgent": "Collector",
+      "unitDateText": "Date collected",
+      "kindOfUnit": "Kind of unit",
+      "geologicalAge": "Geologisches Alter"
+    },
+    "secondaryTable": {
+      "institution": "Institution",
+      "datasetOwner": "Besitzer des Datensatzes",
+      "contactPerson": "Kontaktperson",
+      "contactEmail": "Kontakt Email",
+      "contactPhone": "Kontakt Telefonnummer",
+      "contactAddress": "Kontaktadresse",
+      "contactData": "Kontaktdaten",
+      "dataSourceCountry": "Land der Datenquelle",
+      "copyright": "Copyright",
+      "termsOfUse": "Nutzungsbedingungen",
+      "disclaimer": "Ausschlussklausel",
+      "acknowledgement": "Acknowledgement",
+      "lastEdited": "Zuletzt bearbeitet",
+      "lastHarvested": "Zuletzt abgeholt",
+      "providerName": "Name des Datenanbieter",
+      "specimenVerifier": "Specimen Prüfer",
+      "geocaseId": "GeoCASe ID",
+      "unitGuid": "UnitGUID",
+      "cetafIdentifier": "CETAF"
+    }
+  },
+  "search": {
+    "openFilters": "Suche & Filter",
+    "activeFilterCount": "{count} aktive Filter",
+    "filtersHint": "Suche nach Name, Fundort oder Sammlung eingrenzen.",
+    "showResults": "Ergebnisse anzeigen ({count})",
+    "backToResults": "Zurück zu den Ergebnissen",
+    "noResultsFilteredHint": "Entfernen Sie einen der aktiven Filter oben oder verwenden Sie einen allgemeineren Suchbegriff. Prüfen Sie auch die Schreibweise.",
+    "noResultsBroadHint": "Versuchen Sie einen allgemeineren Suchbegriff oder prüfen Sie die Schreibweise.",
+    "editSearch": "Suche anpassen",
+    "copySearchLink": "Suchlink kopieren",
+    "linkCopied": "Suchlink kopiert.",
+    "linkCopyFailed": "Der Link konnte nicht kopiert werden. Kopieren Sie die Adresse aus der Adressleiste.",
+    "layout": {
+      "results": "Ergebnisse",
+      "mapLocationSummary": "Karte: {count} Standorte · Tabelle: {records} Datensätze",
+      "mapCountrySummary": "Karte: {count} Länder · Tabelle: {records} Datensätze",
+      "mapLimitNotice": "Die Karte hat ihr Limit von 3.000 Standorten erreicht. Grenzen Sie Ihre Suche ein, um weniger Standorte zu untersuchen. Die Tabelle enthält weiterhin alle passenden Datensätze.",
+      "mapNote": "Wählen Sie ein Land, um bis zu 3.000 unterschiedliche Standorte anzuzeigen. Nummerierte Markierungen zeigen die Anzahl der Datensätze mit denselben Koordinaten; klicken Sie darauf, um einen Datensatz auszuwählen. Zeichnen Sie einen Bereich zum Filtern.",
+      "mapRetry": "Erneut versuchen",
+      "hideMap": "Karte ausblenden",
+      "showMap": "Karte anzeigen",
+      "expandMap": "Karte vergrößern",
+      "reduceMap": "Karte verkleinern",
+      "clearArea": "Bereich entfernen"
+    },
+    "loadError": "Ergebnisse konnten nicht geladen werden",
+    "staleResults": "Die vorherigen Ergebnisse werden weiterhin angezeigt. Sie wurden nicht für Ihre letzte Suche aktualisiert.",
+    "retry": "Erneut versuchen",
+    "imagesOnlyNotice": "Diese Ansicht aktiviert den Filter „Hat Bild?“. Die Ergebnisanzahl umfasst nur passende Datensätze mit Bildern und kann kleiner als in der Tabellenansicht sein.",
+    "imageRecords": "Datensätze mit Bildern",
+    "activeFilters": {
+      "keyword": "Suche",
+      "title": "Aktive Filter",
+      "remove": "Filter entfernen: {field}",
+      "mapArea": "Ausgewählter Kartenbereich",
+      "yes": "Ja",
+      "no": "Nein",
+      "operators": {
+        "contains": "enthält",
+        "equals": "ist gleich",
+        "starts_with": "beginnt mit",
+        "ends_with": "endet mit",
+        "does_not_contain": "enthält nicht",
+        "greater_than": "größer als",
+        "smaller_than": "kleiner als"
+      }
+    },
+    "page": "Seite",
+    "recordsFound": "Einträge gefunden | Einträge gefunden | Einträge gefunden",
+    "openGallery": "Galerie öffnen",
+    "mindatLink": "Link zu mindat.org",
+    "goToDetailView": "Gehe zur Detailansicht",
+    "mapMarkerTooltip": "Hier klicken, um Specimens an dieser Lokalität zu suchen!",
+    "tab": {
+      "table": "Tabelle",
+      "images": "Bilder",
+      "map": "Karte"
+    },
+    "table": {
+      "empty": "",
+      "area_name": "Gebiet",
+      "country_original": "Original Land",
+      "country": "Land",
+      "collectioncode": "Code der Sammlung",
+      "mindepth": "Min. Tiefe",
+      "mindat_id": "Mindat ID",
+      "meteorite_id": "Meteorite ID",
+      "geocase_id": "GeoCASe ID",
+      "country_code": "Country code",
+      "is_mineral": "Ist ein Mineral?",
+      "gatheringareas": "Sammelgebiete",
+      "stratigraphytext": "Stratigraphie Text",
+      "taxon_id_tol": "Taxon ID TOL",
+      "datasetownerabbrev": "Besitzer des Datensatzes (Abk.)",
+      "last_harvested_processing": "Zuletzt abgeholt",
+      "id": "ID",
+      "taxon_hierarchy_string": "Taxon Hierarchie",
+      "longitude": "Langegrad",
+      "highertaxon": "Gruppe",
+      "images": "Bilder",
+      "recordbasis": "Materialtyp",
+      "higherrank": "Rang",
+      "acquiredfrom": "Erworben von",
+      "datasourcecountry": "Land der Datenquelle",
+      "locality": "Lokalität",
+      "mindat_url": "Mindat URL",
+      "occurrenceid": "Occurrence ID",
+      "provideraddress": "Datenanbieter Adresse",
+      "area_type": "Gebietstyp",
+      "taxon_id_pbdb": "Taxon id PBDB",
+      "has_map": "Hat Karte?",
+      "highertaxa": "Klasse",
+      "datasourceurl": "URL der Datenquelle",
+      "fullscientificname": "Name",
+      "datasetowner": "Besitzer des Datensatzes",
+      "type_fullscientificname": "Name type",
+      "latitude": "Breitengrad",
+      "image_license": "Bildlizenz",
+      "providercountry": "Datenanbieter Land",
+      "type_status": "Typenstatus",
+      "maxdepth": "Max. Tiefe",
+      "stratigraphy": "Stratigraphie",
+      "providerurl": "Datenanbieter URL",
+      "has_image": "Hat Bild?",
+      "highertaxon_facet": "Gruppe",
+      "image_author": "Bildersteller",
+      "recordURI": "Record URI",
+      "taxon_id": "Taxon ID",
+      "image_date": "Erstellungsdatum des Bildes",
+      "collectorname": "Sammler",
+      "providername": "Datenanbieter",
+      "url": "URL",
+      "relatedResource": "Verwandte Ressource",
+      "names": "Namen",
+      "_version_": "_version_",
+      "unitid": "Objekt ID",
+      "coordinates": "Koordinaten",
+      "coordinatesReadOnly": "Koordinaten - Nur Lesezugriff",
+      "map": "Karte",
+      "cetaf_identifier": "CETAF id",
+      "stratigraphytexts": "Stratigraphie vaba",
+      "stratigraphies": "Stratigraphie durch Kommas getrennt",
+      "tooltipExport": "Dateiexport",
+      "tooltipConfig": "Tabellenkonfiguration",
+      "tooltipResetHeaders": "Header zurücksetzen",
+      "tooltipShowActiveHeaders": "Aktive Header anzeigen",
+      "tooltipShowAllHeaders": "Alle Header anzeigen",
+      "tooltipAddFixedHeaders": "Aktiviere den festen Status der Tabelle",
+      "tooltipRemoveFixedHeaders": "Festen Status der Tabelle deaktivieren",
+      "headerSelectDisabled": "Sortierung aktiviert",
+      "headers": "Header",
+      "responsiveColumns": "Auf kleineren Bildschirmen werden weniger Spalten angezeigt.",
+      "filter": "Filter",
+      "goTo": "Gehe zu Seite",
+      "goToBtn": "Gehe",
+      "pageSelect": "{current} / {count}",
+      "clipboard": "In Zwischenablage kopieren",
+      "kindofunit": "Materialuntertyp",
+      "geologicalAge": "Geologisches Alter",
+      "age_min": "Mindestalter",
+      "age_max": "Höchstalter",
+      "age_unit": "Alterseinheit"
+    },
+    "pagination": "Nummeriere mit {value}",
+    "export": {
+      "currentPage": "Diese Seite exportieren",
+      "allResults": "Alle Suchergebnisse exportieren (CSV)",
+      "progress": "Export wird vorbereitet: {loaded} / {total} Datensätze",
+      "cancel": "Abbrechen",
+      "export": "Export",
+      "exportToCsv": "Export CSV",
+      "copyToClipboard": "Kopiere in Zwischenablage",
+      "downloadFailed": "Export fehlgeschlagen. Bitte versuchen Sie es erneut.",
+      "exportSuccessful": "Exportiert nach <b>{type}</b>!",
+      "copySuccessful": "In die <b>Zwischenablage</b> kopiert!",
+      "copyFailed": "Kopieren fehlgeschlagen: Nicht zum Kopieren vorhanden!"
+    },
+    "drawer": {
+      "filters": "Suchfilter",
+      "additionalFilters": "Zusätzliche Filter",
+      "extraOptions": "Extra-Optionen",
+      "resetSearch": "Suche zurücksetzen",
+      "clearFilters": "Entferne '{field}' Filter",
+      "more": "Mehr",
+      "less": "Weniger",
+      "has_image": "Nur Datensätze mit Bildern anzeigen",
+      "has_map": "Zeige nur georeferenzierte Einträge",
+      "fixedHeaders": "Fixierter Tabellenkopf (nur für große Monitore)",
+      "tableHeaders": "Tabellenkopf",
+      "matchMode": "Suchmodus",
+      "millionYears": "Millionen Jahre (My)",
+      "years": "Jahre",
+      "imageFilterHint": "Deaktivieren, um Datensätze mit und ohne Bilder anzuzeigen."
+    },
+    "tableNoResults": "Keine Einträge mit diesen Parametern gefunden.",
+    "imageNoResults": "Keine Bilder mit diesen Parametern gefunden.",
+    "imageNoResultsFilterInfo": "Filter hinzufügen, um nur Einträge mit Bildern zu finden.",
+    "addFilter": "Filter hinzufügen",
+    "mapNoResults": "Keine Lokalitäten mit diesen Parametern gefunden.",
+    "mapNoResultsFilterInfo": "Add filter so it would show results which have a locality."
+  },
+  "imageGallery": {
+    "moreInformation": "Weitere Informationen",
+    "imageDetails": "Bilddetails",
+    "specimenDetails": "Sammlungsobjekt und Sammlung",
+    "collectionContext": "Fundort und Kontext",
+    "imageActions": "Bildlinks",
+    "sourceRecord": "Quelldatensatz",
+    "imageInformation": "Bildinformationen",
+    "date": "Datum",
+    "licence": "Lizenz",
+    "linkToImage": "Link zum Bild",
+    "cycleImages": "Bilder drehen",
+    "closeGallery": "Galerie schließen",
+    "imageGallery": "Bilder-Galerie",
+    "hideThumbnails": "Miniaturansichten ausblenden",
+    "showThumbnails": "Miniaturansichten anzeigen",
+    "thumbnails": "Miniaturansichten",
+    "previousImage": "Vorheriges Bild",
+    "nextImage": "Nächstes Bild",
+    "previewsPerRow": "Vorschauen pro Zeile",
+    "goToSpecimenView": "Gehe zur Specimen-Ansicht",
+    "zoomViewer": "Vergrößerbare Abbildung",
+    "zoomControls": "Bildzoom-Steuerung",
+    "zoomIn": "Vergrößern",
+    "zoomOut": "Verkleinern",
+    "fitImage": "An Bildschirm anpassen",
+    "actualSize": "Originalgröße",
+    "inspectImage": "Bild vergrößern",
+    "loadingImage": "Bild wird geladen…",
+    "imageUnavailable": "Bild nicht verfügbar"
+  },
+  "imprint": {
+    "html": "<h1>Imprint</h1><p> Museum für Naturkunde <br> Leibniz Institute for Evolution and Biodiversity Science <br> Invalidenstraße 43 <br> 10115 Berlin, Germany </p><p> Landesunmittelbare rechtsfähige Stiftung des öffentlichen Rechts </p><p> phone: +49 (0)30 2093-8591 <br> fax: +49 (0)30 2093-8561 <br> email: info(at)mfn-berlin.de <br> website: <a href=\"https://www.naturkundemuseum.berlin\" target=\"_blank\"> https://www.naturkundemuseum.berlin </a></p><p> Authorized representative person <br> Prof. Johannes Vogel, PhD (director general) </p><p> Controlling authority <br> Senatsverwaltung für Wirtschaft, Technologie und Forschung <br> Martin-Luther-Straße 105, 10825 Berlin </p><p> Content responsiblity (German law § 55 Abs. 2 RStV) <br> Juliane Röhner / Mathias Paul <br></p><p> VAT-ID (German law § 27 a Umsatzsteuergesetz) <br> DE262426477 </p><p> Bank account <br> Berliner Bank AG <br> account number: 512 087 800 <br> bank code: 100 708 48 <br> IBAN: DE40 1007 0848 051 2087 800 <br> BIC/SWIFT: DEUTDEDB110 </p><h2> Information on the website </h2><p style=\"font-weight: bold;\"> Responsible persons: </p><ul><li><span style=\"font-weight: bold;\"> Editorial: </span><br> MfN commissarial editor <br> Falko Glöckler </li><li><span style=\"font-weight: bold;\"> Project management: </span><br> NN </li><li><span style=\"font-weight: bold;\"> Website programming </span> : <br> NN </li></ul><h2> Addtional Regulations </h2><p><span style=\"font-weight: bold;\"> Disclaimer </span><br> For all information published on the site of the Museum für Naturkunde Berlin the following conditions apply: <br> Use of the material provided is bound by the following agreement: The Museum für Naturkunde Berlin makes every effort to provide timely and accurate information. Nevertheless, mistakes and confusions may occur. Therefore the publishers make no guarantee about the correctness, completeness, quality or suitability for any purpose of the information provided or linked to by this site. Information is provided \"as is\" without warranty of any kind, either expressed or implied, including, but not limited to warranties of fitness for a particular purpose. Under no circumstances shall the publishers be liable for any special, indirect, consequential or incidental damages or any damages whatsoever resulting from use of information provided by this site. If misleading, incorrect or otherwise inappropriate information is brought to our attention, a reasonable effort will be made to redress the problems. <br><br> The Museum für Naturkunde Berlin reserves the right to change, supplement, or delete some or all of the information on its Internet web site without notice. Similarly, the Museum für Naturkunde Berlin also reserves the right to temporarily or permanently discontinue the Internet web site. <br><br> Any claims relating to the materials or the WWW site will be governed by German law. <br><br> The general disclaimer published at <a onclick=\"\n        window.open(\n          'http://www.disclaimer.de/disclaimer.htm',\n          'DisclaimerWindow',\n          'width=800,height=600'\n        )\n      \" class=\"text-decoration-underline\"> www.disclaimer.de/disclaimer.htm </a> is part of this disclaimer. <br><br> This disclaimer is to be considered as part of the internet publication from which you were referred. If individual terms or sections of this statement are not legal or correct, the validity and content of the other parts remain uninfluenced by this fact. <br><br> Source: <a href=\"http://www.datenschutzbeauftragter-info.de/\" target=\"_blank\"> www.datenschutzbeauftragter-info.de </a><br><br> © Museum für Naturkunde Berlin </p>"
+  },
+  "efg": {
+    "html": "<h1>EFG</h1>ABCDEFG (Access to Biological Collection Databases Extended for Geosciences) is an XML-Schema (Extensible Markup Language) developed for use with palaeontological, mineralogical and geological digitalized collection data.<p>It extends the <a href=\"https://www.tdwg.org/standards/abcd/\"  target=\"_blank\">ABCD-XML-Schema</a> (Access to Biological Collection Databases) used by <a href=\"http://www.gbif.net\"  target=\"_blank\">GBIF</a> (Glocal Biodiversity Iformation Facility).</p><p>The ABCDEFG-XML-Schema is used to apply a mapping to the local data source and it is supported by the BioCASe Provider Software. This Software is easy to install and provides a very handy user interface for databse description and mapping. The BioCASe Provider Software mediates between the local data source and the GeoCASe Portal by sending and receiving XML documents.</p><p>ABCDEFG is proposed to the organisation of biodiversity information standards <a href=\"http://www.tdwg.org\"  target=\"_blank\">TDWG</a> (Taxonomic Databases Working Group) as a data standard for geoscientific collections.</p><p>The BioCASe Provider Software may be obtained from <a href=\"https://biocase.org/products/provider_software/\"  target=\"_blank\">https://biocase.org/products/provider_software/</a>.<br></p><p>For further information on <a href=\"https://www.tdwg.org/standards/abcd/\"  target=\"_blank\">ABCD</a> visit the TDWG Terms Wiki page <a href=\"https://www.tdwg.org/standards/abcd/\"  target=\"_blank\">https://www.tdwg.org/standards/abcd/</a>.</p><p>For further information on the ABCD <a href=\"https://github.com/tdwg/efg\"  target=\"_blank\">Extension for Geosciences (EFG)</a> see <a href=\"https://doi.org/10.5194/fr-21-47-2018\"  target=\"_blank\">Petersen et al. 2018</a> (<a href=\"https://www.foss-rec.net/21/47/2018/fr-21-47-2018.pdf\"  target=\"_blank\">pdf</a>) or download the <a href=\"https://efg.geocase.eu/documentation/html/efg.html\"  target=\"_blank\">ABCDEFG-XML-Schema documentation</a> which is also embedded below.<br></p><p><a style=\"float:right;\" href=\"https://efg.geocase.eu/documentation/html/efg.html\"  target=\"_blank\">Open in new Window/Tab</a><br>ABCDEFG Schema Documentation:</p><iframe style=\"border: 1px solid darkblue; width: 100%;\" height=\"700\" src=\"https://efg.geocase.eu/documentation/html/efg.html\"></iframe>"
+  },
+  "access": {
+    "html": "<h1 class=\"mb-2\">Terms of Use</h1>\n\n<p>Using data available through the GeoCASe network requires agreeing with the following:</p>\n\n<ul>\n\t<li>The quality and completeness of data cannot be guaranteed.</li>\n\t<li>Users employ these data at their own risk.</li>\n\t<li>Users shall respect restrictions of access to sensitive data.</li>\n\t<li>Users must publicly acknowledge, in conjunction with the use of the data, the data providers whose biodiversity data they have used.</li>\n\t<li>Data providers may require additional attribution of specific collections within their institution.</li>\n\t<li>Users must comply with additional terms and conditions of use set by the data provider. Where these exist they will be available through the metadata associated with the data. GeoCASe does not assert any intellectual property rights in the data that is made available through its network.</li>\n\t<li>The data provider warrants that they have made the necessary agreements with the original owners of the data that it can make the data available through GeoCASe network.</li>\n\t<li>The data provider makes reasonable efforts to ensure that the data they serve are accurate. Responsibility regarding the restriction of access to sensitive data resides with the data provider.</li>\n\t<li>The data provider includes a stable and unique identifier in their data so that the owner of the data is known and for other necessary purposes.</li>\n\t<li>GeoCASe is not liable or responsible, nor are its employees or contractors, for the data contents; or for any loss, damage, claim, cost or expense however it may arise, from an inability to use the GeoCASe network.</li>\n</ul>\n\n<h2 class=\"mt-5 mb-2\">Disclaimer</h2>\n\n<h3 class=\"mb-1\">Liability for Content</h3>\n\n<p>We make every effort to keep the information on our website current, but accept no liability whatsoever for the content provided. Pursuant to &sect;7 par. 1 of TMG (German Tele-Media Act), the law limits our responsibility as a service provider to our own content on these Web pages.</p>\n\n<p>According to &sect;&sect;8 to 10 of TMG, we are not obligated to monitor third party information provided or stored on our website. However, we shall promptly remove any content upon becoming aware that it violates the law. Our liability in such an instance shall commence at the time we become aware of the respective violation.</p>\n\n<h3 class=\"my-1\">Liability for Links</h3>\n\n<p>Our site contains links to third-party Web sites. We have no influence whatsoever on the information on these Web sites and accept no guarantee for its correctness. The content of such third-party sites is the responsibility of the respective owners/providers.</p>\n\n<p>At the time third-party Web sites were linked to ours, we found NO GROUNDS WHATSOEVER of any likely contravention of the law. We shall promptly delete a link upon becoming aware that it violates the law.</p>\n\n<h3 class=\"my-1\">Copyright</h3>\n\n<p>The content of this data portal is aggregated from different data sources. We highly recommend data providers to assign open licences to their data in order to increase re-usability according to the FAIR principles (Wilkinson et al. 2016, <a href=\"https://doi.org/10.1038/sdata.2016.18\">https://doi.org/10.1038/sdata.2016.18</a>).<br />\nHowever, the re-use of the data MUST have consideration for the individual licences and restrictions per dataset and data provider. If no licence is indicated by the data providers a full restriction (&ldquo;all rights reserved&rdquo;) must be assumed. Different licences for different data types (e.g. textual metadata and media files) within one dataset might be applied.</p>\n\n<p>We are not accountable for any violation of copyrights caused by or at the data providers. The data providers provide the data and metadata on their own risk.</p>\n\n<p>GeoCASe code is openly available at <strong>GitHub </strong>under <strong>GPL 3.0 License</strong>:</p>\n\n<ul>\n\t<li><strong>GeoCASe 2.0 portal software: </strong><a href=\"https://github.com/geocollections/geocase-ui\">https://github.com/geocollections/geocase-ui</a></li>\n\t<li><strong>GeoCASe thumbnail service</strong>: <a href=\"https://github.com/geocollections/geocase-thumbnail\">https://github.com/geocollections/geocase-thumbnail</a>&nbsp;</li>\n\t<li><strong>GeoCASe 1.0 infrastructure: </strong><a href=\"https://github.com/geocollections/geocase-infrastructure\">https://github.com/geocollections/geocase-infrastructure</a></li>\n</ul>\n"
+  },
+  "about": {
+    "html": "<h1 class=\"mb-2\">What is GeoCASe?</h1>\n\n<p><strong>GeoCASe </strong>stands for <strong>Geo</strong>science <strong>C</strong>ollections <strong>A</strong>ccess <strong>Se</strong>rvice. It is a data network and web portal designed to make collections of minerals, rocks, meteorites and fossils held in museums and research institutions universally available online, in order to foster scientific research and collaboration internationally.</p>\n\n<p>Data for GeoCASe network are provided by individual museums and research institutions, most commonly via the <a href=\"https://www.biocase.org/products/provider_software/index.shtml\" target=\"_blank\">BioCASe Provider Software</a> using XML-based data exchange standards <a href=\"https://www.tdwg.org/standards/abcd/\" target=\"_blank\">ABCD</a> (Access to Biological Collections Data) and <a href=\"https://github.com/tdwg/efg\" target=\"_blank\">ABCD-EFG</a> (ABCD Extension for Geosciences; see<a href=\"https://doi.org/10.5194/fr-21-47-2018\" target=\"_blank\"> Petersen et al. 2018</a>). GeoCASe service &ldquo;harvests&rdquo; these data sources, stores the records in index and makes them easily accessible and searchable from a single user interface. GeoCASe aims to become the Earth Science counterpart of <a href=\"https://gbif.org\" target=\"_blank\">GBIF</a>, the Global Biodiversity Information Facility used by thousands of institutions and researchers.</p>\n\n<p>The initial version of GeoCASe was built at the Museum f&uuml;r Naturkunde, Berlin, as part of SYNTHESYS project in 2007. Development of an upgraded version, <strong>GeoCASE 2.0</strong>, started in 2020 by the Museum f&uuml;r Naturkunde and Tallinn University of Technology under coordination of the<a href=\"https://cetaf.org/\" target=\"_blank\"> <strong>CETAF</strong></a><strong> ESG</strong> (Consortium of European Taxonomic Facilities, Earth Science Group). Being a product of CETAF, which is a well established cohesive community of European Natural Science research institutes containing a wide-range of expertise in taxonomy, training, data standards and taxonomy, ensures that GeoCASe is reliable and sustainable in serving the needs of the wider community. GeoCASe will also become aligned with the<a href=\"https://www.dissco.eu/\" target=\"_blank\"> <strong>DiSSCo Research Infrastructure</strong></a>.&nbsp;</p>\n\n<p>GeoCASe is currently managed by the &lsquo;GeoCASe advisory board&rsquo; who are responsible for the development, maintenance, promotion and quality control of the portal.</p>"
+  },
+  "partnersPage": {
+    "pageTitle": "Institutionen",
+    "eyebrow": "GeoCASe-Netzwerk",
+    "heroDescription": "Einrichtungen arbeiten zusammen, um geowissenschaftliche Sammlungen leichter auffindbar zu machen.",
+    "summary": "{partners} Institutionen · {countries} Länder",
+    "networkEyebrow": "Das Netzwerk",
+    "institutionsTitle": "Institutionen",
+    "viewDetails": "Details ansehen",
+    "backToInstitutions": "Alle Institutionen",
+    "location": "Standort der Institution",
+    "visitWebsite": "Website besuchen",
+    "collaborationEyebrow": "Zusammenarbeit",
+    "relatedTitle": "Verwandte Initiativen und Organisationen",
+    "relatedDescription": "GeoCASe nutzt die BioCASe-Technologie des Botanischen Gartens und Botanischen Museums Berlin sowie von TDWG ratifizierte Datenstandards, um die Kompatibilität mit GBIF zu gewährleisten. CETAF unterstützt die Initiative, die eng mit der DiSSCo-Forschungsinfrastruktur zusammenarbeitet.",
+    "countries": {
+      "belgium": "Belgien",
+      "germany": "Deutschland",
+      "unitedKingdom": "Vereinigtes Königreich",
+      "czechRepublic": "Tschechien",
+      "austria": "Österreich",
+      "estonia": "Estland",
+      "finland": "Finnland",
+      "netherlands": "Niederlande"
+    },
+    "country": "Land",
+    "collectionProvider": "Sammlungsanbieter",
+    "website": "Offizielle Website",
+    "approximateLocation": "Ungefährer Standort (Breitengrad, Längengrad)",
+    "linkedDatasets": "Zugehörige Datensätze",
+    "datasetsDescription": "Mit dieser Institution verknüpfte GeoCASe-Datensätze. Öffnen Sie einen Datensatz, um seine Beschreibung und Zugangsmöglichkeiten anzuzeigen.",
+    "noLinkedDatasets": "Für diese Institution sind derzeit keine verknüpften Datensätze in GeoCASe verfügbar.",
+    "recordsInInstitution": "Einträge dieser Institution",
+    "geographicCoverage": "Geografische Abdeckung",
+    "coverageDescription": "Die Einträge umfassen {count} Länder. Die am häufigsten vertretenen Länder sind unten aufgeführt. Wählen Sie ein Land, um seine Einträge zu erkunden.",
+    "overview": "Überblick",
+    "overviewSource": "Quelle: offizielle Website der Institution",
+    "collectionMap": "Fundorte der Sammlung",
+    "loadingCollection": "Sammlung wird geladen…",
+    "collectionError": "Die Sammlung konnte nicht geladen werden.",
+    "retry": "Erneut versuchen",
+    "noCollectionPoints": "Für diese Institution sind keine georeferenzierten Exemplare in GeoCASe verfügbar.",
+    "noCollectionCoordinates": "Für diese Institution sind Exemplare in GeoCASE vorhanden, aber die Koordinaten ihrer Fundorte fehlen. Daher können sie nicht auf der Karte angezeigt werden.",
+    "noCollectionDataset": "Für diesen Partner ist derzeit kein Datensatz in GeoCASE vorhanden. Daher sind keine Fundortpunkte verfügbar.",
+    "collectionImages": "Bilder aus der Sammlung",
+    "noCollectionImages": "Für diese Institution sind keine Bilder von Exemplaren in GeoCASe verfügbar.",
+    "exploreCollection": "Sammlung erkunden",
+    "specimens": "Datensätze",
+    "mappedLocations": "kartierte Standorte",
+    "institutionLocation": "Standort der Institution",
+    "specimenLocations": "Fundorte der Exemplare",
+    "mapDescription": "Wählen Sie einen Länderkreis, um die Datensätze dieser Institution aus diesem Land zu durchsuchen. Der grüne Marker zeigt den Standort der Institution.",
+    "collectionLoadError": "Einige Sammlungsdaten konnten nicht geladen werden. Der Standort der Institution bleibt verfügbar.",
+    "countryRecords": "Datensätze nach Land"
+  },
+  "partners_and_providers": {
+    "html": "<h1 class=\"mb-2\">Partners</h1><ul>\n\t<li><a href=\"https://cetaf.org\" target=\"PartnersWindow\">CETAF General Secretariat</a>, Belgium</li>\n\t<li><a href=\"https://www.plantentuinmeise.be/en/\" target=\"PartnersWindow\">Meise Botanic Garden</a>, Belgium</li>\n\t<li><a href=\"https://www.museumfuernaturkunde.berlin/en/\" target=\"PartnersWindow\">Museum f&uuml;r Naturkunde Berlin</a>, Germany</li>\n\t<li><a href=\"https://www.nms.ac.uk/\" target=\"PartnersWindow\">National Museums Scotland</a>, United Kingdom</li>\n\t<li><a href=\"https://www.nm.cz/en\" target=\"PartnersWindow\">National Museum, Prague, Czech republic</a>, Czech Republic</li>\n\t<li><a href=\"https://www.nhm-wien.ac.at/en\" target=\"PartnersWindow\">Natural History Museum Vienna</a>, Austria</li>\n\t<li><a href=\"https://www.africamuseum.be/en\" target=\"PartnersWindow\">Royal Museum of Central Africa</a>, Belgium</li>\n\t<li><a href=\"https://naturkundemuseum-bw.de/en/\" target=\"PartnersWindow\">State Museum of Natural History Stuttgart</a>, Germany</li>\n\t<li><a href=\"https://taltech.ee/en/\" target=\"PartnersWindow\">Tallinn University of Technology</a>, Estonia</li>\n\t<li><a href=\"https://www.luomus.fi/en\" target=\"PartnersWindow\">Finnish Museum of Natural History</a>, Finland</li>\n\t<li><a href=\"https://www.naturalis.nl/en\" target=\"PartnersWindow\">Naturalis Biodiversity Center</a>, The Netherlands</li>\n</ul>\n\n<p class=\"my-4\"><a href=\"https://cetaf.org\"><img src=\"https://files.geocollections.info/img/geocase/static/partners/cetaf.png\" alt=\"Consortium of European Taxonomic Facilities\" style=\"max-width: 240px;\" /></a></p>\n\n<h2>Related Initiatives and Organizations</h2>\n\n<p>GeoCASe uses the <a href=\"https://biocase.org\">BioCASe</a> technology provided by <a href=\"https://bgbm.org\">Botanic Garden and Botanical Museum Berlin</a> (BGBM) and the data standards ratified by <a href=\"https://tdwg.org\">TDWG</a> in order to be compatible with <a href=\"https://gbif.org\">GBIF</a> as well.</p>\n\n<p>It is officially supported by the <a href=\"https://cetaf.org/\">CETAF</a> and aligns its services in close collaboration with the <a href=\"https://dissco.eu\">DiSSCo Research Infrastructure</a>.</p><a href=\"https://dissco.eu\"><img src=\"https://files.geocollections.info/img/geocase/static/partners/dissco-logo.png\" alt=\"Distributed Systems of Scientific Collections\" style=\"max-width:210px\" /></a></p>\n\n<p><a href=\"https://tdwg.org\"><img src=\"https://files.geocollections.info/img/geocase/static/partners/tdwg.png\" alt=\"Biodiversity Information Standards\" style=\"max-width:210px\" /></a></p>\n\n<p><a href=\"https://gbif.org\"><img src=\"https://files.geocollections.info/img/geocase/static/partners/gbif.png\" alt=\"Global Biodiversity Information Facility\" style=\"max-width:210px\" /></a></p>\n\n<p><a href=\"https://biocase.org\"><img src=\"https://files.geocollections.info/img/geocase/static/partners/biocase.png\" alt=\"BioCASe\" style=\"max-width:210px\" /></a></p>\n\n<p><a href=\"https://bgbm.org\"><img src=\"https://files.geocollections.info/img/geocase/static/partners/bgbm.png\" alt=\"BGBM\" style=\"max-width:210px;\" /></a><br />\n&nbsp;</p>\n"
+  },
+  "cookiePolicy": {
+    "introduction": "This website uses cookies in order to deliver the best possible web experience. By continuing to visit this website you agree to our use of cookies",
+    "readMoreButton": "Read our terms of use",
+    "title": "Cookie Policy",
+    "text": "Website visitor data is used only for non-personal statistical analysis to further improve page functionality. Data will not be passed on to third parties."
+  },
+  "seo": {
+    "description": "GeoCASe is a data network and web portal designed to make collections of minerals, rocks, meteorites and fossils held in museums and research institutions universally available online.",
+    "ogTitle": "GeoCASe 2.0: The Earth Science Collections Portal"
+  },
+  "helpPage": {
+    "pageTitle": "Hilfe und Support",
+    "eyebrow": "HILFE UND SUPPORT",
+    "heroTitle": "Wie können wir helfen?",
+    "heroDescription": "Hier finden Sie Anleitungen zur Nutzung von GeoCASe oder können unser Support-Team kontaktieren.",
+    "tutorialLink": "Benutzerhandbuch ansehen",
+    "searchLink": "Zur Suche",
+    "resourcesLabel": "Hilfe und Anleitungen",
+    "tutorialTitle": "GeoCASe-Benutzerhandbuch",
+    "tutorialDescription": "Eine Schritt-für-Schritt-Anleitung zur Suche, zu Filtern und Sammlungen.",
+    "searchTitle": "Sie suchen ein bestimmtes Exemplar?",
+    "searchDescription": "Öffnen Sie die Suche und entdecken Sie geowissenschaftliche Sammlungen.",
+    "contactEyebrow": "KONTAKT",
+    "contactTitle": "Support kontaktieren",
+    "contactDescription": "Wählen Sie die passende Kontaktperson und schreiben Sie ihr direkt eine E-Mail.",
+    "room": "Raum",
+    "contacts": {
+      "general": {
+        "title": "Allgemeine Fragen",
+        "description": "Wenden Sie sich an Olle bei allgemeinen Fragen zu GeoCASe, den Sammlungen und dem Partnernetzwerk. Er hilft bei Kooperationsanfragen und bei der Suche nach der passenden Kontaktperson."
+      },
+      "providers": {
+        "title": "Datenanbieter werden",
+        "description": "Wenden Sie sich an Kristjan, wenn Ihre Institution Sammlungsdaten über GeoCASe bereitstellen möchte. Er hilft beim Einstieg, bei der Datenvorbereitung, beim Anschluss eines Datendienstes und bei Problemen mit der Datenintegration."
+      },
+      "portal": {
+        "title": "Softwareentwicklung, Design & Funktionen",
+        "description": "Wenden Sie sich an Alissa bei Fragen zur Softwareentwicklung, zum Portaldesign und zu Funktionen. Teilen Sie Funktionswünsche, Rückmeldungen zur Bedienbarkeit oder technische Probleme mit. Fügen Sie möglichst einen Link zur betroffenen Seite hinzu und beschreiben Sie Ihr Vorhaben."
+      }
+    }
+  },
+  "accessPage": {
+    "pageTitle": "Datenzugang und Nutzung",
+    "eyebrow": "ZUGANG UND NUTZUNG",
+    "heroTitle": "Frei entdecken.\nVerantwortungsvoll nutzen.",
+    "heroDescription": "Entdecken Sie geowissenschaftliche Sammlungen. Hier erfahren Sie mehr über den Zugang, die Weitergabe und die Wiederverwendung von GeoCASe-Daten.",
+    "explore": "Sammlungen entdecken",
+    "readTerms": "Nutzungsbedingungen lesen",
+    "overview": "AUF EINEN BLICK",
+    "overviewTitle": "Gute Forschung beginnt mit verantwortungsvoller Nutzung.",
+    "creditTitle": "Quellen nennen",
+    "creditDescription": "Würdigen Sie die Institutionen und Sammlungen, deren Daten Sie verwenden.",
+    "licenceTitle": "Lizenz prüfen",
+    "licenceDescription": "Für jeden Datensatz können eigene Lizenzen und Nutzungsbedingungen gelten.",
+    "careTitle": "Sorgfältig verwenden",
+    "careDescription": "Beachten Sie Einschränkungen sensibler Daten und prüfen Sie Qualität und Vollständigkeit.",
+    "termsEyebrow": "DIE RICHTLINIEN",
+    "termsTitle": "Nutzungsbedingungen",
+    "userTitle": "Für Datennutzer",
+    "providerTitle": "Für Datenanbieter",
+    "responsibilityTitle": "Verantwortung des Netzwerks",
+    "legalEyebrow": "DIE DETAILS",
+    "legalTitle": "Haftung und Urheberrecht",
+    "sourceEyebrow": "OFFENER QUELLCODE",
+    "sourceTitle": "Offene Werkzeuge. Geteiltes Wissen.",
+    "sourceDescription": "Die GeoCASe-Software ist auf GitHub unter der GPL-3.0-Lizenz verfügbar.",
+    "portal": "Portalsoftware",
+    "thumbnails": "Vorschaubilddienst",
+    "infrastructure": "Ursprüngliche Infrastruktur",
+    "contents": "Auf dieser Seite",
+    "termsNav": "Nutzungsbedingungen",
+    "legalNav": "Haftung und Urheberrecht",
+    "sourceNav": "Quellcode",
+    "termsIntro": "Using data available through the GeoCASe network requires agreeing with the following:",
+    "terms": [
+      "The quality and completeness of data cannot be guaranteed.",
+      "Users employ these data at their own risk.",
+      "Users shall respect restrictions of access to sensitive data.",
+      "Users must publicly acknowledge, in conjunction with the use of the data, the data providers whose biodiversity data they have used.",
+      "Data providers may require additional attribution of specific collections within their institution.",
+      "Users must comply with additional terms and conditions of use set by the data provider. Where these exist they will be available through the metadata associated with the data. GeoCASe does not assert any intellectual property rights in the data that is made available through its network.",
+      "The data provider warrants that they have made the necessary agreements with the original owners of the data that it can make the data available through GeoCASe network.",
+      "The data provider makes reasonable efforts to ensure that the data they serve are accurate. Responsibility regarding the restriction of access to sensitive data resides with the data provider.",
+      "The data provider includes a stable and unique identifier in their data so that the owner of the data is known and for other necessary purposes.",
+      "GeoCASe is not liable or responsible, nor are its employees or contractors, for the data contents; or for any loss, damage, claim, cost or expense however it may arise, from an inability to use the GeoCASe network."
+    ],
+    "legal": [
+      {
+        "title": "Liability for Content",
+        "paragraphs": [
+          "We make every effort to keep the information on our website current, but accept no liability whatsoever for the content provided. Pursuant to &sect;7 par. 1 of TMG (German Tele-Media Act), the law limits our responsibility as a service provider to our own content on these Web pages.",
+          "According to &sect;&sect;8 to 10 of TMG, we are not obligated to monitor third party information provided or stored on our website. However, we shall promptly remove any content upon becoming aware that it violates the law. Our liability in such an instance shall commence at the time we become aware of the respective violation."
+        ]
+      },
+      {
+        "title": "Liability for Links",
+        "paragraphs": [
+          "Our site contains links to third-party Web sites. We have no influence whatsoever on the information on these Web sites and accept no guarantee for its correctness. The content of such third-party sites is the responsibility of the respective owners/providers.",
+          "At the time third-party Web sites were linked to ours, we found NO GROUNDS WHATSOEVER of any likely contravention of the law. We shall promptly delete a link upon becoming aware that it violates the law."
+        ]
+      },
+      {
+        "title": "Copyright",
+        "paragraphs": [
+          "The content of this data portal is aggregated from different data sources. We highly recommend data providers to assign open licences to their data in order to increase re-usability according to the FAIR principles (Wilkinson et al. 2016, <a href=\"https://doi.org/10.1038/sdata.2016.18\">https://doi.org/10.1038/sdata.2016.18</a>).<br />\nHowever, the re-use of the data MUST have consideration for the individual licences and restrictions per dataset and data provider. If no licence is indicated by the data providers a full restriction (&ldquo;all rights reserved&rdquo;) must be assumed. Different licences for different data types (e.g. textual metadata and media files) within one dataset might be applied.",
+          "We are not accountable for any violation of copyrights caused by or at the data providers. The data providers provide the data and metadata on their own risk."
+        ]
+      }
+    ]
+  },
+  "linksPage": {
+    "pageTitle": "Weiterführende Links und Ressourcen",
+    "eyebrow": "VERNETZTES WISSEN",
+    "heroTitle": "Über GeoCASe hinaus entdecken.",
+    "heroDescription": "Entdecken Sie Netzwerke, Datenportale und gemeinsame Standards, die geowissenschaftliche Sammlungen zugänglich machen. Nützliche Ressourcen an einem Ort.",
+    "summary": "{resources} Ressourcen · {categories} Kategorien",
+    "categoriesLabel": "Ressourcenkategorien",
+    "groups": {
+      "networks": {
+        "title": "Netzwerke & Institutionen",
+        "description": "Organisationen und Kooperationen, die Sammlungen, Menschen und Forschung verbinden."
+      },
+      "data": {
+        "title": "Daten & Entdeckungen",
+        "description": "Erkunden Sie Biodiversitätsdaten, Fossilvorkommen und stratigraphische Informationen."
+      },
+      "standards": {
+        "title": "Standards & Dokumentation",
+        "description": "Gemeinsame Strukturen für den Austausch und die Nachnutzung von Sammlungsdaten."
+      },
+      "tools": {
+        "title": "GeoCASe-Werkzeuge",
+        "description": "Nutzen Sie die API, erkunden Sie den Quellcode oder besuchen Sie das ursprüngliche Portal."
+      }
+    },
+    "descriptions": {
+      "cetaf": "Das Konsortium europäischer taxonomischer Einrichtungen verbindet naturkundliche Institutionen in Europa.",
+      "dissco": "Eine europäische Forschungsinfrastruktur zur Vernetzung naturwissenschaftlicher Sammlungen.",
+      "synthesys": "Europäische Zusammenarbeit für den Zugang zu naturkundlichen Sammlungen und Forschungsinfrastruktur.",
+      "biocase": "Werkzeuge und Dienste zur Veröffentlichung von Sammlungsdaten in einem gemeinsamen Zugangsnetzwerk.",
+      "museum": "Naturkundliche Sammlungen und Forschung am Museum für Naturkunde Berlin.",
+      "gbif": "Die Global Biodiversity Information Facility: offener Zugang zu Biodiversitätsdaten.",
+      "paleodb": "Eine öffentliche Datenbank zur Erforschung von Fossilvorkommen im Verlauf der Erdgeschichte.",
+      "stratigraphy": "Eine Ressource für stratigraphische Informationen und den Austausch geologischen Wissens.",
+      "abcd": "Der TDWG-Standard für den Austausch von Sammlungs- und Beobachtungsdaten.",
+      "efg": "Die geowissenschaftliche Erweiterung von ABCD für geologische Sammlungen.",
+      "darwin": "Das TDWG-Vokabular für den Austausch von Informationen über biologische Vielfalt.",
+      "paleo": "Gemeinschaftliche Arbeit an Datenstandards für Paläobiologie und Fossilsammlungen.",
+      "api": "Die GeoCASe-API für Sammlungsdaten und Integrationen.",
+      "github": "Erkunden Sie den Quellcode, verfolgen Sie die Entwicklung und melden Sie Probleme.",
+      "legacy": "Besuchen Sie das ursprüngliche GeoCASe-Portal."
+    }
+  },
+  "datasetDetail": {
+    "title": "Datensatz",
+    "back": "Alle Datensätze",
+    "description": "Beschreibung",
+    "institution": "Website der Institution",
+    "coverage": "Abdeckung",
+    "spatial": "Geografische Abdeckung",
+    "taxonomic": "Taxonomische Abdeckung",
+    "geoecological": "Geoökologische Abdeckung",
+    "citation": "Zitierung",
+    "licence": "Lizenz und Rechte",
+    "access": "Zugangslinks",
+    "source": "Quellseite öffnen",
+    "accessRights": "Zugangsbedingungen",
+    "notFound": "Datensatz nicht gefunden",
+    "catalog": "Datensatzseiten",
+    "catalogError": "Die Datensatzbeschreibungen konnten nicht geladen werden.",
+    "view": "Datensatz ansehen",
+    "portal": "Datensätze in GeoCASe",
+    "api": "Anbieter-API",
+    "download": "Archiv herunterladen",
+    "keywords": "Schlagwörter",
+    "rightsPUBLIC": "Öffentlicher Zugang",
+    "rightsRESTRICTED": "Eingeschränkter Zugang",
+    "rightsNON_PUBLIC": "Nicht öffentlich",
+    "map": "Datensatzkarte",
+    "mapError": "Standorte konnten nicht geladen werden.",
+    "providerDetails": "Anbieter- und Importdetails",
+    "resourceName": "Ressourcenname beim Anbieter",
+    "sourceId": "Quellkennung",
+    "language": "Sprache",
+    "providerCountry": "Land des Anbieters",
+    "providerAddress": "Adresse des Anbieters",
+    "sourceRecords": "Vom Anbieter gemeldete Einträge",
+    "harvestedRecords": "In GeoCASe importierte Einträge",
+    "lastHarvested": "Letzter Import",
+    "acknowledgement": "Danksagung",
+    "provenance": "Herkunft",
+    "remarks": "Anmerkungen",
+    "standard": "Datenstandard",
+    "datasetType": "Datensatztyp",
+    "sourceRecordsNote": "Die vom Anbieter gemeldete Anzahl beschreibt die Quellsammlung. Die Importanzahl beschreibt die in GeoCASe übernommenen Einträge und kann davon abweichen.",
+    "totalRecords": "Einträge in diesem Datensatz insgesamt",
+    "totalRecordsNote": "Alle in GeoCASe verfügbaren Einträge dieses Datensatzes, einschließlich Einträgen ohne Koordinaten. Die Karte unten lädt bis zu 1.000 Einträge mit gültigen Koordinaten und fasst sie nach Standort zusammen.",
+    "browseRecords": "Alle Einträge ansehen",
+    "mapAllLocations": "Alle {total} unterschiedlichen Standorte mit gültigen Koordinaten werden angezeigt. Dieser Datensatz enthält keine weiteren unterschiedlichen Standorte. 1.000 ist die Anzeigegrenze, keine erforderliche Punktzahl.",
+    "mapSampleLocations": "Die Karte zeigt eine zufällige Auswahl von 1.000 der {total} unterschiedlichen Standorte mit gültigen Koordinaten. Beim erneuten Öffnen der Seite wird eine neue Auswahl getroffen.",
+    "mapNoLocations": "Dieser Datensatz enthält keine Standorte mit gültigen Koordinaten. Die Einträge können weiterhin über die Suche aufgerufen werden.",
+    "mapCoordinateRecords": "{records} Einträge mit gültigen Koordinaten verteilen sich auf {locations} unterschiedliche Standorte. Einträge mit identischen Koordinaten werden zu einem Kartenpunkt zusammengefasst; daher kann die Punktzahl kleiner als die Eintragszahl sein.",
+    "mapInteraction": "Wählen Sie einen nummerierten Punkt, um einen Eintrag an diesem Standort auszuwählen. Ein einzelner Punkt öffnet seinen Eintrag. Einträge ohne gültige Koordinaten erscheinen nicht auf der Karte, bleiben aber in der Suche verfügbar.",
+    "mapPointsCount": "Angezeigte Punkte (Einträge): {shown} / {total} mit Koordinaten",
+    "mapLoadedLocations": "Angezeigte Standorte: {count}",
+    "mapRecordLimit": "Die Karte lädt bis zu 1.000 Einträge mit gültigen Koordinaten. Einträge mit gleichen Koordinaten werden zusammengefasst. Die Standortzahl gilt für die geladenen Einträge, nicht den gesamten Datensatz.",
+    "mapLoadedSummary": "{records} geladene Einträge werden an {locations} unterschiedlichen Standorten angezeigt. Nummerierte Punkte ermöglichen die Auswahl der dort geladenen Einträge.",
+    "mapCount": "Angezeigte Standorte: {shown} / {total} insgesamt",
+    "mapNote": "Die Karte zeigt bis zu 1.000 unterschiedliche Standorte. Klicken Sie auf einen Punkt, um die Objektdetails zu öffnen. Bei gemeinsamen Koordinaten wird der erste Eintrag geöffnet."
+  },
+  "institutionsCatalog": {
+  "loading": "Institutionen werden geladen…",
+  "error": "Institutionen konnten nicht geladen werden. Bitte erneut versuchen.",
+  "empty": "Keine Institutionen verfügbar."
+},
+  "datasetFilter": {
+  "label": "Datensätze suchen",
+  "placeholder": "Nach Name, Institution oder Beschreibung suchen…",
+  "clear": "Suche löschen",
+  "count": "{shown} von {total} Datensätzen angezeigt",
+  "noMatches": "Keine passenden Datensätze gefunden. Versuchen Sie einen anderen Suchbegriff."
+},
+  "catalogImprovements": {
+  "noIndexedRecords": "Für die Katalogdatensätze dieser Institution wurden keine indexierten Exemplare gefunden.",
+  "collectionUnavailable": "Sammlungsdaten für die Katalogdatensätze dieser Institution sind nicht verfügbar.",
+  "legacyInstitution": "Diese Institution ist derzeit nicht im Institutionskatalog aufgeführt. Verfügbare Sammlungen finden Sie im aktuellen Institutionsverzeichnis."
+},
+  "mobileSearch": {
+  "sortBy": "Sortieren nach",
+  "defaultOrder": "Standardreihenfolge",
+  "ascending": "Aufsteigende Reihenfolge",
+  "descending": "Absteigende Reihenfolge",
+  "mapHelp": "Karte verwenden"
+},
+  "institutionFilter": {
+  "label": "Institutionen suchen",
+  "placeholder": "Nach Name, Land oder Beschreibung suchen…",
+  "clear": "Institutionssuche löschen",
+  "count": "{shown} von {total} Institutionen angezeigt",
+  "noMatches": "Keine passenden Institutionen gefunden. Versuchen Sie einen anderen Suchbegriff."
+}
+}

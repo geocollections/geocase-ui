@@ -1,0 +1,139 @@
+<template>
+  <div ref="wrapper" class="front-map" @keydown.esc="deactivateMap">
+    <div ref="container" class="map-canvas" :class="{ 'map-inactive': !active }" />
+    <button
+      v-if="!active"
+      type="button"
+      class="map-activate"
+      @click="activateMap"
+    >
+      <span>{{ $t("frontPage.map.activate") }}</span>
+    </button>
+    <Teleport v-if="popupTarget && activePopupData.id" :to="popupTarget">
+      <MglPopupWrapper
+        :active-popup-data="activePopupData"
+        :map-results="frontpage.mapResults"
+        :popup-max-width="popupMaxWidth"
+        @clicked:searchButton="loadSpecimens"
+      />
+    </Teleport>
+  </div>
+</template>
+<script setup>
+import {
+  Map,
+  setWorkerUrl,
+  Popup,
+  NavigationControl,
+  GeolocateControl,
+  FullscreenControl,
+  ScaleControl,
+} from "maplibre-gl";
+import "maplibre-gl/dist/maplibre-gl.css";
+import workerUrl from "maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url";
+import { shallowRef, ref, computed, onMounted, onBeforeUnmount } from "vue";
+import { useFrontpageStore } from "@/stores/frontpage";
+import { useDesktopLayout } from "@/composables/useDesktopLayout";
+import MglPopupWrapper from "./MglPopupWrapper.vue";
+const frontpage = useFrontpageStore();
+const container = ref(null);
+const wrapper = ref(null);
+const active = ref(false);
+const activateMap = () => {
+  active.value = true;
+  map?.scrollZoom.enable();
+  map?.getCanvas().focus();
+};
+const deactivateMap = () => {
+  active.value = false;
+  map?.scrollZoom.disable();
+  popup?.remove();
+};
+const handleOutsidePointer = (event) => {
+  if (!wrapper.value?.contains(event.target)) deactivateMap();
+};
+const popupTarget = shallowRef(null);
+const activePopupData = ref({ id: null, locality: "", lat: null, lng: null });
+const { isDesktop } = useDesktopLayout();
+const popupMaxWidth = computed(() => (isDesktop.value ? "400px" : "250px"));
+let map, popup, resizeObserver, resizeFrame;
+const showLocality = (event) => {
+  if (!active.value) return;
+  const feature = event.features?.[0];
+  if (!feature?.geometry?.coordinates || !feature.properties) return;
+  const coordinates = [...feature.geometry.coordinates];
+  while (Math.abs(event.lngLat.lng - coordinates[0]) > 180)
+    coordinates[0] += event.lngLat.lng > coordinates[0] ? 360 : -360;
+  const data = feature.properties;
+  activePopupData.value = {
+    id: data.id,
+    locality: data.locality,
+    lat: data.latitude,
+    lng: data.longitude,
+  };
+  popup.setLngLat(coordinates).setMaxWidth(popupMaxWidth.value).addTo(map);
+};
+const loadSpecimens = () =>
+  frontpage.getLocalitySpecimens(activePopupData.value);
+onMounted(() => {
+  setWorkerUrl(workerUrl);
+  map = new Map({
+    container: container.value,
+    style: "https://map.geocase.eu/styles/geocase-heatmap/style.json",
+    center: [15, 45],
+    zoom: 1.5,
+    minZoom: 1,
+    maxZoom: 19,
+    scrollZoom: false,
+  });
+  map.addControl(new NavigationControl(), "top-right");
+  map.addControl(new GeolocateControl(), "top-right");
+  map.addControl(new FullscreenControl(), "top-right");
+  map.addControl(new ScaleControl(), "bottom-left");
+  popupTarget.value = document.createElement("div");
+  popup = new Popup({
+    closeOnClick: false,
+    focusAfterOpen: false,
+  }).setDOMContent(popupTarget.value);
+  map.on("load", () => {
+    if (map.getLayer("geocase-heatmap")) {
+      map.setPaintProperty("geocase-heatmap", "heatmap-color", [
+        "interpolate",
+        ["linear"],
+        ["heatmap-density"],
+        0,
+        "rgba(0, 0, 0, 0)",
+        0.1,
+        "#e8d3f0",
+        0.25,
+        "#c694d8",
+        0.45,
+        "#a96ac3",
+        0.7,
+        "#743d8b",
+        0.9,
+        "#482a55",
+      ]);
+    }
+    if (map.getLayer("geocase-distinct")) {
+      map.setPaintProperty("geocase-distinct", "circle-color", "#c694d8");
+    }
+    if (!map.getLayer("geocase-distinct")) return;
+    map.on("mouseenter", "geocase-distinct", showLocality);
+    map.on("click", "geocase-distinct", showLocality);
+  });
+  resizeObserver = new ResizeObserver(() => {
+    cancelAnimationFrame(resizeFrame);
+    resizeFrame = requestAnimationFrame(() => map.resize());
+  });
+  resizeObserver.observe(container.value);
+  document.addEventListener("pointerdown", handleOutsidePointer);
+});
+onBeforeUnmount(() => {
+  document.removeEventListener("pointerdown", handleOutsidePointer);
+  resizeObserver?.disconnect();
+  cancelAnimationFrame(resizeFrame);
+  popup?.remove();
+  map?.remove();
+});
+</script>
