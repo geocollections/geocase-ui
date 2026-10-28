@@ -12,6 +12,7 @@ const { t } = useI18n();
 const store = useSearchStore();
 const route = useRoute();
 const router = useRouter();
+const { localePath } = useAppNavigation();
 const { data: sourceCatalog } = useAsyncData("active-filter-dataset-catalog", async () =>
   store.search.datasourceurl.value ? parseDatasetCatalog({ data: await $fetch("/catalog/datasets") }) : [],
   { lazy: true, watch: [() => store.search.datasourceurl.value] },
@@ -57,7 +58,15 @@ const activeFilters = computed(() =>
           `search.activeFilters.operators.${field.lookUpType.replaceAll(" ", "_")}`,
         )
       : "";
-    return [{ id, label, value: displayValue, operator }];
+    const sourceLinks = id === "datasourceurl" && field.lookUpType === "equals"
+      ? parseSourceFilter(String(value)).flatMap((url) => {
+          const matches = (sourceCatalog.value ?? []).filter((item) => item.provider_url === url);
+          return matches.length
+            ? matches.map((item) => ({ href: localePath("/dataset/" + item.dataset_guid), label: item.title, source: url }))
+            : [{ href: null, label: url, source: url }];
+        })
+      : [];
+    return [{ id, label, value: displayValue, operator, sourceLinks }];
   }),
 );
 
@@ -108,6 +117,10 @@ async function removeFilter(id) {
             >:</span
           >
           <span class="tw:ml-1 tw:font-semibold">{{ filter.value }}</span>
+          <span v-for="link in filter.sourceLinks" :key="link.href ?? link.source" class="tw:mt-1 tw:block tw:text-xs">
+            <NuxtLink v-if="link.href" :to="link.href" :title="link.source" class="tw:text-home-link tw:underline tw:underline-offset-2 tw:hover:text-geocase-700">{{ t("datasetDetail.view") }} →</NuxtLink>
+
+          </span>
         </span>
         <UButton
           icon="i-lucide-x"

@@ -10,6 +10,14 @@ export interface CatalogDataset {
   source_id?: string | null;
   description?: string | null;
   organisation_name?: string | null;
+  language?: string | null;
+  acknowledgement?: string | null;
+  provenance?: string | null;
+  remarks?: string | null;
+  conforms_to_uri?: string | null;
+  dataset_type_uri?: string | null;
+  provider_last_harvested?: string | null;
+  provider_harvested_count?: number | null;
   coverage?: string | null;
   spatial_label?: string | null;
   taxonomic_terms?: string | null;

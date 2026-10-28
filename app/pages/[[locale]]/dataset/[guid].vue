@@ -11,7 +11,7 @@ definePageMeta({ name: "Dataset detail", path: "/:locale(en|ee|de)?/dataset/:gui
 const route = useRoute();
 const router = useRouter();
 const origin = useRequestURL().origin;
-const { t } = useI18n();
+const { t, n } = useI18n();
 const { localePath } = useAppNavigation();
 const { data: dataset, status, error, refresh } = useAsyncData(
   () => `dataset-${route.params.guid}`,
@@ -36,14 +36,41 @@ const providerData = computed(() => dataset.value ? {
   provider_params: datasetProviderParams(dataset.value.provider_params),
 } : null);
 const provider = computed(() => datasetProviderParams(dataset.value?.provider_params));
+const providerText = (key: string) => {
+  const value = provider.value[key];
+  return typeof value === "string" && value.trim() ? value.trim() : undefined;
+};
+const descriptions = computed(() => [...new Set([
+  dataset.value?.description?.trim(), providerText("dataResourceDescription"),
+].filter((value): value is string => !!value))]);
+const providerRights = computed(() => providerText("dataResourceRights"));
+const metadata = computed(() => [
+  ["resourceName", providerText("dataResourceDisplayName") ?? providerText("dataResourceName")],
+  ["sourceId", dataset.value?.source_id],
+  ["language", dataset.value?.language],
+  ["providerCountry", providerText("country")],
+  ["providerAddress", providerText("providerAddress")],
+  ["sourceRecords", typeof provider.value.targetCount === "number" ? n(provider.value.targetCount) : undefined],
+  ["harvestedRecords", typeof dataset.value?.provider_harvested_count === "number" ? n(dataset.value.provider_harvested_count) : undefined],
+  ["lastHarvested", dataset.value?.provider_last_harvested],
+  ["acknowledgement", dataset.value?.acknowledgement],
+  ["provenance", dataset.value?.provenance],
+  ["remarks", dataset.value?.remarks],
+].filter(([, value]) => typeof value === "string" && value.trim()));
+const standards = computed(() => [
+  ["standard", datasetWebUrl(dataset.value?.conforms_to_uri)],
+  ["datasetType", datasetWebUrl(dataset.value?.dataset_type_uri)],
+].filter(([, url]) => !!url));
+
 const { data: indexedDatasets } = useAsyncData("dataset-index-owners", () => SearchService.getDatasets());
+const indexedDataset = computed(() => indexedDatasets.value?.find((item) => item.url === dataset.value?.provider_url));
 const owner = computed(() => {
-  const indexed = indexedDatasets.value?.find((item) => item.url === dataset.value?.provider_url);
+  const indexed = indexedDataset.value;
   return indexed?.owners.length === 1 ? indexed.owners[0]!.name : "";
 });
 const searchUrl = computed(() => {
-  if (!owner.value || !dataset.value?.provider_url) return undefined;
-  return localePath("/search") + "?" + new URLSearchParams({ datasetowner: `"${owner.value}"`, datasourceurl__equals: dataset.value.provider_url }).toString();
+  if (!dataset.value?.provider_url) return undefined;
+  return localePath("/search") + "?" + new URLSearchParams({ datasourceurl__equals: dataset.value.provider_url }).toString();
 });
 const accessConditions = computed(() => {
   const uri = dataset.value?.access_rights_uri;
@@ -116,12 +143,28 @@ useHead(() => ({
         </div>
       </header>
 
+      <NuxtLink
+        v-if="indexedDataset && searchUrl"
+        :to="searchUrl"
+        class="tw:group tw:mt-6 tw:flex tw:flex-col tw:gap-6 tw:rounded-3xl tw:bg-home-hero tw:p-6 tw:text-white tw:no-underline tw:transition-colors tw:hover:bg-home-link tw:focus-visible:outline-3 tw:focus-visible:outline-offset-4 tw:focus-visible:outline-home-focus tw:sm:flex-row tw:sm:items-center tw:sm:justify-between tw:sm:p-8"
+      >
+        <div>
+          <p class="tw:text-sm tw:font-semibold tw:text-home-hero-muted">{{ t("datasetDetail.totalRecords") }}</p>
+          <p class="tw:mt-2 tw:break-words tw:text-5xl tw:font-extrabold tw:tracking-tight tw:text-home-accent tw:sm:text-6xl">{{ n(indexedDataset.count) }}</p>
+          <p class="tw:mt-4 tw:max-w-2xl tw:text-sm tw:leading-6 tw:text-home-hero-muted">{{ t("datasetDetail.totalRecordsNote") }}</p>
+        </div>
+        <span class="tw:flex tw:shrink-0 tw:items-center tw:gap-3 tw:font-bold">
+          {{ t("datasetDetail.browseRecords") }}
+          <UIcon name="i-lucide-arrow-right" class="tw:size-5 tw:transition-transform tw:group-hover:translate-x-1" aria-hidden="true" />
+        </span>
+      </NuxtLink>
+
       <div class="tw:mt-8 tw:grid tw:items-start tw:gap-8 tw:lg:mt-10 tw:lg:grid-cols-[minmax(0,1fr)_minmax(0,320px)] tw:lg:gap-10">
         <div class="tw:min-w-0 tw:space-y-9">
-          <DatasetLocations v-if="owner && dataset.provider_url" :key="dataset.dataset_guid" :owner="owner" :source="dataset.provider_url" />
-          <section v-if="dataset.description?.trim()" aria-labelledby="dataset-description">
+          <DatasetLocations v-if="dataset.provider_url" :key="dataset.dataset_guid" :source="dataset.provider_url" />
+          <section v-if="descriptions.length" aria-labelledby="dataset-description">
             <h2 id="dataset-description" class="tw:text-2xl tw:font-bold tw:tracking-tight">{{ t("datasetDetail.description") }}</h2>
-            <p class="tw:mt-4 tw:whitespace-pre-line tw:break-words tw:text-base tw:leading-8 tw:text-home-muted">{{ dataset.description }}</p>
+            <p v-for="description in descriptions" :key="description" class="tw:mt-4 tw:whitespace-pre-line tw:break-words tw:text-base tw:leading-8 tw:text-home-muted">{{ description }}</p>
           </section>
           <section v-if="fields.length" aria-labelledby="dataset-coverage" class="tw:rounded-3xl tw:bg-home-surface tw:p-6 tw:sm:p-8">
             <h2 id="dataset-coverage" class="tw:flex tw:items-center tw:gap-3 tw:text-xl tw:font-bold tw:tracking-tight">
@@ -133,6 +176,20 @@ useHead(() => ({
                 <dd class="tw:mt-2 tw:whitespace-pre-line tw:break-words tw:leading-7">{{ value }}</dd>
               </div>
             </dl>
+          </section>
+          <section v-if="metadata.length || standards.length" aria-labelledby="dataset-provider-details" class="tw:rounded-3xl tw:bg-home-surface tw:p-6 tw:sm:p-8">
+            <h2 id="dataset-provider-details" class="tw:text-xl tw:font-bold">{{ t("datasetDetail.providerDetails") }}</h2>
+            <dl class="tw:mt-6 tw:grid tw:gap-6 tw:sm:grid-cols-2">
+              <div v-for="[key, value] in metadata" :key="key!" class="tw:min-w-0">
+                <dt class="tw:text-sm tw:font-semibold tw:text-home-muted">{{ t(`datasetDetail.${key}`) }}</dt>
+                <dd class="tw:mt-2 tw:whitespace-pre-line tw:break-words tw:leading-7">{{ value }}</dd>
+              </div>
+              <div v-for="[key, url] in standards" :key="key!" class="tw:min-w-0">
+                <dt class="tw:text-sm tw:font-semibold tw:text-home-muted">{{ t(`datasetDetail.${key}`) }}</dt>
+                <dd class="tw:mt-2"><a :href="url" class="tw:break-all tw:text-home-link tw:underline">{{ url }}</a></dd>
+              </div>
+            </dl>
+            <p v-if="typeof provider.targetCount === 'number'" class="tw:mt-6 tw:text-sm tw:leading-6 tw:text-home-muted">{{ t("datasetDetail.sourceRecordsNote") }}</p>
           </section>
           <ProviderDataPanel :data="providerData" />
           <section v-if="dataset.citation?.trim()" aria-labelledby="dataset-citation">
@@ -161,12 +218,13 @@ useHead(() => ({
             </ul>
           </section>
 
-          <section v-if="dataset.license_text?.trim() || dataset.license_uri?.trim() || dataset.rights_statement?.trim()" aria-labelledby="dataset-licence" class="tw:rounded-3xl tw:border tw:border-home-border tw:p-6">
+          <section v-if="dataset.license_text?.trim() || dataset.license_uri?.trim() || dataset.rights_statement?.trim() || providerRights" aria-labelledby="dataset-licence" class="tw:rounded-3xl tw:border tw:border-home-border tw:p-6">
             <h2 id="dataset-licence" class="tw:flex tw:items-center tw:gap-3 tw:text-lg tw:font-bold">
               <UIcon name="i-lucide-shield-check" class="tw:size-5 tw:shrink-0 tw:text-home-link" aria-hidden="true" />{{ t("datasetDetail.licence") }}
             </h2>
             <p v-if="dataset.license_text" class="tw:mt-4 tw:whitespace-pre-line tw:break-words tw:font-semibold">{{ dataset.license_text }}</p>
             <a v-if="datasetWebUrl(dataset.license_uri)" :href="datasetWebUrl(dataset.license_uri)" class="tw:mt-3 tw:inline-block tw:break-all tw:text-sm tw:leading-6 tw:text-home-link tw:underline tw:underline-offset-4">{{ dataset.license_uri }}</a>
+            <p v-if="providerRights && providerRights !== dataset.license_text && providerRights !== dataset.rights_statement" class="tw:mt-4 tw:whitespace-pre-line tw:break-words tw:text-sm tw:leading-7 tw:text-home-muted">{{ providerRights }}</p>
             <p v-if="dataset.rights_statement" class="tw:mt-4 tw:whitespace-pre-line tw:break-words tw:text-sm tw:leading-7 tw:text-home-muted">{{ dataset.rights_statement }}</p>
           </section>
 

@@ -25,7 +25,7 @@ const clearLabel = (id: string) =>
 </script>
 
 <template>
-  <div class="tw:text-highlighted tw:space-y-6">
+  <div class="search-filters tw:text-highlighted tw:space-y-6">
     <div
       v-if="hasActiveFilters"
       class="tw:sticky tw:-top-4 tw:z-20 tw:-mx-4 tw:-mt-4 tw:bg-white tw:px-4 tw:py-3"
@@ -218,6 +218,7 @@ const clearLabel = (id: string) =>
             :key="entity"
             :model-value="isSelected(id, entity)"
             :label="`${entity} (${store.getCheckboxesCount(id)[index]})`"
+            class="search-filter-checkbox"
             :ui="{ label: 'tw:text-highlighted' }"
             @update:model-value="toggleFacet(id, entity, $event === true)"
           />
@@ -252,9 +253,45 @@ const clearLabel = (id: string) =>
           id === 'has_image' ? t('search.drawer.imageFilterHint') : undefined
         "
         color="neutral"
+        class="search-filter-checkbox"
         :ui="{ label: 'tw:text-highlighted tw:font-semibold' }"
         @update:model-value="updateValue(id, $event === true ? 'true' : null)"
       />
     </div>
   </div>
 </template>
+
+<style scoped>
+/* Checkbox buttons need their own size, independent of generic button targets. */
+.search-filter-checkbox :deep(button[role="checkbox"]) {
+  width: 24px;
+  height: 24px;
+  min-width: 24px;
+  min-height: 24px;
+  flex-shrink: 0;
+}
+
+.search-filter-checkbox :deep([data-slot="container"]) {
+  height: 24px;
+}
+
+@media (max-width: 1023px) {
+  .search-filter-checkbox {
+    min-height: 44px;
+    align-items: center;
+  }
+
+  .search-filter-checkbox :deep([data-slot="label"]) {
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+  }
+
+  /* Match field and label sizes while avoiding focus zoom on mobile browsers. */
+  .search-filters :deep(input),
+  .search-filters :deep([role="combobox"]),
+  .search-filters :deep([data-slot="label"]) {
+    font-size: 16px;
+  }
+}
+</style>
