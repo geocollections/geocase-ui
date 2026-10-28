@@ -335,7 +335,7 @@
 
 /* Keep compact desktop controls while providing usable touch targets below the table breakpoint. */
 @media (max-width: 1023px) {
-  .mobile-touch-controls :where(button, [role="combobox"], [role="tab"]) {
+  .mobile-touch-controls :where(button:not([role="checkbox"]), [role="combobox"], [role="tab"]) {
     min-height: 44px;
     min-width: 44px;
   }
