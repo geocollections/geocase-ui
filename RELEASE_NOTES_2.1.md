@@ -54,8 +54,6 @@ Andmeandja teatatud koguarv, kogutud kirjete arv, otsinguindeksi kirjete arv ja 
 
 Uuendatud on inglise-, eesti- ja saksakeelseid tekste ning säilitatud lokaliseeritud URL-id. Tutvustuslehel on GeoCASe’i tänane meeskond, CETAF-i maateaduste töörühma roll ja viited Berliini varasematele panustajatele.
 
-PR #299 järgse täiendusena on meeskonna tutvustusse lisatud **Enar Mustonen**, kirjeldusega „Tarkvaraarendus ja portaali haldus“. Tema kaardil ei kuvata kontaktandmeid ega aadressi.
-
 ## Tehnilised muudatused
 
 - Vue CLI asemel kasutatakse Nuxt 4 tööriistu ja failipõhist marsruutimist.
