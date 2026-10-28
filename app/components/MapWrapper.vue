@@ -91,6 +91,7 @@ export default {
       default: "points",
     },
     selectableLocations: Boolean,
+    loadLocationRecords: Function,
     activateSearch: Boolean,
     isDetailView: Boolean,
   },
@@ -485,15 +486,16 @@ export default {
       next.style.cssText =
         "margin-top:8px;text-decoration:underline;cursor:pointer";
       container.append(next);
-      const store = useSearchStore();
-      const params = {
+      // Dataset popups use their loaded records and do not need search state.
+      const store = this.loadLocationRecords ? null : useSearchStore();
+      const params = store ? {
         page: 1,
         paginateBy: 20,
         sortBy: [...store.sortBy],
         sortDesc: [...store.sortDesc],
         searchIds: [...store.searchIds],
         search: JSON.parse(JSON.stringify(store.search)),
-      };
+      } : null;
       let page = 1;
       let loading = false;
       let loaded = false;
@@ -502,12 +504,14 @@ export default {
         loading = true;
         next.disabled = true;
         try {
-          const response = await SearchService.searchMapLocation(
-            params,
-            item.latitude,
-            item.longitude,
-            page,
-          );
+          const response = this.loadLocationRecords
+            ? await this.loadLocationRecords(item.latitude, item.longitude, page)
+            : await SearchService.searchMapLocation(
+                params,
+                item.latitude,
+                item.longitude,
+                page,
+              );
           for (const record of response.docs) {
             const link = document.createElement("a");
             link.textContent = [
@@ -613,14 +617,14 @@ export default {
               },
             );
 
-            if (this.selectableLocations) {
-              marker.on("click", () => this.$emit("select-location", item));
-            } else if (!this.isDetailView && item.mapCount > 1) {
+            if (!this.isDetailView && item.mapCount > 1) {
               this.locationCountMarkers.push({
                 marker: markRaw(marker),
                 count: item.mapCount,
               });
               this.bindLocationPopup(marker, item);
+            } else if (this.selectableLocations) {
+              marker.on("click", () => this.$emit("select-location", item));
             } else if (this.isDetailView ? item.recordURI : item.geocase_id) {
               marker.on("click", () => {
                 if (this.isGeomanInteractionActive()) return;
