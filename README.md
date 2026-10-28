@@ -1,10 +1,14 @@
 # GeoCASe UI
 
-GeoCASe is a portal for museum and research collections of fossils, minerals, rocks and meteorites.
+Public portal: [https://geocase.eu/](https://geocase.eu/).
+
+GeoCASe is a portal for museum and research collections of fossils, minerals, rocks, meteorites and material samples. It supports searching collection records, browsing specimen images and maps, and exploring institutions and datasets.
+
+The interface is available in English (default), Estonian (`/ee`) and German (`/de`). See [version 2.1 release notes](RELEASE_NOTES_2.1.md) for changes from the previous production interface.
 
 ## Development
 
-Use Node 24.22.1 LTS (see `.nvmrc`) and npm 11:
+Use Node 24.22.1 (see `.nvmrc`) and npm 11:
 
 ```sh
 nvm install
@@ -14,13 +18,36 @@ cp .env.example .env
 npm run dev
 ```
 
-The application uses Nuxt 4, Vue 3, Vuetify 4, Tailwind CSS 4 and Pinia. Existing English, Estonian (`/ee`) and German (`/de`) URLs are preserved.
+The application uses Nuxt 4, Vue 3, Nuxt UI 4, Tailwind CSS 4 and Pinia. Vuetify remains installed for compatibility. Rendering is client-side (`ssr: false`); the Nuxt/Nitro server provides API proxies and catalog routes.
 
-## Tailwind CSS
+## Features
 
-Tailwind is integrated through the `@nuxt/ui` module and loaded globally from
-`app/assets/css/tailwind.css`. Classes use the `tw:` prefix to avoid collisions
-with Vuetify utilities. Preflight is disabled because Vuetify supplies the reset.
+- Search with text filters, facets, removable active filters, sorting and pagination.
+- Table and image result views alongside an interactive map.
+- Specimen detail pages with images, geographic information and provider data.
+- Institution directory and detail pages with catalog metadata, collections, images and maps.
+- Dataset directory and detail pages with record totals, provider descriptions, rights and harvest information.
+- Dataset maps load up to 1,000 records with valid coordinates. Shared coordinates form one numbered point; clicking it offers a choice among the loaded records at that location. Location totals refer to this loaded selection.
+- Responsive navigation, mobile filter drawers and localized controls.
+
+## Structure
+
+- `app/pages/[[locale]]/`: localized routes, including institution, dataset and specimen details.
+- `app/components/`: navigation, search controls, tables, galleries and maps.
+- `app/composables/`: shared Composition API logic.
+- `app/stores/`: Pinia state for search, specimens, statistics and preferences.
+- `app/services/`: backend requests and collection queries.
+- `app/utils/`: catalog parsing, source filters and shared transformations.
+- `app/i18n/translations/`: English, Estonian and German interface text.
+- `app/plugins/`: translations, UI integrations, analytics and browser preferences.
+- `server/api/`: same-origin API proxies and institution collection endpoint.
+- `server/routes/catalog/`: institution and dataset catalogs.
+- `server/utils/`: cached catalog loaders.
+- `tests/`: unit tests, browser tests and upstream fixtures.
+
+## Styling
+
+Shared styles and theme colors are in `app/assets/css/tailwind.css`. Nuxt UI integrates Tailwind; utility classes use the `tw:` prefix to distinguish them from Vuetify classes. Keep class names complete so Tailwind can detect them.
 
 ```vue
 <div class="tw:flex tw:items-center tw:gap-4 tw:md:gap-6">
@@ -28,48 +55,39 @@ with Vuetify utilities. Preflight is disabled because Vuetify supplies the reset
 </div>
 ```
 
-Source detection covers `app/`. Keep class names complete in templates so Tailwind
-can detect them. `StatsCard.vue` uses Tailwind for its typography.
-Restart `npm run dev` after installing dependencies or changing the Vite config.
+Restart the development server after installing dependencies or changing the Vite configuration.
 
-The `app/components/app_markup/` shell uses Nuxt UI and `<script setup lang="ts">`.
-Vuetify remains available for the other views and shared map/search components.
+## Configuration and catalogs
 
-## Structure
+Runtime settings are declared in `nuxt.config.ts` and can be overridden with environment variables:
 
-- `app/pages/[[locale]]/`: file-based routes, including specimen detail pages.
-- `app/layouts/`: shared application shell and static-page layout.
-- `app/components/`: interface, tables, search and map components.
-- `app/composables/`: shared Vue Composition API logic in TypeScript (`use*.ts`), for example `useToggle.ts` for menu and dialog visibility.
-- `app/stores/`: Pinia stores for search, specimens, statistics and preferences.
-- `app/plugins/`: Vuetify, translations, notifications and browser preference persistence.
-- `app/middleware/`: locale selection and redirects.
-- `app/services/`: backend query construction.
-- `server/api/`: same-origin Solr and provider-request proxies.
+| Variable | Default | Purpose |
+| --- | --- | --- |
+| `NUXT_API_BASE` | `https://api.geocase.eu` | Upstream API; `/api` forwards to `/v1/solr`, `/api/repeat` to `/v1/repeat`. |
+| `NUXT_INSTITUTION_CATALOG_URL` | `https://geocase.geocollections.info/dcat/institutions.json` | Institution metadata, logos and header images. |
+| `NUXT_DATASET_CATALOG_URL` | `https://geocase.eu/dcat/datasets.json` | Dataset metadata and institution relationships. |
+| `NUXT_APP_BASE_URL` | `/` | Application URL prefix. |
 
-NuxtLink, NuxtPage, NuxtLayout, definePageMeta, useHead and useSeoMeta replace the Vue CLI entry point and manual router/metadata setup. Existing Options API components remain supported by Vue 3. The application retains client-side rendering (`ssr: false`); map libraries and browser storage require a browser. Server-rendered specimen metadata is not enabled by this migration.
+The catalog loaders cache responses for **300 seconds**. After expiry, a request can receive the old response while a refresh runs in the background. An already open page does not automatically update when the source JSON changes; reload after the server cache refreshes.
 
-The existing GA4 and Matomo integrations are loaded by a client plugin on the production GeoCASe hostname and record Nuxt page navigation. Development and browser tests do not load the trackers.
+Institution logos come from `logo_url`, and header images from `header_url`. Logos use a regular `<img>` element, supporting PNG and SVG. External image servers and browsers have their own caching rules. When replacing an image at the same address, use a new filename or version query such as `logo.svg?v=2` if needed.
 
-## Configuration
+Catalog record totals and indexed search record totals describe different things. Dataset pages distinguish provider-reported, harvested and indexed counts where available. Map location counts describe distinct coordinate pairs in the loaded records.
 
-`NUXT_API_BASE` defaults to `https://api.geocase.eu` and is read at runtime by the Nuxt server. `/api` forwards to `/v1/solr` and `/api/repeat` forwards to `/v1/repeat`, preserving query parameters. Set `NUXT_APP_BASE_URL` if hosting below a URL prefix. The old `API_URL` and `APP_URL_PREFIX` variables are no longer used.
+GA4 and Matomo load only in production builds on `geocase.eu` and `www.geocase.eu`. They record client-side page navigation.
 
 ## Validation
 
 ```sh
 npm run lint
+npm run typecheck
 npm test
 npx playwright install --with-deps chromium
 npm run test:e2e
 npm run build
 ```
 
-Browser tests mock collection data and the homepage map style. API proxy tests start a local upstream server and verify the real Nitro endpoints, including error statuses. The tests do not depend on the live API. Real upstream availability is a separate deployment check.
-
-CI runs lint, unit tests, type checks, the production build and browser tests before the existing deployment workflow.
-
-Migration references: [Nuxt routing](https://nuxt.com/docs/4.x/getting-started/routing/), [Pinia migration](https://pinia.vuejs.org/cookbook/migration-vuex.html), [MapLibre worker setup](https://maplibre.org/maplibre-gl-js/docs/).
+Browser tests use fixtures for collection and catalog data. Proxy tests run a local upstream server. Live provider availability and production deployment should be checked separately.
 
 ## Production
 
@@ -78,6 +96,17 @@ npm run build
 node .output/server/index.mjs
 ```
 
-Or build the Docker image. The container now runs the Nuxt/Nitro server on port 80 instead of serving a Vue CLI `dist` directory through Nginx. Supply `NUXT_API_BASE` to the container if overriding the upstream. Reverse proxies must forward requests to this server, including `/api`. Nuxt also serves `/sitemap.xml`.
+The Docker image runs the Nuxt/Nitro server on port 80. Pass runtime environment variables to override the upstream API or catalog URLs. Reverse proxies must forward application routes, `/api`, `/catalog` and `/sitemap.xml` to the Nuxt server.
 
-`npm run generate` produces a static client in `.output/public`; static hosting must provide the same `/api` proxy separately. The Node deployment above includes it.
+`npm run generate` creates a static client in `.output/public`. Static hosting requires separate implementations of the API, catalog and sitemap endpoints provided by Nitro in the Node deployment.
+
+## Team
+
+The TalTech team develops and maintains GeoCASe in collaboration with the CETAF Earth Science Group:
+
+- **Olle Hints**: general questions, scientific context and community collaboration.
+- **Kristjan Urtson**: data provider support, publishing and integration.
+- **Alissa Milovidova**: software development, portal design, usability and new features.
+- **Enar Mustonen**: software development and portal maintenance.
+
+The localized team presentation is on the About page (`/about`).
