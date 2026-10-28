@@ -294,10 +294,11 @@ const collections = [
       <h2 id="team-title" class="tw:mt-2 tw:text-2xl tw:font-bold tw:tracking-tight tw:sm:text-3xl">{{ t('aboutPage.team.title') }}</h2>
       <p class="tw:mt-4 tw:max-w-3xl tw:leading-7 tw:text-home-muted">{{ t('aboutPage.team.intro') }}</p>
       <div class="tw:mt-7 tw:grid tw:gap-4 tw:sm:grid-cols-2">
-        <article v-for="person in [{ name: 'Olle Hints', key: 'olle' }, { name: 'Kristjan Urtson', key: 'kristjan' }, { name: 'Alissa Milovidova', key: 'alissa' }]" :key="person.key" class="tw:rounded-2xl tw:bg-home-surface tw:p-6">
+        <article v-for="person in [{ name: 'Olle Hints', key: 'olle' }, { name: 'Kristjan Urtson', key: 'kristjan' }, { name: 'Alissa Milovidova', key: 'alissa' }, { name: 'Enar Mustonen', key: 'enar' }]" :key="person.key" class="tw:rounded-2xl tw:bg-home-surface tw:p-6">
           <p class="tw:text-xs tw:font-bold tw:tracking-wide tw:text-home-muted">TalTech</p>
           <h3 class="tw:mt-2 tw:text-xl tw:font-bold">{{ person.name }}</h3>
           <p class="tw:mt-3 tw:leading-7 tw:text-home-muted">{{ t(`aboutPage.team.${person.key}`) }}</p>
+
         </article>
         <article class="tw:rounded-2xl tw:bg-home-hover tw:p-6">
           <p class="tw:text-xs tw:font-bold tw:tracking-wide tw:text-home-muted">CETAF ESG</p>
