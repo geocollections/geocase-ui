@@ -1,5 +1,7 @@
 # GeoCASe UI
 
+Public portal: [https://geocase.eu/](https://geocase.eu/).
+
 GeoCASe is a portal for museum and research collections of fossils, minerals, rocks, meteorites and material samples. It supports searching collection records, browsing specimen images and maps, and exploring institutions and datasets.
 
 The interface is available in English (default), Estonian (`/ee`) and German (`/de`). See [version 2.1 release notes](RELEASE_NOTES_2.1.md) for changes from the previous production interface.
@@ -16,7 +18,7 @@ cp .env.example .env
 npm run dev
 ```
 
-Open http://localhost:3000. The application uses Nuxt 4, Vue 3, Nuxt UI 4, Tailwind CSS 4 and Pinia. Vuetify remains installed for compatibility. Rendering is client-side (`ssr: false`); the Nuxt/Nitro server provides API proxies and catalog routes.
+The application uses Nuxt 4, Vue 3, Nuxt UI 4, Tailwind CSS 4 and Pinia. Vuetify remains installed for compatibility. Rendering is client-side (`ssr: false`); the Nuxt/Nitro server provides API proxies and catalog routes.
 
 ## Features
 
