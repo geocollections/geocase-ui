@@ -1015,7 +1015,7 @@
     "datasetType": "Dataset type",
     "sourceRecordsNote": "The provider-reported count describes the source collection. The harvested count describes records imported into GeoCASe; it may differ from the source count.",
     "totalRecords": "Total records in this dataset",
-    "totalRecordsNote": "All records from this dataset available in GeoCASe, including those without coordinates. The map below loads up to 1,000 records with valid coordinates and groups them by location.",
+    "totalRecordsNote": "All records from this dataset available in GeoCASe, including those without coordinates. The map below shows up to 1,000 distinct locations with valid coordinates.",
     "browseRecords": "Explore all records",
     "mapAllLocations": "All {total} distinct locations with valid coordinates are shown. This dataset has no additional distinct locations to display; 1,000 is the display limit, not a required number of points.",
     "mapSampleLocations": "The map shows a random sample of 1,000 out of {total} distinct locations with valid coordinates. Reopening this page selects a new sample.",
@@ -1024,10 +1024,10 @@
     "mapInteraction": "Select a numbered point to choose from the records at that location. Select an individual point to open its record. Records without valid coordinates are excluded from the map but remain available in search.",
     "mapPointsCount": "Points shown (records): {shown} / {total} with coordinates",
     "mapLoadedLocations": "Locations shown: {count}",
-    "mapRecordLimit": "The map loads up to 1,000 records with valid coordinates. Records sharing coordinates are combined into one point. The location count applies to the loaded records, not the entire dataset.",
+    "mapRecordLimit": "The map shows up to 1,000 distinct locations with valid latitude and longitude. Records sharing the same coordinates appear as a single point. If the dataset has fewer than 1,000 distinct locations, all are shown, so a large dataset may still have relatively few map points.",
     "mapLoadedSummary": "{records} loaded records are shown at {locations} distinct locations. Numbered points let you choose among the loaded records at that location.",
     "mapCount": "Locations shown: {shown} / {total} total",
-    "mapNote": "The map shows up to 1,000 distinct locations. Select a point to open its specimen details. If records share coordinates, the first record is shown."
+    "mapNote": "Select a point to open the details of one record at that location. Other records at the same coordinates and records without valid coordinates remain available through “Explore all records”."
   },
   "institutionsCatalog": {
   "loading": "Loading institutions…",

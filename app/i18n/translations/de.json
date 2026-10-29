@@ -1014,7 +1014,7 @@
     "datasetType": "Datensatztyp",
     "sourceRecordsNote": "Die vom Anbieter gemeldete Anzahl beschreibt die Quellsammlung. Die Importanzahl beschreibt die in GeoCASe übernommenen Einträge und kann davon abweichen.",
     "totalRecords": "Einträge in diesem Datensatz insgesamt",
-    "totalRecordsNote": "Alle in GeoCASe verfügbaren Einträge dieses Datensatzes, einschließlich Einträgen ohne Koordinaten. Die Karte unten lädt bis zu 1.000 Einträge mit gültigen Koordinaten und fasst sie nach Standort zusammen.",
+    "totalRecordsNote": "Alle in GeoCASe verfügbaren Einträge dieses Datensatzes, einschließlich Einträgen ohne Koordinaten. Die Karte unten zeigt bis zu 1.000 unterschiedliche Standorte mit gültigen Koordinaten.",
     "browseRecords": "Alle Einträge ansehen",
     "mapAllLocations": "Alle {total} unterschiedlichen Standorte mit gültigen Koordinaten werden angezeigt. Dieser Datensatz enthält keine weiteren unterschiedlichen Standorte. 1.000 ist die Anzeigegrenze, keine erforderliche Punktzahl.",
     "mapSampleLocations": "Die Karte zeigt eine zufällige Auswahl von 1.000 der {total} unterschiedlichen Standorte mit gültigen Koordinaten. Beim erneuten Öffnen der Seite wird eine neue Auswahl getroffen.",
@@ -1023,10 +1023,10 @@
     "mapInteraction": "Wählen Sie einen nummerierten Punkt, um einen Eintrag an diesem Standort auszuwählen. Ein einzelner Punkt öffnet seinen Eintrag. Einträge ohne gültige Koordinaten erscheinen nicht auf der Karte, bleiben aber in der Suche verfügbar.",
     "mapPointsCount": "Angezeigte Punkte (Einträge): {shown} / {total} mit Koordinaten",
     "mapLoadedLocations": "Angezeigte Standorte: {count}",
-    "mapRecordLimit": "Die Karte lädt bis zu 1.000 Einträge mit gültigen Koordinaten. Einträge mit gleichen Koordinaten werden zusammengefasst. Die Standortzahl gilt für die geladenen Einträge, nicht den gesamten Datensatz.",
+    "mapRecordLimit": "Die Karte zeigt bis zu 1.000 unterschiedliche Standorte mit gültigen Breiten- und Längengraden. Einträge mit denselben Koordinaten erscheinen als ein Punkt. Hat der Datensatz weniger als 1.000 unterschiedliche Standorte, werden alle angezeigt. Daher kann auch ein großer Datensatz relativ wenige Kartenpunkte haben.",
     "mapLoadedSummary": "{records} geladene Einträge werden an {locations} unterschiedlichen Standorten angezeigt. Nummerierte Punkte ermöglichen die Auswahl der dort geladenen Einträge.",
     "mapCount": "Angezeigte Standorte: {shown} / {total} insgesamt",
-    "mapNote": "Die Karte zeigt bis zu 1.000 unterschiedliche Standorte. Klicken Sie auf einen Punkt, um die Objektdetails zu öffnen. Bei gemeinsamen Koordinaten wird der erste Eintrag geöffnet."
+    "mapNote": "Wählen Sie einen Punkt, um die Details eines Eintrags an diesem Standort zu öffnen. Weitere Einträge mit denselben Koordinaten sowie Einträge ohne gültige Koordinaten finden Sie über den Link zum Durchsuchen aller Einträge."
   },
   "institutionsCatalog": {
   "loading": "Institutionen werden geladen…",
