@@ -995,6 +995,7 @@
     "rightsPUBLIC": "Avalik kasutus",
     "rightsRESTRICTED": "Piiratud kasutus",
     "rightsNON_PUBLIC": "Mitteavalik",
+    "mapHelp": "Kaardi info",
     "map": "Andmestiku kaart",
     "mapError": "Asukohtade laadimine ebaõnnestus.",
     "providerDetails": "Andmeandja ja andmete kogumise teave",
@@ -1013,7 +1014,7 @@
     "datasetType": "Andmestiku tüüp",
     "sourceRecordsNote": "Andmeandja teatatud arv kirjeldab lähtekollektsiooni. Kogutud kirjete arv näitab GeoCASe’i imporditud kirjeid ning võib lähteallika arvust erineda.",
     "totalRecords": "Kirjeid selles andmestikus kokku",
-    "totalRecordsNote": "Kõik selle andmestiku GeoCASe’is leitavad kirjed, sealhulgas koordinaatideta kirjed. Allolev kaart laadib kuni 1000 kehtivate koordinaatidega kirjet ja koondab need asukoha järgi.",
+    "totalRecordsNote": "Kõik selle andmestiku GeoCASe’is leitavad kirjed, sealhulgas koordinaatideta kirjed. Allolev kaart näitab kuni 1000 erinevat kehtivate koordinaatidega asukohta.",
     "browseRecords": "Vaata kõiki kirjeid",
     "mapAllLocations": "Kuvatud on kõik {total} erinevat kehtivate koordinaatidega asukohta. Rohkem erinevaid asukohti selles andmestikus pole; 1000 on kuvamise ülempiir, mitte nõutav punktide arv.",
     "mapSampleLocations": "Kaardil on juhuslik valik 1000 asukohast kokku {total} erineva kehtivate koordinaatidega asukoha hulgast. Lehe uuesti avamisel tehakse uus valik.",
@@ -1022,10 +1023,10 @@
     "mapInteraction": "Numbriga punktil klõpsates saad valida selle asukoha kirjete hulgast. Üksikul punktil klõpsates avaneb selle kirje. Kehtivate koordinaatideta kirjeid kaardil ei kuvata, kuid need on otsingus olemas.",
     "mapPointsCount": "Kuvatud punktid (kirjed): {shown} / {total} koordinaatidega kirjest",
     "mapLoadedLocations": "Kuvatud asukohti: {count}",
-    "mapRecordLimit": "Kaart laadib kuni 1000 kehtivate koordinaatidega kirjet. Samade koordinaatidega kirjed koondatakse üheks punktiks. Asukohtade arv käib laaditud kirjete, mitte kogu andmestiku kohta.",
+    "mapRecordLimit": "Kaart näitab kuni 1000 erinevat asukohta, millel on kehtiv laius- ja pikkuskraad. Samade koordinaatidega kirjed kuvatakse ühe punktina. Kui andmestikus on alla 1000 erineva asukoha, näidatakse neid kõiki. Seetõttu võib ka suure kirjete arvuga andmestikul olla kaardil suhteliselt vähe punkte.",
     "mapLoadedSummary": "{records} laaditud kirjet paiknevad {locations} erinevas asukohas. Numbriga punktil saad valida selle asukoha laaditud kirjete hulgast.",
     "mapCount": "Kaardil {shown} / kokku {total} asukohta",
-    "mapNote": "Kaart näitab kuni 1000 erinevat asukohta. Klõpsa punktil, et avada kirje detailvaade. Kui samal kohal on mitu kirjet, avaneb neist esimene."
+    "mapNote": "Klõpsa punktil, et avada ühe selles asukohas oleva kirje detailvaade. Teised samade koordinaatidega kirjed ja kehtivate koordinaatideta kirjed leiad lingi „Vaata kõiki kirjeid” kaudu."
   },
   "institutionsCatalog": {
   "loading": "Laadin asutusi…",
