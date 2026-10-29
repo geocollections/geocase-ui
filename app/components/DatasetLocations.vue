@@ -55,14 +55,22 @@ onBeforeUnmount(() => { disposed = true; });
   <section :aria-label="t('datasetDetail.map')" class="tw:overflow-hidden tw:rounded-xl tw:border tw:border-default">
     <div class="tw:flex tw:flex-wrap tw:items-center tw:justify-between tw:gap-3 tw:bg-muted/30 tw:px-4 tw:py-3">
       <div>
-        <h2 class="tw:flex tw:items-center tw:gap-2 tw:text-sm tw:font-semibold"><UIcon name="i-lucide-map" aria-hidden="true" />{{ t("datasetDetail.map") }}</h2>
+        <div class="tw:flex tw:flex-wrap tw:items-center tw:gap-3">
+          <h2 class="tw:flex tw:items-center tw:gap-2 tw:text-sm tw:font-semibold"><UIcon name="i-lucide-map" aria-hidden="true" />{{ t("datasetDetail.map") }}</h2>
+          <UPopover v-if="!loading && !failed && coordinateRecords > 0">
+            <UButton color="primary" variant="soft" size="sm" icon="i-lucide-info" :label="t('datasetDetail.mapHelp')" />
+            <template #content>
+              <div class="tw:w-80 tw:max-w-[calc(100vw-2rem)] tw:space-y-2 tw:p-4 tw:text-sm tw:leading-6">
+                <p>{{ t("datasetDetail.mapRecordLimit") }}</p>
+                <p>{{ t("datasetDetail.mapNote") }}</p>
+              </div>
+            </template>
+          </UPopover>
+        </div>
         <div v-if="!loading && !failed && coordinateRecords !== null" role="status" class="tw:mt-3 tw:flex tw:flex-wrap tw:gap-x-6 tw:gap-y-2 tw:text-sm tw:font-semibold">
           <p>{{ t("datasetDetail.mapLoadedLocations", { count: n(points.length) }) }}</p>
         </div>
-        <div v-if="!loading && !failed && coordinateRecords !== null" class="tw:mt-2 tw:max-w-2xl tw:space-y-2 tw:text-sm tw:leading-6 tw:text-muted">
-          <p>{{ t(coordinateRecords === 0 ? "datasetDetail.mapNoLocations" : "datasetDetail.mapRecordLimit") }}</p>
-          <p v-if="coordinateRecords > 0">{{ t("datasetDetail.mapNote") }}</p>
-        </div>
+        <p v-if="!loading && !failed && coordinateRecords === 0" role="status" class="tw:mt-2 tw:text-sm tw:text-muted">{{ t("datasetDetail.mapNoLocations") }}</p>
       </div>
       <div class="tw:flex tw:gap-1">
         <UButton v-if="open" color="neutral" variant="ghost" size="sm" :icon="expanded ? 'i-lucide-minimize-2' : 'i-lucide-maximize-2'" :aria-label="t(expanded ? 'search.layout.reduceMap' : 'search.layout.expandMap')" :aria-pressed="expanded" @click="expanded = !expanded" />

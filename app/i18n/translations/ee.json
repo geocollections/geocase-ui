@@ -995,6 +995,7 @@
     "rightsPUBLIC": "Avalik kasutus",
     "rightsRESTRICTED": "Piiratud kasutus",
     "rightsNON_PUBLIC": "Mitteavalik",
+    "mapHelp": "Kaardi info",
     "map": "Andmestiku kaart",
     "mapError": "Asukohtade laadimine ebaõnnestus.",
     "providerDetails": "Andmeandja ja andmete kogumise teave",

@@ -997,6 +997,7 @@
     "rightsPUBLIC": "Public access",
     "rightsRESTRICTED": "Restricted access",
     "rightsNON_PUBLIC": "Non-public access",
+    "mapHelp": "About this map",
     "map": "Dataset map",
     "mapError": "Locations could not be loaded.",
     "providerDetails": "Provider and harvesting details",

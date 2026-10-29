@@ -996,6 +996,7 @@
     "rightsPUBLIC": "Öffentlicher Zugang",
     "rightsRESTRICTED": "Eingeschränkter Zugang",
     "rightsNON_PUBLIC": "Nicht öffentlich",
+    "mapHelp": "Informationen zur Karte",
     "map": "Datensatzkarte",
     "mapError": "Standorte konnten nicht geladen werden.",
     "providerDetails": "Anbieter- und Importdetails",
