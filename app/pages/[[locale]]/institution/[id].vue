@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import DatasetCard from "@/components/DatasetCard.vue";
 import ProviderDataPanel from "@/components/ProviderDataPanel.vue";
 import { useAsyncData, createError } from "#imports";
 import { useI18n } from "vue-i18n";
@@ -272,10 +273,7 @@ useHead(() => ({
         {{ t("partnersPage.datasetsDescription") }}
       </p>
       <ul v-if="linkedCatalog.length" class="tw:mt-5 tw:grid tw:list-none tw:gap-4 tw:p-0 tw:md:grid-cols-2">
-        <li v-for="item in linkedCatalog" :key="item.dataset_guid" class="tw:rounded-2xl tw:bg-home-surface tw:p-6">
-          <NuxtLink :to="localePath('/dataset/' + item.dataset_guid)" class="tw:text-lg tw:font-bold tw:text-home-link tw:hover:underline">{{ item.title }}</NuxtLink>
-          <p v-if="item.description" class="tw:mt-3 tw:line-clamp-3 tw:leading-7 tw:text-home-muted">{{ item.description }}</p>
-        </li>
+        <DatasetCard v-for="(item, index) in linkedCatalog" :key="item.dataset_guid" :item="item" :number="index + 1" />
       </ul>
       <p v-if="datasetsStatus === 'pending'" role="status" class="tw:mt-5">
         {{ t("datasetsPage.loading") }}

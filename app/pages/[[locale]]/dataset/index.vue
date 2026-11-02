@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import DatasetCard from "@/components/DatasetCard.vue";
 import { useAsyncData, useRouter } from "#imports";
 import { $fetch } from "ofetch";
 import { useI18n } from "vue-i18n";
@@ -66,20 +67,7 @@ useHead(() => ({ title: t("datasetsPage.title") }));
       </div>
 
       <ul class="tw:mt-6 tw:grid tw:list-none tw:gap-4 tw:p-0 tw:sm:grid-cols-2 tw:lg:grid-cols-3">
-        <li v-for="(item, index) in filteredCatalog" :key="item.dataset_guid" class="dataset-card tw:relative tw:flex tw:min-h-48 tw:min-w-0 tw:flex-col tw:rounded-2xl tw:border tw:border-home-border tw:bg-white tw:p-6 tw:shadow-sm tw:transition-colors tw:duration-200 tw:hover:bg-[#eaf0e9] tw:focus-within:bg-[#eaf0e9]">
-          <div class="tw:flex tw:items-baseline tw:justify-between tw:gap-2">
-            <span class="tw:text-xs tw:font-extrabold tw:tracking-widest tw:text-home-link tw:uppercase">{{ t("datasetDetail.title") }}</span>
-            <span class="tw:text-xl tw:font-bold tw:text-slate-300">{{ String(index + 1).padStart(2, "0") }}</span>
-          </div>
-          <h3 class="tw:mt-4 tw:break-words tw:text-lg tw:leading-snug tw:font-bold">
-            <NuxtLink :to="localePath('/dataset/' + item.dataset_guid)" class="tw:hover:text-home-link tw:after:absolute tw:after:inset-0 tw:after:rounded-2xl tw:focus-visible:outline-none tw:focus-visible:after:ring-2 tw:focus-visible:after:ring-home-link">
-              {{ item.title }}
-            </NuxtLink>
-          </h3>
-          <p v-if="item.organisation_name" class="tw:mt-2 tw:break-words tw:text-sm tw:text-home-muted">{{ item.organisation_name }}</p>
-          <p v-if="item.description" class="tw:mt-3 tw:line-clamp-3 tw:break-words tw:text-sm tw:leading-6 tw:text-home-muted">{{ item.description }}</p>
-
-        </li>
+        <DatasetCard v-for="(item, index) in filteredCatalog" :key="item.dataset_guid" :item="item" :number="index + 1" />
       </ul>
     </section>
 

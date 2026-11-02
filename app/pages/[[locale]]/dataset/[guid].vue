@@ -5,7 +5,7 @@ import { $fetch } from "ofetch";
 import type { CatalogInstitution } from "@/utils/institutionCatalog";
 import { institutionProfiles } from "@/institutionProfiles";
 import SearchService from "@/services/SearchService";
-import { datasetProviderParams, datasetWebUrl, parseDatasetCatalog } from "@/utils/datasetCatalog";
+import { datasetProviderParams, datasetWebUrl, datasetWebLinks, parseDatasetCatalog } from "@/utils/datasetCatalog";
 
 definePageMeta({ name: "Dataset detail", path: "/:locale(en|ee|de)?/dataset/:guid" });
 const route = useRoute();
@@ -58,9 +58,9 @@ const metadata = computed(() => [
   ["remarks", dataset.value?.remarks],
 ].filter(([, value]) => typeof value === "string" && value.trim()));
 const standards = computed(() => [
-  ["standard", datasetWebUrl(dataset.value?.conforms_to_uri)],
-  ["datasetType", datasetWebUrl(dataset.value?.dataset_type_uri)],
-].filter(([, url]) => !!url));
+  { key: "standard", links: datasetWebLinks(dataset.value?.conforms_to_uri) },
+  { key: "datasetType", links: datasetWebLinks(dataset.value?.dataset_type_uri) },
+].filter(({ links }) => links.length));
 
 const { data: indexedDatasets } = useAsyncData("dataset-index-owners", () => SearchService.getDatasets());
 const indexedDataset = computed(() => indexedDatasets.value?.find((item) => item.url === dataset.value?.provider_url));
@@ -184,9 +184,11 @@ useHead(() => ({
                 <dt class="tw:text-sm tw:font-semibold tw:text-home-muted">{{ t(`datasetDetail.${key}`) }}</dt>
                 <dd class="tw:mt-2 tw:whitespace-pre-line tw:break-words tw:leading-7">{{ value }}</dd>
               </div>
-              <div v-for="[key, url] in standards" :key="key!" class="tw:min-w-0">
+              <div v-for="{ key, links } in standards" :key="key" class="tw:min-w-0">
                 <dt class="tw:text-sm tw:font-semibold tw:text-home-muted">{{ t(`datasetDetail.${key}`) }}</dt>
-                <dd class="tw:mt-2"><a :href="url" class="tw:break-all tw:text-home-link tw:underline">{{ url }}</a></dd>
+                <dd class="tw:mt-2 tw:flex tw:flex-col tw:items-start tw:gap-2">
+                  <a v-for="(link, index) in links" :key="index" :href="link.href" class="tw:break-all tw:text-home-link tw:underline">{{ link.label }}</a>
+                </dd>
               </div>
             </dl>
             <p v-if="typeof provider.targetCount === 'number'" class="tw:mt-6 tw:text-sm tw:leading-6 tw:text-home-muted">{{ t("datasetDetail.sourceRecordsNote") }}</p>

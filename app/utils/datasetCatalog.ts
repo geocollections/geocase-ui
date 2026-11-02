@@ -72,3 +72,11 @@ export function datasetProviderParams(value: CatalogDataset["provider_params"]):
     return parsed && typeof parsed === "object" && !Array.isArray(parsed) ? parsed : {};
   } catch { return {}; }
 }
+
+export function datasetWebLinks(value: unknown): { label: string; href: string }[] {
+  if (typeof value !== "string") return [];
+  return value.split(/[\s,;]+/).filter(Boolean).flatMap((label) => {
+    const href = datasetWebUrl(label);
+    return href ? [{ label, href }] : [];
+  });
+}
