@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { datasetWebUrl, parseDatasetCatalog, findCatalogDataset } from "../../app/utils/datasetCatalog";
+import { datasetWebUrl, datasetWebLinks, parseDatasetCatalog, findCatalogDataset } from "../../app/utils/datasetCatalog";
 
 const dataset = {
   dataset_guid: "8fa26a2c-c99d-11f1-a7eb-269714084253",
@@ -54,4 +54,25 @@ describe("dataset catalog", () => {
       expect(datasetWebUrl(value)).toBeUndefined();
     }
   });
+  it("separates metadata links before URL normalisation and preserves source labels", () => {
+    const first = "http://purl.org/coar/resource_type/S7R1-K5P0";
+    const second = "http://purl.org/coar/resource_type/c_ddb1";
+    for (const separator of [" ", ",", ";", " ; \n", "\t"]) {
+      expect(datasetWebLinks(first + separator + second)).toEqual([
+        { label: first, href: first }, { label: second, href: second },
+      ]);
+    }
+    expect(datasetWebLinks("https://example.org")).toEqual([
+      { label: "https://example.org", href: "https://example.org/" },
+    ]);
+    expect(datasetWebLinks("https://example.org/a%20b")).toEqual([
+      { label: "https://example.org/a%20b", href: "https://example.org/a%20b" },
+    ]);
+  });
+  it("ignores empty and unsafe metadata links", () => {
+    for (const value of [null, "", " , ; ", "javascript:alert(1); /relative"]) {
+      expect(datasetWebLinks(value)).toEqual([]);
+    }
+  });
+
 });
