@@ -14,6 +14,12 @@ export const resources = [
     href: "https://www.dissco.eu/",
   },
   {
+    id: "data-terra",
+    group: "networks",
+    name: "Data Terra",
+    href: "https://www.data-terra.org/",
+  },
+  {
     id: "synthesys",
     group: "networks",
     name: "SYNTHESYS",
@@ -69,21 +75,21 @@ export const resources = [
     href: "https://github.com/tdwg/paleo",
   },
   {
-    id: "api",
-    group: "tools",
-    name: "GeoCASe API",
-    href: "https://api.geocase.eu/",
-  },
-  {
     id: "github",
     group: "tools",
     name: "GeoCASe on GitHub",
     href: "https://github.com/geocollections/geocase-ui",
   },
   {
-    id: "legacy",
+    id: "api",
     group: "tools",
-    name: "GeoCASe 1.0",
-    href: "http://old.geocase.eu",
+    name: "GeoCASe API",
+    href: "https://api.geocase.eu/",
+  },
+  {
+    id: "dcat",
+    group: "tools",
+    name: "DCAT-AP Catalogue",
+    href: "https://geocase.eu/dcat",
   },
 ] as const;

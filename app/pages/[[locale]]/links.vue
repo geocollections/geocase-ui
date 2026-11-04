@@ -125,7 +125,8 @@ const hostname = (href: string) => new URL(href).hostname.replace(/^www\./, "");
         </div>
       </div>
       <ul
-        class="tw:m-0 tw:grid tw:list-none tw:gap-4 tw:p-0 tw:md:grid-cols-2 tw:xl:grid-cols-3"
+        class="tw:m-0 tw:grid tw:list-none tw:gap-4 tw:p-0 tw:md:grid-cols-2"
+        :class="group.id !== 'networks' ? 'tw:xl:grid-cols-3' : undefined"
       >
         <li
           v-for="resource in group.resources"
@@ -153,7 +154,7 @@ const hostname = (href: string) => new URL(href).hostname.replace(/^www\./, "");
             >
             <span
               class="tw:mt-5 tw:break-all tw:text-xs tw:font-semibold tw:text-home-link"
-              >{{ hostname(resource.href) }}</span
+              >{{ resource.id === 'dcat' ? 'geocase.eu/dcat' : hostname(resource.href) }}</span
             >
           </a>
         </li>

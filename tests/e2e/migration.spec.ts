@@ -1245,11 +1245,11 @@ for (const [locale, title] of [
       page.getByRole("heading", { level: 1, name: title, exact: true }),
     ).toBeVisible();
     const cards = page.locator("article .resource-card");
-    await expect(cards).toHaveCount(15);
+    await expect(cards).toHaveCount(16);
     const hrefs = await cards.evaluateAll((links) =>
       links.map((link) => link.getAttribute("href")),
     );
-    expect(new Set(hrefs).size).toBe(15);
+    expect(new Set(hrefs).size).toBe(16);
     expect(hrefs).toContain("https://www.gbif.org/");
     expect(hrefs).toContain("https://api.geocase.eu/");
     expect(hrefs).toContain("https://github.com/geocollections/geocase-ui");
