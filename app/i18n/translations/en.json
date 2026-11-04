@@ -96,6 +96,14 @@
       "previous": "GeoCASe builds on earlier work at Museum für Naturkunde Berlin, where the first version was developed in 2007. We acknowledge the Berlin contributors, including Falko Glöckler, and their work on the portal and its infrastructure.",
       "falkoLink": "Falko Glöckler — GeoCASe presentation, CETAF meeting (2019)",
       "codeLink": "Earlier GeoCASe infrastructure — source code"
+    },
+    "projects": {
+      "title": "Projects",
+      "subtitle": "Earth Science Collection Use Case for Data Terra and the EOSC Federation",
+      "description": "This project will deliver scientific use cases demonstrating how Earth Science collection data can be integrated into the EOSC Federation through the GeoCASe service and the EOSC Data Terra Node.",
+      "context": "Natural history collections curate extensive geological and paleontological specimens that document past climates, environmental change, natural hazards, and biodiversity dynamics across deep time. Despite their relevance for contemporary environmental research, these datasets remain underrepresented in EOSC and insufficiently connected to Earth observation infrastructures.",
+      "partners": "Participating organisations",
+      "link": "Explore Geodera"
     }
   },
   "efgPage": {
@@ -957,7 +965,6 @@
     "descriptions": {
       "cetaf": "The Consortium of European Taxonomic Facilities, connecting natural history institutions across Europe.",
       "dissco": "Distributed System of Scientific Collections: a European research infrastructure for natural science collections.",
-      "data-terra": "The EOSC Node, powered by Data Terra and NFDI4Earth, is one of the thematic nodes representing the Earth system and environmental sciences within the EOSC Federation. It provides a single, integrated entry point to trusted thematic data and services across Europe, bringing together environmental and Earth system science resources, including Earth Observation data and services.",
       "synthesys": "European collaboration supporting access to natural history collections and research infrastructure.",
       "biocase": "Tools and services for publishing collection data through a shared access network.",
       "museum": "Natural history collections and research at Museum für Naturkunde Berlin.",
@@ -970,6 +977,7 @@
       "paleo": "Community work on data standards for palaeobiology and fossil collections.",
       "api": "Access the GeoCASe API for collection data and integrations.",
       "github": "Explore the portal source code, follow development and report issues.",
+      "data-terra": "The EOSC Node, powered by Data Terra and NFDI4Earth, is one of the thematic nodes representing the Earth system and environmental sciences within the EOSC Federation. It provides a single, integrated entry point to trusted thematic data and services across Europe, bringing together environmental and Earth system science resources, including Earth Observation data and services.",
       "dcat": "Machine-readable RDF data catalogue of selected GeoCASe datasets"
     }
   },

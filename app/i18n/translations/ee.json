@@ -96,6 +96,14 @@
       "previous": "GeoCASe tugineb Museum für Naturkunde Berlini varasemale tööle, kus valmis 2007. aastal portaali esimene versioon. Täname Berliini panustajaid, sealhulgas Falko Glöcklerit, portaali ja selle taristu arendamise eest.",
       "falkoLink": "Falko Glöckler — GeoCASe’i tutvustus CETAF-i kohtumisel (2019)",
       "codeLink": "GeoCASe’i varasem taristu — lähtekood"
+    },
+    "projects": {
+      "title": "Projektid",
+      "subtitle": "Maateaduslike kogude kasutusjuht Data Terra ja EOSCi föderatsiooni jaoks",
+      "description": "Projekt loob teaduslikud kasutusjuhud, mis näitavad, kuidas maateaduslike kogude andmeid saab GeoCASe teenuse ja EOSCi Data Terra sõlme kaudu EOSCi föderatsiooniga ühendada.",
+      "context": "Loodusteaduslikes kogudes säilitatakse ulatuslikult geoloogilisi ja paleontoloogilisi eksemplare, mis dokumenteerivad mineviku kliimat, keskkonnamuutusi, loodusohte ja elurikkuse muutumist läbi geoloogilise aja. Vaatamata nende tähtsusele tänapäevases keskkonnauuringus on need andmestikud EOSCis alaesindatud ning Maa seire taristutega ebapiisavalt seotud.",
+      "partners": "Osalevad organisatsioonid",
+      "link": "Tutvu Geodera projektiga"
     }
   },
   "efgPage": {
@@ -955,7 +963,6 @@
     "descriptions": {
       "cetaf": "Euroopa taksonoomiaasutuste konsortsium, mis ühendab looduslookogudega asutusi üle Euroopa.",
       "dissco": "Euroopa teadustaristu loodusteaduslike kogude digitaalseks ühendamiseks.",
-      "data-terra": "Data Terra ja NFDI4Earthi koostöös toimiv EOSCi sõlm esindab EOSCi föderatsioonis Maa süsteemi ja keskkonnateadusi. See pakub ühtset juurdepääsu usaldusväärsetele valdkondlikele andmetele ja teenustele kogu Euroopas, koondades keskkonna- ja maateaduste ressursse, sealhulgas Maa seire andmeid ja teenuseid.",
       "synthesys": "Euroopa koostöö, mis toetab juurdepääsu looduslookogudele ja teadustaristule.",
       "biocase": "Tööriistad ja teenused kogude andmete avaldamiseks ühises juurdepääsuvõrgustikus.",
       "museum": "Berliini loodusloomuuseumi kogud ja teadustöö.",
@@ -968,6 +975,7 @@
       "paleo": "Kogukonna koostöö paleobioloogia ja fossiilikogude andmestandardite arendamisel.",
       "api": "GeoCASe API kogude andmete kasutamiseks ja liidestuste loomiseks.",
       "github": "Tutvu portaali lähtekoodiga, jälgi arendust ja teata probleemidest.",
+      "data-terra": "Data Terra ja NFDI4Earthi koostöös toimiv EOSCi sõlm esindab EOSCi föderatsioonis Maa süsteemi ja keskkonnateadusi. See pakub ühtset juurdepääsu usaldusväärsetele valdkondlikele andmetele ja teenustele kogu Euroopas, koondades keskkonna- ja maateaduste ressursse, sealhulgas Maa seire andmeid ja teenuseid.",
       "dcat": "Valitud GeoCASe andmestike masinloetav RDF-andmekataloog"
     }
   },
