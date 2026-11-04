@@ -949,7 +949,7 @@
       },
       "tools": {
         "title": "GeoCASe tööriistad",
-        "description": "Kasuta API-t, tutvu lähtekoodiga või külasta portaali varasemat versiooni."
+        "description": "Tutvu lähtekoodiga ning kasuta APIt ja masinloetavat andmekataloogi."
       }
     },
     "descriptions": {
@@ -968,7 +968,7 @@
       "paleo": "Kogukonna koostöö paleobioloogia ja fossiilikogude andmestandardite arendamisel.",
       "api": "GeoCASe API kogude andmete kasutamiseks ja liidestuste loomiseks.",
       "github": "Tutvu portaali lähtekoodiga, jälgi arendust ja teata probleemidest.",
-      "legacy": "Külasta GeoCASe portaali algset versiooni."
+      "dcat": "Valitud GeoCASe andmestike masinloetav RDF-andmekataloog"
     }
   },
   "datasetDetail": {

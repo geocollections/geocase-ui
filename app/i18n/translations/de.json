@@ -950,7 +950,7 @@
       },
       "tools": {
         "title": "GeoCASe-Werkzeuge",
-        "description": "Nutzen Sie die API, erkunden Sie den Quellcode oder besuchen Sie das ursprüngliche Portal."
+        "description": "Entdecken Sie den Quellcode, die API und den maschinenlesbaren Datenkatalog."
       }
     },
     "descriptions": {
@@ -969,7 +969,7 @@
       "paleo": "Gemeinschaftliche Arbeit an Datenstandards für Paläobiologie und Fossilsammlungen.",
       "api": "Die GeoCASe-API für Sammlungsdaten und Integrationen.",
       "github": "Erkunden Sie den Quellcode, verfolgen Sie die Entwicklung und melden Sie Probleme.",
-      "legacy": "Besuchen Sie das ursprüngliche GeoCASe-Portal."
+      "dcat": "Maschinenlesbarer RDF-Datenkatalog ausgewählter GeoCASe-Datensätze"
     }
   },
   "datasetDetail": {

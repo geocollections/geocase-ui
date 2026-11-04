@@ -951,7 +951,7 @@
       },
       "tools": {
         "title": "GeoCASe tools",
-        "description": "Work with the API, explore the source code or revisit the original portal."
+        "description": "Explore the source code, access the API and discover the machine-readable data catalogue."
       }
     },
     "descriptions": {
@@ -970,7 +970,7 @@
       "paleo": "Community work on data standards for palaeobiology and fossil collections.",
       "api": "Access the GeoCASe API for collection data and integrations.",
       "github": "Explore the portal source code, follow development and report issues.",
-      "legacy": "Visit the original GeoCASe portal."
+      "dcat": "Machine-readable RDF data catalogue of selected GeoCASe datasets"
     }
   },
   "datasetDetail": {
