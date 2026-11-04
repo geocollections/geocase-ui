@@ -14,6 +14,12 @@ export const resources = [
     href: "https://www.dissco.eu/",
   },
   {
+    id: "data-terra",
+    group: "networks",
+    name: "Data Terra",
+    href: "https://www.data-terra.org/",
+  },
+  {
     id: "synthesys",
     group: "networks",
     name: "SYNTHESYS",

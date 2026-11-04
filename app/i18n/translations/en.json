@@ -957,6 +957,7 @@
     "descriptions": {
       "cetaf": "The Consortium of European Taxonomic Facilities, connecting natural history institutions across Europe.",
       "dissco": "Distributed System of Scientific Collections: a European research infrastructure for natural science collections.",
+      "data-terra": "The EOSC Node, powered by Data Terra and NFDI4Earth, is one of the thematic nodes representing the Earth system and environmental sciences within the EOSC Federation. It provides a single, integrated entry point to trusted thematic data and services across Europe, bringing together environmental and Earth system science resources, including Earth Observation data and services.",
       "synthesys": "European collaboration supporting access to natural history collections and research infrastructure.",
       "biocase": "Tools and services for publishing collection data through a shared access network.",
       "museum": "Natural history collections and research at Museum für Naturkunde Berlin.",
