@@ -289,6 +289,34 @@ const collections = [
       </p>
     </section>
 
+    <section aria-labelledby="projects-title" class="tw:mb-10">
+      <h2 id="projects-title" class="tw:text-2xl tw:font-bold tw:tracking-tight tw:sm:text-3xl">{{ t('aboutPage.projects.title') }}</h2>
+      <article class="tw:mt-6 tw:overflow-hidden tw:rounded-3xl tw:border tw:border-home-border tw:bg-home-surface">
+        <div class="tw:grid tw:items-center tw:gap-8 tw:p-6 tw:sm:p-9 tw:lg:grid-cols-[minmax(15rem,0.75fr)_minmax(0,1.5fr)] tw:lg:gap-12 tw:lg:p-10">
+          <a href="https://eosc.eu/horizon-europe-projects/geodera" class="tw:flex tw:aspect-[3/2] tw:w-full tw:max-w-sm tw:items-center tw:justify-center tw:justify-self-center tw:overflow-hidden tw:rounded-2xl tw:border tw:border-home-border tw:bg-white tw:shadow-sm tw:transition-shadow tw:hover:shadow-md tw:focus-visible:outline-2 tw:focus-visible:outline-offset-4 tw:focus-visible:outline-home-focus">
+            <img src="/images/projects/geodera.jpg" alt="Geodera — EOSC Gravity, funded by the European Union" width="1500" height="1000" loading="lazy" class="tw:h-auto tw:w-full tw:object-contain" />
+          </a>
+          <div class="tw:min-w-0">
+            <h3 class="tw:text-3xl tw:font-bold tw:tracking-tight tw:sm:text-4xl">Geodera</h3>
+            <p class="tw:mt-3 tw:max-w-xl tw:text-lg tw:leading-7 tw:font-semibold tw:text-home-link">{{ t('aboutPage.projects.subtitle') }}</p>
+            <p class="tw:mt-5 tw:leading-7">{{ t('aboutPage.projects.description') }}</p>
+            <p class="tw:mt-3 tw:leading-7 tw:text-home-muted">{{ t('aboutPage.projects.context') }}</p>
+          </div>
+        </div>
+        <div class="tw:flex tw:flex-col tw:gap-6 tw:border-t tw:border-home-border tw:bg-white/60 tw:px-6 tw:py-6 tw:sm:px-9 tw:lg:flex-row tw:lg:items-center tw:lg:justify-between tw:lg:px-10">
+          <div class="tw:min-w-0">
+            <p class="tw:text-xs tw:font-bold tw:tracking-widest tw:text-home-muted tw:uppercase">{{ t('aboutPage.projects.partners') }}</p>
+            <ul class="tw:mt-3 tw:flex tw:list-none tw:flex-wrap tw:gap-2 tw:p-0">
+              <li v-for="partner in [{ name: 'CETAF', href: 'https://cetaf.org/' }, { name: 'TalTech', href: 'https://taltech.ee/en/' }, { name: 'Meise Botanic Garden', href: 'https://www.plantentuinmeise.be/en/' }]" :key="partner.name">
+                <a :href="partner.href" class="tw:inline-flex tw:min-h-11 tw:items-center tw:rounded-lg tw:border tw:border-home-border tw:bg-white tw:px-4 tw:py-2 tw:text-sm tw:font-semibold tw:text-home-link tw:no-underline tw:transition-colors tw:hover:bg-home-hover tw:focus-visible:outline-2 tw:focus-visible:outline-offset-2 tw:focus-visible:outline-home-focus">{{ partner.name }}</a>
+              </li>
+            </ul>
+          </div>
+          <a href="https://eosc.eu/horizon-europe-projects/geodera" class="tw:inline-flex tw:min-h-11 tw:shrink-0 tw:items-center tw:justify-center tw:gap-3 tw:self-start tw:rounded-xl tw:bg-home-hero tw:px-5 tw:py-3 tw:font-bold tw:text-white tw:no-underline tw:transition-colors tw:hover:bg-home-link tw:focus-visible:outline-2 tw:focus-visible:outline-offset-4 tw:focus-visible:outline-home-focus tw:lg:self-center">{{ t('aboutPage.projects.link') }}<UIcon name="i-lucide-arrow-up-right" aria-hidden="true" /></a>
+        </div>
+      </article>
+    </section>
+
     <section aria-labelledby="team-title" class="tw:mb-10 tw:rounded-3xl tw:border tw:border-home-border tw:p-6 tw:sm:p-9">
       <p class="tw:text-xs tw:font-extrabold tw:tracking-widest tw:text-home-link tw:uppercase">{{ t('aboutPage.team.eyebrow') }}</p>
       <h2 id="team-title" class="tw:mt-2 tw:text-2xl tw:font-bold tw:tracking-tight tw:sm:text-3xl">{{ t('aboutPage.team.title') }}</h2>
